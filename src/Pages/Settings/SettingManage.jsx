@@ -72,11 +72,11 @@ function SettingManage() {
 
 
 
-  
+
   useEffect(() => {
     if (!canReadPayingGuests) {
       setLoading(false);
-    } 
+    }
   }, [canReadPayingGuests]);
 
   const [hidePgList, setHidePgList] = useState(true);
@@ -324,13 +324,13 @@ function SettingManage() {
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-         dispatch({ type: 'REMOVE_UPDATE_PG'})
+        dispatch({ type: 'REMOVE_UPDATE_PG' })
       }, 100);
 
 
 
     }
-  }, [state.PgList.createPgStatusCode,state.PgList?.updatePgStatusCode]);
+  }, [state.PgList.createPgStatusCode, state.PgList?.updatePgStatusCode]);
 
   useEffect(() => {
     if (selectedHostel) {
@@ -464,7 +464,7 @@ function SettingManage() {
 
 
   const handleEditHostel = (hostelDetails) => {
-    console.log("hostelDetails",hostelDetails)
+    console.log("hostelDetails", hostelDetails)
     setShowAddPg(true);
     setEditHostelDetails(hostelDetails);
   };
@@ -686,668 +686,599 @@ function SettingManage() {
   return (
     <>
 
-      <div style={{ position: "relative" }}>
 
+      {hidePgList && (
+        <>
 
-        {/* {loading &&
-          <div
-            style={{
-              position: 'fixed',
-              top: '48%',
-              left: '68%',
-              transform: 'translate(-50%, -50%)',
-              width: '100vw',
-              height: '100vh',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              zIndex: 1050,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
+          <div className="sticky top-0 z-[1000] bg-white h-[50px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
+            <div className="w-full flex justify-center md:justify-start md:mt-0">
+              <label className="text-[18px] font-semibold font-[Gilroy] text-[#222]">
+                Manage PG
+              </label>
+            </div>
+
+            <div className="w-full flex justify-center md:justify-end mt-0 md:mt-0">
+              <button
+                onClick={handleShowAddPg}
+                disabled={!canWritePayingGuests}
+                className={`mt-[5px] h-[45px] w-[146px] rounded-lg text-sm font-semibold font-[Gilroy]
+            ${canWritePayingGuests
+                    ? "bg-[#1E45E1] text-white cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+              >
+                + PG
+              </button>
+            </div>
+
           </div>
-        } */}
+
+          {!canReadPayingGuests ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100vh",
+                }}
+              >
+
+                <img
+                  src={EmptyState}
+                  alt="Empty State"
+
+                />
 
 
 
+                <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
 
-        {hidePgList && (
-          <>
-
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+              </div>
+            </>
+          ) :
+            <div className="show-scrolls-sidebar mt-4"
               style={{
-                position: "sticky",
-                top: 0,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 83,
-                padding: "10px",
-                whiteSpace: "nowrap",
+                maxHeight: "530px",
+                overflowY: "auto",
+                overflowX: "hidden"
               }}
             >
-              <div className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+              <div className="row row-gap-3">
+                {filteredData?.length > 0 ?
+                  filteredData.map((hostel) => {
+                    return (
+                      <>
+                        <div
+                          key={hostel.id}
+                          className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12   settingmanage me-0" style={{ paddingRight: 30 }}
+                        >
+                          <PayingGuest
+                            hostel={hostel}
+                            key={hostel.id}
+                            OnSelectHostel={handleSelectedHostel}
+                            onRowVisiblity={handleDisplayPgList}
+                            OnEditHostel={handleEditHostel}
+                          // editPermissionError={editPermissionError}
+                          // deletePermissionError={deletePermissionError}
+                          />
+                        </div>
+                      </>
+                    );
+                  })
+                  :
+                  !loading && filteredData.length === 0 && (
+                    <div
+                      className="d-flex align-items-center justify-content-center"
+                      style={{
+                        width: "100%",
+                        margin: "0px auto",
+                        backgroundColor: "",
+                        marginTop: 90,
+                        justifyContent: "center", alignItems: "center"
+                      }}
+                    >
+                      <div>
+                        <div className="d-flex  justify-content-center">
+                          <img
+                            src={EmptyState}
+                            alt="Empty state"
+                          />
+                        </div>
+                        <div
+                          className="pb-1"
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: 18,
+                            color: "rgba(75, 75, 75, 1)",
+                          }}
+                        >
+                          No Paying Guest available
+                        </div>
+                        <div
+                          className="pb-1"
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            fontSize: 14,
+                            color: "rgba(75, 75, 75, 1)",
+                          }}
+                        >
+                          There are no Paying Guest added.
+                        </div>
+
+                      </div>
+                      <div></div>
+                    </div>
+                  )}
+
+
+              </div>
+            </div>
+
+          }
+
+        </>
+      )}
+
+      {selectedHostel && (
+        <div className=" mt-3">
+
+          <div
+
+            className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between w-100"
+            style={{
+
+              position: "sticky",
+              top: 0,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+
+              whiteSpace: "nowrap",
+              padding: "25px"
+
+            }}>
+
+            <div className="w-100 d-flex justify-content-start">
+
+              <ArrowLeft
+                size="32"
+                color="#222222"
+                onClick={handlebackToPG}
+                style={{
+                  cursor: "pointer",
+
+
+                }}
+
+              />
+              <div className="w-100 text-center text-md-start mt-2 mt-md-0">
                 <label
+
                   style={{
                     fontSize: 18,
                     color: "rgba(34, 34, 34, 1)",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    whiteSpace: "nowrap",
+                    marginLeft: "20px"
+
                   }}
                 >
-                  Manage PG
+                  {showHostelDetails?.name}
                 </label>
               </div>
-
-
-
-
-              <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-
-              >
-                <div style={{ marginTop: 6 }}>
-                  <Button
-                    onClick={handleShowAddPg}
-                    disabled={!canWritePayingGuests}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      height: "45px",
-                      width: "146px",
-                      marginTop: 5
-
-                    }}
-                  >
-                    {" "}
-                    + PG
-                  </Button>
-                </div>
-              </div>
-
             </div>
 
-            {!canReadPayingGuests ? (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100vh",
-                  }}
-                >
+            <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
 
-                  <img
-                    src={EmptyState}
-                    alt="Empty State"
-
-                  />
-
-
-
-                  <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
-
-                </div>
-              </>
-            ) :
-              <div className="show-scrolls-sidebar"
-                style={{
-                  maxHeight: "530px",
-                  overflowY: "auto",
-                  overflowX: "hidden"
-                }}
+              <div
+                className="d-flex justify-content-center justify-content-md-end w-100 mt-4 mt-md-0"
               >
-                <div className="row row-gap-3">
-                  {filteredData?.length > 0 ?
-                    filteredData.map((hostel) => {
-                      return (
-                        <>
-                          <div
-                            key={hostel.id}
-                            className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12   settingmanage me-0" style={{ paddingRight: 30 }}
-                          >
-                            <PayingGuest
-                              hostel={hostel}
-                              key={hostel.id}
-                              OnSelectHostel={handleSelectedHostel}
-                              onRowVisiblity={handleDisplayPgList}
-                              OnEditHostel={handleEditHostel}
-                              // editPermissionError={editPermissionError}
-                              // deletePermissionError={deletePermissionError}
-                            />
-                          </div>
-                        </>
-                      );
-                    })
-                    :
-                    !loading && filteredData.length === 0 && (
-                      <div
-                        className="d-flex align-items-center justify-content-center"
-                        style={{
-                          width: "100%",
-                          margin: "0px auto",
-                          backgroundColor: "",
-                          marginTop: 90,
-                          justifyContent: "center", alignItems: "center"
-                        }}
-                      >
-                        <div>
-                          <div className="d-flex  justify-content-center">
-                            <img
-                              src={EmptyState}
-                              alt="Empty state"
-                            />
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: 18,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            No Paying Guest available
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              fontSize: 14,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            There are no Paying Guest added.
-                          </div>
-
-                        </div>
-                        <div></div>
-                      </div>
-                    )}
-
-
-                </div>
-              </div>
-
-            }
-
-          </>
-        )}
-
-        {selectedHostel && (
-          <div className=" mt-3">
-
-            <div
-
-              className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between w-100"
-              style={{
-
-                position: "sticky",
-                top: 0,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-
-                whiteSpace: "nowrap",
-                padding: "25px"
-
-              }}>
-
-              <div className="w-100 d-flex justify-content-start">
-
-                <ArrowLeft
-                  size="32"
-                  color="#222222"
-                  onClick={handlebackToPG}
+                <Button
                   style={{
-                    cursor: "pointer",
-
-
+                    fontSize: 14,
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    fontWeight: 600,
+                    borderRadius: 8,
+                    padding: "11px 50px",
+                    paddingLeft: 52,
+                    fontFamily: "Gilroy",
                   }}
-
-                />
-                <div className="w-100 text-center text-md-start mt-2 mt-md-0">
-                  <label
-
-                    style={{
-                      fontSize: 18,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      marginLeft: "20px"
-
-                    }}
-                  >
-                    {showHostelDetails?.name}
-                  </label>
-                </div>
-              </div>
-
-              <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
-
-                <div
-                  className="d-flex justify-content-center justify-content-md-end w-100 mt-4 mt-md-0"
+                  disabled={!canWritePayingGuests}
+                  onClick={() => handleAddFloors(showHostelDetails.hostelId)}
                 >
-                  <Button
-                    style={{
-                      fontSize: 14,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: 8,
-                      padding: "11px 50px",
-                      paddingLeft: 52,
-                      fontFamily: "Gilroy",
-                    }}
-                    disabled={!canWritePayingGuests}
-                    onClick={() => handleAddFloors(showHostelDetails.hostelId)}
-                  >
-                    +  Floor
-                  </Button>
-                </div>
+                  +  Floor
+                </Button>
               </div>
             </div>
+          </div>
 
-            <div >
-              {floorList?.length > 0 ? (
-                <Tab.Container
-                  activeKey={key}
-                  onSelect={(k) => setKey(k)}
-                  id="vertical-tabs-example"
-                >
+          <div >
+            {floorList?.length > 0 ? (
+              <Tab.Container
+                activeKey={key}
+                onSelect={(k) => setKey(k)}
+                id="vertical-tabs-example"
+              >
 
-                  <Row className="g-0">
+                <Row className="g-0">
 
-                    <Col xs={12} md={1} className="mb-3 mb-md-0">
-                      <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
-                        <div className="d-flex justify-content-center mb-2">
-                          <div
-                            onClick={handlePrev}
-                            disabled={visibleRange[0] === 0}
-                            style={{
-                              border: "1px solid rgba(239, 239, 239, 1)",
-                              width: "fit-content",
-                              borderRadius: 50,
-                              cursor: "pointer",
-                              padding: 3,
-                            }}
-                          >
-                            <ArrowUp2
-                              size="32"
-                              color={
-                                visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"
-                              }
-                              variant="Bold"
-                            />
-                          </div>
-                        </div>
-
-                        <Nav variant="" className="flex-column align-items-center">
-                          {floorList?.map((floor, index) =>
-                            index >= visibleRange[0] && index <= visibleRange[1] ? (
-                              <Nav.Item
-                                key={floor.id}
-                                onClick={() =>
-                                  handleFloorClick(floor.id, floor.name)
-                                }
-                                className={`mb-3 d-flex justify-content-center align-items-center ${Number(floorClick) === Number(floor.id)
-                                  ? "active-floor"
-                                  : "Navs-Item"
-                                  }`}
-                                style={{
-                                  border: "1px solid rgba(156, 156, 156, 1)",
-                                  borderRadius: 16,
-                                  height: 95,
-                                  width: 95,
-                                  overflowY: "auto",
-                                }}
-                              >
-                                <Nav.Link
-                                  className="text-center Paying-Guest"
-                                  style={{ padding: "unset" }}
-                                >
-                                  <div
-                                    className={
-                                      Number(floorClick) === Number(floor.id)
-                                        ? "ActiveNumberFloor"
-                                        : "UnActiveNumberFloor"
-                                    }
-                                    style={{
-                                      fontSize: 32,
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 600,
-                                      textTransform: "capitalize",
-                                    }}
-                                  >
-                                    {floor.name
-                                      ? isNaN(floor.name)
-                                        ? floor.name.charAt(0)
-                                        : floor.name
-                                      : floor.id}
-                                  </div>
-                                  <div
-                                    className={
-                                      Number(floorClick) === Number(floor.id)
-                                        ? "ActiveFloortext"
-                                        : "UnActiveFloortext"
-                                    }
-                                    style={{
-                                      fontSize: 14,
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 600,
-                                      wordBreak: "break-word",
-                                      whiteSpace: "normal",
-                                      overflowWrap: "break-word",
-                                      width: "100%",
-                                      textAlign: "center",
-                                      padding: "1px 8px",
-                                    }}
-                                  >
-                                    {typeof floor.name === "string" &&
-                                      floor.name.trim() !== "" &&
-                                      floor.name !== "null"
-                                      ? floor.name
-                                      : floor.id}
-                                  </div>
-                                </Nav.Link>
-                              </Nav.Item>
-                            ) : null
-                          )}
-                        </Nav>
-
-                        <div className="d-flex justify-content-center mt-2">
-                          <div
-                            onClick={handleNext}
-                            disabled={visibleRange[1] === numberOfFloors - 1}
-                            style={{
-                              border: "1px solid rgba(239, 239, 239, 1)",
-                              width: "fit-content",
-                              borderRadius: 50,
-                              padding: 3,
-                              cursor: "pointer",
-                            }}
-                          >
-                            <ArrowDown2
-                              size="32"
-                              color={
-                                visibleRange[1] === numberOfFloors - 1
-                                  ? "rgba(156, 156, 156, 1)"
-                                  : "#000000"
-                              }
-                              variant="Bold"
-                            />
-                          </div>
+                  <Col xs={12} md={1} className="mb-3 mb-md-0">
+                    <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
+                      <div className="d-flex justify-content-center mb-2">
+                        <div
+                          onClick={handlePrev}
+                          disabled={visibleRange[0] === 0}
+                          style={{
+                            border: "1px solid rgba(239, 239, 239, 1)",
+                            width: "fit-content",
+                            borderRadius: 50,
+                            cursor: "pointer",
+                            padding: 3,
+                          }}
+                        >
+                          <ArrowUp2
+                            size="32"
+                            color={
+                              visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"
+                            }
+                            variant="Bold"
+                          />
                         </div>
                       </div>
-                    </Col>
 
-
-                    <Col xs={12} md={11} className="ps-md-4"  >
-                      <div className="container">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                          <div
-                            style={{
-                              fontSize: 20,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {floorName && floorName.trim() !== "" ? floorName : ""}
-                          </div>
-
-                          <div className="d-flex align-items-center gap-3">
-                            <div className="d-flex flex-row flex-wrap">
-                              <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                <img className="me-1 mb-1" src={availabeimg} alt="available" />
-                                Available                                </p>
-                              <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
-                                Occupied
-                              </p>
-                              <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
-                                Reserved
-                              </p>
-                              <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
-                                Overdue
-                              </p>
-                              <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                <img className="me-1 mb-1" src={noticeimg} alt="notice" />
-                                Notice Period
-                              </p>
-                            </div>
-
-
-                            <div
+                      <Nav variant="" className="flex-column align-items-center">
+                        {floorList?.map((floor, index) =>
+                          index >= visibleRange[0] && index <= visibleRange[1] ? (
+                            <Nav.Item
+                              key={floor.id}
+                              onClick={() =>
+                                handleFloorClick(floor.id, floor.name)
+                              }
+                              className={`mb-3 d-flex justify-content-center align-items-center ${Number(floorClick) === Number(floor.id)
+                                ? "active-floor"
+                                : "Navs-Item"
+                                }`}
                               style={{
-                                cursor: "pointer",
-                                height: 40,
-                                width: 40,
-                                borderRadius: 100,
-                                border: "1px solid #EFEFEF",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                zIndex: showDots ? 1000 : "auto",
-                                backgroundColor: showDots ? "#E7F1FF" : "#fff",
+                                border: "1px solid rgba(156, 156, 156, 1)",
+                                borderRadius: 16,
+                                height: 95,
+                                width: 95,
+                                overflowY: "auto",
                               }}
-                              onClick={handleShowDots}
                             >
-                              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                              {showDots && (
+                              <Nav.Link
+                                className="text-center Paying-Guest"
+                                style={{ padding: "unset" }}
+                              >
                                 <div
-                                  ref={popupRef}
-                                  className="pg-card"
+                                  className={
+                                    Number(floorClick) === Number(floor.id)
+                                      ? "ActiveNumberFloor"
+                                      : "UnActiveNumberFloor"
+                                  }
                                   style={{
-                                    backgroundColor: "#fff",
-                                    position: "absolute",
-                                    right: 40,
-                                    top: 10,
-                                    border: "1px solid #E0E0E0",
-                                    borderRadius: 10,
-                                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                    width: 140,
-                                    zIndex: 1000,
+                                    fontSize: 32,
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 600,
+                                    textTransform: "capitalize",
                                   }}
                                 >
-                                  <div>
-                                    <div
-                                      className="d-flex gap-2 align-items-center"
-                                      onClick={
-                                        canUpdatePayingGuests
-                                          ? () => handleEditFloor(floorClick, showHostelDetails.hostelId, floorName)
-                                          : undefined
-                                      }
+                                  {floor.name
+                                    ? isNaN(floor.name)
+                                      ? floor.name.charAt(0)
+                                      : floor.name
+                                    : floor.id}
+                                </div>
+                                <div
+                                  className={
+                                    Number(floorClick) === Number(floor.id)
+                                      ? "ActiveFloortext"
+                                      : "UnActiveFloortext"
+                                  }
+                                  style={{
+                                    fontSize: 14,
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 600,
+                                    wordBreak: "break-word",
+                                    whiteSpace: "normal",
+                                    overflowWrap: "break-word",
+                                    width: "100%",
+                                    textAlign: "center",
+                                    padding: "1px 8px",
+                                  }}
+                                >
+                                  {typeof floor.name === "string" &&
+                                    floor.name.trim() !== "" &&
+                                    floor.name !== "null"
+                                    ? floor.name
+                                    : floor.id}
+                                </div>
+                              </Nav.Link>
+                            </Nav.Item>
+                          ) : null
+                        )}
+                      </Nav>
+
+                      <div className="d-flex justify-content-center mt-2">
+                        <div
+                          onClick={handleNext}
+                          disabled={visibleRange[1] === numberOfFloors - 1}
+                          style={{
+                            border: "1px solid rgba(239, 239, 239, 1)",
+                            width: "fit-content",
+                            borderRadius: 50,
+                            padding: 3,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <ArrowDown2
+                            size="32"
+                            color={
+                              visibleRange[1] === numberOfFloors - 1
+                                ? "rgba(156, 156, 156, 1)"
+                                : "#000000"
+                            }
+                            variant="Bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+
+
+                  <Col xs={12} md={11} className="ps-md-4"  >
+                    <div className="container">
+                      <div className="d-flex justify-content-between align-items-center mb-3">
+                        <div
+                          style={{
+                            fontSize: 20,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {floorName && floorName.trim() !== "" ? floorName : ""}
+                        </div>
+
+                        <div className="d-flex align-items-center gap-3">
+                          <div className="d-flex flex-row flex-wrap">
+                            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                              <img className="me-1 mb-1" src={availabeimg} alt="available" />
+                              Available                                </p>
+                            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                              <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
+                              Occupied
+                            </p>
+                            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                              <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
+                              Reserved
+                            </p>
+                            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                              <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
+                              Overdue
+                            </p>
+                            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                              <img className="me-1 mb-1" src={noticeimg} alt="notice" />
+                              Notice Period
+                            </p>
+                          </div>
+
+
+                          <div
+                            style={{
+                              cursor: "pointer",
+                              height: 40,
+                              width: 40,
+                              borderRadius: 100,
+                              border: "1px solid #EFEFEF",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                              zIndex: showDots ? 1000 : "auto",
+                              backgroundColor: showDots ? "#E7F1FF" : "#fff",
+                            }}
+                            onClick={handleShowDots}
+                          >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            {showDots && (
+                              <div
+                                ref={popupRef}
+                                className="pg-card"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  position: "absolute",
+                                  right: 40,
+                                  top: 10,
+                                  border: "1px solid #E0E0E0",
+                                  borderRadius: 10,
+                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                  width: 140,
+                                  zIndex: 1000,
+                                }}
+                              >
+                                <div>
+                                  <div
+                                    className="d-flex gap-2 align-items-center"
+                                    onClick={
+                                      canUpdatePayingGuests
+                                        ? () => handleEditFloor(floorClick, showHostelDetails.hostelId, floorName)
+                                        : undefined
+                                    }
+                                    style={{
+                                      padding: "8px 12px",
+                                      borderRadius: 6,
+                                      opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                                      cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
+                                    }}
+                                  >
+                                    <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
+                                    <span
                                       style={{
-                                        padding: "8px 12px",
-                                        borderRadius: 6,
-                                        opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
                                         cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
                                       }}
                                     >
-                                      <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
-                                      <span
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
-                                          cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Edit
-                                      </span>
-                                    </div>
+                                      Edit
+                                    </span>
+                                  </div>
 
-                                    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
+                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
 
-                                    <div
-                                      className="d-flex gap-2 align-items-center"
-                                      onClick={
-                                        canDeletePayingGuests
-                                          ? () => handleShowDelete(floorClick, showHostelDetails.hostelId, floorName)
-                                          : undefined
-                                      }
+                                  <div
+                                    className="d-flex gap-2 align-items-center"
+                                    onClick={
+                                      canDeletePayingGuests
+                                        ? () => handleShowDelete(floorClick, showHostelDetails.hostelId, floorName)
+                                        : undefined
+                                    }
+                                    style={{
+                                      padding: "8px 12px",
+                                      borderRadius: 6,
+                                      opacity: !canDeletePayingGuests ? 0.5 : 1,
+                                      cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
+                                    }}
+                                  >
+                                    <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
+                                    <span
                                       style={{
-                                        padding: "8px 12px",
-                                        borderRadius: 6,
-                                        opacity: !canDeletePayingGuests ? 0.5 : 1,
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
                                         cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                                       }}
                                     >
-                                      <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
-                                      <span
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
-                                          cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Delete
-                                      </span>
-                                    </div>
+                                      Delete
+                                    </span>
                                   </div>
                                 </div>
-                              )}
-                            </div>
+                              </div>
+                            )}
                           </div>
-
                         </div>
+
                       </div>
+                    </div>
 
-                      <Tab.Content>
-                        <ParticularHostelDetails
-                          floorID={floorClick}
-                          hostel_Id={showHostelDetails.hostelId}
-                          phoneNumber={showHostelDetails.hostel_PhoneNo}
-                          // editPermissionError={editPermissionError}
-                          // deletePermissionError={deletePermissionError}
-                          // addPermissionError={addPermissionError}
-                        />
-                      </Tab.Content>
-                    </Col>
-                  </Row>
-                </Tab.Container>
-              ) : (
-                <div
-                  className="d-flex align-items-center justify-content-center animated-text mt-5"
-                  style={{
-                    width: "100%",
-                    margin: "0px auto",
-                    backgroundColor: "",
-                  }}
-                >
-                  <div>
-                    <div className="d-flex  justify-content-center">
-                      <img
-                        src={EmptyState}
-                        style={{ height: 240, width: 240 }}
-                        alt="Empty state"
+                    <Tab.Content>
+                      <ParticularHostelDetails
+                        floorID={floorClick}
+                        hostel_Id={showHostelDetails.hostelId}
+                        phoneNumber={showHostelDetails.hostel_PhoneNo}
+                      // editPermissionError={editPermissionError}
+                      // deletePermissionError={deletePermissionError}
+                      // addPermissionError={addPermissionError}
                       />
-                    </div>
-                    <div
-                      className="pb-1 mt-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 20,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No floors available
-                    </div>
-                    <div
-                      className="pb-1 mt-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 16,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There is no floor added to this paying guest.
-                    </div>
-
+                    </Tab.Content>
+                  </Col>
+                </Row>
+              </Tab.Container>
+            ) : (
+              <div
+                className="d-flex align-items-center justify-content-center animated-text mt-5"
+                style={{
+                  width: "100%",
+                  margin: "0px auto",
+                  backgroundColor: "",
+                }}
+              >
+                <div>
+                  <div className="d-flex  justify-content-center">
+                    <img
+                      src={EmptyState}
+                      style={{ height: 240, width: 240 }}
+                      alt="Empty state"
+                    />
                   </div>
-                  <div></div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+                  <div
+                    className="pb-1 mt-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 20,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    No floors available
+                  </div>
+                  <div
+                    className="pb-1 mt-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    There is no floor added to this paying guest.
+                  </div>
 
-        {showAddPg && (
-          <AddPg
-            show={showAddPg}
-            handleClose={handleCloses}
-            currentItem={editHostelDetails}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
-          />
-        )}
-        {showDelete && (
-          <DeleteFloor
-            show={showDelete}
-            handleClose={handleCloseDelete}
-            currentItem={deleteFloor}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
-          />
-        )}
-        {showFloor && (
-          <AddFloor
-            updateFloor={update}
-            show={showFloor}
-            handleClose={handleCloseFloor}
-            hostelFloor={hostelFloor}
-            openFloor={handleDIsplayFloorClick}
-            editFloor={editFloor}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
-          />
-        )}
-        {showRoom && (
-          <AddRoom
-            show={showRoom}
-            handleClose={handlecloseRoom}
-            hostelDetails={hostelDetails}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
-          />
-        )}
-      </div>
+                </div>
+                <div></div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {showAddPg && (
+        <AddPg
+          show={showAddPg}
+          handleClose={handleCloses}
+          currentItem={editHostelDetails}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
+        />
+      )}
+      {showDelete && (
+        <DeleteFloor
+          show={showDelete}
+          handleClose={handleCloseDelete}
+          currentItem={deleteFloor}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
+        />
+      )}
+      {showFloor && (
+        <AddFloor
+          updateFloor={update}
+          show={showFloor}
+          handleClose={handleCloseFloor}
+          hostelFloor={hostelFloor}
+          openFloor={handleDIsplayFloorClick}
+          editFloor={editFloor}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
+        />
+      )}
+      {showRoom && (
+        <AddRoom
+          show={showRoom}
+          handleClose={handlecloseRoom}
+          hostelDetails={hostelDetails}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
+        />
+      )}
+
 
     </>
   );

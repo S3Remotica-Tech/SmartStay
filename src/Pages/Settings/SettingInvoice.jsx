@@ -3528,7 +3528,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 </div>
               </div>
               :
-              <div className="p-4" style={{ fontFamily: "Gilroy" }}>
+                   <div >
+<div className="sticky top-0 z-[1000] bg-white h-[60px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
                 <h5 className="mb-4 " style={{
                   fontFamily: "Gilroy",
                   fontSize: 22,
@@ -3536,6 +3537,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                   fontWeight: 600,
                   whiteSpace: "nowrap",
                 }}>Bill Templates</h5>
+                </div>
 
                 <div
                   style={{

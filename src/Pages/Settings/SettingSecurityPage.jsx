@@ -128,7 +128,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 <div className="container" 
 style={{
-  marginTop:26,
+  // marginTop:26,
   minHeight: '100vh',
   // display: 'flex',
   flexDirection: 'column',

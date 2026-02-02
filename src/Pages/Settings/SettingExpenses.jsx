@@ -31,6 +31,7 @@ function SettingExpenses() {
   const [openMenuId, setOpenMenuId] = useState(null);
   const popupRef = useRef(null);
   const [showform, setShowForm] = useState(false);
+  const [hoveredSubId, setHoveredSubId] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
   const [subCategoryDetails, setSubCategoryDetails] = useState('')
@@ -408,31 +409,31 @@ function SettingExpenses() {
 
 
 
-     <div className="sticky top-0 z-[1000] bg-white">
-  <div className="flex flex-col md:flex-row items-center md:items-center justify-between">
-
-   
-    <div className="w-full md:w-1/2  md:text-left mb-2 md:mb-0">
-      <h3 className="font-[Gilroy] text-[20px] text-[#222] font-semibold mb-0">
-        Expenses Category
-      </h3>
-    </div>
+      <div className="sticky top-0 z-[1000] bg-white">
+        <div className="flex flex-col md:flex-row items-center md:items-center justify-between">
 
 
-    <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-      <button
-        onClick={handleShow}
-        disabled={!canWriteExpense}
-        className={`font-[Gilroy] text-[14px] font-semibold text-white
+          <div className="w-full md:w-1/2  md:text-left mb-2 md:mb-0">
+            <h3 className="font-[Gilroy] text-[20px] text-[#222] font-semibold mb-0">
+              Expenses Category
+            </h3>
+          </div>
+
+
+          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+            <button
+              onClick={handleShow}
+              disabled={!canWriteExpense}
+              className={`font-[Gilroy] text-[14px] font-semibold text-white
           bg-[#1E45E1] h-[45px] w-[146px] rounded-[8px] 
           disabled:opacity-50 disabled:cursor-not-allowed`}
-      >
-        + Category
-      </button>
-    </div>
+            >
+              + Category
+            </button>
+          </div>
 
-  </div>
-</div>
+        </div>
+      </div>
 
 
 
@@ -461,7 +462,7 @@ function SettingExpenses() {
 
 
             <div
-              className="mt-2 show-scrolls overflow-y-auto bg-[#F9FAFB] px-2 py-2 rounded-lg h-[550px]"
+              className={`mt-2 show-scrolls overflow-y-auto ${expensesFilterddata.length === 0 ? "bg-[#FFFFFF] h-screen" : "bg-[#F9FAFB] h-fit"}  px-3 py-4 rounded-lg `}
               style={{}}
             >
 
@@ -477,7 +478,7 @@ function SettingExpenses() {
 
                     <Card
                       key={category.categoryId}
-                      className="border-0 shadow rounded-lg p-2 font-[Gilroy] text-[16px] font-medium h-[800px] flex flex-col "
+                      className="border-0 shadow rounded-lg p-2 font-[Gilroy] text-[16px] font-medium  flex flex-col bg-white"
                     >
 
 
@@ -494,7 +495,6 @@ function SettingExpenses() {
 
 
                         <div className="flex items-center gap-[10px] shrink-0">
-
 
 
                           <div className='border-1  py-1 px-2 rounded border-dashed border-[#1E45E1] '>
@@ -521,7 +521,7 @@ function SettingExpenses() {
                             {openMenuId === category.categoryId && (
                               <div ref={popupRef} className="absolute right-0 top-6 z-50 w-28 bg-white border rounded shadow-md">
 
-                         
+
                                 <div
                                   className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
           ${canUpdateExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
@@ -535,7 +535,7 @@ function SettingExpenses() {
                                   <span>Edit</span>
                                 </div>
 
-                           
+
                                 <div
                                   className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
           ${canDeleteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
@@ -553,29 +553,20 @@ function SettingExpenses() {
                             )}
                           </div>
 
-
-
-
-                          {/* <i
-                              onClick={(event) => handleToggleDropdown(category.categoryId, event)}
-                              className={`bi ${expandedCategoryId === category.categoryId
-                                ? "bi-chevron-up"
-                                : "bi-chevron-down"
-                                } cursor-pointer`}
-                            /> */}
                         </div>
                       </div>
 
-                      <div>
+                      <div >
 
 
-                        <ul className="p-2 m-0 overflow-y-auto max-h-[180px] bg-[#F9FAFB] mt-2 show-scrolls">
-                          {category.listSubcategories &&
-                            category.listSubcategories.length > 0 ? (
+                        <ul className="p-2 m-0 overflow-y-auto h-[150px] bg-[#F9FAFB] mt-2 show-scrolls">
+                          {category.listSubcategories?.length > 0 ? (
                             category.listSubcategories.map((sub) => (
                               <li
                                 key={sub.subCategoryId}
-                                className="flex items-center justify-between rounded px-3 py-2 font-[Gilroy] bg-[#FFFFFF] mb-3"
+                                onMouseEnter={() => setHoveredSubId(sub.subCategoryId)}
+                                onMouseLeave={() => setHoveredSubId(null)}
+                                className="flex items-center justify-between rounded px-3 py-2 font-[Gilroy] bg-white mb-3 hover:bg-[#F5F8FF] transition"
                               >
 
                                 <div
@@ -586,12 +577,17 @@ function SettingExpenses() {
                                 </div>
 
 
-                                <div className="flex items-center gap-2 shrink-0">
+                                <div
+                                  className={`flex items-center gap-2 shrink-0 transition-all duration-200
+            ${hoveredSubId === sub.subCategoryId
+                                      ? "opacity-100 translate-x-0"
+                                      : "opacity-0 translate-x-1 pointer-events-none"}`}
+                                >
                                   <img
                                     src={Editbtn}
                                     className={`h-[15px] w-[15px] ${canUpdateExpense
-                                      ? "cursor-pointer opacity-100"
-                                      : "cursor-not-allowed opacity-40"
+                                        ? "cursor-pointer"
+                                        : "cursor-not-allowed opacity-40"
                                       }`}
                                     alt="edit"
                                     onClick={() =>
@@ -602,8 +598,8 @@ function SettingExpenses() {
                                   <img
                                     src={Closebtn}
                                     className={`h-[15px] w-[15px] ${canDeleteExpense
-                                      ? "cursor-pointer opacity-100"
-                                      : "cursor-not-allowed opacity-40"
+                                        ? "cursor-pointer"
+                                        : "cursor-not-allowed opacity-40"
                                       }`}
                                     alt="delete"
                                     onClick={() =>
@@ -614,11 +610,14 @@ function SettingExpenses() {
                               </li>
                             ))
                           ) : (
-                            <span className="text-sm text-gray-400 font-[Gilroy]">
-                              No Subcategories Available
-                            </span>
+                            <div className="flex items-center justify-center h-full text-center">
+                              <span className="text-gray-400 font-[Gilroy] text-sm">
+                                No Subcategory Details are there!
+                              </span>
+                            </div>
                           )}
                         </ul>
+
 
                       </div>
                     </Card>

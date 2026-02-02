@@ -411,8 +411,8 @@ useEffect(()=>{
 
   return (
     <div
-      className="mt-4"
-      style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}
+      className="mt-0"
+      style={{ position: "relative", }}
     >
       {loading && (
         <div

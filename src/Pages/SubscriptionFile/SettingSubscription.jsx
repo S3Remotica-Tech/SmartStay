@@ -13,9 +13,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-import { 
+import {
   // ArrowUp2, ArrowDown2,
-   Calendar } from "iconsax-react";
+  Calendar
+} from "iconsax-react";
 // import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 // import PaginationList from '../../Components/PaginationList';
@@ -367,22 +368,17 @@ function SettingSubscription() {
 
 
   return (
-    <div className="container" style={{ overflowY: 'hidden', height: '100vh', marginBottom: 0 }}>
-      <div style={{ marginTop: 35 }}>
-        <div className="w-100  mt-4">
-          <div>
-            <label
-              className="cardnewsubs"
-              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222" }}
-            >
-              Subscription
-            </label>
-          </div>
+    <div className="p-0 m-0 h-screen overflow-hidden">
+      <div className="sticky top-2 z-[1000] bg-white h-[50px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
+        <div className="w-full">
 
-          <div>
-            <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Manage your subscription and billing</p>
+          <label className="block text-[20px] font-semibold font-[Gilroy] text-[#222]">
+            Subscription
+          </label>
 
-          </div>
+          <p className="mt-1 text-[14px] font-medium font-[Gilroy] text-[#4B4B4B]">
+            Manage your subscription and billing
+          </p>
 
         </div>
       </div>
