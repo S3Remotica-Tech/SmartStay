@@ -390,29 +390,25 @@ function SettingAmenities() {
     return (
         <>
 
-                 <div className="sticky top-0 z-[1000] bg-white h-[50px] flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
  
-  <div className="w-full flex justify-center md:justify-start mt-3">
-    <label className="font-[Gilroy] text-[20px] font-semibold text-[#222] whitespace-nowrap">
+  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-[Gilroy] text-[18px] font-semibold text-[#222] whitespace-nowrap">
       Amenities
     </label>
   </div>
 
  
-  <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0">
+  <div className="w-full flex justify-center md:justify-end  md:mt-0">
     <button
       onClick={handleOpenAmenities}
       disabled={showPopup || !canWriteAmenities}
-      className="
-        h-[45px] w-[146px] min-w-[130px] max-h-[50px]
-        px-[35px] mt-3
-        rounded-lg
-        bg-[#1E45E1] text-white
-        text-[14px] font-semibold font-[Gilroy]
-        whitespace-nowrap
-        disabled:opacity-40 disabled:cursor-not-allowed
-      "
+      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteAmenities
+          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
     >
       + Amenities
     </button>
@@ -456,7 +452,7 @@ function SettingAmenities() {
 
                 )
                     : (
-                        <div className='container mt-4 mb-3 show-scrolls' style={{
+                        <div className='container mt-2 mb-3 show-scrolls' style={{
                             position: "relative", maxHeight: "460px",
                             overflowY: "auto", backgroundColor: ""
                         }}>

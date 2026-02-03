@@ -398,7 +398,35 @@ useEffect(() => {
 
   return (
     <>
-      {loading && (
+     
+
+ <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">  
+ 
+   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+      Complaint Type
+    </label>
+  </div>
+
+
+
+   <div className="w-full flex justify-center md:justify-end">
+    <button
+      disabled={!canWriteComplaints}
+      onClick={handleShowForm}
+      className={`
+        h-[45px] w-[146px] rounded-lg text-[14px] font-semibold font-[Gilroy]
+        bg-[#1E45E1] text-white 
+        disabled:opacity-40 disabled:cursor-not-allowed
+      `}
+    >
+      + Complaint Type
+    </button>
+  </div>
+
+</div>
+
+ {loading && (
         <div
           style={{
             position: "absolute",
@@ -427,34 +455,6 @@ useEffect(() => {
           ></div>
         </div>
       )}
-
-      <div className="sticky top-0 z-[1000] bg-white h-[50px] flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-  
-  {/* Title */}
-  <div className="w-full flex justify-center md:justify-start mt-3">
-    <label className="font-[Gilroy] text-[20px] font-semibold text-[#222]">
-      Complaint Type
-    </label>
-  </div>
-
-  {/* Button */}
-  <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0 mb-3 md:mb-0">
-    <button
-      disabled={!canWriteComplaints}
-      onClick={handleShowForm}
-      className={`
-        h-[45px] w-[146px] rounded-lg text-[14px] font-semibold font-[Gilroy]
-        bg-[#1E45E1] text-white mt-3
-        disabled:opacity-40 disabled:cursor-not-allowed
-      `}
-    >
-      + Complaint Type
-    </button>
-  </div>
-
-</div>
-
-
       {
 
         !canReadComplaints ? (
@@ -477,7 +477,7 @@ useEffect(() => {
         )
           :
           (
-            <div className="complainttype">
+            <div className="complainttype mt-2">
               {complianceFilterddata && complianceFilterddata.length > 0 && (
                 <div className="container show-scrolls" style={{
                   position: "relative", maxHeight: "475px",
