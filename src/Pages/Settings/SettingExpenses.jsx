@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Editbtn from '../../Assets/Images/Edit-blue.png';
@@ -16,6 +16,7 @@ import AddCategory from '../Settings/AddCategory';
 import { toast } from 'react-toastify';
 import AddSubCategory from '../Settings/AddSubCategory';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function SettingExpenses() {
 
@@ -27,8 +28,10 @@ function SettingExpenses() {
   const [type, setType] = useState([]);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
   const [subType, setSubType] = useState('');
-
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const popupRef = useRef(null);
   const [showform, setShowForm] = useState(false);
+  const [hoveredSubId, setHoveredSubId] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
   const [subCategoryDetails, setSubCategoryDetails] = useState('')
@@ -349,11 +352,26 @@ function SettingExpenses() {
 
   }, [state.createAccount?.networkError])
 
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setOpenMenuId(null)
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+
+
+
   return (
-    <div style={{
-      position: "relative", maxHeight: "570px",
-      overflowY: "auto", paddingRight: 10, paddingLeft: 10
-    }}>
+    <>
 
 
       {loading && (
@@ -391,48 +409,29 @@ function SettingExpenses() {
 
 
 
-      <div
-        className=""
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          height: 'auto',
-        }}
-      >
-        <div
-          className="row align-items-center justify-content-between"
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-          style={{ }}
-        >
+  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+      Expenses Category
+    </label>
+  </div>
 
-          <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
-            <h3 style={{
-              fontFamily: "Gilroy",
-              fontSize: 20, color: "#222",
-              fontWeight: 600, marginLeft: -11, marginTop: 18
-            }}>
-              Expenses Category</h3></div>
-
-          <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
-            <Button onClick={handleShow}
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: 14,
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: 8,
-                height: 45,
-                width: 146,
-                marginTop: 5,
-                marginRight: -12
-              }}
-              disabled={!canWriteExpense}
-            >+ Category</Button></div>
-        </div>
-      </div>
+  
+  <div className="w-full flex justify-center md:justify-end">
+    <button
+      onClick={handleShow}
+      disabled={!canWriteExpense}
+      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteExpense
+          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+    >
+      + Category
+    </button>
+  </div>
+</div>
 
 
 
@@ -460,205 +459,175 @@ function SettingExpenses() {
           (
 
 
-            <div className="mt-4  d-flex flex-wrap  show-scrolls" style={{
-              alignItems: "flex-start", minHeight: "450px",
-              overflowY: "auto", backgroundColor: "", columnGap: "2px",
-              rowGap: "5px",
-            }}>
+            <div
+              className={`mt-2 show-scrolls overflow-y-auto ${expensesFilterddata.length === 0 ? "bg-[#FFFFFF] h-screen" : "bg-[#F9FAFB] h-fit"}  px-3 py-4 rounded-lg `}
+              style={{}}
+            >
 
 
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
+
 
                 {expensesFilterddata && expensesFilterddata.length > 0 && (
                   expensesFilterddata.map((category) => (
 
-                    <div
+
+                    <Card
                       key={category.categoryId}
-                      className="relative pb-[10px]"
+                      className="border-0 shadow rounded-lg p-2 font-[Gilroy] text-[16px] font-medium  flex flex-col bg-white"
                     >
-                      <Card className="flex items-center justify-between border rounded p-2 font-[Gilroy] text-[16px] font-medium">
 
 
-                        <div className="flex items-center gap-4 w-full  min-w-0">
-                          <div className="flex-1 min-w-0">
-                            <label
-                              className="block truncate"
-                              title={category.categoryName}
-                            >
-                              {category.categoryName}
-                            </label>
-                          </div>
+
+                      <div className="flex items-center gap-4 w-full  min-w-0 px-2 py-1">
+                        <div className="flex-1 min-w-0">
+                          <label
+                            className="block truncate capitalize"
+                            title={category.categoryName}
+                          >
+                            {category.categoryName}
+                          </label>
+                        </div>
 
 
-                          <div className="flex items-center gap-[10px] shrink-0">
+                        <div className="flex items-center gap-[10px] shrink-0">
 
-                            <img
-                              src={Editbtn}
-                              className={`h-[15px] w-[15px] ${canUpdateExpense ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-40"
-                                }`}
-                              alt="edit"
-                              onClick={() => {
-                                if (canUpdateExpense) handleEditCategory(category);
-                              }}
-                            />
+
+                          <div className='border-1  py-1 px-2 rounded border-dashed border-[#1E45E1] '>
                             <AddCircle
                               size="16"
-                              color="#FF9900"
+                              color="#1E45E1"
                               className={canWriteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}
                               onClick={() => {
                                 if (canWriteExpense) handleCreateSubCategory(category);
                               }}
                             />
-
-                            <img
-                              src={Closebtn}
-                              className={`h-[15px] w-[15px] ${canDeleteExpense ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-40"
-                                }`}
-                              alt="delete"
-                              onClick={() => {
-                                if (canDeleteExpense) handleDeleteExpensesCategory(category);
-                              }}
-                            />
-                            <i
-                              onClick={(event) => handleToggleDropdown(category.categoryId, event)}
-                              className={`bi ${expandedCategoryId === category.categoryId
-                                ? "bi-chevron-up"
-                                : "bi-chevron-down"
-                                } cursor-pointer`}
-                            />
                           </div>
-                        </div>
-                      </Card>
+                          <div className="relative">
+                            <PiDotsThreeOutlineVerticalFill
+                              className="cursor-pointer"
+                              onClick={() =>
+                                setOpenMenuId(
+                                  openMenuId === category.categoryId ? null : category.categoryId
+                                )
+                              }
+                            />
 
-                      {expandedCategoryId === category.categoryId && (
-                        <div className="dropdown-content" style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: 0,
-                          right: 0,
-                          width: "100%",
-                          zIndex: 999,
-                          backgroundColor: "#fff",
-                          border: "1px solid #ddd",
-                          borderRadius: "0 0 10px 10px",
-                          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                          maxHeight: "70px",
-                          overflowY: "auto",
-                          marginTop: "5px"
-                        }}>
-                          {/* <ul className="p-2 m-0 overflow-hidden">
-                            {category.listSubcategories && category?.listSubcategories?.length > 0 ? (
-                              category.listSubcategories.map((sub) => (
-                                <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2"
-                                style={{ fontFamily: "Gilroy" }}>
-                                  <div
-    className="flex-grow-1 text-truncate "
-    title={sub.subCategoryName}
-    style={{ minWidth: 0 }}
-  >
-    {sub.subCategoryName}
-  </div>
-                                  <span className='d-flex justify-content-between'>
-                                    <img
-                                      src={Editbtn}
-                                      height={15}
-                                      width={15}
-                                      alt="edit"
-                                      style={{
-                                        cursor: canUpdateExpense ? "pointer" : "not-allowed",
-                                        opacity: canUpdateExpense ? 1 : 0.4
-                                      }}
-                                      onClick={() => {
-                                        if (canUpdateExpense) handleSubEditCategory(sub);
-                                      }}
-                                    />
 
-                                    <img
-                                      src={Closebtn}
-                                      height={15}
-                                      width={15}
-                                      alt="delete"
-                                      style={{
-                                        cursor: canDeleteExpense ? "pointer" : "not-allowed",
-                                        opacity: canDeleteExpense ? 1 : 0.4,
-                                        marginLeft: 10
-                                      }}
-                                      onClick={() => {
-                                        if (canDeleteExpense) handleDeleteSubCategory(sub);
-                                      }}
-                                    />
+                            {openMenuId === category.categoryId && (
+                              <div ref={popupRef} className="absolute right-0 top-6 z-50 w-28 bg-white border rounded shadow-md">
 
-                                  </span>
-                                </li>
-                              ))
-                            ) : (
-                              <span className="text-muted text-sm" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
+
+                                <div
+                                  className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
+          ${canUpdateExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
+                                  onClick={() => {
+                                    if (!canUpdateExpense) return;
+                                    handleEditCategory(category);
+                                    setOpenMenuId(null);
+                                  }}
+                                >
+                                  <img src={Editbtn} className="h-[14px] w-[14px]" />
+                                  <span>Edit</span>
+                                </div>
+
+
+                                <div
+                                  className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
+          ${canDeleteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
+                                  onClick={() => {
+                                    if (!canDeleteExpense) return;
+                                    handleDeleteExpensesCategory(category);
+                                    setOpenMenuId(null);
+                                  }}
+                                >
+                                  <img src={Closebtn} className="h-[14px] w-[14px]" />
+                                  <span>Delete</span>
+                                </div>
+
+                              </div>
                             )}
-                          </ul> */}
-
-                          <ul className="p-2 m-0 overflow-hidden">
-  {category.listSubcategories &&
-  category.listSubcategories.length > 0 ? (
-    category.listSubcategories.map((sub) => (
-      <li
-        key={sub.subCategoryId}
-        className="flex items-center justify-between mb-2 font-[Gilroy]"
-      >
-        {/* TEXT */}
-        <div
-          className="flex-1 min-w-0 truncate"
-          title={sub.subCategoryName}
-        >
-          {sub.subCategoryName}
-        </div>
-
-        {/* ACTION ICONS */}
-        <div className="flex items-center gap-2 shrink-0">
-          <img
-            src={Editbtn}
-            className={`h-[15px] w-[15px] ${
-              canUpdateExpense
-                ? "cursor-pointer opacity-100"
-                : "cursor-not-allowed opacity-40"
-            }`}
-            alt="edit"
-            onClick={() =>
-              canUpdateExpense && handleSubEditCategory(sub)
-            }
-          />
-
-          <img
-            src={Closebtn}
-            className={`h-[15px] w-[15px] ${
-              canDeleteExpense
-                ? "cursor-pointer opacity-100"
-                : "cursor-not-allowed opacity-40"
-            }`}
-            alt="delete"
-            onClick={() =>
-              canDeleteExpense && handleDeleteSubCategory(sub)
-            }
-          />
-        </div>
-      </li>
-    ))
-  ) : (
-    <span className="text-sm text-gray-400 font-[Gilroy]">
-      No Subcategories Available
-    </span>
-  )}
-</ul>
+                          </div>
 
                         </div>
-                      )}
+                      </div>
 
-                    </div>
+                      <div >
+
+
+                        <ul className="p-2 m-0 overflow-y-auto h-[150px] bg-[#F9FAFB] mt-2 show-scrolls">
+                          {category.listSubcategories?.length > 0 ? (
+                            category.listSubcategories.map((sub) => (
+                              <li
+                                key={sub.subCategoryId}
+                                onMouseEnter={() => setHoveredSubId(sub.subCategoryId)}
+                                onMouseLeave={() => setHoveredSubId(null)}
+                                className="flex items-center justify-between rounded px-3 py-2 font-[Gilroy] bg-white mb-3 hover:bg-[#F5F8FF] transition"
+                              >
+
+                                <div
+                                  className="flex-1 min-w-0 truncate"
+                                  title={sub.subCategoryName}
+                                >
+                                  {sub.subCategoryName}
+                                </div>
+
+
+                                <div
+                                  className={`flex items-center gap-2 shrink-0 transition-all duration-200
+            ${hoveredSubId === sub.subCategoryId
+                                      ? "opacity-100 translate-x-0"
+                                      : "opacity-0 translate-x-1 pointer-events-none"}`}
+                                >
+                                  <img
+                                    src={Editbtn}
+                                    className={`h-[15px] w-[15px] ${canUpdateExpense
+                                        ? "cursor-pointer"
+                                        : "cursor-not-allowed opacity-40"
+                                      }`}
+                                    alt="edit"
+                                    onClick={() =>
+                                      canUpdateExpense && handleSubEditCategory(sub)
+                                    }
+                                  />
+
+                                  <img
+                                    src={Closebtn}
+                                    className={`h-[15px] w-[15px] ${canDeleteExpense
+                                        ? "cursor-pointer"
+                                        : "cursor-not-allowed opacity-40"
+                                      }`}
+                                    alt="delete"
+                                    onClick={() =>
+                                      canDeleteExpense && handleDeleteSubCategory(sub)
+                                    }
+                                  />
+                                </div>
+                              </li>
+                            ))
+                          ) : (
+                            <div className="flex items-center justify-center h-full text-center">
+                              <span className="text-gray-400 font-[Gilroy] text-sm">
+                                No Subcategory Details are there!
+                              </span>
+                            </div>
+                          )}
+                        </ul>
+
+
+                      </div>
+                    </Card>
+
+
+
+
                   ))
                 )}
               </div>
 
-              {!loading &&  expensesFilterddata.length === 0 &&(
+              {!loading && expensesFilterddata.length === 0 && (
 
 
                 <div className='w-full'
@@ -790,7 +759,7 @@ function SettingExpenses() {
           )
       }
 
-    </div>
+    </>
   )
 }
 

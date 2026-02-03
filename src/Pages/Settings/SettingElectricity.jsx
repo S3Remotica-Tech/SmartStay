@@ -411,9 +411,7 @@ useEffect(()=>{
 
   return (
     <div
-      className="mt-4"
-      style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}
-    >
+          >
       {loading && (
         <div
           style={{
@@ -443,7 +441,7 @@ useEffect(()=>{
         </div>
       )}
 
-      <div
+      {/* <div
         className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3"
         style={{
           position: "sticky",
@@ -530,7 +528,54 @@ useEffect(()=>{
             </p>
           </div>
         )}
-      </div>
+      </div> */}
+<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">      
+
+  <div className="w-full flex justify-center md:justify-start mt-2 md:mt-0">
+    <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+      Electricity
+    </label>
+  </div>
+
+ 
+  <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0">
+    {EbList ? (
+      <button
+        disabled={!canUpdateElectricity}
+        onClick={() => handleEditElectricity(EbList)}
+        className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${
+          canUpdateElectricity
+            ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+      >
+        <img src={editpic} alt="Edit" className="w-4 h-4" />
+        Edit
+      </button>
+    ) : (
+      <button
+        onClick={handleShowFormElectricity}
+        disabled={showPopup}
+        className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${
+          !showPopup
+            ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+            : "bg-gray-300 text-white cursor-not-allowed"
+        }`}
+      >
+        + Electricity
+      </button>
+    )}
+  </div>
+
+  {/* Popup message */}
+  {showPopup && (
+    <div className="flex flex-wrap mt-2 w-full">
+      <p className="text-red-500 font-gilroy text-sm w-full md:w-auto">
+        Please add a hostel before adding Electricity information.
+      </p>
+    </div>
+  )}
+</div>
 
       <div>
 
@@ -563,7 +608,7 @@ useEffect(()=>{
             :
             EbList ?
 
-              <Row className="scroll-issue">
+              <Row className="scroll-issue mt-2">
                 <Col lg={10} md={8} sm={12} >
                   <Card
                     className="p-2 border mb-4 mb-md-0"

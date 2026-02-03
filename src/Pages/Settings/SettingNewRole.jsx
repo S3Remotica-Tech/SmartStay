@@ -232,44 +232,37 @@ useEffect(() => {
 
 
   return (
-    <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
-      <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          height: 83,
-          paddingRight: 1
-        }}>
-        <div
-          className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
-          style={{ marinTop: -4 }}>
-          <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
+    <div>
+    <div className="sticky top-0 z-[1000] bg-white h-[50px] pr-[1px]
+                flex flex-col md:flex-row md:items-center md:justify-between">
 
 
-        </div>
-        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
-          <Button
-            disabled={!canWriteRole}
-            onClick={handleAddRole}
-            style={{
-              fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-              fontWeight: 600, borderRadius: 8, padding: "11px 53px", paddingLeft: 52, marginTop: 12,
-              whiteSpace: "nowrap",
-            }}
-          >
+  <div className="w-full flex justify-center md:justify-start">
+    <label className="font-[Gilroy] text-[20px] font-semibold text-[#222] whitespace-nowrap">
+      Role
+    </label>
+  </div>
 
+  <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0">
+    <button
+      disabled={!canWriteRole}
+      onClick={handleAddRole}
+      className="
+        mt-3
+        px-[53px] py-[11px]
+        rounded-lg
+        bg-[#1E45E1] text-white
+        text-[14px] font-semibold font-[Gilroy]
+        whitespace-nowrap
+        disabled:opacity-40 disabled:cursor-not-allowed
+      "
+    >
+      + Role
+    </button>
+  </div>
 
-            {" "}
-            + Role
-          </Button>
-        </div>
+</div>
 
-      </div>
 
 
       {

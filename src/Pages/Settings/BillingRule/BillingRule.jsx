@@ -126,34 +126,12 @@ function BillingRule() {
 
 
   return (
-    <div style={{ position: "relative" }}>
-      <div
-        className="d-flex justify-content-start align-items-center"
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          minHeight: 73,
-          whiteSpace: "nowrap",
-          paddingRight: 10,
-        }}
-      >
-        <div style={{ position: "fixed", backgroundColor: "white" }}>
-          <h3
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 20,
-              color: "#222",
-              fontWeight: 600,
-              whiteSpace: "nowrap",
-            }}
-          >
-            Bills
-          </h3>
-        </div>
+    <>
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+     <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+          Bills
+        </label>
+
       </div>
 
       <div >
@@ -183,7 +161,7 @@ function BillingRule() {
             </div>
           </>
         ) : (
-          <Row className="g-3">
+          <Row className="g-3 overflow-hidden">
             <Col xs={12} md={6}>
               <Card
                 style={{
@@ -306,13 +284,13 @@ function BillingRule() {
                         </Button>
 
 
-                      <Form.Check disabled
-  type="switch"
-  id="custom-switch"
-  label={checked ? "On" : "Off"}
-  checked={checked}
-  onChange={(e) => setChecked(e.target.checked)}
-/>
+                        <Form.Check disabled
+                          type="switch"
+                          id="custom-switch"
+                          label={checked ? "On" : "Off"}
+                          checked={checked}
+                          onChange={(e) => setChecked(e.target.checked)}
+                        />
 
 
 
@@ -460,7 +438,7 @@ function BillingRule() {
       }
 
 
-    </div>
+    </>
   );
 }
 
