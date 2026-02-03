@@ -144,9 +144,9 @@ function SettingNewUser() {
     if (hostel_Id) {
       setLoading(true);
       dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
-       setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
 
   }, [hostel_Id]);
@@ -305,36 +305,31 @@ function SettingNewUser() {
 
   return (
     <div >
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-
-      <div className="sticky top-0 z-[1000] bg-white h-[50px] flex flex-col md:flex-row md:items-center md:justify-between">
-
-
-        <div className="w-full flex justify-center md:justify-start mt-3">
-          <label className="font-[Gilroy] text-[20px] font-semibold text-[#222] whitespace-nowrap">
+        <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+          <label className="font-gilroy text-[18px] text-[#222] font-semibold">
             Staff
           </label>
         </div>
 
 
-        <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0">
+        <div className="w-full flex justify-center md:justify-end">
           <button
             disabled={!canWriteUser}
             onClick={handleOpenAddUser}
-            className="
-        w-[146px] px-2 py-2
-        rounded-lg
-        bg-[#1E45E1] text-white
-        text-[14px] font-semibold font-[Gilroy]
-        whitespace-nowrap
-        disabled:opacity-40 disabled:cursor-not-allowed
-      "
+            className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteUser
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             + Staff
           </button>
         </div>
-
       </div>
+
+
 
 
       {loading && (
@@ -383,7 +378,7 @@ function SettingNewUser() {
         )
           :
           (
-            <div className="">
+            <div className="mt-2">
               {sortedData?.length > 0 ? (
                 <div
                   className="me-2"
