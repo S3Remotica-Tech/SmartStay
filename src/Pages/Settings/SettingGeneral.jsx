@@ -1176,83 +1176,37 @@ function SettingGeneral() {
           ></div>
         </div>
       }
-      {/* main */}
-      <div
-        style={{
-          height: "100vh",
-          overflow: "hidden",
-          fontFamily: "Gilroy"
-        }}
-      >
-        {/* header */}
-        <div
+    
+      <div>
+       
+      
+      
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-          className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-
-
-          style={{
-            position: "sticky",
-            top: 0,
-            right: 0,
-            left: 0,
-            zIndex: 1000,
-            backgroundColor: "#FFFFFF",
-            minHeight: 50,
-            whiteSpace: "nowrap",
-            paddingRight: 5,
-            paddingLeft: 5,
+  <div className="w-full flex justify-center md:justify-start mt-0">
+    <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+      General Settings
+    </label>
+  </div>
 
 
-          }}
-        >
 
-          <div className="w-100 d-flex justify-content-center justify-content-md-start mt-0">
-            <div>
-              <label
-                style={{
-                  fontSize: 20,
-                  color: "#000000",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  whiteSpace: "nowrap",
+ 
+  <div className="w-full flex justify-center md:justify-end mt-0">
+    <button
+      disabled={!canWriteProfile}
+      onClick={handleShowFormGreneral}
+      className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${
+        canWriteProfile
+          ? "hover:bg-blue-800"
+          : "cursor-not-allowed opacity-50"
+      }`}
+    >
+      + Create Master
+    </button>
+  </div>
+</div>
 
-                }}
-              >
-                General Settings
-              </label>
-            </div>
-          </div>
-          <div
-            className="d-flex justify-content-center justify-content-md-end w-100 mt-0 mt-md-0"
-
-          >
-
-            <div
-            >
-              <Button
-                disabled={!canWriteProfile}
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: "8px",
-                  padding: "11px",
-                  height: 45,
-                  width: 146,
-                  whiteSpace: "nowrap",
-                  marginTop: 0
-
-                }}
-
-                onClick={handleShowFormGreneral}
-              >
-                + Create Master
-              </Button>
-            </div>
-          </div>
-        </div>
         {/* card & tabs */}
         <div className="mt-0 p-0" style={{
           position: "relative",

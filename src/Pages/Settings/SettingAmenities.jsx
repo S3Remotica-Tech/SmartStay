@@ -388,55 +388,34 @@ function SettingAmenities() {
 
 
     return (
-        <div
-            style={{
-                position: "relative",
-                paddingRight: 11, paddingLeft: 10,
-            }}>
+        <>
 
-            <div
-                className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-                style={{
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-                    position: "sticky",
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    zIndex: 1000,
-                    backgroundColor: "#FFFFFF",
-                    height: 83,
-                }}>
-                <div
-                    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
-                    <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
-                </div>
-                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
-                    <Button
-                        onClick={handleOpenAmenities}
-                        style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: "11px 35px",
+ 
+  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-[Gilroy] text-[18px] font-semibold text-[#222] whitespace-nowrap">
+      Amenities
+    </label>
+  </div>
 
-                            width: 146,
-                            height: 45,
-                            maxWidth: "100%",
-                            maxHeight: 50,
-                            marginTop: 12,
-                            minWidth: "130px",
-                            whiteSpace: "nowrap",
-                        }}
-                        disabled={showPopup || !canWriteAmenities}
-                    >
-                        {" "}
-                        + Amenities
-                    </Button>
-                </div>
-            </div>
+ 
+  <div className="w-full flex justify-center md:justify-end  md:mt-0">
+    <button
+      onClick={handleOpenAmenities}
+      disabled={showPopup || !canWriteAmenities}
+      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteAmenities
+          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+    >
+      + Amenities
+    </button>
+  </div>
+
+</div>
+
 
             {showPopup && (
                 <div className="d-flex flex-wrap">
@@ -473,7 +452,7 @@ function SettingAmenities() {
 
                 )
                     : (
-                        <div className='container mt-4 mb-3 show-scrolls' style={{
+                        <div className='container mt-2 mb-3 show-scrolls' style={{
                             position: "relative", maxHeight: "460px",
                             overflowY: "auto", backgroundColor: ""
                         }}>
@@ -1077,7 +1056,7 @@ function SettingAmenities() {
             }
 
 
-        </div>
+        </>
     )
 }
 SettingAmenities.propTypes = {

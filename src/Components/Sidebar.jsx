@@ -1627,7 +1627,7 @@ function Sidebar() {
               <Route
                 path="/settings/:hostelId?/*"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <SettingAllPages
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}

@@ -50,21 +50,15 @@ const SettingsNotifications = () => {
     };
 
     return (
-        <Container className="py-4">
+        <div className="">
             {!showWhatsAppSettings ? (
                 <>
-                    <h3
-                        style={{
-                            fontFamily: 'Gilroy',
-                            fontSize: 16,
-                            color: '#222',
-                            fontWeight: 600,
-                            whiteSpace: 'nowrap',
-                            marginBottom: '17px',
-                        }}
-                    >
-                        Notifications
-                    </h3>
+                   <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+     <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+         Notifications
+        </label>
+
+      </div>
 
                     <Card
                         onClick={() => setShowWhatsAppSettings(true)}
@@ -173,7 +167,7 @@ const SettingsNotifications = () => {
                     ))}
                 </>
             )}
-        </Container>
+        </div>
     );
 };
 
