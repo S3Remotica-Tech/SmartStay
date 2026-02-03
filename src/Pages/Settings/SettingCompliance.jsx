@@ -116,6 +116,9 @@ useEffect(() => {
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+     setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     }
   }, [state.login.selectedHostel_Id]);
 

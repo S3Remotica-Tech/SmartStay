@@ -84,6 +84,9 @@ useEffect(()=>{
         type: "EB-BILLING-UNIT-LIST",
         payload: state.login.selectedHostel_Id
       });
+       setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     }
   }, [state.login.selectedHostel_Id]);
 

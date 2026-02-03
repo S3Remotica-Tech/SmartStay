@@ -144,6 +144,9 @@ function SettingNewUser() {
     if (hostel_Id) {
       setLoading(true);
       dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
+       setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     }
 
   }, [hostel_Id]);
