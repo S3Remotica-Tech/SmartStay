@@ -59,7 +59,7 @@ useEffect(()=>{
 setLoading(false);
 },[state.reports?.getReportsList])
 
-  console.log("canReadReports",canReadReports)
+ 
 
 useEffect(()=>{
   if(analytical){
