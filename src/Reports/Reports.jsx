@@ -19,12 +19,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import ComingSoon from '../Utils/ComingSoon';
+import { PiArrowFatLinesLeftDuotone } from 'react-icons/pi';
 
 function Reports() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("operational");
   const [selectedRange, setSelectedRange] = useState(null);
@@ -47,19 +48,28 @@ function Reports() {
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
+    }else{
+      setLoading(false)
     }
   }, [canReadReports]);
 
   const reportsList = state.reports?.getReportsList
 
-  useEffect(() => {
-    if (analytical) {
-      setActiveTab("analytical")
-    } else {
-      setActiveTab("operational")
-    }
+useEffect(()=>{
 
-  }, [analytical])
+setLoading(false);
+},[state.reports?.getReportsList])
+
+  console.log("canReadReports",canReadReports)
+
+useEffect(()=>{
+  if(analytical){
+    setActiveTab("analytical")
+  }else{
+     setActiveTab("operational")
+  }
+  
+},[analytical])
 
   const tabs = [
     { id: "operational", label: "Operational Reports" },
@@ -275,6 +285,8 @@ function Reports() {
     if (state.reports.getSuccessReports === 200) {
       setLoading(false)
       dispatch({ type: 'CLEAR_GET_REPORTS_REDUCER' })
+    }else{
+      setLoading(false)
     }
 
   }, [state.reports.getSuccessReports])

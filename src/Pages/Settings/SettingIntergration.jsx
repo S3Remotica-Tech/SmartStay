@@ -1,22 +1,23 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import './SettingIntergration.css';
+import ComingSoon from "../../Utils/ComingSoon";
 
-function SettingIntergration(){
-    return(
-        <>
-       <div className="container ">
-       
-        <div style={{marginTop:35}}>
-      <div  className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
-            <p style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Integration</p> </div>
-        </div>
+function SettingIntergration() {
+  return (
+    <div className="h-screen bg-white">
     
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white px-4 py-3">
+        <p className="text-[20px] font-semibold font-[Gilroy]">
+          Integration
+        </p>
+      </div>
 
-<div style={{display:'flex',flexDirection:'row', justifyContent:'center',alignItems:'center', marginTop:100}}>
-  <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>  🚧 Coming Soon ....!</p></div>
+     
+      <div className="pt-[0px]">
+        <ComingSoon />
+      </div>
+
     </div>
-        </>
-    )
+  );
 }
+
 export default SettingIntergration;

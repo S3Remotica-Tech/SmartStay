@@ -80,72 +80,80 @@ const {
 //   );
 
   return (
-    <div className="container-fluid " style={{ fontFamily: "Gilroy" }}>
+    <div  className="font-[Gilroy]">
 
-      <div
-  className="container-fluid sticky-top bg-white"
-  style={{ zIndex: 1000 }}
->
-  <div className="d-flex flex-wrap justify-content-between align-items-center  py-3">
+     <div className="sticky top-0 bg-white z-50">
+  <div className="flex flex-wrap justify-between items-center py-3 px-4">
     
-    <div className="mb-2 mb-md-0">
-      <h5 className="mb-1" style={{ fontSize: 16, fontWeight: 600 }}>Agreement & Policy</h5>
-      <small className="text-muted d-flex align-items-center">
-        <img src={arrowleft} alt="back" width={20} height={20} className="me-2" />
-        Simple PG Stay Agreement
-      </small>
+   
+    <div className="mb-2 md:mb-0">
+      <h5 className="mb-1 text-[16px] font-semibold">Agreement & Policy</h5>
+      <div className="text-gray-500 flex items-center">
+        <img src={arrowleft} alt="back" className="w-5 h-5 mr-2" />
+        <span>Simple PG Stay Agreement</span>
+      </div>
     </div>
 
-   
-    <div className="d-flex flex-wrap align-items-center gap-2">
-    <button
-  disabled={!canReadAgreement}
-  onClick={handleDownloadPDF}
-  className={`flex items-center whitespace-nowrap rounded-md border px-4 py-2 text-sm font-medium transition
-    ${
+  
+    <div className="flex flex-wrap items-center gap-2">
+ 
+  <button
+    disabled={!canReadAgreement}
+    onClick={handleDownloadPDF}
+    className={`flex items-center whitespace-nowrap rounded-md border px-4 py-2 text-sm font-medium transition ${
       canReadAgreement
         ? "border-gray-400 text-gray-700 hover:bg-gray-100"
         : "cursor-not-allowed border-gray-300 text-gray-400"
     }`}
->
-  <img
-    src={download}
-    alt="download"
-    width={15}
-    height={15}
-    className="mr-2 shrink-0"
-  />
-  Download Sample
-</button>
+  >
+    <img src={download} alt="download" className="w-4 h-4 mr-2" />
+    Download Sample
+  </button>
 
+  
+  {!isEditable && (
+    <button
+      disabled={!canUpdateAgreement}
+      onClick={() => setIsEditable(true)}
+      className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border transition ${
+        canUpdateAgreement
+          ? "border-gray-400 text-gray-700 hover:bg-gray-100"
+          : "cursor-not-allowed border-gray-300 text-gray-400"
+      }`}
+    >
+      <img src={editimg} alt="Edit" className="w-4 h-4" />
+      Edit
+    </button>
+  )}
 
-      {!isEditable && (
-        <button disabled={!canUpdateAgreement} className="btn btn-primary d-flex align-items-center gap-2 px-4" onClick={() => setIsEditable(true)}>
-          <img src={editimg} alt="Edit" width={15} height={15} />
-          Edit
-        </button>
-      )}
-
-      {isEditable && (
-        <>
-          <button className="btn btn-primary d-flex align-items-center gap-2 px-4" 
-          // onClick={handleSave}
-          disabled={!canWriteAgreement}
-          >
-            <img src={savevec} alt="Save" width={15} height={15} />
-            Save
-          </button>
-          <CloseCircle
-            size="24"
-            color="#000"
-            onClick={handleCloseEdit}
-            style={{ cursor: 'pointer' }}
-          />
-        </>
-      )}
+ 
+  {isEditable && (
+    <div className="flex items-center gap-2">
+      <button
+        disabled={!canWriteAgreement}
+        onClick={handleSave}
+        className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition ${
+          canWriteAgreement
+            ? "bg-blue-600 text-white hover:bg-blue-700"
+            : "cursor-not-allowed bg-blue-300 text-white"
+        }`}
+      >
+        <img src={savevec} alt="Save" className="w-4 h-4" />
+        Save
+      </button>
+      <CloseCircle
+        size={24}
+        color="#000"
+        onClick={handleCloseEdit}
+        className="cursor-pointer"
+      />
     </div>
+  )}
+</div>
+
   </div>
 </div>
+
 {
   !canReadAgreement ? (
 

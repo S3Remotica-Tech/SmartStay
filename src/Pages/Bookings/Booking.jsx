@@ -24,6 +24,7 @@ import { FiSearch } from "react-icons/fi";
 import ApplyBookingModal from './ApplyInvoices';
 import ComingSoon from '../../Utils/ComingSoon';
 
+
 function Booking() {
 
   const [showBookingPdf, setShowBookingPdf] = useState(false)
@@ -636,7 +637,10 @@ setShowBookingPdf(false)
                     :
                     <>
                       {/* {sortedData && sortedData.length > 0 && ( */}
-                      <div
+
+<ComingSoon />
+
+                      {/* <div
                         className='show-scrolls ms-2'
                         style={{
                         }}>
