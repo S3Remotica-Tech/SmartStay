@@ -1189,6 +1189,8 @@ function SettingGeneral() {
     </label>
   </div>
 
+
+
  
   <div className="w-full flex justify-center md:justify-end mt-0">
     <button
