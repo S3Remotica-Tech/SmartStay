@@ -2223,8 +2223,8 @@ function UserListRoomDetail(props) {
     ? kycPic.startsWith("data:image")
       ? kycPic
       : `data:image/jpeg;base64,${kycPic}`
-    : CustomerOverView.profilePic
-      ? CustomerOverView.profilePic
+    : CustomerOverView?.profilePic
+      ? CustomerOverView?.profilePic
       : null;
 
 
@@ -2421,47 +2421,22 @@ function UserListRoomDetail(props) {
             <div className="d-flex align-items-center mb-3 mb-md-0">
 
               <div
-                style={{
-                  position: "relative",
-                  width: "47px",
-                  height: "47px",
-                  marginRight: "10px",
-                }}
+                className="relative h-[47px] w-[47px] rounded-full overflow-hidden cursor-pointer"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 {imageUrl ? (
                   <img
                     src={imageUrl}
-                    alt={CustomerOverView.fullName || "Default Profile"}
-                    style={{
-                      height: "47x",
-                      width: "47px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
+                    alt={CustomerOverView.fullName || "Profile"}
+                    className="h-full w-full object-cover rounded-full"
                     onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = Profiles;
+                      e.currentTarget.src = Profiles;
                     }}
                   />
                 ) : (
 
-                  <div
-                    style={{
-                      height: "47px",
-                      width: "47px",
-                      borderRadius: "50%",
-                      backgroundColor: "#E2E8F0",
-                      color: "#44536A",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "20px",
-                      fontWeight: "600",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+                  <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-200 text-[#44536A] text-lg font-semibold font-[Gilroy]">
                     {CustomerOverView?.initials
                       ? CustomerOverView.initials
                       : CustomerOverView?.fullName
