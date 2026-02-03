@@ -233,37 +233,31 @@ useEffect(() => {
 
   return (
     <div>
-    <div className="sticky top-0 z-[1000] bg-white h-[50px] pr-[1px]
-                flex flex-col md:flex-row md:items-center md:justify-between">
+    
 
+<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-  <div className="w-full flex justify-center md:justify-start">
-    <label className="font-[Gilroy] text-[20px] font-semibold text-[#222] whitespace-nowrap">
+  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
       Role
     </label>
   </div>
 
-  <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0">
+  
+  <div className="w-full flex justify-center md:justify-end">
     <button
+     onClick={handleAddRole}
       disabled={!canWriteRole}
-      onClick={handleAddRole}
-      className="
-        mt-3
-        px-[53px] py-[11px]
-        rounded-lg
-        bg-[#1E45E1] text-white
-        text-[14px] font-semibold font-[Gilroy]
-        whitespace-nowrap
-        disabled:opacity-40 disabled:cursor-not-allowed
-      "
+      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteRole
+          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
     >
-      + Role
+      +  Role
     </button>
   </div>
-
 </div>
-
-
 
       {
         !canReadRole ? (
@@ -287,7 +281,7 @@ useEffect(() => {
           : (
 
             <div
-              className="row mt-3 mb-3 overflow-auto  show-scrolls"
+              className="row mt-2 mb-3 overflow-auto  show-scrolls"
               style={{ maxHeight: 475, overflowY: "auto" }}
             >
               {roleList.length > 0 ? (
