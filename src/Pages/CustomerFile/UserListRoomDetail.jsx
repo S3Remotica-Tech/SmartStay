@@ -3701,34 +3701,21 @@ function UserListRoomDetail(props) {
                                 Room
                               </p>
                               <p
-                                onClick={() => {
-                                  if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
-                                    handleShowEditBed(
-                                      CustomerOverView
-                                    );
-                                  }
-                                }}
+                                // onClick={() => {
+                                //   if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
+                                //     handleShowEditBed(
+                                //       CustomerOverView
+                                //     );
+                                //   }
+                                // }}
                                 style={{
-                                  cursor: !canUpdateTenant
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  opacity: !canUpdateTenant
-                                    ? 0.6
-                                    : 1,
                                   marginTop: "-10px",
                                 }}
                               >
                                 <img
                                   src={RoomImage}
                                   alt="group"
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    filter: !canUpdateTenant
-                                      ? "grayscale(100%)"
-                                      : "none",
-                                  }}
+
                                 />
                                 <span
                                   style={{
@@ -3737,12 +3724,10 @@ function UserListRoomDetail(props) {
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
                                     marginTop: "-10px",
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    color: !canUpdateTenant
-                                      ? "#888888"
-                                      : "#000000",
+                                    // cursor: !canUpdateTenant
+                                    //   ? "not-allowed"
+                                    //   : "pointer",
+                                    color: "#000000",
                                   }}
                                 >
                                   {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
@@ -3762,34 +3747,22 @@ function UserListRoomDetail(props) {
                                 Bed
                               </p>
                               <p
-                                onClick={() => {
-                                  if (canUpdateTenant) {
-                                    handleShowEditBed(
-                                      customerDetails
-                                    );
-                                  }
-                                }}
+                                // onClick={() => {
+                                //   if (canUpdateTenant) {
+                                //     handleShowEditBed(
+                                //       customerDetails
+                                //     );
+                                //   }
+                                // }}
                                 style={{
-                                  cursor: !canUpdateTenant
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  opacity: !canUpdateTenant
-                                    ? 0.6
-                                    : 1,
+
                                   marginTop: "-10px",
                                 }}
                               >
                                 <img
                                   src={Group}
                                   alt="group"
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    filter: !canUpdateTenant
-                                      ? "grayscale(100%)"
-                                      : "none",
-                                  }}
+
                                 />
                                 <span
                                   style={{
@@ -3797,12 +3770,7 @@ function UserListRoomDetail(props) {
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    color: !canUpdateTenant
-                                      ? "#888888"
-                                      : "#000000",
+                                    color: "#000000",
                                   }}
                                 >
                                   {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}
@@ -3821,20 +3789,20 @@ function UserListRoomDetail(props) {
                                 Booking Date
                               </p>
                               <p
-                                onClick={() => {
-                                  if (canUpdateTenant) {
-                                    handleShowEditBed(
-                                      customerDetails
-                                    );
-                                  }
-                                }}
+                                // onClick={() => {
+                                //   if (canUpdateTenant) {
+                                //     handleShowEditBed(
+                                //       customerDetails
+                                //     );
+                                //   }
+                                // }}
                                 style={{
-                                  cursor: !canUpdateTenant
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  opacity: !canUpdateTenant
-                                    ? 0.6
-                                    : 1,
+                                  // cursor: !canUpdateTenant
+                                  //   ? "not-allowed"
+                                  //   : "pointer",
+                                  // opacity: !canUpdateTenant
+                                  //   ? 0.6
+                                  //   : 1,
                                   marginTop: "-10px",
                                   // marginLeft: 50
                                 }}
@@ -3842,14 +3810,7 @@ function UserListRoomDetail(props) {
                                 <img
                                   src={LinkImage}
                                   alt="group"
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    filter: !canUpdateTenant
-                                      ? "grayscale(100%)"
-                                      : "none",
-                                  }}
+
                                 />
                                 <span
                                   style={{
@@ -3857,12 +3818,10 @@ function UserListRoomDetail(props) {
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    color: !canUpdateTenant
-                                      ? "#888888"
-                                      : "#000000",
+                                    cursor:
+                                      "pointer",
+                                    color:
+                                      "#000000",
                                   }}
                                 >
                                   {CustomerOverView.bookingInfo?.bookingDate
@@ -3881,17 +3840,20 @@ function UserListRoomDetail(props) {
                                   gap: "6px",
                                 }}
                               >
-                                Joined Date  <img onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
-                                  src={EditImage}
-                                  alt="EditImage"
-                                  style={{
-                                    height: 14,
-                                    width: 14,
-                                    color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
-                                      ? "#1E45E1"
-                                      : "#000", cursor: "pointer"
-                                  }}
-                                />
+                                Joined Date
+                                {
+                                  (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
+
+                                  <img onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
+                                    src={EditImage}
+                                    alt="EditImage"
+                                    style={{
+                                      height: 14,
+                                      width: 14,
+                                      color: "#000", cursor: "pointer"
+                                    }}
+                                  />
+                                }
                               </p>
                               <p
                                 onClick={() => {
@@ -3902,12 +3864,12 @@ function UserListRoomDetail(props) {
                                   }
                                 }}
                                 style={{
-                                  cursor: !canUpdateTenant
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  opacity: !canUpdateTenant
-                                    ? 0.6
-                                    : 1,
+                                  // cursor: !canUpdateTenant
+                                  //   ? "not-allowed"
+                                  //   : "pointer",
+                                  // opacity: !canUpdateTenant
+                                  //   ? 0.6
+                                  //   : 1,
                                   marginTop: "-10px",
                                   // marginLeft: 50
                                 }}
@@ -3915,14 +3877,14 @@ function UserListRoomDetail(props) {
                                 <img
                                   src={LinkImage}
                                   alt="group"
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    filter: !canUpdateTenant
-                                      ? "grayscale(100%)"
-                                      : "none",
-                                  }}
+                                // style={{
+                                //   cursor: !canUpdateTenant
+                                //     ? "not-allowed"
+                                //     : "pointer",
+                                //   filter: !canUpdateTenant
+                                //     ? "grayscale(100%)"
+                                //     : "none",
+                                // }}
                                 />
                                 <span
                                   style={{
@@ -3930,12 +3892,7 @@ function UserListRoomDetail(props) {
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    color: !canUpdateTenant
-                                      ? "#888888"
-                                      : "#000000",
+                                    color: "#000000",
                                   }}
                                 >
                                   {CustomerOverView.hostelInfo?.joiningDate
@@ -3987,18 +3944,22 @@ function UserListRoomDetail(props) {
 
                                       >
                                         Monthly Rent
-                                        <img
-                                          onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateChange()}
-                                          src={EditImage}
-                                          alt="EditImage"
-                                          style={{
-                                            height: 14,
-                                            width: 14,
-                                            color: !canUpdateTenant
-                                              ? "#CCCCCC"
-                                              : "#000", cursor: "pointer"
-                                          }}
-                                        />
+                                        {
+                                          (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
+
+                                          <img
+                                            onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateChange()}
+                                            src={EditImage}
+                                            alt="EditImage"
+                                            style={{
+                                              height: 14,
+                                              width: 14,
+                                              color: !canUpdateTenant
+                                                ? "#CCCCCC"
+                                                : "#000", cursor: "pointer"
+                                            }}
+                                          />
+                                        }
                                       </div>
                                       <p
                                         style={{
@@ -4025,17 +3986,22 @@ function UserListRoomDetail(props) {
                                           gap: "6px",
                                         }}
                                       >
-                                        Advance Amount  <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
-                                          src={EditImage}
-                                          alt="EditImage"
-                                          style={{
-                                            height: 14,
-                                            width: 14,
-                                            color: !canUpdateTenant
-                                              ? "#CCCCCC"
-                                              : "#000", cursor: "pointer"
-                                          }}
-                                        />
+                                        Advance Amount
+                                        {
+                                          (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
+
+                                          <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
+                                            src={EditImage}
+                                            alt="EditImage"
+                                            style={{
+                                              height: 14,
+                                              width: 14,
+                                              color: !canUpdateTenant
+                                                ? "#CCCCCC"
+                                                : "#000", cursor: "pointer"
+                                            }}
+                                          />
+                                        }
                                       </div>
                                       <p
                                         style={{
@@ -4220,35 +4186,26 @@ function UserListRoomDetail(props) {
 
                             </>
                           ) : (
-                            <div
-                              style={{
-                                fontSize: 14,
-                                fontFamily: "Gilroy",
-                                fontWeight: 400,
-                                textAlign: "center",
-                              }}
-                            >
-                              No Contact Details are there!
-                              <p>
-                                <button
+                            <div className="flex flex-col items-center justify-center text-center font-[Gilroy] text-sm text-gray-700">
+                              <p>No Contact Details are there!</p>
 
-                                  type="button" className="btn mt-2"
-                                  disabled={!canWriteTenant}
-                                  style={{
-                                    backgroundColor: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 14px",
-                                    color: "#fff"
-                                  }}
-                                  onClick={handleAdditionalForm}
-                                >
-                                  <img src={FileAdd} style={{}} alt="alt-image"></img> Add
-                                </button>
-                              </p>
+                              <button
+                                type="button"
+                                disabled={!canWriteTenant}
+                                onClick={handleAdditionalForm}
+                                className={`
+      mt-3 inline-flex items-center gap-2
+      rounded-xl px-4 py-2 text-base font-semibold text-white
+      bg-[#1E45E1]
+      disabled:bg-gray-300 disabled:cursor-not-allowed
+      transition
+    `}
+                              >
+                                <img src={FileAdd} alt="add" className="h-4 w-4" />
+                                Add
+                              </button>
                             </div>
+
 
                           )}
                         </div>

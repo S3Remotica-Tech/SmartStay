@@ -18,12 +18,13 @@ import { AiOutlineBarChart } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import { PiArrowFatLinesLeftDuotone } from 'react-icons/pi';
 
 function Reports() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("operational");
   const [selectedRange, setSelectedRange] = useState(null);
@@ -46,10 +47,19 @@ const location = useLocation();
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
+    }else{
+      setLoading(false)
     }
   }, [canReadReports]);
 
   const reportsList = state.reports?.getReportsList
+
+useEffect(()=>{
+
+setLoading(false);
+},[state.reports?.getReportsList])
+
+  console.log("canReadReports",canReadReports)
 
 useEffect(()=>{
   if(analytical){
@@ -274,6 +284,8 @@ const analyticsCards = [
     if (state.reports.getSuccessReports === 200) {
       setLoading(false)
       dispatch({ type: 'CLEAR_GET_REPORTS_REDUCER' })
+    }else{
+      setLoading(false)
     }
 
   }, [state.reports.getSuccessReports])

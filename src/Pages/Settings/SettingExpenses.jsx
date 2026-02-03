@@ -184,7 +184,7 @@ function SettingExpenses() {
     }
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 4000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [state.login.selectedHostel_Id]);
