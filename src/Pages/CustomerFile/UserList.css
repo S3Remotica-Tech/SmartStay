@@ -124,10 +124,10 @@ cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-collapse: collapse;
   margin-top: 20px;
 }
-.roomdetailscard{
+/* .roomdetailscard{
   display: flex;
   flex-direction: row;
-}
+} */
 .Customer_Name_Hover:hover{
 
 text-decoration: underline;
@@ -264,6 +264,16 @@ text-decoration: underline;
    
   }
  }
+
+/* Small screens: full-width cards and tables */
+@media (max-width: 640px) {
+  .ebtable {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px;
+  }
+}
 
 
  

@@ -160,24 +160,8 @@ const sortedData = React.useMemo(() => {
     // setTableTrue(false)
     // setBillsForm(true)
     navigate('/create-bill', { state: { id: props.id } });
-
-
-    // props.handleAddItem()
-
-
-
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
-
-
-  };
-
-
-
-
-
-
-
-
+};
 
   // useEffect(() => {
   //   if (BillsForm) {
