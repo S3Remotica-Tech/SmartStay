@@ -228,7 +228,7 @@ function InvoiceRegister() {
     }
 
 
-    console.log("state", state.reports.getInvoiceRegister)
+    
     useEffect(() => {
         const invoiceFilters = state.reports.invoiceRegisterFilters;
         const filterData = [];
@@ -413,7 +413,7 @@ function InvoiceRegister() {
             </div>
 
 
-            <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-full flex flex-col overflow-hidden">
+            <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
                 {chips.length > 0 && (
                     <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 

@@ -29,37 +29,53 @@ function ExpenseRegister() {
   const [register, setRegister] = useState(false)
   const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
-    const dispatch = useDispatch()
-     const [expenseRegister, setExpenseRegister] = useState('')
+  const dispatch = useDispatch()
+  const [expenseRegister, setExpenseRegister] = useState('')
+  const [chips, setChips] = useState([])
 
- useEffect(() => {
-        if (state.login?.selectedHostel_Id) {
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
 
-            dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
-          
-        }
-    }, [state.login?.selectedHostel_Id])
+      dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
 
-    
-
- useEffect(() => {
-        if (state.reports.getExpenseRegisterSuccess === 200) {
-            // setLoading(false)
-            setExpenseRegister(state?.reports?.getExpenseRegister)
-            setInvoiceFilter(false)
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER'})
-            }, 100)
-        }
-
-    }, [state.reports.getExpenseRegisterSuccess])
+    }
+  }, [state.login?.selectedHostel_Id])
 
 
 
+  useEffect(() => {
+    if (state.reports.getExpenseRegisterSuccess === 200) {
+      // setLoading(false)
+      setExpenseRegister(state?.reports?.getExpenseRegister)
+      setInvoiceFilter(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER' })
+      }, 100)
+    }
 
-    
+  }, [state.reports.getExpenseRegisterSuccess])
+
+
+
+
+
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false)
+
+  }
+
+
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+
+      },
+    })
+    dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
   }
 
 
@@ -67,13 +83,6 @@ function ExpenseRegister() {
 
 
 
-
-  useEffect(() => {
-    setSelectedRange({
-      from: dayjs().startOf("month").toDate(),
-      to: dayjs().endOf("month").toDate(),
-    });
-  }, []);
 
 
   useEffect(() => {
@@ -101,13 +110,21 @@ function ExpenseRegister() {
 
   ];
 
-  
+
 
 
 
 
   const handleNavigateReports = () => {
     navigate(`/reports/${state.login.selectedHostel_Id}`)
+    dispatch({
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+
+      },
+    })
   }
 
   const handleClickFilter = () => {
@@ -143,6 +160,41 @@ function ExpenseRegister() {
     { title: "Final Settlement" },
   ];
 
+  const handleDateChange = (dates) => {
+    if (!dates) {
+      setSelectedRange(null);
+      return;
+    }
+
+    const range = {
+      from: dates[0].toDate(),
+      to: dates[1].toDate(),
+    };
+
+    setSelectedRange(range);
+    fetchData(range);
+  };
+
+  const fetchData = ({ from, to }) => {
+    const filters = {
+      startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+      endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+    };
+
+    dispatch({
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: filters
+    });
+    if (state.login?.selectedHostel_Id) {
+      dispatch({
+        type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+    }
+  };
 
 
 
@@ -172,10 +224,47 @@ function ExpenseRegister() {
     } else if (item?.title === "Invoice Register") {
       navigate(`/reports/invoice-register`)
     }
+    dispatch({
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+
+      },
+    })
   }
 
+  console.log("state.reports.expenseRegisterFilters", state.reports.expenseRegisterFilters)
 
 
+
+  useEffect(() => {
+    const invoiceFilters = state.reports.expenseRegisterFilters;
+    const filterData = [];
+
+
+
+
+
+
+
+    if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+      filterData.push({
+        key: "date-range",
+        label: "Date Range is",
+        type: "date",
+        value:
+          invoiceFilters.startDate && invoiceFilters.endDate
+            ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+            : invoiceFilters.startDate || invoiceFilters.endDate,
+      });
+    }
+
+
+
+
+    setChips(filterData);
+  }, [state.reports.expenseRegisterFilters]);
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -253,23 +342,19 @@ function ExpenseRegister() {
                   ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
                   : null
               }
-              onChange={(dates) => {
-
-                if (dates) {
-                  setSelectedRange({
-                    from: dates[0].toDate(),
-                    to: dates[1].toDate(),
-                  });
-                } else {
-                  setSelectedRange(null);
-                }
-              }}
+              onChange={handleDateChange}
               disabledDate={(current) => {
-                if (!selectedRange?.from) return current > dayjs().endOf("day");
-                return (
-                  current > dayjs().endOf("day") ||
-                  current < dayjs(selectedRange.from).startOf("day")
-                );
+
+                if (current && current > dayjs().endOf("day")) {
+                  return true;
+                }
+
+
+                if (selectedRange?.from) {
+                  return current < dayjs(selectedRange.from).startOf("day");
+                }
+
+                return false;
               }}
 
               getPopupContainer={(triggerNode) =>
@@ -294,8 +379,33 @@ function ExpenseRegister() {
       </div>
 
 
-      <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-full flex flex-col overflow-hidden">
+      <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+        {chips.length > 0 && (
+          <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
+
+            <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
+              {chips.map((chip) => (
+                <div key={chip.key}>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
+                    {chip.label} :
+                    <span className="text-[12px] font-medium text-[#16151C]">
+                      {chip.value}
+                    </span>
+                  </span>
+                </div>
+              ))}
+            </div>
+
+
+            <span
+              onClick={handleReset}
+              className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
+            >
+              Reset
+            </span>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3 ms-1 me-1 ">
           {stats.map((item, i) => (
@@ -327,7 +437,7 @@ function ExpenseRegister() {
 
 
               </div>
-              
+
             </div>
           ))}
         </div>
@@ -335,7 +445,7 @@ function ExpenseRegister() {
 
         <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
 
-          <div className="overflow-x-auto relative ">
+          <div className="overflow-x-auto relative h-full">
             <table className="w-full  text-[12px] font-gilroy">
 
               <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
@@ -403,23 +513,23 @@ function ExpenseRegister() {
 
 
               <tbody>
-                {expenseRegister?.expenseLists?.map((row, i) => (
+                {expenseRegister?.expenseLists?.length > 0 ? (expenseRegister?.expenseLists?.map((row, i) => (
                   <tr
                     key={i}
-                    className="border-b last:border-none hover:bg-[#F9FAFB] transition"
+                    className="border-b last:border-none  transition"
                   >
-                    <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
+                    <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
                     <td
-                      className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
+                      className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
                       title={row.date}
                     >
                       {row.date}
                     </td>
 
 
-                    <td className="px-4 py-3 sticky left-[170px] z-20 bg-white w-[200px]">
+                    <td className="px-4 py-2.5 sticky left-[170px] z-20 bg-white w-[200px]">
                       <div className="flex items-center gap-2">
-                       
+
                         <span
                           className="truncate whitespace-nowrap font-semibold text-[#111928]"
                           title={row.expenseCategory}
@@ -433,31 +543,45 @@ function ExpenseRegister() {
 
 
 
-                    <td className="px-4 py-3 text-center text-[#6B7280] whitespace-nowrap">
+                    <td className="px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap">
                       {row.description || "-"}
                     </td>
 
 
-                    <td className="px-4 py-3 text-center  text-[#6B7280] font-medium">
+                    <td className="px-4 py-2.5 text-center  text-[#6B7280] font-medium">
                       {row.counts || 0}
                     </td>
 
 
-                    <td className="px-4 py-3 text-center font-semibold text-[#222222]">
-                       {row.assetsName || "-"}
+                    <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
+                      {row.assetsName || "-"}
                     </td>
 
 
-                    <td className="px-4 py-3 text-center font-semibold text-[#222222]">
+                    <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
                       {row.vendorName || '-'}
                     </td>
 
-  <td className="px-4 py-3 text-center font-semibold text-[#222222]">
+                    <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
                       {row.account || '-'}
                     </td>
-                  
+
                   </tr>
-                ))}
+                ))
+                ) :
+                  (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="py-10 text-center text-sm text-gray-600 font-medium"
+                      >
+                        No Data Found
+                      </td>
+                    </tr>
+                  )
+
+
+                }
               </tbody>
 
             </table>
@@ -536,8 +660,8 @@ function ExpenseRegister() {
         </div>
 
         {
-                    invoiceFilter && <ExpenseFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
-                }
+          invoiceFilter && <ExpenseFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
+        }
       </div>
     </div>
   );

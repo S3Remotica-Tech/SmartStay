@@ -280,7 +280,7 @@ function ExpenseFilter({ show, handleClose }) {
                             />
                         </Form.Group>
 
-                        {/* Period */}
+                     
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period

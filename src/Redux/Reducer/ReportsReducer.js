@@ -18,6 +18,13 @@ export const initialState = {
         search: "",
 
     },
+expenseRegisterFilters: {
+        startDate: undefined,
+        endDate: undefined,
+       
+
+    },
+
 
 }
 
@@ -46,6 +53,15 @@ const ReportsReducer = (state = initialState, action) => {
 
         case 'REMOVE_GET_REPORTS_BANK_REGISTER_REDUCER':
             return { ...state, getBankRegisterSuccess: 0 }
+
+ case "SET_EXPENSE_REGISTER_FILTERS":
+            return {
+                ...state,
+                expenseRegisterFilters: {
+                    ...state.expenseRegisterFilters,
+                    ...action.payload,
+                },
+            };
 
 
 
