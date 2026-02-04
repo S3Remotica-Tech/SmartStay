@@ -3378,15 +3378,15 @@ function UserListRoomDetail(props) {
                               Room
                             </p>
                             <p
-                              onClick={() => {
-                                if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
-                                  handleShowEditBed(
-                                    CustomerOverView
-                                  );
-                                }
-                              }}
+                              // onClick={() => {
+                              //   if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
+                              //     handleShowEditBed(
+                              //       CustomerOverView
+                              //     );
+                              //   }
+                              // }}
 
-                              className={`flex items-center -mt-3 gap-1 ${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+                              className={`flex items-center -mt-3 gap-1
                                 }`}
 
                             >
@@ -3401,7 +3401,7 @@ function UserListRoomDetail(props) {
                                 //     ? "grayscale(100%)"
                                 //     : "none",
                                 // }}
-                                className={`${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"}`}
+                                // className={`${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"}`}
 
                               />
                               <span
@@ -3418,10 +3418,8 @@ function UserListRoomDetail(props) {
                                 //     ? "#888888"
                                 //     : "#000000",
                                 // }}
-                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy ${!canUpdateTenant
-                                  ? "cursor-not-allowed text-gray-500"
-                                  : "cursor-pointer text-black"
-                                  }`}
+                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy 
+                                  `}
 
                               >
                                 {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
@@ -3436,13 +3434,13 @@ function UserListRoomDetail(props) {
                           >
                             <p className="text-xs font-medium font-gilroy">Bed</p>
                             <p
-                              onClick={() => {
-                                if (canUpdateTenant) {
-                                  handleShowEditBed(
-                                    customerDetails
-                                  );
-                                }
-                              }}
+                              // onClick={() => {
+                              //   if (canUpdateTenant) {
+                              //     handleShowEditBed(
+                              //       customerDetails
+                              //     );
+                              //   }
+                              // }}
                               // style={{
                               //   cursor: !canUpdateTenant
                               //     ? "not-allowed"
@@ -3455,8 +3453,8 @@ function UserListRoomDetail(props) {
                               //   alignItems: "center",
                               //   gap: 5,
                               // }}
-                              className={`flex items-center -mt-3 gap-1 ${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer"
-                                }`}
+                              className={`flex items-center -mt-3 gap-1 
+                                `}
 
                             >
                               <img
@@ -3470,7 +3468,7 @@ function UserListRoomDetail(props) {
                                 //     ? "grayscale(100%)"
                                 //     : "none",
                                 // }}
-                                className={`${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"}`}
+                                // className={`${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"}`}
 
                               />
                               <span
@@ -3487,10 +3485,7 @@ function UserListRoomDetail(props) {
                                 //     : "#000000",
                                 //   marginTop: "5px"
                                 // }}
-                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy ${!canUpdateTenant
-                                  ? "cursor-not-allowed text-gray-500"
-                                  : "cursor-pointer text-black"
-                                  }`}
+                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy}`}
 
                               >
                                 {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}
@@ -3504,13 +3499,13 @@ function UserListRoomDetail(props) {
                               Booking Date
                             </p>
                             <p
-                              onClick={() => {
-                                if (canUpdateTenant) {
-                                  handleShowEditBed(
-                                    customerDetails
-                                  );
-                                }
-                              }}
+                              // onClick={() => {
+                              //   if (canUpdateTenant) {
+                              //     handleShowEditBed(
+                              //       customerDetails
+                              //     );
+                              //   }
+                              // }}
                               // style={{
                               //   cursor: !canUpdateTenant
                               //     ? "not-allowed"
@@ -3523,7 +3518,7 @@ function UserListRoomDetail(props) {
                               //   alignItems: "center",
                               //   gap: 5,
                               // }}
-                              className={`flex items-center -mt-3 gap-1 ${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+                              className={`flex items-center -mt-3 gap-1 
                                 }`}
 
                             >
@@ -3539,8 +3534,7 @@ function UserListRoomDetail(props) {
                                 //     : "none",
                                 //   marginTop: 1
                                 // }}
-                                className={`mt-px ${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"
-                                  }`}
+                                className={`mt-px `}
 
                               />
                               <span
@@ -3557,10 +3551,8 @@ function UserListRoomDetail(props) {
                                 //     : "#000000",
                                 //   marginTop: "5px"
                                 // }}
-                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy ${!canUpdateTenant
-                                  ? "cursor-not-allowed text-gray-500"
-                                  : "cursor-pointer text-black"
-                                  }`}
+                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy 
+                                 `}
 
                               >
                                 {CustomerOverView.bookingInfo?.bookingDate
@@ -3577,6 +3569,9 @@ function UserListRoomDetail(props) {
 
                             >
                               Joined Date
+                              {
+                                (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && 
+                              
                               <img onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
                                 src={EditImage}
                                 alt="EditImage"
@@ -3594,15 +3589,16 @@ function UserListRoomDetail(props) {
                                   }`}
 
                               />
+                                }
                             </p>
                             <p
-                              onClick={() => {
-                                if (canUpdateTenant) {
-                                  handleShowEditBed(
-                                    customerDetails
-                                  );
-                                }
-                              }}
+                              // onClick={() => {
+                              //   if (canUpdateTenant) {
+                              //     handleShowEditBed(
+                              //       customerDetails
+                              //     );
+                              //   }
+                              // }}
                               // style={{
                               //   cursor: !canUpdateTenant
                               //     ? "not-allowed"
@@ -3615,8 +3611,8 @@ function UserListRoomDetail(props) {
                               //   alignItems: "center",
                               //   gap: 5,
                               // }}
-                              className={`flex items-center -mt-3 gap-1 ${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer"
-                                }`}
+                              className={`flex items-center -mt-3 gap-1 
+                                `}
 
                             >
                               <img
@@ -3630,7 +3626,7 @@ function UserListRoomDetail(props) {
                                 //     ? "grayscale(100%)"
                                 //     : "none",
                                 // }}
-                                className={`${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"}`}
+                                // className={`${!canUpdateTenant ? "cursor-not-allowed grayscale" : "cursor-pointer"}`}
 
                               />
                               <span
@@ -3647,10 +3643,7 @@ function UserListRoomDetail(props) {
                                 //     : "#000000",
                                 //   marginTop: "5px"
                                 // }}
-                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy ${!canUpdateTenant
-                                  ? "cursor-not-allowed text-gray-500"
-                                  : "cursor-pointer text-black"
-                                  }`}
+                                className={`ml-1 mt-1 text-sm font-semibold font-gilroy text-black `}
 
                               >
                                 {CustomerOverView.hostelInfo?.joiningDate
@@ -3773,6 +3766,24 @@ function UserListRoomDetail(props) {
                               <div className="flex flex-col items-start">
                                 <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                   Monthly Rent
+
+ {
+                                          (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
+
+                                          <img
+                                            onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateChange()}
+                                            src={EditImage}
+                                            alt="EditImage"
+                                            style={{
+                                              height: 14,
+                                              width: 14,
+                                              color: !canUpdateTenant
+                                                ? "#CCCCCC"
+                                                : "#000", cursor: "pointer"
+                                            }}
+                                          />
+                                        }
+
                                 </div>
                                 <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
                                   ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
@@ -3782,7 +3793,21 @@ function UserListRoomDetail(props) {
                               {/* Advance Amount */}
                               <div className="flex flex-col items-start">
                                 <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
-                                  Advance Amount
+                                  Advance Amount    {
+                                          (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
+
+                                          <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
+                                            src={EditImage}
+                                            alt="EditImage"
+                                            style={{
+                                              height: 14,
+                                              width: 14,
+                                              color: !canUpdateTenant
+                                                ? "#CCCCCC"
+                                                : "#000", cursor: "pointer"
+                                            }}
+                                          />
+                                        }
                                 </div>
                                 <p className="text-sm font-semibold font-gilroy pt-2">
                                   ₹{advanceList?.advanceAmount ?? 0}
@@ -3865,26 +3890,25 @@ function UserListRoomDetail(props) {
                         {state?.UsersList?.customerAllDetaills?.length === 0 ? (
                           <ParentsGuardian />
                         ) : (
-                          <div className="text-[14px] font-normal">
-                            No Contact Details are there!
-                            <p className="mt-4 flex justify-center">
+                          <div className="flex flex-col items-center justify-center text-center font-[Gilroy] text-sm text-gray-700">
+                              <p>No Contact Details are there!</p>
+
                               <button
                                 type="button"
                                 disabled={!canWriteTenant}
                                 onClick={handleAdditionalForm}
-                                className={`font-semibold text-[16px] font-gilroy px-4 py-1 rounded-[12px] text-white flex flex-col items-center justify-center ${canWriteTenant ? "bg-[#1E45E1]" : "bg-gray-300 cursor-not-allowed"
-                                  }`}
+                                className={`
+      mt-3 inline-flex items-center gap-2
+      rounded-xl px-4 py-2 text-base font-semibold text-white
+      bg-[#1E45E1]
+      disabled:bg-gray-300 disabled:cursor-not-allowed
+      transition
+    `}
                               >
-                                <img
-                                  src={FileAdd}
-                                  alt="Add"
-                                  className="mb-1"
-                                />
+                                <img src={FileAdd} alt="add" className="h-4 w-4" />
                                 Add
                               </button>
-                            </p>
-
-                          </div>
+                            </div>
                         )}
                       </div>
                     </div>
