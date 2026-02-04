@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import { getReportsDetails, getInvoiceRegister } from "../Action/ReportsAction"
+import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getBankTransactionRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -48,14 +48,9 @@ function* handleReportsDetails(action) {
 
 function* handleGetInvoiceRegister(action) {
    try {
-      console.log("Saga started", action.payload);
       const { hostelId, filters } = action.payload;
       const response = yield call(getInvoiceRegister, hostelId, filters)
-        console.log("response", response);
-      // const hostel_Id = GlobalHostelId(response);
-      // if (hostel_Id) {
-      //    yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
-      // }
+
       if (response?.status === 200) {
          yield put({ type: 'GET_REPORTS_INVOICE_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -70,14 +65,50 @@ function* handleGetInvoiceRegister(action) {
 
 }
 
+function* handleGetExpenseRegister(action) {
+   try {
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getExpenseRegister, hostelId, filters)
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_EXPENSE_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
 
 
+}
+
+function* handleGetBankTransactionRegister(action) {
+   try {
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getBankTransactionRegister, hostelId, filters)
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_BANK_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
 
 
 function* ReportSaga() {
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
-
+   yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
+   yield takeEvery('GET_REPORTS_BANK_REGISTER_SAGA', handleGetBankTransactionRegister)
 
 }
 export default ReportSaga;

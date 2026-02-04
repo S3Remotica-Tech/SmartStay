@@ -357,7 +357,7 @@ function InvoiceRegister() {
                         className="datepicker-wrapper"
                         style={{ position: "relative", }}
                     >
-                        <RangePicker
+                        <RangePicker disabled
                             style={{
                                 width: "100%",
                                 height: "100%",
