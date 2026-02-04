@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -19,6 +19,7 @@ function StaticExample({
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+   const floorNameRef = useRef(null);
   const [floorNo, setFloorNo] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [floorError, setFloorError] = useState("");
@@ -31,7 +32,11 @@ function StaticExample({
 
 
 
-
+  useEffect(() => {
+    if (floorNameRef.current) {
+      floorNameRef.current.focus();
+    }
+  }, []); 
 
 
   useEffect(() => {
@@ -142,7 +147,11 @@ useEffect(() => {
 
 
 
-
+useEffect(() => {
+    if (floorNameRef.current) {
+      floorNameRef.current.focus();
+    }
+  }, []);
 
 
   return (
@@ -193,6 +202,7 @@ useEffect(() => {
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
+                  ref={floorNameRef}
                     value={floorNo}
                     onChange={handleFloorChange}
                     type="text"

@@ -38,6 +38,7 @@ function FinalSettlement() {
     const [formLoading, setFormLoading] = useState(false)
     const [showBreakdown, setShowBreakdown] = useState(false);
     const [finalSettlementList, setFinalSettlementList] = useState()
+    const [showWallet, setShowWallet] = useState(false);
 
     const [showDetails, setShowDetails] = useState(false);
 
@@ -73,10 +74,10 @@ function FinalSettlement() {
     }
 
     const handleCloseRoomReading = () => {
-         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
+        dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setShowRoomReading(false)
     }
-    
+
 
     useEffect(() => {
         if (!data?.customerId && !data?.tenetId) return;
@@ -509,9 +510,9 @@ function FinalSettlement() {
             }
 
             dispatch({ type: "GETFINALSETTLEMENT", payload });
-             setTimeout(() => {
-        dispatch({ type: 'REMOVE_ADD_ROOM_READING' })
-      }, 100)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_ADD_ROOM_READING' })
+            }, 100)
 
         }
 
@@ -538,252 +539,220 @@ function FinalSettlement() {
 
 
     return (
-        <div style={{ height: "100vh", overflow: "hidden" }}>
+        <div className="h-screen overflow-y-hidden ">
 
-            <div
-                className="mb-3"
-                style={{
-                    position: "sticky",
-                    // top: 0,
-                    backgroundColor: "#fff",
-                    zIndex: 0,
-                    height: 50,
-                    padding: "10px 12px",
-                }}
-            >
-                <div className="d-flex gap-3 align-items-center">
-                    <div>
-                        <ArrowLeft onClick={() => handleClose()}
-                            size="26"
-                            color="#4A5565" style={{ cursor: "pointer" }}
-                        />
-                    </div>
-                    <div>
-                        <label className="mb-0" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222222" }}>Final Settlement</label>
-                        <p className="mb-2" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, color: "#4A5565" }}>Tenants / Final Settlement</p>
 
+            <div className="mb-3 sticky bg-white z-0 h-[50px] px-3 py-2.5 ">
+                <div className="flex items-center gap-3">
+
+                    <ArrowLeft
+                        onClick={handleClose}
+                        size="26"
+                        color="#4A5565"
+                        className="cursor-pointer"
+                    />
+
+                    <div>
+                        <label className="block text-[20px] font-semibold text-[#222222] font-[Gilroy]">
+                            Final Settlement
+                        </label>
+                        <p className="text-sm font-semibold text-[#4A5565] font-[Gilroy]">
+                            Tenants / Final Settlement
+                        </p>
                     </div>
+
                 </div>
             </div>
-            <div className=""
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: "12px",
-                    height: "calc(100vh - 50px)",
-                    backgroundColor: "#f9f9f9",
-                    padding: 10,
-                    width: "100%",
-                    flexWrap: "nowrap"
-                }}>
-                {/* left */}
-                <div style={{
-                    flex: "0 0 30%",
-                    background: "#FFFFFF",
-                    borderRadius: 8,
-                    padding: 16,
-                    height: "100%"
-                }}>
-                    <div className="d-flex align-items-center gap-3 mb-1">
-                        {
-                            finalSettlementList?.customerInfo?.profilePic ?
+
+            <div className="flex flex-row gap-3 h-[calc(100vh-50px)] bg-[#f9f9f9] p-2.5 w-full flex-nowrap ">
+
+                <div
+                    className="flex-[0_0_30%] bg-white rounded-lg p-4  "
 
 
-                                <img
-                                    src={
-                                        finalSettlementList?.customerInfo?.profilePic &&
-                                            finalSettlementList?.customerInfo?.profilePic !== "0"
-                                            ? finalSettlementList.customerInfo.profilePic
-                                            : Profile2
-                                    }
+                >
+                    <div className="flex items-center gap-3 mb-1 font-[Gilroy]">
+                        {finalSettlementList?.customerInfo?.profilePic ? (
+                            <img
+                                src={
+                                    finalSettlementList?.customerInfo?.profilePic !== "0"
+                                        ? finalSettlementList.customerInfo.profilePic
+                                        : Profile2
+                                }
+                                alt="profile"
+                                className="h-[55px] w-[55px] rounded-full cursor-pointer"
+                            />
+                        ) : (
+                            <div className="h-[50px] w-[50px] rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-base font-semibold">
+                                {finalSettlementList?.customerInfo?.initials}
+                            </div>
+                        )}
 
-                                    style={{ height: 55, width: 55, cursor: "pointer" }}
-                                    alt="profile"
-                                    className="rounded-circle me-3"
-                                />
-                                :
-                                <div
-                                    style={{
-                                        width: 50,
-                                        height: 50,
-                                        borderRadius: "50%",
-                                        backgroundColor: "#E2E8F0",
-                                        color: "#44536A",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontWeight: "600px",
-                                        fontSize: 16, fontFamily: "Gilroy"
-                                    }}
-                                >
-                                    {finalSettlementList?.customerInfo?.initials}
-                                </div>
-                        }
                         <div>
-                            <div className="d-flex gap-2">
-                                <label style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222222" }}
-                                    className="mb-0">
-                                    {finalSettlementList?.customerInfo?.fullName} </label>
-                                <div>
-                                    <Verify
-                                        size="20"
-                                        color="#1E45E1"
-                                        variant="Bold"
-                                    />
-                                </div>
+                            <div className="flex items-center gap-2">
+                                <label className="text-[20px] font-semibold text-[#222222] mb-0">
+                                    {finalSettlementList?.customerInfo?.fullName}
+                                </label>
 
-
-
-
+                                <Verify size="20" color="#1E45E1" variant="Bold" />
                             </div>
-                            <div>
-                                <label style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400, fontFamily: "Gilroy" }}>Mobile : +{finalSettlementList?.customerInfo?.countryCode} {finalSettlementList?.customerInfo?.mobile}</label>
-                            </div>
+
+                            <label className="text-sm font-normal text-[#4B4B4B]">
+                                Mobile : +{finalSettlementList?.customerInfo?.countryCode}{" "}
+                                {finalSettlementList?.customerInfo?.mobile}
+                            </label>
                         </div>
-
                     </div>
 
-                    <div className="d-flex justify-content-between mb-2 w-100" style={{ backgroundColor: "" }}>
 
-                        <span
-                            className="badge rounded-pill text-dark me-2 w-100 p-2"
-                            style={{
-                                fontSize: "0.75rem",
-                                fontFamily: "Gilroy",
-                                fontWeight: 400,
-                                backgroundColor: "#FFEFCF"
-                            }}
-                        >
+
+
+
+
+                    <div className="flex justify-between mb-2 w-full gap-2 font-[Gilroy]">
+                        <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
                             {pgDetails?.floorName || data?.floorName}
                         </span>
-                        <span className="badge rounded-pill bg-danger-subtle text-dark w-100 p-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
 
+                        <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
                             {pgDetails?.roomName || data?.roomName} - {pgDetails?.bedName || data?.bedName}
                         </span>
                     </div>
 
-                    <hr />
 
-                    <div className="d-flex justify-content-between mb-3">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Joined Date</span>
-                        <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+                    <hr className="border-t border-[#DFDFDF] my-2" />
 
+
+                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal text-gray-700">
+                            Joined Date
+                        </span>
+                        <span className="text-base font-semibold text-gray-900">
                             {finalSettlementList?.customerInfo?.joiningDate}
                         </span>
                     </div>
-                    <div className="d-flex justify-content-between mb-3">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Req Checkout Date</span>
-                        <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+
+                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal text-gray-700">
+                            Req Checkout Date
+                        </span>
+                        <span className="text-base font-semibold text-gray-900">
                             {finalSettlementList?.stayInfo?.noticeDate}
                         </span>
                     </div>
-                    <div className="d-flex justify-content-between mb-3">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Advance Amount</span>
-                        <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+
+                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal text-gray-700">
+                            Advance Amount
+                        </span>
+                        <span className="text-base font-semibold text-gray-900">
                             ₹{finalSettlementList?.customerInfo?.advanceAmount}
                         </span>
                     </div>
-                    <div className="d-flex justify-content-between mb-3">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Booking Amount</span>
-                        <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+
+                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal text-gray-700">
+                            Booking Amount
+                        </span>
+                        <span className="text-base font-semibold text-gray-900">
                             ₹{finalSettlementList?.customerInfo?.bookingAmount}
                         </span>
                     </div>
-                    <div className="d-flex justify-content-between mb-3">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Advance Paid</span>
-                        <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+
+                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal text-gray-700">
+                            Advance Paid
+                        </span>
+                        <span className="text-base font-semibold text-gray-900">
                             ₹{finalSettlementList?.customerInfo?.advancePaidAmount}
                         </span>
                     </div>
-                    <div className="d-flex justify-content-between mb-3">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Monthly Rent</span>
-                        <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹  {finalSettlementList?.customerInfo?.rentAmount}
 
+                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal text-gray-700">
+                            Monthly Rent
+                        </span>
+                        <span className="text-base font-semibold text-gray-900">
+                            ₹ {finalSettlementList?.customerInfo?.rentAmount}
                         </span>
                     </div>
-                    <div className="d-flex justify-content-between mb-3 align-items-center">
-                        <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                            Actual Checkout Date
-                        </span>
 
-                        {!isEditingDate ? (
-                            <span
-                                style={{
-                                    fontSize: "1rem",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 8,
-                                }}
-                            >
-                                {finalSettlementList?.stayInfo?.actualCheckoutDate
-                                    ? finalSettlementList?.stayInfo?.actualCheckoutDate
-                                    : checkoutDate?.format("DD/MM/YYYY")}
 
-                                <Edit
-                                    size={16}
-                                    color="#1E45E1"
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() => setIsEditingDate(true)}
-                                />
-                            </span>
-                        ) : null}
-                    </div>
-                    {isEditingDate && (
-                        <div ref={datePickerRef}
-                            className="datepicker-wrapper"
-                            style={{ position: "relative", width: "100%", marginTop: 1 }}
+
+
+
+                   <div className="flex justify-between items-center mb-3 font-[Gilroy]">
+  <span className="text-sm font-normal">
+    Actual Checkout Date
+  </span>
+
+  {!isEditingDate && (
+    <span className="flex items-center gap-2 text-base font-semibold">
+      {finalSettlementList?.stayInfo?.actualCheckoutDate
+        ? finalSettlementList?.stayInfo?.actualCheckoutDate
+        : checkoutDate?.format("DD/MM/YYYY")}
+
+      <Edit
+        size={16}
+        color="#1E45E1"
+        className="cursor-pointer"
+        onClick={() => setIsEditingDate(true)}
+      />
+    </span>
+  )}
+</div>
+
+{isEditingDate && (
+  <div
+    ref={datePickerRef}
+    className="relative w-full mt-1"
+  >
+    <DatePicker
+      value={checkoutDate}
+      allowClear={false}
+      className="w-full h-12 cursor-pointer font-[Gilroy]"
+      format="DD/MM/YYYY"
+      placeholder="DD/MM/YYYY"
+      disabledDate={(current) =>
+        current && current > dayjs().endOf("day")
+      }
+      onChange={(date) => {
+        setCheckoutDate(date);
+        setIsEditingDate(false);
+      }}
+      getPopupContainer={(triggerNode) =>
+        triggerNode.closest(".relative")
+      }
+    />
+  </div>
+)}
+
+
+
+
+
+                    <hr className="border-t border-[#DFDFDF] my-2" />
+
+                    <div
+                        className={`mt-2 p-1 text-center rounded-lg ${ReturnAmount > 0 ? "bg-[#FFF7F7]" : "bg-[#F0FFE0]"
+                            }`}
+                    >
+                        <span
+                            className={`text-sm font-normal font-[Gilroy] ${ReturnAmount > 0 ? "text-red-600" : "text-[#038C3D]"
+                                }`}
                         >
-                            <DatePicker
-                                value={checkoutDate}
-                                allowClear={false}
-                                style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                disabledDate={(current) =>
-                                    current && current > dayjs().endOf("day")
-                                }
-                                onChange={(date) => {
-                                    setCheckoutDate(date);
-                                    setIsEditingDate(false);
-                                }}
-                                getPopupContainer={(triggerNode) =>
-                                    triggerNode.closest(".datepicker-wrapper")
-                                }
-                            />
-                        </div>
-                    )}
-                    <hr className="" style={{ border: "1px solid #DFDFDF" }} />
-                    <div className="mt-2 p-1" style={{ textAlign: "center", backgroundColor: ReturnAmount > 0 ? "#FFF7F7" : "#F0FFE0", borderRadius: 8 }}>
-                        <span style={{ color: ReturnAmount > 0 ? "red" : "#038C3D", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>{ReturnAmount > 0 ? "Pending" : "Refund"}</span>
+                            {ReturnAmount > 0 ? "Pending" : "Refund"}
+                        </span>
                     </div>
+
 
                 </div>
 
-                {/* right */}
-
-                <div style={{
-                    flex: "1 1 auto",
-                    background: "#FFF",
-                    borderRadius: 8,
-                    padding: 14, position: "relative",
-                    height: "calc(100vh - 50px)",
-
-                }}>
 
 
-                    <div className="show-scrolls" style={{
-                        maxHeight: "calc(100vh - 150px)",
-                        overflowX: "hidden",
-                        overflowY: "auto"
+               <div className="flex-1 bg-white rounded-lg p-3.5 relative h-[calc(100vh-50px)] overflow-hidden">
 
-                    }}>
+  <div className="max-h-[calc(100vh-150px)] overflow-y-auto overflow-x-hidden show-scrolls">
 
                         <div className="me-1" >
 
@@ -825,11 +794,7 @@ function FinalSettlement() {
                                             )}
                                         </span>
 
-                                        <span style={{
-                                            fontSize: 14,
-                                            color: "black",
-                                            fontWeight: 600,
-                                        }}>
+                                        <span className="text-sm font-semibold text-[#111827]">
                                             Unpaid Invoices
                                         </span>
                                     </div>
@@ -1018,12 +983,7 @@ function FinalSettlement() {
                                         </span>
 
                                         <span
-                                            style={{
-                                                fontSize: 14,
-                                                color: "black",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 600,
-                                            }}
+                                            className="text-sm font-semibold text-[#111827]"
                                         >
                                             Refundable Rent
                                         </span>
@@ -1194,7 +1154,7 @@ function FinalSettlement() {
                                     fontFamily: "Gilroy",
                                 }}
                             >
-                                {/* Header */}
+
                                 <div
                                     style={{
                                         display: "flex",
@@ -1212,7 +1172,7 @@ function FinalSettlement() {
                                             )}
                                         </span>
 
-                                        <span style={{ fontSize: 14, fontWeight: 600 }}>
+                                        <span className="text-sm font-semibold text-[#111827]">
                                             Electricity Bill
                                         </span>
                                     </div>
@@ -1230,7 +1190,8 @@ function FinalSettlement() {
                                 {showEbMissed && (
                                     <>
 
-                                        <div style={{ padding: "12px 16px" }}>
+                                        <div className="px-4 py-3"
+                                        >
 
 
                                             {
@@ -1400,6 +1361,103 @@ function FinalSettlement() {
 
                             </div>
 
+                            <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-[Gilroy]">
+
+                                <div className="flex items-center justify-between px-3 py-2.5">
+
+
+                                    <div className="flex items-center gap-2">
+                                        <span
+                                            className="cursor-pointer"
+                                            onClick={() => setShowWallet(!showWallet)}
+                                        >
+                                            {showWallet ? (
+                                                <ArrowUp2 size="16" color="#1E45E1" />
+                                            ) : (
+                                                <ArrowDown2 size="16" color="#1E45E1" />
+                                            )}
+                                        </span>
+
+                                        <span className="text-sm font-semibold text-[#111827]">
+                                            Wallet
+                                        </span>
+                                    </div>
+
+
+                                    <div
+                                        className={`flex items-center gap-2 rounded-lg  ${finalSettlementList?.walletInfo?.walletAmount < 0
+                                            ? "text-red-50"
+                                            : "text-green-50"
+                                            }`}
+                                    >
+                                        <span className=
+                                            {`text-sm font-medium ${finalSettlementList?.walletInfo?.walletAmount < 0
+                                                ? "text-red-600"
+                                                : "text-green-600"
+                                                }`}>₹</span>
+                                        <span
+                                            className={`text-base font-semibold ${finalSettlementList?.walletInfo?.walletAmount < 0
+                                                ? "text-red-600"
+                                                : "text-green-600"
+                                                }`}
+                                        >
+                                            {finalSettlementList?.walletInfo?.walletAmount}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                {showWallet && (
+                                    <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
+                                )}
+
+
+
+                                {showWallet && (
+                                    <div className=" rounded-xl  shadow-sm">
+
+                                        {finalSettlementList?.walletInfo?.transactions?.length > 0 ? (
+                                            finalSettlementList.walletInfo.transactions.map((txn, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex items-center justify-between px-3 py-3 border-b last:border-b-0  transition"
+                                                >
+                                                   
+                                                    <div className="flex flex-col">
+                                                        <span className="text-sm font-medium text-[#111827]">
+                                                            {txn.source}
+                                                        </span>
+
+                                                        <span className="text-xs text-gray-400">
+                                                            Transaction
+                                                        </span>
+                                                    </div>
+
+                                                   
+                                                    <div className="flex items-center gap-2">
+                                                        <span
+                                                            className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold
+                ${txn.amount < 0
+                                                                    ? " text-red-600"
+                                                                    : " text-green-600"
+                                                                }
+              `}
+                                                        >
+                                                            ₹{txn.amount}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="px-4 py-6 text-center text-sm text-gray-400">
+                                                No wallet transactions available
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+
+                            </div>
 
 
 
@@ -1439,11 +1497,7 @@ function FinalSettlement() {
                                         </span>
 
                                         <span
-                                            style={{
-                                                fontSize: 14,
-                                                color: "black",
-                                                fontWeight: 600,
-                                            }}
+                                            className="text-sm font-semibold text-[#111827]"
                                         >
                                             Deductions
                                         </span>
@@ -1662,23 +1716,22 @@ function FinalSettlement() {
 
 
 
-                            <div className="d-flex justify-content-between align-items-center mt-3">
-                                <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Outstanding Amount Payable" : "Refund Payable to Tenant"}</p>
+                            <div className="mx-3 my-3 flex items-center justify-between">
+                                <p className="text-sm font-medium font-[Gilroy] text-slate-600">
+                                    {ReturnAmount > 0
+                                        ? "Outstanding Amount Payable"
+                                        : "Refund Payable to Tenant"}
+                                </p>
+
                                 <span
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 6,
-                                        color: "#1E45E1",
-                                        cursor: "pointer",
-                                        fontSize: "0.875rem",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 400,
-                                        whiteSpace: "nowrap",
-                                    }}
+                                    className="
+      flex items-center gap-1.5
+      text-[#1E45E1] cursor-pointer
+      text-sm font-normal font-[Gilroy]
+      whitespace-nowrap
+    "
                                     onClick={() => setShowBreakdown(!showBreakdown)}
                                 >
-
                                     View Breakdown
                                     {showBreakdown ? (
                                         <ArrowUp2 size="16" color="#1E45E1" />
@@ -1686,119 +1739,113 @@ function FinalSettlement() {
                                         <ArrowDown2 size="16" color="#1E45E1" />
                                     )}
                                 </span>
-
-
-
-
                             </div>
 
-                            {showBreakdown && (
-                                <div className="rounded pt-0 ps-3 pe-3">
-                                    <div className="d-flex justify-content-between">
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
+
+                            {showBreakdown && (<>
+                                <div className="rounded px-3 pt-1 font-[Gilroy] space-y-1">
+
+
+                                    <div className="flex justify-between">
+                                        <p className="text-base font-semibold text-gray-900">
                                             Final Settlement
                                         </p>
-
                                     </div>
 
 
-
-                                    <div className="d-flex justify-content-between">
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                    <div className="flex justify-between">
+                                        <p className="text-sm text-gray-600">
                                             Refundable Rent
                                         </p>
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
-                                            ₹{" "}
-                                            {finalSettlementList?.settlementInfo?.refundableRent}
+                                        <p className="text-sm font-medium text-gray-900">
+                                            ₹ {finalSettlementList?.settlementInfo?.refundableRent}
                                         </p>
                                     </div>
 
 
-                                    <div className="d-flex justify-content-between mb-1">
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                    <div className="flex justify-between">
+                                        <p className="text-sm text-gray-600">
                                             Refundable Advance
                                         </p>
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
-                                            ₹{" "}
-                                            {finalSettlementList?.settlementInfo?.refundableAdvance}
+                                        <p className="text-sm font-medium text-gray-900">
+                                            ₹ {finalSettlementList?.settlementInfo?.refundableAdvance}
                                         </p>
                                     </div>
-                                    <div className="d-flex justify-content-between">
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+
+
+                                    <div className="flex justify-between">
+                                        <p className="text-sm text-gray-600">
                                             Total Deductions
                                         </p>
-                                        <p
-                                            style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "0.875rem",
-                                                fontWeight: 400,
-                                                color: "red",
-                                            }}
-                                        >
-                                            - ₹{" "}
-                                            {totalDeductions}
+                                        <p className="text-sm font-medium text-red-600">
+                                            - ₹ {totalDeductions}
                                         </p>
                                     </div>
 
-                                    <div className="d-flex justify-content-between">
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+
+                                    <div className="flex justify-between">
+                                        <p className="text-sm text-gray-600">
                                             Electricity
                                         </p>
-                                        <p
-                                            style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "0.875rem",
-                                                fontWeight: 400,
-                                                color: "red",
-                                            }}
-                                        >
-                                            ₹{" " + finalSettlementList?.settlementInfo?.electricityAmount}
-                                            {/* {totalDeductions} */}
+                                        <p className="text-sm font-medium text-red-600">
+                                            ₹ {finalSettlementList?.settlementInfo?.electricityAmount}
                                         </p>
                                     </div>
-                                    <div className="d-flex justify-content-between">
-                                        <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+
+
+                                    <div className="flex justify-between">
+                                        <p className="text-sm text-gray-600">
                                             Unpaid Invoices
                                         </p>
-                                        <p
-                                            style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "0.875rem",
-                                                fontWeight: 400,
-                                                color: "red",
-                                            }}
-                                        >
-                                            ₹{" " + finalSettlementList?.settlementInfo?.unpaidInvoiceAmount}
-                                            {/* {totalDeductions} */}
+                                        <p className="text-sm font-medium text-red-600">
+                                            ₹ {finalSettlementList?.settlementInfo?.unpaidInvoiceAmount}
                                         </p>
                                     </div>
+
+
+                                    {/*
+    <div className="flex justify-between">
+      <p className="text-sm text-gray-600">
+        Refundable Wallet Amount
+      </p>
+      <p className="text-sm font-medium text-green-600">
+        ₹ {finalSettlementList?.walletInfo?.walletAmount}
+      </p>
+    </div>
+    */}
                                 </div>
 
+
+                                <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 mb-10">
+
+
+                                    <input
+                                        type="text"
+                                        name="Advance"
+                                        id="Advance"
+                                        value={ReturnAmount}
+                                        placeholder="Amount"
+                                        required
+                                        className={`mt-1 h-[50px] w-full rounded-[8px] border border-[#D9D9D9]
+    px-3 text-[16px] font-semibold font-[Gilroy] shadow-none outline-none
+    focus:border-[#1E45E1] focus:ring-0
+    ${ReturnAmount > 0
+                                                ? "text-green-600"
+                                                : ReturnAmount < 0
+                                                    ? "text-red-600"
+                                                    : "text-gray-700"
+                                            }
+  `}
+                                    />
+
+                                </div>
+
+                            </>
                             )}
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 mb-3">
 
 
-                                <input
-                                    type="text"
-                                    name="Advance"
-                                    id="Advance"
-                                    value={ReturnAmount}
-                                    className="form-control mt-1"
-                                    placeholder="Add Advance Amount"
-                                    required
-                                    style={{
-                                        height: "50px",
-                                        borderRadius: "8px",
-                                        fontSize: 16,
-                                        color: ReturnAmount > 0 ? "green" : "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 600,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                    }}
-                                />
-                            </div>
+
 
                             {state.UsersList?.finalError && (
                                 <ErrorMessage message={state.UsersList?.finalError} type="error" />
@@ -1811,50 +1858,61 @@ function FinalSettlement() {
                     </div>
 
                     <div
-                        className="d-flex justify-content-between mt-4 mb-2  p-3"
-                        style={{
-                            fontFamily: "Gilroy",
-                            boxShadow: "0px -4px 12px rgba(0, 0, 0, 0.08)",
-                            backgroundColor: "#fff",
-                            position: "absolute",
-                            bottom: 0,
-                            left: 0,
-                            width: "100%",
-                        }}
+                        className="
+    absolute bottom-0 left-0 w-full
+    mt-0 mb-2 p-2
+    flex justify-between items-center
+    bg-white
+    shadow-[0px_-4px_12px_rgba(0,0,0,0.08)]
+    font-[Gilroy] h-fit
+  "
                     >
-                        <div className="d-block">
-                            <div style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400 }}>
-                                {ReturnAmount > 0 ? "Outstanding Amount Payable" : "Total Refund Payable"}
+
+                        <div className="my-3 h-fit">
+                            <div className="text-sm font-normal text-[#4B4B4B]">
+                                {ReturnAmount > 0
+                                    ? "Outstanding Amount Payable"
+                                    : "Total Refund Payable"}
                             </div>
-                            <div style={{ fontSize: 22, color: "#222222", fontWeight: 600 }}>
+
+                            <div
+                                className={`text-[22px] font-semibold ${ReturnAmount > 0
+                                    ? "text-green-600"
+                                    : ReturnAmount < 0
+                                        ? "text-red-600"
+                                        : "text-gray-700"
+                                    }`}
+                            >
                                 ₹ {ReturnAmount}
                             </div>
+
                         </div>
 
-                        <div>
+
+                        <div className="flex items-center gap-3 h-fit">
                             <Button
                                 variant=""
-                                className="me-2"
                                 onClick={handleClose}
-                                style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}
+                                className="text-base font-normal font-[Gilroy]"
                             >
                                 Cancel
                             </Button>
 
                             <Button
                                 disabled={formLoading}
-                                style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: "1rem",
-                                    fontWeight: 400,
-                                    backgroundColor: "#1E45E1",
-                                }}
                                 onClick={handleClickGenerate}
+                                className="
+        bg-[#1E45E1] text-white
+        text-base font-normal font-[Gilroy]
+       
+        
+      "
                             >
                                 Generate Bill
                             </Button>
                         </div>
                     </div>
+
                 </div>
 
             </div>

@@ -54,7 +54,7 @@ function SettingNewUser() {
   useEffect(() => {
     if (!canReadUser) {
       setLoading(false);
-    } 
+    }
   }, [canReadUser]);
 
 
@@ -144,6 +144,9 @@ function SettingNewUser() {
     if (hostel_Id) {
       setLoading(true);
       dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
 
   }, [hostel_Id]);
@@ -293,15 +296,42 @@ function SettingNewUser() {
   //   setSortConfig({ key, direction });
   // };
 
- const sortedData = React.useMemo(() => {
-        return Array.isArray(usersFilterddata) ? usersFilterddata : [];
-    }, [usersFilterddata]);
+  const sortedData = React.useMemo(() => {
+    return Array.isArray(usersFilterddata) ? usersFilterddata : [];
+  }, [usersFilterddata]);
 
 
 
-    
+
   return (
-    <div className="sticky-top bg-white">
+    <div >
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+
+        <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+          <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+            Staff
+          </label>
+        </div>
+
+
+        <div className="w-full flex justify-center md:justify-end">
+          <button
+            disabled={!canWriteUser}
+            onClick={handleOpenAddUser}
+            className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteUser
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+          >
+            + Staff
+          </button>
+        </div>
+      </div>
+
+
+
+
       {loading && (
         <div
           style={{
@@ -330,58 +360,6 @@ function SettingNewUser() {
           ></div>
         </div>
       )}
-
-      <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          height: 83,
-          // paddingRight: 1,
-        }}
-      >
-        <div
-          className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
-          style={{}}
-        >
-          <label
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 20,
-              color: "#222",
-              fontWeight: 600,
-            }}
-          >
-            Staff
-          </label>
-        </div>
-        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
-          <Button
-            disabled={!canWriteUser}
-            onClick={handleOpenAddUser}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "8px",
-              // marginBottom: "10px",
-              // maxHeight: 0,
-              width: "146px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {" "}
-            + Staff
-          </Button>
-        </div>
-      </div>
       {
         !canReadUser ? (
           <div
@@ -400,7 +378,7 @@ function SettingNewUser() {
         )
           :
           (
-            <div className="">
+            <div className="mt-2">
               {sortedData?.length > 0 ? (
                 <div
                   className="me-2"
@@ -738,7 +716,7 @@ function SettingNewUser() {
                                         width: "18px",
                                         cursor: "pointer",
                                         transform: "rotate(90deg)",
-                                        color:showDots === index ? "#1E45E1" : "#6B7280"
+                                        color: showDots === index ? "#1E45E1" : "#6B7280"
 
                                       }}
                                     />
@@ -753,7 +731,7 @@ function SettingNewUser() {
                                           top: showAbove
                                             ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
                                             : popupPosition.top - 35,
-                                          left: popupPosition.left-0,
+                                          left: popupPosition.left - 0,
                                           border: "1px solid #E0E0E0",
                                           borderRadius: 10,
                                           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
@@ -771,7 +749,7 @@ function SettingNewUser() {
                                               width: "100%",
                                               cursor: canUpdateUser ? "pointer" : "not-allowed",
                                               transition: "background 0.2s ease-in-out",
-                                              opacity: canUpdateUser ? 1 : 0.5,borderTopLeftRadius: 10,
+                                              opacity: canUpdateUser ? 1 : 0.5, borderTopLeftRadius: 10,
                                               borderTopRightRadius: 10,
                                             }}
                                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
@@ -804,7 +782,7 @@ function SettingNewUser() {
                                               cursor: canDeleteUser ? "pointer" : "not-allowed",
                                               transition: "background 0.2s ease-in-out",
                                               opacity: canDeleteUser ? 1 : 0.5
-                                              ,borderBottomLeftRadius: 10,
+                                              , borderBottomLeftRadius: 10,
                                               borderBottomRightRadius: 10,
                                             }}
                                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
@@ -898,7 +876,7 @@ function SettingNewUser() {
 
 
       {isConfirmDelete && (
-        <DeleteStaff  show={isConfirmDelete} handleClose={handleClose} deleteId={deleteId} />
+        <DeleteStaff show={isConfirmDelete} handleClose={handleClose} deleteId={deleteId} />
       )}
 
       {addUserForm && (

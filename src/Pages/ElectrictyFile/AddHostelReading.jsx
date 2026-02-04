@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle, } from "iconsax-react";
@@ -29,7 +29,12 @@ function AddHostelReading({ show, handleClose
         reading: "",
         date: "",
     });
+    const readingDateRef = useRef(null);
 
+useEffect(() => {
+ 
+  readingDateRef.current?.focus();
+}, []);
 
 
     const handleCurrentReadingChange = (e) => {
@@ -218,7 +223,7 @@ function AddHostelReading({ show, handleClose
                     >
 
                         <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            <DatePicker
+                            <DatePicker  ref={readingDateRef}
                                 style={{
                                     width: "100%",
                                     height: 48,

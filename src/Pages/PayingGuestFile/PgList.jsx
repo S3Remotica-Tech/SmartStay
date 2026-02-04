@@ -828,8 +828,8 @@ function PgList() {
                         <div
                           key={floor.id}
                           onClick={() => handleFloorClick(floor.id, floor.name)}
-                          className={`mb-3 flex flex-col justify-center items-center border border-gray-300 rounded-xl h-24 w-24 cursor-pointer
-                    ${Number(floorClick) === Number(floor.id) ? "bg-blue-50" : "bg-white"}`}
+                          className={`mb-3 flex flex-col justify-center items-center rounded-xl h-24 w-24 cursor-pointer
+                    ${Number(floorClick) === Number(floor.id) ? "bg-blue-50 border-2 border-[#1E45E1]" : "bg-white border-1 border-gray-300"}`}
                         >
                           <div className={`text-2xl font-gilroy font-semibold ${Number(floorClick) === Number(floor.id) ? "text-blue-700" : "text-gray-700"}`}>
                             {floor.name ? (isNaN(floor.name) ? floor.name.charAt(0) : floor.name) : floor.id}

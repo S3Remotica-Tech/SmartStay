@@ -16,6 +16,8 @@ import PropTypes from "prop-types";
 function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading, finalSettlementWay }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    const readingDateRef = useRef(null);
+
     const [changesError, setChangesError] = useState("");
     const [readingError, setReadingError] = useState("");
     const [dateError, setDateError] = useState("");
@@ -28,6 +30,10 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
     });
 
 
+useEffect(() => {
+ 
+  readingDateRef.current?.focus();
+}, []);
 
 
 const disabledDate = (current) => {
@@ -293,7 +299,7 @@ const disabledDate = (current) => {
                         >
 
                             <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                                <DatePicker
+                                <DatePicker   ref={readingDateRef}
                                     style={{
                                         width: "100%",
                                         height: 48,

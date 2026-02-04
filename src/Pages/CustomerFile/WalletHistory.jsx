@@ -15,9 +15,9 @@ function WalletHistory({ show, handleClose }) {
   if (!show) return null;
 
   return (
-     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
+     <div className="fixed inset-0 z-[9999] flex items-center justify-center  p-0">
    
-      <div className="w-full max-w-3xl bg-white rounded-xl shadow-xl">
+      <div className="w-full max-w-3xl bg-white rounded-xl ">
         
 
         <div className="flex items-center justify-between px-6 border-b">
@@ -31,14 +31,14 @@ function WalletHistory({ show, handleClose }) {
         <div className="flex items-center justify-between px-6 py-3 border-b">
           <div className="flex justify-between w-full items-center">
             <h2 className="text-[18px] font-semibold font-[Gilroy] text-[#222222]">
-              Wallet Balance  -      <span
+              Wallet Balance        <span
               className={`text-[18px] font-semibold font-[Gilroy] ${
                 CustomerOverView?.walletInfo?.walletAmount < 0
                   ? "text-red-600"
                   : "text-green-600"
               }`}
             >
-              ₹ {Math.abs(CustomerOverView?.walletInfo?.walletAmount || 0)}
+              ₹ {CustomerOverView?.walletInfo?.walletAmount || 0}
             </span>
             </h2>
 
@@ -99,7 +99,7 @@ function WalletHistory({ show, handleClose }) {
                             : "text-green-600"
                         }`}
                       >
-                        ₹ {Math.abs(txn.amount)}
+                        ₹ {txn.amount}
                       </td>
                     </tr>
                   ))
@@ -140,7 +140,7 @@ function WalletHistory({ show, handleClose }) {
           />
         </div>
 
-        {/* Body */}
+        {/* Body */}  
         <div className="px-6 py-4 max-h-[70vh] overflow-y-auto">
           <div className="overflow-hidden border rounded-lg">
             <table className="w-full text-sm font-[Gilroy]">

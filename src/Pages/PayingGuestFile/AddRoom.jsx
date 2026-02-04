@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,13 +21,18 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const modalTitle = isEditing ? "Edit Room" : "Add Room";
   const [formLoading, setFormLoading] = useState(false)
 
- 
+  const roomRef = useRef(null);
 
 
   useEffect(() => {
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
   }, []);
-
+ useEffect(() => {
+    
+    if (roomRef.current) {
+      roomRef.current.focus();
+    }
+  }, []);
   useEffect(() => {
     if (editRoom) {
       setRoom(editRoom.Room_Name ? editRoom.Room_Name : "");
@@ -186,7 +191,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                     Room{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control   ref={roomRef}
                     value={room}
                     onChange={handleRoomChange}
                     type="text"

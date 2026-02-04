@@ -2223,8 +2223,8 @@ function UserListRoomDetail(props) {
     ? kycPic.startsWith("data:image")
       ? kycPic
       : `data:image/jpeg;base64,${kycPic}`
-    : CustomerOverView.profilePic
-      ? CustomerOverView.profilePic
+    : CustomerOverView?.profilePic
+      ? CustomerOverView?.profilePic
       : null;
 
 
@@ -2422,14 +2422,13 @@ function UserListRoomDetail(props) {
                     alt={CustomerOverView.fullName || "Default Profile"}
                     className="w-12 h-12 rounded-full object-cover"
                     onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = Profiles;
+                      e.currentTarget.src = Profiles;
                     }}
                   />
                 ) : (
 
                   <div
-                    className="w-12 h-12 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xl font-semibold font-gilroy"
+                    className="flex w-12 h-12 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xl font-semibold font-gilroy"
                   >
                     {CustomerOverView?.initials
                       ? CustomerOverView.initials

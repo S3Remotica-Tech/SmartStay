@@ -244,7 +244,7 @@ function AnalyticalInvoiceTrend() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <div className="flex items-center gap-3 bg-white  px-3 py-2 w-fit">
 
             <div className="flex items-center gap-2">
@@ -287,7 +287,7 @@ function AnalyticalInvoiceTrend() {
 
             Export
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className='bg-[#FAFAFA] p-3 mt-3 rounded'>

@@ -84,1042 +84,121 @@ function SettingAllPages({ isVisibleSidebar }) {
   return (
     <>
 
-      {/* <div
-        className={`col-12 col-lg-12 col-md-10 ${isInvoiceAddMode ? 'd-none d-md-block' : ''
-          }`}
-        style={{
-          overflowY: "auto",
-          height: "100vh",
-        }}
-      >
-        <div className="container-fluid">
+     
+           <div className="px-1 py-1">
 
+      <div className="relative flex gap-0">
 
-          <div className="row gap-0" style={{ position: "relative" }}>
-
-            <div
-              className="col-12 d-block d-md-none"
-              style={{
-                height: "auto",
-                padding: "10px",
-              }}
-            >
-
-
-              <button
-
-                onClick={handleToggleSidebar}
-                className=""
-                style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
-              >
-                {isSidebarOpen ?
-                  <ArrowRight2
-                    size="22"
-                    color="#FFF"
-                  /> :
-                  <ArrowLeft2
-                    size="22"
-                    color="#FFF"
-                  />
-                }
-              </button>
-            </div>
-
-            {!isInvoiceAddMode &&
-              <div className={`col-12 col-md-3     ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
-                style={{
-                  // height: 600,
-                  position: "sticky",
-                  // marginLeft: 'auto',
-                  top: 0,
-                  left: 0,
-                  transition: "all 0.3s ease-in-out",
-                  zIndex: 10,
-                  backgroundColor: isSidebarOpen ? 'white' : 'transparent',
-                }}
-              >
-                <div style={{position: "sticky",top: 10,backgroundColor:"#FFFFFF"
-                  }}>
-                  <div>
-                    <label
-                      style={{
-                        fontSize: 20,
-                        color: "#000000",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        whiteSpace: "nowrap",
-                        // marginLeft: 10,
-                      }}
-                    >
-                      Settings
-                    </label>
-                  </div>
-                
-                </div>
-
-                <div className="show-scrolls"
-                  style={{
-                    backgroundColor: "#E7F1FF",
-                    borderRadius: "11px",
-                    padding: "10px",
-                    marginBottom: "20px",
-                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                    marginTop: 20,
-                    // marginLeft: 10,
-                    maxWidth: 201,
-                    height: 246
-                  }}
-                >
-                  <p
-
-
-                    onClick={() => handleSettingsNavigate("general", "General")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginBottom: "15px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "General" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    General
-                    <img
-                      src={activePage === "General" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                  <p
-
-
-                    onClick={() => handleSettingsNavigate("manage-pg", "Manage PG")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Manage PG" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Manage PG
-                    <img
-                      src={activePage === "Manage PG" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-                  <p
-
-                    onClick={() => handleSettingsNavigate("security", "Security")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Security" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Security
-                    <img
-                      src={activePage === "Security" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                  <p
-
-                    onClick={() => handleSettingsNavigate("subscription", "Subscription")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Subscription" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Subscription
-                    <img
-                      src={activePage === "Subscription" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                  <p
-
-
-                    onClick={() => handleSettingsNavigate("integration", "Integration")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Integration" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Integration
-                    <img
-                      src={activePage === "Integration" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-
-                  </p>
-                </div>
-
-                <div>
-
-                  <div style={{
-                    fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",
-                    textAlign: "start", 
-                  }}>PG Based Setting</div>
-
-
-                  <div
-                    className="show-scrolls"
-
-                    style={{
-                      backgroundColor: "#E7F1FF",
-                      borderRadius: "11px",
-                      padding: "10px",
-                      marginBottom: "20px",
-                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                      marginTop: 20,
-                      // marginLeft: 10,
-                      maxWidth: '201px',
-                      maxHeight: '290px',
-
-                    }} >
-                    <p
-
-                      onClick={() => handleSettingsNavigate("electricity", "Electricity")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginBottom: "15px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Electricity" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Electricity
-                      <img
-                        src={activePage === "Electricity" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-
-
-                    <p
-
-                      onClick={() => handleSettingsNavigate("billing-rule", "Billing_Rule")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Billing_Rule" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Billing Rule
-                      <img
-                        src={activePage === "Billing_Rule" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-                    <p
-                      onClick={() => handleSettingsNavigate("notifications", "SettingsNotifications")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "SettingsNotifications" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Notifications
-                      <img
-                        src={activePage === "SettingsNotifications" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("invoice", "Invoice")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Invoice" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Bill Templates
-                      <img
-                        src={activePage === "Invoice" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-                    <p
-
-                      onClick={() => handleSettingsNavigate("expenses", "Expenses")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Expenses" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Expenses
-                      <img
-                        src={activePage === "Expenses" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("complaints", "Complaints")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Complaints" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Complaints
-                      <img
-                        src={activePage === "Complaints" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("amenities", "Amenities")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Amenities" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Amenities
-                      <img
-                        src={activePage === "Amenities" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-
-
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("user", "User")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "User" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Staff
-                      <img
-                        src={activePage === "User" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("role", "Role")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Role" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Role
-                      <img
-                        src={activePage === "Role" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-
-
-
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("agreement", "agreement")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "agreement" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Agreement & Policy
-                      <img
-                        src={activePage === "agreement" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-            }
-
-
-
-
-
-
-            <div
-              className={`col-12  ${isSidebarOpen ? 'd-none d-md-block' : ''
-                } ${isInvoiceAddMode ? 'col-md-12' : 'col-md-9'}`}
-
-              style={{
-                overflowY: "auto",
-                height: "100vh",
-              }}
-            >
-              <Outlet />
-            </div>
-          </div>
+       
+        <div className="block md:hidden p-[10px]">
+          <button
+            onClick={handleToggleSidebar}
+            className="bg-[#1E45E1] border border-[#1E45E1] rounded-full p-[5px] text-white"
+          >
+            {isSidebarOpen ? (
+              <ArrowRight2 size="22" color="#FFF" />
+            ) : (
+              <ArrowLeft2 size="22" color="#FFF" />
+            )}
+          </button>
         </div>
-      </div> */}
 
-      
-
-
- <div
-        className={`col-12 col-lg-12 col-md-10 ${isInvoiceAddMode ? 'd-none d-md-block' : ''
-          }`}
-        style={{
-          overflowY: "auto",
-          height: "100vh",
-        }}
-      >
-        <div className="container-fluid">
-
-
-          <div className="row gap-0" style={{ position: "relative" }}>
-
-            <div
-              className="col-12 d-block d-md-none"
-              style={{
-                height: "auto",
-                padding: "10px",
-              }}
-            >
-
-
-              <button
-
-                onClick={handleToggleSidebar}
-                className=""
-                style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
-              >
-                {isSidebarOpen ?
-                  <ArrowRight2
-                    size="22"
-                    color="#FFF"
-                  /> :
-                  <ArrowLeft2
-                    size="22"
-                    color="#FFF"
-                  />
-                }
-              </button>
+   
+        {!isInvoiceAddMode && (
+          <aside
+            className={`
+              px-3
+              transition-all duration-300
+              sticky top-0 z-10
+              ${isSidebarOpen ? "block w-[25%]" : "hidden md:block md:w-[25%]"}
+              bg-white
+            `}
+          >
+           
+            <div className="sticky top-[10px] bg-white">
+              <label className="font-[Gilroy] text-[20px] font-semibold text-black whitespace-nowrap">
+                Settings
+              </label>
             </div>
 
-            {!isInvoiceAddMode &&
-              <div className={`col-12 col-md-3     ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
-
-                style={{
-                  position: "sticky",
-                  top: 5,
-                  left: 0,
-                  height: "calc(100vh - 5px)",
-                  transition: "all 0.3s ease-in-out",
-                  zIndex: 10,
-                  backgroundColor: "white",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    backgroundColor: "#fff",
-                    zIndex: 30,
-                    paddingBottom: 6,
-                    marginBottom: 4,
-                  }}
-                >
-                  <div>
-                    <label
-                      style={{
-                        fontSize: 20,
-                        color: "#000000",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        whiteSpace: "nowrap",
-
-                      }}
-                    >
-                      Settings
-                    </label>
-                  </div>
-
+            <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-[10px] mt-3 mb-2 shadow-md w-[201px] h-[246px]">
+              {[
+                ["General", "general"],
+                ["Manage PG", "manage-pg"],
+                ["Security", "security"],
+                ["Subscription", "subscription"],
+                ["Integration", "integration"],
+              ].map(([label, key]) => (
+                <div key={key}>
+                  <p
+                    onClick={() => handleSettingsNavigate(key, label)}
+                    className={`flex justify-between items-center font-[Gilroy] text-[15px] font-medium cursor-pointer mb-[15px]
+                      ${activePage === label ? "text-[#1E45E1]" : "text-black"}`}
+                  >
+                    {label}
+                    <img
+                      src={activePage === label ? blueArrow : blackArrow}
+                      className="w-4 h-4"
+                    />
+                  </p>
+                  <hr className="border-white -mt-2" />
                 </div>
-
-                <div className="show-scrolls"
-
-                  style={{
-                    backgroundColor: "#E7F1FF",
-                    borderRadius: "11px",
-                    padding: "8px",
-                    marginBottom: "10px",
-                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                    marginTop: 5,
-                    maxWidth: "201px",
-                    maxHeight: "240px",
-                    overflowY: "auto",
-                  }}
-                >
-                  <p
-
-
-                    onClick={() => handleSettingsNavigate("general", "General")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginBottom: "15px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "General" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    General
-                    <img
-                      src={activePage === "General" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                  <p
-
-
-                    onClick={() => handleSettingsNavigate("manage-pg", "Manage PG")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Manage PG" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Manage PG
-                    <img
-                      src={activePage === "Manage PG" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-                  <p
-
-                    onClick={() => handleSettingsNavigate("security", "Security")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Security" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Security
-                    <img
-                      src={activePage === "Security" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                  <p
-
-                    onClick={() => handleSettingsNavigate("subscription", "Subscription")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Subscription" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Subscription
-                    <img
-                      src={activePage === "Subscription" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-                  </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                  <p
-
-
-                    onClick={() => handleSettingsNavigate("integration", "Integration")}
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      marginTop: "-4px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: activePage === "Integration" ? "#1E45E1" : "#000000",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Integration
-                    <img
-                      src={activePage === "Integration" ? blueArrow : blackArrow}
-                      width={16}
-                      height={16}
-                      alt="Arrow Icon"
-                    />
-
-                  </p>
-                </div>
-
-                <div>
-
-                  <div style={{
-                    fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",
-                    textAlign: "start", marginTop: 20, marginBottom: "10px"
-                  }}>PG Based Setting</div>
-
-
-                  <div
-                    className="show-scrolls"
-
-                    style={{
-                      backgroundColor: "#E7F1FF",
-                      borderRadius: "11px",
-                      padding: "10px",
-                      marginBottom: "20px",
-                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                      marginTop: 13,
-                      maxWidth: '201px',
-                      maxHeight: '253px',
-
-                    }} >
-                    <p
-
-                      onClick={() => handleSettingsNavigate("electricity", "Electricity")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginBottom: "15px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Electricity" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Electricity
-                      <img
-                        src={activePage === "Electricity" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-
-
-                    <p
-
-                      onClick={() => handleSettingsNavigate("billing-rule", "Billing_Rule")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Billing_Rule" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Billing Rule
-                      <img
-                        src={activePage === "Billing_Rule" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-                    <p
-                      onClick={() => handleSettingsNavigate("notifications", "SettingsNotifications")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "SettingsNotifications" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Notifications
-                      <img
-                        src={activePage === "SettingsNotifications" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("invoice", "Invoice")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Invoice" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Bill Templates
-                      <img
-                        src={activePage === "Invoice" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-
-                    <p
-
-                      onClick={() => handleSettingsNavigate("expenses", "Expenses")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Expenses" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Expenses
-                      <img
-                        src={activePage === "Expenses" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("complaints", "Complaints")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Complaints" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Complaints
-                      <img
-                        src={activePage === "Complaints" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-                    </p>
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("amenities", "Amenities")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Amenities" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Amenities
-                      <img
-                        src={activePage === "Amenities" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-
-
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("user", "User")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "User" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Staff
-                      <img
-                        src={activePage === "User" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("role", "Role")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "Role" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Role
-                      <img
-                        src={activePage === "Role" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-
-
-
-                    <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
-                    <p
-
-                      onClick={() => handleSettingsNavigate("agreement", "agreement")}
-                      style={{
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        marginTop: "-8px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        color: activePage === "agreement" ? "#1E45E1" : "#000000",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Agreement & Policy
-                      <img
-                        src={activePage === "agreement" ? blueArrow : blackArrow}
-                        width={16}
-                        height={16}
-                        alt="Arrow Icon"
-                      />
-
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-            }
-
-            <div
-              className={`col-12  ${isSidebarOpen ? 'd-none d-md-block' : ''
-                } ${isInvoiceAddMode ? 'col-md-12' : 'col-md-9'}`}
-
-              style={{
-                overflowY: "auto",
-                height: "100vh",
-              }}
-            >
-              <Outlet />
+              ))}
             </div>
-          </div>
-        </div>
+
+           
+            <div className="font-[Gilroy] text-[16px] font-semibold">
+              PG Based Setting
+            </div>
+
+            <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-[10px] mt-2 shadow-md w-[201px] max-h-[290px]">
+              {[
+                ["Electricity", "electricity"],
+                ["Billing Rule", "billing-rule", "Billing_Rule"],
+                ["Notifications", "notifications", "SettingsNotifications"],
+                ["Bill Templates", "invoice", "Invoice"],
+                ["Expenses", "expenses"],
+                ["Complaints", "complaints"],
+                ["Amenities", "amenities"],
+                ["Staff", "user", "User"],
+                ["Role", "role"],
+                ["Agreement & Policy", "agreement"],
+              ].map(([label, route, pageKey = label]) => (
+                <div key={route}>
+                  <p
+                    onClick={() => handleSettingsNavigate(route, pageKey)}
+                    className={`flex justify-between items-center font-[Gilroy] text-[15px] font-medium cursor-pointer mt-[-6px]
+                      ${activePage === pageKey ? "text-[#1E45E1]" : "text-black"}`}
+                  >
+                    {label}
+                    <img
+                      src={activePage === pageKey ? blueArrow : blackArrow}
+                      className="w-4 h-4"
+                    />
+                  </p>
+                  <hr className="border-white -mt-2" />
+                </div>
+              ))}
+            </div>
+          </aside>
+        )}
+
+        {/* Main Content */}
+        <main
+          className={`
+            m-0 p-0 overflow-y-auto h-screen
+            ${isInvoiceAddMode ? "w-full" : "md:w-[75%]"}
+            ${isSidebarOpen ? "hidden md:block" : ""}
+          `}
+        >
+          <Outlet />
+        </main>
+
       </div>
+    </div>
+ 
 
+     
     </>
   );
 }

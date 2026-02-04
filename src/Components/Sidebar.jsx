@@ -141,7 +141,7 @@ function Sidebar() {
 
     "/booking/:hostelId": "booking",
 
-     "/recurring/:hostelId": "recurring",
+    "/recurring/:hostelId": "recurring",
     "/receipts/:hostelId": "receipts",
 
     "/vendor/:hostelId": "vendor",
@@ -930,7 +930,7 @@ function Sidebar() {
                     }}
                   >
                     <Setting2 size={20} variant="Bold" className="mt-1" />
-                    <span className="mt-1.5 font-gilroy font-semibold text-sminline-block text-sm">
+                    <span className="mt-1.5 font-gilroy font-semibold text-sm inline-block text-sm">
                       Manage
                     </span>
                     <span className="ml-auto mt-1.5">
@@ -1044,15 +1044,8 @@ function Sidebar() {
                   </li>
 
                   <li
-                    className={`list-none flex items-center cursor-pointer list-Item
-${currentPage === "invoice" ||
-                        currentPage === "booking" ||
-                        currentPage === "recurring" ||
-                        currentPage === "receipts"
-                        ? "active bg-blue-50 text-blue-700"
-                        : "bg-white text-slate-500"
-                      }
-${manageOpen ? "mt-1" : "mt-2.5"}`}
+                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
+    ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
                       setManageOpen(false);
@@ -1300,7 +1293,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/tenant/final-settlement/:tenantId?"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <FinalSettlement
 
                     />
@@ -1485,7 +1478,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/invoice-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <InvoiceRegister
                     />
                   </div>
@@ -1494,7 +1487,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/tenant-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <TenantsRegister
                     />
                   </div>
@@ -1503,7 +1496,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/receipt-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <ReceiptRegister />
                   </div>
                 }
@@ -1511,7 +1504,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/bank-transaction-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <BankTransactionRegister />
                   </div>
                 }
@@ -1520,7 +1513,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/occupancy-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <OccupancyRegister />
                   </div>
                 }
@@ -1528,7 +1521,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/expense-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <ExpenseRegister />
                   </div>
                 }
@@ -1536,7 +1529,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/vendor-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <VendorRegister />
                   </div>
                 }
@@ -1544,7 +1537,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/electricity-billing-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <ElectricityRegister />
                   </div>
                 }
@@ -1552,7 +1545,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/request-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <RequestRegister />
                   </div>
                 }
@@ -1560,7 +1553,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/final-settlement-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <FinalSettlementRegister />
                   </div>
                 }
@@ -1569,7 +1562,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/complaint-register"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <ComplaintsRegister />
                   </div>
                 }
@@ -1580,7 +1573,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/month-revenue"
                 element={
-                  <div className="bg-[#FFFFFF]">
+                  <div className="bg-[#FFFFFF] ">
                     <AnalyticalMonthRevenue />
                   </div>
                 }
@@ -1599,7 +1592,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/vacant-occupied"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <AnalyticalVacantOcupied />
                   </div>
                 }
@@ -1608,7 +1601,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/expense-trend"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <AnalyticalExpenseTrend />
                   </div>
                 }
@@ -1616,7 +1609,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/overdue-invoice-trend"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
 
                     <AnalyticalInvoiceTrend />
                   </div>
@@ -1625,7 +1618,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/complaints-resolved"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
 
                     <AnalyticalComplaintsResolved />
                   </div>
@@ -1634,7 +1627,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/settings/:hostelId?/*"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div >
                     <SettingAllPages
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,10 +20,15 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
   const [generalError, setGeneralError] = useState("");
   // const [bedAlreadyBooked, setBedAlreadyBooked] = useState("")
   const [formLoading, setFormLoading] = useState(false)
+const bedRef = useRef(null);
 
 
-
-
+ useEffect(() => {
+   
+    if (bedRef.current) {
+      bedRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -239,6 +244,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
                   </Form.Label>
                   <Form.Control
                     value={bedNo}
+                    ref={bedRef}
                     onChange={handleBedNoChange}
                     type="text"
                     placeholder="Enter Bed Name or No"

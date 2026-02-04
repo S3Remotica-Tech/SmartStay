@@ -18,12 +18,13 @@ import { AiOutlineBarChart } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import { PiArrowFatLinesLeftDuotone } from 'react-icons/pi';
 
 function Reports() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("operational");
   const [selectedRange, setSelectedRange] = useState(null);
@@ -46,10 +47,19 @@ const location = useLocation();
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
+    }else{
+      setLoading(false)
     }
   }, [canReadReports]);
 
   const reportsList = state.reports?.getReportsList
+
+useEffect(()=>{
+
+setLoading(false);
+},[state.reports?.getReportsList])
+
+ 
 
 useEffect(()=>{
   if(analytical){
@@ -128,7 +138,7 @@ useEffect(()=>{
       title: "Electricity Billing Register",
       subTitle: "This Month",
       desc: "Meter readings, consumption, and billing records",
-      value: "₹0",
+      value: `₹${reportsList?.electricity?.totalAmount}`,
       icon: Flash,
       color: "text-indigo-600 bg-indigo-100",
     },
@@ -152,7 +162,7 @@ useEffect(()=>{
       title: "Final Settlement",
       subTitle: "This Month",
       desc: "Security deposit refunds and settlement tracking",
-      value: "0",
+       value: `₹${reportsList?.settlement?.totalAmount}`,
       icon: WalletMoney,
       color: "text-[#14B8A6] bg-[#14B8A615]",
     },
@@ -163,12 +173,12 @@ useEffect(()=>{
   const summaryData = [
     {
       label: "Total Revenue (MTD)",
-      value: `₹${reportsList?.outStandingAmount}`,
+      value: `₹${reportsList?.totalRevenue}`,
       valueColor: "#00A63E",
     },
     {
       label: "Outstanding Amount",
-      value: `₹${reportsList?.totalRevenue}`,
+      value: `₹${reportsList?.outStandingAmount}`,
       valueColor: "#222222",
     },
     {
@@ -274,6 +284,8 @@ const analyticsCards = [
     if (state.reports.getSuccessReports === 200) {
       setLoading(false)
       dispatch({ type: 'CLEAR_GET_REPORTS_REDUCER' })
+    }else{
+      setLoading(false)
     }
 
   }, [state.reports.getSuccessReports])

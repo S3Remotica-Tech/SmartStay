@@ -116,6 +116,9 @@ useEffect(() => {
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+     setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -394,15 +397,36 @@ useEffect(() => {
 
 
   return (
-    <div
-      style={{
-        position: "relative",
+    <>
+     
 
-        paddingLeft: 10,
-        paddingRight: 10,
-      }}
+ <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">  
+ 
+   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+      Complaint Type
+    </label>
+  </div>
+
+
+
+   <div className="w-full flex justify-center md:justify-end">
+    <button
+      disabled={!canWriteComplaints}
+      onClick={handleShowForm}
+      className={`
+        h-[45px] w-[146px] rounded-lg text-[14px] font-semibold font-[Gilroy]
+        bg-[#1E45E1] text-white 
+        disabled:opacity-40 disabled:cursor-not-allowed
+      `}
     >
-      {loading && (
+      + Complaint Type
+    </button>
+  </div>
+
+</div>
+
+ {loading && (
         <div
           style={{
             position: "absolute",
@@ -431,55 +455,6 @@ useEffect(() => {
           ></div>
         </div>
       )}
-
-      <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2"
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          height: 83,
-        }}
-      >
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
-          <label
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 20,
-              color: "#222",
-              fontWeight: 600,
-            }}
-          >
-            {" "}
-            Complaint Type
-          </label>
-        </div>
-        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0 mb-3 mb-md-0">
-          <Button
-            disabled={!canWriteComplaints}
-            onClick={handleShowForm}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              width: 146,
-              height: 45,
-              textAlign: "center",
-              marginTop: 12,
-            }}
-          >
-            {" "}
-            + Complaint Type
-          </Button>
-        </div>
-      </div>
-
       {
 
         !canReadComplaints ? (
@@ -502,7 +477,7 @@ useEffect(() => {
         )
           :
           (
-            <div className="complainttype">
+            <div className="complainttype mt-2">
               {complianceFilterddata && complianceFilterddata.length > 0 && (
                 <div className="container show-scrolls" style={{
                   position: "relative", maxHeight: "475px",
@@ -1095,7 +1070,7 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 }
 

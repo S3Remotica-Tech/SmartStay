@@ -445,29 +445,40 @@ function ParticularHostelDetails(props) {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+              }
 
-            {!loader && !loaderTrigger && roomList?.length === 0 && (
-              <div className="flex flex-col items-center justify-center text-center w-full px-3 fade-in">
-                <img src={EmptyState} className="h-[240px] w-[240px]" alt="Empty state" />
-                <div className="mt-1 pb-1 text-[20px] font-semibold text-[#4B4B4B]">
-                  No rooms available
-                </div>
-                <div className="mt-1 pb-1 text-[16px] font-medium text-[#4B4B4B]">
-                  There is no room added in this floor.
-                </div>
-                <div className="flex justify-center mt-3 pb-1">
-                  <button
-                    disabled={!canWritePayingGuests}
-                    onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
-                    className="bg-[#1E45E1] text-white font-semibold rounded-xl px-5 py-2.5 text-[16px] font-gilroy disabled:opacity-70"
-                  >
-                    + Add Room
-                  </button>
-                </div>
-              </div>
-            )}
+          
           </div>
+  {!loader && !loaderTrigger && roomList?.length === 0 && (
+  <div className="flex items-center justify-center text-center w-full h-fit font-[Gilroy] px-3 fade-in bg-white overflow-hidden">
+    <div className="flex flex-col items-center">
+      <img
+        src={EmptyState}
+        className="h-[240px] w-[240px]"
+        alt="Empty state"
+      />
+
+      <div className="mt-2 text-[20px] font-semibold text-[#4B4B4B]">
+        No rooms available
+      </div>
+
+      <div className="mt-1 text-[16px] font-medium text-[#4B4B4B]">
+        There is no room added in this floor.
+      </div>
+
+      <button
+        disabled={!canWritePayingGuests}
+        onClick={() =>
+          handleShowAddRoom(props.floorID, props.hostel_Id)
+        }
+        className="mt-4 bg-[#1E45E1] text-white font-semibold rounded-xl px-6 py-2.5 text-[16px] font-gilroy disabled:opacity-70"
+      >
+        + Add Room
+      </button>
+    </div>
+  </div>
+)}
 
           {roomList.length > 0 && !state.login.isTrigger && (
             <div className="row mt-4 ms-2">
