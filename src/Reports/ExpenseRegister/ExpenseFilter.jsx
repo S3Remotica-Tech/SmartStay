@@ -218,7 +218,7 @@ function ExpenseFilter({ show, handleClose }) {
                     <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
 
 
-                        <Form.Group className="mt-2 mb-3">
+                        {/* <Form.Group className="mt-2 mb-3">
                             <div
                                 style={{
                                     display: 'flex',
@@ -260,7 +260,7 @@ function ExpenseFilter({ show, handleClose }) {
 
 
 
-                        </Form.Group>
+                        </Form.Group> */}
 
 
                         <div className='mb-3'>
@@ -271,7 +271,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Category
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={category}
                                 onChange={setCategory}
@@ -285,7 +285,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={period}
                                 onChange={handlePeriodChange}
@@ -299,7 +299,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Payment Mode
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={paymentMode}
                                 onChange={handlePaymentMode}
@@ -313,7 +313,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Paid To
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={paidTo}
                                 onChange={handlePaidChange}
@@ -327,7 +327,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Created By
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={createdBy}
                                 onChange={handleCreatedByChange}

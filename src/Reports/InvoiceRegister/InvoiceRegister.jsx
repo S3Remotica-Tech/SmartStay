@@ -57,7 +57,7 @@ function InvoiceRegister() {
             setInvoiceRegister(state?.reports?.getInvoiceRegister)
             setInvoiceFilter(false)
             setTimeout(() => {
-                dispatch({ type: 'REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER', payload: state.login.selectedHostel_Id })
+                dispatch({ type: 'REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER',  })
             }, 100)
         }
 
@@ -67,10 +67,10 @@ function InvoiceRegister() {
 
 
     useEffect(() => {
-        setSelectedRange({
-            from: dayjs().startOf("month").toDate(),
-            to: dayjs().endOf("month").toDate(),
-        });
+        // setSelectedRange({
+        //     from: dayjs().startOf("month").toDate(),
+        //     to: dayjs().endOf("month").toDate(),
+        // });
     }, []);
 
 
@@ -367,22 +367,22 @@ function InvoiceRegister() {
                             }}
                             format="DD/MM/YYYY"
                             placeholder={["From date", "To date"]}
-                            value={
-                                selectedRange?.from && selectedRange?.to
-                                    ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
-                                    : null
-                            }
-                            onChange={(dates) => {
+                            // value={
+                            //     selectedRange?.from && selectedRange?.to
+                            //         ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                            //         : null
+                            // }
+                            // onChange={(dates) => {
 
-                                if (dates) {
-                                    setSelectedRange({
-                                        from: dates[0].toDate(),
-                                        to: dates[1].toDate(),
-                                    });
-                                } else {
-                                    setSelectedRange(null);
-                                }
-                            }}
+                            //     if (dates) {
+                            //         setSelectedRange({
+                            //             from: dates[0].toDate(),
+                            //             to: dates[1].toDate(),
+                            //         });
+                            //     } else {
+                            //         setSelectedRange(null);
+                            //     }
+                            // }}
                             disabledDate={(current) => {
                                 if (!selectedRange?.from) return current > dayjs().endOf("day");
                                 return (

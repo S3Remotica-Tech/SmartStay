@@ -29,12 +29,35 @@ function ExpenseRegister() {
   const [register, setRegister] = useState(false)
   const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
+    const dispatch = useDispatch()
+     const [expenseRegister, setExpenseRegister] = useState('')
+
+ useEffect(() => {
+        if (state.login?.selectedHostel_Id) {
+
+            dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+          
+        }
+    }, [state.login?.selectedHostel_Id])
+
+    
+
+ useEffect(() => {
+        if (state.reports.getExpenseRegisterSuccess === 200) {
+            // setLoading(false)
+            setExpenseRegister(state?.reports?.getExpenseRegister)
+            setInvoiceFilter(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER'})
+            }, 100)
+        }
+
+    }, [state.reports.getExpenseRegisterSuccess])
 
 
 
 
-
-
+    
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false)
   }
@@ -73,124 +96,12 @@ function ExpenseRegister() {
   }, [register]);
 
   const stats = [
-    { title: "Total Expenses", value: "32", up: "12%" },
-    { title: "Total Expense Amount", value: "₹61,500", },
+    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.totalExpenses, up: "12%" },
+    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.totalAmount },
 
   ];
 
-  const invoices = [
-    {
-      no: "INV-01-26-002",
-      name: "bala",
-      type: "Advance",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹9,300",
-      due: "₹0.00",
-      status: "paid",
-    },
-    {
-      no: "ADV-003",
-      name: "Wilson Calzoni",
-      type: "Advance",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹8,100",
-      due: "₹2,000",
-      status: "partial",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-    {
-      no: "INV-203",
-      name: "Wilson",
-      type: "Rental",
-      date: "18 Dec 2025",
-      dueDate: "18 Dec 2025",
-      amount: "₹6,000",
-      due: "₹6,000",
-      status: "overdue",
-    },
-
-  ];
+  
 
 
 
@@ -492,7 +403,7 @@ function ExpenseRegister() {
 
 
               <tbody>
-                {invoices.map((row, i) => (
+                {expenseRegister?.expenseLists?.map((row, i) => (
                   <tr
                     key={i}
                     className="border-b last:border-none hover:bg-[#F9FAFB] transition"
@@ -500,24 +411,20 @@ function ExpenseRegister() {
                     <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
                     <td
                       className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
-                      title={row.no}
+                      title={row.date}
                     >
-                      {row.no}
+                      {row.date}
                     </td>
 
 
                     <td className="px-4 py-3 sticky left-[170px] z-20 bg-white w-[200px]">
                       <div className="flex items-center gap-2">
-                        {/* <img
-                                                    src={row.avatar}
-                                                    alt={row.name}
-                                                    className="w-7 h-7 rounded-full object-cover"
-                                                /> */}
+                       
                         <span
                           className="truncate whitespace-nowrap font-semibold text-[#111928]"
-                          title={row.name}
+                          title={row.expenseCategory}
                         >
-                          {row.name}
+                          {row.expenseCategory}
                         </span>
                       </div>
                     </td>
@@ -527,28 +434,28 @@ function ExpenseRegister() {
 
 
                     <td className="px-4 py-3 text-center text-[#6B7280] whitespace-nowrap">
-                      {row.date}
+                      {row.description || "-"}
                     </td>
 
 
                     <td className="px-4 py-3 text-center  text-[#6B7280] font-medium">
-                      {row.dueDate}
+                      {row.counts || 0}
                     </td>
 
 
                     <td className="px-4 py-3 text-center font-semibold text-[#222222]">
-                      ₹ {row.amount}
+                       {row.assetsName || "-"}
                     </td>
 
 
                     <td className="px-4 py-3 text-center font-semibold text-[#222222]">
-                      ₹ {row.due}
+                      {row.vendorName || '-'}
                     </td>
 
-
-                    <td className="px-4 py-3 text-center">
-
+  <td className="px-4 py-3 text-center font-semibold text-[#222222]">
+                      {row.account || '-'}
                     </td>
+                  
                   </tr>
                 ))}
               </tbody>
