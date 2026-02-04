@@ -52,15 +52,12 @@ export async function getExpenseRegister(hostelId, filters = {}) {
 
 
 
-export async function getBankTransactionRegister(hostelId, filters = {}) {
+export async function getReceiptRegister(hostelId, filters = {}) {
 
   return AxiosConfigV2.get(`/v2/reports/transaction/${hostelId}`, {
     params: {
-      search: filters.search,
-      paymentStatus: filters.paymentStatus,
-      invoiceModes: filters.invoiceModes,
-      invoiceTypes: filters.invoiceTypes,
-      createdBy: filters.createdBy,
+       startDate: filters.startDate,
+      endDate: filters.endDate,
       period: filters?.period,
       page: filters.page ?? 0,
       size: filters.size ?? 10,

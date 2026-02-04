@@ -229,6 +229,7 @@ function ReceiptFilter({ show, handleClose }) {
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
+                        
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Invoice Type
@@ -288,7 +289,7 @@ function ReceiptFilter({ show, handleClose }) {
                                 styles={selectStyles}
                                 placeholder="Select type..."
                                 value={selectedCollectedBy}
-                                onChange={setSelectedCollectedBy} // <-- separate state
+                                onChange={setSelectedCollectedBy} 
                                 options={[
                                     { label: "Staff 1", value: "SINGLE" },
                                     { label: "Staff 2", value: "DOUBLE" },

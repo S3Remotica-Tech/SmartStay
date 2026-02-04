@@ -5,8 +5,8 @@ export const initialState = {
     getInvoiceRegisterSuccess: 0,
     getExpenseRegister: [],
     getExpenseRegisterSuccess: 0,
-    getBankRegister: [],
-    getBankRegisterSuccess: 0,
+    getReceiptRegister: [],
+    getReceiptRegisterSuccess: 0,
 
     invoiceRegisterFilters: {
         startDate: undefined,
@@ -18,12 +18,22 @@ export const initialState = {
         search: "",
 
     },
-expenseRegisterFilters: {
+    expenseRegisterFilters: {
         startDate: undefined,
         endDate: undefined,
-       
 
     },
+
+    receiptRegisterFilters: {
+        startDate: undefined,
+        endDate: undefined,
+        invoiceTypes: [],
+        createdBy: [],
+        period: undefined,
+        paymentStatus: [],
+
+
+    }
 
 
 }
@@ -48,13 +58,13 @@ const ReportsReducer = (state = initialState, action) => {
         case 'REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER':
             return { ...state, getExpenseRegisterSuccess: 0 }
 
-        case 'GET_REPORTS_BANK_REGISTER_REDUCER':
-            return { ...state, getBankRegister: action.payload.response, getBankRegisterSuccess: action.payload.statusCode }
+        case 'GET_REPORTS_RECEIPT_REGISTER_REDUCER':
+            return { ...state, getReceiptRegister: action.payload.response, getReceiptRegisterSuccess: action.payload.statusCode }
 
-        case 'REMOVE_GET_REPORTS_BANK_REGISTER_REDUCER':
-            return { ...state, getBankRegisterSuccess: 0 }
+        case 'REMOVE_GET_REPORTS_RECEIPT_REGISTER_REDUCER':
+            return { ...state, getReceiptRegisterSuccess: 0 }
 
- case "SET_EXPENSE_REGISTER_FILTERS":
+        case "SET_EXPENSE_REGISTER_FILTERS":
             return {
                 ...state,
                 expenseRegisterFilters: {
@@ -64,6 +74,14 @@ const ReportsReducer = (state = initialState, action) => {
             };
 
 
+        case "SET_RECEIPT_REGISTER_FILTERS":
+            return {
+                ...state,
+                receiptRegisterFilters: {
+                    ...state.receiptRegisterFilters,
+                    ...action.payload,
+                },
+            };
 
 
 

@@ -163,6 +163,24 @@ function ExpenseRegister() {
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
+
+
+
+  dispatch({
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+
+      },
+    })
+    dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+
+
+
+
+
+
       return;
     }
 

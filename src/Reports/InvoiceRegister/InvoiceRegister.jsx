@@ -17,6 +17,7 @@ import BillsFilter from '../../Pages/Bills/BillsFilter';
 import PaginationList from "../../Components/PaginationList";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 
+
 function InvoiceRegister() {
 
 
@@ -142,7 +143,15 @@ function InvoiceRegister() {
 
 
 
+const handleNavigateBillsPdf = (row) =>{
+     dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: row.hostelId, invoiceId: row.invoiceId } })
 
+      navigate(`/invoice/details/${row.invoiceId}`, {
+        state: {
+          rowData: row
+        },
+      });
+}
 
 
 
@@ -291,6 +300,16 @@ function InvoiceRegister() {
 
         setChips(filterData);
     }, [state.reports.invoiceRegisterFilters]);
+
+
+
+
+
+
+
+
+
+
 
     return (
         <div className="h-screen flex flex-col font-gilroy p-2">
@@ -563,7 +582,7 @@ function InvoiceRegister() {
                                                 className="border-b last:border-none  transition"
                                             >
                                                 <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]"></td>
-                                                <td
+                                                <td onClick={()=> handleNavigateBillsPdf(row)}
                                                     className="px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
                                                     title={row.invoiceNumber}
                                                 >

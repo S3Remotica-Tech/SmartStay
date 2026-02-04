@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getBankTransactionRegister } from "../Action/ReportsAction"
+import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -84,13 +84,13 @@ function* handleGetExpenseRegister(action) {
 
 }
 
-function* handleGetBankTransactionRegister(action) {
+function* handleGetReceiptRegister(action) {
    try {
 
       const { hostelId, filters } = action.payload;
-      const response = yield call(getBankTransactionRegister, hostelId, filters)
+      const response = yield call(getReceiptRegister, hostelId, filters)
       if (response?.status === 200) {
-         yield put({ type: 'GET_REPORTS_BANK_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+         yield put({ type: 'GET_REPORTS_RECEIPT_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
       }
    }
    catch (err) {
@@ -108,7 +108,7 @@ function* ReportSaga() {
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
    yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
-   yield takeEvery('GET_REPORTS_BANK_REGISTER_SAGA', handleGetBankTransactionRegister)
+   yield takeEvery('GET_REPORTS_RECEIPT_REGISTER_SAGA', handleGetReceiptRegister)
 
 }
 export default ReportSaga;
