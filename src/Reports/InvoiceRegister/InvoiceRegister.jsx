@@ -33,6 +33,8 @@ function InvoiceRegister() {
     const [loading, setLoading] = useState(false)
     const [invoiceRegister, setInvoiceRegister] = useState('')
     const [chips, setChips] = useState([])
+const tableRef = useRef(null);
+const [isScrolled, setIsScrolled] = useState(false);
 
 
     const handleCloseFilterBills = () => {
@@ -68,11 +70,17 @@ function InvoiceRegister() {
 
 
     useEffect(() => {
-        // setSelectedRange({
-        //     from: dayjs().startOf("month").toDate(),
-        //     to: dayjs().endOf("month").toDate(),
-        // });
-    }, []);
+  const el = tableRef.current;
+  if (!el) return;
+
+  const handleScroll = () => {
+    setIsScrolled(el.scrollLeft > 0);
+  };
+
+  el.addEventListener("scroll", handleScroll);
+  return () => el.removeEventListener("scroll", handleScroll);
+}, []);
+
 
 
     useEffect(() => {
@@ -319,7 +327,7 @@ const handleNavigateBillsPdf = (row) =>{
                     <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
                 </div>
             )}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white no-wrap">
                 <div className='flex items-center gap-2'>
                     <ArrowLeft onClick={handleNavigateReports}
                         size="20"
@@ -371,7 +379,7 @@ const handleNavigateBillsPdf = (row) =>{
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 items-stretch" style={{ height: 36 }}>
+                <div className="flex flex-wrap gap-3 items-stretch" >
 
                     <div
                         className="datepicker-wrapper"
@@ -506,7 +514,7 @@ const handleNavigateBillsPdf = (row) =>{
 
                 <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 ">
 
-                    <div className="overflow-y-auto  max-h-[400px] relative ">
+                    <div  ref={tableRef} className="overflow-y-auto  max-h-[400px] relative  ">
                         <table className="w-full  text-[12px] font-gilroy">
 
                             <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
@@ -523,12 +531,12 @@ const handleNavigateBillsPdf = (row) =>{
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] "> 
+                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] "> 
                                                                                INVOICE NO
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] ">
+                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px] ">
                                         NAME
                                     </th>
 
@@ -586,14 +594,15 @@ const handleNavigateBillsPdf = (row) =>{
                                                 <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]"></td>
                                                 <td 
                                                 onClick={()=> handleNavigateBillsPdf(row)}
-                                                    className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
+                                                    className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
+                                                     sticky left-[42px] z-20 bg-white w-[140px]"
                                                     title={row.invoiceNumber}
                                                 >
                                                     {row.invoiceNumber}
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 sticky left-[170px] z-20 bg-white w-[200px]">
+                                                <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white w-[200px]">
                                                     <div className="flex items-center gap-2">
                                                         {row.profilePic ? (
                                                             <img
@@ -619,33 +628,33 @@ const handleNavigateBillsPdf = (row) =>{
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap"
+                                                <td className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                                                     title={row.invoiceType}>
                                                     {row.invoiceType}
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap">
+                                                <td className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
                                                     {row.invoiceDate}
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium">
+                                                <td className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
                                                     {row.dueDate}
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 text-center font-semibold truncate text-[#222222]">
+                                                <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}>
                                                     ₹ {row.invoiceAmount}
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 text-center font-semibold truncate text-[#222222]">
+                                                <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
                                                     ₹ {row.dueAmount}
                                                 </td>
 
 
-                                                <td className="px-4 py-1.5 text-center">
+                                                <td className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
                                                     <span
                                                         className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
       ${statusColor[row.paymentStatus]}`}

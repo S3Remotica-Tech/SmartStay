@@ -207,7 +207,7 @@ function BankTransactionRegister() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-stretch" style={{ height: 36 }}>
+        <div className="flex flex-wrap gap-3 items-stretch">
 
           <div
             className="datepicker-wrapper"

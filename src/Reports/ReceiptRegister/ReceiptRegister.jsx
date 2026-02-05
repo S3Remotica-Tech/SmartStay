@@ -27,10 +27,15 @@ function ReceiptRegister() {
   const dispatch = useDispatch()
   const [receiptRegister, setReceiptRegister] = useState('')
   const [chips, setChips] = useState([])
+  const [loading, setLoading] = useState(false)
+  const tableRef = useRef(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       dispatch({ type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+      setLoading(true)
+
     }
   }, [state.login?.selectedHostel_Id])
 
@@ -38,7 +43,7 @@ function ReceiptRegister() {
 
   useEffect(() => {
     if (state.reports.getReceiptRegisterSuccess === 200) {
-      // setLoading(false)
+      setLoading(false)
       setReceiptRegister(state?.reports?.getReceiptRegister)
       setInvoiceFilter(false)
       setTimeout(() => {
@@ -74,6 +79,19 @@ function ReceiptRegister() {
   }, [register]);
 
 
+  useEffect(() => {
+  const el = tableRef.current;
+  if (!el) return;
+
+  const handleScroll = () => {
+    setIsScrolled(el.scrollLeft > 0);
+  };
+
+  el.addEventListener("scroll", handleScroll);
+  return () => el.removeEventListener("scroll", handleScroll);
+}, []);
+
+
   const reportCards = [
     // { title: "Receipt Register" },
     { title: "Bank Transaction Register" },
@@ -90,14 +108,14 @@ function ReceiptRegister() {
 
   const handleNavigateReports = () => {
     navigate(`/reports/${state.login.selectedHostel_Id}`)
-      dispatch({
-        type: "SET_RECEIPT_REGISTER_FILTERS",
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
+    dispatch({
+      type: "SET_RECEIPT_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
 
-        },
-      })
+      },
+    })
   }
 
   const handleNavigateRegister = (item) => {
@@ -125,14 +143,14 @@ function ReceiptRegister() {
     } else if (item?.title === "Invoice Register") {
       navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
     }
-      dispatch({
-        type: "SET_RECEIPT_REGISTER_FILTERS",
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
+    dispatch({
+      type: "SET_RECEIPT_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
 
-        },
-      })
+      },
+    })
   }
 
   const handleClickFilter = () => {
@@ -260,7 +278,11 @@ function ReceiptRegister() {
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
-
+      {loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
         <div className='flex items-center gap-2'>
           <ArrowLeft onClick={handleNavigateReports}
@@ -313,7 +335,7 @@ function ReceiptRegister() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-stretch" style={{ height: 36 }}>
+        <div className="flex flex-wrap gap-3 items-stretch" >
 
           <div
             className="datepicker-wrapper"
@@ -440,7 +462,7 @@ function ReceiptRegister() {
 
         <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
 
-          <div className="overflow-x-auto relative show-scrolls">
+          <div  ref={tableRef} className="overflow-x-auto relative ">
             <table className="w-full  text-[12px] font-gilroy">
 
               <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
@@ -457,7 +479,7 @@ function ReceiptRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
                     Receipt No
                   </th>
 
@@ -514,7 +536,8 @@ function ReceiptRegister() {
                   >
                     <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
                     <td
-                      className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
+                      className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
+                      left-[42px] z-20 bg-white w-[140px]"
                       title={row.receiptNo}
                     >
                       {row.receiptNo}
@@ -533,30 +556,47 @@ function ReceiptRegister() {
                       </div>
                     </td>
 
+<td
+  className={`px-4 py-3 text-center font-semibold truncate whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+  title={row.customerName}
+>
+  {row.customerName}
+</td>
 
-                    <td className="px-4 py-3 text-center font-semibold truncate whitespace-nowrap"
-                      title={row.customerName}>
-                      {row.customerName}
-                    </td>
- 
-                    <td className="px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap">
-                      {row.invoiceNumber}
-                    </td>
+<td
+  className={`px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.invoiceNumber}
+</td>
 
+<td
+  className={`px-4 py-3 text-center text-[#6B7280] truncate font-medium transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  ₹ {row.amount}
+</td>
 
-                    <td className="px-4 py-3 text-center  text-[#6B7280] truncate font-medium">
-                      ₹ {row.amount}
-                    </td>
+<td
+  className={`px-4 py-3 text-center font-semibold truncate text-[#222222] transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  ₹ {row.paymentMade}
+</td>
 
+<td
+  className={`px-4 py-3 text-center font-semibold truncate text-[#222222] transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.collectedBy}
+</td>
 
-                    <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
-                      ₹ {row.paymentMade}
-                    </td>
-
-
-                    <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
-                      {row.collectedBy}
-                    </td>
 
 
 

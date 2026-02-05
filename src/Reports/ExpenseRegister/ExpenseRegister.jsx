@@ -32,12 +32,15 @@ function ExpenseRegister() {
   const dispatch = useDispatch()
   const [expenseRegister, setExpenseRegister] = useState('')
   const [chips, setChips] = useState([])
+  const [loading, setLoading] = useState(false)
+  const tableRef = useRef(null);
+    const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
 
       dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
-
+      setLoading(true)
     }
   }, [state.login?.selectedHostel_Id])
 
@@ -45,7 +48,7 @@ function ExpenseRegister() {
 
   useEffect(() => {
     if (state.reports.getExpenseRegisterSuccess === 200) {
-      // setLoading(false)
+      setLoading(false)
       setExpenseRegister(state?.reports?.getExpenseRegister)
       setInvoiceFilter(false)
       setTimeout(() => {
@@ -82,6 +85,17 @@ function ExpenseRegister() {
 
 
 
+useEffect(() => {
+  const el = tableRef.current;
+  if (!el) return;
+
+  const handleScroll = () => {
+    setIsScrolled(el.scrollLeft > 0);
+  };
+
+  el.addEventListener("scroll", handleScroll);
+  return () => el.removeEventListener("scroll", handleScroll);
+}, []);
 
 
 
@@ -131,12 +145,7 @@ function ExpenseRegister() {
     setInvoiceFilter(true)
   }
 
-  const statusColor = {
-    paid: "bg-[#22C55E]",
-    partial: "bg-[#F59E0B]",
-    overdue: "bg-[#EF4444]",
-  };
-  const options = [
+ const options = [
     { key: "sharing", label: "Sharing", checked: true },
     { key: "checkin", label: "Check-in Date", checked: true },
     { key: "checkout", label: "Checkout date", checked: true },
@@ -166,15 +175,15 @@ function ExpenseRegister() {
 
 
 
-  dispatch({
-      type: "SET_EXPENSE_REGISTER_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
+      dispatch({
+        type: "SET_EXPENSE_REGISTER_FILTERS",
+        payload: {
+          startDate: undefined,
+          endDate: undefined,
 
-      },
-    })
-    dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+        },
+      })
+      dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
 
 
 
@@ -286,7 +295,11 @@ function ExpenseRegister() {
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
-
+      {loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
         <div className='flex items-center gap-2'>
           <ArrowLeft onClick={handleNavigateReports}
@@ -339,7 +352,7 @@ function ExpenseRegister() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-stretch" style={{ height: 36 }}>
+        <div className="flex flex-wrap gap-3 items-stretch" >
 
           <div
             className="datepicker-wrapper"
@@ -463,7 +476,7 @@ function ExpenseRegister() {
 
         <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
 
-          <div className="overflow-x-auto relative h-full">
+          <div ref={tableRef} className="overflow-x-auto relative h-full">
             <table className="w-full  text-[12px] font-gilroy">
 
               <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
@@ -480,12 +493,12 @@ function ExpenseRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
                     date
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
+                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[150px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
                     Category
                   </th>
 
@@ -538,14 +551,15 @@ function ExpenseRegister() {
                   >
                     <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
                     <td
-                      className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
+                      className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky
+                       left-[42px] z-20 bg-white w-[140px]"
                       title={row.date}
                     >
                       {row.date}
                     </td>
 
 
-                    <td className="px-4 py-2.5 sticky left-[170px] z-20 bg-white w-[200px]">
+                    <td className="px-4 py-2.5 sticky left-[150px] z-20 bg-white w-[200px]">
                       <div className="flex items-center gap-2">
 
                         <span
@@ -561,28 +575,46 @@ function ExpenseRegister() {
 
 
 
-                    <td className="px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap">
-                      {row.description || "-"}
-                    </td>
+                   <td
+  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.description || "-"}
+</td>
 
+<td
+  className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.counts || 0}
+</td>
 
-                    <td className="px-4 py-2.5 text-center  text-[#6B7280] font-medium">
-                      {row.counts || 0}
-                    </td>
+<td
+  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.assetsName || "-"}
+</td>
 
+<td
+  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.vendorName || "-"}
+</td>
 
-                    <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
-                      {row.assetsName || "-"}
-                    </td>
+<td
+  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+>
+  {row.account || "-"}
+</td>
 
-
-                    <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
-                      {row.vendorName || '-'}
-                    </td>
-
-                    <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
-                      {row.account || '-'}
-                    </td>
 
                   </tr>
                 ))

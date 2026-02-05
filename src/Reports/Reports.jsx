@@ -333,12 +333,12 @@ function Reports() {
       navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
   }
-  useEffect(() => {
-    setSelectedRange({
-      from: dayjs().startOf("month").toDate(),
-      to: dayjs().endOf("month").toDate(),
-    });
-  }, []);
+  // useEffect(() => {
+  //   setSelectedRange({
+  //     from: dayjs().startOf("month").toDate(),
+  //     to: dayjs().endOf("month").toDate(),
+  //   });
+  // }, []);
 
 
 
