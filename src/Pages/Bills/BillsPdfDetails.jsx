@@ -27,7 +27,9 @@ function BillsPdfDetails() {
     const invoiceRefs = useRef({});
 
 
-    const { rowData } = location.state || {};
+    const { rowData, isReportsInvoiceRegisterWay } = location.state || {};
+
+    console.log("rowData",rowData)
 
 
     useEffect(() => {
@@ -332,7 +334,7 @@ function BillsPdfDetails() {
                         overflowY: "auto",
                     }}
                 >
-                    <BillPdfModal rowData={rowData || rowDatas} />
+                    <BillPdfModal rowData={rowData || rowDatas} isReportsInvoiceRegisterWay={isReportsInvoiceRegisterWay} />
                 </div>
 
 
