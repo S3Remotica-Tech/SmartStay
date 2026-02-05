@@ -306,27 +306,40 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                         <span className="text-red-600 text-xl">*</span>
                                     </Form.Label>
 
-                                    <InputGroup>
-                                        <Form.Select
-                                            value={countryCode}
-                                            id="vendor-select-pg"
-                                            className={`border border-gray-300 cursor-pointer rounded-l-lg h-12
-              text-base text-gray-600 font-gilroy ${countryCode ? "font-semibold" : "font-medium"
-                                                } shadow-none bg-white max-w-24 pr-2`}
-                                        >
-                                            <option value="91">+ 91</option>
-                                        </Form.Select>
+                                   <InputGroup className="w-full">
+  <Form.Select
+    value={countryCode}
+    // id="vendor-select-pg"
+    className={`
+      h-12 max-w-24
+      border border-gray-300 border-r-0
+      rounded-l-lg rounded-r-none
+      cursor-pointer bg-white
+      text-base text-gray-600 font-gilroy
+      ${countryCode ? "font-semibold" : "font-medium"}
+      focus:shadow-none focus:border-gray-300
+    `}
+  >
+    <option value="91">+91</option>
+  </Form.Select>
 
-                                        <Form.Control
-                                            value={phone}
-                                            onChange={handlePhoneChange}
-                                            type="text"
-                                            placeholder="9876543210"
-                                            maxLength={10}
-                                            className={`text-base text-gray-600 font-gilroy ${phone ? "font-semibold" : "font-medium"
-                                                } h-12 shadow-none border border-gray-300 border-l-0 rounded-r-lg`}
-                                        />
-                                    </InputGroup>
+  <Form.Control
+    value={phone}
+    onChange={handlePhoneChange}
+    type="text"
+    placeholder="Enter Mobile Number"
+    maxLength={10}
+    className={`
+      h-12 shadow-none
+      border border-gray-300 border-l-0
+      rounded-r-lg rounded-l-none
+      text-base text-gray-600 font-gilroy
+      ${phone ? "font-semibold" : "font-medium"}
+      focus:shadow-none focus:border-gray-300
+    `}
+  />
+</InputGroup>
+
                                 </Form.Group>
 
                                 {phoneError && (
