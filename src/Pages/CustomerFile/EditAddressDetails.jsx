@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
@@ -336,23 +335,12 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                         placeholder="Enter House No"
                                         value={houseNo}
                                         onChange={handleHouseNoChange}
-                                        // style={{
-                                        //     fontSize: 16,
-                                        //     color: "#4B4B4B",
-                                        //     fontFamily: "Gilroy",
-                                        //     fontWeight: 500,
-                                        //     boxShadow: "none",
-                                        //     border: "1px solid #D9D9D9",
-                                        //     height: 50,
-                                        //     borderRadius: 8,
-                                        // }}
                                         className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                     />
                                 </Form.Group>
 
                             </div>
 
-                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1"> */}
                             <div className="w-full mb-1">
                                 <Form.Group>
                                     <Form.Label
@@ -382,17 +370,10 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
                             </div>
 
-                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1"> */}
-                              <div className="w-full mb-1">
+                           <div className="w-full mb-1">
                                 <Form.Group>
                                     <Form.Label className="text-sm text-[#222222] font-gilroy font-medium"
-                                        // style={{
-                                        //     fontSize: 14,
-                                        //     color: "#222222",
-                                        //     fontFamily: "Gilroy",
-                                        //     fontWeight: 500,
-                                        // }}
-                                    >
+                                       >
                                         Landmark {" "}
                                     </Form.Label>
                                     <FormControl
@@ -463,7 +444,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
                             </div>
 
-                            <div className="wfull mb-1">
+                            <div className="w-full mb-1">
                                 <Form.Group
                                     className="mb-3"
                                     controlId="exampleForm.ControlInput5"

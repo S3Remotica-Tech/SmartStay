@@ -2640,9 +2640,7 @@ function UserListRoomDetail(props) {
             <>
               <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">
 
-                {/* Left Column */}
                 <div className="w-full lg:w-[420px] flex flex-col gap-2">
-                  {/* Left Card 1 content */}
                   <div className="flex-1 bg-white h-auto max-h-[300px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-3">
                     <div className="flex items-center justify-between border-b border-gray-300 pb-1 mb-3">
                       <div className="text-[16px] font-gilroy font-semibold">
@@ -2671,9 +2669,7 @@ function UserListRoomDetail(props) {
 
                     <div className="w-full max-w-[640px] mx-auto">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-
-                        {/* First Name */}
-                        <div className="flex flex-col">
+                         <div className="flex flex-col">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             First Name
                           </p>
@@ -2682,7 +2678,6 @@ function UserListRoomDetail(props) {
                           </p>
                         </div>
 
-                        {/* Last Name */}
                         <div className="flex flex-col sm:pl-6">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Last Name
@@ -2692,7 +2687,6 @@ function UserListRoomDetail(props) {
                           </p>
                         </div>
 
-                        {/* Email ID */}
                         <div className="flex flex-col">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Email ID
@@ -2705,7 +2699,7 @@ function UserListRoomDetail(props) {
                           </div>
                         </div>
 
-                        {/* Mobile No */}
+                  
                         <div className="flex flex-col sm:pl-6">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Mobile No
@@ -2726,7 +2720,7 @@ function UserListRoomDetail(props) {
 
 
                   <div className="flex-1 bg-white h-auto max-h-[240px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
-                    {/* Left Card 2 content */}
+                 
                     <div className="card-header flex justify-between items-center border-0 bg-transparent" >
                       <div className="card-header p-0 border-0 bg-transparent w-full">
                         <div className="flex items-center justify-start gap-4 w-full border-0 -mt-2">
@@ -3213,9 +3207,8 @@ function UserListRoomDetail(props) {
                                 ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
                               </p>
                             </div>
-
-                            {/* Advance Amount */}
-                            <div className="flex flex-col items-start">
+                             
+                                <div className="flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount
                                 {canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
@@ -3232,7 +3225,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                            {/* Booking Amount */}
+                       
                             <div className="flex flex-col items-start">
                               <div className="text-xs font-medium font-gilroy">Booking Amount</div>
                               <p className="text-sm font-semibold font-gilroy pt-2">
@@ -3240,7 +3233,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                            {/* Maintenance */}
+                       
                             {CustomerOverView.hostelInfo?.maintenance !== null && (
                               <div className="flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">Maintenance</div>
@@ -3250,7 +3243,7 @@ function UserListRoomDetail(props) {
                               </div>
                             )}
 
-                            {/* Other Deductions */}
+                      
                             {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
                               <div key={index} className="flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">{item.type}</div>
@@ -3371,8 +3364,6 @@ function UserListRoomDetail(props) {
               <div className="row">
                 <div className="col-12">
                   <div className="bg-white rounded-[14px] border border-gray-200">
-
-                    {/* Header */}
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-2 px-4 border-b border-gray-300 bg-transparent">
                       <div className="font-gilroy font-semibold text-black text-[16px] leading-[40px] mb-2 sm:mb-0">
                         Amenities provided
@@ -3397,7 +3388,7 @@ function UserListRoomDetail(props) {
                       </div>
                     </div>
 
-                    {/* Content */}
+                
                     <div className="p-4 font-gilroy flex flex-col gap-4">
                       <div className="w-full">
                         <UserListAmenities
@@ -3619,7 +3610,7 @@ function UserListRoomDetail(props) {
                               )}
                             </Form.Group>
                           </div>
-                          {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1"> */}
+                         
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group >
                               <Form.Label className="text-[14px] text-gray-900 font-medium font-sans">
@@ -4094,7 +4085,6 @@ function UserListRoomDetail(props) {
                             </div>
                           </div>
 
-                          {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12"> */}
                           <div className="grid grid-cols-12 gap-4">
                             <Form.Label className="text-sm font-medium font-gilroy" >
                               Bed {" "}
@@ -5134,15 +5124,6 @@ function UserListRoomDetail(props) {
             <TransactionHistory />
           </TabPanel>
         </TabContext>
-
-
-
-
-
-
-
-        {/* New conversion Ui  */}
-
 
 
         {
