@@ -522,7 +522,8 @@ const handleNavigateBillsPdf = (row) =>{
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] ">                                        INVOICE NO
+                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] "> 
+                                                                               INVOICE NO
                                     </th>
 
 
@@ -582,8 +583,9 @@ const handleNavigateBillsPdf = (row) =>{
                                                 className="border-b last:border-none  transition"
                                             >
                                                 <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]"></td>
-                                                <td onClick={()=> handleNavigateBillsPdf(row)}
-                                                    className="px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
+                                                <td 
+                                                // onClick={()=> handleNavigateBillsPdf(row)}
+                                                    className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
                                                     title={row.invoiceNumber}
                                                 >
                                                     {row.invoiceNumber}

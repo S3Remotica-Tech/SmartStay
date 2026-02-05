@@ -538,8 +538,7 @@ function ReceiptRegister() {
                       title={row.customerName}>
                       {row.customerName}
                     </td>
-
-
+ 
                     <td className="px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap">
                       {row.invoiceNumber}
                     </td>

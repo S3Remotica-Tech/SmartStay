@@ -234,7 +234,7 @@ function ReceiptFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Invoice Type
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 isMulti
                                 closeMenuOnSelect={false}
                                 hideSelectedOptions={false}
@@ -251,7 +251,7 @@ function ReceiptFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 placeholder="Last Month"
                                 value={selectedPeriod}
@@ -267,7 +267,7 @@ function ReceiptFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Payment Mode
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 placeholder="Select type..."
                                 value={selectedPaymentMode}
@@ -285,7 +285,7 @@ function ReceiptFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Collected By
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 placeholder="Select type..."
                                 value={selectedCollectedBy}

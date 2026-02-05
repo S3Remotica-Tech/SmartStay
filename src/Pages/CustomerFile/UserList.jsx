@@ -3748,7 +3748,7 @@ function UserList(props) {
 
 
 
-                                                  <div
+                                                  {/* <div
                                                     className="d-flex align-items-center gap-2"
 
                                                     onClick={() => {
@@ -3795,7 +3795,7 @@ function UserList(props) {
                                                     >
                                                       Generate
                                                     </label>
-                                                  </div>
+                                                  </div> */}
 
 
                                                   <div
@@ -3843,7 +3843,7 @@ function UserList(props) {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Generate New
+                                                      Generate
                                                     </label>
                                                   </div>
                                                 </>
