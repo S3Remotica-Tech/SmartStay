@@ -4,7 +4,6 @@ import {
     Filter,
     Export, ArrowLeft,
     ArrowSwapVertical, Setting3, SearchNormal1,
-    ArrowDown,
     ArrowDown2
 
 } from "iconsax-react";
@@ -13,7 +12,6 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import BillsFilter from '../../Pages/Bills/BillsFilter';
 import PaginationList from "../../Components/PaginationList";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 
@@ -33,9 +31,10 @@ function InvoiceRegister() {
     const [loading, setLoading] = useState(false)
     const [invoiceRegister, setInvoiceRegister] = useState('')
     const [chips, setChips] = useState([])
-const tableRef = useRef(null);
-const [isScrolled, setIsScrolled] = useState(false);
-
+    const tableRef = useRef(null);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [size, setSize] = useState('');
+    const [page, setPage] = useState(0);
 
     const handleCloseFilterBills = () => {
         setInvoiceFilter(false)
@@ -60,7 +59,7 @@ const [isScrolled, setIsScrolled] = useState(false);
             setInvoiceRegister(state?.reports?.getInvoiceRegister)
             setInvoiceFilter(false)
             setTimeout(() => {
-                dispatch({ type: 'REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER',  })
+                dispatch({ type: 'REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER', })
             }, 100)
         }
 
@@ -70,16 +69,16 @@ const [isScrolled, setIsScrolled] = useState(false);
 
 
     useEffect(() => {
-  const el = tableRef.current;
-  if (!el) return;
+        const el = tableRef.current;
+        if (!el) return;
 
-  const handleScroll = () => {
-    setIsScrolled(el.scrollLeft > 0);
-  };
+        const handleScroll = () => {
+            setIsScrolled(el.scrollLeft > 0);
+        };
 
-  el.addEventListener("scroll", handleScroll);
-  return () => el.removeEventListener("scroll", handleScroll);
-}, []);
+        el.addEventListener("scroll", handleScroll);
+        return () => el.removeEventListener("scroll", handleScroll);
+    }, []);
 
 
 
@@ -151,16 +150,16 @@ const [isScrolled, setIsScrolled] = useState(false);
 
 
 
-const handleNavigateBillsPdf = (row) =>{
-     dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: row.hostelId, invoiceId: row.invoiceId } })
+    const handleNavigateBillsPdf = (row) => {
+        dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: row.hostelId, invoiceId: row.invoiceId } })
 
-      navigate(`/invoice/details/${row.invoiceId}`, {
-        state: {
-          rowData: row,
-          isReportsInvoiceRegisterWay: true
-        },
-      });
-}
+        navigate(`/invoice/details/${row.invoiceId}`, {
+            state: {
+                rowData: row,
+                isReportsInvoiceRegisterWay: true
+            },
+        });
+    }
 
 
 
@@ -207,29 +206,29 @@ const handleNavigateBillsPdf = (row) =>{
     const handleNavigateRegister = (item) => {
         setRegister(false)
 
-       if (item?.title === "Tenant Register") {
-      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Receipt Register") {
-      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Bank Transaction Register") {
-      navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Occupancy") {
-      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Expense Register") {
-      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Vendor Ledger") {
-      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Electricity Billing Register") {
-      navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Complaint Register") {
-      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Request Register") {
-      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Final Settlement") {
-      navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
-    } else if (item?.title === "Invoice Register") {
-      navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
-    }
+        if (item?.title === "Tenant Register") {
+            navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Receipt Register") {
+            navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Bank Transaction Register") {
+            navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Occupancy") {
+            navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Expense Register") {
+            navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Vendor Ledger") {
+            navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Electricity Billing Register") {
+            navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Complaint Register") {
+            navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Request Register") {
+            navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Final Settlement") {
+            navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Invoice Register") {
+            navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+        }
 
         dispatch({
             type: "SET_INVOICE_REGISTER_FILTERS",
@@ -246,7 +245,7 @@ const handleNavigateBillsPdf = (row) =>{
     }
 
 
-    
+
     useEffect(() => {
         const invoiceFilters = state.reports.invoiceRegisterFilters;
         const filterData = [];
@@ -314,9 +313,45 @@ const handleNavigateBillsPdf = (row) =>{
 
 
 
+    const currentPage =
+        state?.reports?.getInvoiceRegister?.currentPage ?? 1;
+
+    const totalPages =
+        state?.reports?.getInvoiceRegister?.totalPages ?? 1;
+
+    const totalRecords =
+        state?.reports?.getInvoiceRegister?.totalInvoices ?? 0;
 
 
 
+
+
+    const handlePageChange = (page) => {
+        console.log("Page seelcted", page)
+        setPage(page)
+
+    };
+
+
+    const handleSizeChange = (sizeValue) => {
+        setSize(sizeValue)
+
+    };
+
+
+    useEffect(() => {
+
+        dispatch({
+            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA',
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: {
+                    size: size,
+                    page: page,
+                }
+            }
+        });
+    }, [size, page])
 
 
 
@@ -441,13 +476,13 @@ const handleNavigateBillsPdf = (row) =>{
             </div>
 
 
-            <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
-                {chips.length > 0 && (
+            <div className="px-1 pb-1  bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+                {chips?.length > 0 && (
                     <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
 
                         <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
-                            {chips.map((chip) => (
+                            {chips?.map((chip) => (
                                 <div key={chip.key}>
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
                                         {chip.label} :
@@ -512,9 +547,9 @@ const handleNavigateBillsPdf = (row) =>{
 
 
 
-                <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 ">
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 flex-1 ">
 
-                    <div  ref={tableRef} className="overflow-y-auto  max-h-[400px] relative  ">
+                    <div ref={tableRef}  className=" overflow-y-auto relative h-[400px]">
                         <table className="w-full  text-[12px] font-gilroy">
 
                             <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
@@ -531,8 +566,8 @@ const handleNavigateBillsPdf = (row) =>{
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] "> 
-                                                                               INVOICE NO
+                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] ">
+                                        INVOICE NO
                                     </th>
 
 
@@ -584,106 +619,113 @@ const handleNavigateBillsPdf = (row) =>{
 
 
                             <tbody>
-                                <PaginationList>
-                                    {invoiceRegister?.invoiceList?.length > 0 ? (
-                                        invoiceRegister?.invoiceList?.map((row, i) => (
-                                            <tr
-                                                key={i}
-                                                className="border-b last:border-none  transition"
-                                            >
-                                                <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]"></td>
-                                                <td 
-                                                onClick={()=> handleNavigateBillsPdf(row)}
-                                                    className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
-                                                     sticky left-[42px] z-20 bg-white w-[140px]"
-                                                    title={row.invoiceNumber}
-                                                >
-                                                    {row.invoiceNumber}
-                                                </td>
 
-
-                                                <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white w-[200px]">
-                                                    <div className="flex items-center gap-2">
-                                                        {row.profilePic ? (
-                                                            <img
-                                                                src={row.profilePic}
-                                                                alt={row.fullName}
-                                                                className="w-7 h-7 rounded-full object-cover"
-
-                                                            />
-                                                        ) : (
-                                                            <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xs font-semibold">
-                                                                {row.initials}
-                                                            </div>
-                                                        )}
-
-                                                        <span
-                                                            className="truncate whitespace-nowrap font-semibold text-[#111928]"
-                                                            title={row.fullName}
-                                                        >
-                                                            {row.fullName}
-                                                        </span>
-                                                    </div>
-
-                                                </td>
-
-
-                                                <td className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                                                    title={row.invoiceType}>
-                                                    {row.invoiceType}
-                                                </td>
-
-
-                                                <td className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
-                                                    {row.invoiceDate}
-                                                </td>
-
-
-                                                <td className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
-                                                    {row.dueDate}
-                                                </td>
-
-
-                                                <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}>
-                                                    ₹ {row.invoiceAmount}
-                                                </td>
-
-
-                                                <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
-                                                    ₹ {row.dueAmount}
-                                                </td>
-
-
-                                                <td className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
-                                                    <span
-                                                        className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
-      ${statusColor[row.paymentStatus]}`}
-                                                    >
-                                                        {row.paymentStatus.replace(/_/g, " ")}
-                                                    </span>
-
-                                                </td>
-
-                                            </tr>
-                                        ))
-
-                                    ) : (
-                                        <tr>
+                                {invoiceRegister?.invoiceList?.length > 0 ? (
+                                    invoiceRegister?.invoiceList?.map((row, i) => (
+                                        <tr
+                                            key={i}
+                                            className="border-b last:border-none  transition"
+                                        >
+                                            <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]">{i + 1}</td>
                                             <td
-                                                colSpan={9}
-                                                className="py-10 text-center text-sm text-gray-600 font-medium"
+                                                onClick={() => handleNavigateBillsPdf(row)}
+                                                className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
+                                                     sticky left-[42px] z-20 bg-white w-[140px]"
+                                                title={row.invoiceNumber}
                                             >
-                                                No Data Found
+                                                {row.invoiceNumber}
                                             </td>
+
+
+                                            <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white w-[200px]">
+                                                <div className="flex items-center gap-2">
+                                                    {row.profilePic ? (
+                                                        <img
+                                                            src={row.profilePic}
+                                                            alt={row.fullName}
+                                                            className="w-7 h-7 rounded-full object-cover"
+
+                                                        />
+                                                    ) : (
+                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xs font-semibold">
+                                                            {row.initials}
+                                                        </div>
+                                                    )}
+
+                                                    <span
+                                                        className="truncate whitespace-nowrap font-semibold text-[#111928]"
+                                                        title={row.fullName}
+                                                    >
+                                                        {row.fullName}
+                                                    </span>
+                                                </div>
+
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                                                title={row.invoiceType}>
+                                                {row.invoiceType}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                {row.invoiceDate}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                {row.dueDate}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}>
+                                                ₹ {row.invoiceAmount}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                ₹ {row.dueAmount}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                <span
+                                                    className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
+      ${statusColor[row.paymentStatus]}`}
+                                                >
+                                                    {row.paymentStatus.replace(/_/g, " ")}
+                                                </span>
+
+                                            </td>
+
                                         </tr>
-                                    )
-                                    }
-                                </PaginationList>
+                                    ))
+
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={9}
+                                            className="py-10 text-center text-sm text-gray-600 font-medium"
+                                        >
+                                            No Data Found
+                                        </td>
+                                    </tr>
+                                )
+                                }
+
                             </tbody>
 
                         </table>
                     </div>
 
+                  {/* <PaginationList
+                        currentPage={currentPage + 1}
+                        totalPages={totalPages}
+                        totalRecords={totalRecords}
+                        onPageChange={handlePageChange}
+                        onSizeChange={handleSizeChange}
+                    /> */}
 
                     {open && (
                         <>
@@ -755,7 +797,7 @@ const handleNavigateBillsPdf = (row) =>{
                             </div>
                         </>
                     )}
-
+  
                 </div>
 
 
@@ -765,6 +807,7 @@ const handleNavigateBillsPdf = (row) =>{
                     <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} invoiceRegisterFilter={true} />
                 }
             </div>
+            
         </div>
     );
 }

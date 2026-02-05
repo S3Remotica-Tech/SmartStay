@@ -1025,7 +1025,7 @@ function Sidebar() {
                     </div>
                   )}
 
-                  <li className={`list-none ${manageOpen ? "mt-1" : "mt-2.5"}`} >
+                  <li className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`} >
                     <NavLink
                       to={withHostel("/banking")}
                       className={({ isActive }) =>
@@ -1044,7 +1044,7 @@ function Sidebar() {
                   </li>
 
                   <li
-                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
+                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);

@@ -29,7 +29,7 @@ function BillsPdfDetails() {
 
     const { rowData, isReportsInvoiceRegisterWay } = location.state || {};
 
-    console.log("rowData",rowData)
+
 
 
     useEffect(() => {
@@ -59,6 +59,15 @@ function BillsPdfDetails() {
             }, 100);
         }
     }, [rowData]);
+
+
+useEffect(()=>{
+    if(isReportsInvoiceRegisterWay){
+            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
+    }
+
+},[isReportsInvoiceRegisterWay])
 
 
     return (

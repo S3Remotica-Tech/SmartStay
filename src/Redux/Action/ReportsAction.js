@@ -21,8 +21,8 @@ export async function getInvoiceRegister(hostelId, filters = {}) {
       invoiceTypes: filters.invoiceTypes,
       createdBy: filters.createdBy,
       period: filters?.period,
-      page: filters.page ?? 0,
-      size: filters.size ?? 10,
+      page: filters?.page,
+      size: filters?.size,
     },
     paramsSerializer: params =>
       qs.stringify(params, { arrayFormat: "repeat" }),
@@ -55,6 +55,21 @@ export async function getExpenseRegister(hostelId, filters = {}) {
 export async function getReceiptRegister(hostelId, filters = {}) {
 
   return AxiosConfigV2.get(`/v2/reports/transaction/${hostelId}`, {
+    params: {
+       startDate: filters.startDate,
+      endDate: filters.endDate,
+      period: filters?.period,
+      page: filters.page ?? 0,
+      size: filters.size ?? 10,
+    },
+    paramsSerializer: params =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+}
+
+export async function getTenantRegister(hostelId, filters = {}) {
+
+  return AxiosConfigV2.get(`/v2/reports/tenant/${hostelId}`, {
     params: {
        startDate: filters.startDate,
       endDate: filters.endDate,

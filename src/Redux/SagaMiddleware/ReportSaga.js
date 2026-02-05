@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister } from "../Action/ReportsAction"
+import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister,getTenantRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -104,11 +104,31 @@ function* handleGetReceiptRegister(action) {
 }
 
 
+function* handleGetTenantRegister(action) {
+   try {
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getTenantRegister, hostelId, filters)
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_TENANT_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
 function* ReportSaga() {
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
    yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
    yield takeEvery('GET_REPORTS_RECEIPT_REGISTER_SAGA', handleGetReceiptRegister)
+    yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
 
 }
 export default ReportSaga;

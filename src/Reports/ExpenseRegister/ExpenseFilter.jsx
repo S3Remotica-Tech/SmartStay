@@ -14,11 +14,9 @@ import { Filter } from 'iconsax-react'
 function ExpenseFilter({ show, handleClose }) {
     // const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [tenantStatus, setTenantStatus] = useState(null);
+    // const [tenantStatus, setTenantStatus] = useState(null);
     const [period, setPeriod] = useState(null);
-    const [sharingType, setSharingType] = useState(null);
-    const [floor, setFloor] = useState(null);
-    const [room, setRoom] = useState(null);
+  
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState(null);
@@ -130,10 +128,7 @@ function ExpenseFilter({ show, handleClose }) {
 
 
 
-    const handleTenantChange = (e) => {
-        setTenantName(e.target.value);
-    };
-
+    
 
 
 
