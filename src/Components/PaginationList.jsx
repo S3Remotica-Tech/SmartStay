@@ -1,256 +1,242 @@
 
 // /* eslint-disable react-hooks/exhaustive-deps */
-// import React, { useState, useEffect } from "react";
+// import React, { useEffect, useState } from "react";
 // import Select from "react-select";
-// import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-// import PropTypes from "prop-types";
 
 // function PaginationList({
+//   currentPage,
+//   totalPages,
+//   totalRecords,
 //   onPageChange,
-//   onItemsPerPageChange,
-//   pageSizeOptions = [
-//     // { value: , label: "5" },
+//   onSizeChange,
+// }) {
+
+
+
+
+
+//   const sizeOptions = [
 //     { value: 10, label: "10" },
+//     { value: 25, label: "25" },
 //     { value: 50, label: "50" },
 //     { value: 100, label: "100" },
-//   ],
-//   children,
-// }) {
-//   const totalItems = React.Children.count(children);
+//   ];
+//   const [pageSize, setPageSize] = useState(sizeOptions[0]);
 
-//   const DEFAULT_PAGE = 1;
-//   const DEFAULT_ITEMS_PER_PAGE = 10;
+//   const handleChangePage = (page) => {
+//     const p = Math.max(1, Math.min(page, totalPages));
+//     onPageChange(p - 1);
+//   };
 
+//   const getPages = () => {
+//     const pages = [];
+//     const delta = 1;
 
-//   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
-//   const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
+//     pages.push(1);
 
+//     if (currentPage - delta > 2) pages.push("...");
 
-//   const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+//     for (
+//       let i = Math.max(2, currentPage - delta);
+//       i <= Math.min(totalPages - 1, currentPage + delta);
+//       i++
+//     ) {
+//       pages.push(i);
+//     }
 
+//     if (currentPage + delta < totalPages - 1) pages.push("...");
+
+//     if (totalPages > 1) pages.push(totalPages);
+
+//     return pages;
+//   };
+//   const handleSizeChange = (option) => {
+//     setPageSize(option);
+//     onPageChange(0);
+//     onSizeChange(option.value);
+//   };
 //   useEffect(() => {
-//     if (currentPage > totalPages) setCurrentPage(totalPages);
-//     if (currentPage < 1) setCurrentPage(1);
-//   }, [totalPages]);
+//     onSizeChange(pageSize.value);
+//   }, []);
 
 
 
-//   const handleChangePage = (pageNumber) => {
-//     const p = Math.max(1, Math.min(pageNumber, totalPages));
-//     setCurrentPage(p);
-//     if (typeof onPageChange === "function") onPageChange(p);
-//   };
 
-//   const handleChangeItemsPerPage = (selectedOption) => {
-//     const value = Number(selectedOption?.value) || DEFAULT_ITEMS_PER_PAGE;
-//     setItemsPerPage(value);
-//     setCurrentPage(1);
-//     if (typeof onItemsPerPageChange === "function") onItemsPerPageChange(value);
-//     if (typeof onPageChange === "function") onPageChange(1);
-//   };
-
-
-// const startIndex = (currentPage - 1) * itemsPerPage;
-// const endIndex = startIndex + itemsPerPage;
-
-// const paginatedChildren = React.Children.toArray(children).slice(
-//   startIndex,
-//   endIndex
-// );
-
-
-
-// if (totalItems === 0) return null; 
 
 
 
 //   return (
-//     <>
-//       {paginatedChildren}
-//       {totalItems > 9 && (
+//     <div className="sticky bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-6 py-1 shadow">
+//       <div className="flex items-center justify-between">
 
-//       <nav
-//         style={{
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "end",
-//           padding: "0px",
-//           borderRadius: "5px",
-//           position: "fixed",
-//           zIndex: 1000,
-//           width: "83%",
-//           bottom: 0,
-//           left: "17%",
-//           right: "16px",
-//           backgroundColor: "#fff",
-//         }}
-//       >
-//         <div>
+
+//         <div className="text-sm font-medium text-gray-700">
+//           Total Records : {totalRecords}
+//         </div>
+
+
+//        <div className="flex items-center gap-2">
+// <div className="flex items-center gap-2">
+//           <span className="text-sm text-gray-600">Size</span>
 //           <Select
-//             options={pageSizeOptions}
-//             value={
-//               itemsPerPage
-//                 ? { value: itemsPerPage, label: `${itemsPerPage} ` }
-//                 : null
-//             }
-//             onChange={handleChangeItemsPerPage}
-//             placeholder="Rows per page"
-//             classNamePrefix="custom"
-//             menuPlacement="auto"
-//             noOptionsMessage={() => "No options"}
+//             value={pageSize}
+//             options={sizeOptions}
+//             onChange={handleSizeChange}
+//             isSearchable={false}
+//             menuPlacement="top"
+//             className="w-24 text-sm"
+//             classNamePrefix="react-select"
 //             styles={{
 //               control: (base) => ({
 //                 ...base,
-//                 height: "32px",
 //                 minHeight: "32px",
-//                 border: "1px solid #1E45E1",
-//                 borderRadius: "5px",
-//                 fontSize: "13px",
-//                 fontWeight: 600,
-//                 fontFamily: "Gilroy",
-//                 boxShadow: "0 0 0 1px #1E45E1",
+//                 height: "32px",
+//                 borderColor: "#D1D5DB",
+//                 boxShadow: "none",
 //                 cursor: "pointer",
-//                 width: 80,
-//                 display: "flex",
-//                 alignItems: "center",
-//                 justifyContent: "space-between",
-//                 padding: "0 6px",
 //               }),
 //               valueContainer: (base) => ({
 //                 ...base,
-//                 height: "100%",
-//                 display: "flex",
-//                 alignItems: "center",
-//                 padding: 0,
+//                 padding: "0 8px",
 //               }),
-//               singleValue: (base) => ({
+//               indicatorsContainer: (base) => ({
 //                 ...base,
-//                 margin: 0,
-//                 padding: 0,
-//                 lineHeight: "normal",
-//                 display: "flex",
-//                 alignItems: "center",
-//               }),
-//               input: (base) => ({
-//                 ...base,
-//                 margin: 0,
-//                 padding: 0,
-//               }),
-//               menu: (base) => ({
-//                 ...base,
-//                 backgroundColor: "#f8f9fa",
-//                 border: "1px solid #ced4da",
-//                 fontFamily: "Gilroy",
-//               }),
-//               menuList: (base) => ({
-//                 ...base,
-//                 backgroundColor: "#f8f9fa",
-//                 maxHeight: "200px",
-//                 padding: 0,
-//                 scrollbarWidth: "thin",
-//                 overflowY: "auto",
-//               }),
-//               placeholder: (base) => ({
-//                 ...base,
-//                 color: "#555",
-//               }),
-//               dropdownIndicator: (base) => ({
-//                 ...base,
-//                 color: "#1E45E1",
-//                 cursor: "pointer",
-//                 padding: 0,
-//                 display: "flex",
-//                 alignItems: "center",
-//               }),
-//               indicatorSeparator: () => ({
-//                 display: "none",
+//                 height: "32px",
 //               }),
 //               option: (base, state) => ({
 //                 ...base,
+//                 fontSize: "13px",
 //                 cursor: "pointer",
-//                 backgroundColor: state.isFocused ? "#1E45E1" : "white",
-//                 color: state.isFocused ? "#fff" : "#000",
-//                 display: "flex",
-//                 alignItems: "center",
-//                 justifyContent: "center",
-//                 padding: "6px 0",
+//                 backgroundColor: state.isFocused ? "#E5F0FF" : "#fff",
+//                 color: "#111827",
+//               }),
+//               dropdownIndicator: (base) => ({
+//                 ...base,
+//                 color: "#555",
+//                 cursor: "pointer"
+//               }),
+//               indicatorSeparator: () => ({
+//                 display: "none",
+//               }), clearIndicator: () => ({
+//                 display: "none",
 //               }),
 //             }}
 //           />
 //         </div>
+//         <ul className="flex items-center gap-2 m-0">
+ 
 
-//         <ul
-//           className="selectoption"
-//           style={{
-//             display: "flex",
-//             alignItems: "center",
-//             listStyleType: "none",
-//             margin: 0,
-//             padding: 0,
-//           }}
-//         >
-//           <li style={{ margin: "0 10px" }}>
+//           <li>
 //             <button
-//               style={{
-//                 padding: "5px",
-//                 color: currentPage === 1 ? "#ccc" : "#1E45E1",
-//                 cursor: currentPage === 1 ? "not-allowed" : "pointer",
-//                 borderRadius: "50%",
-//                 minWidth: "30px",
-//                 textAlign: "center",
-//                 backgroundColor: "transparent",
-//                 border: "none",
-//               }}
 //               onClick={() => handleChangePage(currentPage - 1)}
 //               disabled={currentPage === 1}
+//               className="rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium
+//                          disabled:cursor-not-allowed disabled:opacity-50
+//                          hover:bg-gray-100"
 //             >
-//               <ArrowLeft2
-//                 size="16"
-//                 color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-//               />
+//               ← Prev
 //             </button>
 //           </li>
 
-//           <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-//             {currentPage} of {totalPages}
-//           </li>
+//           {getPages().map((page, i) =>
+//             page === "..." ? (
+//               <li key={i} className="px-2 text-gray-400">
+//                 …
+//               </li>
+//             ) : (
+//               <li key={i}>
+//                 <button
+//                   onClick={() => handleChangePage(page)}
+//                   className={`h-8 w-8 rounded-md text-sm font-semibold
+//                     ${page === currentPage
+//                       ? "bg-blue-600 text-white"
+//                       : "text-gray-700 hover:bg-gray-100"
+//                     }`}
+//                 >
+//                   {page}
+//                 </button>
+//               </li>
+//             )
+//           )}
 
-//           <li style={{ margin: "0 10px" }}>
+
+//           <li>
 //             <button
-//               style={{
-//                 padding: "5px",
-//                 color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-//                 cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-//                 borderRadius: "50%",
-//                 minWidth: "30px",
-//                 textAlign: "center",
-//                 backgroundColor: "transparent",
-//                 border: "none",
-//               }}
 //               onClick={() => handleChangePage(currentPage + 1)}
 //               disabled={currentPage === totalPages}
+//               className="rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium
+//                          disabled:cursor-not-allowed disabled:opacity-50
+//                          hover:bg-gray-100"
 //             >
-//               <ArrowRight2
-//                 size="16"
-//                 color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-//               />
+//               Next →
 //             </button>
 //           </li>
 //         </ul>
-//       </nav>
-//       ) }
-//     </>
+//         </div>
+//       </div>
+//     </div>
 //   );
 // }
 
-// PaginationList.propTypes = {
-//   onPageChange: PropTypes.func,
-//   onItemsPerPageChange: PropTypes.func,
-//   pageSizeOptions: PropTypes.array,
-//   children: PropTypes.node,
-// };
-
 // export default PaginationList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

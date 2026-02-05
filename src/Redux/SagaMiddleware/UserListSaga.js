@@ -225,7 +225,7 @@ function* handleEditBasicDetails(reading) {
       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
-            yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+            yield put({ type: 'ALREADY_MOBILE_BASIC_ERROR', payload: error.response.data });
          }
       }
    }

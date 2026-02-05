@@ -2155,6 +2155,7 @@ function UserListRoomDetail(props) {
   };
   const handleCloseBasicDetails = () => {
     setEditBasicDetailsShow(false)
+      dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
   }
   const [addressDetails, setAddressDetails] = useState("")
   const handleEditAddressDetailsShow = (item) => {

@@ -615,7 +615,7 @@ function InvoiceRegisterFilter({ show, handleClose, invoiceRegisterFilter }) {
 
                             </div>
 
-                            <Select
+                            <Select isDisabled
                                 isSearchable={false}
                                 options={periodOptions}
                                 styles={CustomStyles}

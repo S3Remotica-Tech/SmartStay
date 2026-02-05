@@ -27,7 +27,9 @@ function BillsPdfDetails() {
     const invoiceRefs = useRef({});
 
 
-    const { rowData } = location.state || {};
+    const { rowData, isReportsInvoiceRegisterWay } = location.state || {};
+
+
 
 
     useEffect(() => {
@@ -57,6 +59,15 @@ function BillsPdfDetails() {
             }, 100);
         }
     }, [rowData]);
+
+
+useEffect(()=>{
+    if(isReportsInvoiceRegisterWay){
+            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
+    }
+
+},[isReportsInvoiceRegisterWay])
 
 
     return (
@@ -332,7 +343,7 @@ function BillsPdfDetails() {
                         overflowY: "auto",
                     }}
                 >
-                    <BillPdfModal rowData={rowData || rowDatas} />
+                    <BillPdfModal rowData={rowData || rowDatas} isReportsInvoiceRegisterWay={isReportsInvoiceRegisterWay} />
                 </div>
 
 

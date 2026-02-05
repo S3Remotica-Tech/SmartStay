@@ -14,11 +14,9 @@ import { Filter } from 'iconsax-react'
 function ExpenseFilter({ show, handleClose }) {
     // const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [tenantStatus, setTenantStatus] = useState(null);
+    // const [tenantStatus, setTenantStatus] = useState(null);
     const [period, setPeriod] = useState(null);
-    const [sharingType, setSharingType] = useState(null);
-    const [floor, setFloor] = useState(null);
-    const [room, setRoom] = useState(null);
+  
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState(null);
@@ -130,10 +128,7 @@ function ExpenseFilter({ show, handleClose }) {
 
 
 
-    const handleTenantChange = (e) => {
-        setTenantName(e.target.value);
-    };
-
+    
 
 
 
@@ -218,7 +213,7 @@ function ExpenseFilter({ show, handleClose }) {
                     <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
 
 
-                        <Form.Group className="mt-2 mb-3">
+                        {/* <Form.Group className="mt-2 mb-3">
                             <div
                                 style={{
                                     display: 'flex',
@@ -260,7 +255,7 @@ function ExpenseFilter({ show, handleClose }) {
 
 
 
-                        </Form.Group>
+                        </Form.Group> */}
 
 
                         <div className='mb-3'>
@@ -271,7 +266,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Category
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={category}
                                 onChange={setCategory}
@@ -280,12 +275,12 @@ function ExpenseFilter({ show, handleClose }) {
                             />
                         </Form.Group>
 
-                        {/* Period */}
+                     
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={period}
                                 onChange={handlePeriodChange}
@@ -299,7 +294,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Payment Mode
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={paymentMode}
                                 onChange={handlePaymentMode}
@@ -313,7 +308,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Paid To
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={paidTo}
                                 onChange={handlePaidChange}
@@ -327,7 +322,7 @@ function ExpenseFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Created By
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 value={createdBy}
                                 onChange={handleCreatedByChange}

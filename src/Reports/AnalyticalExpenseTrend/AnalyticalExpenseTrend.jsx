@@ -122,18 +122,18 @@ const reportCards = [
   const handleNavigateRegister = (item) => {
     setRegister(false)
     if (item?.subTitle === "MonthRevenue") {
-      navigate(`/reports/month-revenue`)
+      navigate(`/reports/month-revenue/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "Outstanding") {
-      navigate(`/reports/collected-outstanding`)
+      navigate(`/reports/collected-outstanding/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "Vacant") {
-      navigate(`/reports/vacant-occupied`)
+      navigate(`/reports/vacant-occupied/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "MonthlyExpenseTrend") {
-      navigate(`/reports/expense-trend`)
+      navigate(`/reports/expense-trend/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "OverdueInvoicesTrend") {
-      navigate(`/reports/overdue-invoice-trend`)
+      navigate(`/reports/overdue-invoice-trend/${state.login?.selectedHostel_Id}`)
     }
     else if (item?.subTitle === "Complaints") {
-      navigate(`/reports/complaints-resolved`)
+      navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
   }
 

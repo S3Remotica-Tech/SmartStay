@@ -4,7 +4,7 @@ import {
     Modal,
     Form,
     Button,
-    // InputGroup,
+    InputGroup,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -21,7 +21,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    // const [countryCode, setCountryCode] = useState("91");
+    const countryCode = "91"
     // const [id, setId] = useState("")
     const [firstNameError, setFirstNameError] = useState("")
     const [phoneError, setPhoneError] = useState("")
@@ -67,22 +67,23 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         setIsChanged("")
     };
 
-    // const handlePhoneChange = (e) => {
-    //     const input = e.target.value.replace(/\D/g, "");
-    //     setPhone(input);
+    const handlePhoneChange = (e) => {
+        dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
+        const input = e.target.value.replace(/\D/g, "");
+        setPhone(input);
 
-    //     if (input.length === 0) {
-    //         setPhoneError("");
-    //     } else if (input.length < 10) {
-    //         setPhoneError("Please Enter Mobile Number");
-    //     } else if (input.length === 10) {
-    //         setPhoneError("");
-    //     }
+        if (input.length === 0) {
+            setPhoneError("");
+        } else if (input.length < 10) {
+            setPhoneError("Please Enter Mobile Number");
+        } else if (input.length === 10) {
+            setPhoneError("");
+        }
 
-    //     setIsChanged("")
+        setIsChanged("")
 
-    //     dispatch({ type: "CLEAR_PHONE_ERROR" });
-    // };
+        dispatch({ type: "CLEAR_PHONE_ERROR" });
+    };
 
 
 
@@ -133,6 +134,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
 
     const handleSubmit = () => {
+        dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
+
         if (!firstName) {
             setFirstNameError("Please Enter First Name");
             return;
@@ -207,6 +210,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                     firstName: capitalizedFirstname || "",
                     lastName: capitalizedLastname || "",
                     mailId: email || "",
+                    mobile: phone,
                 },
                 profilePic: basicDetails?.profilePic || "",
             },
@@ -295,9 +299,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                     <ErrorMessage message={emailError} type="error" />
                                 )}
                             </div>
-
-
-                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Form.Group controlId="exampleForm.ControlInput1">
                                     <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
                                         Mobile Number
@@ -330,8 +332,12 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                 {phoneError && (
                                     <ErrorMessage message={phoneError} type="error" />
                                 )}
-                            </div> */}
 
+                                {
+                                    state.UsersList?.alreadyMobileBasicError &&
+                                    <ErrorMessage message={state.UsersList?.alreadyMobileBasicError} type="error" />
+                                }
+                            </div>
                         </div>
                     </Modal.Body>
 

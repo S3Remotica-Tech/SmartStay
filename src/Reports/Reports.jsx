@@ -5,13 +5,13 @@ import {
   WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home,
   Wallet, Shop, Flash, Warning2, ClipboardText,
   TrendUp,
-  DollarCircle,Buildings ,
-  
+  DollarCircle, Buildings,
+
   ReceiptItem,
   Clock,
   MessageText
 } from "iconsax-react";
-import { useNavigate ,useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AiOutlineBarChart } from "react-icons/ai";
@@ -29,7 +29,7 @@ function Reports() {
   const [activeTab, setActiveTab] = useState("operational");
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
-const location = useLocation();
+  const location = useLocation();
 
   const analytical = location.state?.analytical;
 
@@ -47,28 +47,28 @@ const location = useLocation();
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
-    }else{
+    } else {
       setLoading(false)
     }
   }, [canReadReports]);
 
   const reportsList = state.reports?.getReportsList
 
-useEffect(()=>{
+  useEffect(() => {
 
-setLoading(false);
-},[state.reports?.getReportsList])
+    setLoading(false);
+  }, [state.reports?.getReportsList])
 
- 
 
-useEffect(()=>{
-  if(analytical){
-    setActiveTab("analytical")
-  }else{
-     setActiveTab("operational")
-  }
-  
-},[analytical])
+
+  useEffect(() => {
+    if (analytical) {
+      setActiveTab("analytical")
+    } else {
+      setActiveTab("operational")
+    }
+
+  }, [analytical])
 
   const tabs = [
     { id: "operational", label: "Operational Reports" },
@@ -105,7 +105,7 @@ useEffect(()=>{
       title: "Tenant Register",
       subTitle: "This Month",
       desc: "Complete tenant directory with status tracking",
-      value: `₹${reportsList?.tenantInfo?.totalTenants}`,
+      value: `${reportsList?.tenantInfo?.totalTenants}`,
       icon: UserOctagon,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
 
@@ -130,7 +130,7 @@ useEffect(()=>{
       title: "Vendor Ledger",
       subTitle: "Active Vendors",
       desc: "Vendor-wise transaction history and outstanding",
-      value: `₹${reportsList?.vendor?.totalVendors}`,
+      value: `${reportsList?.vendor?.totalVendors}`,
       icon: Shop,
       color: "text-pink-600 bg-pink-100",
     },
@@ -146,7 +146,7 @@ useEffect(()=>{
       title: "Complaint Register",
       subTitle: "Total Complaints",
       desc: "Track complaints, resolution, and SLA compliance",
-      value: `₹${reportsList?.complaints?.totalComplaints}`,
+      value: `${reportsList?.complaints?.totalComplaints}`,
       icon: Warning2,
       color: "text-rose-600 bg-rose-100",
     },
@@ -154,7 +154,7 @@ useEffect(()=>{
       title: "Request Register",
       subTitle: "This Month",
       desc: "Monitor tenant requests and approval workflow",
-      value: `₹${reportsList?.requests?.totalRequests}`,
+      value: `${reportsList?.requests?.totalRequests}`,
       icon: ClipboardText,
       color: "text-[#6366F1] bg-[#6366F115]",
     },
@@ -162,7 +162,7 @@ useEffect(()=>{
       title: "Final Settlement",
       subTitle: "This Month",
       desc: "Security deposit refunds and settlement tracking",
-       value: `₹${reportsList?.settlement?.totalAmount}`,
+      value: `₹${reportsList?.settlement?.totalAmount}`,
       icon: WalletMoney,
       color: "text-[#14B8A6] bg-[#14B8A615]",
     },
@@ -183,7 +183,7 @@ useEffect(()=>{
     },
     {
       label: "Active Tenants",
-      value: `₹${reportsList?.tenantInfo?.totalTenants}`,
+      value: `${reportsList?.tenantInfo?.totalTenants}`,
       valueColor: "#222222",
     },
     {
@@ -193,59 +193,59 @@ useEffect(()=>{
     },
   ];
 
-const analyticsCards = [
-  {
-    id: 1,
-    title: "Month vs Month Revenue",
-    desc: "Compare revenue performance across months with trend analysis",
-    icon: TrendUp,
-     color: "text-blue-600 bg-blue-100",
-     subTitle:"MonthRevenue"
-    
-  },
-  {
-    id: 2,
-    title: "Collected vs Outstanding",
-    desc: "Track payment collections and outstanding amounts",
-    icon: DollarCircle,
-    color: "text-green-600 bg-green-100",
-    subTitle:"Outstanding"
-  },
-  {
-    id: 3,
-    title: "Vacant vs Occupied Beds",
-    desc: "Real-time bed occupancy and availability status",
-    icon: Buildings ,
-    color: "text-purple-600 bg-purple-100",
-    subTitle:"Vacant"
-  },
-  {
-    id: 4,
-    title: "Monthly Expense Trend",
-    desc: "Track and analyze monthly expense patterns",
-    icon: ReceiptItem,
-  color: "text-[#F59E0B] bg-[#FFEFD3E5]",
-   subTitle:"MonthlyExpenseTrend"
-  },
-  {
-    id: 5,
-    title: "Overdue Invoices Trend",
-    desc: "Monitor overdue payment trends and risks",
-    icon: Clock,
-    color: "text-red-600 bg-red-100",
-    subTitle:"OverdueInvoicesTrend"
-   
-  },
-  {
-    id: 6,
-    title: "Complaints Resolved",
-    desc: "Track complaint resolution performance",
-    icon: MessageText,
-    color: "text-indigo-600 bg-indigo-100",
-    subTitle:"Complaints"
-    
-  }
-];
+  const analyticsCards = [
+    {
+      id: 1,
+      title: "Month vs Month Revenue",
+      desc: "Compare revenue performance across months with trend analysis",
+      icon: TrendUp,
+      color: "text-blue-600 bg-blue-100",
+      subTitle: "MonthRevenue"
+
+    },
+    {
+      id: 2,
+      title: "Collected vs Outstanding",
+      desc: "Track payment collections and outstanding amounts",
+      icon: DollarCircle,
+      color: "text-green-600 bg-green-100",
+      subTitle: "Outstanding"
+    },
+    {
+      id: 3,
+      title: "Vacant vs Occupied Beds",
+      desc: "Real-time bed occupancy and availability status",
+      icon: Buildings,
+      color: "text-purple-600 bg-purple-100",
+      subTitle: "Vacant"
+    },
+    {
+      id: 4,
+      title: "Monthly Expense Trend",
+      desc: "Track and analyze monthly expense patterns",
+      icon: ReceiptItem,
+      color: "text-[#F59E0B] bg-[#FFEFD3E5]",
+      subTitle: "MonthlyExpenseTrend"
+    },
+    {
+      id: 5,
+      title: "Overdue Invoices Trend",
+      desc: "Monitor overdue payment trends and risks",
+      icon: Clock,
+      color: "text-red-600 bg-red-100",
+      subTitle: "OverdueInvoicesTrend"
+
+    },
+    {
+      id: 6,
+      title: "Complaints Resolved",
+      desc: "Track complaint resolution performance",
+      icon: MessageText,
+      color: "text-indigo-600 bg-indigo-100",
+      subTitle: "Complaints"
+
+    }
+  ];
 
 
   useEffect(() => {
@@ -284,7 +284,7 @@ const analyticsCards = [
     if (state.reports.getSuccessReports === 200) {
       setLoading(false)
       dispatch({ type: 'CLEAR_GET_REPORTS_REDUCER' })
-    }else{
+    } else {
       setLoading(false)
     }
 
@@ -293,52 +293,52 @@ const analyticsCards = [
 
   const handleNavigateRegister = (item) => {
     if (item?.title === "Tenant Register") {
-      navigate(`/reports/tenant-register`)
+      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Receipt Register") {
-      navigate(`/reports/receipt-register`)
+      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Bank Transaction Register") {
-      navigate(`/reports/bank-transaction-register`)
+      navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Occupancy") {
-      navigate(`/reports/occupancy-register`)
+      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Expense Register") {
-      navigate(`/reports/expense-register`)
+      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Vendor Ledger") {
-      navigate(`/reports/vendor-register`)
+      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Electricity Billing Register") {
-      navigate(`/reports/electricity-billing-register`)
+      navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Complaint Register") {
-      navigate(`/reports/complaint-register`)
+      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Request Register") {
-      navigate(`/reports/request-register`)
+      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Final Settlement") {
-      navigate(`/reports/final-settlement-register`)
+      navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
     } else if (item?.title === "Invoice Register") {
-      navigate(`/reports/invoice-register`)
+      navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
     }
   }
 
-const handleNavigateAnalyTics = (item)=>{
-  if (item?.subTitle === "MonthRevenue") {
-      navigate(`/reports/month-revenue`)
+  const handleNavigateAnalyTics = (item) => {
+    if (item?.subTitle === "MonthRevenue") {
+      navigate(`/reports/month-revenue/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "Outstanding") {
-      navigate(`/reports/collected-outstanding`)
+      navigate(`/reports/collected-outstanding/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "Vacant") {
-      navigate(`/reports/vacant-occupied`)
+      navigate(`/reports/vacant-occupied/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "MonthlyExpenseTrend") {
-      navigate(`/reports/expense-trend`)
+      navigate(`/reports/expense-trend/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "OverdueInvoicesTrend") {
-      navigate(`/reports/overdue-invoice-trend`)
+      navigate(`/reports/overdue-invoice-trend/${state.login?.selectedHostel_Id}`)
     }
     else if (item?.subTitle === "Complaints") {
-      navigate(`/reports/complaints-resolved`)
+      navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
-}
-  useEffect(() => {
-    setSelectedRange({
-      from: dayjs().startOf("month").toDate(),
-      to: dayjs().endOf("month").toDate(),
-    });
-  }, []);
+  }
+  // useEffect(() => {
+  //   setSelectedRange({
+  //     from: dayjs().startOf("month").toDate(),
+  //     to: dayjs().endOf("month").toDate(),
+  //   });
+  // }, []);
 
 
 
@@ -376,7 +376,8 @@ const handleNavigateAnalyTics = (item)=>{
           className="datepicker-wrapper"
           style={{ position: "relative", }}
         >
-          <RangePicker
+          <RangePicker disabled
+
             style={{
               width: "100%",
               height: "100%",
@@ -509,52 +510,52 @@ const handleNavigateAnalyTics = (item)=>{
 
           {activeTab === "analytical" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {analyticsCards?.map((item, idx) => {
-                  const Icon = item.icon;
-                  return (
-                    <div
-                      key={idx}
-                      className="rounded-2xl  border border-[#E5E7EB] bg-white p-3 hover:shadow-md transition h-full"
-                    >
-                      <div className={`p-2 rounded-lg w-fit my-1 ${item.color}`}>
-                        <Icon size={22} variant="Bold" />
-                      </div>
-                      <div className="flex items-start gap-4 h-[70px]">
-
-                        <div className="flex-1">
-                          <h3 className="text-sm font-semibold text-[#101828">
-                            {item.title}
-                          </h3>
-                          <p className="text-xs text-[#4A5565] mt-1">
-                            {item.desc}
-                          </p>
-                        
-                        </div>
-                      </div>
-
-                      {item.value && (
-                        <div className="mt-2 text-xl font-semibold text-[#101828]">
-                          {item.value}
-                        </div>
-                      )}
-                      <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
-
-                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics
-                        (item)}>
-                        <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
-                          View Analytics
-                        </span>
-
-                        <ArrowRight
-                          size="16"
-                          className="text-blue-600 transition-transform group-hover:translate-x-1"
-                        />
-                      </div>
-
+              {analyticsCards?.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-2xl  border border-[#E5E7EB] bg-white p-3 hover:shadow-md transition h-full"
+                  >
+                    <div className={`p-2 rounded-lg w-fit my-1 ${item.color}`}>
+                      <Icon size={22} variant="Bold" />
                     </div>
-                  );
-                })}
-              </div>
+                    <div className="flex items-start gap-4 h-[70px]">
+
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-[#101828">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-[#4A5565] mt-1">
+                          {item.desc}
+                        </p>
+
+                      </div>
+                    </div>
+
+                    {item.value && (
+                      <div className="mt-2 text-xl font-semibold text-[#101828]">
+                        {item.value}
+                      </div>
+                    )}
+                    <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
+
+                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics
+                      (item)}>
+                      <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
+                        View Analytics
+                      </span>
+
+                      <ArrowRight
+                        size="16"
+                        className="text-blue-600 transition-transform group-hover:translate-x-1"
+                      />
+                    </div>
+
+                  </div>
+                );
+              })}
+            </div>
           )}
 
 
