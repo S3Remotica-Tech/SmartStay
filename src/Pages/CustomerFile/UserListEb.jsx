@@ -19,7 +19,7 @@ function UserEb(props) {
   // const [EbrowsPerPage, setEbrowsPerPage] = useState(4);
   // const [EbcurrentPage, setEbCurrentPage] = useState(1);
   // const [EbFilterddata, setEbFilterddata] = useState([]);
-   const [tenantReadingList, setTenantreadingList] = useState([])
+  const [tenantReadingList, setTenantreadingList] = useState([])
   // const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   // const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
 
@@ -31,244 +31,183 @@ function UserEb(props) {
   // }
 
 
-// const ebOptions = [
-//   { value: 4, label: "4" },
-//   { value: 10, label: "10" },
-//   { value: 50, label: "50" },
-//   { value: 100, label: "100" },
-// ];
+  // const ebOptions = [
+  //   { value: 4, label: "4" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
   // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
 
-// const canReadElectricity = useHasPermission("Electricity", "canRead")
-//   const canWriteElectricity = useHasPermission("Electricity", "canWrite");
-//   const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
-//   const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
+  // const canReadElectricity = useHasPermission("Electricity", "canRead")
+  //   const canWriteElectricity = useHasPermission("Electricity", "canWrite");
+  //   const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
+  //   const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
 
 
 
-const {
-        // canWriteModule: canWriteElectricity,
-        canReadModule: canReadElectricity,
-        // canUpdateModule: canUpdateElectricity,
-        // canDeleteModule: canDeleteElectricity,
-      } = useHasPermission("Electricity");
-
-
-
-
+  const {
+    // canWriteModule: canWriteElectricity,
+    canReadModule: canReadElectricity,
+    // canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteElectricity,
+  } = useHasPermission("Electricity");
 
 
 
 
 
 
-  
-
-
- useEffect(() => {
-        if (state.login?.selectedHostel_Id && props?.id) {
-            dispatch({
-                type: 'GETPARTICULARCUSTOMERREADING', 
-                payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    customerId: props?.id
-                }
-            })
-                   }
-
-    }, [])
 
 
 
-useEffect(() => {
-        if (state.UsersList.getParticularCustomerReadingStatus === 200) {
-            // setLoading(false)
-                         setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_GET_PARTICULAR_CUSTOMER_READING' })
-            }, 100)
 
+
+
+
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id && props?.id) {
+      dispatch({
+        type: 'GETPARTICULARCUSTOMERREADING',
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customerId: props?.id
         }
+      })
+    }
 
-    }, [state.UsersList.getParticularCustomerReadingStatus])
+  }, [])
 
-const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
- 
-  const [, month, year] = item.startDate.split("/");
 
-  const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
 
-  
-  const formatDate = (dateStr) => {
-    const [d, m, y] = dateStr.split("/").map(Number);
-    return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
+  useEffect(() => {
+    if (state.UsersList.getParticularCustomerReadingStatus === 200) {
+      // setLoading(false)
+      setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_PARTICULAR_CUSTOMER_READING' })
+      }, 100)
+
+    }
+
+  }, [state.UsersList.getParticularCustomerReadingStatus])
+
+  const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
+
+    const [, month, year] = item.startDate.split("/");
+
+    const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+      month: "long",
+      year: "numeric",
     });
-  };
 
-  return {
-    billingMonth,
-    from: formatDate(item.startDate),
-    to: formatDate(item.endDate),
-    floor: item.floorName || tenantReadingList.floorName,
-    room: item.roomName || tenantReadingList.roomName,
-    bed: item.bedName || tenantReadingList.bedName,
-    totalUnits: item.consumption || 0,
-    amount: item.amount || 0,
-    profilePic: tenantReadingList.profilePic || null,
-    tenantName: `${tenantReadingList.firstName || ""} ${tenantReadingList.lastName || ""}`.trim(),
-  };
-});
+
+    const formatDate = (dateStr) => {
+      const [d, m, y] = dateStr.split("/").map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+      });
+    };
+
+    return {
+      billingMonth,
+      from: formatDate(item.startDate),
+      to: formatDate(item.endDate),
+      floor: item.floorName || tenantReadingList.floorName,
+      room: item.roomName || tenantReadingList.roomName,
+      bed: item.bedName || tenantReadingList.bedName,
+      totalUnits: item.consumption || 0,
+      amount: item.amount || 0,
+      profilePic: tenantReadingList.profilePic || null,
+      tenantName: `${tenantReadingList.firstName || ""} ${tenantReadingList.lastName || ""}`.trim(),
+    };
+  });
 
 
   return (
     <>
 
       <div>
-        <div
-          className="mt-2 "
-          style={{ paddingBottom: "20px" }}
-        >
+        <div className="mt-2 pb-5">
           {
-          
-          !canReadElectricity ? (
 
- <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                              minHeight:"45vh"
-                              }}
-            >
-              
-              <ErrorMessage message={['You do not have access to view Eb Reading']} type="warning"/>
+            !canReadElectricity ? (
 
-            </div>
-
-
-          )
-          
-          
-          : 
-          
-          
-          
-          
-          
-          
-          formattedTenantReadings?.length > 0 ? (
-             <div
-                                       className="table-responsive mx-4"
-                                       style={{
-                                           background: "#fff",
-                                          //  borderRadius: 12,
-                                           boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                                           maxHeight: "420px",
-                                           overflowY: "auto",
-                                       }}
-                                   >
-                                       <Table bordered={false} className="align-middle mb-0">
-                                           <thead
-                                               style={{
-                                                   backgroundColor: "rgba(231, 241, 255, 1)",
-                                                   position: "sticky",
-                                                   top: 0,
-                                                   zIndex: 2,
-                                               }}
-                                           >
-                                               <tr className="text-uppercase">
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                                       BILLING MONTH
-                                                   </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                                       FROM
-                                                   </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13,  }}>
-                                                       TO
-                                                   </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13,}}>
-                                                       FLOOR
-                                                   </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                                       ROOM
-                                                   </th>
-           
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13 }}>
-                                                       BED
-                                                   </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                                       TOTAL UNITS
-                                                   </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13,  }}>
-                                                       AMOUNT
-                                                   </th>
-                                               </tr>
-                                           </thead>
-                                           <tbody style={{ fontSize: 14, color: "#000" }}>
-                                               <PaginationList>
-                                                   {formattedTenantReadings?.map((row, i) => (
-                                                       <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", fontFamily:"Gilroy" }}>
-           
-                                                           <td style={{  }}>{row.billingMonth}</td>
-                                                           <td style={{  }}>{row.from}</td>
-                                                           <td style={{  }}>{row.to}</td>
-                                                           <td style={{  }}>{row.floor}</td>
-                                                           <td style={{  }}>{row.room}</td>
-                                                           <td style={{ }}>{row.bed}</td>
-                                                           <td style={{  }}>{row.totalUnits}</td>
-                                                           <td style={{   }}>{row.amount}</td>
-           
-           
-           
-                                                       </tr>
-                                                   ))}
-                                               </PaginationList>
-                                           </tbody>
-                                       </Table>
-                                   </div>
-          ) :
-            <div style={{ marginTop: 25 }} className="flex justify-content-center">
-              <div>
-              <div style={{ textAlign: "center" }}>
-                <img src={Emptystate} alt="emptystate" />
-              </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
+              <div className="flex flex-col items-center justify-center min-h-[45vh]"
               >
-                No Electricity available
+
+                <ErrorMessage message={['You do not have access to view Eb Reading']} type="warning" />
+
               </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                There are no Electricity added.
-              </div></div>
-            </div>
-            }
+
+
+            )
+
+
+              :
+
+
+              formattedTenantReadings?.length > 0 ? (
+                <div className="mx-2 bg-white shadow-md max-h-[420px] overflow-y-auto"
+
+                >
+                  <Table bordered={false} className="align-middle mb-0"
+                  >
+                    <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2" >
+                      <tr className="text-uppercase">
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">BILLING MONTH</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">FROM</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">TO</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">FLOOR</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">ROOM</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">BED</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">TOTAL UNITS</th>
+                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">AMOUNT</th>
+                      </tr>
+
+                    </thead>
+                    <tbody className="text-[14px] text-black">
+                      <PaginationList>
+                        {formattedTenantReadings?.map((row, i) => (
+                          <tr key={i} className="border-b border-gray-300 font-gilroy">
+
+                            <td style={{}}>{row.billingMonth}</td>
+                            <td style={{}}>{row.from}</td>
+                            <td style={{}}>{row.to}</td>
+                            <td style={{}}>{row.floor}</td>
+                            <td style={{}}>{row.room}</td>
+                            <td style={{}}>{row.bed}</td>
+                            <td style={{}}>{row.totalUnits}</td>
+                            <td style={{}}>{row.amount}</td>
+                          </tr>
+                        ))}
+                      </PaginationList>
+                    </tbody>
+                  </Table>
+                </div>
+              ) :
+                <div className="mt-6 flex justify-center">
+                  <div>
+                    
+                    <div className="text-center">
+                      <img src={Emptystate} alt="emptystate" />
+                    </div>
+
+                    <div className="pb-1 text-center font-semibold font-gilroy text-[16px] text-[#4B4B4B]">
+                      No Electricity available
+                    </div>
+                    <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
+                      There are no Electricity added.
+                    </div>
+                    </div>
+                </div>
+          }
         </div>
-        
+
       </div>
     </>
   )
