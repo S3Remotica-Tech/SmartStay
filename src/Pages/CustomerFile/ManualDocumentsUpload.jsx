@@ -62,8 +62,9 @@ function ManualDocumentsUpload({ show, handleClose }) {
             backdrop="static"
             size={selectedFile ? "lg" : "md"}
         >
-            <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                <Modal.Title style={{ fontFamily: "Gilroy", fontWeight: 600, color: "#222222", fontSize: 20 }}>
+            <Modal.Header className="border border-[#E7E7E7]">
+                <Modal.Title className="font-gilroy font-semibold text-[#222222] text-xl"
+                 >
                     Upload Document
                 </Modal.Title>
 
@@ -71,56 +72,39 @@ function ManualDocumentsUpload({ show, handleClose }) {
                     size={24}
                     color="#000"
                     onClick={handleClose}
-                    style={{ cursor: "pointer" }}
+                    className="cursor pointer"
                 />
             </Modal.Header>
 
-            <Modal.Body className="pt-2 show-scroll me-3 mt-1" style={{ maxHeight: 440, overflowY: 'auto' }}>
-                <div style={{ display: "flex", height: "auto", width: "auto" }}>
+            <Modal.Body className="pt-2 mt-1 mr-3 show-scroll max-h-[440px] overflow-y-auto">
+                <div className="flex h-auto w-auto"
+                >
                     {selectedFile &&
-                        <div
-                            style={{
-                                width: 160,
-                                borderRight: "1px solid #eee",
-                                overflowY: "auto",
-                                paddingRight: 10,
-                            }}
-                        >
+                        <div className="w-[160px] border-r border-[#eee] overflow-y-auto pr-[10px]">
                             {files.length === 0 ? (
-                                <p style={{ fontFamily: "Gilroy", fontSize: 12 }}>No Files</p>
+                                <p className="font-gilroy text-sm">No Files</p>
                             ) : (
                                 files.map((item, index) => (
                                     <div
                                         key={index}
                                         onClick={() => setSelectedIndex(index)}
-                                        style={{
-                                            border:
-                                                selectedIndex === index
-                                                    ? "2px solid #1E45E1"
-                                                    : "1px solid #ddd",
-                                            borderRadius: 8,
-                                            padding: 5,
-                                            marginBottom: 10,
-                                            cursor: "pointer",
-                                            backgroundColor:
-                                                selectedIndex === index ? "#EEF3FF" : "white",
-                                        }}
+                                         className={`cursor-pointer rounded-[8px] p-[5px] mb-[10px] 
+  ${selectedIndex === index
+                                                ? "border-2 border-[#1E45E1] bg-[#EEF3FF]"
+                                                : "border border-[#ddd] bg-white"
+                                            }`}
+
                                     >
                                         {item.file.type.startsWith("image/") ? (
                                             <img onClick={() => setSelectedIndex(index)}
                                                 src={item.url}
                                                 alt=""
-                                                style={{
-                                                    width: "100%",
-                                                    height: 90,
-                                                    objectFit: "cover",
-                                                    borderRadius: 6,
-                                                }}
+                                                className="w-full h-[90px] object-cover rounded-[6px]"
                                             />
                                         ) : (
                                             <iframe onClick={() => setSelectedIndex(index)}
                                                 src={item.url}
-                                                style={{ width: "100%", height: 90, pointerEvents: "none", }}
+                                                className="w-full h-[90px] pointer-events-none"
                                                 title="pdf-preview"
                                             />
                                         )}
@@ -139,40 +123,24 @@ function ManualDocumentsUpload({ show, handleClose }) {
                                 {selectedFile.file.type.startsWith("image/") ? (
                                     <img
                                         src={selectedFile.url}
-                                        alt=""
-                                        style={{
-                                            width: "100%",
-                                            height: 300,
-                                            objectFit: "contain",
-                                            borderRadius: 8,
-                                            background: "#f8f8f8",
-                                        }}
+                                         className="w-full h-[300px] object-contain rounded-[8px] bg-[#f8f8f8]"
+
                                     />
                                 ) : (
                                     <iframe
                                         src={selectedFile.url}
-                                        style={{ width: "100%", height: 300, pointerEvents: "none" }}
+                                        className="w-full h-[300px] pointer-events-none"
                                         title="document"
                                     />
                                 )}
 
-                                <div className="d-flex justify-content-between mt-2" style={{
-                                    position: "absolute",
-                                    bottom: hover ? "0px" : "-100px",
-                                    left: 0,
-                                    width: "100%",
-                                    height: 50,
-                                    background: "rgba(0,0,0,0.55)",
-                                    color: "#FFFFFF",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    padding: "0 12px",
-                                    borderRadius: "0 0 6px 6px",
-                                    fontFamily: "Gilroy",
-                                    transition: "all 0.3s ease",cursor:"pointer"
-                                }}>
-                                    <span style={{ fontFamily: "Gilroy" }}>
+                                <div
+                                    className={`flex justify-between items-center mt-2 absolute left-0 w-full h-[50px]
+    bg-[rgba(0,0,0,0.55)] text-white px-[12px]
+    rounded-b-[6px] font-gilroy transition-all duration-300 ease-in-out cursor-pointer
+    ${hover ? "bottom-0" : "-bottom-[100px]"}`}
+                                >
+                                    <span className="font-gilroy truncate">
                                         {selectedFile.file.name}
                                     </span>
 
@@ -181,48 +149,45 @@ function ManualDocumentsUpload({ show, handleClose }) {
                                         size={22}
                                         color="#E0ECFF"
                                         onClick={() => handleDeleteFile(selectedIndex)}
-                                        style={{ cursor: "pointer" }}
+                                        className="cursor-pointer"
                                     />
                                 </div>
+
                             </div>
                         ) : (
                             <>
-                                <label className="mb-2" style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222", fontWeight: 400 }}>Documents</label>
-                                <div style={{ backgroundColor: "#E3E3E37D", padding: 15, borderRadius: 8 }} className="d-flex align-items-center justify-content-center gap-5">
+                                <label className="mb-2 font-gilroy text-[14px] text-[#222222] font-normal">
+                                    Documents
+                                </label>
 
-                                    <div style={{ backgroundColor: "#E0ECFF", padding: "4px 8px", borderRadius: 5}}  className="d-flex align-items-center">
+                              <div className="flex items-center justify-center gap-5 bg-[#E3E3E37D] p-[15px] rounded-[8px]">
 
-                                        <DocumentUpload
-                                            size="16"
-                                            color="#1E45E1"
-                                        />
+                                    <div className="flex items-center bg-[#E0ECFF] px-[8px] py-[4px] rounded-[5px]">
+                                        <DocumentUpload size="16" color="#1E45E1" />
                                     </div>
-                                    <div style={{ backgroundColor: "" }}>
-                                        <label
-                                            style={{
-                                                cursor: 'pointer',
-                                                color: '#1E45E1',
-                                                fontFamily: 'Gilroy',
-                                                fontSize: 14,
-                                                fontWeight: 400
-                                            }}
-                                        >
+
+                                    <div>
+                                        <label className="cursor-pointer text-[#1E45E1] font-gilroy text-[14px] font-normal">
                                             Choose file
                                             <input
                                                 type="file"
                                                 accept="image/*,.pdf"
-                                                className="d-none"
-
+                                                className="hidden"
                                                 onChange={handleFileUpload}
                                             />
                                         </label>
-                                        <span className="ms-1" style={{ color: '#16151C', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>
+
+                                        <span className="ml-1 text-[#16151C] font-gilroy text-[14px] font-normal">
                                             to Upload
                                         </span>
-                                        <div className="" style={{ color: '#4B4B4B', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}> JPG ,PNG, PDF Format (600px*300px)</div>
+
+                                        <div className="text-[#4B4B4B] font-gilroy text-[12px] font-normal">
+                                            JPG ,PNG, PDF Format (600px*300px)
+                                        </div>
                                     </div>
 
                                 </div>
+
                             </>
 
 
@@ -240,13 +205,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
                         <div>
                             <label
                                 onClick={handleFileSelect}
-                                style={{
-                                    fontFamily: "Gilroy",
-                                    color: "#1E45E1",
-                                    fontSize: 14,
-                                    cursor: "pointer",
-                                }}
-                            >
+                                className="font-gilroy text-[#1E45E1] text-[14px] cursor-pointer" >
                                 + Add more Files
                             </label>
                         </div>
@@ -255,35 +214,21 @@ function ManualDocumentsUpload({ show, handleClose }) {
                     <div>
                         <Button
                             onClick={handleClose}
-                            style={{
-                                backgroundColor: "#fff",
-                                border: "none",
-                                color: "#1E45E1",
-                                fontWeight: 600,
-                                borderRadius: 12,
-                                marginRight: 12,
-                                fontFamily: "Gilroy",
-                            }}
+                           className="bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] mr-3 font-gilroy"
                         >
                             Cancel
                         </Button>
 
                         <Button
-                            style={{
-                                backgroundColor: "#1E45E1",
-                                color: "#fff",
-                                fontWeight: 600,
-                                borderRadius: 12,
-                                fontFamily: "Gilroy",
-                            }}
-                        >
+                            className="bg-[#1E45E1] text-white !font-semibold rounded-[12px] font-gilroy"
+                         >
                             Attach
                         </Button>
 
                         <input
                             type="file"
                             ref={fileInputRef}
-                            style={{ display: "none" }}
+                           className="hidden"
                             multiple
                             onChange={handleFileUpload}
                             accept="image/*,.pdf"
@@ -292,10 +237,11 @@ function ManualDocumentsUpload({ show, handleClose }) {
                 </div>
             </Modal.Footer>
         </Modal>
+
     );
 }
 ManualDocumentsUpload.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
 };
 export default ManualDocumentsUpload;

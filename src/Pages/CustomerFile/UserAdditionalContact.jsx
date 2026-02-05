@@ -509,49 +509,31 @@ function UserAdditionalContact(props) {
         backdrop="static"
         centered
       >
-        <Modal.Dialog
-          style={{
-            maxWidth: "666px",
-
-
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
+        <Modal.Dialog className="m-0 p-0 max-w-[666px] rounded-[30px]"
         >
           <Modal.Body>
-            <div className="d-flex align-items-center">
+            <div className="flex items-center">
               <div >
                 <Modal.Header
-                  style={{ position: "relative", paddingTop: "-0px" }}
+                  className="relative pt-0"
                 >
-                  <div
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
+                  <div className="text-[18px] font-semibold font-gilroy"
                   >
                     Add Parent/Guardian Details
                   </div>
 
                   <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm}
-                    style={{ cursor: 'pointer' }} />
+                    className="cursor pointer" />
                 </Modal.Header>
-                <div style={{ maxHeight: "400px", overflowY: "scroll", overflowX: "hidden" }} className="show-scroll p-2 mt-1 me-0">
-                  <div className="row mt-1">
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div className="max-h-[400px] overflow-y-scroll overflow-x-hidden show-scroll p-2 mt-1 mr-0">
+                  <div className="flex flex-wrap mt-1">
+
+                    <div className="w-full">
                       <Form.Group className="mb-3">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-
-                          }}
-                        >
-                          Guardian Full Name {" "} <span style={{ color: "red", fontSize: "20px" }}> *</span>
-
-
+                        <Form.Label className="text-[14px] font-medium font-gilroy">
+                          Guardian Full Name {" "}
+                          <span className="text-red-500 text-[20px]"> *</span>
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -560,17 +542,8 @@ function UserAdditionalContact(props) {
                           onChange={(e) => handleUserName(e)}
                           value={userName}
                           ref={usernameRef}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                            marginTop: 0,
-                          }}
+                          className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
+
                         />
                       </Form.Group>
 
@@ -579,18 +552,12 @@ function UserAdditionalContact(props) {
                       )}
                     </div>
 
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div className="w-full">
                       <Form.Group className="mb-3">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-
-                          }}
+                        <Form.Label className="text-[14px] font-medium font-gilroy"
                         >
                           Relationship {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
+                          <span className="text-red-500 text-[20px]">
                             {" "}
                             *{" "}
                           </span>
@@ -602,16 +569,7 @@ function UserAdditionalContact(props) {
                               placeholder="Enter Relationship"
                               value={guardian}
                               onChange={(e) => setGuardian(e.target.value)}
-                              style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                border: "1px solid #D9D9D9",
-                                borderRadius: 8,
-                                height: 50,
-                                boxShadow: "none",
-                              }}
+                              className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
                             />
                             <Trash
                               size="18"
@@ -621,17 +579,7 @@ function UserAdditionalContact(props) {
                                 setIsOthers(false);
                                 setGuardian("");
                               }}
-                              style={{
-                                position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                fontSize: 14,
-                                color: "#1E45E1",
-                                textDecoration: "none",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy", cursor: "pointer"
-                              }}
+                              className="absolute right-[10px] top-1/2 -translate-y-1/2 text-[14px] text-[#1E45E1] no-underline font-medium font-gilroy cursor-pointer"
                             >
 
                             </Trash>
@@ -684,17 +632,11 @@ function UserAdditionalContact(props) {
                         <ErrorMessage message={guardianError} type="error" />
                       )}
                     </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div className="w-full">
                       <Form.Group className="mb-3">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                        <Form.Label className="text-[14px] font-medium font-gilroy">
                           Guardian Occupation{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                          <span className="text-red-500 text-[20px]">*</span>
                         </Form.Label>
 
                         {isOccupationOther ? (
@@ -704,16 +646,7 @@ function UserAdditionalContact(props) {
                               placeholder="Enter Occupation"
                               value={guardianOccupation}
                               onChange={(e) => setGuardianOccupation(e.target.value)}
-                              style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                border: "1px solid #D9D9D9",
-                                borderRadius: 8,
-                                height: 50,
-                                boxShadow: "none",
-                              }}
+                              className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
                             />
 
                             <Trash
@@ -724,13 +657,7 @@ function UserAdditionalContact(props) {
                                 setIsOccupationOther(false);
                                 setGuardianOccupation("");
                               }}
-                              style={{
-                                position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                cursor: "pointer",
-                              }}
+                              className="absolute right-[10px] top-1/2 -translate-y-1/2 text-[14px] text-[#1E45E1] no-underline font-medium font-gilroy cursor-pointer"
                             />
                           </div>
                         ) : (
@@ -778,18 +705,12 @@ function UserAdditionalContact(props) {
                       </Form.Group>
                     </div>
 
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div className="w-full">
                       <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
+                        <Form.Label className="text-[14px] font-medium font-gilroy"
                         >
                           Mobile Number {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
+                          <span className="text-red-500 text-[20px]">
                             {" "}
                             *{" "}
                           </span>
@@ -798,22 +719,8 @@ function UserAdditionalContact(props) {
                         <InputGroup>
                           <Form.Select
                             value={countryCode}
-
                             id="vendor-select-pg"
-                            style={{
-                              border: "1px solid #D9D9D9",
-
-                              borderRadius: "8px 0 0 8px",
-                              height: 50,
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: countryCode ? 600 : 500,
-                              boxShadow: "none",
-                              backgroundColor: "#fff",
-                              maxWidth: 80,
-                              paddingRight: 10,
-                            }}
+                            className={`border border-[#D9D9D9] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy ${countryCode ? 'font-semibold' : 'font-medium'} shadow-none bg-white max-w-[80px] pr-[10px]`}
                           >
                             <option>+{countryCode}</option>
                           </Form.Select>
@@ -824,24 +731,12 @@ function UserAdditionalContact(props) {
                             type="text"
                             placeholder="9876543210"
                             maxLength={10}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: Phone ? 600 : 500,
-                              boxShadow: "none",
-                              borderLeft: "unset",
-                              borderRight: "1px solid #D9D9D9",
-                              borderTop: "1px solid #D9D9D9",
-                              borderBottom: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: "0 8px 8px 0",
-                            }}
+                            className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
                           />
                         </InputGroup>
                         <p
                           id="MobileNumberError"
-                          style={{ color: "red", fontSize: 12, marginTop: 5 }}
+                          className="text-red-500 text-[12px] mt-[5px]"
                         ></p>
 
                         {phoneError && (
@@ -1191,7 +1086,7 @@ function UserAdditionalContact(props) {
 
 
                     {formError && (
-                      <div ref={nochangeRef} className=" " style={{ color: "red", textAlign: "center" }}>
+                      <div ref={nochangeRef} className="text-red-500 text-center">
                         <ErrorMessage message={formError} type="error" />
                       </div>
                     )}
@@ -1204,38 +1099,21 @@ function UserAdditionalContact(props) {
                 {guardianAlreadyError && (
                   <ErrorMessage message={guardianAlreadyError} type="error" />
                 )}
-                <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-                  <div className="d-flex justify-content-end gap-3">
-
+                <Modal.Footer className="border-0 pt-0" >
+                  <div className="flex justify-end gap-3">
 
                     <Button
                       onClick={handleCloseAdditionalForm}
-                      className="w-100 mt-1"
-                      style={{
-                        backgroundColor: "#fff",
-                        border: "none",
-                        color: "#1E45E1",
-                        fontWeight: 600,
-                        borderRadius: 12,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        padding: "8px 40px"
-                      }}
+                      className="w-full mt-1 bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] font-gilroy px-[40px] py-2"
+
                     >
                       Cancel
                     </Button>
 
                     <Button
                       onClick={handleSubmitContact}
-                      className="w-100 mt-1"
-                      style={{
-                        backgroundColor: "#1E45E1",
-                        fontWeight: 600,
-                        borderRadius: 12,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        padding: "8px 40px"
-                      }}
+                      className="w-full mt-1 !bg-[#1E45E1] font-semibold rounded-[12px] text-[16px] font-gilroy !px-[40px] py-2"
+
                     >
                       Add
                     </Button>
@@ -1250,30 +1128,11 @@ function UserAdditionalContact(props) {
 
 
           {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
+            className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]"
           >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
+            <div className="w-10 h-10 rounded-full border-t-[4px] border-t-blue-600 border-r-[4px] border-r-transparent animate-spin">
+
+            </div>
           </div>}
 
         </Modal.Dialog>

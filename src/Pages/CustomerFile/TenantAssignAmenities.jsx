@@ -390,9 +390,7 @@ function TenantAmenities({ show, handleClose }) {
 
 
   return (
-    <div className="container mt-3">
-
-
+    <>
 
       <Modal
         show={show}
@@ -400,15 +398,8 @@ function TenantAmenities({ show, handleClose }) {
         backdrop="static"
         centered
       >
-        <Modal.Header style={{ position: "relative" }}>
-          <div
-            style={{
-              fontSize: 18,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              textAlign: "start",
-            }}
-          >
+        <Modal.Header className="relative flex items-center justify-between">
+          <div className="text-[18px] font-semibold font-gilroy text-start">
             Assign Amenities
           </div>
 
@@ -416,44 +407,26 @@ function TenantAmenities({ show, handleClose }) {
             size="24"
             color="#000"
             onClick={handleFormClose}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
         </Modal.Header>
 
-        <Modal.Body className="pb-1 pt-2">
-          <div className="row">
-
-            <div className="d-flex align-items-center mb-3 ">
-              <div
-
-              >
+        <Modal.Body className="pt-2 pb-1">
+          <div className="flex flex-wrap -mx-0">
+            <div className="flex items-center mb-3 -ml-2">
+              <div>
 
                 {state.UsersList.customerdetails?.profilePic ? (
                   <Image
                     src={state.UsersList.customerdetails.profilePic}
                     alt="Profile"
                     roundedCircle
-                    style={{ height: 60, width: 60 }}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                                          }}
+                    className="h-16 w-18"
+                    onError={(e) => { e.target.onerror = null; }}
                   />
                 ) : (
                   <div
-                    style={{
-                      height: 60,
-                      width: 60,
-                      borderRadius: "50%",
-                       backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontSize: 24,
-                      fontWeight: "600",
-                                           textTransform: "uppercase",
-                    }}
-                  >
+                    className="p-2 h-14 w-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-[24px] font-semibold uppercase">
                     {state.UsersList.customerdetails?.initials || "-"}
                   </div>
                 )}
@@ -461,79 +434,36 @@ function TenantAmenities({ show, handleClose }) {
 
 
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+              <div className="flex flex-col">
                 <div className="ps-3">
                   <div>
-                    <label
-                      style={{
-                        fontSize: 16,
-                        fontWeight: 500,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
+                    <label className="text-[16px] font-semibold text-[#222222] font-gilroy mb-2">
                       {state.UsersList.customerdetails.fullName}
                     </label>
                   </div>
-
                 </div>
 
-                <div className="d-flex flex-wrap gap-2 ms-2">
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      background: "#FFEFCF",
-                      padding: "6px 12px",
-                      borderRadius: "60px",
-                      fontFamily: "Gilroy",
-                      fontSize: 12,
-                      color: "#222",
-                      fontWeight: 500,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
+                <div className="flex flex-wrap gap-2 ms-2">
+                  <div className="flex items-center bg-[#FFEFCF] px-3 py-[6px] rounded-[60px] text-[12px] font-medium text-[#222] font-gilroy whitespace-nowrap">
                     {state.UsersList.customerdetails?.hostelInfo?.floorName}
                   </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      background: "#FFE0D9",
-                      padding: "6px 12px",
-                      borderRadius: "60px",
-                      fontFamily: "Gilroy",
-                      fontSize: 12,
-                      color: "#222",
-                      fontWeight: 500,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {state.UsersList.customerdetails?.hostelInfo?.roomName}  -  {state.UsersList.customerdetails?.hostelInfo?.bedName}
+                  <div className="flex items-center bg-[#FFE0D9] px-3 py-[6px] rounded-[60px] text-[12px] font-medium text-[#222] font-gilroy whitespace-nowrap">
+                    {state.UsersList.customerdetails?.hostelInfo?.roomName} - {state.UsersList.customerdetails?.hostelInfo?.bedName}
                   </div>
-
-
                 </div>
               </div>
+
             </div>
-            <div
-              className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3"
-              style={{ marginTop: "-10px" }}
-            >
-              <Form.Label
-                style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
-              >
-                Amenities {" "} <span
-                  style={{
-                    color: "red",
-                    fontSize: "20px",
-                  }}
-                >
-                  *
-                </span>
+
+            <div className="w-full mb-3 -mt-2.5" >
+
+              <Form.Label className="text-[14px] font-medium font-gilroy ml-1">
+                Amenities{" "}
+                <span className="text-red-500 text-[20px]">*</span>
               </Form.Label>
+
               <Select
                 isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
                 placeholder="Select an Amenities"
@@ -555,11 +485,11 @@ function TenantAmenities({ show, handleClose }) {
 
                 }}
                 options={state.InvoiceList.AmenitiesList?.amenities?.filter(
-                    (item) =>
-                      !state.UsersList.customerdetails?.assignedAmenities?.some(
-                        (a) => a.amenityId === item.amenityId
-                      )
-                  )
+                  (item) =>
+                    !state.UsersList.customerdetails?.assignedAmenities?.some(
+                      (a) => a.amenityId === item.amenityId
+                    )
+                )
                   ?.map((item) => ({
                     value: item.amenityId,
                     label: item.amenityName,
@@ -667,89 +597,49 @@ function TenantAmenities({ show, handleClose }) {
             />
           </div> */}
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 ps-2 pe-2">
-              <label
-                className="mb-1"
-                style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
-              >
+            <div className="w-full mb-3 px-2">
+              <label className="mb-1 text-[14px] font-medium font-gilroy">
                 Amount
               </label>
               <Form.Control
                 placeholder="Amount"
                 aria-label="Recipient's username"
-                className="border custom-input"
+                className="border rounded-[8px] h-[45px] text-gray-500 text-[16px] font-medium font-gilroy placeholder:text-gray-400 placeholder:text-[12px] opacity-100"
                 aria-describedby="basic-addon2"
                 value={createby[0]?.amenityAmount}
-                style={{
-                  fontSize: 16,
-                  fontWeight: "500",
-                  fontFamily: "Gilroy",
-                  opacity: 1,
-                  borderRadius: "8px",
-                  height: 45,
-                  color: "gray",
-                  "::placeholder": { color: "gray", fontSize: 12 },
-                }}
                 disabled
               />
             </div>
+
             {statusShow && (
-              <div className="mb-3 ps-2  pe-2 ">
-                <label
-                  className="mb-1"
-                  style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
-                >
+              <div className="mb-3 px-2">
+                <label className="mb-1 text-[14px] font-medium font-gilroy">
                   Select Status{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
+                  <span className="text-red-500 text-[20px]">*</span>
                 </label>
+
+
                 <Form.Select
                   aria-label="Default select example"
                   value={statusAmni}
-                  className="border"
                   onChange={(e) => handleStatusAmnities(e)}
-                  style={{
-                    fontSize: 16,
-                    backgroundColor: "transparent",
-                    height: 45,
-                    borderRadius: 8,
-                    opacity: 1,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    color: "grey",
-                    cursor: "pointer"
+                  className="border text-[16px] bg-transparent h-[45px] rounded-[8px] opacity-100 font-medium font-gilroy text-gray-500 cursor-pointer"
 
-                  }}
                 >
-                  <option
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      opacity: 1
-                    }}
-                  >
+                  <option className="text-[16px] font-medium font-gilroy opacity-100">
                     Select Status
                   </option>
 
-                  <option value="1" style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    opacity: 1,
-                    color: "gray",
-                    cursor: "pointer"
-                  }}>Active</option>
-                  <option value="0" style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    opacity: 1,
-                    color: "gray",
-                    cursor: "pointer"
-                  }}>In Active</option>
+                  <option
+                    value="1"
+                    className="text-[16px] font-medium font-gilroy opacity-100 text-gray-500 cursor-pointer"
+                  >
+                    Active</option>
+                  <option
+                    value="0"
+                    className="text-[16px] font-medium font-gilroy opacity-100 text-gray-500 cursor-pointer"
+                  >
+                    In Active</option>
                 </Form.Select>
                 {selectError && (
                   <ErrorMessage message={selectError} type="error" />
@@ -761,30 +651,9 @@ function TenantAmenities({ show, handleClose }) {
 
 
         {formLoading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 rounded-full border-t-[4px] border-t-[#1E45E1] border-r-[4px] border-r-transparent animate-spin">
+            </div>
           </div>
         }
 
@@ -793,32 +662,15 @@ function TenantAmenities({ show, handleClose }) {
 
         <Modal.Footer className="d-flex justify-content-end pt-0" style={{ borderTop: "none" }}>
           <Button
-            style={{
-              backgroundColor: "white",
-              fontWeight: 400,
-              height: 40,
-              borderRadius: 10,
-              fontSize: 16,
-              fontFamily: "Gilroy",
-              color: 'rgba(75, 75, 75, 1)',
-              border: '1px solid white'
-            }}
+            className="bg-white border border-white rounded-[10px] h-[40px] text-[16px] !font-semibold font-gilroy !text-[#1E45E1]"
             onClick={handleFormClose}
           >
             Cancel
           </Button>
           <Button
             disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
-            className=""
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 40,
-              borderRadius: 12,
-              fontSize: 16,
-              fontFamily: "Gilroy",
+            className="bg-[#1E45E1] font-semibold h-[40px] rounded-[12px] text-[16px] font-gilroy"
 
-            }}
             onClick={() => {
 
               handleAddUserAmnities();
@@ -830,7 +682,7 @@ function TenantAmenities({ show, handleClose }) {
         </Modal.Footer>
       </Modal>
 
-    </div>
+    </>
 
   );
 }

@@ -1025,7 +1025,7 @@ function Sidebar() {
                     </div>
                   )}
 
-                  <li className={`list-none ${manageOpen ? "mt-1" : "mt-2.5"}`} >
+                  <li className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`} >
                     <NavLink
                       to={withHostel("/banking")}
                       className={({ isActive }) =>
@@ -1044,7 +1044,7 @@ function Sidebar() {
                   </li>
 
                   <li
-                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
+                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
@@ -1476,7 +1476,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/reports/invoice-register"
+                path="/reports/invoice-register/:hostelId"
                 element={
                   <div >
                     <InvoiceRegister
@@ -1485,7 +1485,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/tenant-register"
+                path="/reports/tenant-register/:hostelId"
                 element={
                   <div >
                     <TenantsRegister
@@ -1494,7 +1494,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/receipt-register"
+                path="/reports/receipt-register/:hostelId"
                 element={
                   <div >
                     <ReceiptRegister />
@@ -1502,7 +1502,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/bank-transaction-register"
+                path="/reports/bank-transaction-register/:hostelId"
                 element={
                   <div >
                     <BankTransactionRegister />
@@ -1511,7 +1511,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/reports/occupancy-register"
+                path="/reports/occupancy-register/:hostelId"
                 element={
                   <div >
                     <OccupancyRegister />
@@ -1519,7 +1519,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/expense-register"
+                path="/reports/expense-register/:hostelId"
                 element={
                   <div >
                     <ExpenseRegister />
@@ -1527,7 +1527,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/vendor-register"
+                path="/reports/vendor-register/:hostelId"
                 element={
                   <div >
                     <VendorRegister />
@@ -1535,7 +1535,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/electricity-billing-register"
+                path="/reports/electricity-billing-register/:hostelId"
                 element={
                   <div >
                     <ElectricityRegister />
@@ -1543,7 +1543,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/request-register"
+                path="/reports/request-register/:hostelId"
                 element={
                   <div >
                     <RequestRegister />
@@ -1551,7 +1551,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/final-settlement-register"
+                path="/reports/final-settlement-register/:hostelId"
                 element={
                   <div >
                     <FinalSettlementRegister />
@@ -1560,7 +1560,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/reports/complaint-register"
+                path="/reports/complaint-register/:hostelId"
                 element={
                   <div >
                     <ComplaintsRegister />
@@ -1571,7 +1571,7 @@ function Sidebar() {
 
 
               <Route
-                path="/reports/month-revenue"
+                path="/reports/month-revenue/:hostelId"
                 element={
                   <div className="bg-[#FFFFFF] ">
                     <AnalyticalMonthRevenue />
@@ -1580,7 +1580,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/reports/collected-outstanding"
+                path="/reports/collected-outstanding/:hostelId"
                 element={
                   <div className="bg-[#FFFFFF]">
                     <AnalyticalCollectedOutstanding />
@@ -1590,7 +1590,7 @@ function Sidebar() {
 
 
               <Route
-                path="/reports/vacant-occupied"
+                path="/reports/vacant-occupied/:hostelId"
                 element={
                   <div >
                     <AnalyticalVacantOcupied />
@@ -1599,7 +1599,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/reports/expense-trend"
+                path="/reports/expense-trend/:hostelId"
                 element={
                   <div >
                     <AnalyticalExpenseTrend />
@@ -1607,7 +1607,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/overdue-invoice-trend"
+                path="/reports/overdue-invoice-trend/:hostelId"
                 element={
                   <div >
 
@@ -1616,7 +1616,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/complaints-resolved"
+                path="/reports/complaints-resolved/:hostelId"
                 element={
                   <div >
 

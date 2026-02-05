@@ -36,147 +36,86 @@ function StayHistory({ show, handleClose }) {
 
 
   return (
-    <div className="modal show" style={{
-      display: "block",
-      position: "initial",
-      fontFamily: "Gilroy",
-    }}>
-      <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modals-style-stays">
-        <Modal.Dialog
-          className="m-0 p-0"
-          style={{ margin: "0 0px" }}
-        >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
+
+    <div className="modal show block static font-gilroy">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        centered
+        backdrop="static"
+        dialogClassName="custom-modals-style-stays"
+      >
+        <Modal.Dialog className="m-0 p-0">
+          <Modal.Header className="border border-gray-200">
+            <Modal.Title className="!text-[18px] text-gray-900 !font-semibold font-gilroy">
               Stay Details
             </Modal.Title>
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
+
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handleClose}
+              className="cursor-pointer"
+            />
           </Modal.Header>
 
-          <Modal.Body
-            className="show-scroll pt-1 ps-3 mt-2 me-0"
-            style={{
-              overflowX: "visible",
-              maxHeight: "none",
-            }}
-          >
-            <div style={{ border: "1px solid #D9E8F4", borderRadius: 8, }}>
+          <Modal.Body className="show-scroll pt-1 ps-3 mt-2 me-0 overflow-x-visible max-h-none">
+            <div className="border border-blue-100 rounded-lg">
               <Table responsive bordered={false} className="m-0">
-                <thead style={{ backgroundColor: "#E9F5FE" }}>
+                <thead className="bg-blue-50">
                   <tr>
-                    <th style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#222",
-                      padding: "12px 16px",
-                      whiteSpace: "nowrap"
-
-                    }}>
+                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
                       Room No / Bed
                     </th>
-                    <th style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#222",
-                      padding: "12px 16px",
-                      whiteSpace: "nowrap"
-                    }}>
+                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
                       Duration
                     </th>
-                    <th style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#222",
-                      padding: "12px 16px",
-                      whiteSpace: "nowrap"
-                    }}>
+                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
                       Reason
                     </th>
-                    <th style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#222",
-                      padding: "12px 16px",
-                      whiteSpace: "nowrap"
-                    }}>
+                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
                       Segmental Rent
                     </th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {Array.isArray(data) && data.map((row, index) => (
-                    <tr key={index} style={{ borderBottom: "1px solid #E0E0E0" }}>
-                      <td style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#222",
-                        padding: "12px 16px",
-                        verticalAlign: "middle",
-                        whiteSpace: "nowrap"
-                      }}>
-                        {row.roomName}/{row.bedName}
-                      </td>
-                      <td style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#222",
-                        padding: "12px 16px",
-                        verticalAlign: "middle",
-                        whiteSpace: "nowrap"
-                      }}>
-                        {`${row.startDate && row.startDate !== "NA"
-                          ? dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")
-                          : "N/A"
-                          } - ${row.endDate === "Till date"
-                            ? "Till date"
-                            : row.endDate && row.endDate !== "NA"
-                              ? dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
-                              : "N/A"
-                          }`}
+                  {Array.isArray(data) &&
+                    data.map((row, index) => (
+                      <tr key={index} className="border-b border-gray-300">
+                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                          {row.roomName}/{row.bedName}
+                        </td>
 
+                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                          {`${row.startDate && row.startDate !== "NA"
+                            ? dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")
+                            : "N/A"
+                            } - ${row.endDate === "Till date"
+                              ? "Till date"
+                              : row.endDate && row.endDate !== "NA"
+                                ? dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
+                                : "N/A"
+                            }`}
+                        </td>
 
+                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                          {row.reason ? row.reason : "N/A"}
+                        </td>
 
-
-                      </td>
-                      <td style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#222",
-                        padding: "12px 16px",
-                        verticalAlign: "middle",
-                        whiteSpace: "nowrap"
-                      }}>
-                        {row.reason ? row.reason : "N/A"}
-                      </td>
-                      <td style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#222",
-                        padding: "12px 16px",
-                        verticalAlign: "middle",
-                        whiteSpace: "nowrap"
-                      }}>
-                        {row.rentAmount}
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                          {row.rentAmount}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </Table>
             </div>
           </Modal.Body>
-
-
         </Modal.Dialog>
       </Modal>
     </div>
+
   );
 }
 StayHistory.propTypes = {

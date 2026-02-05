@@ -824,7 +824,7 @@ const isComingSoon = true;
 
                     </div>
 
-                   
+                    
                   </div>
                 </>
               )}

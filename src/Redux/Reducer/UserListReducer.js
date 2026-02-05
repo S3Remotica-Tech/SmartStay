@@ -161,7 +161,8 @@ export const initialState = {
     advanceError: '',
     initializeCheckout: '',
     initializeCancelCheckout: '',
-    finalSettlementAddRoomReadingStatusCode: 0
+    finalSettlementAddRoomReadingStatusCode: 0,
+    alreadyMobileBasicError: ''
 
 }
 
@@ -178,6 +179,11 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'GET_INITIALIZE_CHECKOUT':
             return { ...state, initializeCheckout: action.payload.response }
+
+            case 'ALREADY_MOBILE_BASIC_ERROR':
+                  return { ...state, alreadyMobileBasicError: action.payload }
+                   case 'REMOVE_ALREADY_MOBILE_BASIC_ERROR':
+                  return { ...state, alreadyMobileBasicError:''}
 
         case 'INITIALIZE_CANCEL_CHECKOUT':
             return { ...state, initializeCancelCheckout: action.payload.response }

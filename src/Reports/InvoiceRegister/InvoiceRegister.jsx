@@ -4,7 +4,6 @@ import {
     Filter,
     Export, ArrowLeft,
     ArrowSwapVertical, Setting3, SearchNormal1,
-    ArrowDown,
     ArrowDown2
 
 } from "iconsax-react";
@@ -13,7 +12,8 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import BillsFilter from '../../Pages/Bills/BillsFilter';
+import PaginationList from "../../Components/PaginationList";
+import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 
 
 function InvoiceRegister() {
@@ -27,28 +27,59 @@ function InvoiceRegister() {
     const [register, setRegister] = useState(false)
     const [invoiceFilter, setInvoiceFilter] = useState(false)
     const dropdownRef = useRef(null);
-
-
-
-
-
+    const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false)
+    const [invoiceRegister, setInvoiceRegister] = useState('')
+    const [chips, setChips] = useState([])
+    const tableRef = useRef(null);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [size, setSize] = useState('');
+    const [page, setPage] = useState(0);
 
     const handleCloseFilterBills = () => {
         setInvoiceFilter(false)
     }
 
+    // console.log("invoiceRegister", invoiceRegister)
 
 
+    useEffect(() => {
+        if (state.login?.selectedHostel_Id) {
+
+            dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+            //  setLoading(true)
+        }
+    }, [state.login?.selectedHostel_Id])
+
+
+
+    useEffect(() => {
+        if (state.reports.getInvoiceRegisterSuccess === 200) {
+            setLoading(false)
+            setInvoiceRegister(state?.reports?.getInvoiceRegister)
+            setInvoiceFilter(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER', })
+            }, 100)
+        }
+
+    }, [state.reports.getInvoiceRegisterSuccess])
 
 
 
 
     useEffect(() => {
-        setSelectedRange({
-            from: dayjs().startOf("month").toDate(),
-            to: dayjs().endOf("month").toDate(),
-        });
+        const el = tableRef.current;
+        if (!el) return;
+
+        const handleScroll = () => {
+            setIsScrolled(el.scrollLeft > 0);
+        };
+
+        el.addEventListener("scroll", handleScroll);
+        return () => el.removeEventListener("scroll", handleScroll);
     }, []);
+
 
 
     useEffect(() => {
@@ -71,142 +102,81 @@ function InvoiceRegister() {
     }, [register]);
 
     const stats = [
-        { title: "Total Invoices", value: "32" },
-        { title: "Total Amount", value: "₹61,500", up: "12%" },
-        { title: "Paid Amount", value: "₹19,500", up: "8%", link: true },
-        { title: "Outstanding", value: "₹42,000", down: "5%", link: true },
+        { title: "Total Invoices", value: state?.reports?.getInvoiceRegister?.totalInvoices },
+        { title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount, up: "12%" },
+        { title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount, up: "8%", link: true },
+        { title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, down: "5%", link: true },
     ];
 
-    const invoices = [
-        {
-            no: "INV-01-26-002",
-            name: "bala",
-            type: "Advance",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹9,300",
-            due: "₹0.00",
-            status: "paid",
-        },
-        {
-            no: "ADV-003",
-            name: "Wilson Calzoni",
-            type: "Advance",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹8,100",
-            due: "₹2,000",
-            status: "partial",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-        {
-            no: "INV-203",
-            name: "Wilson",
-            type: "Rental",
-            date: "18 Dec 2025",
-            dueDate: "18 Dec 2025",
-            amount: "₹6,000",
-            due: "₹6,000",
-            status: "overdue",
-        },
-
-    ];
 
 
 
 
     const handleNavigateReports = () => {
         navigate(`/reports/${state.login.selectedHostel_Id}`)
+        dispatch({
+            type: "SET_INVOICE_REGISTER_FILTERS",
+            payload: {
+                startDate: undefined,
+                endDate: undefined,
+                invoiceTypes: [],
+                createdBy: [],
+                invoiceModes: [],
+                paymentStatus: [],
+                search: "",
+            },
+        })
     }
 
     const handleClickFilter = () => {
         setInvoiceFilter(true)
     }
 
+    const handleReset = () => {
+        dispatch({
+            type: "SET_INVOICE_REGISTER_FILTERS",
+            payload: {
+                startDate: undefined,
+                endDate: undefined,
+                invoiceTypes: [],
+                createdBy: [],
+                invoiceModes: [],
+                paymentStatus: [],
+                search: "",
+            },
+        })
+        dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+    }
+
+
+
+    const handleNavigateBillsPdf = (row) => {
+        dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: row.hostelId, invoiceId: row.invoiceId } })
+
+        navigate(`/invoice/details/${row.invoiceId}`, {
+            state: {
+                rowData: row,
+                isReportsInvoiceRegisterWay: true
+            },
+        });
+    }
+
+
+
+
     const statusColor = {
-        paid: "bg-[#22C55E]",
-        partial: "bg-[#F59E0B]",
-        overdue: "bg-[#EF4444]",
+        PAID: "bg-[#D9FFD9] text-[#065F46]",
+        PENDING: "bg-[#FFD9D9] text-[#7A1C1C]",
+        PARTIAL_PAYMENT: "bg-[#FFD9D9] text-[#7A1C1C]",
+        REFUNDED: "bg-[#FFF3CD] text-[#8B8000]",
+        PARTIALLY_REFUNDED: "bg-[#FFF3CD] text-[#8B8000]",
+        PENDING_REFUND: "bg-[#FFE6B3] text-[#b45309]",
     };
+
+
+
+
+
     const options = [
         { key: "sharing", label: "Sharing", checked: true },
         { key: "checkin", label: "Check-in Date", checked: true },
@@ -235,38 +205,164 @@ function InvoiceRegister() {
 
     const handleNavigateRegister = (item) => {
         setRegister(false)
-              if (item?.title === "Tenant Register") {
-            navigate(`/reports/tenant-register`)
+
+        if (item?.title === "Tenant Register") {
+            navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Receipt Register") {
-            navigate(`/reports/receipt-register`)
+            navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Bank Transaction Register") {
-            navigate(`/reports/bank-transaction-register`)
+            navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Occupancy") {
-            navigate(`/reports/occupancy-register`)
+            navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Expense Register") {
-            navigate(`/reports/expense-register`)
+            navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Vendor Ledger") {
-            navigate(`/reports/vendor-register`)
+            navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Electricity Billing Register") {
-            navigate(`/reports/electricity-billing-register`)
+            navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Complaint Register") {
-            navigate(`/reports/complaint-register`)
+            navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Request Register") {
-            navigate(`/reports/request-register`)
+            navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Final Settlement") {
-            navigate(`/reports/final-settlement-register`)
-        }else if(item?.title === "Invoice Register"){
-        navigate(`/reports/invoice-register`)
-    }
+            navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Invoice Register") {
+            navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+        }
+
+        dispatch({
+            type: "SET_INVOICE_REGISTER_FILTERS",
+            payload: {
+                startDate: undefined,
+                endDate: undefined,
+                invoiceTypes: [],
+                createdBy: [],
+                invoiceModes: [],
+                paymentStatus: [],
+                search: "",
+            },
+        })
     }
 
+
+
+    useEffect(() => {
+        const invoiceFilters = state.reports.invoiceRegisterFilters;
+        const filterData = [];
+
+
+        if (invoiceFilters?.paymentStatus?.length) {
+            filterData.push({
+                key: "payment-status",
+                label: "Status is",
+                type: "paymentStatus",
+                value: invoiceFilters.paymentStatus.join(", "),
+            });
+        }
+
+
+        if (invoiceFilters?.invoiceTypes?.length) {
+            filterData.push({
+                key: "type",
+                label: "Type is",
+                type: "type",
+                value: invoiceFilters.invoiceTypes.join(", "),
+            });
+        }
+
+
+        if (invoiceFilters?.invoiceModes?.length) {
+            filterData.push({
+                key: "modes",
+                label: "Mode is",
+                type: "modes",
+                value: invoiceFilters.invoiceModes.join(", "),
+            });
+        }
+
+
+
+
+
+        if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+            filterData.push({
+                key: "date-range",
+                label: "Date Range is",
+                type: "date",
+                value:
+                    invoiceFilters.startDate && invoiceFilters.endDate
+                        ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+                        : invoiceFilters.startDate || invoiceFilters.endDate,
+            });
+        }
+
+
+        if (invoiceFilters?.search) {
+            filterData.push({
+                key: "search",
+                label: "Tenant",
+                type: "search",
+                value: invoiceFilters.search,
+            });
+        }
+
+        setChips(filterData);
+    }, [state.reports.invoiceRegisterFilters]);
+
+
+
+
+
+    const currentPage =
+        state?.reports?.getInvoiceRegister?.currentPage ?? 1;
+
+    const totalPages =
+        state?.reports?.getInvoiceRegister?.totalPages ?? 1;
+
+    const totalRecords =
+        state?.reports?.getInvoiceRegister?.totalInvoices ?? 0;
+
+
+
+
+
+    const handlePageChange = (page) => {
+        console.log("Page seelcted", page)
+        setPage(page)
+
+    };
+
+
+    const handleSizeChange = (sizeValue) => {
+        setSize(sizeValue)
+
+    };
+
+
+    useEffect(() => {
+
+        dispatch({
+            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA',
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: {
+                    size: size,
+                    page: page,
+                }
+            }
+        });
+    }, [size, page])
 
 
 
     return (
         <div className="h-screen flex flex-col font-gilroy p-2">
-
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+            {loading && (
+                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white no-wrap">
                 <div className='flex items-center gap-2'>
                     <ArrowLeft onClick={handleNavigateReports}
                         size="20"
@@ -283,7 +379,7 @@ function InvoiceRegister() {
                                         }`}
                                 />
                                 {register && (
-                                    <div ref={dropdownRef} className="absolute z-50 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
+                                    <div ref={dropdownRef} className="absolute z-40 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
                                         {reportCards.map((item, index) => {
                                             const isFirst = index === 0;
                                             const isLast = index === reportCards.length - 1;
@@ -318,13 +414,13 @@ function InvoiceRegister() {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 items-stretch" style={{ height: 36 }}>
+                <div className="flex flex-wrap gap-3 items-stretch" >
 
                     <div
                         className="datepicker-wrapper"
                         style={{ position: "relative", }}
                     >
-                        <RangePicker
+                        <RangePicker disabled
                             style={{
                                 width: "100%",
                                 height: "100%",
@@ -334,22 +430,22 @@ function InvoiceRegister() {
                             }}
                             format="DD/MM/YYYY"
                             placeholder={["From date", "To date"]}
-                            value={
-                                selectedRange?.from && selectedRange?.to
-                                    ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
-                                    : null
-                            }
-                            onChange={(dates) => {
+                            // value={
+                            //     selectedRange?.from && selectedRange?.to
+                            //         ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                            //         : null
+                            // }
+                            // onChange={(dates) => {
 
-                                if (dates) {
-                                    setSelectedRange({
-                                        from: dates[0].toDate(),
-                                        to: dates[1].toDate(),
-                                    });
-                                } else {
-                                    setSelectedRange(null);
-                                }
-                            }}
+                            //     if (dates) {
+                            //         setSelectedRange({
+                            //             from: dates[0].toDate(),
+                            //             to: dates[1].toDate(),
+                            //         });
+                            //     } else {
+                            //         setSelectedRange(null);
+                            //     }
+                            // }}
                             disabledDate={(current) => {
                                 if (!selectedRange?.from) return current > dayjs().endOf("day");
                                 return (
@@ -380,7 +476,33 @@ function InvoiceRegister() {
             </div>
 
 
-            <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-full flex flex-col overflow-hidden">
+            <div className="px-1 pb-1  bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+                {chips?.length > 0 && (
+                    <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+
+
+                        <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
+                            {chips?.map((chip) => (
+                                <div key={chip.key}>
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
+                                        {chip.label} :
+                                        <span className="text-[12px] font-medium text-[#16151C]">
+                                            {chip.value}
+                                        </span>
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+
+                        <span
+                            onClick={handleReset}
+                            className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
+                        >
+                            Reset
+                        </span>
+                    </div>
+                )}
 
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
@@ -423,16 +545,18 @@ function InvoiceRegister() {
                 </div>
 
 
-                <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
 
-                    <div className="overflow-x-auto relative show-scrolls">
+
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 flex-1 ">
+
+                    <div ref={tableRef}  className=" overflow-y-auto relative h-[400px]">
                         <table className="w-full  text-[12px] font-gilroy">
 
-                            <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
+                            <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                                 <tr className="border-b border-[#E8E8E8]">
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]">
+                                    <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]  rounded-tl-xl">
                                         <Setting3
                                             onClick={() => setOpen(!open)}
                                             className="cursor-pointer"
@@ -442,11 +566,12 @@ function InvoiceRegister() {
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] ">                                        INVOICE NO
+                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] ">
+                                        INVOICE NO
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] ">
+                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px] ">
                                         NAME
                                     </th>
 
@@ -485,7 +610,7 @@ function InvoiceRegister() {
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold">
+                                    <th className="px-4 py-2.5 text-center font-semibold rounded-tr-xl">
                                         STATUS
                                     </th>
 
@@ -494,74 +619,114 @@ function InvoiceRegister() {
 
 
                             <tbody>
-                                {invoices.map((row, i) => (
-                                    <tr
-                                        key={i}
-                                        className="border-b last:border-none  transition"
-                                    >
-                                        <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
-                                        <td
-                                            className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
-                                            title={row.no}
+
+                                {invoiceRegister?.invoiceList?.length > 0 ? (
+                                    invoiceRegister?.invoiceList?.map((row, i) => (
+                                        <tr
+                                            key={i}
+                                            className="border-b last:border-none  transition"
                                         >
-                                            {row.no}
-                                        </td>
+                                            <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]">{i + 1}</td>
+                                            <td
+                                                onClick={() => handleNavigateBillsPdf(row)}
+                                                className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
+                                                     sticky left-[42px] z-20 bg-white w-[140px]"
+                                                title={row.invoiceNumber}
+                                            >
+                                                {row.invoiceNumber}
+                                            </td>
 
 
-                                        <td className="px-4 py-3 sticky left-[170px] z-20 bg-white w-[200px]">
-                                            <div className="flex items-center gap-2">
-                                                {/* <img
-                                                    src={row.avatar}
-                                                    alt={row.name}
-                                                    className="w-7 h-7 rounded-full object-cover"
-                                                /> */}
+                                            <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white w-[200px]">
+                                                <div className="flex items-center gap-2">
+                                                    {row.profilePic ? (
+                                                        <img
+                                                            src={row.profilePic}
+                                                            alt={row.fullName}
+                                                            className="w-7 h-7 rounded-full object-cover"
+
+                                                        />
+                                                    ) : (
+                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xs font-semibold">
+                                                            {row.initials}
+                                                        </div>
+                                                    )}
+
+                                                    <span
+                                                        className="truncate whitespace-nowrap font-semibold text-[#111928]"
+                                                        title={row.fullName}
+                                                    >
+                                                        {row.fullName}
+                                                    </span>
+                                                </div>
+
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                                                title={row.invoiceType}>
+                                                {row.invoiceType}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                {row.invoiceDate}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                {row.dueDate}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}>
+                                                ₹ {row.invoiceAmount}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
+                                                ₹ {row.dueAmount}
+                                            </td>
+
+
+                                            <td className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
                                                 <span
-                                                    className="truncate whitespace-nowrap font-semibold text-[#111928]"
-                                                    title={row.name}
+                                                    className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
+      ${statusColor[row.paymentStatus]}`}
                                                 >
-                                                    {row.name}
+                                                    {row.paymentStatus.replace(/_/g, " ")}
                                                 </span>
-                                            </div>
-                                        </td>
 
+                                            </td>
 
-                                        <td className="px-4 py-3 text-center font-semibold truncate whitespace-nowrap"
-                                            title={row.type}>
-                                            {row.type}
-                                        </td>
+                                        </tr>
+                                    ))
 
-
-                                        <td className="px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap">
-                                            {row.date}
-                                        </td>
-
-
-                                        <td className="px-4 py-3 text-center  text-[#6B7280] truncate font-medium">
-                                            {row.dueDate}
-                                        </td>
-
-
-                                        <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
-                                            ₹ {row.amount}
-                                        </td>
-
-
-                                        <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
-                                            ₹ {row.due}
-                                        </td>
-
-
-                                        <td className="px-4 py-3 text-center">
-                                            <span
-                                                className={`inline-block w-3 h-3 rounded-full ${statusColor[row.status]}`}
-                                            />
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={9}
+                                            className="py-10 text-center text-sm text-gray-600 font-medium"
+                                        >
+                                            No Data Found
                                         </td>
                                     </tr>
-                                ))}
+                                )
+                                }
+
                             </tbody>
 
                         </table>
                     </div>
+
+                  {/* <PaginationList
+                        currentPage={currentPage + 1}
+                        totalPages={totalPages}
+                        totalRecords={totalRecords}
+                        onPageChange={handlePageChange}
+                        onSizeChange={handleSizeChange}
+                    /> */}
+
                     {open && (
                         <>
 
@@ -632,13 +797,17 @@ function InvoiceRegister() {
                             </div>
                         </>
                     )}
-
+  
                 </div>
 
+
+
                 {
-                    invoiceFilter && <BillsFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
+                    invoiceFilter &&
+                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} invoiceRegisterFilter={true} />
                 }
             </div>
+            
         </div>
     );
 }

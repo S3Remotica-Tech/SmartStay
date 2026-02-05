@@ -1,3 +1,6 @@
+
+
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import Select from "react-select";
@@ -11,18 +14,18 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ExpenseFilter({ show, handleClose }) {
+function ReceiptFilter({ show, handleClose }) {
     // const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    // const [tenantStatus, setTenantStatus] = useState(null);
-    const [period, setPeriod] = useState(null);
-  
-    const [tenantName, setTenantName] = useState("");
+
+
+    const [selectedInvoiceType, setSelectedInvoiceType] = useState([]);
+    const [selectedPeriod, setSelectedPeriod] = useState({ label: "Last Month", value: "LAST_MONTH" });
+    const [selectedPaymentMode, setSelectedPaymentMode] = useState(null);
+    const [selectedCollectedBy, setSelectedCollectedBy] = useState(null);
     const [formLoading, setFormLoading] = useState(false)
-    const [paymentMode, setPaymentMode] = useState(null);
-    const [paidTo, setPaidTo] = useState(null);
-    const [createdBy, setCreatedBy] = useState(null)
-    const [category, setCategory] = useState(null)
+
+
 
     const selectStyles = {
         control: (base) => ({
@@ -128,7 +131,16 @@ function ExpenseFilter({ show, handleClose }) {
 
 
 
-    
+    const handleTenantChange = (e) => {
+        setTenantName(e.target.value);
+    };
+
+   const invoiceTypeOptions = [
+    { label: "All", value: "ALL" },
+    { label: "Rent", value: "RENT" },
+    { label: "Advance", value: "ADVANCE" },
+];
+
 
 
 
@@ -183,15 +195,13 @@ function ExpenseFilter({ show, handleClose }) {
 
 
 
+
     const handleFilterBills = () => {
 
     }
 
 
-    const handlePeriodChange = (opt) => setPeriod(opt?.value);
-    const handlePaymentMode = (opt) => setPaymentMode(opt?.value);
-    const handlePaidChange = (opt) => setPaidTo(opt?.value);
-    const handleCreatedByChange = (opt) => setCreatedBy(opt?.value);
+
 
 
 
@@ -213,82 +223,45 @@ function ExpenseFilter({ show, handleClose }) {
                     <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
 
 
-                        {/* <Form.Group className="mt-2 mb-3">
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    width: '100%',
-                                    marginBottom: 5
-                                }}
-                            >
-                                <Form.Label
-                                    style={{
-                                        fontFamily: 'Gilroy',
-                                        fontWeight: 500,
-                                        fontStyle: 'normal',
-                                        fontSize: '12px',
-                                        letterSpacing: '0',
-                                        marginBottom: 0,
-                                        padding: 0, color: "#4B4B4B"
 
-                                    }}
-                                >
-                                    Tenant
-                                </Form.Label>
-
-
-                            </div>
-
-                            <Form.Control
-                                style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
-                                type="text"
-                                placeholder="Enter Tenant Name"
-
-                                value={tenantName}
-                                onChange={handleTenantChange}
-                            />
-
-
-
-
-
-
-                        </Form.Group> */}
 
 
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
-
+                        
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Category
+                                Invoice Type
                             </Form.Label>
                             <Select isDisabled
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                options={invoiceTypeOptions}
+                                value={selectedInvoiceType}
+                                onChange={setSelectedInvoiceType} 
                                 styles={selectStyles}
-                                value={category}
-                                onChange={setCategory}
-                                options={[{ label: "Electricity", value: "electricity" }]}
-                                placeholder="Select"
+                                components={{ Option: CheckboxOption }}
+                                placeholder="Select Status"
                             />
                         </Form.Group>
 
-                     
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
                             <Select isDisabled
                                 styles={selectStyles}
-                                value={period}
-                                onChange={handlePeriodChange}
-                                options={[{ label: "Last Month", value: "last_month" }]}
-                                placeholder="Select"
+                                placeholder="Last Month"
+                                value={selectedPeriod}
+                                onChange={setSelectedPeriod} 
+                                options={[
+                                    { label: "This Month", value: "THIS_MONTH" },
+                                    { label: "Last Month", value: "LAST_MONTH" },
+                                ]}
                             />
                         </Form.Group>
-
 
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
@@ -296,40 +269,38 @@ function ExpenseFilter({ show, handleClose }) {
                             </Form.Label>
                             <Select isDisabled
                                 styles={selectStyles}
-                                value={paymentMode}
-                                onChange={handlePaymentMode}
-                                options={[{ label: "Cash", value: "cash" }]}
-                                placeholder="Select"
+                                placeholder="Select type..."
+                                value={selectedPaymentMode}
+                                onChange={setSelectedPaymentMode} 
+                               options={[
+            { label: "Cash", value: "CASH" },
+            { label: "Bank", value: "BANK" },
+            { label: "Card", value: "CARD" },
+            { label: "UPI", value: "UPI" },
+        ]}
                             />
                         </Form.Group>
-
 
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Paid To
+                                Collected By
                             </Form.Label>
                             <Select isDisabled
                                 styles={selectStyles}
-                                value={paidTo}
-                                onChange={handlePaidChange}
-                                options={[{ label: "Vendor", value: "vendor" }]}
-                                placeholder="Select"
+                                placeholder="Select type..."
+                                value={selectedCollectedBy}
+                                onChange={setSelectedCollectedBy} 
+                                options={[
+                                    { label: "Staff 1", value: "SINGLE" },
+                                    { label: "Staff 2", value: "DOUBLE" },
+                                    { label: "Staff 3", value: "TRIPLE" },
+                                ]}
                             />
                         </Form.Group>
 
 
-                        <Form.Group className="mb-3">
-                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Created By
-                            </Form.Label>
-                            <Select isDisabled
-                                styles={selectStyles}
-                                value={createdBy}
-                                onChange={handleCreatedByChange}
-                                options={[{ label: "Admin", value: "admin" }]}
-                                placeholder="Select"
-                            />
-                        </Form.Group>
+
+
                     </div>
                 </Offcanvas.Body>
 
@@ -375,10 +346,10 @@ function ExpenseFilter({ show, handleClose }) {
                 }}>
                     <Button
                         onClick={() => {
-                            setBillStatus([]);
-                            setInvoiceType([]);
-                            setInvoiceMode([]);
-                            setCreatedBy([]);
+                            // setBillStatus([]);
+                            // setInvoiceType([]);
+                            // setInvoiceMode([]);
+                            // setCreatedBy([]);
                         }}
                         style={{
                             backgroundColor: "transparent",
@@ -407,9 +378,9 @@ function ExpenseFilter({ show, handleClose }) {
             </Offcanvas></div>
     )
 }
-ExpenseFilter.propTypes = {
+ReceiptFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
 };
 
-export default ExpenseFilter
+export default ReceiptFilter
