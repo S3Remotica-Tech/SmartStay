@@ -320,11 +320,7 @@ function Reports() {
 
   const handleNavigateAnalyTics = (item) => {
     if (item?.subTitle === "MonthRevenue") {
-<<<<<<< HEAD
-      navigate(`/reports/month-revenue`)
-=======
       navigate(`/reports/month-revenue/${state.login?.selectedHostel_Id}`)
->>>>>>> c3c56fa4f553ee95f6513edac7aad5945ee79049
     } else if (item?.subTitle === "Outstanding") {
       navigate(`/reports/collected-outstanding/${state.login?.selectedHostel_Id}`)
     } else if (item?.subTitle === "Vacant") {
@@ -338,21 +334,6 @@ function Reports() {
       navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
   }
-<<<<<<< HEAD
-  useEffect(() => {
-    setSelectedRange({
-      from: dayjs().startOf("month").toDate(),
-      to: dayjs().endOf("month").toDate(),
-    });
-  }, []);
-=======
-  // useEffect(() => {
-  //   setSelectedRange({
-  //     from: dayjs().startOf("month").toDate(),
-  //     to: dayjs().endOf("month").toDate(),
-  //   });
-  // }, []);
->>>>>>> c3c56fa4f553ee95f6513edac7aad5945ee79049
 
 
 
@@ -534,7 +515,7 @@ function Reports() {
           }
 
           {activeTab === "analytical" && (
-<<<<<<< HEAD
+
 
 
             // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -586,55 +567,8 @@ function Reports() {
             //   </div>
 
             <ComingSoon />
-=======
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {analyticsCards?.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="rounded-2xl  border border-[#E5E7EB] bg-white p-3 hover:shadow-md transition h-full"
-                  >
-                    <div className={`p-2 rounded-lg w-fit my-1 ${item.color}`}>
-                      <Icon size={22} variant="Bold" />
-                    </div>
-                    <div className="flex items-start gap-4 h-[70px]">
 
-                      <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-[#101828">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-[#4A5565] mt-1">
-                          {item.desc}
-                        </p>
-
-                      </div>
-                    </div>
-
-                    {item.value && (
-                      <div className="mt-2 text-xl font-semibold text-[#101828]">
-                        {item.value}
-                      </div>
-                    )}
-                    <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
-
-                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics
-                      (item)}>
-                      <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
-                        View Analytics
-                      </span>
-
-                      <ArrowRight
-                        size="16"
-                        className="text-blue-600 transition-transform group-hover:translate-x-1"
-                      />
-                    </div>
-
-                  </div>
-                );
-              })}
-            </div>
->>>>>>> c3c56fa4f553ee95f6513edac7aad5945ee79049
+            
           )}
 
 
