@@ -170,287 +170,407 @@ function EditJoiningDate({ show, handleClose }) {
 };
 
     return (
-        <div
-            className="modal show"
-            style={{
-                display: "block",
-                position: "initial",
-            }}
-        >
-            <Modal show={show}
-                onHide={handleClose}
-                centered backdrop="static">
-                <Modal.Dialog
-                    style={{
-                        maxWidth: 850, width: "100%",
-                        paddingTop: 5,
-                        paddingBottom: 10,
-                        paddingLeft: 10,
-                        paddingRight: 10
-                    }}
-                    className="m-0 p-0"
-                >
-                    <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title
-                            style={{
-                                fontSize: 18,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                            }}
-                        >
-                            Edit Joining Date
-                        </Modal.Title>
+        // <div
+        //     className="modal show"
+        //     style={{
+        //         display: "block",
+        //         position: "initial",
+        //     }}
+        // >
+        //     <Modal show={show}
+        //         onHide={handleClose}
+        //         centered backdrop="static">
+        //         <Modal.Dialog
+        //             style={{
+        //                 maxWidth: 850, width: "100%",
+        //                 paddingTop: 5,
+        //                 paddingBottom: 10,
+        //                 paddingLeft: 10,
+        //                 paddingRight: 10
+        //             }}
+        //             className="m-0 p-0"
+        //         >
+        //             <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+        //                 <Modal.Title
+        //                     style={{
+        //                         fontSize: 18,
+        //                         color: "#222222",
+        //                         fontFamily: "Gilroy",
+        //                         fontWeight: 600,
+        //                     }}
+        //                 >
+        //                     Edit Joining Date
+        //                 </Modal.Title>
 
-                        <CloseCircle size="24" color="#000"
-                            onClick={handleClose}
-                            style={{ cursor: "pointer" }} />
-                    </Modal.Header>
+        //                 <CloseCircle size="24" color="#000"
+        //                     onClick={handleClose}
+        //                     style={{ cursor: "pointer" }} />
+        //             </Modal.Header>
 
-                    <Modal.Body style={{}} className="show-scroll p-3 mt-0 me-3" >
-                        <div className="row mb-0">
+        //             <Modal.Body style={{}} className="show-scroll p-3 mt-0 me-3" >
+        //                 <div className="row mb-0">
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        Edit Joining Date   {" "}
-                                        <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
-                                    </Form.Label>
-                                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                        <DatePicker ref={dateRef}
-                                            style={{
-                                                width: "100%",
-                                                height: 48,
-                                                cursor: "pointer",
-                                                fontFamily: "Gilroy",
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: 8,
-                                            }}
-                                            format="DD/MM/YYYY"
-                                            placeholder="DD/MM/YYYY"
-                                            value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
-                                            onChange={handleEffectiveFromChange}
-                                            disabledDate={isDisabled}
+        //                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+        //                         <Form.Group className="">
+        //                             <Form.Label
+        //                                 style={{
+        //                                     fontSize: 14,
+        //                                     color: "#222222",
+        //                                     fontFamily: "Gilroy",
+        //                                     fontWeight: 500,
+        //                                 }}
+        //                             >
+        //                                 Edit Joining Date   {" "}
+        //                                 <span
+        //                                     style={{
+        //                                         color: "red",
+        //                                         fontSize: "20px",
+        //                                     }}
+        //                                 >
+        //                                     *
+        //                                 </span>
+        //                             </Form.Label>
+        //                             <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+        //                                 <DatePicker ref={dateRef}
+        //                                     style={{
+        //                                         width: "100%",
+        //                                         height: 48,
+        //                                         cursor: "pointer",
+        //                                         fontFamily: "Gilroy",
+        //                                         border: "1px solid #D9D9D9",
+        //                                         borderRadius: 8,
+        //                                     }}
+        //                                     format="DD/MM/YYYY"
+        //                                     placeholder="DD/MM/YYYY"
+        //                                     value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
+        //                                     onChange={handleEffectiveFromChange}
+        //                                     disabledDate={isDisabled}
                                                                  
-                                        />
-                                        {effectiveFromError && (
-                                            <ErrorMessage message={effectiveFromError} type="error" />
-                                        )}
-                                    </div>
-                                </Form.Group>
+        //                                 />
+        //                                 {effectiveFromError && (
+        //                                     <ErrorMessage message={effectiveFromError} type="error" />
+        //                                 )}
+        //                             </div>
+        //                         </Form.Group>
 
-                            </div>
-
-
+        //                     </div>
 
 
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            color: "#222",
-                                            fontStyle: "normal",
-                                            lineHeight: "normal",
-                                        }}
-                                    >
-                                        Reason
-                                    </Form.Label>
-
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Enter your reason"
-                                        value={reason}
-                                        onChange={handleReasonChange}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            border: "1px solid #D9D9D9",
-                                            borderRadius: 8,
-                                            height: 50,
-                                            boxShadow: "none",
-                                        }}
-                                    />
-                                    {/* {isOthers ? (
-                                        <div style={{ position: "relative" }}>
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Enter your reason"
-                                                value={reason}
-                                                onChange={(e) => setReason(e.target.value)}
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: 8,
-                                                    height: 50,
-                                                    boxShadow: "none",
-                                                }}
-                                            />
-                                            <Trash
-                                                size="18"
-                                                color="#FF0000"
 
 
-                                                variant="link"
-                                                onClick={() => {
-                                                    setIsOthers(false);
-                                                    setReason("");
-                                                }}
-                                                style={{
-                                                    position: "absolute",
-                                                    right: 10,
-                                                    top: "50%",
-                                                    transform: "translateY(-50%)",
-                                                    fontSize: 14,
-                                                    color: "#1E45E1",
-                                                    textDecoration: "none",
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy", cursor: "pointer"
-                                                }}
-                                            >
+        //                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+        //                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+        //                             <Form.Label
+        //                                 style={{
+        //                                     fontFamily: "Gilroy",
+        //                                     fontSize: 14,
+        //                                     fontWeight: 500,
+        //                                     color: "#222",
+        //                                     fontStyle: "normal",
+        //                                     lineHeight: "normal",
+        //                                 }}
+        //                             >
+        //                                 Reason
+        //                             </Form.Label>
 
-                                            </Trash>
-                                        </div>) : (
-                                        <Select
-                                            value={reasonOptions.find((opt) => opt.value === reason) || null}
-                                            onChange={handleReasonChange}
-                                            options={reasonOptions}
-                                            placeholder="Select Reason"
-                                            classNamePrefix="custom"
-                                            // menuPlacement="auto"
-                                            noOptionsMessage={() => "No reason available"}
-                                            styles={{
-                                                control: (base) => ({
-                                                    ...base,
-                                                    height: "50px",
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: "8px",
-                                                    fontSize: "16px",
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    boxShadow: "none",
-                                                }),
-                                                option: (base, state) => ({
-                                                    ...base,
-                                                    cursor: "pointer",
-                                                    fontFamily: "Gilroy",
-                                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                    color: state.data.value === "Others" ? "#1E45E1" : "#000",
-                                                }),
-                                                placeholder: (base) => ({
-                                                    ...base,
-                                                    color: "#555",
-                                                }),
-                                                indicatorSeparator: () => ({ display: "none" }),
-                                            }}
-                                        />
-                                    )} */}
-
-                                </Form.Group>
+        //                             <FormControl
+        //                                 type="text"
+        //                                 placeholder="Enter your reason"
+        //                                 value={reason}
+        //                                 onChange={handleReasonChange}
+        //                                 style={{
+        //                                     fontSize: 16,
+        //                                     color: "#4B4B4B",
+        //                                     fontFamily: "Gilroy",
+        //                                     fontWeight: 500,
+        //                                     border: "1px solid #D9D9D9",
+        //                                     borderRadius: 8,
+        //                                     height: 50,
+        //                                     boxShadow: "none",
+        //                                 }}
+        //                             />
+        //                             {/* {isOthers ? (
+        //                                 <div style={{ position: "relative" }}>
+        //                                     <FormControl
+        //                                         type="text"
+        //                                         placeholder="Enter your reason"
+        //                                         value={reason}
+        //                                         onChange={(e) => setReason(e.target.value)}
+        //                                         style={{
+        //                                             fontSize: 16,
+        //                                             color: "#4B4B4B",
+        //                                             fontFamily: "Gilroy",
+        //                                             fontWeight: 500,
+        //                                             border: "1px solid #D9D9D9",
+        //                                             borderRadius: 8,
+        //                                             height: 50,
+        //                                             boxShadow: "none",
+        //                                         }}
+        //                                     />
+        //                                     <Trash
+        //                                         size="18"
+        //                                         color="#FF0000"
 
 
-                            </div>
-                        </div>
+        //                                         variant="link"
+        //                                         onClick={() => {
+        //                                             setIsOthers(false);
+        //                                             setReason("");
+        //                                         }}
+        //                                         style={{
+        //                                             position: "absolute",
+        //                                             right: 10,
+        //                                             top: "50%",
+        //                                             transform: "translateY(-50%)",
+        //                                             fontSize: 14,
+        //                                             color: "#1E45E1",
+        //                                             textDecoration: "none",
+        //                                             fontWeight: 500,
+        //                                             fontFamily: "Gilroy", cursor: "pointer"
+        //                                         }}
+        //                                     >
 
-                        {
-                            state.UsersList?.updateTenantError && <ErrorMessage message={state.UsersList.updateTenantError} type="error" />
-                        }
+        //                                     </Trash>
+        //                                 </div>) : (
+        //                                 <Select
+        //                                     value={reasonOptions.find((opt) => opt.value === reason) || null}
+        //                                     onChange={handleReasonChange}
+        //                                     options={reasonOptions}
+        //                                     placeholder="Select Reason"
+        //                                     classNamePrefix="custom"
+        //                                     // menuPlacement="auto"
+        //                                     noOptionsMessage={() => "No reason available"}
+        //                                     styles={{
+        //                                         control: (base) => ({
+        //                                             ...base,
+        //                                             height: "50px",
+        //                                             border: "1px solid #D9D9D9",
+        //                                             borderRadius: "8px",
+        //                                             fontSize: "16px",
+        //                                             color: "#4B4B4B",
+        //                                             fontFamily: "Gilroy",
+        //                                             boxShadow: "none",
+        //                                         }),
+        //                                         option: (base, state) => ({
+        //                                             ...base,
+        //                                             cursor: "pointer",
+        //                                             fontFamily: "Gilroy",
+        //                                             backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+        //                                             color: state.data.value === "Others" ? "#1E45E1" : "#000",
+        //                                         }),
+        //                                         placeholder: (base) => ({
+        //                                             ...base,
+        //                                             color: "#555",
+        //                                         }),
+        //                                         indicatorSeparator: () => ({ display: "none" }),
+        //                                     }}
+        //                                 />
+        //                             )} */}
+
+        //                         </Form.Group>
 
 
-                    </Modal.Body>
+        //                     </div>
+        //                 </div>
 
-                    {
-                        IsChangedError && <div className="d-flex justify-content-center"> <ErrorMessage message={IsChangedError} type="error" /></div>
-                    }
-                    {loading && <div
-                        style={{
-                            position: 'absolute',
-                            top: 100,
-                            right: 0,
-                            bottom: 0,
-                            left: 0,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'transparent',
-                            opacity: 0.75,
-                            zIndex: 10,
-                        }}
-                    >
-                        <div
-                            style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                            }}
-                        ></div>
-                    </div>}
-
-                    <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-                        <div className="d-flex justify-content-end gap-3">
+        //                 {
+        //                     state.UsersList?.updateTenantError && <ErrorMessage message={state.UsersList.updateTenantError} type="error" />
+        //                 }
 
 
-                            <Button
-                                onClick={handleClose}
-                                className="w-100 mt-1"
-                                style={{
-                                    backgroundColor: "#fff",
-                                    border: "none",
-                                    color: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 40px"
-                                }}
-                            >
-                                Cancel
-                            </Button>
+        //             </Modal.Body>
 
-                            <Button disabled={loading}
-                                onClick={handleSubmit}
-                                className="w-100 mt-1"
-                                style={{
-                                    backgroundColor: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 40px"
-                                }}
-                            >
-                                Update
-                            </Button>
-                        </div>
-                    </Modal.Footer>
-                </Modal.Dialog>
-            </Modal>
+        //             {
+        //                 IsChangedError && <div className="d-flex justify-content-center"> <ErrorMessage message={IsChangedError} type="error" /></div>
+        //             }
+        //             {loading && <div
+        //                 style={{
+        //                     position: 'absolute',
+        //                     top: 100,
+        //                     right: 0,
+        //                     bottom: 0,
+        //                     left: 0,
+        //                     display: 'flex',
+        //                     alignItems: 'center',
+        //                     justifyContent: 'center',
+        //                     backgroundColor: 'transparent',
+        //                     opacity: 0.75,
+        //                     zIndex: 10,
+        //                 }}
+        //             >
+        //                 <div
+        //                     style={{
+        //                         borderTop: '4px solid #1E45E1',
+        //                         borderRight: '4px solid transparent',
+        //                         borderRadius: '50%',
+        //                         width: '40px',
+        //                         height: '40px',
+        //                         animation: 'spin 1s linear infinite',
+        //                     }}
+        //                 ></div>
+        //             </div>}
+
+        //             <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
+        //                 <div className="d-flex justify-content-end gap-3">
+
+
+        //                     <Button
+        //                         onClick={handleClose}
+        //                         className="w-100 mt-1"
+        //                         style={{
+        //                             backgroundColor: "#fff",
+        //                             border: "none",
+        //                             color: "#1E45E1",
+        //                             fontWeight: 600,
+        //                             borderRadius: 12,
+        //                             fontSize: 16,
+        //                             fontFamily: "Gilroy",
+        //                             padding: "8px 40px"
+        //                         }}
+        //                     >
+        //                         Cancel
+        //                     </Button>
+
+        //                     <Button disabled={loading}
+        //                         onClick={handleSubmit}
+        //                         className="w-100 mt-1"
+        //                         style={{
+        //                             backgroundColor: "#1E45E1",
+        //                             fontWeight: 600,
+        //                             borderRadius: 12,
+        //                             fontSize: 16,
+        //                             fontFamily: "Gilroy",
+        //                             padding: "8px 40px"
+        //                         }}
+        //                     >
+        //                         Update
+        //                     </Button>
+        //                 </div>
+        //             </Modal.Footer>
+        //         </Modal.Dialog>
+        //     </Modal>
+        // </div>
+
+        <div className="modal show block static">
+  <Modal
+    show={show}
+    onHide={handleClose}
+    centered
+    backdrop="static"
+  >
+    <Modal.Dialog className="m-0 p-0 w-full max-w-4xl pt-1.5 pb-2.5 px-2.5">
+      <Modal.Header className="border border-gray-200">
+        <Modal.Title className="!text-lg !text-gray-900 !font-semibold font-gilroy">
+          Edit Joining Date
+        </Modal.Title>
+
+        <CloseCircle
+          size="24"
+          color="#000"
+          onClick={handleClose}
+          className="cursor-pointer"
+        />
+      </Modal.Header>
+
+      <Modal.Body className="show-scroll p-3 mt-0 me-3">
+        <div className="row mb-0">
+
+          {/* Edit Joining Date */}
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+            <Form.Group>
+              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                Edit Joining Date{" "}
+                <span className="text-red-600 text-xl">*</span>
+              </Form.Label>
+
+              <div className="relative w-full">
+                <DatePicker
+                  ref={dateRef}
+                  className="w-full h-12 cursor-pointer font-gilroy border border-gray-300 rounded-lg"
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={
+                    effectiveFrom
+                      ? dayjs(effectiveFrom, "DD/MM/YYYY")
+                      : null
+                  }
+                  onChange={handleEffectiveFromChange}
+                  disabledDate={isDisabled}
+                />
+
+                {effectiveFromError && (
+                  <ErrorMessage
+                    message={effectiveFromError}
+                    type="error"
+                  />
+                )}
+              </div>
+            </Form.Group>
+          </div>
+
+          {/* Reason */}
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+              <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                Reason
+              </Form.Label>
+
+              <FormControl
+                type="text"
+                placeholder="Enter your reason"
+                value={reason}
+                onChange={handleReasonChange}
+                className="text-base text-gray-600 font-gilroy font-medium border border-gray-300 rounded-lg h-12 shadow-none"
+              />
+            </Form.Group>
+          </div>
         </div>
+
+        {state.UsersList?.updateTenantError && (
+          <ErrorMessage
+            message={state.UsersList.updateTenantError}
+            type="error"
+          />
+        )}
+      </Modal.Body>
+
+      {IsChangedError && (
+        <div className="flex justify-center">
+          <ErrorMessage message={IsChangedError} type="error" />
+        </div>
+      )}
+
+      {loading && (
+        <div className="absolute inset-x-0 top-24 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
+        </div>
+      )}
+
+      <Modal.Footer className="border-0 pt-0">
+        <div className="flex justify-end gap-3">
+
+          <Button
+            onClick={handleClose}
+            className="w-full mt-1 bg-white border-0 !text-[#1E45E1] !font-bold !text-base font-gilroy rounded-xl py-2 px-10"
+          >
+            Cancel
+          </Button>
+
+          <Button
+            disabled={loading}
+            onClick={handleSubmit}
+            className="w-full mt-1 !bg-[#1E45E1] font-semibold text-base font-gilroy rounded-xl py-2 px-10 text-white"
+          >
+            Update
+          </Button>
+
+        </div>
+      </Modal.Footer>
+    </Modal.Dialog>
+  </Modal>
+</div>
+
     )
 }
 EditJoiningDate.propTypes = {

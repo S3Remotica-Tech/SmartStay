@@ -109,7 +109,7 @@ function UserListInvoice(props) {
   //   invoiceFilterddata?.length / invoicerowsPerPage
   // );
 
-const sortedData = React.useMemo(() => {
+  const sortedData = React.useMemo(() => {
     return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
   }, [invoiceFilterddata]);
 
@@ -160,24 +160,8 @@ const sortedData = React.useMemo(() => {
     // setTableTrue(false)
     // setBillsForm(true)
     navigate('/create-bill', { state: { id: props.id } });
-
-
-    // props.handleAddItem()
-
-
-
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
-
-
   };
-
-
-
-
-
-
-
-
 
   // useEffect(() => {
   //   if (BillsForm) {
@@ -200,26 +184,14 @@ const sortedData = React.useMemo(() => {
 
   return (
     <>
-      <div className="d-flex justify-content-end col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="flex justify-end w-full" >
         {
           state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
           <Button
             onClick={handleAddBill}
             disabled={props.customerAdd || !canWriteInvoice}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "8px",
-              // marginBottom: "10px",
-              // maxHeight: 0,
-              width: "146px",
-              whiteSpace: "nowrap",
-            }}
+            className="font-sans text-sm text-white font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
           >
             {" "}
             + Create Bill
@@ -227,22 +199,11 @@ const sortedData = React.useMemo(() => {
         }
       </div>
 
-      <div
-        className=" "
-        style={{  }}
-      >
+      <div>
         {
 
           !canReadInvoice ?
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "45vh"
-              }}
-            >
+            <div className="flex flex-col items-center justify-center min-h-1/2" >
 
               <ErrorMessage message={['You do not have access to view Bill']} type="warning" />
 
@@ -252,368 +213,120 @@ const sortedData = React.useMemo(() => {
 
 
             sortedData?.length > 0 ? (
-              <div
+              <div className={`overflow-auto border-t border-gray-200 mt-5 mb-5 px-0 ${sortedData?.length >= 4 ? "h-64" : "h-auto"
+                }`}
 
-                className='show-scrolls'
-                style={{
-
-                  height: sortedData?.length >= 4 || sortedData?.length >= 4 ? "250px" : "auto",
-                  overflow: "auto",
-                  borderTop: "1px solid #E8E8E8",
-                  marginBottom: 20,
-                  marginTop: "20px",
-                  paddingRight: 0,
-                  paddingLeft: 0
-                }}
               >
-               
+                <Table className="min-w-full border-collapse w-full font-sans text-gray-900 text-sm font-medium sticky top-0 z-10">
 
-                  <Table
-                    responsive="md"
-                    style={{
-                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                      top: 0,
-                      zIndex: 1,
-                      borderRadius: 0
-                    }}
-                  >
-                    <thead style={{
-                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                      top: 0,
-                      zIndex: 1
-                    }}>
-                      <tr className="" style={{ height: "30px" }}>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            paddingLeft: "20px",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                           
-                            Invoice Number
-                          </div>
+                  <thead className="bg-blue-100 text-gray-400 text-xs font-medium sticky top-0 z-10">
+                    <tr className="h-7">
+                      <th className="text-start pl-5 whitespace-nowrap">
+                        <div className="flex gap-1 items-center justify-start">Invoice Number</div>
+                      </th>
+                      <th className="text-start whitespace-nowrap">
+                        <div className="flex gap-1 items-center justify-start">Invoice Type</div>
+                      </th>
+                      <th className="text-start whitespace-nowrap">
+                        <div className="flex gap-1 items-center justify-start ml-10">Invoice Date</div>
+                      </th>
+                      <th className="text-start whitespace-nowrap">
+                        <div className="flex gap-1 items-center justify-start ml-12">Due Date</div>
+                      </th>
+                      <th className="text-start">
+                        <div className="flex gap-1 items-center justify-start ml-10">Amount</div>
+                      </th>
+                      <th className="text-start">
+                        <div className="flex gap-1 items-center justify-start ml-12">Due</div>
+                      </th>
+                      <th className="text-start">
+                        <div className="flex gap-1 items-center justify-start ml-4">Status</div>
+                      </th>
+                      {/* {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+                        <th className="text-start text-gray-500 font-medium text-[12px] font-gilroy">
+                          Action
                         </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            textAlign: "start",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            
-                            Invoice Type
-                          </div>
-                        </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            textAlign: "start",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                           
-                            Invoice Date
-                          </div>
-                        </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            textAlign: "start",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                           
-                            Due Date
-                          </div>
-                        </th>
+                      )} */}
 
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                           
-                            Amount
-                          </div>
-                        </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            
-                            Due
-                          </div>
-                        </th>
+                    </tr>
+                  </thead>
 
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            
-                            Status
-                          </div>
-                        </th>
-                        {/* {
-                          state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
-
-                          <th style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                           
-                            textAlign: "start",
-                          }}> Action</th>
-                        } */}
-                      </tr>
-                    </thead>
-                    <tbody
-                      style={{
-                        height: "",
-                        fontSize: "11px",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      <PaginationList>
-                      {sortedData?.map((view) => {
-
-
+                  <tbody className="text-xs align-middle">
+                    <PaginationList>
+                      {sortedData?.map((view) => (
                         // let dueDated = new Date(view.DueDate);
-
                         // let daydue = dueDated.getDate();
                         // let monthdue = dueDated.getMonth() + 1;
                         // let yeardue = dueDated.getFullYear();
+                        <tr key={view.id}>
+                          <td className="text-start font-medium pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            {view.invoiceNumber}
+                          </td>
 
+                          <td className="text-start font-medium pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            {view.invoiceType}
+                          </td>
 
+                          <td className="text-start pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
+                              {view?.invoiceGeneratedDate}
+                            </span>
+                          </td>
 
-                        return (
-                          <tr key={view.id} style={{ marginTop: "" }}>
-                            <td 
-                              style={{
-                                textAlign: "start",
-                                fontWeight: 500,
-                                fontSize: "13px",
-                                fontFamily: "Gilroy",
-                                borderBottom: "1px solid #E8E8E8",
-                              }}
-                              className="ps-3"
-                            >
-                              <div >  {view.invoiceNumber}</div>
+                          <td className="text-start pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
+                              {view?.dueDate}
+                            </span>
+                          </td>
 
-                            </td>
-                            <td
-                              style={{
-                                textAlign: "start",
-                                fontWeight: 500,
-                                fontSize: "13px",
-                                fontFamily: "Gilroy",
-                                 borderBottom: "1px solid #E8E8E8"
-                              }}
-                              className=""
-                            >
-                              <div className="">
-                                {view.invoiceType}
-                              </div>
-
-                            </td>
-                            <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="" >
-                              <span
-                                style={{
-                                  // backgroundColor: "#EBEBEB",
-                                  padding: "5px 20px",
-                                  borderRadius: "14px",
-                                  // marginLeft: 4,
-                                  lineHeight: "1.5em",
-                                  // margin: "0",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start"
-                                }}
-
-                              >
-                                {view?.invoiceGeneratedDate}
-                              </span>
-                            </td>
-                            <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="">
-                              <span
-                                style={{
-                                  // backgroundColor: "#EBEBEB",
-                                  // padding: "5px 20px",
-                                  borderRadius: "14px",
-                                  // marginLeft: 4,
-                                  lineHeight: "1.5em",
-                                  // margin: "0",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start"
-                                }}
-                              >
-                                {view.dueDate}
-                              </span>
-                            </td>
-                            <td
-                              style={{
-                                fontWeight: 500,
-                                fontSize: "13px",
-                                fontFamily: "Gilroy",
-                                textAlign: "start"
-                                , borderBottom: "1px solid #E8E8E8"
-                              }}
-                              className=""
-                            >
+                          <td className="text-start pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
                               {view?.totalAmount}
-                            </td>
+                            </span>
+                          </td>
 
-                            <td
-                              style={{
-                                fontWeight: 500,
-                                fontSize: "13px",
-                                fontFamily: "Gilroy",
-                                textAlign: "start",
-                                borderBottom: "1px solid #E8E8E8"
-                              }}
-                              className=""
-                            >
+                          <td className="text-start border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
                               ₹{view.dueAmount}
-                            </td>
-                            <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="">
-                              <span
-                                style={{
-                                //  padding: "5px 20px",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  borderRadius: "14px",
-                                  // marginLeft: 4
-                                }}
-                              >
-                                {(view.paymentStatus === "Pending" ||
-                                  view.paymentStatus === "Partial Payment" || view.paymentStatus === "Partial payment") && (
-                                    <span
-                                      style={{
-                                        backgroundColor: "#FFD9D9",
-                                        color: "#000",
-                                        borderRadius: "14px",
-                                        fontFamily: "Gilroy",
-                                        padding: "8px 12px",
-                                      }}
-                                    >
-                                      {view.paymentStatus}
-                                    </span>
-                                  )}
+                            </span>
+                          </td>
 
 
-                                {view.paymentStatus === "Paid" && (
-                                  <span
-                                    style={{
-                                      cursor: "pointer",
-                                      backgroundColor: "#D9FFD9",
-                                      fontFamily: "Gilroy",
-                                      color: "#000",
-                                      borderRadius: "14px",
-                                      padding: "8px 12px",
-                                    }}
-                                  >
-                                    {view.paymentStatus}
-                                  </span>
-                                )}
+                          <td className="text-start border-b border-gray-200 pl-4 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                            {(view.paymentStatus === "Pending" ||
+                              view.paymentStatus === "Partial Payment" ||
+                              view.paymentStatus === "Partial payment") && (
+                                <span className="bg-red-100 text-black px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                                  {view.paymentStatus}
+                                </span>
+                              )}
 
-
-                                {(view.paymentStatus === "Refunded" || view?.paymentStatus === "Partially Refunded") && (
-                                  <span
-                                    style={{
-                                      backgroundColor: "#FFF3CD",
-                                      color: "#8B8000",
-                                      borderRadius: "14px",
-                                      fontFamily: "Gilroy",
-                                      padding: "8px 12px",
-                                    }}
-                                  >
-                                    {view.paymentStatus}
-                                  </span>
-                                )}
-
-
-                                {view.paymentStatus === "Refund" && (
-                                  <span
-                                    style={{
-                                      backgroundColor: "#FFE6B3",
-                                      color: "#b45309",
-                                      borderRadius: "14px",
-                                      fontFamily: "Gilroy",
-                                      padding: "8px 12px",
-                                    }}
-                                  >
-                                    {view.paymentStatus}
-                                  </span>
-                                )}
-                                {view?.paymentStatus === "Cancelled" && (
-                                  <span
-                                    style={{
-                                      backgroundColor: "#FFE6B3",
-                                      color: "#b45309",
-                                      borderRadius: "14px",
-                                      fontFamily: "Gilroy",
-                                      padding: "8px 12px",
-                                    }}
-                                  >
-                                    Cancelled
-                                  </span>
-                                )
-                                }
+                            {view.paymentStatus === "Paid" && (
+                              <span className="bg-green-100 text-black px-3 py-1 rounded-[14px] text-xs font-medium font-sans cursor-pointer">
+                                {view.paymentStatus}
                               </span>
-                            </td>
-                            {/* {
+                            )}
+
+                            {(view.paymentStatus === "Refunded" ||
+                              view.paymentStatus === "Partially Refunded") && (
+                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                                  {view.paymentStatus}
+                                </span>
+                              )}
+
+                            {view.paymentStatus === "Refund" && (
+                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                                {view.paymentStatus}
+                              </span>
+                            )}
+
+                            {view?.paymentStatus === "Cancelled" && (
+                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                                Cancelled
+                              </span>
+                            )}
+                          </td>
+                          {/* {
 
                               state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
@@ -779,56 +492,40 @@ const sortedData = React.useMemo(() => {
 
                               </td>
                             } */}
-                          </tr>
-                        );
-                      })}
-                      </PaginationList>
-                      {invoiceFilterddata?.length === 0 && (
-                        <tr>
-                          <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                            No data found
-                          </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      ))}
+                    </PaginationList>
 
-                
+                    {invoiceFilterddata?.length === 0 && (
+                      <tr>
+                        <td colSpan="7" className="text-center text-red-500 py-4">
+                          No data found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+
+
+
 
               </div>
             ) :
-            
-        <div style={{ marginTop: 10 }} className="flex justify-content-center">
-          <div>
-              <div style={{ textAlign: "center" }}>
-                <img src={Emptystate} alt="emptystate" />
+
+              <div className="mt-2.5 flex justify-center">
+                <div>
+                  <div className="text-center">
+                    <img src={Emptystate} alt="emptystate" />
+                  </div>
+
+                  <div className="pb-1 text-center font-semibold text-[16px] text-[#4B4B4B] font-gilroy">
+                    No Bills available
+                  </div>
+                  <div className="pb-1 text-center font-medium text-[14px] text-[#4B4B4B] font-gilroy">
+                    There are no Bills added.
+                  </div>
+                </div>
               </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                No Bills available
-              </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                There are no Bills added.
-              </div>
-               </div>
-            </div>
         }
       </div>
 

@@ -2374,70 +2374,51 @@ function UserListRoomDetail(props) {
 
       <div
         key={CustomerOverView?.customerId}
-        className="container mt-2"
-        style={{
-          marginLeft: "-20px",
-          height: "97vh",
-          overflowY: "auto",
-        }}
+        className="h-[97vh] overflow-y-auto mt-2 bgpink-200 w-full max-w-full overflow-x-hidden"
       >
+
         <div
-          className="d-flex align-items-center"
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 1000,
-            backgroundColor: "#fff",
-            padding: "12px 20px",
-            height: "60px",
-          }}
-        >
+          className="flex items-center sticky top-0 z-[1000] bg-white py-3 px-3 sm:px-4 h-14 w-full" >
           <img
             src={leftarrow}
             alt="leftarrow"
             width={20}
             height={20}
             onClick={() => handleNavigateTenant()}
-
-            // onClick={props.handleBack}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
-          <span
-            style={{
-              fontWeight: 600,
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-              paddingLeft: "10px",
-            }}
-          >
+          <span className="font-semibold text-lg pl-2.5 font-gilroy">
             Tenant Profile
           </span>
         </div>
 
-        <div
-          className="card mt-3"
-          style={{ borderRadius: "24px", marginLeft: "20px" }}
-        >
-          <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
-            <div className="d-flex align-items-center mb-3 mb-md-0">
+        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl mt-3 p-3 w-[95%] max-w-7xl mx-auto">
+          <div
+            className="flex flex-col md:flex-row items-center justify-between"
+          >
+            <div
+              className="flex items-center py-0 md:py-2"
+            >
 
               <div
-                className="relative h-[47px] w-[47px] rounded-full overflow-hidden cursor-pointer"
+                className="relative w-12 h-12 mr-2.5"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 {imageUrl ? (
                   <img
                     src={imageUrl}
-                    alt={CustomerOverView.fullName || "Profile"}
-                    className="h-full w-full object-cover rounded-full"
+                    alt={CustomerOverView.fullName || "Default Profile"}
+                    className="w-12 h-12 rounded-full object-cover"
                     onError={(e) => {
                       e.currentTarget.src = Profiles;
                     }}
                   />
                 ) : (
 
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-200 text-[#44536A] text-lg font-semibold font-[Gilroy]">
+                  <div
+                    className="flex w-12 h-12 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xl font-semibold font-gilroy"
+                  >
                     {CustomerOverView?.initials
                       ? CustomerOverView.initials
                       : CustomerOverView?.fullName
@@ -2451,39 +2432,19 @@ function UserListRoomDetail(props) {
 
                 {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
                   <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      height: "100%",
-                      width: "100%",
-                      borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      background: "rgba(0,0,0,0.3)",
-                      cursor: "pointer",
-                    }}
+                    className="absolute inset-0 rounded-full flex items-center justify-center bg-black/30 cursor-pointer"
                     onClick={() => {
                       if (!state.UsersList?.KycCustomerDetails?.pic) {
                         document.getElementById("fileInput").click();
                       }
                     }}
                   >
-                    <div
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: "50%",
-                        padding: "6px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                    <div className="bg-white rounded-full p-1.5 flex items-center justify-center"
                     >
                       <img
                         src={EditImage}
                         alt="Edit"
-                        style={{ width: "16px", height: "16px" }}
+                        className="w-4 h-4"
                       />
                     </div>
                   </div>
@@ -2493,7 +2454,7 @@ function UserListRoomDetail(props) {
                   id="fileInput"
                   type="file"
                   accept="image/*"
-                  style={{ display: "none" }}
+                  className="hidden"
                   onChange={handleImageUpload}
                 />
               </div>
@@ -2504,15 +2465,8 @@ function UserListRoomDetail(props) {
 
 
 
-              <div style={{ marginLeft: 10 }}>
-                <span
-                  className="card-title mb-0"
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
+              <div className="ml-2.5">
+                <span className="text-xl font-semibold font-gilroy  mb-0">
                   {CustomerOverView.fullName}
                 </span>
 
@@ -2522,17 +2476,7 @@ function UserListRoomDetail(props) {
                     <Button
                       disabled={!canWriteTenant}
                       type="primary"
-                      style={{
-                        borderRadius: "20px",
-                        backgroundColor: "#1E45E1",
-                        border: "none",
-                        padding: "0 16px",
-                        height: "32px",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "14px",
-
-                      }}
+                      className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm"
                     >
                       KYC Verified
                     </Button>
@@ -2544,29 +2488,14 @@ function UserListRoomDetail(props) {
                 {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
                   <>
                     <Button
-                      style={{
-                        borderRadius: "20px",
-                        backgroundColor: "#f59e0b",
-                        border: "none",
-                        padding: "0 16px",
-                        height: "32px",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "14px",
-                        color: "#fff",
-                      }}
-
+                      className="rounded-2xl bg-amber-500 border-0 px-4 h-8 flex items-center text-sm text-white"
                     >
-                      <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                      <img src={timehalf} alt="time" className="w-4 mr-2" />
                       Pending
                     </Button>
                     <p
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 400,
-                        fontFamily: "Gilroy",
-                        marginTop: 4,
-                      }}
+
+                      className="text-sm font-normal font-gilroy mt-1"
                     >
                       Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
                     </p>
@@ -2577,29 +2506,14 @@ function UserListRoomDetail(props) {
                   <>
                     <Button
                       onClick={handleKYCSubmit}
-                      style={{
-                        borderRadius: "20px",
-                        backgroundColor: "#1E45E1",
-                        border: "none",
-                        padding: "0 16px",
-                        height: "32px",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "14px",
-                        color: "#fff",
-                      }}
+
+                      className="rounded-xl bg-blue-600 border-0 px-4 h-8 flex items-center text-sm text-white"
 
                     >
-                      <img src={Retry} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                      <img src={Retry} alt="time" className="w-4 mr-2" />
                       Retry KYC
                     </Button>
-                    <p
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 400,
-                        fontFamily: "Gilroy",
-                        marginTop: 4,
-                      }}
+                    <p className="text-sm font-normal font-gilroy mt-1"
                     >
                       Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
                     </p>
@@ -2612,28 +2526,12 @@ function UserListRoomDetail(props) {
                     <Button
                       disabled={!canWriteTenant}
                       type="primary"
-                      style={{
-                        borderRadius: "20px",
-                        backgroundColor: "#1E45E1",
-                        border: "none",
-                        padding: "0 16px",
-                        height: "32px",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "14px",
-                        fontFamily: "Gilroy",
-                      }}
+                      className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm font-gilroy"
                       onClick={handleKYCSubmit}
                     >
-                      Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6, fontFamily: "Gilroy", }} />
+                      Verify KYC <RightOutlined className="text-xs ml-1.5 font-gilroy" />
                     </Button>
-                    <p
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 400,
-                        fontFamily: "Gilroy",
-                        marginTop: 4,
-                      }}
+                    <p className="text-sm font-normal font-gilroy mt-1"
                     >
                       Verify your Customer KYC Details via DigiLocker.
                     </p>
@@ -2651,19 +2549,16 @@ function UserListRoomDetail(props) {
 
               <button onClick={handleShowBookingToCheckin}
                 type="button"
-
                 className={`
-        px-4 py-2
-    rounded-lg
-    bg-[#1E45E1]
-    text-white
-    text-sm font-semibold
-    font-[Montserrat]
-    flex items-center justify-center
-    transition-all duration-200
-    disabled:opacity-50 disabled:cursor-not-allowed
-    hover:bg-[#1E45E1]
-  `}
+  px-4 py-2
+  rounded-lg
+  bg-[#1E45E1]
+  text-white text-sm font-semibold font-[Montserrat]
+  flex items-center justify-center
+  transition-all duration-200
+  disabled:opacity-50 disabled:cursor-not-allowed
+  hover:bg-blue-700
+`}
               >
                 Check-In
               </button>
@@ -2674,20 +2569,18 @@ function UserListRoomDetail(props) {
 
               <div onClick={handleShowWalletHistory}
                 className="
-    mt-2
-    inline-flex items-center justify-center
-    p-2
-    rounded-full
-    bg-[#ECFDF3] text-[#16A34A]
-
-    shadow-sm
-    ring-1 ring-red-200
-    cursor-pointer
-    transition-all duration-300 ease-out
-    hover:shadow-md
-    hover:scale-105
-       active:scale-95
-  "
+  mt-2
+  inline-flex items-center justify-center
+  p-2
+  rounded-full
+  bg-[#ECFDF3] text-[#16A34A]
+  shadow-sm
+  ring-1 ring-red-200
+  cursor-pointer
+  transition-all duration-300 ease-out
+  hover:shadow-md hover:scale-105
+  active:scale-95
+"
               >
                 <WalletCheck
                   size="26"
@@ -2706,1563 +2599,745 @@ function UserListRoomDetail(props) {
 
         <TabContext value={value}>
           <div>
-            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+            <Box
+              sx={{ borderBottom: 0, borderColor: "divider" }}
+            >
               <TabList
                 orientation={
                   isSmallScreen ? "vertical" : "horizontal"
                 }
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                style={{ marginLeft: "20px" }}
-                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
               >
                 <Tab
                   label="Overview"
                   value="1"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "1" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "1" ?
+                    "!text-[#222222]" : "!text-[#6B6B6B]"
+
+                    }`}
                 />
                 <Tab
                   label="EB Reading"
                   value="2"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "2" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "2" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
                 <Tab
                   label="Bill"
                   value="3"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "3" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "3" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
 
                 <Tab
                   label="Transactions"
                   value="4"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "5" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "4" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
               </TabList>
             </Box>
           </div>
-          <TabPanel value="1" className="px-0 mt-2">
+          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full">
             <>
-              <div className="roomdetailscard">
-                <div style={{ flex: 1 }}>
-                  <div className="col-md-12 mb-3 mb-md-0">
-                    <div
-                      className="card"
-                      style={{
-                        borderRadius: "20px",
-                        padding: "10px",
-                        marginLeft: "20px",
-                      }}
-                    >
-                      <div
-                        className="card-header d-flex justify-content-between align-items-center p-1"
-                        style={{ backgroundColor: "transparent" }}
-                      >
-                        <div
-                          style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Basic Details
-                        </div>
-                        <div
-                          style={{
-                            cursor: !canUpdateTenant
-                              ? "not-allowed"
-                              : "pointer",
-                            opacity: !canUpdateTenant
-                              ? 0.6
-                              : 1,
-                          }}
-                        >
-                          <div
-                            onClick={() => {
-                              if (canUpdateTenant) {
-                                handleEditBasicDetails(CustomerOverView);
-                              }
-                            }}
-                            style={{
-                              cursor: !canUpdateTenant
-                                ? "not-allowed"
-                                : "pointer",
-                              height: 40,
-                              width: 40,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              zIndex: 1000,
+              <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">
 
+                <div className="w-full lg:w-[420px] flex flex-col gap-2">
+                  <div className="flex-1 bg-white h-auto max-h-[300px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-3">
+                    <div className="flex items-center justify-between border-b border-gray-300 pb-1 mb-3">
+                      <div className="text-[16px] font-gilroy font-semibold">
+                        Basic Details
+                      </div>
+                      <div className={!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
+                        <div
+                          onClick={() => {
+                            if (canUpdateTenant) {
+                              handleEditBasicDetails(CustomerOverView);
+                            }
+                          }}
+                          className={`h-10 w-10 flex items-center justify-center relative z-[1000] ${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"}`}
+                        >
+                          <img
+                            src={EditImage}
+                            alt="editimage"
+                            className="h-4 w-4"
+                            style={{
+                              filter: !canUpdateTenant ? "grayscale(100%)" : "none",
                             }}
-                          >
-                            <img
-                              src={EditImage}
-                              alt="editimage"
-                              style={{
-                                height: 16,
-                                width: 16,
-                                color: !canUpdateTenant
-                                  ? "#CCCCCC"
-                                  : "#000",
-                              }}
-                            />
-                          </div>
+                          />
                         </div>
                       </div>
+                    </div>
 
-                      <div className="card-body">
-                        <div className="row ">
-                          <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start mb-3">
-                            <p
-                              style={{
-                                fontSize: 12,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              First Name
-                            </p>
-                            <div
-                              style={{
-                                display: "flex",
-                                marginTop: "-10px",
-                                gap: "6px",
-                                width: "100%",
-                              }}
-                            >
-                              <span
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  wordBreak: "break-word",
-                                  overflowWrap: "break-word",
-                                  minWidth: 0,
-                                  marginTop: -3,
-                                }}
-                              >
-                                {CustomerOverView?.firstName}
-                              </span>
-                            </div>
-                          </div>
+                    <div className="w-full max-w-[640px] mx-auto">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                         <div className="flex flex-col">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            First Name
+                          </p>
+                          <p className="text-sm font-semibold font-gilroy break-words">
+                            {CustomerOverView?.firstName || "-"}
+                          </p>
+                        </div>
 
-                          <div
-                            className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <p
-                              style={{
-                                fontSize: 12,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Last Name
-                            </p>
-                            <p style={{
-                              marginTop: "-10px", fontSize: 14,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              wordBreak: "break-word",
-                              overflowWrap: "break-word",
-                              minWidth: 0, marginRight: 15
-                            }}>
-                              {CustomerOverView?.lastName}
-                            </p>
+                        <div className="flex flex-col sm:pl-6">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            Last Name
+                          </p>
+                          <p className="text-sm font-semibold font-gilroy break-words">
+                            {CustomerOverView?.lastName || "-"}
+                          </p>
+                        </div>
+
+                        <div className="flex flex-col">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            Email ID
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <Sms size={16} color="#1E45E1" className="shrink-0" />
+                            <span className="text-sm font-semibold font-gilroy break-all">
+                              {CustomerOverView?.emailId || "N/A"}
+                            </span>
                           </div>
                         </div>
 
-
-                        <div className="row">
-                          <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                            <p
-                              style={{
-                                fontSize: 12,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Email ID
-                            </p>
-                            <div
-                              style={{
-                                display: "flex",
-                                marginTop: "-10px",
-                                gap: "6px",
-                                width: "100%",
-                              }}
-                            >
-                              <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
-                              <span
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  wordBreak: "break-word",
-                                  overflowWrap: "break-word",
-                                  minWidth: 0,
-                                  marginTop: -3
-                                }}
-                              >
-                                {CustomerOverView?.emailId || "N/A"}
-                              </span>
-                            </div>
+                  
+                        <div className="flex flex-col sm:pl-6">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            Mobile No
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <Call size={16} color="#1E45E1" className="shrink-0" />
+                            <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                              {CustomerOverView?.mobileNo
+                                ? `+${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
+                                : "-"}
+                            </span>
                           </div>
-                          <div
-                            className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <p
-                              style={{
-                                fontSize: 12,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Mobile No
-                            </p>
-                            <p style={{ marginTop: "-10px", marginLeft: 60 }}>
-                              <Call size="16" color="#1E45E1" />
-                              <span
-                                style={{
-                                  marginLeft: 5,
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-
-                                {CustomerOverView && CustomerOverView.mobileNo ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}` : ''}
-
-
-
-                              </span>
-                            </p>
-                          </div>
-                          {/* <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        RoomRent
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <img
-                                          src={Money}
-                                          alt="money"
-                                          width={16}
-                                          height={16}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          ₹ {customerDetails[0].RoomRent}
-                                        </span>
-                                      </p>
-                                    </div> */}
                         </div>
-
 
                       </div>
                     </div>
                   </div>
 
-                  <div className="col-md-12 mb-3 mb-md-0 mt-3">
-                    <div
-                      className="card"
-                      style={{
-                        borderRadius: "20px",
-                        // padding: "5px 10px",
-                        marginLeft: "20px",
-                      }}
-                    >
 
-                      <div
-                        className="card-header d-flex justify-content-between align-items-center border-0"
-                        style={{ backgroundColor: "transparent" }}
+                  <div className="flex-1 bg-white h-auto max-h-[240px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
+                 
+                    <div className="card-header flex justify-between items-center border-0 bg-transparent" >
+                      <div className="card-header p-0 border-0 bg-transparent w-full">
+                        <div className="flex items-center justify-start gap-4 w-full border-0 -mt-2">
+                          <div
+                            onClick={() => setActiveTab("kyc")}
+                            className={`flex items-center cursor-pointer px-3 py-1.5 font-semibold 
+    ${activeTab === "kyc" ? "border-b-2 border-[#1E45E1] text-[#1E45E1]" : "border-b-2 border-transparent text-[#555]"} font-gilroy whitespace-nowrap`}
+                          >
+                            KYC Address
+                          </div>
+
+
+                          <div
+                            onClick={() => setActiveTab("manual")}
+                            className={`flex items-center cursor-pointer px-3 py-1.5 font-semibold 
+    ${activeTab === "manual" ? "border-b-2 border-[#1E45E1] text-[#1E45E1]" : "border-b-2 border-transparent text-[#555]"} font-gilroy whitespace-nowrap`}
+                          >
+                            Manual Address
+                          </div>
+                          {activeTab === "manual" &&
+                            <span className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`} >
+                              <div
+                                onClick={() => {
+                                  if (canUpdateTenant) {
+                                    handleEditAddressDetailsShow(CustomerOverView);
+                                  }
+                                }}
+                                className="h-10 w-10 flex justify-center items-center relative z-[1000]"
+                              >
+                                <img
+                                  src={EditImage}
+                                  alt="edit"
+                                  className={`h-4 w-4 ${!canUpdateTenant ? "text-gray-300" : "text-black"}`}
+                                />
+                              </div>
+                            </span>
+
+                          }
+                        </div>
+                      </div>
+
+
+
+
+                    </div>
+
+
+                    <div >
+                      {
+                        activeTab === "manual" ?
+                          <div>
+                            <div className="flex flex-wrap p-0 mt-3" >
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy" >
+                                  House No / Apartment
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <House size="18" color="#1E45E1" />
+                                  <span className="text-sm font-semibold font-gilroy mt-1">
+                                    {CustomerOverView.address?.houseNo}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy" >
+                                  Street / Area
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={Areaimage} alt="area" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs"
+                                    title={CustomerOverView.address?.streetName}
+                                  >
+                                    {CustomerOverView.address?.streetName}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap mt-3">
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  Landmark
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={Landamrkimage} alt="landmark" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
+                                    {CustomerOverView.address?.landmark}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  Pincode
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={PincodeImage} alt="pincode" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
+                                    {CustomerOverView.address?.pincode}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap mt-3">
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  City
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={CityImage} alt="city" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
+                                    {CustomerOverView.address?.city}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  State
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={CityImage} alt="state" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                    {CustomerOverView.address?.state}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          :
+                          <div>
+                            <div className="flex flex-wrap mt-3">
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  House No / Apartment
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <House size="18" color="#1E45E1" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                    {/* {CustomerOverView.address?.houseNo} */}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  Street / Area
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={Areaimage} alt="area" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                    {/* {CustomerOverView.address?.streetName} */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap mt-3">
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  Landmark
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={Landamrkimage} alt="landmark" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                    {/* {CustomerOverView.address?.landmark} */}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy" >
+                                  Pincode
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={PincodeImage} alt="pincode" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                    {/* {CustomerOverView.address?.pincode} */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap mt-3">
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  City
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={CityImage} alt="city" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                    {/* {CustomerOverView.address?.city} */}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="w-full sm:w-1/2 flex flex-col items-start">
+                                <p className="text-xs font-medium font-gilroy">
+                                  State
+                                </p>
+                                <div className="flex items-center gap-2 -mt-3">
+                                  <img src={CityImage} alt="state" className="w-4 h-4" />
+                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs" >
+                                    {/* {CustomerOverView.address?.state} */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      }
+
+
+                    </div>
+                  </div>
+
+
+
+                  <div className="flex-1 bg-white h-auto max-h-[200px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
+                    <TabContext value={documentvalue}
+                      className="flex flex-col sm:flex-row justify-center items-center"
+
+                    >
+                      <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="flex flex-col sm:flex-row justify-start items-center"
                       >
-                        {/* <div
-                            style={{
+                        <TabList
+                          onChange={handleChangesupload}
+                          aria-label="custom tabs"
+                          className="d-flex  justify-content-center flex-sm-row"
+                          TabIndicatorProps={{ style: { display: "none" } }}
+                        >
+                          <Tab
+                            label="KYC Documents"
+                            value="1"
+                            sx={{
+                              textTransform: "capitalize",
                               fontSize: 16,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
+                              color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
+                              borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
+                              minWidth: "auto",
                             }}
-                          >
-                            Address Details
-                          </div> */}
-                        <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
-                          <div className="d-flex gap-5 align-items-center justify-content-start border-0" style={{ width: "100%" }}>
-
-
-                            <div className="d-flex align-items-center "
-                              onClick={() => setActiveTab("kyc")}
-                              style={{
-                                cursor: "pointer",
-                                padding: "6px 12px",
-                                borderBottom: activeTab === "kyc" ? "2px solid #1E45E1" : "2px solid transparent",
-                                color: activeTab === "kyc" ? "#1E45E1" : "#555",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy"
-                              }}
-                            >
-                              KYC Address
-                            </div>
-
-                            <div className="d-flex align-items-center "
-                              onClick={() => setActiveTab("manual")}
-                              style={{
-                                cursor: "pointer",
-                                padding: "6px 12px",
-                                borderBottom: activeTab === "manual" ? "2px solid #1E45E1" : "2px solid transparent",
-                                color: activeTab === "manual" ? "#1E45E1" : "#555",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy"
-                              }}
-                            >
-                              Manual Address
-
-                            </div>
-                            {activeTab === "manual" &&
-                              <span
-                                style={{
-                                  cursor: !canUpdateTenant ? "not-allowed" : "pointer",
-                                  opacity: !canUpdateTenant ? 0.6 : 1,
-                                }}
-                              >
-                                <div
-                                  onClick={() => {
-                                    if (canUpdateTenant) {
-                                      handleEditAddressDetailsShow(CustomerOverView);
-                                    }
-                                  }}
-                                  style={{
-                                    height: 40,
-                                    width: 40,
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    position: "relative",
-                                    zIndex: 1000,
-                                  }}
-                                >
-                                  <img
-                                    src={EditImage}
-                                    alt="edit"
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      color: !canUpdateTenant ? "#CCCCCC" : "#000",
-                                    }}
-                                  />
-                                </div>
-                              </span>
-
-                            }
-                          </div>
-                        </div>
-
-
-
-
-                      </div>
-
-
-                      <div className="card-body">
-                        {
-                          activeTab === "manual" ?
-                            <div>
-                              <div className="row p-0">
-
-                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    House No / Apartment
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <House size="18" color="#1E45E1" />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {CustomerOverView.address?.houseNo}
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Street / Area
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
-                                    <span
-                                      title={CustomerOverView.address?.streetName}
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        maxWidth: "200px",
-                                      }}
-                                    >
-                                      {CustomerOverView.address?.streetName}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div className="row mt-3">
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Landmark
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {CustomerOverView.address?.landmark}
-                                    </span>
-                                  </div>
-                                </div>
-
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Pincode
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {CustomerOverView.address?.pincode}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div className="row mt-3">
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    City
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {CustomerOverView.address?.city}
-                                    </span>
-                                  </div>
-                                </div>
-
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    State
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
-                                    <span
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        maxWidth: "200px",
-                                      }}
-                                    >
-                                      {CustomerOverView.address?.state}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            :
-                            <div>
-                              <div className="row p-0">
-
-                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    House No / Apartment
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <House size="18" color="#1E45E1" />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {/* {CustomerOverView.address?.houseNo} */}
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Street / Area
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
-                                    <span
-                                      // title={CustomerOverView.address?.streetName}
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        maxWidth: "200px",
-                                      }}
-                                    >
-                                      {/* {CustomerOverView.address?.streetName} */}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div className="row mt-3">
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Landmark
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {/* {CustomerOverView.address?.landmark} */}
-                                    </span>
-                                  </div>
-                                </div>
-
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Pincode
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {/* {CustomerOverView.address?.pincode} */}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div className="row mt-3">
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    City
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
-                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {/* {CustomerOverView.address?.city} */}
-                                    </span>
-                                  </div>
-                                </div>
-
-
-                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    State
-                                  </p>
-                                  <div className="d-flex align-items-center gap-2">
-                                    <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
-                                    <span
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        maxWidth: "200px",
-                                      }}
-                                    >
-                                      {/* {CustomerOverView.address?.state} */}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                        }
-
-
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div className="card mt-4" style={{ marginLeft: 25, borderRadius: 10 }}>
-                    <div className="card-body">
-
-                      <TabContext value={documentvalue} className="d-flex  justify-content-center flex-sm-row">
-                        <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="d-flex  justify-content-start flex-sm-row">
-                          <TabList
-                            onChange={handleChangesupload}
-                            aria-label="custom tabs"
-                            className="d-flex  justify-content-center flex-sm-row"
-                            TabIndicatorProps={{ style: { display: "none" } }}
-                          >
-                            <Tab
-                              label="KYC Documents"
-                              value="1"
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
-                                borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
-                                minWidth: "auto",
-                              }}
-                            />
-                            <Tab
-                              label="Manual Documents"
-                              value="2"
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
-                                borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-                                minWidth: "auto",
-                              }}
-                            />
-
-                          </TabList>
-                        </Box>
-
-                        <TabPanel value="1">
-                          <KYCDocuments />
-                        </TabPanel>
-                        <TabPanel value="2">
-                          <div
-                            className="row mt-3"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
+                          />
+                          <Tab
+                            label="Manual Documents"
+                            value="2"
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: 16,
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
+                              borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                              minWidth: "auto",
                             }}
-                          >
+                          />
 
-                            <div className="col-md-12">
-                              <div
-                                className="d-flex align-items-center"
-                                style={{ position: "relative" }}
-                              >
-                                <div className="d-flex align-items-center flex-wrap" style={{ width: "100%", }}>
-                                  {documents.length > 0 ? (
-                                    <ManualDocumentsDetails documents={documents} />
-                                  ) : (
-                                    <div
-                                      className="text-center"
-                                      style={{
-                                        fontSize: 14,
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 400,
-                                        width: "100%", backgroundColor: ""
-                                      }}
-                                    >
-                                      No Manual Documents are there!
-                                      <p>
-                                        <button onClick={() => handlePreview()}
+                        </TabList>
+                      </Box>
 
-                                          type="button"
-                                          className="btn mt-2"
-                                          disabled={!canWriteTenant}
-                                          style={{
-                                            backgroundColor: "#1E45E1",
-                                            fontWeight: 600,
-                                            borderRadius: 12,
-                                            fontSize: 14,
-                                            fontFamily: "Gilroy",
-                                            padding: "8px 10px",
-                                            color: "#fff",
-                                          }}
+                      <TabPanel value="1">
+                        <KYCDocuments />
+                      </TabPanel>
+                      <TabPanel value="2">
 
-                                        >
-                                          <img src={FileAdd} alt="" /> Upload Document
-                                        </button>
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
+                        <div className="flex justify-between mt-3" >
+                          <div className="w-full">
+                            <div className="flex items-center relative">
+                              <div className="flex items-center flex-wrap w-full">
 
-
-                                {documents.length > 0 && (
-                                  <div className="d-flex" onClick={() =>
-                                    handlePreview()
-                                  }
-                                    style={{
-                                      position: "absolute",
-                                      bottom: 0,
-                                      right: 0,
-                                      backgroundColor: "#00A32E",
-                                      borderRadius: "50%",
-                                      padding: "12px 12px", cursor: "pointer"
-                                    }}
+                                {documents.length > 0 ? (
+                                  <ManualDocumentsDetails documents={documents} />
+                                ) : (
+                                  <div className="text-center text-sm font-normal font-gilroy w-full"
                                   >
-                                    <DocumentUpload
-                                      size="20"
-                                      color="#FFFFFF"
-                                    />
+                                    No Manual Documents are there!
+                                    <p>
+                                      <button onClick={() => handlePreview()}
+                                        type="button"
+                                        className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3"
+
+                                        disabled={!canWriteTenant}
+                                      >
+                                        <img src={FileAdd} alt="" className="ml-12 mb-1" />
+                                        <span>Upload Document</span>
+                                      </button>
+                                    </p>
                                   </div>
                                 )}
-
-
-
                               </div>
-                            </div>
 
 
-
-                            <Modal
-                              show={showDocModal}
-                              onHide={() => setShowDocModal(false)}
-                              size="md"
-                              centered
-                              backdrop="static"
-                            >
-                              <Modal.Body
-                                style={{
-                                  padding: "20px",
-                                  position: "relative",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  minHeight: "300px",
-                                }}
-                              >
-                                <Button
-                                  variant="light"
-                                  onClick={() => setShowDocModal(false)}
-                                  style={{
-                                    position: "absolute",
-                                    top: 10,
-                                    right: 10,
-                                    border: "none",
-                                    fontSize: "20px",
-                                    zIndex: 1,
-                                  }}
+                              {documents.length > 0 && (
+                                <div className="flex absolute bottom-0 right-0 bg-green-600 rounded-full p-3 cursor-pointer"
+                                  onClick={() => handlePreview()}
                                 >
-                                  &times;
-                                </Button>
-                                {/* {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                  <DocumentUpload
+                                    size="20"
+                                    color="#FFFFFF"
+                                  />
+                                </div>
+                              )}
+
+
+
+                            </div>
+                          </div>
+
+
+
+                          <Modal
+                            show={showDocModal}
+                            onHide={() => setShowDocModal(false)}
+                            size="md"
+                            centered
+                            backdrop="static"
+                          >
+                            <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
+                            >
+                              <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
+
+                                variant="light"
+                                onClick={() => setShowDocModal(false)}
+                              >
+                                &times;
+                              </Button>
+                              {/* {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                                   <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
                                 ) : (
                                   <iframe
-                                    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+                                    src={https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true}
                                     style={{ width: "100%", height: "600px", border: "none" }}
                                     title="Document Preview"
                                   />
                                 )} */}
-                              </Modal.Body>
-                            </Modal>
+                            </Modal.Body>
+                          </Modal>
 
 
 
 
 
-                            <Modal
-                              show={showDocModaldoc2}
-                              onHide={() => setShowDocModaldoc2(false)}
-                              size="lg"
-                              centered
-                              backdrop="static"
+                          <Modal
+                            show={showDocModaldoc2}
+                            onHide={() => setShowDocModaldoc2(false)}
+                            size="lg"
+                            centered
+                            backdrop="static"
+                          >
+                            <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
                             >
-                              <Modal.Body
-                                style={{
-                                  padding: "20px",
-                                  position: "relative",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  minHeight: "300px",
-                                }}
+                              <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
+                                variant="light"
+                                onClick={() => setShowDocModaldoc2(false)}
                               >
-                                <Button
-                                  variant="light"
-                                  onClick={() => setShowDocModaldoc2(false)}
-                                  style={{
-                                    position: "absolute",
-                                    top: 10,
-                                    right: 10,
-                                    border: "none",
-                                    fontSize: "20px",
-                                    zIndex: 1,
-                                  }}
-                                >
-                                  &times;
-                                </Button>
-                                {/* {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                &times;
+                              </Button>
+                              {/* {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                                   <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
                                 ) : (
                                   <iframe
-                                    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+                                    src={https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true}
                                     style={{ width: "100%", height: "600px", border: "none" }}
                                     title="Document Preview"
                                   />
                                 )} */}
-                              </Modal.Body>
-                            </Modal>
-                          </div>
-                        </TabPanel>
-                      </TabContext>
-
-
-
-                    </div>
-
+                            </Modal.Body>
+                          </Modal>
+                        </div>
+                      </TabPanel>
+                    </TabContext>
                   </div>
-
 
                 </div>
 
-                <div style={{ flex: 1 }}>
-                  <div>
-                    <div className="d-flex flex-column col-md-12 col-lg-12 mb-md-0"
-                      style={{
-                        paddingLeft: 20,
-                        paddingRight: 20,
 
-                      }}>
-                      <div
-                        className="card"
-                        style={{
-                          borderRadius: "20px",
-                          padding: "15px",
-                        }}
-                      >
-                        <div
-                          className="card-header d-flex flex-column justify-content-between border-0 p-1"
-                          style={{
-                            backgroundColor: "transparent",
-                          }}
-                        >
-                          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <div
-                              style={{
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
+                <div className="flex-1 flex flex-col gap-2">
 
-                              }}
-                            >
-                              Stay details
-                            </div>
+                  <div className="flex flex-col w-full md:mb-0 px-2 sm:px-0">
+                    <div className="bg-white border border-[#E5E7EB] rounded-[20px] p-4 sm:p-[20px] w-full mx-0 sm:ml-[10px] sm:mr-0 h-auto max-h-[500px] overflow-y-auto">
+                      <div className="flex flex-col justify-between border-0 p-1 bg-transparent">
 
-
-                            <div className="d-flex flex-row">
-                              <div style={{
-                                cursor: !canUpdateTenant
-                                  ? "not-allowed"
-                                  : "pointer",
-                                opacity: !canUpdateTenant
-                                  ? 0.6
-                                  : 1,
-                              }}>
-                                <img src={Stayhistory} alt="stayhistoryicon"
-                                  onClick={() => {
-
-                                    if (canUpdateTenant) {
-                                      handleShowStayHistory(CustomerOverView);
-                                    }
-                                  }}
-                                  style={{
-                                    height: 18, width: 18,
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                  }} />
-                              </div>
-                              <div
-                                style={{
-                                  cursor: !canUpdateTenant
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  opacity: !canUpdateTenant
-                                    ? 0.6
-                                    : 1,
-                                }}
-                              >
-
-                              </div>
+                        <div className="flex flex-row justify-between">
+                          <div className="text-base font-semibold font-gilroy">
+                            Stay details
+                          </div>
+                          <div className="flex flex-row">
+                            <div className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}>
+                              <img
+                                src={Stayhistory}
+                                alt="stayhistoryicon"
+                                onClick={() => canUpdateTenant && handleShowStayHistory(CustomerOverView)}
+                                className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
+                              />
                             </div>
                           </div>
-                          <hr />
+                        </div>
+                        <hr className="my-2" />
 
 
-                          <div className="row">
-                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Floor
-                              </p>
-                              <p style={{ marginTop: "-10px" }}>
-                                <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    marginLeft: 5,
-                                  }}
-                                >
-                                  {" "}
-                                  {CustomerOverView.hostelInfo?.floorName &&
-                                    CustomerOverView.hostelInfo?.floorName !== "undefined" &&
-                                    CustomerOverView.hostelInfo?.floorName !== 0 &&
-                                    CustomerOverView.hostelInfo?.floorName !== "null"
-                                    ? CustomerOverView.hostelInfo?.floorName
-                                    : "N/A"}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Room
-                              </p>
-                              <p
-                                // onClick={() => {
-                                //   if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
-                                //     handleShowEditBed(
-                                //       CustomerOverView
-                                //     );
-                                //   }
-                                // }}
-                                style={{
-                                  marginTop: "-10px",
-                                }}
-                              >
+                        <div className="flex flex-wrap mt-4">
+
+                          <div className="w-full sm:w-1/3 flex flex-col items-start">
+                            <p className="text-xs font-medium font-gilroy">Floor</p>
+                            <p className="flex items-center -mt-3 gap-1">
+                              <img src={Floorimage} alt="Floorimage" className="h-4 w-4" />
+                              <span className="text-sm font-semibold font-gilroy ml-1 mt-1">
+                                {CustomerOverView.hostelInfo?.floorName && CustomerOverView.hostelInfo?.floorName !== "undefined" && CustomerOverView.hostelInfo?.floorName !== 0 && CustomerOverView.hostelInfo?.floorName !== "null"
+                                  ? CustomerOverView.hostelInfo.floorName
+                                  : "N/A"}
+                              </span>
+                            </p>
+                          </div>
+
+                          <div className="w-full sm:w-1/3 flex flex-col items-start mb-1">
+                            <p className="text-xs font-medium font-gilroy">Room</p>
+                            <p className="flex items-center -mt-3 gap-1">
+                              <img src={RoomImage} alt="room" className="h-4 w-4" />
+                              <span className="ml-1 mt-1 text-sm font-semibold font-gilroy">
+                                {CustomerOverView?.hostelInfo?.roomName ?? "N/A"}
+                              </span>
+                            </p>
+                          </div>
+
+                          <div className="w-full sm:w-1/3 flex flex-col items-start mb-1">
+                            <p className="text-xs font-medium font-gilroy">Bed</p>
+                            <p className="flex items-center -mt-3 gap-1">
+                              <img src={Group} alt="bed" className="h-4 w-4" />
+                              <span className="ml-1 mt-1 text-sm font-semibold font-gilroy">
+                                {CustomerOverView?.hostelInfo?.bedName ?? "N/A"}
+                              </span>
+                            </p>
+                          </div>
+
+                          <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
+                            <p className="text-xs font-medium font-gilroy">Booking Date</p>
+                            <p className="flex items-center -mt-3 gap-1">
+                              <img src={LinkImage} alt="booking" className="mt-px h-4 w-4" />
+                              <span className="ml-1 mt-1 text-sm font-semibold font-gilroy">
+                                {CustomerOverView.bookingInfo?.bookingDate ?? "N/A"}
+                              </span>
+                            </p>
+                          </div>
+
+                          <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
+                            <p className="flex items-center text-xs font-medium font-gilroy gap-1.5">
+                              Joined Date
+                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
                                 <img
-                                  src={RoomImage}
-                                  alt="group"
-
+                                  onClick={handleUpdateJoiningChange}
+                                  src={EditImage}
+                                  alt="EditImage"
+                                  className="h-3.5 w-3.5 mt-0.5 cursor-pointer"
                                 />
-                                <span
-                                  style={{
-                                    marginLeft: 5,
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    marginTop: "-10px",
-                                    // cursor: !canUpdateTenant
-                                    //   ? "not-allowed"
-                                    //   : "pointer",
-                                    color: "#000000",
-                                  }}
-                                >
-                                  {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
-                                </span>
-                              </p>
-                            </div>
+                              )}
+                            </p>
+                            <p className="flex items-center -mt-3 gap-1">
+                              <img src={LinkImage} alt="joining" className="h-4 w-4" />
+                              <span className="ml-1 mt-1 text-sm font-semibold font-gilroy text-black">
+                                {CustomerOverView.hostelInfo?.joiningDate ?? "N/A"}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
 
 
-                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Bed
-                              </p>
-                              <p
-                                // onClick={() => {
-                                //   if (canUpdateTenant) {
-                                //     handleShowEditBed(
-                                //       customerDetails
-                                //     );
-                                //   }
-                                // }}
-                                style={{
-
-                                  marginTop: "-10px",
-                                }}
-                              >
-                                <img
-                                  src={Group}
-                                  alt="group"
-
-                                />
-                                <span
-                                  style={{
-                                    marginLeft: 5,
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: "#000000",
-                                  }}
-                                >
-                                  {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  // marginLeft: 29
-                                }}
-                              >
-                                Booking Date
-                              </p>
-                              <p
-                                // onClick={() => {
-                                //   if (canUpdateTenant) {
-                                //     handleShowEditBed(
-                                //       customerDetails
-                                //     );
-                                //   }
-                                // }}
-                                style={{
-                                  // cursor: !canUpdateTenant
-                                  //   ? "not-allowed"
-                                  //   : "pointer",
-                                  // opacity: !canUpdateTenant
-                                  //   ? 0.6
-                                  //   : 1,
-                                  marginTop: "-10px",
-                                  // marginLeft: 50
-                                }}
-                              >
-                                <img
-                                  src={LinkImage}
-                                  alt="group"
-
-                                />
-                                <span
-                                  style={{
-                                    marginLeft: 5,
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    cursor:
-                                      "pointer",
-                                    color:
-                                      "#000000",
-                                  }}
-                                >
-                                  {CustomerOverView.bookingInfo?.bookingDate
-                                    ? CustomerOverView.bookingInfo?.bookingDate
-                                    : "N/A"}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                              <p
-                                className="d-flex align-items-center"
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  gap: "6px",
-                                }}
-                              >
-                                Joined Date
-                                {
-                                  (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
-
-                                  <img onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
+                        <label className="text-lg font-semibold font-gilroy mt-2 mb-3">Financial details</label>
+                        <div className="w-full mb-0 md:mb-0">
+                          <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 mb-4">
+                            <div className="flex flex-col items-start">
+                              <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
+                                Monthly Rent
+                                {canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
+                                  <img
+                                    onClick={handleUpdateChange}
                                     src={EditImage}
                                     alt="EditImage"
-                                    style={{
-                                      height: 14,
-                                      width: 14,
-                                      color: "#000", cursor: "pointer"
-                                    }}
+                                    className="h-3.5 w-3.5 cursor-pointer"
                                   />
-                                }
-                              </p>
-                              <p
-                                onClick={() => {
-                                  if (canUpdateTenant) {
-                                    handleShowEditBed(
-                                      customerDetails
-                                    );
-                                  }
-                                }}
-                                style={{
-                                  // cursor: !canUpdateTenant
-                                  //   ? "not-allowed"
-                                  //   : "pointer",
-                                  // opacity: !canUpdateTenant
-                                  //   ? 0.6
-                                  //   : 1,
-                                  marginTop: "-10px",
-                                  // marginLeft: 50
-                                }}
-                              >
-                                <img
-                                  src={LinkImage}
-                                  alt="group"
-                                // style={{
-                                //   cursor: !canUpdateTenant
-                                //     ? "not-allowed"
-                                //     : "pointer",
-                                //   filter: !canUpdateTenant
-                                //     ? "grayscale(100%)"
-                                //     : "none",
-                                // }}
-                                />
-                                <span
-                                  style={{
-                                    marginLeft: 5,
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: "#000000",
-                                  }}
-                                >
-                                  {CustomerOverView.hostelInfo?.joiningDate
-                                    ? CustomerOverView.hostelInfo?.joiningDate
-                                    : "N/A"}
-                                </span>
-                              </p>
-                            </div>
-
-
-
-
-                          </div>
-
-
-                          <label className="mt-2 mb-2" style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-
-                          }}>Financial details</label>
-
-                          <div
-                            className="col-md-12 col-lg-12 mb-md-0"
-
-                          >
-                            <div
-                              className="card border-0 p-0"
-                              style={{
-                                borderRadius: "10px",
-
-
-                              }}
-                            >
-
-
-                              <div className="card-body border-0 p-0">
-
-                                <div>
-                                  <div className="row mb-3">
-                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                      <div className="d-flex align-items-center"
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          gap: "6px",
-                                        }}
-
-                                      >
-                                        Monthly Rent
-                                        {
-                                          (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
-
-                                          <img
-                                            onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateChange()}
-                                            src={EditImage}
-                                            alt="EditImage"
-                                            style={{
-                                              height: 14,
-                                              width: 14,
-                                              color: !canUpdateTenant
-                                                ? "#CCCCCC"
-                                                : "#000", cursor: "pointer"
-                                            }}
-                                          />
-                                        }
-                                      </div>
-                                      <p
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          color: 'rgba(30, 69, 225, 1)',
-                                          paddingTop: 7
-                                        }}
-                                      >
-                                        {CustomerOverView.hostelInfo?.monthlyRent !== null
-                                          ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
-                                          : 0
-                                        }
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                      <div
-                                        className="d-flex align-items-center"
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          gap: "6px",
-                                        }}
-                                      >
-                                        Advance Amount
-                                        {
-                                          (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") &&
-
-                                          <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
-                                            src={EditImage}
-                                            alt="EditImage"
-                                            style={{
-                                              height: 14,
-                                              width: 14,
-                                              color: !canUpdateTenant
-                                                ? "#CCCCCC"
-                                                : "#000", cursor: "pointer"
-                                            }}
-                                          />
-                                        }
-                                      </div>
-                                      <p
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy", paddingTop: 7
-                                        }}
-                                      >
-                                        ₹{advanceList?.advanceAmount ?? 0}
-                                      </p>
-                                    </div>
-
-
-
-                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                      <div
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Booking Amount
-                                      </div>
-                                      <p
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          color: '#222',
-                                          paddingTop: 7
-                                        }}
-                                      >
-
-                                        {CustomerOverView?.bookingInfo && CustomerOverView?.bookingInfo?.bookingAmount !== null
-                                          ? `₹${CustomerOverView?.bookingInfo?.bookingAmount}`
-                                          : 0
-                                        }
-                                      </p>
-                                    </div>
-
-                                    {
-                                      CustomerOverView.hostelInfo?.maintenance !== null &&
-                                      <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                        <div
-                                          style={{
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Maintenance
-                                        </div>
-                                        <p
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            // color: 'rgba(30, 69, 225, 1)',
-                                            paddingTop: 7
-                                          }}
-                                        >
-                                          ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                        </p>
-                                      </div>
-
-                                    }
-                                    {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                      <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                        <div
-                                          style={{
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          {item.type ? item.type : ""}
-                                        </div>
-                                        <p
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            paddingTop: 7,
-                                          }}
-                                        >
-                                          ₹ {item.amount}
-                                        </p>
-                                      </div>
-                                    ))}
-
-                                  </div>
-
-
-
-                                </div>
-
-
+                                )}
                               </div>
-
-
+                              <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
+                                ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
+                              </p>
                             </div>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <div
-                      className="col-md-12 col-lg-12 mb-md-0"
-                      style={{
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        marginTop: 30,
-                      }}
-                    >
-                      <div
-                        className="card"
-                        style={{
-                          borderRadius: "20px",
-                          padding: "8px",
-                        }}
-                      >
-                        <div
-                          className="card-header d-flex justify-content-between align-items-center p-1"
-                          style={{
-                            backgroundColor: "transparent",
-                            borderBottom: "1px solid #e0e0e0",
-                          }}
-                        >
-                          <div
-                            className="fw-semibold"
-                            style={{
-                              fontSize: 16,
-                              lineHeight: "40px",
-                              fontFamily: "Gilroy"
-                            }}
-                          >
-                            Parent/Guardian Details
-                          </div>
-                          <div
-                            onClick={() => {
-                              if (canUpdateTenant) {
-                                // handleEditStayDetails(CustomerOverView);
-                              }
-                            }}
-                            style={{
-                              cursor: !canUpdateTenant
-                                ? "not-allowed"
-                                : "pointer",
-                              height: 30,
-                              width: 30,
-
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              zIndex: 1000,
-
-                            }}
-                          >
-                            <img
-                              src={EditImage}
-                              alt="EditImage"
-                              style={{
-                                height: 16,
-                                width: 16,
-                                color: !canUpdateTenant
-                                  ? "#CCCCCC"
-                                  : "#000",
-                              }}
-                            />
-                          </div>
-
-                        </div>
-
-                        <div className="card-body" style={{ fontFamily: "Gilroy" }}>
-                          {state?.UsersList?.customerAllDetaills?.length === 0 ? (
-                            <>
-                              <ParentsGuardian />
-
-                            </>
-                          ) : (
-                            <div className="flex flex-col items-center justify-center text-center font-[Gilroy] text-sm text-gray-700">
-                              <p>No Contact Details are there!</p>
-
-                              <button
-                                type="button"
-                                disabled={!canWriteTenant}
-                                onClick={handleAdditionalForm}
-                                className={`
-      mt-3 inline-flex items-center gap-2
-      rounded-xl px-4 py-2 text-base font-semibold text-white
-      bg-[#1E45E1]
-      disabled:bg-gray-300 disabled:cursor-not-allowed
-      transition
-    `}
-                              >
-                                <img src={FileAdd} alt="add" className="h-4 w-4" />
-                                Add
-                              </button>
+                             
+                                <div className="flex flex-col items-start">
+                              <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
+                                Advance Amount
+                                {canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
+                                  <img
+                                    onClick={handleUpdateAdvanceChange}
+                                    src={EditImage}
+                                    alt="EditImage"
+                                    className="h-3.5 w-3.5 cursor-pointer"
+                                  />
+                                )}
+                              </div>
+                              <p className="text-sm font-semibold font-gilroy pt-2">
+                                ₹{advanceList?.advanceAmount ?? 0}
+                              </p>
                             </div>
 
+                       
+                            <div className="flex flex-col items-start">
+                              <div className="text-xs font-medium font-gilroy">Booking Amount</div>
+                              <p className="text-sm font-semibold font-gilroy pt-2">
+                                ₹{CustomerOverView?.bookingInfo?.bookingAmount ?? 0}
+                              </p>
+                            </div>
 
-                          )}
+                       
+                            {CustomerOverView.hostelInfo?.maintenance !== null && (
+                              <div className="flex flex-col items-start">
+                                <div className="text-xs font-medium font-gilroy">Maintenance</div>
+                                <p className="text-sm font-semibold font-gilroy pt-2">
+                                  ₹{CustomerOverView.hostelInfo?.maintenance}
+                                </p>
+                              </div>
+                            )}
+
+                      
+                            {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
+                              <div key={index} className="flex flex-col items-start">
+                                <div className="text-xs font-medium font-gilroy">{item.type}</div>
+                                <p className="text-sm font-semibold font-gilroy pt-2">₹{item.amount}</p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto max-h-[240px] overflow-y-auto">
+                    <div className="w-full max-w-full px-2 sm:px-3 mt- py-3">
+                      <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+                        <div className="font-semibold text-[16px] font-gilroy">
+                          Parent/Guardian Details
+                        </div>
+                        <div
+                          onClick={() => {
+                            if (canUpdateTenant) {
+                              // handleEditStayDetails(CustomerOverView);
+                            }
+                          }}
+                          className={`flex justify-center items-center h-7 w-7 relative z-10 ${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"}`}
+                        >
+                          <img
+                            src={EditImage}
+                            alt="Edit"
+                            className="h-4 w-4"
+                            style={{ color: !canUpdateTenant ? "#CCCCCC" : "#000" }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="pt-4 font-gilroy text-center">
+                        {state?.UsersList?.customerAllDetaills?.length === 0 ? (
+                          <ParentsGuardian />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-center font-[Gilroy] text-sm text-gray-700">
+                            <p>No Contact Details are there!</p>
+                            <button
+                              type="button"
+                              disabled={!canWriteTenant}
+                              onClick={handleAdditionalForm}
+                              className="mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+                            >
+                              <img src={FileAdd} alt="add" className="h-4 w-4" />
+                              Add
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+                  </div>
+
                 </div>
+
               </div>
 
 
 
+              {/* <div className="row ms-1">
+                <div className="col-12 mt-7">
+                  <div className="bg-white rounded-[14px] border border-gray-200">
 
 
-              <div className="row ms-1">
-
-                <div
-                  className="col-md-12 col-lg-12 "
-                  style={{
-
-                    marginTop: 30,
-                  }}
-                >
-                  <div
-                    className="card m-"
-                    style={{
-                      borderRadius: "14px",
-
-                    }}
-                  >
-                    <div
-                      className="card-header d-flex justify-content-between align-items-center"
-                      style={{
-                        backgroundColor: "transparent",
-                        borderBottom: "1px solid #e0e0e0",
-                      }}
-                    >
-                      <div
-                        className="fw-semibold"
-                        style={{
-                          fontSize: 16,
-                          lineHeight: "40px",
-                          fontFamily: "Gilroy", color: "#000"
-                        }}
-                      >
+                    <div className="flex justify-between items-center px-4 border-b border-gray-300" style={{ backgroundColor: "transparent" }}>
+                      <div className="font-gilroy font-semibold text-black text-[16px] leading-[40px]">
                         Amenities provided
                       </div>
 
-                      <div
-                        className="d-flex justify-content-start ms-3"
-
-                      >
-                        <Button
-                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" || state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"}
-
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            height: 35,
-                            borderRadius: 12,
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            display: "flex",
-                            alignItems: "center", gap: 2
-
-                          }}
+                      <div className="flex justify-start ms-3 p-2">
+                        <button
+                          disabled={
+                            !canWriteAmenities ||
+                            state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+                            state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+                            state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+                            state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"
+                          }
                           onClick={() => handleShowAssignAmenities()}
+                          className={`flex items-center gap-1.5 font-gilroy font-semibold text-[14px] h-[35px] rounded-[12px] px-3 ${!canWriteAmenities ? "bg-blue-600/60 cursor-not-allowed" : "bg-blue-600"} text-white`}
                         >
-                          <AddSquare
-                            size="18"
-                            color="#FFFFFF"
-                            variant="Bold"
-                          />  Assign
-                        </Button>
-
+                          <AddSquare size="18" color="#FFFFFF" variant="Bold" />
+                          Assign
+                        </button>
                       </div>
-
                     </div>
 
-                    <div className="card-body" style={{ fontFamily: "Gilroy", }}>
 
-
+                    <div className="p-4 font-gilroy">
                       <div>
                         <UserListAmenities
                           id={props.id}
@@ -4280,19 +3355,65 @@ function UserListRoomDetail(props) {
                       </div>
 
                       <div ref={amenitiesRef} className="mt-1">
-
                         <RequestedAmenities />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> */}
 
-
+              <div className="row">
+                <div className="col-12">
+                  <div className="bg-white rounded-[14px] border border-gray-200">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-2 px-4 border-b border-gray-300 bg-transparent">
+                      <div className="font-gilroy font-semibold text-black text-[16px] leading-[40px] mb-2 sm:mb-0">
+                        Amenities provided
                       </div>
 
+                      <div className="flex justify-start sm:justify-end ms-0 sm:ms-3 p-0 sm:p-2 w-full sm:w-auto">
+                        <button
+                          disabled={
+                            !canWriteAmenities ||
+                            state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+                            state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+                            state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+                            state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"
+                          }
+                          onClick={() => handleShowAssignAmenities()}
+                          className={`flex items-center gap-1.5 font-gilroy font-semibold text-[14px] h-[35px] rounded-[12px] px-3 ${!canWriteAmenities ? "bg-blue-600/60 cursor-not-allowed" : "bg-blue-600"
+                            } text-white`}
+                        >
+                          <AddSquare size="18" color="#FFFFFF" variant="Bold" />
+                          Assign
+                        </button>
+                      </div>
                     </div>
 
+                
+                    <div className="p-4 font-gilroy flex flex-col gap-4">
+                      <div className="w-full">
+                        <UserListAmenities
+                          id={props.id}
+                          setcustomerUser_Id={props?.setcustomerUser_Id}
+                          customerUser_Id={customerId}
+                          setHostelIds={props.setHostelIds}
+                          hostelIds={props.hostelIds}
+                          hostelName={props.hostelName}
+                          sethosName={props.sethosName}
+                          statusAmni={props.statusAmni}
+                          customerAdd={props.customerAddPermission}
+                          customerEdit={props.customerEditPermission}
+                          customerDelete={props.customerDeletePermission}
+                        />
+                      </div>
+
+                      <div ref={amenitiesRef} className="mt-1 w-full">
+                        <RequestedAmenities />
+                      </div>
+                    </div>
 
                   </div>
                 </div>
-
-
               </div>
 
 
@@ -4316,37 +3437,6 @@ function UserListRoomDetail(props) {
               ) : null}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </>
           </TabPanel>
 
@@ -4356,31 +3446,13 @@ function UserListRoomDetail(props) {
             backdrop="static"
             centered
           >
-            <Modal.Dialog
-              style={{
-                maxWidth: 666,
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
-              className="m-0 p-0"
-            >
+            <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-[10px] rounded-[30px]"  >
               <Modal.Body>
-                <div className="d-flex align-items-center">
+                <div className="flex items-center">
                   {customerdetailShow ? (
                     <div>
-                      <Modal.Header
-                        style={{
-                          position: "relative",
-                          paddingTop: "3px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: 20,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                      <Modal.Header className="relative pt-[3px]"  >
+                        <div className="text-[20px] font-semibold font-gilroy">
                           Edit Customer
                         </div>
 
@@ -4388,19 +3460,13 @@ function UserListRoomDetail(props) {
                           size="24"
                           color="#000"
                           onClick={handleCloseEditcustomer}
-                          style={{ cursor: "pointer" }}
+                          className="cursor pointer"
                         />
                       </Modal.Header>
-                      <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
-
+                      <div className="max-h-[380px] overflow-y-scroll show-scroll p-2 mt-3 me-3">
                         <div className="d-flex align-items-center">
                           <div
-                            className=""
-                            style={{
-                              height: 100,
-                              width: 100,
-                              position: "relative",
-                            }}
+                            className="h-24 w-24 relative"
                           >
                             <Image
                               src={
@@ -4412,21 +3478,15 @@ function UserListRoomDetail(props) {
                               }
                               alt="filee"
                               roundedCircle
-                              style={{ height: 100, width: 100 }}
+                              className="h-24 w-24"
                             />
 
                             <label htmlFor="imageInput" className="">
                               <Image
                                 src={Plus}
                                 roundedCircle
-                                style={{
-                                  height: 20,
-                                  width: 20,
-                                  position: "absolute",
-                                  top: 90,
-                                  left: 80,
-                                  transform: "translate(-50%, -50%)",
-                                }}
+                                className="h-5 w-5 absolute bottom-0 right-0 -translate-x-1/2 -translate-y-1/2"
+
                               />
                               <input
                                 type="file"
@@ -4435,32 +3495,19 @@ function UserListRoomDetail(props) {
                                 className="sr-only"
                                 id="imageInput"
                                 onChange={handleImageChange}
-                                style={{ display: "none" }}
                               />
                             </label>
                           </div>
                           <div className="ps-3">
                             <div>
                               <label
-                                style={{
-                                  fontSize: 16,
-                                  fontWeight: 500,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                }}
+                                className="text-base font-medium text-gray-900 font-gilroy"
                               >
                                 Profile Photo
                               </label>
                             </div>
                             <div>
-                              <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                              <label className="text-sm font-medium text-gray-600 font-gilroy">
                                 Max size of image 10MB
                               </label>
                             </div>
@@ -4470,20 +3517,10 @@ function UserListRoomDetail(props) {
                         <div className="row mt-4">
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                              <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
                                 First Name {" "}
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontSize: "20px",
-                                  }}
+                                <span className="text-red-500 text-xl"
+
                                 >
                                   {" "}
                                   *{" "}
@@ -4496,16 +3533,9 @@ function UserListRoomDetail(props) {
                                 value={firstname}
                                 ref={firstnameRef}
                                 onChange={(e) => handleFirstName(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="text-base text-gray-600 font-gilroy font-medium
+             shadow-none border border-gray-300
+             h-12 rounded-lg"
                               />
                             </Form.Group>
                             {firstnameError && (
@@ -4513,14 +3543,8 @@ function UserListRoomDetail(props) {
                             )}
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                            <Form.Group >
+                              <Form.Label className="text-sm font-medium text-gray-600 font-gilroy"
                               >
                                 Last Name {" "}
                               </Form.Label>
@@ -4530,38 +3554,19 @@ function UserListRoomDetail(props) {
                                 placeholder="Enter Last Name"
                                 value={lastname}
                                 onChange={(e) => handleLastName(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                  marginTop: 6,
-                                }}
+                                className="text-base text-gray-600 font-gilroy font-medium
+             shadow-none border border-gray-300
+             h-12 rounded-lg mt-2"
                               />
                             </Form.Group>
                           </div>
 
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                             <Form.Group>
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                              <Form.Label className="text-sm font-medium text-gray-600 font-gilroy"
                               >
                                 Mobile Number {" "}
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontSize: "20px",
-                                  }}
-                                >
+                                <span className="text-red-500 text-xl"  >
                                   {" "}
                                   *{" "}
                                 </span>
@@ -4572,19 +3577,11 @@ function UserListRoomDetail(props) {
                                   value={countryCode}
                                   ref={phoneRef}
                                   id="vendor-select-pg"
-                                  style={{
-                                    border: "1px solid #D9D9D9",
-                                    borderRadius: "8px 0 0 8px",
-                                    height: 50,
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: countryCode ? 600 : 500,
-                                    boxShadow: "none",
-                                    backgroundColor: "#fff",
-                                    maxWidth: 90,
-                                    paddingRight: 10,
-                                  }}
+                                  className={`border border-gray-300 rounded-l-lg h-12
+              text-base text-gray-600 font-gilroy
+              shadow-none bg-white
+              max-w-[90px] pr-2
+              ${countryCode ? "font-semibold" : "font-medium"}`}
                                 >
                                   <option> +{countryCode}</option>
                                 </Form.Select>
@@ -4594,29 +3591,17 @@ function UserListRoomDetail(props) {
                                   type="text"
                                   placeholder="9876543210"
                                   maxLength={10}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: Phone ? 600 : 500,
-                                    boxShadow: "none",
-                                    borderLeft: "unset",
-                                    borderRight: "1px solid #D9D9D9",
-                                    borderTop: "1px solid #D9D9D9",
-                                    borderBottom: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: "0 8px 8px 0",
-                                  }}
+                                  className={`h-12 text-base text-gray-600 font-gilroy
+            shadow-none
+            border border-gray-300 border-l-0
+            rounded-r-lg
+            ${Phone ? "font-semibold" : "font-medium"}`}
+
                                 />
                               </InputGroup>
                               <p
                                 id="MobileNumberError"
-                                style={{
-                                  color: "red",
-                                  fontSize: 11,
-                                  marginTop: 5,
-                                }}
-                              ></p>
+                                className="text-red-500 text-[11px] mt-1" ></p>
                               {phoneError && (
                                 <ErrorMessage message={phoneError} type="error" />
                               )}
@@ -4626,16 +3611,10 @@ function UserListRoomDetail(props) {
                               )}
                             </Form.Group>
                           </div>
-                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                         
+                          <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
+                            <Form.Group >
+                              <Form.Label className="text-[14px] text-gray-900 font-medium font-sans">
                                 Email ID {" "}
                               </Form.Label>
                               <FormControl
@@ -4645,17 +3624,8 @@ function UserListRoomDetail(props) {
                                 value={Email}
                                 ref={emailRef}
                                 onChange={(e) => handleEmail(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                  marginTop: 6,
-                                }}
+                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md mt-1.5"
+
                               />
 
                               {emailError && (
@@ -4668,16 +3638,9 @@ function UserListRoomDetail(props) {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                          <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
+                            <Form.Group>
+                              <Form.Label className="text-sm text-gray-900 font-medium font-sans" >
                                 Flat , House no , Building , Company ,
                                 Apartment{" "}
                               </Form.Label>
@@ -4687,16 +3650,8 @@ function UserListRoomDetail(props) {
                                 placeholder="Enter House No"
                                 value={house_no}
                                 onChange={(e) => handleHouseNo(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+
                               />
                             </Form.Group>
                             {house_noError && (
@@ -4704,15 +3659,9 @@ function UserListRoomDetail(props) {
                             )}
                           </div>
 
-                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                          <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
+                            <Form.Group>
+                              <Form.Label className="text-sm text-gray-900 font-medium font-sans"
                               >
                                 Area , Street , Sector , Village{" "}
                               </Form.Label>
@@ -4722,16 +3671,8 @@ function UserListRoomDetail(props) {
                                 placeholder="Enter Street"
                                 value={street}
                                 onChange={(e) => handleStreetName(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+
                               />
                             </Form.Group>
                             {streetError && (
@@ -4739,16 +3680,9 @@ function UserListRoomDetail(props) {
                             )}
                           </div>
 
-                          <div className="col-lg-6 col-md-6S col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                          <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
+                            <Form.Group >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-sans">
                                 Landmark {" "}
                               </Form.Label>
                               <FormControl
@@ -4757,16 +3691,8 @@ function UserListRoomDetail(props) {
                                 placeholder="E.g , near appollo hospital"
                                 value={landmark}
                                 onChange={(e) => handleLandmark(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+
                               />
                             </Form.Group>
                             {landmarkError && (
@@ -4774,19 +3700,12 @@ function UserListRoomDetail(props) {
                             )}
                           </div>
 
-                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div className="w-full md:w-1/2 lg:w-1/2">
                             <Form.Group
                               className="mb-3"
                               controlId="exampleForm.ControlInput1"
                             >
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-sans" >
                                 Pincode {" "}
 
                               </Form.Label>
@@ -4799,16 +3718,8 @@ function UserListRoomDetail(props) {
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 placeholder="Enter Pincode"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: pincode ? 600 : 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+
                               />
                               {pincodeError && (
                                 <ErrorMessage message={pincodeError} type="error" />
@@ -4816,15 +3727,10 @@ function UserListRoomDetail(props) {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                          <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                              <Form.Label className="text-sm text-gray-900 font-medium font-sans"
+
                               >
                                 Town/City {" "}
 
@@ -4836,16 +3742,8 @@ function UserListRoomDetail(props) {
                                 value={city}
                                 ref={cityRef}
                                 onChange={(e) => handleCity(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+
                               />
                             </Form.Group>
                             {cityError && (
@@ -4853,21 +3751,12 @@ function UserListRoomDetail(props) {
                             )}
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div className="w-full md:w-1/2 lg:w-1/2 ">
                             <Form.Group
                               className="mb-3"
                               controlId="exampleForm.ControlInput5"
                             >
-                              <Form.Label
-                                style={{
-                                  fontFamily: "Gilroy",
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  color: "#222",
-                                  fontStyle: "normal",
-                                  lineHeight: "normal",
-                                }}
-                              >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-sans" >
                                 State
 
                               </Form.Label>
@@ -4953,6 +3842,10 @@ function UserListRoomDetail(props) {
                             </Form.Group>
 
                           </div>
+
+
+
+
                         </div>
                         {formError && (
                           <ErrorMessage message={formError} type="error" />
@@ -4962,69 +3855,32 @@ function UserListRoomDetail(props) {
 
 
                       {formLoading && <div
-                        style={{
-                          position: 'absolute',
-                          top: 100,
-                          right: 0,
-                          bottom: 0,
-                          left: 0,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: 'transparent',
-                          opacity: 0.75,
-                          zIndex: 10,
-                        }}
+                        className="absolute top-[100px] inset-x-0 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10"
+
                       >
-                        <div
-                          style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                          }}
+                        <div className="w-10 h-10 rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin"
+
                         ></div>
                       </div>}
-
                       <Button
-                        className="w-100"
-                        style={{
-                          backgroundColor: "#1E45E1",
-                          fontWeight: 600,
-                          height: 50,
-                          borderRadius: 12,
-                          fontSize: 16,
-                          fontFamily: "Montserrat",
-                          marginTop: 20,
-                        }}
+                        className="w-full bg-[#1E45E1] font-semibold h-[50px] rounded-[12px] text-[16px] font-['Montserrat'] mt-5"
                         onClick={handleSaveUserlist}
                       >
                         Edit Customer
                       </Button>
+
                     </div>
                   ) : (
                     ""
                   )}
 
                   {customerAsignBed && customerAsignBed ? (
-                    <div className="container">
-                      <div className="row "></div>
 
-                      <Modal.Header
-                        style={{
-                          position: "relative",
-                          paddingTop: "-0px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: 20,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                    <div className="container mx-auto">
+                      <div className="grid grid-cols-12"></div>
+
+                      <Modal.Header className="relative pt-0" >
+                        <div className="text-xl font-semibold font-gilroy">
                           Edit Assign bed
                         </div>
 
@@ -5032,26 +3888,17 @@ function UserListRoomDetail(props) {
                           size="24"
                           color="#000"
                           onClick={handleCloseEditcustomer}
-                          style={{ cursor: "pointer" }}
+                          className="cursor-pointer"
                         />
                       </Modal.Header>
-                      <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-1 mt-2 mb-1 ">
-                        <div className="row mb-3 me-1">
-                          <div className="col-12">
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+                      <div className="max-h-96 overflow-y-scroll pt-1 mr-1 mt-2 mb-1 show-scroll"
+
+                      >
+                        <div className="grid grid-cols-12 mb-3 mr-1">
+                          <div className="col-span-12">
+                            <Form.Label className="text-sm font-medium font-gilroy">
                               Floor {" "}
-                              <span
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                }}
-                              >
+                              <span className="text-red-500 text-xl">
                                 {" "}
                                 *{" "}
                               </span>
@@ -5134,6 +3981,7 @@ function UserListRoomDetail(props) {
                                   color: "#000",
                                 }),
                               }}
+
                             />
 
                             {floorError && (
@@ -5141,22 +3989,11 @@ function UserListRoomDetail(props) {
                             )}
                           </div>
 
-                          <div className="col-12 mt-1">
+                          <div className="col-span-12 mt-1">
                             <div className="mb-2">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                              <Form.Label className="text-sm font-medium font-gilroy" >
                                 Room {" "}
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontSize: "20px",
-                                  }}
-                                >
+                                <span className="text-red-500 text-xl">
                                   {" "}
                                   *{" "}
                                 </span>
@@ -5249,21 +4086,10 @@ function UserListRoomDetail(props) {
                             </div>
                           </div>
 
-                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+                          <div className="grid grid-cols-12 gap-4">
+                            <Form.Label className="text-sm font-medium font-gilroy" >
                               Bed {" "}
-                              <span
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                }}
-                              >
+                              <span className="text-red-500 text-xl" >
                                 {" "}
                                 *{" "}
                               </span>
@@ -5455,6 +4281,7 @@ function UserListRoomDetail(props) {
                               <ErrorMessage message={advanceAmountError} type="error" />
                             )}
                           </div>
+
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group className="mb-3">
                               <Form.Label
@@ -5695,7 +4522,7 @@ function UserListRoomDetail(props) {
                                       size="20"
                                       color="red"
                                       variant="Bold"
-                                      style={{ cursor: "pointer" }}
+                                      className="cursor-pointer"
                                       onClick={() => handleRemoveField(index)}
                                     />
                                   )}
@@ -5776,6 +4603,7 @@ function UserListRoomDetail(props) {
 
             </Modal.Dialog>
           </Modal>
+
           <Modal
             show={deleteAdditional}
             onHide={handleCloseDelete}
@@ -6088,7 +4916,7 @@ function UserListRoomDetail(props) {
                         size="24"
                         color="#000"
                         onClick={handleCloseGenerateAdvance}
-                        style={{ cursor: "pointer" }}
+                        className="cursor-pointer"
                       />
                     </Modal.Header>
 
@@ -6270,7 +5098,8 @@ function UserListRoomDetail(props) {
 
             </Modal.Dialog>
           </Modal>
-          <TabPanel value="2">
+
+          <TabPanel value="2" className="w-full max-w-full px-2 sm:px-0">
             <UserEb
               id={customerId}
               handleEditRoomItem={handleEditRoomItem}
@@ -6280,7 +5109,7 @@ function UserListRoomDetail(props) {
 
             />
           </TabPanel>
-          <TabPanel value="3">
+          <TabPanel value="3" className="w-full max-w-full px-2 sm:px-0">
             <UserListInvoice
               id={customerId}
               handleEditItem={handleEditItem}
@@ -6296,15 +5125,6 @@ function UserListRoomDetail(props) {
             <TransactionHistory />
           </TabPanel>
         </TabContext>
-
-
-
-
-
-
-
-        {/* New conversion Ui  */}
-
 
 
         {
@@ -6339,6 +5159,8 @@ function UserListRoomDetail(props) {
         }
 
       </div>
+
+
       <Modal show={showModal} onHide={handleClose} size="md" centered>
         <Modal.Header closeButton>
           <Modal.Title >KYC Details</Modal.Title>

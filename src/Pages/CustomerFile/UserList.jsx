@@ -3413,8 +3413,8 @@ function UserList(props) {
                                           justifyContent: "start",
                                           alignItems: "center",
                                           position: "relative",
-                                          marginTop: 5
-
+                                          marginTop: 3
+                                         
                                         }}
                                         onClick={(e) =>
                                           handleShowDots(user.customerId, e)
