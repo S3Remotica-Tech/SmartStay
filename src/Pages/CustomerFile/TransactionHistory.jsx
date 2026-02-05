@@ -54,17 +54,7 @@ function TransactionHistory() {
         <div>{
             !canReadTenant ? (
 
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginTop: 100
-                    }}
-                >
-
-
+                <div className="flex flex-col items-center justify-center min-h-[45vh]">
                     <ErrorMessage message={['You do not have access to view Transaction']} type="warning" />
 
                 </div>
@@ -76,66 +66,35 @@ function TransactionHistory() {
 
 
                     {CustomerOverView?.length === 0 ? (
-                         <div style={{ marginTop: 10 }} className="flex justify-content-center">
-              <div>
-                            <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                            <div
-                                className="pb-1"
-                                style={{
-                                    textAlign: "center",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    fontSize: 18,
-                                    color: "rgba(75, 75, 75, 1)",
-                                }}
-                            >
-                                No Transaction available
-                            </div>
+                        <div className="mt-2 flex justify-center">
+                            <div>
+                                <img src={emptyimg} className="w-[240px] h-[240px]" alt="emptystate" />
+                                <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
+                                    No Transaction available
+                                </div>
 
-                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no transaction available
-                            </div>
+                                <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
+                                    There are no transaction available
+                                </div>
+
                             </div>
                         </div>
                     ) : (
-                        <div className="table-responsive ms-4 mt-3"
-                            style={{
-                                background: "#fff",
-                                // borderRadius: 12,
-                                boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                                maxHeight: "420px",
-                                overflowY: "auto",
-                                position: "relative",
-                                border: "1px solid #F9FAFF",
-
-                            }}
+                        <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto"
                         >
                             <Table bordered={false} className="align-middle mb-0 ">
-                                <thead
-                                    style={{
-                                        backgroundColor: "rgba(231, 241, 255, 1)",
-                                        position: "sticky",
-                                        top: 0,
-                                        zIndex: 2,
-                                        // borderRadius: 12,
-                                    }}
-                                >
-                                    <tr className="text-uppercase" style={{ textAlign: "center" }}>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                            DATE
-                                        </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                            BILL NAME
-                                        </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT PAID</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>RECEIPT / REF.NO</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>RECEIVED BY</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>PAYMENT MODE</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>STATUS</th>
-
-
-
+                                <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
+                                  
+                                    <tr className="text-uppercase text-center">
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">DATE</th>
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">BILL NAME</th>
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">AMOUNT PAID</th>
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">RECEIPT / REF.NO</th>
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">RECEIVED BY</th>
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">PAYMENT MODE</th>
+                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">STATUS</th>
                                     </tr>
+
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
@@ -143,39 +102,35 @@ function TransactionHistory() {
                                         {CustomerOverView?.map((row, i) => {
                                             // const isLast = i === CustomerOverView.length - 1;
                                             return (
-                                                <tr key={i} style={{
-                                                    borderBottom: "1px solid #F9FAFF", textAlign: "center", fontFamily: "Gilroy", fontSize: 14, fontWeight: 500,
-
-                                                }}>
-                                                    <td className="p-0" style={{
-                                                        fontSize: 14, fontWeight: 500, color: "#6B7280",
-                                                    }}>{formatDate(row.transactionDate)}</td>
-                                                    <td
-                                                        style={{ color: "#111928", fontWeight: 500, }}
-
-                                                    >
+                                                 <tr
+                                                    key={i}
+                                                    className="border-b border-[#F9FAFF] text-center font-gilroy text-[14px] font-medium"
+                                                >
+                                                    <td className="p-0 text-[14px] font-medium text-gray-400">
+                                                        {formatDate(row.transactionDate)}
+                                                    </td>
+                                                    <td className="text-[#111928] font-medium">
                                                         {row.billName}
                                                     </td>
-                                                    <td style={{ color: "#111928", }}>{row.amountPaid}</td>
-                                                    <td style={{ color: "#1E45E1", }}>
+                                                    <td className="text-[#111928]">
+                                                        {row.amountPaid}
+                                                    </td>
+                                                    <td className="text-[#1E45E1]">
                                                         {row.referenceNumber || "-"}
                                                     </td>
-                                                    <td style={{ color: "#111928", }}>{row.paidTo}</td>
-                                                    <td style={{ color: "#111928", }}>{row.paymentMode}</td>
-                                                    <td style={{}}><span
-                                                        style={{
-                                                            backgroundColor: "#D9FFD9",
-                                                            color: "#1D760E",
-                                                            borderRadius: "14px",
-                                                            fontFamily: "Gilroy", padding: "4px 10px"
-
-                                                        }}
-                                                    >
-                                                        {row.status}
-                                                    </span></td>
-
-
+                                                    <td className="text-[#111928]">
+                                                        {row.paidTo}
+                                                    </td>
+                                                    <td className="text-[#111928]">
+                                                        {row.paymentMode}
+                                                    </td>
+                                                    <td>
+                                                        <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] font-gilroy px-2 py-1">
+                                                            {row.status}
+                                                        </span>
+                                                    </td>
                                                 </tr>
+
                                             );
                                         })}
                                     </PaginationList>

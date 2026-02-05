@@ -4,8 +4,7 @@ import {
     Filter,
     Export, ArrowLeft,
     ArrowSwapVertical, Setting3, SearchNormal1,
-    ArrowDown,
-    ArrowDown2
+       ArrowDown2
 
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,10 +26,33 @@ function TenantsRegister() {
     const [register, setRegister] = useState(false)
     const [invoiceFilter, setInvoiceFilter] = useState(false)
     const dropdownRef = useRef(null);
+    const dispatch = useDispatch()
+    const [tenantRegister, setTenantRegister] = useState('')
+    const [chips, setChips] = useState([])
+    const [loading, setLoading] = useState(false)
+
+
+ useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+
+      dispatch({ type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+    //   setLoading(true)
+    }
+  }, [state.login?.selectedHostel_Id])
 
 
 
+  useEffect(() => {
+    if (state.reports.getTenantRegisterSuccess === 200) {
+      setLoading(false)
+      setExpenseRegister(state?.reports?.getTenantRegister)
+      setInvoiceFilter(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER' })
+      }, 100)
+    }
 
+  }, [state.reports.getTenantRegisterSuccess])
 
 
     const handleCloseFilterBills = () => {
@@ -43,13 +65,7 @@ function TenantsRegister() {
 
 
 
-    useEffect(() => {
-        setSelectedRange({
-            from: dayjs().startOf("month").toDate(),
-            to: dayjs().endOf("month").toDate(),
-        });
-    }, []);
-
+    
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -235,32 +251,32 @@ function TenantsRegister() {
 
 
 
- const handleNavigateRegister = (item) => {
+    const handleNavigateRegister = (item) => {
         setRegister(false)
-        
+
         if (item?.title === "Tenant Register") {
-            navigate(`/reports/tenant-register`)
+            navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Receipt Register") {
-            navigate(`/reports/receipt-register`)
+            navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Bank Transaction Register") {
-            navigate(`/reports/bank-transaction-register`)
+            navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Occupancy") {
-            navigate(`/reports/occupancy-register`)
+            navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Expense Register") {
-            navigate(`/reports/expense-register`)
+            navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Vendor Ledger") {
-            navigate(`/reports/vendor-register`)
+            navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Electricity Billing Register") {
-            navigate(`/reports/electricity-billing-register`)
+            navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Complaint Register") {
-            navigate(`/reports/complaint-register`)
+            navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Request Register") {
-            navigate(`/reports/request-register`)
+            navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
         } else if (item?.title === "Final Settlement") {
-            navigate(`/reports/final-settlement-register`)
-        }else if(item?.title === "Invoice Register"){
-        navigate(`/reports/invoice-register`)
-    }
+            navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
+        } else if (item?.title === "Invoice Register") {
+            navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+        }
     }
 
 
@@ -268,7 +284,11 @@ function TenantsRegister() {
 
     return (
         <div className="h-screen flex flex-col font-gilroy p-2">
-
+  {loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
                 <div className='flex items-center gap-2'>
                     <ArrowLeft onClick={handleNavigateReports}
@@ -294,9 +314,9 @@ function TenantsRegister() {
                                             return (
                                                 <div
                                                     key={index}
-                                                     onClick={() => {
+                                                    onClick={() => {
                                                         handleNavigateRegister(item)
-                                                       
+
                                                     }}
                                                     className={`
             px-4 py-2 text-sm text-[#222] cursor-pointer
@@ -321,7 +341,7 @@ function TenantsRegister() {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 items-stretch" style={{ height: 36 }}>
+                <div className="flex flex-wrap gap-3 items-stretch" >
 
                     <div
                         className="datepicker-wrapper"
@@ -383,7 +403,7 @@ function TenantsRegister() {
             </div>
 
 
-            <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-full flex flex-col overflow-hidden">
+            <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
 
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3 ms-1 me-1 ">
@@ -426,7 +446,7 @@ function TenantsRegister() {
                 </div>
 
 
-                <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 flex-1 overflow-hidden">
 
                     <div className="overflow-x-auto relative ">
                         <table className="w-full  text-[12px] font-gilroy">
@@ -490,7 +510,7 @@ function TenantsRegister() {
                                     <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px]">
                                         Stay Duration
                                     </th>
-                                   
+
                                 </tr>
                             </thead>
 

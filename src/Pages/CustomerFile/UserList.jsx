@@ -75,7 +75,7 @@ function UserList(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
-  
+
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -139,15 +139,15 @@ function UserList(props) {
 
   const tableRef = useRef(null);
 
-  
+
 
   const {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
-      canDeleteModule: canDeleteTenant,
+    canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
-  
+
 
   const {
     canWriteModule: canWriteWalkin,
@@ -155,7 +155,7 @@ function UserList(props) {
 
   } = useHasPermission("Walk in");
 
-  
+
 
 
   const {
@@ -537,7 +537,7 @@ function UserList(props) {
     //   isValid = false;
     // }
 
-    if (isValid ) {
+    if (isValid) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
         dueDateObject.getMonth() + 1
@@ -920,16 +920,16 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-     setLoading(false)
+      setLoading(false)
       setUserListDetail(state.UsersList.Users.listCustomers);
- 
+
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
 
-// console.log("state.UsersList",state.UsersList.UserListStatusCode)
+  // console.log("state.UsersList",state.UsersList.UserListStatusCode)
 
 
   useEffect(() => {
@@ -1406,9 +1406,9 @@ function UserList(props) {
 
 
   const sortedData = React.useMemo(() => {
-  const items = (search || filterStatus) ? filteredUsers : userListDetail;
-  return Array.isArray(items) ? items : [];
-}, [search, filterStatus, filteredUsers, userListDetail]);
+    const items = (search || filterStatus) ? filteredUsers : userListDetail;
+    return Array.isArray(items) ? items : [];
+  }, [search, filterStatus, filteredUsers, userListDetail]);
 
 
 
@@ -1954,10 +1954,10 @@ function UserList(props) {
   //   }
   //   setWalkinForm(true);
   // };
- 
-  
-  
-  
+
+
+
+
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
   };
@@ -2215,7 +2215,7 @@ function UserList(props) {
     lineHeight: "1.4",
     padding: 8,
     verticalAlign: "middle",
-      };
+  };
 
 
   const labelStyle = {
@@ -2415,7 +2415,7 @@ function UserList(props) {
 
   const handleCheckoutGenrate = (item) => {
     setFinalsettledData(item)
-    console.log("item",item)
+    console.log("item", item)
     setFinalSettlePage(true)
     setDueCustomerShow(false);
 
@@ -2427,12 +2427,12 @@ function UserList(props) {
 
 
 
-  const handleCheckoutGenrateNew = (item) =>{
- navigate(`/tenant/final-settlement/${item?.customerId}`,{
-  state: {
-    data : item
-  }
- });
+  const handleCheckoutGenrateNew = (item) => {
+    navigate(`/tenant/final-settlement/${item?.customerId}`, {
+      state: {
+        data: item
+      }
+    });
   }
 
   const handleClosefinal = () => {
@@ -2452,7 +2452,7 @@ function UserList(props) {
 
   }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
-    <div className="sticky-top bg-white" style={{  }}>
+    <div className="sticky-top bg-white" style={{}}>
       {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2516,7 +2516,7 @@ function UserList(props) {
                           style={{ height: 20, width: 20, cursor: "pointer" }}
                         />
                       </span>
-                      <input 
+                      <input
                         type="text" disabled
                         className="form-control border-start-0"
                         placeholder="Search"
@@ -3049,33 +3049,33 @@ function UserList(props) {
                 ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
                   <div style={{ marginTop: 30, height: "auto" }} className="animated-text d-flex align-items-center justify-content-center">
                     <div>
-                    <div style={{ textAlign: "center" }}>
-                      <img src={Emptystate} alt="emptystate" />
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 18,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No Tenant available
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no tenant added.
-                    </div>
+                      <div style={{ textAlign: "center" }}>
+                        <img src={Emptystate} alt="emptystate" />
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          fontSize: 18,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        No Tenant available
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        There are no tenant added.
+                      </div>
                     </div>
                   </div>
                 ) : null}
@@ -3111,7 +3111,7 @@ function UserList(props) {
                             position: "sticky",
                             top: 0,
                             zIndex: 1,
-                            borderRadius: 0,tableLayout: "fixed", width: "100%"
+                            borderRadius: 0, tableLayout: "fixed", width: "100%"
                           }}
                         >
                           <thead
@@ -3129,26 +3129,26 @@ function UserList(props) {
                           >
                             <tr>
                               <th
-                                 style={{
+                                style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"14%"
+                                  textAlign: "start", width: "14%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                 
+
                                   Name
                                 </div>
                               </th>
 
 
                               <th
-                                 style={{
+                                style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"16%"
+                                  textAlign: "start", width: "16%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                 
+
                                   Status
                                 </div>
 
@@ -3157,11 +3157,11 @@ function UserList(props) {
                               <th
                                 style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"14%"
+                                  textAlign: "start", width: "14%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                 
+
                                   Joining Date
                                 </div>
                               </th>
@@ -3169,51 +3169,51 @@ function UserList(props) {
                               <th
                                 style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"14%"
+                                  textAlign: "start", width: "14%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                 
+
                                   Mobile No
                                 </div>
                               </th>
                               <th
-                                 style={{
+                                style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"10%"
+                                  textAlign: "start", width: "10%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                
+
                                   Floor
                                 </div>
                               </th>
                               <th
-                                 style={{
+                                style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"10%"
+                                  textAlign: "start", width: "10%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                 
+
                                   Room
                                 </div>
                               </th>
                               <th
-                                 style={{
+                                style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"10%"
+                                  textAlign: "start", width: "10%"
                                 }}
                               >
                                 <div style={labelStyle}>
-                                 
+
                                   Bed
                                 </div>
                               </th>
                               <th
                                 style={{
                                   ...headerStyle,
-                                  textAlign: "start", width:"10%"
+                                  textAlign: "start", width: "10%"
                                 }}
                               ><div style={labelStyle}>
                                   Action
@@ -3240,32 +3240,25 @@ function UserList(props) {
                                     <td
                                       style={{
                                         border: "none",
-                                        // padding: "10px",
                                         textAlign: "start",
-                                        // paddingLeft: "20px",
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className=""
+                                      className="max-w-[120px]"
                                     >
-                                      <span
-                                        className="Customer_Name_Hover"
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          color: "#1E45E1",
-                                          cursor: "pointer",
-                                          // marginTop: 10,
-                                          // paddingLeft: 10,
-                                          whiteSpace: "nowrap", verticalAlign: "middle",
-                                        }}
-                                        onClick={() =>
-                                          handleRoomDetailsPage(user)
-                                        }
-                                      >
-                                        {user?.firstName} {user?.lastName}
-                                      </span>
+                                       <span
+    className="
+      block max-w-[120px]
+      truncate whitespace-nowrap
+      text-[13px] font-semibold font-[Gilroy]
+      text-[#1E45E1] cursor-pointer
+      hover:underline
+    "
+    title={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`}
+    onClick={() => handleRoomDetailsPage(user)}
+  >
+    {user?.firstName} {user?.lastName}
+  </span>
                                     </td>
                                     <td className=""
                                       style={{
@@ -3408,7 +3401,7 @@ function UserList(props) {
                                         textAlign: "center",
                                         // paddingTop: 12,
                                         border: "none",
-                                        
+
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
                                     >
@@ -3420,8 +3413,8 @@ function UserList(props) {
                                           justifyContent: "start",
                                           alignItems: "center",
                                           position: "relative",
-                                          marginTop: 5
-                                       
+                                          marginTop: 3
+                                         
                                         }}
                                         onClick={(e) =>
                                           handleShowDots(user.customerId, e)
@@ -3805,7 +3798,7 @@ function UserList(props) {
                                                   </div> */}
 
 
-                                                     <div
+                                                  <div
                                                     className="d-flex align-items-center gap-2"
 
                                                     onClick={() => {
@@ -3852,7 +3845,7 @@ function UserList(props) {
                                                     >
                                                       Generate
                                                     </label>
-                                                  </div> 
+                                                  </div>
                                                 </>
 
                                               )}
@@ -3966,7 +3959,7 @@ function UserList(props) {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                       Check-In
+                                                      Check-In
                                                     </label>
                                                   </div>
                                                   <div
@@ -5615,10 +5608,10 @@ function UserList(props) {
       )}
 
 
-  {
-        finalsettlepage && <FinalOld show={finalsettlepage} 
-        data={finalsettledData} handleClose={handleClosefinal} />
-      } 
+      {
+        finalsettlepage && <FinalOld show={finalsettlepage}
+          data={finalsettledData} handleClose={handleClosefinal} />
+      }
 
 
       {

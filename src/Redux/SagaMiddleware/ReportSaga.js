@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import {getReportsDetails} from "../Action/ReportsAction"
+import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister,getTenantRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -15,12 +15,12 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-        }
+   }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
-   
+
 }
 
 function* handleReportsDetails(action) {
@@ -29,7 +29,7 @@ function* handleReportsDetails(action) {
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-              }
+      }
       if (response?.status === 200) {
          yield put({ type: 'GET_REPORTS_REDUCER', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -44,9 +44,91 @@ function* handleReportsDetails(action) {
 
 }
 
+
+
+function* handleGetInvoiceRegister(action) {
+   try {
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getInvoiceRegister, hostelId, filters)
+
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_INVOICE_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
+function* handleGetExpenseRegister(action) {
+   try {
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getExpenseRegister, hostelId, filters)
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_EXPENSE_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
+function* handleGetReceiptRegister(action) {
+   try {
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getReceiptRegister, hostelId, filters)
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_RECEIPT_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
+
+function* handleGetTenantRegister(action) {
+   try {
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(getTenantRegister, hostelId, filters)
+      if (response?.status === 200) {
+         yield put({ type: 'GET_REPORTS_TENANT_REGISTER_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
 function* ReportSaga() {
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
-   
+   yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
+   yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
+   yield takeEvery('GET_REPORTS_RECEIPT_REGISTER_SAGA', handleGetReceiptRegister)
+    yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
 
 }
 export default ReportSaga;

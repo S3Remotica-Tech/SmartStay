@@ -30,7 +30,7 @@ import { useHasPermission } from '../../Utils/Permission';
 
 
 
-const InvoiceCard = ({ rowData }) => {
+const InvoiceCard = ({ rowData ,isReportsInvoiceRegisterWay}) => {
 
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -40,6 +40,9 @@ const InvoiceCard = ({ rowData }) => {
   const [payapleform, setPayableForm] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
+
+
+  
   const menuItems = [
     {
       label: "Send Mail",
@@ -160,7 +163,13 @@ const InvoiceCard = ({ rowData }) => {
 
 
   const handleBackInvoice = () => {
-    navigate(`/invoice/${state.login?.selectedHostel_Id}`);
+    if(isReportsInvoiceRegisterWay){
+navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+    }else{
+navigate(`/invoice/${state.login?.selectedHostel_Id}`);
+    }
+    
+
   }
 
 
@@ -1697,7 +1706,7 @@ console.log("pdfDetails",pdfDetails, state)
 
 InvoiceCard.propTypes = {
   rowData: PropTypes.func.isRequired,
-  // handleClosed: PropTypes.func.isRequired
+   isReportsInvoiceRegisterWay: PropTypes.bool
 };
 
 

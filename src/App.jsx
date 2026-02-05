@@ -168,7 +168,14 @@ function App() {
 
 
 
+useEffect(()=>{
+  const token = cookies.get('v2-token');
+if(!token){
+    dispatch({ type: 'LOG_OUT' });
+      setData(false);
+}
 
+},[])
 
 
 
