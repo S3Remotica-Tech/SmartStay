@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ExpenseFilter from './ExpenseFilter';
-
+import ApiPagination from "../../Components/ApiPagination";
 
 function ExpenseRegister() {
 
@@ -34,7 +34,9 @@ function ExpenseRegister() {
   const [chips, setChips] = useState([])
   const [loading, setLoading] = useState(false)
   const tableRef = useRef(null);
-    const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [size, setSize] = useState('');
+    const [page, setPage] = useState(0);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
@@ -85,17 +87,17 @@ function ExpenseRegister() {
 
 
 
-useEffect(() => {
-  const el = tableRef.current;
-  if (!el) return;
+  useEffect(() => {
+    const el = tableRef.current;
+    if (!el) return;
 
-  const handleScroll = () => {
-    setIsScrolled(el.scrollLeft > 0);
-  };
+    const handleScroll = () => {
+      setIsScrolled(el.scrollLeft > 0);
+    };
 
-  el.addEventListener("scroll", handleScroll);
-  return () => el.removeEventListener("scroll", handleScroll);
-}, []);
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
 
 
 
@@ -145,7 +147,7 @@ useEffect(() => {
     setInvoiceFilter(true)
   }
 
- const options = [
+  const options = [
     { key: "sharing", label: "Sharing", checked: true },
     { key: "checkin", label: "Check-in Date", checked: true },
     { key: "checkout", label: "Checkout date", checked: true },
@@ -184,11 +186,6 @@ useEffect(() => {
         },
       })
       dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
-
-
-
-
-
 
       return;
     }
@@ -262,8 +259,25 @@ useEffect(() => {
   }
 
   console.log("state.reports.expenseRegisterFilters", state.reports.expenseRegisterFilters)
+ const currentPage =
+        state?.reports?.getExpenseRegister?.currentPage ?? 1;
+
+    const totalPages =
+        state?.reports?.getExpenseRegister?.totalPages ?? 1;
+
+    const totalRecords =
+        state?.reports?.getExpenseRegister?.totalInvoices ?? 0;
+ const handlePageChange = (page) => {
+        console.log("Page seelcted", page)
+        setPage(page)
+
+    };
 
 
+    const handleSizeChange = (sizeValue) => {
+        setSize(sizeValue)
+
+    };
 
   useEffect(() => {
     const invoiceFilters = state.reports.expenseRegisterFilters;
@@ -474,7 +488,7 @@ useEffect(() => {
         </div>
 
 
-        <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
+        <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 ">
 
           <div ref={tableRef} className="overflow-x-auto relative h-full">
             <table className="w-full  text-[12px] font-gilroy">
@@ -575,45 +589,45 @@ useEffect(() => {
 
 
 
-                   <td
-  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.description || "-"}
-</td>
+                    >
+                      {row.description || "-"}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.counts || 0}
-</td>
+                    >
+                      {row.counts || 0}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.assetsName || "-"}
-</td>
+                    >
+                      {row.assetsName || "-"}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.vendorName || "-"}
-</td>
+                    >
+                      {row.vendorName || "-"}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.account || "-"}
-</td>
+                    >
+                      {row.account || "-"}
+                    </td>
 
 
                   </tr>
@@ -636,6 +650,18 @@ useEffect(() => {
 
             </table>
           </div>
+
+
+ <ApiPagination
+                    currentPage={currentPage + 1}
+                    totalPages={totalPages}
+                    totalRecords={totalRecords}
+                    onPageChange={handlePageChange}
+                    onSizeChange={handleSizeChange}
+                />
+
+
+
           {open && (
             <>
 

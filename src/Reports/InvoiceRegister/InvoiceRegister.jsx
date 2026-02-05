@@ -12,7 +12,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import PaginationList from "../../Components/PaginationList";
+import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 
 
@@ -46,7 +46,7 @@ function InvoiceRegister() {
     useEffect(() => {
         if (state.login?.selectedHostel_Id) {
 
-            dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+            dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: { page: 0, size: 10 } } })
             //  setLoading(true)
         }
     }, [state.login?.selectedHostel_Id])
@@ -476,7 +476,7 @@ function InvoiceRegister() {
             </div>
 
 
-            <div className="px-1 pb-1  bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+            <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
                 {chips?.length > 0 && (
                     <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
@@ -547,9 +547,9 @@ function InvoiceRegister() {
 
 
 
-                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 flex-1 ">
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
 
-                    <div ref={tableRef}  className=" overflow-y-auto relative h-[400px]">
+                    <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] ">
                         <table className="w-full  text-[12px] font-gilroy">
 
                             <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
@@ -719,13 +719,13 @@ function InvoiceRegister() {
                         </table>
                     </div>
 
-                  {/* <PaginationList
-                        currentPage={currentPage + 1}
-                        totalPages={totalPages}
-                        totalRecords={totalRecords}
-                        onPageChange={handlePageChange}
-                        onSizeChange={handleSizeChange}
-                    /> */}
+  <ApiPagination
+                    currentPage={currentPage + 1}
+                    totalPages={totalPages}
+                    totalRecords={totalRecords}
+                    onPageChange={handlePageChange}
+                    onSizeChange={handleSizeChange}
+                />
 
                     {open && (
                         <>
@@ -797,9 +797,9 @@ function InvoiceRegister() {
                             </div>
                         </>
                     )}
-  
-                </div>
 
+                </div>
+              
 
 
                 {
@@ -807,7 +807,7 @@ function InvoiceRegister() {
                     <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} invoiceRegisterFilter={true} />
                 }
             </div>
-            
+
         </div>
     );
 }
