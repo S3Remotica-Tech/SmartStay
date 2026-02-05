@@ -20,7 +20,7 @@ function EditAdvanceAmount({ show, handleClose }) {
     const dispatch = useDispatch();
     const [monthlyRent, setMonthlyRent] = useState("");
     const [monthlyRentError, setMonthlyRentError] = useState("");
- const [IsChangedError, setIsChangedError] =  useState("");
+    const [IsChangedError, setIsChangedError] = useState("");
     // const [effectiveFrom, setEffectiveFrom] = useState("");
     // const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
@@ -48,7 +48,7 @@ function EditAdvanceAmount({ show, handleClose }) {
 
     const handleMonthlyRentChange = (e) => {
         dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
-             setIsChangedError("");
+        setIsChangedError("");
         const value = e.target.value;
 
         if (/^[0-9\b]*$/.test(value)) {
@@ -66,12 +66,12 @@ function EditAdvanceAmount({ show, handleClose }) {
     // };
 
 
-  
+
 
 
     const handleSubmit = () => {
-             setIsChangedError("");
-         dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
+        setIsChangedError("");
+        dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
         let isValid = true;
 
         if (!monthlyRent || Number(monthlyRent) <= 0) {
@@ -90,20 +90,20 @@ function EditAdvanceAmount({ show, handleClose }) {
 
         if (!isValid) return;
 
-const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
+        const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
 
-  const newAmount = Number(monthlyRent);
+        const newAmount = Number(monthlyRent);
 
- 
-  
-  if (oldAmount === newAmount) {
-    setIsChangedError("No changes detected in AdvanceAmount");
-    return; 
-  }
+
+
+        if (oldAmount === newAmount) {
+            setIsChangedError("No changes detected in AdvanceAmount");
+            return;
+        }
 
 
         dispatch({
-            type: 'EDITADVANCE', 
+            type: 'EDITADVANCE',
             payload: {
                 hostelId: state.login.selectedHostel_Id,
                 bookingId: CustomerOverView?.bookingId,
@@ -121,11 +121,11 @@ const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
 
         }
 
-    }, [state.createAccount?.networkError,state.UsersList.advanceError])
+    }, [state.createAccount?.networkError, state.UsersList.advanceError])
 
     const handleReasonChange = (e) => {
-             setIsChangedError("");
-         dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
+        setIsChangedError("");
+        dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
         setReason(e.target.value);
     };
 
@@ -146,114 +146,57 @@ const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
 
 
     return (
-        <div
-            className="modal show"
-            style={{
-                display: "block",
-                position: "initial",
-            }}
-        >
-            <Modal show={show}
+     
+
+        <div className="modal show block static">
+            <Modal
+                show={show}
                 onHide={handleClose}
-                centered backdrop="static">
-                <Modal.Dialog
-                    style={{
-                        maxWidth: 850, width: "100%",
-                        paddingTop: 5,
-                        paddingBottom: 10,
-                        paddingLeft: 10,
-                        paddingRight: 10
-                    }}
-                    className="m-0 p-0"
-                >
-                    <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title
-                            style={{
-                                fontSize: 18,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                            }}
-                        >
+                centered
+                backdrop="static"
+            >
+                <Modal.Dialog className="m-0 p-0 w-full max-w-4xl pt-1.5 pb-2.5 px-2.5">
+                    
+                    <Modal.Header className="border border-gray-200 flex items-center justify-between">
+                        <Modal.Title className="text-lg font-semibold text-gray-900 font-gilroy">
                             Edit Advance Amount
                         </Modal.Title>
 
-                        <CloseCircle size="24" color="#000"
+                        <CloseCircle
+                            size="24"
+                            color="#000"
                             onClick={handleClose}
-                            style={{ cursor: "pointer" }} />
+                            className="cursor-pointer"
+                        />
                     </Modal.Header>
 
-                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-0 me-3" >
+                    <Modal.Body className="max-h-96 overflow-y-scroll show-scroll p-3 mt-0 me-3">
                         <div className="row mb-0">
-
-                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <div style={{ backgroundColor: "#B7C2F0", borderRadius: 8, border: "1px solid #C6D1FF" }} className="d-flex align-items-center p-2 gap-1">
-                                    <MessageQuestion
-                                        size="18"
-                                        color="#222"
-                                    /> {" "} <label style={{ fontSize: 11, fontFamily: "Gilroy", color: "#222" }}> Rent changes will apply from next billing cycle and are fully audit-logged</label>
-                                </div>
-
-                            </div> */}
-
-
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        New Advance Amount  {" "}
-                                        <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
+                                <Form.Group>
+                                    <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
+                                        New Advance Amount{" "}
+                                        <span className="text-red-500 text-xl">*</span>
                                     </Form.Label>
+
                                     <FormControl
                                         type="text"
                                         ref={rentInputRef}
                                         value={monthlyRent}
                                         onChange={handleMonthlyRentChange}
                                         placeholder="Enter New Advance Amount"
-
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                        className="h-12 text-base font-medium text-gray-600 font-gilroy border border-gray-300 rounded-lg shadow-none"
                                     />
-                                    {monthlyRentError && <ErrorMessage message={monthlyRentError} type="error" />}
-                                </Form.Group>
 
+                                    {monthlyRentError && (
+                                        <ErrorMessage message={monthlyRentError} type="error" />
+                                    )}
+                                </Form.Group>
                             </div>
 
-
-
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            color: "#222",
-                                            fontStyle: "normal",
-                                            lineHeight: "normal",
-                                        }}
-                                    >
+                                <Form.Group  controlId="exampleForm.ControlInput5">
+                                    <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
                                         Reason
                                     </Form.Label>
 
@@ -262,196 +205,57 @@ const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
                                         placeholder="Enter your reason"
                                         value={reason}
                                         onChange={handleReasonChange}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            border: "1px solid #D9D9D9",
-                                            borderRadius: 8,
-                                            height: 50,
-                                            boxShadow: "none",
-                                        }}
+                                        className="h-12 text-base font-medium text-gray-600 font-gilroy border border-gray-300 rounded-lg shadow-none"
                                     />
 
-                                    {/* {reason?.label === "Others" ? (
-                                        <div style={{ position: "relative" }}>
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Enter your reason"
-                                                value={reason?.value === "Others" ? "" : reason?.value}
-                                                onChange={(e) => {
-                                                    const customReason = e.target.value;
-                                                    setReason({ value: customReason, label: "Others" });
-                                                }}
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: 8,
-                                                    height: 50,
-                                                    boxShadow: "none",
-                                                }}
-                                            />
-                                            <Trash
-                                                size="18"
-                                                color="#FF0000"
-
-
-                                                variant="link"
-                                                onClick={() => setReason(null)}
-                                                style={{
-                                                    position: "absolute",
-                                                    right: 10,
-                                                    top: "50%",
-                                                    transform: "translateY(-50%)",
-                                                    fontSize: 14,
-                                                    color: "#1E45E1",
-                                                    textDecoration: "none",
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy", cursor: "Po"
-                                                }}
-                                            >
-
-                                            </Trash>
-                                        </div>) : (
-                                        <Select
-                                            value={reason}
-                                            onChange={handleReasonChange}
-                                            options={reasonOptions}
-                                            placeholder="Select Reason"
-                                            classNamePrefix="custom"
-                                            // menuPlacement="auto"
-                                            noOptionsMessage={() => "No reason available"}
-                                            styles={{
-                                                control: (base) => ({
-                                                    ...base,
-                                                    height: "50px",
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: "8px",
-                                                    fontSize: "16px",
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    boxShadow: "none",
-                                                }),
-                                                option: (base, state) => ({
-                                                    ...base,
-                                                    cursor: "pointer",
-                                                    fontFamily: "Gilroy",
-                                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                    color: state.data.value === "Others" ? "#1E45E1" : "#000",
-                                                }),
-                                                placeholder: (base) => ({
-                                                    ...base,
-                                                    color: "#555",
-                                                }),
-                                                indicatorSeparator: () => ({ display: "none" }), menuList: (base) => ({
-                                                    ...base,
-                                                    maxHeight: "150px",
-                                                    overflowY: "auto", scrollbarWidth: "thin",
-                                                    msOverflowStyle: "auto",
-                                                }),
-                                            }}
+                                    {state.UsersList.advanceError && (
+                                        <ErrorMessage
+                                            message={state.UsersList.advanceError}
+                                            type="error"
                                         />
-                                    )} */}
-
-
-{
-    state.UsersList.advanceError &&  <ErrorMessage message={state.UsersList.advanceError} type="error" />
-}
-
-
-
+                                    )}
                                 </Form.Group>
-
-
                             </div>
                         </div>
-
-
-
-
                     </Modal.Body>
 
-{
-                        IsChangedError && <div className="d-flex justify-content-center"> <ErrorMessage message={IsChangedError} type="error" /></div>
-                    }
-
-
-                    {loading && <div
-                        style={{
-                            position: 'absolute',
-                            top: 100,
-                            right: 0,
-                            bottom: 0,
-                            left: 0,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'transparent',
-                            opacity: 0.75,
-                            zIndex: 10,
-                        }}
-                    >
-                        <div
-                            style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                            }}
-                        ></div>
-                    </div>}
-
-
-                    <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-                        <div className="d-flex justify-content-end gap-3">
-
-
-                            <Button
-                                onClick={handleClose}
-                                className="w-100 mt-1"
-                                style={{
-                                    backgroundColor: "#fff",
-                                    border: "none",
-                                    color: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 40px"
-                                }}
-                            >
-                                Cancel
-                            </Button>
-
-                            <Button
-                                onClick={handleSubmit}
-                                className="w-100 mt-1"
-                                style={{
-                                    backgroundColor: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 40px"
-                                }}
-                            >
-                                Update
-                            </Button>
+                    {IsChangedError && (
+                        <div className="flex justify-center">
+                            <ErrorMessage message={IsChangedError} type="error" />
                         </div>
-                    </Modal.Footer>
+                    )}
+
+                    {loading && (
+                        <div className="absolute inset-0 top-24 flex items-center justify-center bg-transparent opacity-75 z-10">
+                            <div className="w-10 h-10 rounded-full border-4 border-blue-600 border-r-transparent animate-spin"></div>
+                        </div>
+                    )}
+
+
+
+                    <div className="flex justify-end items-center gap-6 px-6 py-4">
+                        <button
+                            onClick={handleClose}
+                            className="text-blue-600 text-sm font-semibold font-gilroy"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            onClick={handleSubmit}
+                            className="bg-blue-600 text-white text-sm font-semibold font-gilroy px-8 py-2 rounded-xl"
+                        >
+                            Update
+                        </button>
+                    </div>
                 </Modal.Dialog>
             </Modal>
         </div>
+
     )
 }
 EditAdvanceAmount.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
 };
 export default EditAdvanceAmount

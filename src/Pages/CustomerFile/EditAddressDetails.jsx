@@ -77,7 +77,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const handleHouseNoChange = (e) => {
         const value = e.target.value;
-               const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+        const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
         if (regex.test(value)) {
             setHouseNo(value);
@@ -87,7 +87,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const handleStreetChange = (e) => {
         const value = e.target.value;
-           const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+        const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
         if (regex.test(value)) {
             setStreet(value);
             setFormError("")
@@ -96,7 +96,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const handleLandmarkChange = (e) => {
         const value = e.target.value;
-           const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+        const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
         if (regex.test(value)) {
             setLandmark(value);
             setFormError("")
@@ -217,7 +217,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     }, [state.createAccount?.networkError])
 
-    
+
     const pincodeRef = useRef(null);
 
     const handleSubmitAddress = () => {
@@ -227,7 +227,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
         const pinString = String(pincode || "").trim();
 
 
-       if (pinString && pinString.length !== 6) {
+        if (pinString && pinString.length !== 6) {
             setPincodeError("Pin Code Must Be Exactly 6 Digits");
             if (!focused) {
                 pincodeRef.current?.focus();
@@ -261,28 +261,28 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
         if (hasError) return;
 
-        
+
         if (!initialState) return;
 
-        
+
         const noChanges =
-    houseNo === initialState.Address &&
-    street === initialState.area &&
-    landmark === initialState.landmark &&
-    city === initialState.city &&
-    String(pincode) === String(initialState.pincode) &&
-    stateName === initialState.state;
+            houseNo === initialState.Address &&
+            street === initialState.area &&
+            landmark === initialState.landmark &&
+            city === initialState.city &&
+            String(pincode) === String(initialState.pincode) &&
+            stateName === initialState.state;
 
         if (noChanges) {
             setFormError("No changes detected");
             return;
         }
 
-        
+
         // const capitalizeFirstLetter = (str) =>
         //     str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
 
-         
+
         dispatch({
             type: "EDITBASICDETAILS",
             payload: {
@@ -305,55 +305,28 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
 
     return (
-        <div
-            className="modal show"
-            style={{
-                display: "block",
-                position: "initial",
-            }}
-        >
+        <div className="modal show block relative">
             <Modal show={show}
                 onHide={handleClose}
                 centered backdrop="static">
-                <Modal.Dialog
-                    style={{
-                        maxWidth: 850, width: "100%",
-                        paddingTop: 5,
-                        paddingBottom: 10,
-                        paddingLeft: 10,
-                        paddingRight: 10
-                    }}
-                    className="m-0 p-0"
-                >
-                    <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title
-                            style={{
-                                fontSize: 18,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                            }}
-                        >
+                <Modal.Dialog className="m-0 w-full max-w-[850px]">
+                    <Modal.Header className="border border-[#E7E7E7]">
+                        <Modal.Title className="!text-[18px] !text-[#222222] font-gilroy !font-semibold">
                             Edit Address Details
                         </Modal.Title>
 
                         <CloseCircle size="24" color="#000"
                             onClick={handleClose}
-                            style={{ cursor: "pointer" }} />
+                            className="cursor pointer"
+                        />
                     </Modal.Header>
 
-                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-2 me-3" >
-                        <div className="row mb-0">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
+                    <Modal.Body className="max-h-[370px] overflow-y-scroll show-scroll p-3 mt-2 mr-3">
+                       <div className="grid grid-cols-1 mb-0">
+                            <div className="col-span-1 mb-1">
+
+                                <Form.Group>
+                                    <Form.Label className="text-sm text-[#222222] font-gilroy font-medium" >
                                         Flat , House no , Building , Company ,
                                         Apartment{" "}
                                     </Form.Label>
@@ -363,31 +336,27 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                         placeholder="Enter House No"
                                         value={houseNo}
                                         onChange={handleHouseNoChange}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                        // style={{
+                                        //     fontSize: 16,
+                                        //     color: "#4B4B4B",
+                                        //     fontFamily: "Gilroy",
+                                        //     fontWeight: 500,
+                                        //     boxShadow: "none",
+                                        //     border: "1px solid #D9D9D9",
+                                        //     height: 50,
+                                        //     borderRadius: 8,
+                                        // }}
+                                        className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                     />
                                 </Form.Group>
 
                             </div>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
+                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1"> */}
+                            <div className="w-full mb-1">
+                                <Form.Group>
                                     <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
+                                        className="text-sm text-[#222222] font-gilroy font-medium" >
                                         Area , Street , Sector , Village{" "}
                                     </Form.Label>
                                     <FormControl
@@ -396,30 +365,33 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                         placeholder="Enter Street"
                                         value={street}
                                         onChange={handleStreetChange}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                        // style={{
+                                        //     fontSize: 16,
+                                        //     color: "#4B4B4B",
+                                        //     fontFamily: "Gilroy",
+                                        //     fontWeight: 500,
+                                        //     boxShadow: "none",
+                                        //     border: "1px solid #D9D9D9",
+                                        //     height: 50,
+                                        //     borderRadius: 8,
+                                        // }}
+                                        className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+
                                     />
                                 </Form.Group>
 
                             </div>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
+                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1"> */}
+                              <div className="w-full mb-1">
+                                <Form.Group>
+                                    <Form.Label className="text-sm text-[#222222] font-gilroy font-medium"
+                                        // style={{
+                                        //     fontSize: 14,
+                                        //     color: "#222222",
+                                        //     fontFamily: "Gilroy",
+                                        //     fontWeight: 500,
+                                        // }}
                                     >
                                         Landmark {" "}
                                     </Form.Label>
@@ -429,39 +401,33 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                         placeholder="E.g , near appollo hospital"
                                         value={landmark}
                                         onChange={handleLandmarkChange}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                        // style={{
+                                        //     fontSize: 16,
+                                        //     color: "#4B4B4B",
+                                        //     fontFamily: "Gilroy",
+                                        //     fontWeight: 500,
+                                        //     boxShadow: "none",
+                                        //     border: "1px solid #D9D9D9",
+                                        //     height: 50,
+                                        //     borderRadius: 8,
+                                        // }}
+                                         className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                     />
                                 </Form.Group>
 
                             </div>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                            <div className="w-full mb-1">
                                 <Form.Group
                                     className="mb-3"
                                     controlId="exampleForm.ControlInput1"
                                 >
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
+                                    <Form.Label className="text-sm text-[#222222] font-gilroy font-medium" >
                                         Pincode {" "}
 
                                     </Form.Label>
                                     <Form.Control
-                                    ref={pincodeRef}
+                                        ref={pincodeRef}
                                         value={pincode}
                                         onChange={handlePincodeChange}
                                         type="tel"
@@ -469,16 +435,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                         inputMode="numeric"
                                         pattern="[0-9]*"
                                         placeholder="Enter Pincode"
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: pincode ? 600 : 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                        className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                     />
 
                                 </Form.Group>
@@ -487,16 +444,10 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                 )}
                             </div>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
+                            <div className="w-full mb-1">
+                                <Form.Group>
+                                    <Form.Label className="text-sm text-[#222222] font-gilroy font-medium"
+                                     >
                                         Town/City {" "}
 
                                     </Form.Label>
@@ -506,36 +457,19 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                                         placeholder="Enter City"
                                         value={city}
                                         onChange={handleCityChange}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                         className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                     />
                                 </Form.Group>
 
                             </div>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                            <div className="wfull mb-1">
                                 <Form.Group
                                     className="mb-3"
                                     controlId="exampleForm.ControlInput5"
                                 >
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            color: "#222",
-                                            fontStyle: "normal",
-                                            lineHeight: "normal",
-                                        }}
-                                    >
+                                    <Form.Label className="text-sm text-[#222222] font-gilroy font-medium"
+                                        >
                                         State
 
                                     </Form.Label>
@@ -620,46 +554,26 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
                     </Modal.Body>
                     {formError && (
-                        <div className="d-flex justify-content-center">
+                        <div className="flex justify-center">
                             <ErrorMessage message={formError} type="error" />
                         </div>
 
                     )}
 
 
-                    <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-                        <div className="d-flex justify-content-end gap-3">
+                    <Modal.Footer className="border-0 pt-0">
+                        <div className="flex justify-center gap-3">
 
 
                             <Button
                                 onClick={handleClose}
-                                className="w-100 mt-1"
-                                style={{
-                                    backgroundColor: "#fff",
-                                    border: "none",
-                                    color: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 40px"
-                                }}
-                            >
+                                className="w-100 mt-1 bg-white border-0 !text-[#1E45E1] font-gilroy !font-semibold text-base rounded-xl py-2 px-10" >
                                 Cancel
                             </Button>
 
                             <Button
                                 onClick={handleSubmitAddress}
-                                className="w-100 mt-1"
-                                style={{
-                                    backgroundColor: "#1E45E1",
-                                    fontWeight: 600,
-                                    borderRadius: 12,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    padding: "8px 40px"
-                                }}
-                            >
+                                className="w-100 mt-1 !bg-[#1E45E1] text-white font-gilroy font-semibold text-base rounded-xl py-2 px-10" >
                                 Update
                             </Button>
                         </div>
