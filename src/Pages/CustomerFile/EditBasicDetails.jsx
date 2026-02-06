@@ -228,7 +228,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                 <Modal.Dialog className="w-full max-w-4xl pt-1.5 pb-2.5 px-2.5 m-0 p-0"
                 >
                     <Modal.Header className="border border-gray-200">
-                        <Modal.Title className="text-sm text-gray-900 font-semibold font-gilroy">
+                        <Modal.Title className="!text-xl text-gray-900 !font-semibold !font-gilroy">
                             Edit Basic Details
                         </Modal.Title>
 

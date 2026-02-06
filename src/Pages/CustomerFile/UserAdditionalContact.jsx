@@ -1104,7 +1104,7 @@ function UserAdditionalContact(props) {
 
                     <Button
                       onClick={handleCloseAdditionalForm}
-                      className="w-full mt-1 bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] font-gilroy px-[40px] py-2"
+                      className="w-full mt-1 bg-white border-0 !font-gilroy !text-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] font-gilroy px-[40px] py-2"
 
                     >
                       Cancel
@@ -1112,7 +1112,7 @@ function UserAdditionalContact(props) {
 
                     <Button
                       onClick={handleSubmitContact}
-                      className="w-full mt-1 !bg-[#1E45E1] font-semibold rounded-[12px] text-[16px] font-gilroy !px-[40px] py-2"
+                      className="w-full mt-1 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy !px-[40px] py-2"
 
                     >
                       Add

@@ -158,7 +158,7 @@ function EditAdvanceAmount({ show, handleClose }) {
                 <Modal.Dialog className="m-0 p-0 w-full max-w-4xl pt-1.5 pb-2.5 px-2.5">
                     
                     <Modal.Header className="border border-gray-200 flex items-center justify-between">
-                        <Modal.Title className="text-lg font-semibold text-gray-900 font-gilroy">
+                        <Modal.Title className="!text-lg !font-semibold !font-gilroy">
                             Edit Advance Amount
                         </Modal.Title>
 
@@ -236,14 +236,14 @@ function EditAdvanceAmount({ show, handleClose }) {
                     <div className="flex justify-end items-center gap-6 px-6 py-4">
                         <button
                             onClick={handleClose}
-                            className="text-blue-600 text-sm font-semibold font-gilroy"
+                            className="!text-blue-600 !text-base !font-semibold !font-gilroy"
                         >
                             Cancel
                         </button>
 
                         <button
                             onClick={handleSubmit}
-                            className="bg-blue-600 text-white text-sm font-semibold font-gilroy px-8 py-2 rounded-xl"
+                            className="!bg-blue-600 text-white !font-semibold !font-gilroy px-8 py-2 rounded-xl"
                         >
                             Update
                         </button>

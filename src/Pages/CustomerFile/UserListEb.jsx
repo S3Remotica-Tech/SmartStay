@@ -159,30 +159,30 @@ function UserEb(props) {
                   >
                     <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2" >
                       <tr className="text-uppercase">
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">BILLING MONTH</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">FROM</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">TO</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">FLOOR</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">ROOM</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">BED</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">TOTAL UNITS</th>
-                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">AMOUNT</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">BILLING MONTH</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">FROM</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">TO</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">FLOOR</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">ROOM</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">BED</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">TOTAL UNITS</th>
+                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">AMOUNT</th>
                       </tr>
 
                     </thead>
-                    <tbody className="text-[14px] text-black">
+                    <tbody className="text-[13px] font-gilroy">
                       <PaginationList>
                         {formattedTenantReadings?.map((row, i) => (
                           <tr key={i} className="border-b border-gray-300 font-gilroy">
 
-                            <td style={{}}>{row.billingMonth}</td>
-                            <td style={{}}>{row.from}</td>
-                            <td style={{}}>{row.to}</td>
-                            <td style={{}}>{row.floor}</td>
-                            <td style={{}}>{row.room}</td>
-                            <td style={{}}>{row.bed}</td>
-                            <td style={{}}>{row.totalUnits}</td>
-                            <td style={{}}>{row.amount}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.billingMonth}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.from}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.to}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.floor}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.room}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.bed}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.totalUnits}</td>
+                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.amount}</td>
                           </tr>
                         ))}
                       </PaginationList>
@@ -197,7 +197,7 @@ function UserEb(props) {
                       <img src={Emptystate} alt="emptystate" />
                     </div>
 
-                    <div className="pb-1 text-center font-semibold font-gilroy text-[16px] text-[#4B4B4B]">
+                    <div className="pb-1 text-center font-bold font-gilroy text-[16px] text-[#4B4B4B]">
                       No Electricity available
                     </div>
                     <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">

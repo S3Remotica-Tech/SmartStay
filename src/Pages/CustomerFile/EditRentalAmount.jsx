@@ -251,7 +251,7 @@ function EditRentalAmount({ show, handleClose }) {
                 >
                     {/* HEADER */}
                     <Modal.Header className="border border-[#E7E7E7] flex justify-between items-center">
-                        <Modal.Title className="!text-[20px] text-[#222] font-gilroy !font-semibold">
+                        <Modal.Title className="!text-[20px] text-[#222] !font-gilroy !font-semibold">
                             Edit Rental Amount
                         </Modal.Title>
 
@@ -420,7 +420,7 @@ function EditRentalAmount({ show, handleClose }) {
                         )}
                     </Modal.Body>
 
-                    {/* LOADER */}
+                
                     {loading && (
                         <div className="absolute inset-x-0 top-[100px] bottom-0 flex items-center justify-center opacity-75 z-10">
                             <div
@@ -444,7 +444,7 @@ function EditRentalAmount({ show, handleClose }) {
                         <div className="flex justify-end gap-3">
                             <Button
                                 onClick={handleClose}
-                                className="mt-1 w-full bg-white !text-[#1E45E1] font-gilroy !font-semibold rounded-xl px-10 py-2 !border-none"
+                                className="mt-1 w-full bg-white !text-[#1E45E1] !font-gilroy !font-semibold rounded-xl px-10 py-2 !border-none"
                             >
                                 Cancel
                             </Button>
@@ -452,7 +452,7 @@ function EditRentalAmount({ show, handleClose }) {
                             <Button
                                 disabled={loading}
                                 onClick={handleSubmit}
-                                className="mt-1 w-full bg-[#1E45E1] text-white font-gilroy font-semibold rounded-xl px-10 py-2"
+                                className="mt-1 w-full !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-xl px-10 py-2"
                             >
                                 Update
                             </Button>

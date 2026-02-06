@@ -63,7 +63,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
             size={selectedFile ? "lg" : "md"}
         >
             <Modal.Header className="border border-[#E7E7E7]">
-                <Modal.Title className="font-gilroy font-semibold text-[#222222] text-xl"
+                <Modal.Title className="!font-gilroy !font-semibold text-[#222222] !text-lg"
                  >
                     Upload Document
                 </Modal.Title>
@@ -214,13 +214,13 @@ function ManualDocumentsUpload({ show, handleClose }) {
                     <div>
                         <Button
                             onClick={handleClose}
-                           className="bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] mr-3 font-gilroy"
+                           className="bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] mr-3 !font-gilroy"
                         >
                             Cancel
                         </Button>
 
                         <Button
-                            className="bg-[#1E45E1] text-white !font-semibold rounded-[12px] font-gilroy"
+                            className="bg-[#1E45E1] text-white !font-semibold rounded-[12px] !font-gilroy"
                          >
                             Attach
                         </Button>

@@ -86,13 +86,13 @@ function TransactionHistory() {
                                 <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
                                   
                                     <tr className="text-uppercase text-center">
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">DATE</th>
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">BILL NAME</th>
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">AMOUNT PAID</th>
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">RECEIPT / REF.NO</th>
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">RECEIVED BY</th>
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">PAYMENT MODE</th>
-                                        <th className="font-gilroy text-gray-500 font-semibold text-[13px]">STATUS</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">DATE</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">BILL NAME</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">AMOUNT PAID</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">RECEIPT / REF.NO</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">RECEIVED BY</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">PAYMENT MODE</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">STATUS</th>
                                     </tr>
 
                                 </thead>
@@ -105,23 +105,23 @@ function TransactionHistory() {
                                                  <tr
                                                     key={i}
                                                     className="border-b border-[#F9FAFF] text-center font-gilroy text-[14px] font-medium"
-                                                >
-                                                    <td className="p-0 text-[14px] font-medium text-gray-400">
+                                                > 
+                                                    <td className="p-0 text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
                                                         {formatDate(row.transactionDate)}
                                                     </td>
-                                                    <td className="text-[#111928] font-medium">
+                                                    <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
                                                         {row.billName}
                                                     </td>
-                                                    <td className="text-[#111928]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
                                                         {row.amountPaid}
                                                     </td>
-                                                    <td className="text-[#1E45E1]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
                                                         {row.referenceNumber || "-"}
                                                     </td>
-                                                    <td className="text-[#111928]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
                                                         {row.paidTo}
                                                     </td>
-                                                    <td className="text-[#111928]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
                                                         {row.paymentMode}
                                                     </td>
                                                     <td>
