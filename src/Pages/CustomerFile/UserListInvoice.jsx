@@ -184,14 +184,14 @@ function UserListInvoice(props) {
 
   return (
     <>
-      <div className="flex justify-end w-full" >
+      <div className="flex justify-end w-full -mt-16" >
         {
           state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
           <Button
             onClick={handleAddBill}
             disabled={props.customerAdd || !canWriteInvoice}
-            className="font-sans text-sm text-white font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
+            className="!font-gilroy text-sm text-white !font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
           >
             {" "}
             + Create Bill
@@ -217,9 +217,9 @@ function UserListInvoice(props) {
                 }`}
 
               >
-                <Table className="min-w-full border-collapse w-full font-sans text-gray-900 text-sm font-medium sticky top-0 z-10">
+                <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10">
 
-                  <thead className="bg-blue-100 text-gray-400 text-xs font-medium sticky top-0 z-10">
+                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10">
                     <tr className="h-7">
                       <th className="text-start pl-5 whitespace-nowrap">
                         <div className="flex gap-1 items-center justify-start">Invoice Number</div>
@@ -259,69 +259,69 @@ function UserListInvoice(props) {
                         // let monthdue = dueDated.getMonth() + 1;
                         // let yeardue = dueDated.getFullYear();
                         <tr key={view.id}>
-                          <td className="text-start font-medium pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td style={{ borderBottom: "1px solid #E8E8E8" }}>
                             {view.invoiceNumber}
                           </td>
 
-                          <td className="text-start font-medium pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td  style={{ borderBottom: "1px solid #E8E8E8" }}>
                             {view.invoiceType}
                           </td>
 
-                          <td className="text-start pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td style={{ borderBottom: "1px solid #E8E8E8" }}>
                             <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
                               {view?.invoiceGeneratedDate}
                             </span>
                           </td>
 
-                          <td className="text-start pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
                             <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
                               {view?.dueDate}
                             </span>
                           </td>
 
-                          <td className="text-start pl-4 border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
                             <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
                               {view?.totalAmount}
                             </span>
                           </td>
 
-                          <td className="text-start border-b border-gray-200 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
                             <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
                               ₹{view.dueAmount}
                             </span>
                           </td>
 
 
-                          <td className="text-start border-b border-gray-200 pl-4 py-2" style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td style={{ borderBottom: "1px solid #E8E8E8" }}>
                             {(view.paymentStatus === "Pending" ||
                               view.paymentStatus === "Partial Payment" ||
                               view.paymentStatus === "Partial payment") && (
-                                <span className="bg-red-100 text-black px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                                <span className="bg-red-100 text-black px-3 py-1 rounded-[14px]">
                                   {view.paymentStatus}
                                 </span>
                               )}
 
                             {view.paymentStatus === "Paid" && (
-                              <span className="bg-green-100 text-black px-3 py-1 rounded-[14px] text-xs font-medium font-sans cursor-pointer">
+                              <span className="bg-green-100 text-black px-3 py-1 rounded-[14px]">
                                 {view.paymentStatus}
                               </span>
                             )}
 
                             {(view.paymentStatus === "Refunded" ||
                               view.paymentStatus === "Partially Refunded") && (
-                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-[14px] ">
                                   {view.paymentStatus}
                                 </span>
                               )}
 
                             {view.paymentStatus === "Refund" && (
-                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] ">
                                 {view.paymentStatus}
                               </span>
                             )}
 
                             {view?.paymentStatus === "Cancelled" && (
-                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] text-xs font-medium font-sans">
+                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px]">
                                 Cancelled
                               </span>
                             )}

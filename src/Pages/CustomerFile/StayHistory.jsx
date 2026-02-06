@@ -10,6 +10,7 @@ import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 
+
 function StayHistory({ show, handleClose }) {
   const state = useSelector((state) => state);
 
@@ -45,7 +46,7 @@ function StayHistory({ show, handleClose }) {
         backdrop="static"
         dialogClassName="custom-modals-style-stays"
       >
-        <Modal.Dialog className="m-0 p-0">
+        <Modal.Dialog className="m-0 p-0" >
           <Modal.Header className="border border-gray-200">
             <Modal.Title className="!text-[18px] text-gray-900 !font-semibold font-gilroy">
               Stay Details
