@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ExpenseFilter({ show, handleClose }) {
+function ExpenseFilter({ show, handleClose , size, page}) {
     // const state = useSelector((state) => state);
     const dispatch = useDispatch();
     // const [tenantStatus, setTenantStatus] = useState(null);
@@ -110,18 +110,6 @@ function ExpenseFilter({ show, handleClose }) {
     // const filterOptionsData = useSelector(
     //     (state) => state.InvoiceList?.billsList?.filterOptions
     // );
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -410,6 +398,8 @@ function ExpenseFilter({ show, handleClose }) {
 ExpenseFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    size: PropTypes.any,
+        page:  PropTypes.any,
 };
 
 export default ExpenseFilter

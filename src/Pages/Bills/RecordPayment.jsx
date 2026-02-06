@@ -173,6 +173,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
 
 
     const handleSaveInvoiceList = () => {
+        dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
         const formatpaiddate = formatDateForPayload(selectedDate);
         const billDate = new Date(invoiceValue.Date);
         const paidDate = new Date(formatpaiddate);

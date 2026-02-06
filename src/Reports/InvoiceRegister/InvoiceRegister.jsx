@@ -12,7 +12,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import PaginationList from "../../Components/PaginationList";
+import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 
 
@@ -46,8 +46,12 @@ function InvoiceRegister() {
     useEffect(() => {
         if (state.login?.selectedHostel_Id) {
 
-            dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
-            //  setLoading(true)
+            dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id,
+                filters: {
+                    size: size,
+                    page: page,
+                } } })
+             setLoading(true)
         }
     }, [state.login?.selectedHostel_Id])
 
@@ -145,7 +149,15 @@ function InvoiceRegister() {
                 search: "",
             },
         })
-        dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+        dispatch({
+            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: {
+                    size: size,
+                    page: page,
+                }
+            }
+        })
     }
 
 
@@ -327,7 +339,7 @@ function InvoiceRegister() {
 
 
     const handlePageChange = (page) => {
-        console.log("Page seelcted", page)
+
         setPage(page)
 
     };
@@ -476,7 +488,7 @@ function InvoiceRegister() {
             </div>
 
 
-            <div className="px-1 pb-1  bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+            <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
                 {chips?.length > 0 && (
                     <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
@@ -547,16 +559,16 @@ function InvoiceRegister() {
 
 
 
-                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 flex-1 ">
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
 
-                    <div ref={tableRef}  className=" overflow-y-auto relative h-[400px]">
+                    <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] rounded-xl ">
                         <table className="w-full  text-[12px] font-gilroy">
 
                             <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                                 <tr className="border-b border-[#E8E8E8]">
 
 
-                                    <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]  rounded-tl-xl">
+                                    <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[30px]  rounded-tl-xl">
                                         <Setting3
                                             onClick={() => setOpen(!open)}
                                             className="cursor-pointer"
@@ -626,7 +638,7 @@ function InvoiceRegister() {
                                             key={i}
                                             className="border-b last:border-none  transition"
                                         >
-                                            <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[40px]">{i + 1}</td>
+                                            <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[30px]"></td>
                                             <td
                                                 onClick={() => handleNavigateBillsPdf(row)}
                                                 className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
@@ -718,14 +730,17 @@ function InvoiceRegister() {
 
                         </table>
                     </div>
+{
+    invoiceRegister?.invoiceList?.length > 0 && 
 
-                  {/* <PaginationList
+                    <ApiPagination
                         currentPage={currentPage + 1}
                         totalPages={totalPages}
                         totalRecords={totalRecords}
                         onPageChange={handlePageChange}
                         onSizeChange={handleSizeChange}
-                    /> */}
+                    />
+}
 
                     {open && (
                         <>
@@ -797,17 +812,17 @@ function InvoiceRegister() {
                             </div>
                         </>
                     )}
-  
+
                 </div>
 
 
 
                 {
                     invoiceFilter &&
-                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} invoiceRegisterFilter={true} />
+                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills}  size={size}  page={page}/>
                 }
             </div>
-            
+
         </div>
     );
 }

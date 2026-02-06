@@ -3,9 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House } from "iconsax-react";
+import { Call, Sms, House, Edit2, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 // import Carousel from "react-bootstrap/Carousel";
@@ -52,6 +52,8 @@ import LinkImage from "../../Assets/Images/home-link.png";
 // import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
 // import MoneyImage from "../../Assets/Images/Money.png";
 // import EyeIcon from "../../Assets/Images/eye.png";
+import BackToCheckIn from "./BackToCheckIn";
+import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import Stayhistory from "../../Assets/Images/stay_history.png";
 import EditBasicDetails from "./EditBasicDetails";
 import EditAddressDetails from "./EditAddressDetails";
@@ -76,6 +78,9 @@ import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import WalletHistory from "./WalletHistory";
 import BookedCheckIn from "./BookedCheckIn";
+import CustomerCheckout from "./CustomerCheckout";
+import CustomerReAssign from "./CustomerReAssign";
+import MakeAsInactive from "./MakeAsInactive";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -137,6 +142,8 @@ function UserListRoomDetail(props) {
   const [cityError, setCityError] = useState("");
   const [activeTab, setActiveTab] = useState("kyc");
 
+  const [inactiveForm, setInActiveForm] = useState(false)
+  const [inActiveDetails, setInactiveDetails] = useState("")
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   // const [contactEdit, setContactEdit] = useState("");
@@ -168,6 +175,22 @@ function UserListRoomDetail(props) {
   const [isHovered, setIsHovered] = useState(false);
   const [advanceList, setAdvanceList] = useState("")
   const [addamenityShow, setaddamenityShow] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
+  const [customerCheckoutpage, setCustomerCheckoutpage] = useState(false);
+  const [customercheckoutdata, setCustomerCheckoutData] = useState("");
+  const [activeRow, setActiveRow] = useState(null);
+  const [initialReasonFields, setInitialReasonFields] = useState([]);
+  const [showUpdateRentForm, setShowUpdateRentForm] = useState(false)
+  const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false)
+  const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false)
+  const [reAssignDetail, setReasignDetail] = useState("");
+  const [customerReassign, setCustomerReAssign] = useState(false);
+  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+ const [DueCustomerShow, setDueCustomerShow] = useState(false)
+  const [CheckOutDetails, setCheckOutDetails] = useState("");
+  const [EditObj, setEditObj] = useState("");
+
+
 
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   // const canDeleteTenant = useHasPermission("Customers", "canDelete")
@@ -629,7 +652,14 @@ function UserListRoomDetail(props) {
   }, [state.UsersList.editBasicSuccessStatusCode]);
 
 
-
+  useEffect(() => {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+      }, 1000);
+    }
+  }, [state.UsersList.addCheckoutCustomerStatusCode])
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerAllDetails === 200) {
@@ -679,9 +709,7 @@ function UserListRoomDetail(props) {
 
 
   const handleKYCSubmit = () => {
-
     dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id: props.id } })
-
   }
 
   const handleAdditionalForm = () => {
@@ -714,11 +742,7 @@ function UserListRoomDetail(props) {
     }
   }, [selectedDate]);
 
-  const [activeRow, setActiveRow] = useState(null);
-  const [initialReasonFields, setInitialReasonFields] = useState([]);
-  const [showUpdateRentForm, setShowUpdateRentForm] = useState(false)
-  const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false)
-  const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false)
+
 
   const handleShowEditBed = (item) => {
 
@@ -825,7 +849,50 @@ function UserListRoomDetail(props) {
     }
   };
 
+  const handleCustomerReAssign = (reuser) => {
+    if (reuser?.customerId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: reuser?.customerId } });
+    }
+    setReasignDetail(reuser);
+    setCustomerReAssign(true);
+  };
 
+  const handleCheckoutGenrateNew = (item) => {
+    navigate(`/tenant/final-settlement/${item?.customerId}`, {
+      state: {
+        data: item
+      }
+    });
+  }
+
+  const handleBacktoCheckout = (item) => {
+    setEditObj(item);
+    setBacktoCheckInForm(true)
+
+  }
+
+  const handleCloseBackToCheckIn = () => {
+    dispatch({ type: 'REMOVE_CANCEL_CHECKOUT_ERROR' })
+    setBacktoCheckInForm(false)
+  }
+
+ const handleConformCheckout = (item) => {
+    setDueCustomerShow(true)
+    setCheckOutDetails(item)
+  
+  }
+const handleCloseDuePopup = () => {
+    setDueCustomerShow(false)
+  }
+
+
+  useEffect(() => {
+          if (state.UsersList.cancelCheckoutStatusCode === 200) {
+              setBacktoCheckInForm(false)
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+          }
+  
+      }, [state.UsersList.cancelCheckoutStatusCode])
 
 
   const handleUpdateChange = () => {
@@ -2070,6 +2137,32 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
+useEffect(() => {
+        if (state.Booking.StatusCodeInactiveCode === 200) {
+           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_BOOKING_InActive' })
+      }, 1000)
+        }
+
+    }, [state.Booking.StatusCodeInactiveCode])
+
+ useEffect(() => {
+        if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
+         navigate(`/tenant/${state.login.selectedHostel_Id}`)
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+            }, 500);
+        }
+
+    }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
+
+
+
+
+
+
+
 
 
   const handleClose = () => {
@@ -2155,7 +2248,7 @@ function UserListRoomDetail(props) {
   };
   const handleCloseBasicDetails = () => {
     setEditBasicDetailsShow(false)
-      dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
+    dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
   }
   const [addressDetails, setAddressDetails] = useState("")
   const handleEditAddressDetailsShow = (item) => {
@@ -2257,6 +2350,10 @@ function UserListRoomDetail(props) {
   // };
 
 
+  const handleCustomerCheckout = (item) => {
+    setCustomerCheckoutpage(true);
+    setCustomerCheckoutData(item);
+  };
 
 
 
@@ -2338,9 +2435,7 @@ function UserListRoomDetail(props) {
 
   }, [state.UsersList?.bookingToCheckinStatusCode])
 
-  console.log("MODE:", import.meta.env.MODE);
-
-
+  // console.log("MODE:", import.meta.env.MODE);
 
 
 
@@ -2349,13 +2444,20 @@ function UserListRoomDetail(props) {
     setBookingAssignForm(true)
   }
 
-
+const handleInActive = (item) => {
+    setInActiveForm(true)
+       setInactiveDetails(item)
+     }
 
   const handleCloseBooking = () => {
     setBookingAssignForm(false)
   }
 
 
+ const handleCloseInActive = () => {
+       dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
+    setInActiveForm(false)
+    }
 
 
 
@@ -2544,56 +2646,171 @@ function UserListRoomDetail(props) {
               </div>
             </div>
 
-            {
-              state.UsersList.customerdetails?.customerCurrentStatus === "BOOKED" &&
 
-              <button onClick={handleShowBookingToCheckin}
-                type="button"
-                className={`
-  px-4 py-2
-  rounded-lg
-  bg-[#1E45E1]
-  text-white text-sm font-semibold font-[Montserrat]
-  flex items-center justify-center
-  transition-all duration-200
-  disabled:opacity-50 disabled:cursor-not-allowed
-  hover:bg-blue-700
-`}
-              >
-                Check-In
-              </button>
+            <div className="flex gap-4 items-center">
 
-            }
-            {import.meta.env.MODE === "development" &&
-              state.UsersList.customerdetails?.customerCurrentStatus !== "BOOKED" &&
 
-              <div onClick={handleShowWalletHistory}
-                className="
-  mt-2
-  inline-flex items-center justify-center
-  p-2
-  rounded-full
-  bg-[#ECFDF3] text-[#16A34A]
-  shadow-sm
-  ring-1 ring-red-200
-  cursor-pointer
-  transition-all duration-300 ease-out
-  hover:shadow-md hover:scale-105
-  active:scale-95
-"
-              >
-                <WalletCheck
-                  size="26"
-                  color="#16A34A"
-                  variant="Bold"
-                />
+              <div className="relative font-[Gilroy]">
+                <button
+                  onClick={() =>
+                    setOpenMenu(!openMenu)
+                  }
+                  className="p-1 "
+                >
+                  <PiDotsThreeOutlineVerticalFill size={18} />
+                </button>
+
+                {openMenu && (
+                  <div className="absolute right-0 mt-2 w-fit whitespace-nowrap rounded-md bg-white shadow-lg border border-gray-200 z-20">
+
+
+                    {
+                      state.UsersList.customerdetails?.customerCurrentStatus === "CHECK_IN" &&
+                      <>
+                        <button
+
+                          onClick={() => {
+                            if (canWriteTenant) {
+                              handleCustomerCheckout(CustomerOverView);
+                              setOpenMenu(false);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <Notification1 size="18"
+                            color="#1E45E1"
+                            />
+                          Move to Notice Period
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            if (canWriteTenant) {
+                              handleCustomerReAssign(CustomerOverView);
+                              setOpenMenu(false);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <ArrowSwapHorizontal size={16} color="#1E45E1" />
+                          Change Bed
+                        </button>
+                      </>
+                    }
+
+                    {
+                      state.UsersList.customerdetails?.customerCurrentStatus === "NOTICE" &&
+                      <>
+                        <button
+                          onClick={() => {
+                            if (canWriteTenant) {
+                              handleCheckoutGenrateNew(CustomerOverView);
+                              setOpenMenu(false);
+                            }
+                          }}
+
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <LogoutCurve size="18"
+                            color="#1E45E1"
+                          />
+                          Generate
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            if (canWriteTenant) {
+                              handleBacktoCheckout(CustomerOverView);
+                              setOpenMenu(false);
+                            }
+                          }}
+
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <Calendar2 size="18"
+                            color="#1E45E1"
+                            variant="Bold" />
+                          Cancel Check-Out
+                        </button>
+                      </>
+                    }
+                    {
+                      state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED" &&
+                      <>
+                        <button
+ 
+                          onClick={() => {
+                            if (canWriteTenant) {
+                              handleConformCheckout(CustomerOverView);
+                              setOpenMenu(false);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <LogoutCurve size="18"
+                            color="#1E45E1"
+                          />
+                          Check-Out
+                        </button>
+                      </>
+                    }
+
+                    {import.meta.env.MODE === "development" &&
+                      state.UsersList.customerdetails?.customerCurrentStatus !== "BOOKED" &&
+
+                      <button
+                        onClick={() => {
+                          handleShowWalletHistory();
+                          setOpenMenu(null);
+                        }}
+                        className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                      >
+                        <WalletCheck
+                          size="18"
+                          color="#16A34A"
+                          variant="Bold"
+                        />   Wallet
+                      </button>
+                    }
+
+                    {
+                      state.UsersList.customerdetails?.customerCurrentStatus === "BOOKED" &&
+                      <>
+                        <button onClick={() => {
+                          handleShowBookingToCheckin();
+                          setOpenMenu(null);
+                        }}
+                          type="button"
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <AddCircle size="18"
+                            color="#1E45E1" />
+                          Check-In
+                        </button>
+
+                        <button
+
+                          onClick={() => {
+                            if (canWriteTenant) {
+                            handleInActive(CustomerOverView);
+                              setOpenMenu(false);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <LogoutCurve size="18"
+                            color="#1E45E1"
+                          />
+                          Make as Inactive
+                        </button>
+                      </>
+                    }
+
+                  </div>
+                )}
               </div>
 
-            }
-
-
-
-
+            </div>
           </div>
         </div>
 
@@ -2670,7 +2887,7 @@ function UserListRoomDetail(props) {
 
                     <div className="w-full max-w-[640px] mx-auto">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                         <div className="flex flex-col">
+                        <div className="flex flex-col">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             First Name
                           </p>
@@ -2700,7 +2917,7 @@ function UserListRoomDetail(props) {
                           </div>
                         </div>
 
-                  
+
                         <div className="flex flex-col sm:pl-6">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Mobile No
@@ -2721,7 +2938,7 @@ function UserListRoomDetail(props) {
 
 
                   <div className="flex-1 bg-white h-auto max-h-[240px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
-                 
+
                     <div className="card-header flex justify-between items-center border-0 bg-transparent" >
                       <div className="card-header p-0 border-0 bg-transparent w-full">
                         <div className="flex items-center justify-start gap-4 w-full border-0 -mt-2">
@@ -3208,8 +3425,8 @@ function UserListRoomDetail(props) {
                                 ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
                               </p>
                             </div>
-                             
-                                <div className="flex flex-col items-start">
+
+                            <div className="flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount
                                 {canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
@@ -3226,7 +3443,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                       
+
                             <div className="flex flex-col items-start">
                               <div className="text-xs font-medium font-gilroy">Booking Amount</div>
                               <p className="text-sm font-semibold font-gilroy pt-2">
@@ -3234,7 +3451,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                       
+
                             {CustomerOverView.hostelInfo?.maintenance !== null && (
                               <div className="flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">Maintenance</div>
@@ -3244,7 +3461,7 @@ function UserListRoomDetail(props) {
                               </div>
                             )}
 
-                      
+
                             {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
                               <div key={index} className="flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">{item.type}</div>
@@ -3389,7 +3606,7 @@ function UserListRoomDetail(props) {
                       </div>
                     </div>
 
-                
+
                     <div className="p-4 font-gilroy flex flex-col gap-4">
                       <div className="w-full">
                         <UserListAmenities
@@ -3611,7 +3828,7 @@ function UserListRoomDetail(props) {
                               )}
                             </Form.Group>
                           </div>
-                         
+
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group >
                               <Form.Label className="text-[14px] text-gray-900 font-medium font-sans">
@@ -5271,6 +5488,42 @@ function UserListRoomDetail(props) {
       {
         showWalletHistory && <WalletHistory show={showWalletHistory} handleClose={handleCloseWallet} />
       }
+
+      {customerCheckoutpage && (
+        <CustomerCheckout
+          customerCheckoutpage={customerCheckoutpage}
+          setCustomerCheckoutpage={setCustomerCheckoutpage}
+          bedData={customercheckoutdata}
+        />
+      )}
+
+
+      {customerReassign && (
+        <CustomerReAssign
+          customerReassign={customerReassign}
+          setCustomerReAssign={setCustomerReAssign}
+          reAssignDetail={reAssignDetail}
+        />
+      )}
+
+      {
+        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn}
+          checkInDetails={EditObj} />
+
+      }
+
+
+ {
+        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
+      }
+
+
+   {
+        inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails} />}
+
+
+
+
 
 
 

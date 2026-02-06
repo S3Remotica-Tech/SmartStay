@@ -217,9 +217,9 @@ function UserListInvoice(props) {
                 }`}
 
               >
-                <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10">
+                <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10 font-[Gilroy]">
 
-                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10">
+                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10 font-[Gilroy]">
                     <tr className="h-7">
                       <th className="text-start pl-5 whitespace-nowrap">
                         <div className="flex gap-1 items-center justify-start">Invoice Number</div>
@@ -251,7 +251,7 @@ function UserListInvoice(props) {
                     </tr>
                   </thead>
 
-                  <tbody className="text-xs align-middle">
+                  <tbody className="text-xs align-middle font-[Gilroy]">
                     <PaginationList>
                       {sortedData?.map((view) => (
                         // let dueDated = new Date(view.DueDate);
@@ -259,7 +259,7 @@ function UserListInvoice(props) {
                         // let monthdue = dueDated.getMonth() + 1;
                         // let yeardue = dueDated.getFullYear();
                         <tr key={view.id}>
-                          <td style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td style={{ borderBottom: "1px solid #E8E8E8" }} >
                             {view.invoiceNumber}
                           </td>
 
@@ -268,25 +268,25 @@ function UserListInvoice(props) {
                           </td>
 
                           <td style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5] font-[Gilroy]">
                               {view?.invoiceGeneratedDate}
                             </span>
                           </td>
 
                           <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5]">
                               {view?.dueDate}
                             </span>
                           </td>
 
                           <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5]">
                               {view?.totalAmount}
                             </span>
                           </td>
 
                           <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-sans leading-[1.5]">
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5]">
                               ₹{view.dueAmount}
                             </span>
                           </td>

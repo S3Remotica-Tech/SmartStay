@@ -141,7 +141,9 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!canReadInvoice) {
       setLoading(false);
-    } 
+    } else{
+      setLoading(false)
+    }
   }, [canReadInvoice]);
 
 
@@ -208,7 +210,7 @@ const InvoicePage = () => {
     if (!state.login.selectedHostel_Id) return;
 
     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-    setLoading(true)
+    setLoading(false)
 
 
   }, [state.login.selectedHostel_Id]);

@@ -41,8 +41,8 @@ export async function getExpenseRegister(hostelId, filters = {}) {
        startDate: filters.startDate,
       endDate: filters.endDate,
       period: filters?.period,
-      page: filters.page ?? 0,
-      size: filters.size ?? 10,
+    page: filters?.page,
+      size: filters?.size,
     },
     paramsSerializer: params =>
       qs.stringify(params, { arrayFormat: "repeat" }),

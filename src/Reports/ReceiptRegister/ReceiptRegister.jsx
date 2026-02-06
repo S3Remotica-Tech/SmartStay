@@ -30,6 +30,9 @@ function ReceiptRegister() {
   const [loading, setLoading] = useState(false)
   const tableRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+   const [size, setSize] = useState('');
+      const [page, setPage] = useState(0);
+  
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {

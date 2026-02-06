@@ -825,7 +825,7 @@ function Sidebar() {
 
                     {isDropdownOpen && (
                       <div
-                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 rounded w-full z-10 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
+                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full z-10 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
                       >
                         <ul style={{ margin: 0, padding: 0 }}>
                           {hostelListDetail.map((item) => (
@@ -868,7 +868,7 @@ function Sidebar() {
                 {!(hostelListDetail ?? []).length && (
                   <NavLink
                     to={settingsPath}
-                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-blue-600 shadow-sm p-2 rounded-lg cursor-pointer no-underline"
+                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
 
                     onClick={() => {
                       handledisplaySettingsPG("manage-pg", "Manage PG");
@@ -1044,7 +1044,7 @@ function Sidebar() {
                   </li>
 
                   <li
-                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
+                    className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
@@ -1253,18 +1253,22 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
-                path="/dashboard-new/:hostelId?"
-                element={
-                  <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
-                    <Dashboard
-                      displayCompliance={handledisplaycompliace}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
+              {
+                import.meta.env.MODE === "development" &&
+
+                <Route
+                  path="/dashboard-new/:hostelId?"
+                  element={
+                    <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
+                      <Dashboard
+                        displayCompliance={handledisplaycompliace}
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
+              }
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
