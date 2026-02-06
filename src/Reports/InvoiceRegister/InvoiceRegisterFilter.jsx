@@ -12,7 +12,7 @@ import { Filter } from 'iconsax-react'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
-function InvoiceRegisterFilter({ show, handleClose, invoiceRegisterFilter }) {
+function InvoiceRegisterFilter({ show, handleClose, size, page  }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billStatus, setBillStatus] = useState([]);
@@ -330,7 +330,7 @@ function InvoiceRegisterFilter({ show, handleClose, invoiceRegisterFilter }) {
         payload: {
             hostelId: state.login.selectedHostel_Id,
             filters: isOnlyAllStatus
-                ? { page: 0, size: 10 }
+                ? { page: page, size: size }
                 : InvoiceFilter
         }
     });
@@ -790,6 +790,7 @@ function InvoiceRegisterFilter({ show, handleClose, invoiceRegisterFilter }) {
 InvoiceRegisterFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    invoiceRegisterFilter: PropTypes.bool
+    size: PropTypes.any,
+    page:  PropTypes.any,
 };
 export default InvoiceRegisterFilter

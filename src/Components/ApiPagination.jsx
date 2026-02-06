@@ -1,5 +1,6 @@
 // new api pagination 
 /* eslint-disable react-hooks/exhaustive-deps */
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
@@ -16,6 +17,7 @@ function ApiPagination({
 
 
   const sizeOptions = [
+    { value: 1, label: "1" },
     { value: 10, label: "10" },
     { value: 25, label: "25" },
     { value: 50, label: "50" },
@@ -74,7 +76,7 @@ function ApiPagination({
     <div className="sticky bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-6 py-1">
       <div className="flex items-center justify-between">
         <div className="text-sm font-medium text-gray-700">
-          Total Records : {totalRecords}
+          Total Records :  <span className="text-[#1E45E1] font-semibold">{totalRecords}</span>
         </div>
 
 
@@ -133,19 +135,19 @@ function ApiPagination({
                 onClick={() => handleChangePage(currentPage - 1)}
                 disabled={currentPage === 1}
                 className={`
-                  rounded-md border px-3 py-1.5 text-sm font-medium
+                  rounded-md  px-3 py-1.5 text-sm font-medium
                   ${
                     currentPage === 1
-                      ? "border-gray-300 text-gray-400 cursor-not-allowed opacity-50"
-                      : "border-[#1E45E1] bg-[#E7F1FF] text-[#1E45E1] hover:bg-[#DCE9FF]"
+                      ? " text-gray-400 cursor-not-allowed opacity-50"
+                      : " bg-white text-[#1E45E1] hover:bg-[#DCE9FF]"
                   }
                 `}
               >
-                ← Prev
+              <ArrowLeft2 size="18"/>
               </button>
             </li>
 
-            {/* Page Numbers */}
+           
             {getPages().map((page, i) =>
               page === "..." ? (
                 <li key={i} className="px-2 text-gray-400">
@@ -175,15 +177,15 @@ function ApiPagination({
     onClick={() => handleChangePage(currentPage + 1)}
     disabled={currentPage === totalPages}
     className={`
-      rounded-md border px-3 py-1.5 text-sm font-medium
+      rounded-md  px-3 py-1.5 text-sm font-medium
       ${
         currentPage === totalPages
-          ? "border-[#9CA3AF] text-[#9CA3AF] cursor-not-allowed opacity-50"
-          : "border-[#1E45E1] text-[#1E45E1] bg-white hover:bg-[#E7F1FF]"
+          ? " text-[#9CA3AF] cursor-not-allowed opacity-50"
+          : " text-[#1E45E1] bg-white hover:bg-[#E7F1FF]"
       }
     `}
   >
-    Next →
+   <ArrowRight2 size="18" />
   </button>
 </li>
 
