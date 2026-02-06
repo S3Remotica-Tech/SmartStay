@@ -245,10 +245,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
 
     const handleConfirmCheckout = () => {
-        if (data.customerId || data?.tenetId) {
+        if (data?.customerId || data?.tenetId) {
             dispatch({
                 type: "CONFIRMCHECKOUT",
-                payload: { customerId: data.customerId || data?.tenetId, comments: comments }
+                payload: { customerId: data?.customerId || data?.tenetId, comments: comments }
 
             })
             setFormLoading(true)
@@ -269,10 +269,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     }, [state.UsersList.statuscodeForConformCheckout])
 
     useEffect(() => {
-        if (state.login.selectedHostel_Id && (data.customerId || data?.tenetId)) {
+        if (state.login.selectedHostel_Id && (data?.customerId || data?.tenetId)) {
             dispatch({
                 type: "GETINITIALIZECHECKOUT",
-                payload: { customerId: data.customerId || data?.tenetId, hostelId: state.login.selectedHostel_Id }
+                payload: { customerId: data?.customerId || data?.tenetId, hostelId: state.login.selectedHostel_Id }
 
             })
         }
@@ -357,10 +357,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                             <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.tenantFullName}</p>
                             <div className="d-flex mb-2">
                                 <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                    {data.floorName || pgDetails.floorName}
+                                    {data?.floorName || pgDetails?.floorName || data?.hostelInfo?.floorName}
                                 </span>
                                 <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                    {data.roomName || pgDetails.roomName} - {data.bedName || pgDetails.bedName}
+                                    {data?.roomName || pgDetails?.roomName || data?.hostelInfo?.roomName} - {data?.bedName || pgDetails?.bedName || data?.hostelInfo?.bedName}
                                 </span>
                             </div>
                         </div>

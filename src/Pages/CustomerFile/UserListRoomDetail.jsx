@@ -5,7 +5,7 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, Edit2, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle } from "iconsax-react";
+import { Call, Sms, House, Edit2, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 // import Carousel from "react-bootstrap/Carousel";
@@ -53,6 +53,7 @@ import LinkImage from "../../Assets/Images/home-link.png";
 // import MoneyImage from "../../Assets/Images/Money.png";
 // import EyeIcon from "../../Assets/Images/eye.png";
 import BackToCheckIn from "./BackToCheckIn";
+import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import Stayhistory from "../../Assets/Images/stay_history.png";
 import EditBasicDetails from "./EditBasicDetails";
 import EditAddressDetails from "./EditAddressDetails";
@@ -79,7 +80,7 @@ import WalletHistory from "./WalletHistory";
 import BookedCheckIn from "./BookedCheckIn";
 import CustomerCheckout from "./CustomerCheckout";
 import CustomerReAssign from "./CustomerReAssign";
-import { Calendar2Date } from "react-bootstrap-icons";
+import MakeAsInactive from "./MakeAsInactive";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -141,6 +142,8 @@ function UserListRoomDetail(props) {
   const [cityError, setCityError] = useState("");
   const [activeTab, setActiveTab] = useState("kyc");
 
+  const [inactiveForm, setInActiveForm] = useState(false)
+  const [inActiveDetails, setInactiveDetails] = useState("")
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   // const [contactEdit, setContactEdit] = useState("");
@@ -878,7 +881,9 @@ function UserListRoomDetail(props) {
     setCheckOutDetails(item)
   
   }
-
+const handleCloseDuePopup = () => {
+    setDueCustomerShow(false)
+  }
 
 
   useEffect(() => {
@@ -2132,6 +2137,32 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
+useEffect(() => {
+        if (state.Booking.StatusCodeInactiveCode === 200) {
+           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_BOOKING_InActive' })
+      }, 1000)
+        }
+
+    }, [state.Booking.StatusCodeInactiveCode])
+
+ useEffect(() => {
+        if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
+         navigate(`/tenant/${state.login.selectedHostel_Id}`)
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+            }, 500);
+        }
+
+    }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
+
+
+
+
+
+
+
 
 
   const handleClose = () => {
@@ -2409,19 +2440,24 @@ function UserListRoomDetail(props) {
 
 
 
-
-
   const handleShowBookingToCheckin = () => {
     setBookingAssignForm(true)
   }
 
-
+const handleInActive = (item) => {
+    setInActiveForm(true)
+       setInactiveDetails(item)
+     }
 
   const handleCloseBooking = () => {
     setBookingAssignForm(false)
   }
 
 
+ const handleCloseInActive = () => {
+       dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
+    setInActiveForm(false)
+    }
 
 
 
@@ -2641,9 +2677,9 @@ function UserListRoomDetail(props) {
                           }}
                           className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
                         >
-                          <Edit2 size="18"
+                          <Notification1 size="18"
                             color="#1E45E1"
-                            variant="Bold" />
+                            />
                           Move to Notice Period
                         </button>
 
@@ -2656,7 +2692,7 @@ function UserListRoomDetail(props) {
                           }}
                           className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
                         >
-                          <ArrowSwapHorizontal size={16} color="#374151" />
+                          <ArrowSwapHorizontal size={16} color="#1E45E1" />
                           Change Bed
                         </button>
                       </>
@@ -2756,7 +2792,7 @@ function UserListRoomDetail(props) {
 
                           onClick={() => {
                             if (canWriteTenant) {
-                              // handleCustomerCheckout(CustomerOverView);
+                            handleInActive(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
@@ -5480,6 +5516,10 @@ function UserListRoomDetail(props) {
  {
         DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
       }
+
+
+   {
+        inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails} />}
 
 
 

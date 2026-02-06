@@ -193,7 +193,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {currentItem?.floorName || inActiveDetails?.floorName}
+                            {currentItem?.floorName || inActiveDetails?.floorName || inActiveDetails?.hostelInfo?.floorName}
                         </span>
                         <span
                             style={{
@@ -206,7 +206,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {currentItem?.roomName || inActiveDetails?.roomName} - {currentItem?.bedName || inActiveDetails?.bedName}
+                            {currentItem?.roomName || inActiveDetails?.roomName || inActiveDetails?.hostelInfo?.roomName} - {currentItem?.bedName || inActiveDetails?.bedName || inActiveDetails?.hostelInfo?.bedName}
                         </span>
                     </div>
 

@@ -145,6 +145,7 @@ function UserList(props) {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
     canDeleteModule: canDeleteTenant,
+    canUpdateModule : canUpdateTenant
   } = useHasPermission("Customers");
 
 
@@ -2845,7 +2846,7 @@ function UserList(props) {
                       onClick={handleShow}
                       style={buttonStyle}
                     >
-                      + Walk-In
+                      + Walk-In 
                     </Button>
                   )}
                 </div>

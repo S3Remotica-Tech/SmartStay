@@ -825,7 +825,7 @@ function Sidebar() {
 
                     {isDropdownOpen && (
                       <div
-                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 rounded w-full z-10 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
+                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full z-10 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
                       >
                         <ul style={{ margin: 0, padding: 0 }}>
                           {hostelListDetail.map((item) => (
@@ -868,7 +868,7 @@ function Sidebar() {
                 {!(hostelListDetail ?? []).length && (
                   <NavLink
                     to={settingsPath}
-                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-blue-600 shadow-sm p-2 rounded-lg cursor-pointer no-underline"
+                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
 
                     onClick={() => {
                       handledisplaySettingsPG("manage-pg", "Manage PG");
