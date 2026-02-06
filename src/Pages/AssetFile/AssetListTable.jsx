@@ -142,9 +142,9 @@ function AssetListTable(props) {
 
   return (
     <>
-      <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
+      {/* <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
         <td className="ps-2" title={props.item.product_name}
-          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>
+          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>
           <div className=''> {props.item.productName}</div></td>
 
         <td title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
@@ -393,7 +393,167 @@ function AssetListTable(props) {
           </div>
 
         </td>
+      </tr> */}
+
+      <tr
+        key={props.item.id}
+        className="font-gilroy border-b border-[#E8E8E8]"
+      >
+        <td
+          title={props.item.product_name || "-"}
+          className="pl-2 text-start align-middle font-medium text-black
+               whitespace-nowrap overflow-hidden text-ellipsis leading-none"
+        >
+          {props.item.productName || "-"}
+        </td>
+
+        <td
+          title={props.item.serial_number || "-"}
+          className="pl-3 md:pl-3 text-start align-middle font-medium text-black
+               whitespace-nowrap overflow-hidden text-ellipsis"
+        >
+          {props.item.serialNumber || "-"}
+        </td>
+
+        <td
+          title={props.item.brandName || "-"}
+          className="p-2 text-start font-medium font-gilroy
+               whitespace-nowrap"
+        >
+          {props.item.brandName || "-"}
+        </td>
+
+        <td
+          title={props.item.asset_name}
+          className="p-0 text-start align-middle
+               whitespace-nowrap overflow-hidden text-ellipsis"
+        >
+          <div className="w-full">
+            <div
+              className="whitespace-nowrap overflow-hidden text-ellipsis
+                   font-medium font-gilroy
+                   p-1.5 rounded-full"
+            >
+              {props.item.assetName || "-"}
+            </div>
+          </div>
+        </td>
+
+        <td
+          title={props.item.price}
+          className="p-0 text-start align-middle
+               font-medium text-black font-gilroy"
+        >
+          ₹{props.item.price ? props.item.price.toLocaleString("en-IN") : "0"}
+        </td>
+
+        <td
+          title={moment(props.item.purchaseDate)
+            .format("DD MMM YYYY")
+            .toUpperCase()}
+          className="text-start font-medium font-gilroy
+               whitespace-nowrap"
+        >
+          {props.item.purchaseDate}
+        </td>
+
+        <td
+          title={props.item.hostelName || "-"}
+          className="p-0 text-start align-middle font-medium text-black font-gilroy
+             whitespace-nowrap overflow-hidden max-w-[150px]"
+        >
+          <div className="pl-2 overflow-hidden text-ellipsis">
+            {props.item.assignmentStatus === "Unassigned"
+              ? "-"
+              : props.item.hostelName}
+          </div>
+        </td>
+
+
+        <td className="text-start align-middle">
+          <div className="w-full flex justify-start">
+            <div
+              onClick={(e) => handleShowDots(props.item.id, e)}
+              className="relative flex items-center justify-center rounded-full cursor-pointer ml-2"
+            >
+              <PiDotsThreeOutlineVerticalFill
+                className={`w-[15px] h-[15px] rotate-90
+            ${showDots ? "text-[#1E45E1]" : "text-gray-500"}`}
+              />
+
+              {showDots && (
+                <div
+                  ref={popupRef}
+                  className="fixed z-[1000] w-[160px] bg-[#F9F9F9]
+                       border border-[#EBEBEB] rounded-[10px]"
+                  style={{
+                    top: showAbove
+                      ? popupPosition.top -
+                      (popupRef.current?.offsetHeight || 100) -
+                      20
+                      : popupPosition.top - 35,
+                    left: popupPosition.left,
+                  }}
+                >
+                  <div
+                    onClick={() => canWriteAssets && handleAssignAsset(props.item)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-t-[10px]
+                ${canWriteAssets
+                        ? "cursor-pointer hover:bg-[#EDF2FF]"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
+                  >
+                    <ProfileAdd size="16" color="#1E45E1" />
+                    <span className="text-sm font-semibold font-gilroy text-[#222]">
+                      {props.item.assignmentStatus === "Unassigned"
+                        ? "Assign asset"
+                        : "Reassign asset"}
+                    </span>
+                  </div>
+
+                  <div className="h-px bg-[#F0F0F0]" />
+
+                  <div
+                    onClick={() => canUpdateAsset && handleEdit(props.item)}
+                    className={`flex items-center gap-2 px-3 py-2
+                ${canUpdateAsset
+                        ? "cursor-pointer hover:bg-[#EDF2FF]"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
+                  >
+                    <Edit size="16" color="#1E45E1" />
+                    <span className="text-sm font-semibold font-gilroy text-[#222]">
+                      Edit
+                    </span>
+                  </div>
+
+                  <div className="h-px bg-[#F0F0F0]" />
+
+                  <div
+                    onClick={() =>
+                      canDeleteAsset &&
+                      props.item.assignmentStatus === "Unassigned" &&
+                      handleShowDeleteAsset(props.item)
+                    }
+                    className={`flex items-center gap-2 px-3 py-2 rounded-b-[10px]
+                ${canDeleteAsset &&
+                        props.item.assignmentStatus === "Unassigned"
+                        ? "cursor-pointer hover:bg-[#FFF0F0]"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
+                  >
+                    <Trash size="16" color="red" />
+                    <span className="text-sm font-semibold font-gilroy text-red-600">
+                      Delete
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </td>
       </tr>
+
 
       {showAssignAssetModal && <AssignAsset show={showAssignAssetModal} handleClose={handleClose} currentItem={assign} />}
 
@@ -403,75 +563,31 @@ function AssetListTable(props) {
           dialogClassName="custom-delete-modal"
 
         >
-          <Modal.Header style={{ borderBottom: 'none' }}>
-            <Modal.Title
-              className="w-100 text-center"
-              style={{
 
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-                textAlign: "center",
-                fontWeight: 600,
-                color: "#222222",
-                flex: 1,
-              }}>Delete asset?</Modal.Title>
+          <Modal.Header className="border-0 justify-center">
+            <Modal.Title className="w-full text-center !text-[19px] !font-gilroy !font-semibold !text-[#222]">
+              Delete asset?
+            </Modal.Title>
           </Modal.Header>
 
+<Modal.Body className="text-center text-[14px] font-medium !font-gilroy text-[#646464] -mt-2">
+  Are you sure you want to delete this asset?
+</Modal.Body>
 
 
 
-          <Modal.Body
-            className="text-center"
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              color: "#646464",
-
-              marginTop: "-10px",
-            }}>
-            Are you sure you want to delete this asset?
-          </Modal.Body>
 
 
-          <Modal.Footer className='d-flex justify-content-center'
-            style={{
-              borderTop: "none",
-              marginTop: "-10px",
-            }}>
-            <Button
-              className="me-2"
+
+          <Modal.Footer className='flex justify-center border-0 -mt-2'
+            >
+            <Button className="w-full max-w-[160px] h-[52px] rounded-[8px] px-5 bg-white !text-[#1E45E1] !border-[#1E45E1] !font-gilroy !font-semibold !text-[15px] me-2"
               onClick={handleCloseForDeleteAsset}
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
             >
               Cancel
             </Button>
 
-            <Button
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+            <Button className="w-full max-w-[160px] h-[52px] rounded-[8px] px-5 !bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[15px]"
               onClick={handleDelete}>
               Delete
             </Button>

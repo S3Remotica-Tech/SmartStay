@@ -662,14 +662,14 @@ function TenantAmenities({ show, handleClose }) {
 
         <Modal.Footer className="d-flex justify-content-end pt-0" style={{ borderTop: "none" }}>
           <Button
-            className="bg-white border border-white rounded-[10px] h-[40px] text-[16px] !font-semibold font-gilroy !text-[#1E45E1]"
+            className="bg-white border border-white rounded-[10px] h-[40px] text-[16px] !font-semibold !font-gilroy !text-[#1E45E1]"
             onClick={handleFormClose}
           >
             Cancel
           </Button>
           <Button
             disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
-            className="bg-[#1E45E1] font-semibold h-[40px] rounded-[12px] text-[16px] font-gilroy"
+            className="bg-[#1E45E1] !font-semibold h-[40px] rounded-[12px] text-[16px] !font-gilroy"
 
             onClick={() => {
 

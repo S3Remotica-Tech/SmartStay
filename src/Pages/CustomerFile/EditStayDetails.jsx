@@ -97,6 +97,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
             style={{
                 display: "block",
                 position: "initial",
+                
             }}
         >
             <Modal show={show}

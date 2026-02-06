@@ -548,13 +548,13 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
                             <Button
                                 onClick={handleClose}
-                                className="w-100 mt-1 bg-white border-0 !text-[#1E45E1] font-gilroy !font-semibold text-base rounded-xl py-2 px-10" >
+                                className="w-100 mt-1 bg-white border-0 !text-[#1E45E1] !font-gilroy !font-semibold text-base rounded-xl py-2 px-10" >
                                 Cancel
                             </Button>
 
                             <Button
                                 onClick={handleSubmitAddress}
-                                className="w-100 mt-1 !bg-[#1E45E1] text-white font-gilroy font-semibold text-base rounded-xl py-2 px-10" >
+                                className="w-100 mt-1 !bg-[#1E45E1] text-white !font-semibold  rounded-xl py-2 px-10" >
                                 Update
                             </Button>
                         </div>

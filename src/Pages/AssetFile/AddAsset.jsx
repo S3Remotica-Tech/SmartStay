@@ -24,7 +24,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [vendorName, setVendorName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
-    const [price, setPrice] = useState("");
+  const [price, setPrice] = useState("");
   const [productName, setProductName] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [productNameError, setProductNameError] = useState("");
@@ -50,7 +50,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-useEffect(() => {
+  useEffect(() => {
 
     if (assetNameRef.current) {
       assetNameRef.current.focus();
@@ -58,7 +58,7 @@ useEffect(() => {
   }, []);
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-    //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+      //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
       dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
   }, []);
@@ -408,19 +408,19 @@ useEffect(() => {
       setIsChangedError("");
     }
 
-    if (productName  && selectedDate && price && assetName) {
+    if (productName && selectedDate && price && assetName) {
       const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
       if (currentItem?.assetId) {
-              
+
         let payload = {
           hostelId: state.login.selectedHostel_Id,
           assetId: currentItem?.assetId,
           assetName: assetName,
-            productName: productName,
-            brandName: brandName,
+          productName: productName,
+          brandName: brandName,
           serialNumber: serialNumber,
-            purchaseDate: formattedDate,
-            price: price,
+          purchaseDate: formattedDate,
+          price: price,
           isActive: true,
         };
 
@@ -471,24 +471,24 @@ useEffect(() => {
 
 
 
-useEffect(() => {
-  if (state.AssetList?.alreadyAssetNameHere && assetNameRef.current) {
-    assetNameRef.current.focus();
-  }
-}, [state.AssetList?.alreadyAssetNameHere]);
+  useEffect(() => {
+    if (state.AssetList?.alreadyAssetNameHere && assetNameRef.current) {
+      assetNameRef.current.focus();
+    }
+  }, [state.AssetList?.alreadyAssetNameHere]);
 
 
 
-useEffect(()=>{
-  if(state.AssetList?.alreadySerialNumberHere && serialNumberRef){
-    serialNumberRef.current.focus();
-  }
+  useEffect(() => {
+    if (state.AssetList?.alreadySerialNumberHere && serialNumberRef) {
+      serialNumberRef.current.focus();
+    }
 
-},[state.AssetList?.alreadySerialNumberHere])
+  }, [state.AssetList?.alreadySerialNumberHere])
 
   useEffect(() => {
     if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
-      
+
       setFormLoading(false)
     }
 
@@ -525,50 +525,24 @@ useEffect(()=>{
         <Modal show={show} onHide={handleClose} backdrop="static"
 
         >
-          <Modal.Dialog
-            style={{ maxWidth: "100%", width: "100%" }}
-            className="m-0 p-0"
-          >
+          <Modal.Dialog className="m-0 p-0 w-full max-w-full" >
             <Modal.Header>
-              <Modal.Title
-                style={{
-                  fontSize: 18,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                }}
-              >
+              <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold" >
                 {currentItem ? "Edit an Asset" : "Add Assets"}
               </Modal.Title>
 
-              <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
+              <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
             </Modal.Header>
 
+            <Modal.Body className="show-scroll p-3 mt-2 mr-3 max-h-96 overflow-y-scroll mb-2">
+                 <div className="grid grid-cols-12 gap-x-4 gap-y-3 -mt-2">
 
-
-
-
-
-
-
-
-
-            <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-2 me-3" >
-
-              <div className="row " style={{ marginTop: "-20px" }}>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                <div className="col-span-12 lg:col-span-6">
+                  <Form.Group className="" controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy" >
                       Asset Name{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
                     <Form.Control
                       value={assetName}
@@ -576,41 +550,30 @@ useEffect(()=>{
                       onChange={handleAssetNameChange}
                       type="text"
                       placeholder="Enter Asset Name"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: assetName ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
+                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
                     />
                   </Form.Group>
 
+
                   {assetError && (
-                      <ErrorMessage message={assetError} type="error"/>
+                    <ErrorMessage message={assetError} type="error" />
                   )}
 
 
                   {state.AssetList?.alreadyAssetNameHere && (
-                   <ErrorMessage message={state.AssetList?.alreadyAssetNameHere} type="error"/>
+                    <ErrorMessage message={state.AssetList?.alreadyAssetNameHere} type="error" />
                   )}
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                <div className="col-span-12 lg:col-span-6">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
+
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy"
                     >
                       Product Type{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
                     <Form.Control
                       value={productName}
@@ -618,38 +581,24 @@ useEffect(()=>{
                       onChange={handleProductNameChange}
                       type="text"
                       placeholder="Enter Product Type"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: productName ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
+                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
                     />
                   </Form.Group>
 
                   {productNameError && (
-                   <ErrorMessage message={productNameError} type="error"/>
-                   
+                    <ErrorMessage message={productNameError} type="error" />
+
                   )}
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div className="col-span-12 lg:col-span-6">
+
                   <Form.Group
-                    className="mb-2"
+                    className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        marginTop: 10
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Vendor Name
                     </Form.Label>
 
@@ -706,10 +655,10 @@ useEffect(()=>{
                           overflowY: "auto",
                           fontFamily: "Gilroy",
                         }),
-                      placeholder: (base) => ({
+                        placeholder: (base) => ({
                           ...base,
                           color: "#9aa0a6",
-                          fontSize:16,
+                          fontSize: 16,
                         }),
                         dropdownIndicator: (base) => ({
                           ...base,
@@ -731,19 +680,14 @@ useEffect(()=>{
 
                   </Form.Group>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                <div className="col-span-12 lg:col-span-6">
+
                   <Form.Group
-                    className="mb-2"
+                    className="mb-"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Brand Name{" "}
 
                     </Form.Label>
@@ -752,81 +696,52 @@ useEffect(()=>{
                       onChange={handleBrandNameChange}
                       type="text"
                       placeholder="Enter Brand Name"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: brandName ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                        marginTop: 6
-                      }}
+                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
                     />
                   </Form.Group>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                <div className="col-span-12 lg:col-span-6">
                   <Form.Group controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy" >
                       Serial Number{" "}
-                      {/* <span style={{ color: "red", fontSize: "20px" }}>*</span> */}
                     </Form.Label>
-                    <Form.Control className="mb-1"
+                    <Form.Control
+                      //  className="mb-1 mt-1.5"
                       value={serialNumber}
                       ref={serialNumberRef}
                       onChange={handleSerialNumberChange}
                       type="text"
                       placeholder="Enter Serial Number"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: serialNumber ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
+                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
                     />
                   </Form.Group>
 
                   {serialNumberError && (
-                    <ErrorMessage message={serialNumberError} type="error"/>
+                    <ErrorMessage message={serialNumberError} type="error" />
                   )}
 
                   {serial_number_duplicate_Error && (
-                    <ErrorMessage message={serial_number_duplicate_Error} type="error"/>
+                    <ErrorMessage message={serial_number_duplicate_Error} type="error" />
                   )}
                 </div>
 
 
 
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div className="col-span-12 lg:col-span-6">
                   <Form.Group controlId="purchaseDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Purchase Date{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
 
 
                     <div
-                      className="datepicker-wrapper"
+                      className="datepicker-wrapper -mt-1"
                       style={{ position: "relative", width: "100%" }}
                     >
                       <DatePicker
@@ -851,28 +766,21 @@ useEffect(()=>{
                     </div>
                   </Form.Group>
                   {selectedDateError && (
-                     <ErrorMessage message={selectedDateError} type="error"/>
+                    <ErrorMessage message={selectedDateError} type="error" />
                   )}
 
                   {joiningDateErrmsg.trim() !== "" && (
-                   <ErrorMessage message={joiningDateErrmsg} type="error"/>
+                    <ErrorMessage message={joiningDateErrmsg} type="error" />
                   )}
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div className="col-span-12 lg:col-span-6">
                   <Form.Group className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Price{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
                     <Form.Control
                       value={price}
@@ -880,165 +788,131 @@ useEffect(()=>{
                       onChange={handlePriceChange}
                       type="text"
                       placeholder="Enter Amount"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: price ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
+                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+
                     />
                   </Form.Group>
                   {priceError && (
-                    <ErrorMessage message={priceError} type="error"/>
+                    <ErrorMessage message={priceError} type="error" />
                   )}
                 </div>
                 {
-                  !currentItem && 
-              
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
-                  <Form.Group
-                    className=""
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  !currentItem &&
 
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
+                  <div className="col-span-12 lg:col-span-6">
+                    <Form.Group
+
+                      controlId="exampleForm.ControlInput1"
                     >
-                      Mode Of Payment{" "}
-                      <span
-                        style={{
-                          color: "#FF0000", fontSize: 20,
-                          display: modeOfPayment ? "none" : "inline-block",
+
+                      <Form.Label className="text-sm font-medium text-[#222222] font-gilroy"  >
+                        Mode Of Payment{" "}
+                        <span
+                          className={`text-red-500 text-xl ${modeOfPayment ? "hidden" : "inline-block"
+                            }`}
+                        >
+                          *
+                        </span>
+
+                      </Form.Label>
+
+                      <Select
+                        options={paymentOptions}
+                        value={
+                          paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                        }
+                        onChange={(selectedOption) =>
+                          handleModeOfPaymentChange(selectedOption?.value)
+                        }
+                        onMenuOpen={() => setIsSelectOpen(true)}
+                        onMenuClose={() => setIsSelectOpen(false)}
+                        placeholder="Select Payment"
+                        isDisabled={currentItem}
+                        className=""
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            fontSize: 14,
+                            color: "rgba(75, 75, 75, 1)",
+                            fontFamily: "Gilroy",
+                            fontWeight: modeOfPayment ? 600 : 500,
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            boxShadow: "none",
+                            height: 48,
+                            cursor: "pointer",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "80px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                            fontFamily: "Gilroy",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#9aa0a6",
+                            fontSize: 16,
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            cursor: "pointer",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused ? "lightblue" : "white",
+                            color: "#000",
+                            fontFamily: "Gilroy",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                      >
-                        *
-                      </span>
-                    </Form.Label>
+                      />
 
 
+                    </Form.Group>
+                    {paymentError && (
+                      <ErrorMessage message={paymentError} type="error" />
+                    )}
 
+                    {bankingError && (
+                      <ErrorMessage message={bankingError} type="error" />
 
-                    <Select
-                      options={paymentOptions}
-                      value={
-                        paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-                      }
-                      onChange={(selectedOption) =>
-                        handleModeOfPaymentChange(selectedOption?.value)
-                      }
-                      onMenuOpen={() => setIsSelectOpen(true)}
-                      onMenuClose={() => setIsSelectOpen(false)}
-                      placeholder="Select Payment"
-                      isDisabled={currentItem}
-
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                          fontFamily: "Gilroy",
-                          fontWeight: modeOfPayment ? 600 : 500,
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          boxShadow: "none",
-                          height: 48,
-                          cursor: "pointer",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "80px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#9aa0a6",
-                          fontSize:16,
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused ? "lightblue" : "white",
-                          color: "#000",
-                          fontFamily: "Gilroy",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                      }}
-                    />
-
-
-                  </Form.Group>
-                  {paymentError && (
-                   <ErrorMessage message={paymentError} type="error"/>
-                  )}
-
-                  {bankingError && (
-                   <ErrorMessage message={bankingError} type="error"/>
-                   
-                  )}
-                </div>
-}
+                    )}
+                  </div>
+                }
 
               </div>
             </Modal.Body>
             {isChangedError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-1 mb-1">
-                 <ErrorMessage message={isChangedError} type="error"/>
+
+              <div
+                ref={nochangeRef}
+                className="flex items-center justify-center mt-1 mb-1"
+              >
+                <ErrorMessage message={isChangedError} type="error" />
+              </div>
+
+            )}
+
+            {formLoading && (
+              <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-transparent opacity-75">
+                <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-r-transparent border-t-blue-700"></div>
               </div>
             )}
 
-            {formLoading &&
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                ></div>
-              </div>
-            }
 
             {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
@@ -1048,19 +922,12 @@ useEffect(()=>{
 
 
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-3" style={{ paddingBottom: 20, paddingTop: isSelectOpen ? 20 : 0, }}>
+            <div className={`col-span-12 px-3 pb-4 ${isSelectOpen ? "pt-5" : "pt-0"}`}>
 
               <Button
                 onClick={handleAddAsset}
-                className="w-100"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  padding: 12,
-                }}
+                className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[17px] !font-gilroy p-3"
+               
               >
                 {currentItem ? "Save Changes" : "Add Asset"}
               </Button>
