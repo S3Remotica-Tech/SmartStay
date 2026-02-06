@@ -32,7 +32,7 @@ function CustomerCheckout(props) {
 
 
 
-  // console.log("props",props)
+ 
 
 
 
@@ -348,7 +348,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {state.UsersList.customerdetails?.data?.[0].floor_name || props.bedData?.floorName}
+                              {state.UsersList.customerdetails?.data?.[0].floor_name || props.bedData?.floorName ||  props.bedData?.hostelInfo?.floorName}
                             </div>
 
                             <div
@@ -365,7 +365,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {props.bedData?.room?.Room_Name || props.bedData?.roomName}  - {props.bedData?.bed?.bed_no || props.bedData?.bedName}
+                              {props.bedData?.room?.Room_Name || props.bedData?.roomName ||  props.bedData?.hostelInfo?.roomName}  - {props.bedData?.bed?.bed_no || props.bedData?.bedName ||  props.bedData?.hostelInfo?.bedName}
                             </div>
 
 

@@ -611,11 +611,11 @@ function FinalSettlement() {
 
                     <div className="flex justify-between mb-2 w-full gap-2 font-[Gilroy]">
                         <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
-                            {pgDetails?.floorName || data?.floorName}
+                            {pgDetails?.floorName || data?.floorName || data?.hostelInfo?.floorName}
                         </span>
 
                         <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
-                            {pgDetails?.roomName || data?.roomName} - {pgDetails?.bedName || data?.bedName}
+                            {pgDetails?.roomName || data?.roomName || data?.hostelInfo?.roomName} - {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName}
                         </span>
                     </div>
 
@@ -681,51 +681,51 @@ function FinalSettlement() {
 
 
 
-                   <div className="flex justify-between items-center mb-3 font-[Gilroy]">
-  <span className="text-sm font-normal">
-    Actual Checkout Date
-  </span>
+                    <div className="flex justify-between items-center mb-3 font-[Gilroy]">
+                        <span className="text-sm font-normal">
+                            Actual Checkout Date
+                        </span>
 
-  {!isEditingDate && (
-    <span className="flex items-center gap-2 text-base font-semibold">
-      {finalSettlementList?.stayInfo?.actualCheckoutDate
-        ? finalSettlementList?.stayInfo?.actualCheckoutDate
-        : checkoutDate?.format("DD/MM/YYYY")}
+                        {!isEditingDate && (
+                            <span className="flex items-center gap-2 text-base font-semibold">
+                                {finalSettlementList?.stayInfo?.actualCheckoutDate
+                                    ? finalSettlementList?.stayInfo?.actualCheckoutDate
+                                    : checkoutDate?.format("DD/MM/YYYY")}
 
-      <Edit
-        size={16}
-        color="#1E45E1"
-        className="cursor-pointer"
-        onClick={() => setIsEditingDate(true)}
-      />
-    </span>
-  )}
-</div>
+                                <Edit
+                                    size={16}
+                                    color="#1E45E1"
+                                    className="cursor-pointer"
+                                    onClick={() => setIsEditingDate(true)}
+                                />
+                            </span>
+                        )}
+                    </div>
 
-{isEditingDate && (
-  <div
-    ref={datePickerRef}
-    className="relative w-full mt-1"
-  >
-    <DatePicker
-      value={checkoutDate}
-      allowClear={false}
-      className="w-full h-12 cursor-pointer font-[Gilroy]"
-      format="DD/MM/YYYY"
-      placeholder="DD/MM/YYYY"
-      disabledDate={(current) =>
-        current && current > dayjs().endOf("day")
-      }
-      onChange={(date) => {
-        setCheckoutDate(date);
-        setIsEditingDate(false);
-      }}
-      getPopupContainer={(triggerNode) =>
-        triggerNode.closest(".relative")
-      }
-    />
-  </div>
-)}
+                    {isEditingDate && (
+                        <div
+                            ref={datePickerRef}
+                            className="relative w-full mt-1"
+                        >
+                            <DatePicker
+                                value={checkoutDate}
+                                allowClear={false}
+                                className="w-full h-12 cursor-pointer font-[Gilroy]"
+                                format="DD/MM/YYYY"
+                                placeholder="DD/MM/YYYY"
+                                disabledDate={(current) =>
+                                    current && current > dayjs().endOf("day")
+                                }
+                                onChange={(date) => {
+                                    setCheckoutDate(date);
+                                    setIsEditingDate(false);
+                                }}
+                                getPopupContainer={(triggerNode) =>
+                                    triggerNode.closest(".relative")
+                                }
+                            />
+                        </div>
+                    )}
 
 
 
@@ -750,9 +750,9 @@ function FinalSettlement() {
 
 
 
-               <div className="flex-1 bg-white rounded-lg p-3.5 relative h-[calc(100vh-50px)] overflow-hidden">
+                <div className="flex-1 bg-white rounded-lg p-3.5 relative h-[calc(100vh-50px)] overflow-hidden">
 
-  <div className="max-h-[calc(100vh-150px)] overflow-y-auto overflow-x-hidden show-scrolls">
+                    <div className="max-h-[calc(100vh-150px)] overflow-y-auto overflow-x-hidden show-scrolls">
 
                         <div className="me-1" >
 
@@ -1422,7 +1422,7 @@ function FinalSettlement() {
                                                     key={index}
                                                     className="flex items-center justify-between px-3 py-3 border-b last:border-b-0  transition"
                                                 >
-                                                   
+
                                                     <div className="flex flex-col">
                                                         <span className="text-sm font-medium text-[#111827]">
                                                             {txn.source}
@@ -1433,7 +1433,7 @@ function FinalSettlement() {
                                                         </span>
                                                     </div>
 
-                                                   
+
                                                     <div className="flex items-center gap-2">
                                                         <span
                                                             className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold

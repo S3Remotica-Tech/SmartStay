@@ -98,7 +98,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                     customerId: checkInDetails?.customerId || checkInDetails?.tenetId,
                     hostelId: state.login.selectedHostel_Id,
                     // roomId: checkInDetails?.roomId,
-                    bedId: Number(checkInDetails?.bedId) || Number(pgDetails?.bedId),
+                    bedId: Number(checkInDetails?.bedId) || Number(pgDetails?.bedId) || Number(checkInDetails?.hostelInfo?.bedId),
                     reCheckInDate: dayjs(recheckInDate).format("DD-MM-YYYY"),
                     reason: reason.trim(),
                 }
@@ -107,7 +107,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         }
     }
 
-
+console.log("checkInDetails",checkInDetails)
 
     useEffect(() => {
         if (state.UsersList.cancelCheckoutStatusCode === 200) {
@@ -217,7 +217,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                         fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {pgDetails?.floorName || checkInDetails?.floorName}
+                                    {pgDetails?.floorName || checkInDetails?.floorName || checkInDetails?.hostelInfo?.floorName}
                                 </span>
                                 <span
                                     style={{
@@ -229,7 +229,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                         fontWeight: 500, fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {pgDetails?.roomName || checkInDetails?.roomName} - {pgDetails?.bedName || checkInDetails?.bedName}
+                                    {pgDetails?.roomName || checkInDetails?.roomName || checkInDetails?.hostelInfo?.roomName} - {pgDetails?.bedName || checkInDetails?.bedName || checkInDetails?.hostelInfo?.bedName}
                                 </span>
                             </div>
                         </div>

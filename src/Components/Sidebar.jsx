@@ -1044,7 +1044,7 @@ function Sidebar() {
                   </li>
 
                   <li
-                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
+                    className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
@@ -1253,18 +1253,22 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
-                path="/dashboard-new/:hostelId?"
-                element={
-                  <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
-                    <Dashboard
-                      displayCompliance={handledisplaycompliace}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
+              {
+                import.meta.env.MODE === "development" &&
+
+                <Route
+                  path="/dashboard-new/:hostelId?"
+                  element={
+                    <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
+                      <Dashboard
+                        displayCompliance={handledisplaycompliace}
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
+              }
               <Route
                 path="/paying-guest/:hostelId?"
                 element={

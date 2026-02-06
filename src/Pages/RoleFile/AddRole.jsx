@@ -30,7 +30,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const [formLoading, setFormLoading] = useState(false)
 
-
+    const [checkboxValues, setCheckboxValues] = useState(initialCheckboxValues);
 
     // const handleCheckboxChange = (rowName, index) => {
     //     setErrorIsChanged("")
@@ -88,7 +88,7 @@ const handleCheckboxChange = (rowName, index) => {
         return acc;
     }, {});
 
-    const [checkboxValues, setCheckboxValues] = useState(initialCheckboxValues);
+
 
 
 

@@ -19,6 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { PiArrowFatLinesLeftDuotone } from 'react-icons/pi';
+import ComingSoon from '../Utils/ComingSoon';
 
 function Reports() {
 
@@ -434,6 +435,9 @@ function Reports() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-[Gilroy] my-2">
                 {summaryData?.map((item, index) => {
+
+
+
                   return (
                     <div
                       key={index}
@@ -460,6 +464,20 @@ function Reports() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {reportCards.map((item, idx) => {
                   const Icon = item.icon;
+
+                  const isDev = import.meta.env.MODE === "development";
+                  const isProd = import.meta.env.MODE === "production";
+
+                  const allowedRegisters = [
+                    "Invoice Register",
+                    "Expense Register",
+                    "Receipt Register",
+                    "Tenant Register",
+                  ];
+
+                  const isClickable =
+                    isDev || (isProd && allowedRegisters.includes(item.title));
+
                   return (
                     <div
                       key={idx}
@@ -489,17 +507,37 @@ function Reports() {
                         <div className="mt-2 h-6" />
                       )}
                       <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
-
-                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateRegister(item)}>
-                        <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
-                          View Report
+                      <div
+                        className={`mt-3 flex items-center justify-between gap-1 group
+    ${isClickable ? "cursor-pointer" : "cursor-not-allowed opacity-60"}
+  `}
+                        onClick={() => {
+                          if (isClickable) {
+                            handleNavigateRegister(item);
+                          }
+                        }}
+                      >
+                        <span
+                          className={`text-sm font-semibold
+      ${isClickable ? "text-[#155DFC] group-hover:underline" : "text-gray-400"}
+    `}
+                        >
+                          {isClickable ? "View Report" : "Coming Soon"}
                         </span>
 
                         <ArrowRight
                           size="16"
-                          className="text-blue-600 transition-transform group-hover:translate-x-1"
+                          className={`transition-transform
+      ${isClickable ? "text-blue-600 group-hover:translate-x-1" : "text-gray-400"}
+    `}
                         />
                       </div>
+
+
+
+
+
+
 
                     </div>
                   );
@@ -508,7 +546,7 @@ function Reports() {
             </div>
           }
 
-          {activeTab === "analytical" && (
+          {activeTab === "analytical" && import.meta.env.MODE === "development" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {analyticsCards?.map((item, idx) => {
                 const Icon = item.icon;
@@ -556,23 +594,15 @@ function Reports() {
                 );
               })}
             </div>
-          )}
+          )
+            :
 
-
-
-
-
-
-
-
-
+            activeTab === "analytical" && import.meta.env.MODE === "production" &&
+            <ComingSoon />
+          }
         </div>
       )}
     </div>
-
-
-
-
 
   )
 }
