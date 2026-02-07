@@ -36,7 +36,7 @@ import {
   ResponsiveContainer,
   LabelList,
 } from "recharts";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
@@ -84,6 +84,16 @@ function Dashboard() {
 
 
 // Total Cashback
+
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
 
 const cashBackDataSample = {
   total: 49500,

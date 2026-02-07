@@ -6,20 +6,20 @@ import {
   Wallet, Shop, Flash, Warning2, ClipboardText,
   TrendUp,
   DollarCircle, Buildings,
-
   ReceiptItem,
   Clock,
   MessageText
 } from "iconsax-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { AiOutlineBarChart } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { PiArrowFatLinesLeftDuotone } from 'react-icons/pi';
 import ComingSoon from '../Utils/ComingSoon';
+import Emptystate from "../Assets/Images/Empty-State-svg.svg";
+
+
 
 function Reports() {
 
@@ -48,10 +48,26 @@ function Reports() {
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
-    } else {
-      setLoading(false)
-    }
+    } 
   }, [canReadReports]);
+
+
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
+
+
+
+
+
+
+
 
   const reportsList = state.reports?.getReportsList
 
@@ -81,7 +97,7 @@ function Reports() {
       title: "Invoice Register",
       subTitle: "This Month",
       desc: "Track all invoices, payments, and outstanding amounts",
-      value: `₹${reportsList?.invoices?.totalAmount}`,
+      value: `₹${reportsList?.invoices?.totalAmount || 0}`,
       icon: DocumentText,
       color: "text-blue-600 bg-blue-100",
 
@@ -90,7 +106,7 @@ function Reports() {
       title: "Receipt Register",
       subTitle: "This Month",
       desc: "Monitor all payment receipts and collections",
-      value: `₹${reportsList?.receipts?.totalAmount}`,
+      value: `₹${reportsList?.receipts?.totalAmount || 0}`,
       icon: ReceiptText,
       color: "text-green-600 bg-green-100",
     },
@@ -98,7 +114,7 @@ function Reports() {
       title: "Bank Transaction Register",
       subTitle: "Net Balance",
       desc: "View all banking transactions and reconciliations",
-      value: `₹${reportsList?.banking?.totalAmount}`,
+      value: `₹${reportsList?.banking?.totalAmount || 0}`,
       icon: Bank,
       color: "text-purple-600 bg-purple-100",
     },
@@ -106,7 +122,7 @@ function Reports() {
       title: "Tenant Register",
       subTitle: "This Month",
       desc: "Complete tenant directory with status tracking",
-      value: `${reportsList?.tenantInfo?.totalTenants}`,
+      value: `${reportsList?.tenantInfo?.totalTenants || 0}`,
       icon: UserOctagon,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
 
@@ -115,7 +131,7 @@ function Reports() {
       title: "Occupancy",
       subTitle: "Occupancy Rate",
       desc: "Real-time bed occupancy and availability status",
-      value: `${reportsList?.tenantInfo?.occupancyRate} %`,
+      value: `${reportsList?.tenantInfo?.occupancyRate || 0} %`,
       icon: Home,
       color: "text-cyan-600 bg-cyan-100",
     },
@@ -123,7 +139,7 @@ function Reports() {
       title: "Expense Register",
       subTitle: "This Month",
       desc: "Track all expenses, approvals, and payments",
-      value: `₹${reportsList?.expense?.totalExpenseAmount}`,
+      value: `₹${reportsList?.expense?.totalExpenseAmount || 0}`,
       icon: Wallet,
       color: "text-red-600 bg-red-100",
     },
@@ -131,7 +147,7 @@ function Reports() {
       title: "Vendor Ledger",
       subTitle: "Active Vendors",
       desc: "Vendor-wise transaction history and outstanding",
-      value: `${reportsList?.vendor?.totalVendors}`,
+      value: `${reportsList?.vendor?.totalVendors || 0}`,
       icon: Shop,
       color: "text-pink-600 bg-pink-100",
     },
@@ -139,7 +155,7 @@ function Reports() {
       title: "Electricity Billing Register",
       subTitle: "This Month",
       desc: "Meter readings, consumption, and billing records",
-      value: `₹${reportsList?.electricity?.totalAmount}`,
+      value: `₹${reportsList?.electricity?.totalAmount || 0}`,
       icon: Flash,
       color: "text-indigo-600 bg-indigo-100",
     },
@@ -147,7 +163,7 @@ function Reports() {
       title: "Complaint Register",
       subTitle: "Total Complaints",
       desc: "Track complaints, resolution, and SLA compliance",
-      value: `${reportsList?.complaints?.totalComplaints}`,
+      value: `${reportsList?.complaints?.totalComplaints || 0}`,
       icon: Warning2,
       color: "text-rose-600 bg-rose-100",
     },
@@ -155,7 +171,7 @@ function Reports() {
       title: "Request Register",
       subTitle: "This Month",
       desc: "Monitor tenant requests and approval workflow",
-      value: `${reportsList?.requests?.totalRequests}`,
+      value: `${reportsList?.requests?.totalRequests || 0}`,
       icon: ClipboardText,
       color: "text-[#6366F1] bg-[#6366F115]",
     },
@@ -163,7 +179,7 @@ function Reports() {
       title: "Final Settlement",
       subTitle: "This Month",
       desc: "Security deposit refunds and settlement tracking",
-      value: `₹${reportsList?.settlement?.totalAmount}`,
+      value: `₹${reportsList?.settlement?.totalAmount || 0}`,
       icon: WalletMoney,
       color: "text-[#14B8A6] bg-[#14B8A615]",
     },
@@ -422,10 +438,13 @@ function Reports() {
 
       {!canReadReports ? (
         <div className="flex-1 flex items-center justify-center">
-          <ErrorMessage
+          <div>
+          <img src={Emptystate} alt="Empty State"/>
+           <ErrorMessage
             message={['You do not have access to view Reports']}
             type="warning"
           />
+           </div>
         </div>
       ) : (
 

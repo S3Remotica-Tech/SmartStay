@@ -147,6 +147,23 @@ function InvoiceRegisterFilter({ show, handleClose, size, page  }) {
         })) || [];
 
 
+const periodOptions =
+  filterOptionsData?.periods?.map(item => ({
+    label: item,
+    value: item
+      
+  })) || [];
+
+
+
+//    const periodOptions = [
+//         { label: "This Month", value: "THIS_MONTH" },
+//         { label: "Last Month", value: "LAST_MONTH" },
+//         { label: "Last 3 Months", value: "LAST_3_MONTHS" },
+//         { label: "Custom", value: "CUSTOM" },
+//     ];
+
+
     // const handleBillStatusChange = (selected) => {
     //     setBillStatus(selected.map(opt => opt.value))
     // };
@@ -271,12 +288,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page  }) {
 
 
 
-    const periodOptions = [
-        { label: "This Month", value: "THIS_MONTH" },
-        { label: "Last Month", value: "LAST_MONTH" },
-        { label: "Last 3 Months", value: "LAST_3_MONTHS" },
-        { label: "Custom", value: "CUSTOM" },
-    ];
+ 
 
 
 

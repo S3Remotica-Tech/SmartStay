@@ -63,7 +63,15 @@ function RecurringBills() {
 
   }, [canReadRecurring])
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setRecurLoader(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
   const handleClick = (stayType) => {
     setActiveStay(stayType);

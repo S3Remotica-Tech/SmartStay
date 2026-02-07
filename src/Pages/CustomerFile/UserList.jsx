@@ -145,7 +145,7 @@ function UserList(props) {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
     canDeleteModule: canDeleteTenant,
-    canUpdateModule : canUpdateTenant
+    canUpdateModule: canUpdateTenant
   } = useHasPermission("Customers");
 
 
@@ -197,6 +197,17 @@ function UserList(props) {
     canWriteModule: canWriteBooking,
 
   } = useHasPermission("Booking");
+
+
+  useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 100)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
 
 
 
@@ -2846,7 +2857,7 @@ function UserList(props) {
                       onClick={handleShow}
                       style={buttonStyle}
                     >
-                      + Walk-In 
+                      + Walk-In
                     </Button>
                   )}
                 </div>
@@ -3247,19 +3258,19 @@ function UserList(props) {
                                       }}
                                       className="max-w-[120px]"
                                     >
-                                       <span
-    className="
+                                      <span
+                                        className="
       block max-w-[120px]
       truncate whitespace-nowrap
       text-[13px] font-semibold font-[Gilroy]
       text-[#1E45E1] cursor-pointer
       hover:underline
     "
-    title={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`}
-    onClick={() => handleRoomDetailsPage(user)}
-  >
-    {user?.firstName} {user?.lastName}
-  </span>
+                                        title={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`}
+                                        onClick={() => handleRoomDetailsPage(user)}
+                                      >
+                                        {user?.firstName} {user?.lastName}
+                                      </span>
                                     </td>
                                     <td className=""
                                       style={{
@@ -3415,7 +3426,7 @@ function UserList(props) {
                                           alignItems: "center",
                                           position: "relative",
                                           marginTop: 3
-                                         
+
                                         }}
                                         onClick={(e) =>
                                           handleShowDots(user.customerId, e)

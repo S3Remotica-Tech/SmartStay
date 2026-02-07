@@ -17,7 +17,7 @@ import { MdWarningAmber } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import Select from "react-select";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
@@ -80,9 +80,17 @@ function Dashboard() {
     }
   }, [canReadDashboard]);
 
+ useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
 
 
-console.log("activeTab", typeof activeTab);
 
   const dashboardCards = [
     {
@@ -544,10 +552,10 @@ console.log("activeTab", typeof activeTab);
                                 className={`font-semibold font-[Gilroy] text-xl ${stat.valueColor || "text-[#737373]"
                                   }`}
                               >
-                                {stat.value1}
-                                {stat.value2 && (
+                                {stat?.value1}
+                                {stat?.value2 && (
                                   <span className="text-[#101828] ml-1">
-                                    / {stat.value2}
+                                    / {stat?.value2}
                                   </span>
                                 )}
                               </span>

@@ -117,7 +117,16 @@ function ParticularHostelDetails(props) {
 
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+     setLoaderTrigger(false)
+      setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setRoomList(state.PgList?.roomsList);

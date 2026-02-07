@@ -54,8 +54,8 @@ const SettingElectricity = () => {
   // const canReadElectricity = useHasPermission("Electricity", "canRead")
   // const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
 
-const {
-//     canWriteModule: canWriteComplaints,
+  const {
+    //     canWriteModule: canWriteComplaints,
     canReadModule: canReadElectricity,
     canUpdateModule: canUpdateElectricity,
     // canDeleteModule: canDeleteComplaints,
@@ -64,19 +64,27 @@ const {
 
 
 
-useEffect(() => {
-      if (!canReadElectricity) {
-        setLoading(false);
-      }
-    }, [canReadElectricity]);
-
-useEffect(()=>{
-  if(EbList.length === 0){
+  useEffect(() => {
+    if (!canReadElectricity) {
       setLoading(false);
-  }
+    }
+  }, [canReadElectricity]);
 
-},[EbList])
+  useEffect(() => {
+    if (EbList.length === 0) {
+      setLoading(false);
+    }
 
+  }, [EbList])
+  useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
@@ -84,9 +92,7 @@ useEffect(()=>{
         type: "EB-BILLING-UNIT-LIST",
         payload: state.login.selectedHostel_Id
       });
-       setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+     
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -239,7 +245,7 @@ useEffect(()=>{
   // const handleProRate = () => {
   //   const newValue = !isProWrate;
   //   setProWrate(newValue);
- 
+
 
   //   if (newValue) {
   //     setRecurringForm(true);
@@ -414,8 +420,62 @@ useEffect(()=>{
 
   return (
     <div
-          >
-      {loading && (
+    >
+     
+
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+
+        <div className="w-full flex justify-center md:justify-start md:mt-0">
+          <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+            Electricity
+          </label>
+        </div>
+
+
+        <div className="w-full flex justify-center md:justify-end  md:mt-0">
+          {EbList ? (
+            <button
+              disabled={!canUpdateElectricity}
+              onClick={() => handleEditElectricity(EbList)}
+              className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${canUpdateElectricity
+                  ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+            >
+              <img src={editpic} alt="Edit" className="w-4 h-4" />
+              Edit
+            </button>
+          ) : (
+            <button
+              onClick={handleShowFormElectricity}
+              disabled={showPopup}
+              className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${!showPopup
+                  ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+                  : "bg-gray-300 text-white cursor-not-allowed"
+                }`}
+            >
+              + Electricity
+            </button>
+          )}
+        </div>
+
+        {/* Popup message */}
+        {showPopup && (
+          <div className="flex flex-wrap mt-2 w-full">
+            <p className="text-red-500 font-gilroy text-sm w-full md:w-auto">
+              Please add a hostel before adding Electricity information.
+            </p>
+          </div>
+        )}
+      </div>
+
+
+
+
+
+
+
+ {loading && (
         <div
           style={{
             position: "fixed",
@@ -444,141 +504,13 @@ useEffect(()=>{
         </div>
       )}
 
-      {/* <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3"
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-        }}
-      >
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-2">
-          <h4
-            style={{
-              fontSize: 20,
-              color: "#000000",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              marginTop: 6,
-              whiteSpace: "nowrap",
-            }}
-          >
-            Electricity
-          </h4>
-        </div>
-        <div
-          className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0"
-          style={{ marginTop: -10 }}
-        >
 
 
-          {EbList ? (
 
-            <Button
-              disabled={!canUpdateElectricity}
-              className="electricity-btn"
-              onClick={() => handleEditElectricity(EbList)}
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: 14,
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: 8,
 
-                height: 45,
-                width: 146,
-              }}
-            >
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
-                <img src={editpic} alt="Edit" height={16} width={16} />
-                Edit
-              </span>
 
-            </Button>
-          )
-            : (
-              <Button
-                className="electricity-btn"
-                onClick={handleShowFormElectricity}
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: 8,
-                  height: 45,
-                  width: 146,
-                }}
-                disabled={showPopup}
-              >
-                + Electricity
-              </Button>
-            )}
-        </div>
 
-        {showPopup && (
-          <div className="d-flex flex-wrap">
-            <p
-              style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }}
-              className="col-12 col-sm-6 col-md-6 col-lg-9"
-            >
-              Please add a hostel before adding Electricity information.
-            </p>
-          </div>
-        )}
-      </div> */}
-<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">      
 
-  <div className="w-full flex justify-center md:justify-start mt-2 md:mt-0">
-    <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
-      Electricity
-    </label>
-  </div>
-
- 
-  <div className="w-full flex justify-center md:justify-end mt-2 md:mt-0">
-    {EbList ? (
-      <button
-        disabled={!canUpdateElectricity}
-        onClick={() => handleEditElectricity(EbList)}
-        className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${
-          canUpdateElectricity
-            ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
-      >
-        <img src={editpic} alt="Edit" className="w-4 h-4" />
-        Edit
-      </button>
-    ) : (
-      <button
-        onClick={handleShowFormElectricity}
-        disabled={showPopup}
-        className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${
-          !showPopup
-            ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
-            : "bg-gray-300 text-white cursor-not-allowed"
-        }`}
-      >
-        + Electricity
-      </button>
-    )}
-  </div>
-
-  {/* Popup message */}
-  {showPopup && (
-    <div className="flex flex-wrap mt-2 w-full">
-      <p className="text-red-500 font-gilroy text-sm w-full md:w-auto">
-        Please add a hostel before adding Electricity information.
-      </p>
-    </div>
-  )}
-</div>
 
       <div>
 
@@ -917,7 +849,7 @@ useEffect(()=>{
                 {totalErr && (
                   <div className=" d-flex align-items-center justify-content-center">
 
-                  <ErrorMessage message={totalErr} type="error" />
+                    <ErrorMessage message={totalErr} type="error" />
                   </div>
                 )}
               </div>

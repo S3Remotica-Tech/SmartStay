@@ -11,7 +11,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import ApiPagination from "../../Components/ApiPagination";
 import ReceiptFilter from './ReceiptFilter';
 
 function ReceiptRegister() {
@@ -30,13 +30,21 @@ function ReceiptRegister() {
   const [loading, setLoading] = useState(false)
   const tableRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
-   const [size, setSize] = useState('');
-      const [page, setPage] = useState(0);
-  
+  const [size, setSize] = useState('');
+  const [page, setPage] = useState(0);
+
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
-      dispatch({ type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+      dispatch({
+        type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size: size,
+            page: page,
+          }
+        }
+      })
       setLoading(true)
 
     }
@@ -59,7 +67,7 @@ function ReceiptRegister() {
 
 
 
-
+  console.log("getReceiptRegister", state.reports)
 
 
   useEffect(() => {
@@ -83,16 +91,16 @@ function ReceiptRegister() {
 
 
   useEffect(() => {
-  const el = tableRef.current;
-  if (!el) return;
+    const el = tableRef.current;
+    if (!el) return;
 
-  const handleScroll = () => {
-    setIsScrolled(el.scrollLeft > 0);
-  };
+    const handleScroll = () => {
+      setIsScrolled(el.scrollLeft > 0);
+    };
 
-  el.addEventListener("scroll", handleScroll);
-  return () => el.removeEventListener("scroll", handleScroll);
-}, []);
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
 
 
   const reportCards = [
@@ -167,8 +175,8 @@ function ReceiptRegister() {
 
 
   const stats = [
-    { title: "Total Receipts", value: state?.reports?.getReceiptRegister?.totalInvoiceAmount },
-    { title: "Collected Amount", value: state?.reports?.getReceiptRegister?.receivedAmount, },
+    { title: "Total Receipts", value: state?.reports?.getReceiptRegister?.pagination?.totalRecords},
+    { title: "Collected Amount", value: state?.reports?.getReceiptRegister?.summary?.receivedAmount, },
 
   ];
 
@@ -195,7 +203,15 @@ function ReceiptRegister() {
 
       },
     })
-    dispatch({ type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+    dispatch({
+      type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          size: size,
+          page: page,
+        }
+      }
+    })
   }
 
 
@@ -219,65 +235,101 @@ function ReceiptRegister() {
     setChips(filterData);
   }, [state.reports.receiptRegisterFilters]);
 
+ const handleDateChange = (dates) => {
+        if (!dates) {
+            setSelectedRange(null);
+            dispatch({
+                type: "SET_RECEIPT_REGISTER_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
 
-  const handleDateChange = (dates) => {
-    if (!dates) {
-      setSelectedRange(null);
-      if (state.login?.selectedHostel_Id) {
+                },
+            })
+            dispatch({
+                type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        size: size,
+                        page: page,
+                    }
+                }
+            })
+
+            return;
+        }
+
+        const range = {
+            from: dates[0].toDate(),
+            to: dates[1].toDate(),
+        };
+
+        setSelectedRange(range);
+      
+        const filters = {
+            startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+            endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+
         dispatch({
-          type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-            filters: {},
-          },
+            type: "SET_RECEIPT_REGISTER_FILTERS",
+            payload: filters
         });
-      }
-
-      dispatch({
-        type: "SET_RECEIPT_REGISTER_FILTERS",
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
-
-        },
-      })
 
 
-      return;
-    }
-
-    const range = {
-      from: dates[0].toDate(),
-      to: dates[1].toDate(),
     };
+    
+    useEffect(() => {
+        if (!state.login?.selectedHostel_Id) return;
+        const filters = {
+            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+        dispatch({
+            type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: filters,
+            },
+        });
+    }, [size, page, selectedRange]);
 
-    setSelectedRange(range);
-    fetchData(range);
+
+
+
+
+
+ 
+  const currentPage =
+    state?.reports?.getReceiptRegister?.pagination?.currentPage ?? 1;
+
+  const totalPages =
+    state?.reports?.getReceiptRegister?.pagination?.totalPages ?? 1;
+
+  const totalRecords =
+    state?.reports?.getReceiptRegister?.pagination?.totalRecords ?? 0;
+
+
+
+
+
+  const handlePageChange = (page) => {
+    setPage(page)
+
   };
 
-  const fetchData = ({ from, to }) => {
-    const filters = {
-      startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
-      endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
-    };
 
-    dispatch({
-      type: "SET_RECEIPT_REGISTER_FILTERS",
-      payload: filters
-    });
-    if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
-    }
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue)
+
   };
 
 
-
+  
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -286,7 +338,7 @@ function ReceiptRegister() {
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white">
         <div className='flex items-center gap-2'>
           <ArrowLeft onClick={handleNavigateReports}
             size="20"
@@ -395,8 +447,7 @@ function ReceiptRegister() {
         </div>
 
       </div>
-      <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
-
+ <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
         {chips.length > 0 && (
           <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
@@ -424,10 +475,10 @@ function ReceiptRegister() {
           </div>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
-          {stats.map((item, i) => (
+          {stats?.map((item, i) => (
             <div
               key={i}
-              className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[130px]"
+              className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[110px]"
             >
               <div className='flex justify-between '>
 
@@ -463,16 +514,15 @@ function ReceiptRegister() {
         </div>
 
 
-        <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
-
-          <div  ref={tableRef} className="overflow-x-auto relative ">
+        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+          <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] rounded-xl ">
             <table className="w-full  text-[12px] font-gilroy">
 
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
+              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                 <tr className="border-b border-[#E8E8E8]">
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]">
+                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
                     <Setting3
                       onClick={() => setOpen(!open)}
                       className="cursor-pointer"
@@ -518,7 +568,7 @@ function ReceiptRegister() {
                     </div>
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl" >
                     <div className="flex justify-center items-center gap-1">
                       Collected BY
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
@@ -532,14 +582,14 @@ function ReceiptRegister() {
 
 
               <tbody>
-                {receiptRegister?.receiptsList?.map((row, i) => (
+                {receiptRegister?.data?.length > 0 ? receiptRegister?.data?.map((row, i) => (
                   <tr
                     key={i}
                     className="border-b last:border-none  transition"
                   >
-                    <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
+                    <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
                     <td
-                      className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
+                      className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
                       left-[42px] z-20 bg-white w-[140px]"
                       title={row.receiptNo}
                     >
@@ -547,7 +597,7 @@ function ReceiptRegister() {
                     </td>
 
 
-                    <td className="px-4 py-3 sticky left-[170px] z-20 bg-white w-[200px]">
+                    <td className="px-4 py-2.5 sticky left-[170px] z-20 bg-white w-[200px]">
                       <div className="flex items-center gap-2">
 
                         <span
@@ -559,56 +609,80 @@ function ReceiptRegister() {
                       </div>
                     </td>
 
-<td
-  className={`px-4 py-3 text-center font-semibold truncate whitespace-nowrap transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold truncate whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-  title={row.customerName}
->
-  {row.customerName}
-</td>
+                      title={row.customerName}
+                    >
+                      {row.customerName}
+                    </td>
 
-<td
-  className={`px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center text-[#6B7280] truncate whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.invoiceNumber}
-</td>
+                    >
+                      {row.invoiceNumber}
+                    </td>
 
-<td
-  className={`px-4 py-3 text-center text-[#6B7280] truncate font-medium transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center text-[#6B7280] truncate font-medium transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  ₹ {row.amount}
-</td>
+                    >
+                      ₹ {row.amount}
+                    </td>
 
-<td
-  className={`px-4 py-3 text-center font-semibold truncate text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  ₹ {row.paymentMade}
-</td>
+                    >
+                      ₹ {row.paymentMade}
+                    </td>
 
-<td
-  className={`px-4 py-3 text-center font-semibold truncate text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.collectedBy}
-</td>
+                    >
+                      {row.collectedBy}
+                    </td>
 
 
 
 
                   </tr>
-                ))}
+                ))
+                 : (
+                                    <tr>
+                                        <td
+                                            colSpan={9}
+                                            className="py-10 text-center text-sm text-red-800 font-semibold"
+                                        >
+                                            No Data Found
+                                        </td>
+                                    </tr>
+                                )}
               </tbody>
 
             </table>
           </div>
+
+          {
+            receiptRegister?.data?.length > 0 &&
+
+            <ApiPagination
+              currentPage={currentPage + 1}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              onPageChange={handlePageChange}
+              onSizeChange={handleSizeChange}
+            />
+          }
+
+
           {open && (
             <>
 

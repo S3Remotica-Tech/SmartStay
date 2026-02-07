@@ -21,6 +21,8 @@ import link2 from '../../Assets/Images/New_images/link-2.svg';
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+
 function SettingAmenities() {
 
     const state = useSelector(state => state)
@@ -67,7 +69,15 @@ function SettingAmenities() {
         } 
     }, [canReadAmenities]);
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
     useEffect(() => {
         if (amenitiesFilterddata?.length === 0) {
             setLoading(false);
@@ -443,7 +453,7 @@ function SettingAmenities() {
                         }}
                     >
 
-
+<img src={Emptystate} alt="Empty State"/>
                         <ErrorMessage message={['You do not have access to view Settings Amenities']} type="warning" />
 
                     </div>

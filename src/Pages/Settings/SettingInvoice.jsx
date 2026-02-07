@@ -133,7 +133,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   }, [BillsTemplateList])
 
+  useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
 
 
@@ -1308,7 +1316,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
   return (
-    <div className="" style={{ position: "relative" }}>
+    <div >
 
 
       {loading &&
@@ -3007,6 +3015,17 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
         !canReadInvoice ? (
           <>
+            <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+
+              <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+                <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+                 Bill Template Manager
+                </label>
+              </div>
+
+
+
+            </div>
             <div
               style={{
                 display: "flex",
@@ -3049,18 +3068,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                     height: 75
                   }}
                 >
-                  <h4
-                    className="mb-2"
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: 22,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontWeight: 600,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Bill Template Manager
-                  </h4>
+                  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+                    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+                      Bill Template Manager
+                    </label>
+                  </div>
                   <h5 className="flex items-start gap-2 font-[Gilroy] text-[17px] font-semibold text-[rgba(34,34,34,1)]">
                     <img
                       src={leftarrow}
@@ -3529,11 +3541,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
               </div>
               :
               <div >
-     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-  <label className="text-[18px] font-semibold text-[#222] font-gilroy">
-    Bill Templates
-  </label>
-</div>
+                <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+                  <label className="text-[18px] font-semibold text-[#222] font-gilroy">
+                    Bill Templates
+                  </label>
+                </div>
 
 
                 <div
