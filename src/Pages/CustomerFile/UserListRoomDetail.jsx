@@ -76,6 +76,8 @@ import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import WalletHistory from "./WalletHistory";
 import BookedCheckIn from "./BookedCheckIn";
+// import CreateBillButton from "./CreateBillButton";
+
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -2598,7 +2600,7 @@ function UserListRoomDetail(props) {
         </div>
 
         <TabContext value={value}>
-          <div>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
             <Box
               sx={{ borderBottom: 0, borderColor: "divider" }}
             >
@@ -2606,10 +2608,13 @@ function UserListRoomDetail(props) {
                 orientation={
                   isSmallScreen ? "vertical" : "horizontal"
                 }
+                
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
-              >
+                // className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
+                 className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
+
+             >
                 <Tab
                   label="Overview"
                   value="1"
@@ -2628,6 +2633,8 @@ function UserListRoomDetail(props) {
                   value="3"
                   className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "3" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
+               
+
 
                 <Tab
                   label="Transactions"
@@ -3614,7 +3621,7 @@ function UserListRoomDetail(props) {
                          
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group >
-                              <Form.Label className="text-[14px] text-gray-900 font-medium font-sans">
+                              <Form.Label className="text-[14px] text-gray-900 font-medium font-gilroy">
                                 Email ID {" "}
                               </Form.Label>
                               <FormControl
@@ -3624,7 +3631,7 @@ function UserListRoomDetail(props) {
                                 value={Email}
                                 ref={emailRef}
                                 onChange={(e) => handleEmail(e)}
-                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md mt-1.5"
+                                className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md mt-1.5"
 
                               />
 
@@ -3640,7 +3647,7 @@ function UserListRoomDetail(props) {
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group>
-                              <Form.Label className="text-sm text-gray-900 font-medium font-sans" >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy" >
                                 Flat , House no , Building , Company ,
                                 Apartment{" "}
                               </Form.Label>
@@ -3650,7 +3657,7 @@ function UserListRoomDetail(props) {
                                 placeholder="Enter House No"
                                 value={house_no}
                                 onChange={(e) => handleHouseNo(e)}
-                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+                                className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
 
                               />
                             </Form.Group>
@@ -3661,7 +3668,7 @@ function UserListRoomDetail(props) {
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group>
-                              <Form.Label className="text-sm text-gray-900 font-medium font-sans"
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy"
                               >
                                 Area , Street , Sector , Village{" "}
                               </Form.Label>
@@ -3671,7 +3678,7 @@ function UserListRoomDetail(props) {
                                 placeholder="Enter Street"
                                 value={street}
                                 onChange={(e) => handleStreetName(e)}
-                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+                                className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
 
                               />
                             </Form.Group>
@@ -3682,7 +3689,7 @@ function UserListRoomDetail(props) {
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group >
-                              <Form.Label className="text-sm text-gray-900 font-medium font-sans">
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
                                 Landmark {" "}
                               </Form.Label>
                               <FormControl
@@ -3691,7 +3698,7 @@ function UserListRoomDetail(props) {
                                 placeholder="E.g , near appollo hospital"
                                 value={landmark}
                                 onChange={(e) => handleLandmark(e)}
-                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+                                className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
 
                               />
                             </Form.Group>
@@ -3705,7 +3712,7 @@ function UserListRoomDetail(props) {
                               className="mb-3"
                               controlId="exampleForm.ControlInput1"
                             >
-                              <Form.Label className="text-sm text-gray-900 font-medium font-sans" >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy" >
                                 Pincode {" "}
 
                               </Form.Label>
@@ -3718,7 +3725,7 @@ function UserListRoomDetail(props) {
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 placeholder="Enter Pincode"
-                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+                                className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
 
                               />
                               {pincodeError && (
@@ -3729,7 +3736,7 @@ function UserListRoomDetail(props) {
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group className="">
-                              <Form.Label className="text-sm text-gray-900 font-medium font-sans"
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy"
 
                               >
                                 Town/City {" "}
@@ -3742,7 +3749,7 @@ function UserListRoomDetail(props) {
                                 value={city}
                                 ref={cityRef}
                                 onChange={(e) => handleCity(e)}
-                                className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-md"
+                                className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
 
                               />
                             </Form.Group>
@@ -3756,7 +3763,7 @@ function UserListRoomDetail(props) {
                               className="mb-3"
                               controlId="exampleForm.ControlInput5"
                             >
-                              <Form.Label className="text-sm text-gray-900 font-medium font-sans" >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy" >
                                 State
 
                               </Form.Label>

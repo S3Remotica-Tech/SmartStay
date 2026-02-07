@@ -792,7 +792,7 @@ function Asset() {
                 <div
                   className='show-scrolls mr-2'>
 
-                  <Table className="min-w-full border-collapse w-full font-sans text-gray-900 text-sm font-medium sticky top-0 z-10"
+                  <Table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10"
                     responsive="md"
                   >
                          
