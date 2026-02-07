@@ -389,6 +389,10 @@ function InvoiceRegister() {
         });
     }, [size, page, selectedRange]);
 
+
+
+    
+
     const currentPage =
         state?.reports?.getInvoiceRegister?.currentPage ?? 1;
 

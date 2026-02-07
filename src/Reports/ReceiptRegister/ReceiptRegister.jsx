@@ -235,66 +235,75 @@ function ReceiptRegister() {
     setChips(filterData);
   }, [state.reports.receiptRegisterFilters]);
 
+ const handleDateChange = (dates) => {
+        if (!dates) {
+            setSelectedRange(null);
+            dispatch({
+                type: "SET_RECEIPT_REGISTER_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
 
-  const handleDateChange = (dates) => {
-    if (!dates) {
-      setSelectedRange(null);
-      if (state.login?.selectedHostel_Id) {
+                },
+            })
+            dispatch({
+                type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        size: size,
+                        page: page,
+                    }
+                }
+            })
+
+            return;
+        }
+
+        const range = {
+            from: dates[0].toDate(),
+            to: dates[1].toDate(),
+        };
+
+        setSelectedRange(range);
+      
+        const filters = {
+            startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+            endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+
         dispatch({
-          type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-            filters: {},
-          },
+            type: "SET_RECEIPT_REGISTER_FILTERS",
+            payload: filters
         });
-      }
-
-      dispatch({
-        type: "SET_RECEIPT_REGISTER_FILTERS",
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
-
-        },
-      })
 
 
-      return;
-    }
-
-    const range = {
-      from: dates[0].toDate(),
-      to: dates[1].toDate(),
     };
-
-    setSelectedRange(range);
-    fetchData(range);
-  };
-
-  const fetchData = ({ from, to }) => {
-    const filters = {
-      startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
-      endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
-      size: size,
-      page: page,
-    };
-
-    dispatch({
-      type: "SET_RECEIPT_REGISTER_FILTERS",
-      payload: filters
-    });
-    if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
-    }
-  };
+    
+    useEffect(() => {
+        if (!state.login?.selectedHostel_Id) return;
+        const filters = {
+            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+        dispatch({
+            type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: filters,
+            },
+        });
+    }, [size, page, selectedRange]);
 
 
+
+
+
+
+ 
   const currentPage =
     state?.reports?.getReceiptRegister?.pagination?.currentPage ?? 1;
 
@@ -320,19 +329,7 @@ function ReceiptRegister() {
   };
 
 
-  useEffect(() => {
-
-    dispatch({
-      type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA',
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: {
-          size: size,
-          page: page,
-        }
-      }
-    });
-  }, [size, page])
+  
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
