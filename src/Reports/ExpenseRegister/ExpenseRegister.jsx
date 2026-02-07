@@ -135,8 +135,8 @@ function ExpenseRegister() {
   }, [register]);
 
   const stats = [
-    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.totalExpenses, up: "12%" },
-    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.totalAmount },
+    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses, up: "12%" },
+    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.summary?.totalAmount },
 
   ];
 
@@ -225,6 +225,8 @@ function ExpenseRegister() {
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+      size: size,
+      page: page,
     };
 
     dispatch({
@@ -282,13 +284,13 @@ function ExpenseRegister() {
 
 
   const currentPage =
-    state?.reports?.getExpenseRegister?.currentPage ?? 1;
+    state?.reports?.getExpenseRegister?.pagination?.currentPage ?? 1;
 
   const totalPages =
-    state?.reports?.getExpenseRegister?.totalPages ?? 1;
+    state?.reports?.getExpenseRegister?.pagination?.totalPages ?? 1;
 
   const totalRecords =
-    state?.reports?.getExpenseRegister?.totalExpenses ?? 0;
+    state?.reports?.getExpenseRegister?.pagination?.totalRecords ?? 0;
 
 
 
@@ -350,7 +352,7 @@ function ExpenseRegister() {
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white">
         <div className='flex items-center gap-2'>
           <ArrowLeft onClick={handleNavigateReports}
             size="20"
@@ -460,7 +462,7 @@ function ExpenseRegister() {
       </div>
 
 
-      <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+      <div className="px-1 pb-[10px] bg-[#F9FAFB] rounded-lg h-fit   flex flex-col ">
         {chips.length > 0 && (
           <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
@@ -524,12 +526,12 @@ function ExpenseRegister() {
         </div>
 
 
-        <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 ">
+        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
 
-          <div ref={tableRef} className="overflow-x-auto relative h-full rounded-xl">
+          <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] rounded-xl ">
             <table className="w-full  text-[12px] font-gilroy">
 
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
+              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                 <tr className="border-b border-[#E8E8E8]">
 
 

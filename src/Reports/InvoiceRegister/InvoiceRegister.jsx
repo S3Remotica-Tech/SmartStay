@@ -46,12 +46,16 @@ function InvoiceRegister() {
     useEffect(() => {
         if (state.login?.selectedHostel_Id) {
 
-            dispatch({ type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id,
-                filters: {
-                    size: size,
-                    page: page,
-                } } })
-             setLoading(true)
+            dispatch({
+                type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        size: size,
+                        page: page,
+                    }
+                }
+            })
+            setLoading(true)
         }
     }, [state.login?.selectedHostel_Id])
 
@@ -322,8 +326,68 @@ function InvoiceRegister() {
     }, [state.reports.invoiceRegisterFilters]);
 
 
+    const handleDateChange = (dates) => {
+        if (!dates) {
+            setSelectedRange(null);
+            dispatch({
+                type: "SET_EXPENSE_REGISTER_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+
+                },
+            })
+            dispatch({
+                type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        size: size,
+                        page: page,
+                    }
+                }
+            })
+
+            return;
+        }
+
+        const range = {
+            from: dates[0].toDate(),
+            to: dates[1].toDate(),
+        };
+
+        setSelectedRange(range);
+      
+        const filters = {
+            startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+            endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+
+        dispatch({
+            type: "SET_EXPENSE_REGISTER_FILTERS",
+            payload: filters
+        });
 
 
+    };
+    
+    useEffect(() => {
+        if (!state.login?.selectedHostel_Id) return;
+        const filters = {
+            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+        dispatch({
+            type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: filters,
+            },
+        });
+    }, [size, page, selectedRange]);
 
     const currentPage =
         state?.reports?.getInvoiceRegister?.currentPage ?? 1;
@@ -351,19 +415,7 @@ function InvoiceRegister() {
     };
 
 
-    useEffect(() => {
 
-        dispatch({
-            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA',
-            payload: {
-                hostelId: state.login.selectedHostel_Id,
-                filters: {
-                    size: size,
-                    page: page,
-                }
-            }
-        });
-    }, [size, page])
 
 
 
@@ -432,7 +484,7 @@ function InvoiceRegister() {
                         className="datepicker-wrapper"
                         style={{ position: "relative", }}
                     >
-                        <RangePicker disabled
+                        <RangePicker
                             style={{
                                 width: "100%",
                                 height: "100%",
@@ -442,28 +494,24 @@ function InvoiceRegister() {
                             }}
                             format="DD/MM/YYYY"
                             placeholder={["From date", "To date"]}
-                            // value={
-                            //     selectedRange?.from && selectedRange?.to
-                            //         ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
-                            //         : null
-                            // }
-                            // onChange={(dates) => {
-
-                            //     if (dates) {
-                            //         setSelectedRange({
-                            //             from: dates[0].toDate(),
-                            //             to: dates[1].toDate(),
-                            //         });
-                            //     } else {
-                            //         setSelectedRange(null);
-                            //     }
-                            // }}
+                            value={
+                                selectedRange?.from && selectedRange?.to
+                                    ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                                    : null
+                            }
+                            onChange={handleDateChange}
                             disabledDate={(current) => {
-                                if (!selectedRange?.from) return current > dayjs().endOf("day");
-                                return (
-                                    current > dayjs().endOf("day") ||
-                                    current < dayjs(selectedRange.from).startOf("day")
-                                );
+
+                                if (current && current > dayjs().endOf("day")) {
+                                    return true;
+                                }
+
+
+                                if (selectedRange?.from) {
+                                    return current < dayjs(selectedRange.from).startOf("day");
+                                }
+
+                                return false;
                             }}
 
                             getPopupContainer={(triggerNode) =>
@@ -718,7 +766,7 @@ function InvoiceRegister() {
                                     <tr>
                                         <td
                                             colSpan={9}
-                                            className="py-10 text-center text-sm text-gray-600 font-medium"
+                                            className="py-10 text-center text-sm text-red-800 font-semibold"
                                         >
                                             No Data Found
                                         </td>
@@ -730,17 +778,17 @@ function InvoiceRegister() {
 
                         </table>
                     </div>
-{
-    invoiceRegister?.invoiceList?.length > 0 && 
+                    {
+                        invoiceRegister?.invoiceList?.length > 0 &&
 
-                    <ApiPagination
-                        currentPage={currentPage + 1}
-                        totalPages={totalPages}
-                        totalRecords={totalRecords}
-                        onPageChange={handlePageChange}
-                        onSizeChange={handleSizeChange}
-                    />
-}
+                        <ApiPagination
+                            currentPage={currentPage + 1}
+                            totalPages={totalPages}
+                            totalRecords={totalRecords}
+                            onPageChange={handlePageChange}
+                            onSizeChange={handleSizeChange}
+                        />
+                    }
 
                     {open && (
                         <>
@@ -819,7 +867,7 @@ function InvoiceRegister() {
 
                 {
                     invoiceFilter &&
-                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills}  size={size}  page={page}/>
+                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} />
                 }
             </div>
 

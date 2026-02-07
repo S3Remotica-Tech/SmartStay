@@ -127,7 +127,10 @@ const handleReset = () => {
 
       },
     })
-    dispatch({ type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+    dispatch({ type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {
+                        size: size,
+                        page: page,
+                    }} })
   }
 
 
@@ -182,7 +185,10 @@ const handleReset = () => {
           type: "GET_REPORTS_TENANT_REGISTER_SAGA",
           payload: {
             hostelId: state.login.selectedHostel_Id,
-            filters: {},
+            filters: {
+                        size: size,
+                        page: page,
+                    }
           },
         });
       }
@@ -212,6 +218,8 @@ const handleReset = () => {
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+      size: size,
+                        page: page,
     };
 
     dispatch({
