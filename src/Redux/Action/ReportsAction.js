@@ -69,13 +69,13 @@ export async function getReceiptRegister(hostelId, filters = {}) {
 
 export async function getTenantRegister(hostelId, filters = {}) {
 
-  return AxiosConfigV2.get(`/v2/reports/tenant/${hostelId}`, {
+  return AxiosConfigV2.get(`/v2/reports/tenants/${hostelId}`, {
     params: {
        startDate: filters.startDate,
       endDate: filters.endDate,
       period: filters?.period,
-      page: filters.page ?? 0,
-      size: filters.size ?? 10,
+      page: filters.page ,
+      size: filters.size ,
     },
     paramsSerializer: params =>
       qs.stringify(params, { arrayFormat: "repeat" }),

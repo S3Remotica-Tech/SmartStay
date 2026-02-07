@@ -270,7 +270,7 @@ function TenantsFilter({ show, handleClose }) {
 
                             </div>
 
-                            <Form.Control
+                            <Form.Control disabled
                                 style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
                                 type="text"
                                 placeholder="Enter Tenant Name"
@@ -294,7 +294,7 @@ function TenantsFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Tenant Status
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 isMulti
                                 closeMenuOnSelect={false}
                                 hideSelectedOptions={false}
@@ -311,7 +311,7 @@ function TenantsFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 placeholder="Last Month"
                                 value={period}
@@ -327,7 +327,7 @@ function TenantsFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Sharing Type
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 placeholder="Select type..."
                                 value={sharingType}
@@ -348,7 +348,7 @@ function TenantsFilter({ show, handleClose }) {
 
                             <div className="d-flex flex-wrap gap-2 mt-2">
                                 {["Ground", "First", "Second", "Third", "Fourth"].map((f) => (
-                                    <Button
+                                    <Button isDisabled
                                         key={f}
                                         variant={floor === f ? "primary" : "outline-secondary"}
                                         style={{
@@ -368,7 +368,7 @@ function TenantsFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Room
                             </Form.Label>
-                            <Select
+                            <Select isDisabled
                                 styles={selectStyles}
                                 placeholder="Select room..."
                                 value={room}
