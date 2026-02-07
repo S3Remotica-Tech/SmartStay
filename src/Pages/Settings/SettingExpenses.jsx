@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import AddSubCategory from '../Settings/AddSubCategory';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 function SettingExpenses() {
 
   const state = useSelector(state => state)
@@ -58,7 +58,15 @@ function SettingExpenses() {
     }
   }, [canReadExpense]);
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
   useEffect(() => {
     if (expensesFilterddata.length === 0) {
@@ -447,7 +455,7 @@ function SettingExpenses() {
               height: "100vh",
             }}
           >
-
+ <img src={Emptystate} alt="Empty State"/>
 
             <ErrorMessage message={['You do not have access to view Expense Category']} type="warning" />
 

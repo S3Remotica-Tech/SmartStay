@@ -15,12 +15,15 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+     
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-
+     
    }
-
+    else if (status === 403){
+     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+      }
 }
 
 function* handleReportsDetails(action) {

@@ -142,10 +142,20 @@ const InvoicePage = () => {
     if (!canReadInvoice) {
       setLoading(false);
     } 
+      
+    
   }, [canReadInvoice]);
 
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
   const [showBillsFilter, setShowBillsFilter] = useState(false);
 
@@ -208,7 +218,7 @@ const InvoicePage = () => {
     if (!state.login.selectedHostel_Id) return;
 
     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-    setLoading(true)
+    setLoading(false)
 
 
   }, [state.login.selectedHostel_Id]);

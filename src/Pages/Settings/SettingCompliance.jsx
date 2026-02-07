@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 
 
 function SettingCompliance() {
@@ -64,6 +64,16 @@ useEffect(() => {
       }
     }, [canReadComplaints]);
 
+
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
 useEffect(() => {
     if (complianceFilterddata.length === 0) {
       setLoading(false);
@@ -414,11 +424,12 @@ useEffect(() => {
     <button
       disabled={!canWriteComplaints}
       onClick={handleShowForm}
-      className={`
-        h-[45px] w-[146px] rounded-lg text-[14px] font-semibold font-[Gilroy]
-        bg-[#1E45E1] text-white 
-        disabled:opacity-40 disabled:cursor-not-allowed
-      `}
+        className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteComplaints
+          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+      
     >
       + Complaint Type
     </button>
@@ -468,7 +479,7 @@ useEffect(() => {
               height: "100vh",
             }}
           >
-
+<img src={Emptystate} alt="Empty State"/>
             <ErrorMessage message={['You do not have access to view Settings Compliants']} type="warning" />
 
           </div>
@@ -649,7 +660,7 @@ useEffect(() => {
       }
 
 
-      {!loading && complianceFilterddata.length === 0 && (
+      {!loading && complianceFilterddata.length === 0 && canReadComplaints && (
         <div style={{
           textAlign: "center",
           marginTop: 90,

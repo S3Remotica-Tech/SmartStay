@@ -141,6 +141,21 @@ function UserlistWalkin() {
     }
   }, [state.UsersList?.UserListStatusCode]);
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setWalkingLoader(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
+
+
+
+
+
+
   useEffect(() => {
     if (state.UsersList.NoDataWalkInCustomerStatusCode === 201) {
       setWalkingLoader(false);

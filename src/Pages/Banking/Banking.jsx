@@ -93,6 +93,20 @@ function Banking() {
   }, [canReadBanking]);
 
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoader(false);
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.accessRestrictionError])
+
+
+
+
+
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);

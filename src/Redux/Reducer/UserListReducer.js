@@ -162,7 +162,8 @@ export const initialState = {
     initializeCheckout: '',
     initializeCancelCheckout: '',
     finalSettlementAddRoomReadingStatusCode: 0,
-    alreadyMobileBasicError: ''
+    alreadyMobileBasicError: '',
+    accessRestrictionError:''
 
 }
 
@@ -176,6 +177,11 @@ const UserListReducer = (state = initialState, action) => {
             return initialState;
         case 'AVAILABLE_BED':
             return { ...state, availableBedList: action.payload.response }
+
+            case 'ACCESS_RESTRICTION_ERROR':
+                 return { ...state, accessRestrictionError: action.payload }
+                  case 'ACCESS_RESTRICTION_ERROR_REMOVE':
+                 return { ...state, accessRestrictionError:"" }
 
         case 'GET_INITIALIZE_CHECKOUT':
             return { ...state, initializeCheckout: action.payload.response }

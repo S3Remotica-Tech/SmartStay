@@ -24,10 +24,10 @@ export const initialState = {
         startDate: undefined,
         endDate: undefined,
         category: [],
-         period: undefined,
-         paymenttMode:[],
-         paidTo:[],
-          createdBy: [],
+        period: undefined,
+        paymenttMode: [],
+        paidTo: [],
+        createdBy: [],
 
 
     },
@@ -41,7 +41,13 @@ export const initialState = {
         paymentStatus: [],
 
 
+    },
+    tenantRegisterFilters: {
+        startDate: undefined,
+        endDate: undefined,
     }
+
+
 
 
 }
@@ -79,7 +85,14 @@ const ReportsReducer = (state = initialState, action) => {
             return { ...state, getTenantRegisterSuccess: 0 }
 
 
-
+        case "SET_TENANT_REGISTER_FILTERS":
+            return {
+                ...state,
+                tenantRegisterFilters: {
+                    ...state.tenantRegisterFilters,
+                    ...action.payload,
+                },
+            };
 
 
 

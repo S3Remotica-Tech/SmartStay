@@ -45,7 +45,7 @@ function CustomerReAssign(props) {
   const [availableBed, setAvailableBed] = useState('')
   // const [bedWarning, setBedWarning] = useState('')
 
-
+ console.log("props",props)
   const rentRef = useRef(null);
   const floorRef = useRef(null);
   const roomRef = useRef(null);
@@ -848,12 +848,12 @@ console.log("hostelInfo",hostelInfo)
                         </div>
                       </div>
 
-                      {/* Right Side: Rental Amount */}
+                     
                       <div className="me-4" style={{ textAlign: "right" }}>
                         <p className="mb-1" style={{ fontSize: "14px", fontWeight: 400, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           Rental Amount
                         </p>
-                        <p className="mb-0" style={{ fontWeight: 600, fontSize: "16px" }}>
+                        <p className="mb-0" style={{ fontWeight: 600, fontSize: "16px", fontFamily:"Gilroy" }}>
                           ₹ {currentRoomRent}
                         </p>
                       </div>

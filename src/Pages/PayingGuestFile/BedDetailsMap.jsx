@@ -72,7 +72,7 @@ function BedDetailsMap({ room, propsValue,
 
 
     const handleshowfinalsettlement = (isvisible, tenantDetails) => {
-        console.log("tenantDetails", tenantDetails)
+       
         setFinalSettlePage(isvisible)
 
 

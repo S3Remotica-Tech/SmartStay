@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ExpenseFilter from './ExpenseFilter';
-
+import ApiPagination from "../../Components/ApiPagination";
 
 function ExpenseRegister() {
 
@@ -34,12 +34,21 @@ function ExpenseRegister() {
   const [chips, setChips] = useState([])
   const [loading, setLoading] = useState(false)
   const tableRef = useRef(null);
-    const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [size, setSize] = useState('');
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
 
-      dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {} } })
+      dispatch({
+        type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id, filters: {
+            size: size,
+            page: page,
+          }
+        }
+      })
       setLoading(true)
     }
   }, [state.login?.selectedHostel_Id])
@@ -78,24 +87,31 @@ function ExpenseRegister() {
 
       },
     })
-    dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
+    dispatch({
+      type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
+        hostelId: state.login.selectedHostel_Id, filters: {
+          size: size,
+          page: page,
+        }
+      }
+    })
   }
 
 
 
 
 
-useEffect(() => {
-  const el = tableRef.current;
-  if (!el) return;
+  useEffect(() => {
+    const el = tableRef.current;
+    if (!el) return;
 
-  const handleScroll = () => {
-    setIsScrolled(el.scrollLeft > 0);
-  };
+    const handleScroll = () => {
+      setIsScrolled(el.scrollLeft > 0);
+    };
 
-  el.addEventListener("scroll", handleScroll);
-  return () => el.removeEventListener("scroll", handleScroll);
-}, []);
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
 
 
 
@@ -119,8 +135,8 @@ useEffect(() => {
   }, [register]);
 
   const stats = [
-    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.totalExpenses, up: "12%" },
-    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.totalAmount },
+    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses, up: "12%" },
+    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.summary?.totalAmount },
 
   ];
 
@@ -145,7 +161,7 @@ useEffect(() => {
     setInvoiceFilter(true)
   }
 
- const options = [
+  const options = [
     { key: "sharing", label: "Sharing", checked: true },
     { key: "checkin", label: "Check-in Date", checked: true },
     { key: "checkout", label: "Checkout date", checked: true },
@@ -169,59 +185,72 @@ useEffect(() => {
     { title: "Final Settlement" },
   ];
 
-  const handleDateChange = (dates) => {
-    if (!dates) {
-      setSelectedRange(null);
+  
+
+  
+const handleDateChange = (dates) => {
+        if (!dates) {
+            setSelectedRange(null);
+            dispatch({
+                type: "SET_EXPENSE_REGISTER_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+
+                },
+            })
+            dispatch({
+                type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        size: size,
+                        page: page,
+                    }
+                }
+            })
+
+            return;
+        }
+
+        const range = {
+            from: dates[0].toDate(),
+            to: dates[1].toDate(),
+        };
+
+        setSelectedRange(range);
+      
+        const filters = {
+            startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+            endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+
+        dispatch({
+            type: "SET_EXPENSE_REGISTER_FILTERS",
+            payload: filters
+        });
 
 
-
-      dispatch({
-        type: "SET_EXPENSE_REGISTER_FILTERS",
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
-
-        },
-      })
-      dispatch({ type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id } })
-
-
-
-
-
-
-      return;
-    }
-
-    const range = {
-      from: dates[0].toDate(),
-      to: dates[1].toDate(),
     };
+    
+    useEffect(() => {
+        if (!state.login?.selectedHostel_Id) return;
+        const filters = {
+            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+            size: size,
+            page: page,
+        };
+        dispatch({
+            type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: filters,
+            },
+        });
+    }, [size, page, selectedRange]);
 
-    setSelectedRange(range);
-    fetchData(range);
-  };
-
-  const fetchData = ({ from, to }) => {
-    const filters = {
-      startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
-      endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
-    };
-
-    dispatch({
-      type: "SET_EXPENSE_REGISTER_FILTERS",
-      payload: filters
-    });
-    if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
-    }
-  };
 
 
 
@@ -261,19 +290,41 @@ useEffect(() => {
     })
   }
 
-  console.log("state.reports.expenseRegisterFilters", state.reports.expenseRegisterFilters)
+
+  const currentPage =
+    state?.reports?.getExpenseRegister?.pagination?.currentPage ?? 1;
+
+  const totalPages =
+    state?.reports?.getExpenseRegister?.pagination?.totalPages ?? 1;
+
+  const totalRecords =
+    state?.reports?.getExpenseRegister?.pagination?.totalRecords ?? 0;
+
+
+
+  const handlePageChange = (page) => {
+
+    setPage(page)
+
+  };
+
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue)
+
+  };
+
+ 
+
+
+
+
 
 
 
   useEffect(() => {
     const invoiceFilters = state.reports.expenseRegisterFilters;
     const filterData = [];
-
-
-
-
-
-
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
       filterData.push({
@@ -287,11 +338,11 @@ useEffect(() => {
       });
     }
 
-
-
-
     setChips(filterData);
   }, [state.reports.expenseRegisterFilters]);
+
+
+  
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -300,7 +351,7 @@ useEffect(() => {
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white">
         <div className='flex items-center gap-2'>
           <ArrowLeft onClick={handleNavigateReports}
             size="20"
@@ -410,7 +461,7 @@ useEffect(() => {
       </div>
 
 
-      <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-fit flex flex-col overflow-hidden">
+      <div className="px-1 pb-[10px] bg-[#F9FAFB] rounded-lg h-fit   flex flex-col ">
         {chips.length > 0 && (
           <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
@@ -474,16 +525,16 @@ useEffect(() => {
         </div>
 
 
-        <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
+        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
 
-          <div ref={tableRef} className="overflow-x-auto relative h-full">
+          <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] rounded-xl ">
             <table className="w-full  text-[12px] font-gilroy">
 
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
+              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                 <tr className="border-b border-[#E8E8E8]">
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]">
+                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
                     <Setting3
                       onClick={() => setOpen(!open)}
                       className="cursor-pointer"
@@ -535,7 +586,7 @@ useEffect(() => {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px]">
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] rounded-tr-xl">
                     Debited from
                   </th>
 
@@ -575,45 +626,45 @@ useEffect(() => {
 
 
 
-                   <td
-  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.description || "-"}
-</td>
+                    >
+                      {row.description || "-"}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.counts || 0}
-</td>
+                    >
+                      {row.counts || 0}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.assetsName || "-"}
-</td>
+                    >
+                      {row.assetsName || "-"}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.vendorName || "-"}
-</td>
+                    >
+                      {row.vendorName || "-"}
+                    </td>
 
-<td
-  className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
->
-  {row.account || "-"}
-</td>
+                    >
+                      {row.account || "-"}
+                    </td>
 
 
                   </tr>
@@ -636,6 +687,20 @@ useEffect(() => {
 
             </table>
           </div>
+
+          {
+            expenseRegister?.expenseLists?.length > 0 &&
+
+            <ApiPagination
+              currentPage={currentPage + 1}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              onPageChange={handlePageChange}
+              onSizeChange={handleSizeChange}
+            />
+
+          }
+
           {open && (
             <>
 
@@ -710,7 +775,7 @@ useEffect(() => {
         </div>
 
         {
-          invoiceFilter && <ExpenseFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
+          invoiceFilter && <ExpenseFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} />
         }
       </div>
     </div>
