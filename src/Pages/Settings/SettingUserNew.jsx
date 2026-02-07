@@ -17,7 +17,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import DeleteStaff from "./DeleteStaff";
-
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 
 function SettingNewUser() {
 
@@ -58,7 +58,15 @@ function SettingNewUser() {
   }, [canReadUser]);
 
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
   const handleDotsClick = (index, event) => {
     event.stopPropagation();
     setShowDots((prev) => (prev === index ? null : index));
@@ -210,91 +218,7 @@ function SettingNewUser() {
     }
   }, [state.Settings?.errorUser]);
 
-  //   const [currentPage, setCurrentPage] = useState(1);
-  //   const [itemsPerPage, setItemsPerPage] = useState(10);
-  //   const indexOfLastItem = currentPage * itemsPerPage;
-  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  //   const currentItems = usersFilterddata?.slice(
-  //     indexOfFirstItem,
-  //     indexOfLastItem
-  //   );
-
-  //   const totalPages =
-  //     usersFilterddata?.length &&
-  //     Math.ceil(usersFilterddata.length / itemsPerPage);
-
-  //   const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
-  //   const handleItemsPerPageChange = (selectedOption) => {
-  //   setItemsPerPage(selectedOption.value);
-  //   setCurrentPage(1);
-  // };
-
-  // const options = [
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
-  //   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  //   const sortedData = React.useMemo(() => {
-  //     if (!sortConfig.key) return currentItems;
-
-  //     const sorted = [...currentItems].sort((a, b) => {
-  //       const valueA = a[sortConfig.key];
-  //       const valueB = b[sortConfig.key];
-
-  //       if (!isNaN(valueA) && !isNaN(valueB)) {
-  //         return sortConfig.direction === "asc"
-  //           ? valueA - valueB
-  //           : valueB - valueA;
-  //       }
-
-  //       if (typeof valueA === "string" && typeof valueB === "string") {
-  //         return sortConfig.direction === "asc"
-  //           ? valueA.localeCompare(valueB)
-  //           : valueB.localeCompare(valueA);
-  //       }
-
-  //       return 0;
-  //     });
-
-  //     return sorted;
-  //   }, [currentItems, sortConfig]);
-
-  //   const handleSort = (key, direction) => {
-  //     setSortConfig({ key, direction });
-  //   };
-
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return usersFilterddata; // Use full filtered data
-
-  //   const sorted = [...usersFilterddata].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [usersFilterddata, sortConfig]);
-
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
+  
 
   const sortedData = React.useMemo(() => {
     return Array.isArray(usersFilterddata) ? usersFilterddata : [];
@@ -371,7 +295,7 @@ function SettingNewUser() {
               height: "80vh"
             }}
           >
-
+<img src={Emptystate} alt="Empty State"/>
             <ErrorMessage message={['You do not have access to view User']} type="warning" />
 
           </div>

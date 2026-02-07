@@ -16,7 +16,7 @@ import '../../Pages/Settings/SettingNewRole.css';
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 
 function SettingNewRole() {
 
@@ -63,7 +63,15 @@ useEffect(() => {
     dispatch({ type: 'GETMODULES' })
   }, [])
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
    useEffect(() => {
           if (roleList.length === 0) {
             setLoading(false);
@@ -271,7 +279,7 @@ useEffect(() => {
               height: "80vh"
             }}
           >
-
+<img src={Emptystate} alt="Empty State"/>
             <ErrorMessage message={['You do not have access to view Role']} type="warning" />
 
           </div>

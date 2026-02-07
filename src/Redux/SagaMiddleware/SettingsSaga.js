@@ -8,57 +8,25 @@ import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 
 function* handleApiError(error) {
-  const status = error?.response?.status || error?.status;
+   const status = error?.response?.status || error?.status;
 
-  if (status === 401) {
-    yield put({
-      type: "UN-AUTHORIZED",
-      payload: "Access Denied",
-    });
-  } 
-  else if (status === 500) {
-    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-   //  toast.error("Network error occurred", {
-   //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-   //    position: "top-right",
-   //    autoClose: 2000,
-   //    hideProgressBar: true,
-   //    closeButton: false,
-   //    closeOnClick: true,
-   //    pauseOnHover: true,
-   //    draggable: true,
-   //    progress: undefined,
-   //  });
-  } 
-  else if (error.code === "ERR_NETWORK") {
-    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-   //  toast.error("Network error occurred", {
-   //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-   //    position: "top-right",
-   //    autoClose: 2000,
-   //    hideProgressBar: true,
-   //    closeButton: false,
-   //    closeOnClick: true,
-   //    pauseOnHover: true,
-   //    draggable: true,
-   //    progress: undefined,
-   //  });
-  } 
-//   else {
-//     const msg = error?.message || "Something went wrong";
-//     yield put({ type: "NETWORK_ERROR", payload: msg });
-//     toast.error(msg, {
-//       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-//       position: "top-right",
-//       autoClose: 2000,
-//       hideProgressBar: true,
-//       closeButton: false,
-//       closeOnClick: true,
-//       pauseOnHover: true,
-//       draggable: true,
-//       progress: undefined,
-//     });
-//   }
+   if (status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
+   else if (status === 500) {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+     
+   }
+   else if (error.code === "ERR_NETWORK") {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+     
+   }
+    else if (status === 403){
+     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+      }
 }
 
 

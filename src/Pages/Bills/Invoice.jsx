@@ -141,13 +141,21 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!canReadInvoice) {
       setLoading(false);
-    } else{
-      setLoading(false)
-    }
+    } 
+      
+    
   }, [canReadInvoice]);
 
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
   const [showBillsFilter, setShowBillsFilter] = useState(false);
 

@@ -12,7 +12,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 
 function SettingAgreement() {
   const [isEditable, setIsEditable] = useState(false);
@@ -166,7 +166,7 @@ const {
                   height: "80vh"
                 }}
               >
-    
+    <img src={Emptystate} alt="Empty State"/>
                 <ErrorMessage message={['You do not have access to view Agreement & Policy']} type="warning" />
     
               </div>

@@ -60,7 +60,15 @@ function UserListAmenities(props) {
     }
   }, [state.UsersList?.customerdetails?.assignedAmenities]);
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
   const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";

@@ -139,6 +139,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
   }, []);
 
+
+
+
+
+
+
+
+
+
+  
   var toastStyle = {
 
     fontFamily: "Gilroy",

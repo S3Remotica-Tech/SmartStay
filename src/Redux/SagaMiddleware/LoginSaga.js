@@ -19,7 +19,9 @@ function* handleApiError(error) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
      
    }
- 
+    else if (status === 403){
+     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+      }
 }
 
 

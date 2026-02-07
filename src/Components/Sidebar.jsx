@@ -903,23 +903,26 @@ function Sidebar() {
                       </span>
                     </NavLink>
                   </li>
-                  <li className="list-none flex items-center" >
-                    <NavLink
-                      to={withHostel("/dashboard-new")}
-                      className={({ isActive }) =>
-                        `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                      }
-                      onClick={() => handlePageClick("dashboard-new")}
-                    >
-                      <Chart2
-                        size="20" variant="Bold"
-                      />
-                      <span className="inline-block text-sm font-semibold font-gilroy Title mt-1" >
-                        Home New
-                      </span>
-                    </NavLink>
-                  </li>
+                  {
+                    import.meta.env.MODE === "development" &&
 
+                    <li className="list-none flex items-center" >
+                      <NavLink
+                        to={withHostel("/dashboard-new")}
+                        className={({ isActive }) =>
+                          `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                        }
+                        onClick={() => handlePageClick("dashboard-new")}
+                      >
+                        <Chart2
+                          size="20" variant="Bold"
+                        />
+                        <span className="inline-block text-sm font-semibold font-gilroy Title mt-1" >
+                          Home New
+                        </span>
+                      </NavLink>
+                    </li>
+                  }
                   <li
                     className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
     ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}

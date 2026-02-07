@@ -69,7 +69,15 @@ function SettingSubscription() {
   } = useHasPermission("Subscription");
 
 
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+    // setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
 
 
@@ -389,7 +397,7 @@ function SettingSubscription() {
       {!canReadSubscription ?
         (
 
-          <div
+          <div className='h-full'
             style={{
               display: "flex",
               flexDirection: "column",
