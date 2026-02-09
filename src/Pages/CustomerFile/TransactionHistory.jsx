@@ -51,7 +51,7 @@ function TransactionHistory() {
 
 
     return (
-        <div>{
+        <div className="mt-[50px]">{
             !canReadTenant ? (
 
                 <div className="flex flex-col items-center justify-center min-h-[45vh]">
@@ -82,7 +82,7 @@ function TransactionHistory() {
                     ) : (
                         <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto"
                         >
-                            <Table bordered={false} className="align-middle mb-0 ">
+                            <Table bordered={false} className="align-middle mb-0">
                                 <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
                                   
                                     <tr className="text-uppercase text-center">
@@ -106,22 +106,22 @@ function TransactionHistory() {
                                                     key={i}
                                                     className="border-b border-[#F9FAFF] text-center font-gilroy text-[14px] font-medium"
                                                 > 
-                                                    <td className="p-0 text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
+                                                    <td className="p-0 text-[13px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {formatDate(row.transactionDate)}
                                                     </td>
-                                                    <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
+                                                    <td className="text-[14px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {row.billName}
                                                     </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {row.amountPaid}
                                                     </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {row.referenceNumber || "-"}
                                                     </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {row.paidTo}
                                                     </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-sans leading-[1.5]">
+                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {row.paymentMode}
                                                     </td>
                                                     <td>

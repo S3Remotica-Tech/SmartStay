@@ -181,10 +181,12 @@ function UserListInvoice(props) {
 
   };
 
+  
+
 
   return (
     <>
-      <div className="flex justify-end w-full -mt-16" >
+      <div className="flex justify-end w-full lg:-mt-[70px]" >
         {
           state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
@@ -198,6 +200,27 @@ function UserListInvoice(props) {
           </Button>
         }
       </div>
+    {/* <div className="relative w-full">
+  {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+    <div
+      className="
+        w-full flex justify-center
+        md:absolute md:right-0 md:top-[-115px]
+        md:w-auto md:justify-end
+      "
+    >
+      <Button
+        onClick={handleAddBill}
+        disabled={props.customerAdd || !canWriteInvoice}
+        className="!font-gilroy text-sm text-white !font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
+      >
+        + Create Bill
+      </Button>
+    </div>
+  )}
+</div> */}
+
+
 
       <div>
         {
@@ -258,41 +281,41 @@ function UserListInvoice(props) {
                         // let daydue = dueDated.getDate();
                         // let monthdue = dueDated.getMonth() + 1;
                         // let yeardue = dueDated.getFullYear();
-                        <tr key={view.id}>
-                          <td style={{ borderBottom: "1px solid #E8E8E8" }} >
+                        <tr key={view.id} className="border-b border-[#E8E8E8]">
+                          <td >
                             {view.invoiceNumber}
                           </td>
 
-                          <td  style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td >
                             {view.invoiceType}
                           </td>
 
-                          <td style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5] font-[Gilroy]">
+                          <td>
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
                               {view?.invoiceGeneratedDate}
                             </span>
                           </td>
 
-                          <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5]">
+                          <td>
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
                               {view?.dueDate}
                             </span>
                           </td>
 
-                          <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5]">
+                          <td className="" >
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
                               {view?.totalAmount}
                             </span>
                           </td>
 
-                          <td className="" style={{ borderBottom: "1px solid #E8E8E8" }}>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium  leading-[1.5]">
+                          <td className="" >
+                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
                               ₹{view.dueAmount}
                             </span>
                           </td>
 
 
-                          <td style={{ borderBottom: "1px solid #E8E8E8" }}>
+                          <td >
                             {(view.paymentStatus === "Pending" ||
                               view.paymentStatus === "Partial Payment" ||
                               view.paymentStatus === "Partial payment") && (

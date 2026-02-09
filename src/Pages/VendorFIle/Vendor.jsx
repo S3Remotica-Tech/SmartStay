@@ -26,7 +26,7 @@ function Vendor() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([])
- const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [currentItem, setCurrentItem] = useState('')
@@ -34,7 +34,7 @@ function Vendor() {
 
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
-  
+
   const [showDeleteVendor, setShowDeleteVendor] = useState(false)
   const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
 
@@ -49,10 +49,10 @@ function Vendor() {
 
 
 
- useEffect(() => {
+  useEffect(() => {
     if (!canReadVendor) {
       setLoading(false);
-    } 
+    }
   }, [canReadVendor]);
 useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -162,7 +162,7 @@ useEffect(() => {
     setShowDropDown(false)
   }
 
- 
+
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -177,7 +177,7 @@ useEffect(() => {
   }
 
 
- 
+
 
 
 
@@ -249,7 +249,7 @@ useEffect(() => {
   return (
     <>
 
-      <div className="sticky top-0 bg-white" style={{  }}>
+      <div className="sticky top-0 bg-white" style={{}}>
 
 
         {/* <div
@@ -409,116 +409,109 @@ useEffect(() => {
         </div> */}
 
         <div>
-  <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap">
+          <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap">
 
-    <div>
-      <label className="text-[18px] font-semibold font-[Gilroy] text-black">
-        Vendor
-      </label>
-    </div>
+            <div>
+              <label className="text-[18px] font-semibold font-gilroy text-black">
+                Vendor
+              </label>
+            </div>
 
-    <div className="flex justify-between items-center flex-wrap">
+            <div className="flex justify-between items-center flex-wrap">
 
-      {!showFilterData && (
-        <div
-          onClick={() => canReadVendor && handleShowSearch()}
-          className="pr-[30px]"
-        >
-          <SearchNormal1
-            size="26"
-            color="#222"
-            className={`transition-opacity duration-300 ${
-              canReadVendor
-                ? "cursor-pointer opacity-100 pointer-events-auto"
-                : "cursor-not-allowed opacity-40 pointer-events-none"
-            }`}
-          />
-        </div>
-      )}
-
-      {showFilterData && (
-        <div
-          className={`relative me-3 flex flex-wrap mt-[-4px] ${
-            isSmallScreen ? "w-[150px]" : "w-[240px]"
-          }`}
-        >
-          <InputGroup className="flex flex-nowrap w-full">
-            <FormControl
-              size="lg"
-              value={searchQuery}
-              onChange={handleInputChange}
-              placeholder="Search..."
-              className="shadow-none border border-gray-300 border-r-0 text-[15px] font-medium text-[#222]"
-            />
-            <InputGroup.Text className="bg-white cursor-pointer">
-              <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-            </InputGroup.Text>
-          </InputGroup>
-
-          {filteredData.length > 0 &&
-            searchQuery !== "" &&
-            showDropDown && (
-              <div className="absolute top-[50px] left-0 z-[1000] bg-white border border-[#d9d9d9] p-2 rounded-lg">
-                <ul
-                  className="show-scroll bg-white rounded-lg box-border px-[10px] py-[5px]"
-                  style={{
-                    width: 235,
-                    maxHeight: "174px",
-                    minHeight:
-                      filteredData.length > 1 ? "100px" : "auto",
-                    overflowY:
-                      filteredData.length > 2 ? "auto" : "hidden",
-                  }}
+              {!showFilterData && (
+                <div
+                  onClick={() => canReadVendor && handleShowSearch()}
+                  className="pr-[30px]"
                 >
-                  {filteredData.map((user, index) => (
-                    <li
-                      key={index}
-                      onClick={() =>
-                        handleDropDown(user.Vendor_Name)
-                      }
-                      onMouseEnter={() => setHoveredIndex(index)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                      className={`flex items-center gap-4 p-[10px] text-[14px] font-[Gilroy] font-medium border-b border-[#dcdcdc] cursor-pointer ${
-                        hoveredIndex === index
-                          ? "bg-[#1E45E1] text-white"
-                          : "bg-transparent text-black"
+                  <SearchNormal1
+                    size="26"
+                    color="#222"
+                    className={`transition-opacity duration-300 ${canReadVendor
+                      ? "cursor-pointer opacity-100 pointer-events-auto"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
                       }`}
-                    >
-                      <Image
-                        src={
-                          user.Vendor_profile &&
-                          user.Vendor_profile !== "undefined"
-                            ? user.Vendor_profile
-                            : Profile2
-                        }
-                        className="h-[20px] w-[20px]"
-                        roundedCircle
-                      />
-                      <span>{user.Vendor_Name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-        </div>
-      )}
+                  />
+                </div>
+              )}
 
-      <div>
-        <button
-  disabled={!canWriteVendor}
-  onClick={handleShow}
-  className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
+              {showFilterData && (
+                <div
+                  className={`relative me-3 flex flex-wrap mt-[-4px] ${isSmallScreen ? "w-[150px]" : "w-[240px]"
+                    }`}
+                >
+                  <InputGroup className="flex flex-nowrap w-full">
+                    <FormControl
+                      size="lg"
+                      value={searchQuery}
+                      onChange={handleInputChange}
+                      placeholder="Search..."
+                      className="shadow-none border border-gray-300 border-r-0 text-[15px] font-medium text-[#222]"
+                    />
+                    <InputGroup.Text className="bg-white cursor-pointer">
+                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                    </InputGroup.Text>
+                  </InputGroup>
+
+                  {filteredData.length > 0 &&
+                    searchQuery !== "" &&
+                    showDropDown && (
+                      <div className="absolute top-[50px] left-0 z-[1000] bg-white border border-[#d9d9d9] p-2 rounded-lg">
+                        <ul
+                          className={`bg-white rounded-lg box-border px-2 py-1
+    w-[235px] max-h-[174px] overflow-y-auto
+    ${filteredData.length > 1 ? "min-h-[100px]" : "min-h-[auto]"}
+    ${filteredData.length > 2 ? "overflow-y-auto" : "overflow-y-hidden"}
+  `}
+                        >
+                          {filteredData.map((user, index) => (
+                            <li
+                              key={index}
+                              onClick={() =>
+                                handleDropDown(user.Vendor_Name)
+                              }
+                              onMouseEnter={() => setHoveredIndex(index)}
+                              onMouseLeave={() => setHoveredIndex(null)}
+                              className={`flex items-center gap-4 p-[10px] text-[14px] font-[Gilroy] font-medium border-b border-[#dcdcdc] cursor-pointer ${hoveredIndex === index
+                                ? "bg-[#1E45E1] text-white"
+                                : "bg-transparent text-black"
+                                }`}
+                            >
+                              <Image
+                                src={
+                                  user.Vendor_profile &&
+                                    user.Vendor_profile !== "undefined"
+                                    ? user.Vendor_profile
+                                    : Profile2
+                                }
+                                className="h-[20px] w-[20px]"
+                                roundedCircle
+                              />
+                              <span>{user.Vendor_Name}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                </div>
+              )}
+
+              <div>
+                <button
+                  disabled={!canWriteVendor}
+                  onClick={handleShow}
+                  className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
              rounded-lg px-4 py-2 w-[146px] whitespace-nowrap font-gilroy
-             disabled:opacity-50 disabled:cursor-not-allowed " 
->
-  + Vendor
-</button>
+             disabled:opacity-50 disabled:cursor-not-allowed "
+                >
+                  + Vendor
+                </button>
 
-      </div>
+              </div>
 
-    </div>
-  </div>
-</div>
+            </div>
+          </div>
+        </div>
 
 
         {/* {searchQuery && (
@@ -534,110 +527,58 @@ useEffect(() => {
         )} */}
 
         {searchQuery && (
-  <div className="container mb-4 mt-5 text-[16px] font-semibold font-[Gilroy]">
-    {filteredData.length > 0 ? (
-      <span className="text-[rgba(100,100,100,1)]">
-        {filteredData.length} result{filteredData.length > 1 ? "s" : ""} found for{" "}
-        <span className="text-[rgba(34,34,34,1)]">
-          &quot;{searchQuery}&quot;
-        </span>
-      </span>
-    ) : (
-      <span className="text-[rgba(100,100,100,1)]">
-        No results found for{" "}
-        <span className="text-[rgba(34,34,34,1)]">
-          &quot;{searchQuery}&quot;
-        </span>
-      </span>
-    )}
-  </div>
-)}
+          <div className="container mb-4 mt-5 text-[16px] font-semibold font-[Gilroy]">
+            {filteredData.length > 0 ? (
+              <span className="text-[rgba(100,100,100,1)]">
+                {filteredData.length} result{filteredData.length > 1 ? "s" : ""} found for{" "}
+                <span className="text-[rgba(34,34,34,1)]">
+                  &quot;{searchQuery}&quot;
+                </span>
+              </span>
+            ) : (
+              <span className="text-[rgba(100,100,100,1)]">
+                No results found for{" "}
+                <span className="text-[rgba(34,34,34,1)]">
+                  &quot;{searchQuery}&quot;
+                </span>
+              </span>
+            )}
+          </div>
+        )}
 
 
         {
           !canReadVendor ? (
             <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100vh",
-
-                }}
-              >
+              <div className="flex flex-col items-center justify-center h-screen">
                 <img
                   src={EmptyState}
                   alt="Empty State"
-                  style={{ maxWidth: "100%", height: "auto" }}
+                  className="max-w-full h-auto"
                 />
+
                 <ErrorMessage message={['You do not have access to view Vendor']} type="warning" />
 
               </div>
             </>
           ) :
 
-            <div className='container show-scrolls-sidebar'
-              style={{
-                height: "500px",
-                overflowY: "auto",
-                position: "relative",
-                paddingRight: 20
-
-              }}
+            <div className="relative h-[500px] overflow-y-auto pr-5"
             >
+             
               {loading && (
-                <div
-                  style={{
-                     position: 'fixed',
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "60px",
-                      height: "60px",
-                      borderRadius: "50%",
-                      borderTop: "2px solid #1E45E1",
-                      borderBottom: "2px solid #1E45E1",
-                      borderRight: "2px solid transparent",
-                      animation: "spin 1s linear infinite",
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}>
-                      <img
-                        src={SmarstayLogo}
-                        alt="logo"
-                        style={{
-                          width: "35px",
-                          height: "35px",
-                          position: "absolute",
-                          transform: "rotate(0deg)",
-                          animation: "spinReverse 1s linear infinite", borderRadius: "50%"
-                        }}
-                      />
-                    </div>
+                <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
+                  <div className="w-[60px] h-[60px] rounded-full border-t-[2px] border-b-[2px] border-r-[2px] border-r-transparent border-[#1E45E1] animate-spin relative flex items-center justify-center">
+
+                    <img
+                      src={SmarstayLogo}
+                      alt="logo"
+                      className="w-[35px] h-[35px] rounded-full absolute animate-spin-reverse"
+                    />
                   </div>
                 </div>
               )}
+
 
 
               <div className='row row-gap-3 '>
@@ -653,7 +594,7 @@ useEffect(() => {
                 ))
                 }
 
-                {!loading && filteredData?.length === 0 && (
+                {/* {!loading && filteredData?.length === 0 && (
                   <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
                     <div>
                       <div className='d-flex justify-content-center'>
@@ -667,8 +608,25 @@ useEffect(() => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
 
+                {!loading && filteredData?.length === 0 && (
+                  <div className="flex flex-col items-center justify-center w-full h-[70vh] mx-auto animate-fade-in">
+                    <div className="flex justify-center mb-4">
+                      <img
+                        src={EmptyState}
+                        alt="Empty state"
+                        className="h-[240px] w-[240px]"
+                      />
+                    </div>
+                    <div className="text-center font-gilroy font-semibold text-[18px] text-[#4B4B4B] pb-1">
+                      No vendor available
+                    </div>
+                    <div className="text-center font-gilroy font-medium text-[14px] text-[#4B4B4B] pb-1">
+                      There are no Vendors added.
+                    </div>
+                  </div>
+                )}
 
 
 
@@ -689,62 +647,35 @@ useEffect(() => {
 
         <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor}
           centered backdrop="static" dialogClassName="custom-delete-modal">
-          <Modal.Header style={{ borderBottom: "none" }}>
-            <Modal.Title
-              className="w-100 text-center"
-              style={{
-                fontSize: "18px", fontFamily: "Gilroy", fontWeight: 600, color: "#222222",
-              }}>Delete Vendor?</Modal.Title>
+          <Modal.Header className='border-0'>
+            <Modal.Title className="w-full text-center !text-[18px] !font-gilroy !font-semibold text-[#222222]">
+              Delete Vendor?
+            </Modal.Title>
 
           </Modal.Header>
 
-          <Modal.Body
-            className="text-center"
-            style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: "-10px", }}>
+          <Modal.Body className="text-center !text-[14px] !font-medium !font-gilroy -mt-2">
             Are you sure you want to delete this vendor?
           </Modal.Body>
 
 
-          <Modal.Footer
-            className="d-flex justify-content-center"
-            style={{ borderTop: "none", marginTop: "-10px" }}>
+
+          <Modal.Footer className="flex justify-center border-0 -mt-2"
+          >
             <Button
-              className="me-2"
               onClick={handleCloseForDeleteVendor}
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+              className="me-2 w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
             >
               Cancel
             </Button>
 
             <Button
-
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
-              onClick={ConfirmDeleteVendor}>
+              onClick={ConfirmDeleteVendor}
+              className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[14px]"
+            >
               Delete
             </Button>
+
 
           </Modal.Footer>
         </Modal>

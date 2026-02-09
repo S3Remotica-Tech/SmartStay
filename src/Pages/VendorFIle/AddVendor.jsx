@@ -62,7 +62,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
-useEffect(() => {
+  useEffect(() => {
 
     if (firstNameRef.current) {
       firstNameRef.current.focus();
@@ -146,9 +146,9 @@ useEffect(() => {
   };
 
 
-// const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+  // const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
-const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+  const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
 
   const handleHouseNo = (e) => {
@@ -165,7 +165,7 @@ const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
   };
 
   const handleStreetName = (e) => {
-     const value = e.target.value;
+    const value = e.target.value;
 
     if (!regex.test(value)) {
       return;
@@ -177,7 +177,7 @@ const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
   }
 
   const handleLandmark = (e) => {
-     const value = e.target.value;
+    const value = e.target.value;
 
     if (!regex.test(value)) {
       return;
@@ -212,15 +212,15 @@ const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
   }
 
-const handleBusinessChange = (e) => {
-  const value = e.target.value;
+  const handleBusinessChange = (e) => {
+    const value = e.target.value;
 
-  setGeneralError("");
-  setIsChangedError("");
-  setBusinessNameError("");
+    setGeneralError("");
+    setIsChangedError("");
+    setBusinessNameError("");
 
-  setBusiness_Name(value);
-};
+    setBusiness_Name(value);
+  };
 
 
   // const handleBusinessChange = (e) => {
@@ -750,13 +750,7 @@ const handleBusinessChange = (e) => {
 
   return (
     <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-        fontFamily: "Gilroy",
-      }}
-    >
+      className="block relative"   >
       <Modal
         show={show}
         onHide={handleClose}
@@ -765,32 +759,25 @@ const handleBusinessChange = (e) => {
         className="custom-modal-width-vendor"
 
       >
+      
         <Modal.Dialog className="m-0 p-0">
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title
-              style={{
-                fontSize: 18,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-              }}
-            >
+          <Modal.Header className="border border-[#E7E7E7]">
+            <Modal.Title className="!text-[18px] !text-[#222222] !font-gilroy !font-semibold">
               {check === "EDIT" ? "Edit a vendor" : "Add a vendor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose}
-              style={{ cursor: 'pointer' }} />
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handleClose}
+              className="cursor-pointer"
+            />
           </Modal.Header>
 
 
-
-
-          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-2 mt-2 me-3">
-            <div className="d-flex align-items-center">
-              <div
-                className=""
-                style={{ height: 100, width: 100, position: "relative" }}
-              >
+          <Modal.Body className="max-h-[380px] overflow-y-scroll pt-2 mt-2 mr-3 show-scroll">
+            <div className="flex items-center">
+              <div className="h-[100px] w-[100px] relative">
                 <Image
                   src={
                     file
@@ -800,77 +787,48 @@ const handleBusinessChange = (e) => {
                       : Profile2
                   }
                   roundedCircle
-                  style={{ height: 100, width: 100 }}
+                  className="h-[100px] w-[100px]"
                   onChange={handleImageChange}
                 />
-                <label htmlFor="imageInput" className="">
+                <label htmlFor="imageInput">
                   <Image
                     src={Plus}
                     roundedCircle
-                    style={{
-                      height: 20,
-                      width: 20,
-                      position: "absolute",
-                      top: 90,
-                      left: 80,
-                      transform: "translate(-50%, -50%)",
-                      cursor: "pointer"
-                    }}
+                    className="h-[20px] w-[20px] absolute top-[90px] left-[80px] -translate-x-1/2 -translate-y-1/2 cursor-pointer"
                   />
                   <input
                     type="file"
                     accept="image/*"
                     multiple
-                    className="sr-only"
                     id="imageInput"
                     onChange={handleImageChange}
-                    style={{ display: "none" }}
+                    className="hidden sr-only"
                   />
                 </label>
               </div>
-              <div className="ps-3">
+              <div className="pl-3">
                 <div>
-                  <label
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 500,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+                  <label className="text-[16px] font-medium text-[#222222] font-gilroy" >
                     Profile Photo
                   </label>
                 </div>
                 <div>
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+                  <label className="text-[14px] font-medium text-[#4B4B4B] font-gilroy">
                     Max size of image 10MB
                   </label>
                 </div>
               </div>
             </div>
 
-            <div className="row mt-4">
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-4">
+
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     First Name{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
                   <Form.Control
                     onChange={(e) => handleFirstNameChange(e)}
@@ -878,36 +836,22 @@ const handleBusinessChange = (e) => {
                     ref={firstNameRef}
                     type="text"
                     placeholder="Enter First Name"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: first_Name ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                 </Form.Group>
                 {firstNameError && (
                   <ErrorMessage message={firstNameError} type="error" />
                 )}
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
 
 
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Last Name{" "}
 
                   </Form.Label>
@@ -916,55 +860,31 @@ const handleBusinessChange = (e) => {
                     onChange={(e) => handleLastNameChange(e)}
                     type="text"
                     placeholder="Enter Last Name"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: last_Name ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                      marginTop: 5
-                    }}
+                    className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                 </Form.Group>
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
-
-
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Mobile No{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+
+                    <span className="text-red-600 text-[20px]">*</span>
+
                   </Form.Label>
 
                   <InputGroup>
                     <Form.Select
                       value={countryCode}
                       id="vendor-select-pg"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px 0 0 8px",
-                        height: 50,
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: countryCode ? 600 : 500,
-                        boxShadow: "none",
-                        backgroundColor: "#fff",
-                        maxWidth: 90,
-                      }}
+
+                      className={`border border-[#D9D9D9] rounded-l-[8px] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy ${countryCode ? "font-semibold" : "font-medium"
+                        } bg-white max-w-[90px] px-3 focus:outline-none`}
+
                     >
                       <option>+{countryCode}</option>
                     </Form.Select>
@@ -975,19 +895,9 @@ const handleBusinessChange = (e) => {
                       type="text"
                       placeholder="9876543210"
                       maxLength={10}
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: vendor_Mobile ? 600 : 500,
-                        boxShadow: "none",
-                        borderLeft: "unset",
-                        borderRight: "1px solid #D9D9D9",
-                        borderTop: "1px solid #D9D9D9",
-                        borderBottom: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: "0 8px 8px 0",
-                      }}
+                      className={`text-[16px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
+                        } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none`}
+
                     />
                   </InputGroup>
 
@@ -1006,20 +916,11 @@ const handleBusinessChange = (e) => {
                   <ErrorMessage message={vendorPhoneError} type="error" />
                 )}
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
-
-
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium mt-2">
                     Email ID{" "}
 
                   </Form.Label>
@@ -1028,17 +929,8 @@ const handleBusinessChange = (e) => {
                     onChange={(e) => handleEmailChange(e)}
                     type="email"
                     placeholder="Enter Email ID"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: email_Id ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                      marginTop: 5
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
+                      } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none`}
                   />
                   {emailError && (
                     <ErrorMessage message={emailError} type="error" />
@@ -1049,23 +941,16 @@ const handleBusinessChange = (e) => {
                   <ErrorMessage message={vendorEmailError} type="error" />
                 )}
               </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-span-12 ">
                 <Form.Group
 
 
 
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Business Name{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
                   <Form.Control
                     value={business_Name}
@@ -1073,16 +958,9 @@ const handleBusinessChange = (e) => {
                     type="text"
                     ref={businessNameRef}
                     placeholder="Enter Business Name"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: business_Name ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                   {businessNameError && (
                     <ErrorMessage message={businessNameError} type="error" />
@@ -1093,17 +971,10 @@ const handleBusinessChange = (e) => {
 
 
 
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+              <div className="col-span-12 mb-1">
                 <Form.Group
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Flat , House no , Building , Company , Apartment {" "}
                   </Form.Label>
                   <FormControl
@@ -1112,16 +983,9 @@ const handleBusinessChange = (e) => {
                     placeholder="Enter House No"
                     value={house_no}
                     onChange={(e) => handleHouseNo(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: house_no ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                 </Form.Group>
                 {house_noError && (
@@ -1129,17 +993,10 @@ const handleBusinessChange = (e) => {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+              <div className="col-span-12 lg:col-span-6 mb-1">
                 <Form.Group
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Area , Street , Sector , Village{" "}
                   </Form.Label>
                   <FormControl
@@ -1148,16 +1005,9 @@ const handleBusinessChange = (e) => {
                     placeholder="Enter Street"
                     value={street}
                     onChange={(e) => handleStreetName(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: street ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                 </Form.Group>
                 {streetError && (
@@ -1165,16 +1015,9 @@ const handleBusinessChange = (e) => {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+              <div className="col-span-12 lg:col-span-6 mb-1">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Landmark{" "}
                   </Form.Label>
                   <FormControl
@@ -1183,16 +1026,9 @@ const handleBusinessChange = (e) => {
                     placeholder="E.g , near appollo hospital"
                     value={landmark}
                     onChange={(e) => handleLandmark(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: landmark ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                 </Form.Group>
                 {landmarkError && (
@@ -1202,18 +1038,11 @@ const handleBusinessChange = (e) => {
 
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+              <div className="col-span-12 lg:col-span-6 mb-1">
                 <Form.Group>
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Town/City {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                    <span className="text-red-600 text-[20px]"> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -1222,16 +1051,9 @@ const handleBusinessChange = (e) => {
                     value={city}
                     ref={cityRef}
                     onChange={(e) => handleCity(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: city ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                 </Form.Group>
                 {cityError && (
@@ -1239,21 +1061,14 @@ const handleBusinessChange = (e) => {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
 
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Pincode {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
                   <Form.Control
                     value={pinCode}
@@ -1264,16 +1079,9 @@ const handleBusinessChange = (e) => {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     placeholder="Enter Pincode"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: pinCode ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+
                   />
                   {pinCodeError && (
                     <ErrorMessage message={pinCodeError} type="error" />
@@ -1283,19 +1091,11 @@ const handleBusinessChange = (e) => {
                 </Form.Group>
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group controlId="exampleForm.ControlInput5">
-                  <Form.Label
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: "#222",
-                      fontStyle: "normal",
-                      lineHeight: "normal",
-                    }}
+                  <Form.Label className="font-gilroy text-[14px] font-medium text-[#222] not-italic leading-normal"
                   >
-                    State {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    State {" "}  <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
 
                   <Select
@@ -1378,22 +1178,14 @@ const handleBusinessChange = (e) => {
               </div>
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
                   className="mb-0"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginBottom: '0px'
-                    }}
-                  >
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
                     Country {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
 
                   <Select
@@ -1477,31 +1269,13 @@ const handleBusinessChange = (e) => {
 
             </div>
           </Modal.Body>
-          {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+
+          {formLoading && (
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+              <div className="w-[40px] h-[40px] rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
+            </div>
+          )}
+
           {generalError && (
             <ErrorMessage message={generalError} type="error" />
           )}
@@ -1516,17 +1290,9 @@ const handleBusinessChange = (e) => {
           )}
 
 
-          <Modal.Footer style={{ border: "none" }}>
+          <Modal.Footer className="border-0">
             <Button
-              className="w-100"
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                padding: 12,
-              }}
+            className="w-100 !bg-[#1E45E1] !rounded-[12px] !text-[16px] !font-gilroy !font-bold p-3"
               onClick={handleAddVendor}
             >
               {check === "EDIT" ? "Save Changes" : "Add  vendor"}

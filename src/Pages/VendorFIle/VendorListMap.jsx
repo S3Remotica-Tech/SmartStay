@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
@@ -83,71 +82,39 @@ function VendorListMap(props) {
 
   return (
     <>
-      <Card
-        className="h-100 animated-text "
-        key={props.vendor && props.vendor.id}
-        style={{ borderRadius: 16, border: "1px solid #E6E6E6", marginTop: 20 }}
+
+      <div
+        key={props.vendor?.id}
+        className="h-full mt-1 rounded-[16px] border border-[#E6E6E6] bg-white animated-text
+                max-h-[300px] overflow-auto"
       >
-        <Card.Body style={{ padding: 20 }}>
-          <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <div className="d-flex gap-2">
+        <div className="p-4">
+
+          <div className="flex justify-between items-center flex-wrap">
+            <div className="flex gap-2">
               <div
-                style={{
-                  height: "60px",
-                  width: "60px",
-                  borderRadius: "50%",
-                  backgroundColor: "#C6D1FF",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "20px",
-                  fontWeight: "600",
-                  color: "#1E45E1",
-                  textTransform: "uppercase",
-                }}
+                className="flex items-center justify-center rounded-full bg-[#C6D1FF] text-[#1E45E1] font-gilroy font-semibold text-[20px] uppercase w-16 h-16"
               >
-                {props.vendor?.profilePic && props.vendor.profilePic.trim() !== "" ? (
+                {props.vendor?.profilePic?.trim() ? (
                   <Image
                     src={props.vendor.profilePic}
-                    roundedCircle
-                    style={{
-                      height: "60px",
-                      width: "60px",
-                      objectFit: "cover",
-                    }}
                     alt={props.vendor?.fullName || "Vendor"}
+                    className="rounded-full object-cover"
                   />
                 ) : (
-                  `${(props.vendor?.firstName?.[0] || "")}${(props.vendor?.lastName?.[0] || "")}`
+                  `${props.vendor?.firstName?.[0] || ""}${props.vendor?.lastName?.[0] || ""}`
                 )}
               </div>
 
               <div>
-                <div className="">
-                  <label
-                    style={{
-                      fontSize: 16,
-                      color: "#222222",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {props.vendor && props.vendor.fullName}
+                <div>
+                  <label className="text-[16px] font-gilroy font-semibold text-[#222]">
+                    {props.vendor?.fullName}
                   </label>
                 </div>
                 <div>
-                  <div
-                    style={{
-                      backgroundColor: "#FFEFCF",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      width: "fit-content",
-                      padding: 5,
-                      borderRadius: 10,
-                      fontSize: 14,
-                    }}
-                  >
-                    {props.vendor?.businessName || 'N/A'}
+                  <div className="bg-[#FFEFCF] font-gilroy font-medium text-[14px] rounded-[10px] px-2 py-[2px] w-fit">
+                    {props.vendor?.businessName || "N/A"}
                   </div>
                 </div>
               </div>
@@ -155,259 +122,106 @@ function VendorListMap(props) {
 
             <div>
               <div
-                style={{
-                  cursor: "pointer",
-                  height: 40,
-                  width: 40,
-                  borderRadius: 100,
-                  border: "1px solid #EFEFEF",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                  zIndex: showDots ? 1000 : "auto",
-                  backgroundColor: showDots ? "#E7F1FF" : "white",
-                }}
                 onClick={() => handleShowDots(props.vendor.id)}
+                className={`flex items-center justify-center rounded-full border border-[#EFEFEF] cursor-pointer relative 
+              ${showDots ? "bg-[#E7F1FF] z-[1000]" : "bg-white z-auto"} h-10 w-10`}
               >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
+
+                <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
 
                 {showDots && (
                   <div
                     ref={popupRef}
-                    className="ven-popup showdots-btn"
-                    style={{
-                      cursor: "pointer",
-                      backgroundColor: "#F9F9F9",
-                      position: "absolute",
-                      right: 45,
-                      top: '-20px',
-                      width: 160,
-                      height: "auto",
-                      border: "1px solid #EBEBEB",
-                      borderRadius: 10,
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: 0,
-                      alignItems: "flex-start",
-                      zIndex: 1000,
-                    }}
+                    className="absolute right-[45px] -top-5 w-[160px] flex flex-col items-start rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] z-[1000]"
                   >
-                    <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
-
-
-                      <div
-                        onClick={() => {
-                          if (canUpdateVendor) {
-                            handleEdit(props.vendor);
-                          }
-                        }}
-                        onMouseEnter={(e) => {
-                          if (canUpdateVendor)
-                            e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                          padding: "8px 12px",
-                          width: "100%",
-                          backgroundColor: "#F9F9F9",
-                          cursor: !canUpdateVendor ? "not-allowed" : "pointer",
-                          opacity: !canUpdateVendor ? 0.5 : 1,
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                        }}
+                    <div
+                      onClick={() => canUpdateVendor && handleEdit(props.vendor)}
+                      className={`flex items-center gap-2 w-full px-3 py-2 rounded-t-[10px] cursor-pointer ${canUpdateVendor ? "hover:bg-[#EDF2FF]" : "opacity-50 cursor-not-allowed"
+                        }`}
+                    >
+                      <Edit size={16} color={canUpdateVendor ? "#1E45E1" : "#A9A9A9"} />
+                      <span
+                        className={`text-[14px] font-gilroy font-semibold ${canUpdateVendor ? "text-[#222]" : "text-[#A9A9A9]"
+                          }`}
                       >
-                        <Edit size="16" color={!canUpdateVendor ? "#A9A9A9" : "#1E45E1"} />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
+                        Edit
+                      </span>
+                    </div>
 
-                            color: !canUpdateVendor ? "#A9A9A9" : "#222222",
-                            cursor: !canUpdateVendor ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Edit
-                        </label>
-                      </div>
+                    <div className="h-[1px] bg-[#F0F0F0]" />
 
-
-                      <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                      <div
-                        onClick={() => {
-                          if (canDeleteVendor) {
-                            handleDelete(props.vendor);
-                          }
-                        }}
-                        onMouseEnter={(e) => {
-                          if (canDeleteVendor)
-                            e.currentTarget.style.backgroundColor = "#FFF0F0";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                          padding: "8px 12px",
-                          width: "100%",
-                          backgroundColor: "#F9F9F9",
-                          cursor: !canDeleteVendor ? "not-allowed" : "pointer",
-                          opacity: !canDeleteVendor ? 0.5 : 1,
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-                        }}
+                    <div
+                      onClick={() => canDeleteVendor && handleDelete(props.vendor)}
+                      className={`flex items-center gap-2 w-full px-3 py-2 rounded-b-[10px] cursor-pointer ${canDeleteVendor ? "hover:bg-[#FFF0F0]" : "opacity-50 cursor-not-allowed"
+                        }`}
+                    >
+                      <Trash size={16} color={canDeleteVendor ? "red" : "#A9A9A9"} />
+                      <span
+                        className={`text-[14px] font-gilroy font-semibold ${canDeleteVendor ? "text-red-600" : "text-[#A9A9A9]"
+                          }`}
                       >
-
-                        <Trash
-                          size="16"
-                          color={!canDeleteVendor ? "#292828ff" : "red"}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-
-                            color: !canDeleteVendor ? "#A9A9A9" : "#FF0000",
-                            cursor: !canDeleteVendor ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Delete
-                        </label>
-                      </div>
+                        Delete
+                      </span>
                     </div>
                   </div>
-
                 )}
               </div>
             </div>
           </div>
-          <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
 
-          <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <div className="mb-2" style={{ lineHeight: 1 }}>
+          <hr className="my-2 border border-[#E7E7E7]" />
+
+          <div className="flex justify-between items-center flex-wrap mb-4">
+            <div className="mb-2 leading-none">
               <div className="pb-1">
-                <label
-                  style={{
-                    color: "#939393",
-                    fontSize: 13,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Email ID{" "}
-                </label>
+                <label className="text-[14px] font-gilroy font-medium text-slate-600">Email ID</label>
               </div>
               <div>
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 16,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {props.vendor &&
-                    props.vendor.emailId &&
-                    props.vendor.emailId !== "undefined"
+                <label className="text-[16px] font-gilroy font-semibold text-[#222]">
+                  {props.vendor?.emailId && props.vendor.emailId !== "undefined"
                     ? props.vendor.emailId
                     : "N/A"}
                 </label>
               </div>
             </div>
-            <div className="mb-2" style={{ lineHeight: 1 }}>
+
+            <div className="mb-2 leading-none">
               <div className="pb-1">
-                <label
-                  style={{
-                    color: "#939393",
-                    fontSize: 13,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
+                <label className="text-[14px] font-gilroy font-medium text-slate-600">
                   Contact Number
                 </label>
               </div>
               <div>
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 16,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-
-                  {props.vendor && props.vendor.mobile && (
-                    <>
-                      +{props.vendor.mobile.slice(0, 2)} {props.vendor.mobile.slice(2)}
-                    </>
+                <label className="text-[16px] font-gilroy font-semibold text-[#222]">
+                  {props.vendor?.mobile && (
+                    <>+{props.vendor.mobile.slice(0, 2)} {props.vendor.mobile.slice(2)}</>
                   )}
                 </label>
               </div>
             </div>
           </div>
 
-
-
-          <div className="mb-2" style={{ lineHeight: 1 }}>
-            <div className="d-flex justify-content-between flex-wrap">
-
-              <div style={{ maxWidth: "75%" }}>
+          <div className="mb-2 leading-none">
+            <div className="flex justify-between flex-wrap">
+              <div className="max-w-[75%]">
                 <div className="pb-1">
-                  <label
-                    style={{
-                      color: "#939393",
-                      fontSize: 13,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Address
-                  </label>
+                  <label className="text-[14px] font-gilroy font-medium text-slate-600 mb-1">Address</label>
                 </div>
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 16,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    wordBreak: "break-word",
-                  }}
-                >
-                  <>
-                    {isValid(props.vendor?.houseNo) && <>{props.vendor.houseNo}, </>}
-                    {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
-                    {isValid(props.vendor?.landMark) && <>{props.vendor.landMark}, </>}
-                    {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
-                    {isValid(props.vendor?.state) && <>{props.vendor.state}{props.vendor.country ? ' ' : ''},</>}
-
-                    <br />
-
-                    {props.vendor.country} - {isValid(props.vendor?.pinCode) && <>{props.vendor.pinCode}</>}
-                  </>
+                <label className="text-[16px] font-gilroy font-semibold text-[#222] break-words">
+                  {isValid(props.vendor?.houseNo) && `${props.vendor.houseNo}, `}
+                  {isValid(props.vendor?.area) && `${props.vendor.area}, `}
+                  {isValid(props.vendor?.landMark) && `${props.vendor.landMark}, `}
+                  {isValid(props.vendor?.city) && `${props.vendor.city}, `}
+                  {isValid(props.vendor?.state) && `${props.vendor.state}${props.vendor.country ? " " : ""},`}
+                  <br />
+                  {props.vendor.country} {isValid(props.vendor?.pinCode) && `- ${props.vendor.pinCode}`}
                 </label>
               </div>
-
             </div>
           </div>
+        </div>
+      </div>
 
-
-
-        </Card.Body>
-      </Card>
     </>
   );
 }

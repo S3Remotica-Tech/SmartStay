@@ -131,7 +131,7 @@ function UserEb(props) {
   return (
     <>
 
-      <div>
+      <div className="mt-[50px]">
         <div className="mt-2 pb-5">
           {
 
