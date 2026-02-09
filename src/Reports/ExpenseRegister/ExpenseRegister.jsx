@@ -82,8 +82,15 @@ function ExpenseRegister() {
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
       payload: {
-        startDate: undefined,
+           startDate: undefined,
         endDate: undefined,
+        category: [],
+        period: undefined,
+        paymentMode: [],
+        paidTo: [],
+        createdBy: [],
+        createdByLabels: [],
+        categoryLabel:[]
 
       },
     })
@@ -150,9 +157,15 @@ function ExpenseRegister() {
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
       payload: {
-        startDate: undefined,
+           startDate: undefined,
         endDate: undefined,
-
+        category: [],
+        period: undefined,
+        paymentMode: [],
+        paidTo: [],
+        createdBy: [],
+        createdByLabels: [],
+        categoryLabel:[]
       },
     })
   }
@@ -192,13 +205,20 @@ const handleDateChange = (dates) => {
         if (!dates) {
             setSelectedRange(null);
             dispatch({
-                type: "SET_EXPENSE_REGISTER_FILTERS",
-                payload: {
-                    startDate: undefined,
-                    endDate: undefined,
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: {
+           startDate: undefined,
+        endDate: undefined,
+        category: [],
+        period: undefined,
+        paymentMode: [],
+        paidTo: [],
+        createdBy: [],
+        createdByLabels: [],
+        categoryLabel:[]
 
-                },
-            })
+      },
+    })
             dispatch({
                 type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
                     hostelId: state.login.selectedHostel_Id,
@@ -285,6 +305,13 @@ const handleDateChange = (dates) => {
       payload: {
         startDate: undefined,
         endDate: undefined,
+        category: [],
+        period: undefined,
+        paymentMode: [],
+        paidTo: [],
+        createdBy: [],
+        createdByLabels: [],
+        categoryLabel:[]
 
       },
     })
@@ -338,6 +365,46 @@ const handleDateChange = (dates) => {
       });
     }
 
+ if (invoiceFilters?.categoryLabel?.length) {
+      filterData.push({
+        key: "category",
+        label: "Category  is",
+        type: "category",
+        value: invoiceFilters.categoryLabel.join(", "),
+      });
+    }
+
+
+
+
+ if (invoiceFilters?.createdByLabels?.length) {
+      filterData.push({
+        key: "collected",
+        label: "Collected By  is",
+        type: "collected",
+        value: invoiceFilters.createdByLabels.join(", "),
+      });
+    }
+
+
+    if (invoiceFilters?.period?.length) {
+      filterData.push({
+        key: "period",
+        label: "Period  is",
+        type: "period",
+        value: invoiceFilters?.period,
+      });
+    }
+
+
+    if (invoiceFilters?.paymentMode?.length) {
+      filterData.push({
+        key: "payment",
+        label: "PaymentMode  is",
+        type: "payment",
+        value: invoiceFilters.paymentMode.join(", "),
+      });
+    }
     setChips(filterData);
   }, [state.reports.expenseRegisterFilters]);
 

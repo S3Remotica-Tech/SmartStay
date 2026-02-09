@@ -18,6 +18,10 @@ export const initialState = {
         invoiceModes: [],
         paymentStatus: [],
         search: "",
+          minPaidAmount: "",
+      maxPaidAmount:"",
+      minOutstandingAmount: "",
+      maxOutstandingAmount: "",
 
     },
     expenseRegisterFilters: {
@@ -25,20 +29,22 @@ export const initialState = {
         endDate: undefined,
         category: [],
         period: undefined,
-        paymenttMode: [],
+        paymentMode: [],
         paidTo: [],
         createdBy: [],
-
+        createdByLabels: [],
+        categoryLabel:[]
 
     },
 
     receiptRegisterFilters: {
         startDate: undefined,
         endDate: undefined,
-        invoiceTypes: [],
-        createdBy: [],
+        invoiceType: [],
+        collectedBy: [],
+        createdByLabels: [],
         period: undefined,
-        paymentStatus: [],
+        paymentMode: [],
 
 
     },

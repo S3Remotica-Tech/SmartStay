@@ -14,18 +14,19 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ReceiptFilter({ show, handleClose }) {
-    // const state = useSelector((state) => state);
+function ReceiptFilter({ show, handleClose , size, page }) {
+    const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
 
     const [selectedInvoiceType, setSelectedInvoiceType] = useState([]);
-    const [selectedPeriod, setSelectedPeriod] = useState({ label: "Last Month", value: "LAST_MONTH" });
-    const [selectedPaymentMode, setSelectedPaymentMode] = useState(null);
-    const [selectedCollectedBy, setSelectedCollectedBy] = useState(null);
+    const [selectedPeriod, setSelectedPeriod] = useState(null);
+    const [selectedPaymentMode, setSelectedPaymentMode] = useState([]);
+    const [selectedCollectedBy, setSelectedCollectedBy] = useState([]);
+    const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState([]);
     const [formLoading, setFormLoading] = useState(false)
 
-
+console.log("selectedCollectedBylabels",selectedCollectedBylabels)
 
     const selectStyles = {
         control: (base) => ({
@@ -109,37 +110,77 @@ function ReceiptFilter({ show, handleClose }) {
     }
 
 
-
-    // const filterOptionsData = useSelector(
-    //     (state) => state.InvoiceList?.billsList?.filterOptions
-    // );
-
+    const filterOptionsData = useSelector(
+        (state) => state?.reports?.getReceiptRegister?.filters
+    );
 
 
 
 
+    const typeOptions =
+        filterOptionsData?.invoiceType?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
 
+    const periodOptions =
+        filterOptionsData?.period?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
+    const paymentModeOptions =
+        filterOptionsData?.paymentMode?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
+    const collectedByOptions =
+        filterOptionsData?.collectedBy?.map(item => ({
+            label: item.user_name,
+            value: item.user_id
+        })) || [];
 
 
-
-
-
-
-    const handleTenantChange = (e) => {
-        setTenantName(e.target.value);
+    const handleInvoiceTypeChange = (selected) => {
+        setSelectedInvoiceType(selected.map(opt => opt.value));
     };
 
-   const invoiceTypeOptions = [
-    { label: "All", value: "ALL" },
-    { label: "Rent", value: "RENT" },
-    { label: "Advance", value: "ADVANCE" },
-];
+    const selectedTypeOptions = typeOptions.filter(opt =>
+        selectedInvoiceType.includes(opt.value)
+    );
+
+
+
+    const handlePaymentModeChange = (selected) => {
+        setSelectedPaymentMode(selected.map(opt => opt.value));
+    };
+
+    const selectedPaymentModeOptions = paymentModeOptions.filter(opt =>
+        selectedPaymentMode.includes(opt.value)
+    );
+
+    const handleCollectedByChange = (selected) => {
+        setSelectedCollectedBy(selected.map(opt => opt.value));
+        setSelectedCollectedBylabels(selected.map(opt => opt.label))
+    };
+
+    const selectedCollectedByOptions = collectedByOptions.filter(opt =>
+        selectedCollectedBy.includes(opt.value)
+    );
+
+
+
+    const handlePeriodChange = (selected) => {
+        setSelectedPeriod(selected);
+    };
+
+
+
 
 
 
@@ -197,8 +238,56 @@ function ReceiptFilter({ show, handleClose }) {
 
 
     const handleFilterBills = () => {
+   
 
-    }
+        if (!state.login?.selectedHostel_Id) return;
+
+        const ReceiptFilter = {
+            invoiceType: selectedInvoiceType?.length
+                ? selectedInvoiceType
+                : undefined,
+
+            paymentMode: selectedPaymentMode?.length
+                ? selectedPaymentMode
+                : undefined,
+
+            collectedBy: selectedCollectedBy?.length
+                ? selectedCollectedBy
+                : undefined,
+
+            period: selectedPeriod?.value
+                ? selectedPeriod.value
+                : "",
+                createdByLabels: selectedCollectedBylabels ,
+
+            page: page,
+            size: size,
+        };
+
+
+        dispatch({
+            type: "SET_RECEIPT_REGISTER_FILTERS",
+            payload: ReceiptFilter
+        });
+
+        console.log("ReceiptFilter",ReceiptFilter)
+
+        const hasFilters = Object.values(ReceiptFilter).some(
+            v => v !== undefined && v !== "" && v !== 0
+        );
+
+        if (!hasFilters) return;
+
+        dispatch({
+            type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: ReceiptFilter
+            }
+        });
+
+        setFormLoading(true);
+    };
 
 
 
@@ -229,18 +318,18 @@ function ReceiptFilter({ show, handleClose }) {
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
-                        
+
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Invoice Type
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 isMulti
                                 closeMenuOnSelect={false}
                                 hideSelectedOptions={false}
-                                options={invoiceTypeOptions}
-                                value={selectedInvoiceType}
-                                onChange={setSelectedInvoiceType} 
+                                options={typeOptions}
+                                value={selectedTypeOptions}
+                                onChange={handleInvoiceTypeChange}
                                 styles={selectStyles}
                                 components={{ Option: CheckboxOption }}
                                 placeholder="Select Status"
@@ -251,15 +340,12 @@ function ReceiptFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 styles={selectStyles}
-                                placeholder="Last Month"
+                                placeholder="Select Period"
                                 value={selectedPeriod}
-                                onChange={setSelectedPeriod} 
-                                options={[
-                                    { label: "This Month", value: "THIS_MONTH" },
-                                    { label: "Last Month", value: "LAST_MONTH" },
-                                ]}
+                                onChange={handlePeriodChange}
+                                options={periodOptions}
                             />
                         </Form.Group>
 
@@ -267,35 +353,36 @@ function ReceiptFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Payment Mode
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                 hideSelectedOptions={false}
+                                options={paymentModeOptions}
+                                value={selectedPaymentModeOptions}
+                                onChange={handlePaymentModeChange}
                                 styles={selectStyles}
-                                placeholder="Select type..."
-                                value={selectedPaymentMode}
-                                onChange={setSelectedPaymentMode} 
-                               options={[
-            { label: "Cash", value: "CASH" },
-            { label: "Bank", value: "BANK" },
-            { label: "Card", value: "CARD" },
-            { label: "UPI", value: "UPI" },
-        ]}
+                                components={{ Option: CheckboxOption }}
+                                placeholder="Select Payment Mode"
                             />
+
                         </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Collected By
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
+                                isMulti 
+                                 hideSelectedOptions={false}
+                                closeMenuOnSelect={false}
+                                options={collectedByOptions}
+                                value={selectedCollectedByOptions}
+                                onChange={handleCollectedByChange}
                                 styles={selectStyles}
-                                placeholder="Select type..."
-                                value={selectedCollectedBy}
-                                onChange={setSelectedCollectedBy} 
-                                options={[
-                                    { label: "Staff 1", value: "SINGLE" },
-                                    { label: "Staff 2", value: "DOUBLE" },
-                                    { label: "Staff 3", value: "TRIPLE" },
-                                ]}
+                                components={{ Option: CheckboxOption }}
+                                placeholder="Select Collected By"
                             />
+
                         </Form.Group>
 
 
@@ -346,10 +433,10 @@ function ReceiptFilter({ show, handleClose }) {
                 }}>
                     <Button
                         onClick={() => {
-                            // setBillStatus([]);
-                            // setInvoiceType([]);
-                            // setInvoiceMode([]);
-                            // setCreatedBy([]);
+                            setSelectedInvoiceType([]);
+                            setSelectedPeriod(null);
+                            setSelectedPaymentMode([]);
+                            setSelectedCollectedBy([]);
                         }}
                         style={{
                             backgroundColor: "transparent",

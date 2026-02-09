@@ -124,7 +124,11 @@ function ReceiptRegister() {
       payload: {
         startDate: undefined,
         endDate: undefined,
-
+        invoiceType: [],
+        collectedBy: [],
+        period: undefined,
+        paymentMode: [],
+        createdByLabels: [],
       },
     })
   }
@@ -159,13 +163,31 @@ function ReceiptRegister() {
       payload: {
         startDate: undefined,
         endDate: undefined,
-
+        invoiceType: [],
+        collectedBy: [],
+        period: undefined,
+        paymentMode: [],
+        createdByLabels: [],
       },
     })
   }
 
   const handleClickFilter = () => {
     setInvoiceFilter(true)
+    dispatch({
+      type: "SET_RECEIPT_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        invoiceType: [],
+        collectedBy: [],
+        period: undefined,
+        paymentMode: [],
+        createdByLabels: [],
+      },
+    })
+
+
   }
 
   const handleCloseFilterBills = () => {
@@ -175,7 +197,7 @@ function ReceiptRegister() {
 
 
   const stats = [
-    { title: "Total Receipts", value: state?.reports?.getReceiptRegister?.pagination?.totalRecords},
+    { title: "Total Receipts", value: state?.reports?.getReceiptRegister?.pagination?.totalRecords },
     { title: "Collected Amount", value: state?.reports?.getReceiptRegister?.summary?.receivedAmount, },
 
   ];
@@ -200,7 +222,11 @@ function ReceiptRegister() {
       payload: {
         startDate: undefined,
         endDate: undefined,
-
+        invoiceType: [],
+        collectedBy: [],
+        period: undefined,
+        paymentMode: [],
+        createdByLabels: [],
       },
     })
     dispatch({
@@ -217,7 +243,7 @@ function ReceiptRegister() {
 
 
   useEffect(() => {
-    const invoiceFilters = state.reports.receiptRegisterFilters;
+    const invoiceFilters = state.reports?.receiptRegisterFilters;
     const filterData = [];
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
@@ -232,78 +258,117 @@ function ReceiptRegister() {
       });
     }
 
+    if (invoiceFilters?.invoiceType?.length) {
+      filterData.push({
+        key: "type",
+        label: "Type is",
+        type: "type",
+        value: invoiceFilters.invoiceType.join(", "),
+      });
+    }
+
+    if (invoiceFilters?.createdByLabels?.length) {
+      filterData.push({
+        key: "collected",
+        label: "Collected By  is",
+        type: "collected",
+        value: invoiceFilters.createdByLabels.join(", "),
+      });
+    }
+
+
+    if (invoiceFilters?.period?.length) {
+      filterData.push({
+        key: "period",
+        label: "Period  is",
+        type: "period",
+        value: invoiceFilters?.period,
+      });
+    }
+
+
+    if (invoiceFilters?.paymentMode?.length) {
+      filterData.push({
+        key: "payment",
+        label: "PaymentMode  is",
+        type: "payment",
+        value: invoiceFilters.paymentMode.join(", "),
+      });
+    }
+
+
     setChips(filterData);
   }, [state.reports.receiptRegisterFilters]);
 
- const handleDateChange = (dates) => {
-        if (!dates) {
-            setSelectedRange(null);
-            dispatch({
-                type: "SET_RECEIPT_REGISTER_FILTERS",
-                payload: {
-                    startDate: undefined,
-                    endDate: undefined,
+  const handleDateChange = (dates) => {
+    if (!dates) {
+      setSelectedRange(null);
+      dispatch({
+        type: "SET_RECEIPT_REGISTER_FILTERS",
+        payload: {
+          startDate: undefined,
+          endDate: undefined,
 
-                },
-            })
-            dispatch({
-                type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {
-                        size: size,
-                        page: page,
-                    }
-                }
-            })
-
-            return;
+        },
+      })
+      dispatch({
+        type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size: size,
+            page: page,
+          }
         }
+      })
 
-        const range = {
-            from: dates[0].toDate(),
-            to: dates[1].toDate(),
-        };
+      return;
+    }
 
-        setSelectedRange(range);
-      
-        const filters = {
-            startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
-            endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
-            size: size,
-            page: page,
-        };
-
-        dispatch({
-            type: "SET_RECEIPT_REGISTER_FILTERS",
-            payload: filters
-        });
-
-
+    const range = {
+      from: dates[0].toDate(),
+      to: dates[1].toDate(),
     };
-    
-    useEffect(() => {
-        if (!state.login?.selectedHostel_Id) return;
-        const filters = {
-            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
-            size: size,
-            page: page,
-        };
-        dispatch({
-            type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-            payload: {
-                hostelId: state.login.selectedHostel_Id,
-                filters: filters,
-            },
-        });
-    }, [size, page, selectedRange]);
+
+    setSelectedRange(range);
+
+    const filters = {
+      startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+      endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+      size: size,
+      page: page,
+    };
+
+    dispatch({
+      type: "SET_RECEIPT_REGISTER_FILTERS",
+      payload: filters
+    });
+
+
+  };
+
+  useEffect(() => {
+    if (!state.login?.selectedHostel_Id) return;
+    const filters = {
+      startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+      endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+      size: size,
+      page: page,
+    };
+    dispatch({
+      type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: filters,
+      },
+    });
+  }, [size, page, selectedRange]);
 
 
 
 
 
 
- 
+
   const currentPage =
     state?.reports?.getReceiptRegister?.pagination?.currentPage ?? 1;
 
@@ -329,7 +394,7 @@ function ReceiptRegister() {
   };
 
 
-  
+
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -447,7 +512,7 @@ function ReceiptRegister() {
         </div>
 
       </div>
- <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
+      <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
         {chips.length > 0 && (
           <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
@@ -655,16 +720,16 @@ function ReceiptRegister() {
 
                   </tr>
                 ))
-                 : (
-                                    <tr>
-                                        <td
-                                            colSpan={9}
-                                            className="py-10 text-center text-sm text-red-800 font-semibold"
-                                        >
-                                            No Data Found
-                                        </td>
-                                    </tr>
-                                )}
+                  : (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="py-10 text-center text-sm text-red-800 font-semibold"
+                      >
+                        No Data Found
+                      </td>
+                    </tr>
+                  )}
               </tbody>
 
             </table>
@@ -759,7 +824,7 @@ function ReceiptRegister() {
 
       </div>
       {
-        invoiceFilter && <ReceiptFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
+        invoiceFilter && <ReceiptFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} />
       }
     </div>
   )

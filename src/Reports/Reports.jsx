@@ -12,7 +12,6 @@ import {
 } from "iconsax-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineBarChart } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -290,7 +289,11 @@ useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       setLoading(true)
 
-      dispatch({ type: 'GET_REEPORTS_SAGA', payload: state.login.selectedHostel_Id })
+       dispatch({
+                type: 'GET_REEPORTS_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {}
+                  }}) 
 
 
     }
@@ -350,13 +353,43 @@ useEffect(() => {
       navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
   }
-  // useEffect(() => {
-  //   setSelectedRange({
-  //     from: dayjs().startOf("month").toDate(),
-  //     to: dayjs().endOf("month").toDate(),
-  //   });
-  // }, []);
+ 
 
+
+ const handleDateChange = (dates) => {
+        if (!dates) {
+            setSelectedRange(null);
+                      dispatch({
+                type: 'GET_REEPORTS_SAGA', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {}
+                  }})                
+                        return;
+        }
+
+        const range = {
+            from: dates[0].toDate(),
+            to: dates[1].toDate(),
+        };
+
+        setSelectedRange(range);
+       
+    };
+    
+    useEffect(() => {
+        if (!state.login?.selectedHostel_Id) return;
+        const filters = {
+            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+                   };
+        dispatch({
+            type: "GET_REEPORTS_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: filters,
+            },
+        });
+    }, [selectedRange]);
 
 
 
@@ -393,45 +426,40 @@ useEffect(() => {
           className="datepicker-wrapper"
           style={{ position: "relative", }}
         >
-          <RangePicker disabled
-
-            style={{
-              width: "100%",
-              height: "100%",
-              cursor: "pointer",
-              fontFamily: "Gilroy",
-
-            }}
-            format="DD/MM/YYYY"
-            placeholder={["From date", "To date"]}
-            value={
-              selectedRange?.from && selectedRange?.to
-                ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
-                : null
-            }
-            onChange={(dates) => {
-
-              if (dates) {
-                setSelectedRange({
-                  from: dates[0].toDate(),
-                  to: dates[1].toDate(),
-                });
-              } else {
-                setSelectedRange(null);
-              }
-            }}
-            disabledDate={(current) => {
-              if (!selectedRange?.from) return current > dayjs().endOf("day");
-              return (
-                current > dayjs().endOf("day") ||
-                current < dayjs(selectedRange.from).startOf("day")
-              );
-            }}
-
-            getPopupContainer={(triggerNode) =>
-              triggerNode.closest(".datepicker-wrapper")
-            }
-          />
+            <RangePicker
+                                      style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          cursor: "pointer",
+                                          fontFamily: "Gilroy",
+          
+                                      }}
+                                      format="DD/MM/YYYY"
+                                      placeholder={["From date", "To date"]}
+                                      value={
+                                          selectedRange?.from && selectedRange?.to
+                                              ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                                              : null
+                                      }
+                                      onChange={handleDateChange}
+                                      disabledDate={(current) => {
+          
+                                          if (current && current > dayjs().endOf("day")) {
+                                              return true;
+                                          }
+          
+          
+                                          if (selectedRange?.from) {
+                                              return current < dayjs(selectedRange.from).startOf("day");
+                                          }
+          
+                                          return false;
+                                      }}
+          
+                                      getPopupContainer={(triggerNode) =>
+                                          triggerNode.closest(".datepicker-wrapper")
+                                      }
+                                  />
         </div>
 
       </div>

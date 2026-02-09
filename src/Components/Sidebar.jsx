@@ -1369,7 +1369,7 @@ function Sidebar() {
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div key={window.location.pathname} className="mt-1 ml-2.5 mr-1">
                     <BillsPdfDetails />
                   </div>
                 }
@@ -2013,7 +2013,7 @@ function Sidebar() {
                 <img src={SettingIcon} alt="Settings Icon" className="w-6 h-6" />
               </NavLink>
 
-              {/* Help Video */}
+              
               <div
                 onMouseEnter={() => handleMouseEnter("helpVideo")}
                 onMouseLeave={handleMouseLeave}

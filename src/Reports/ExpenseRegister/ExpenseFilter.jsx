@@ -11,18 +11,19 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ExpenseFilter({ show, handleClose , size, page}) {
-    // const state = useSelector((state) => state);
+function ExpenseFilter({ show, handleClose, size, page }) {
+    const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    // const [tenantStatus, setTenantStatus] = useState(null);
     const [period, setPeriod] = useState(null);
-  
-    const [tenantName, setTenantName] = useState("");
+
     const [formLoading, setFormLoading] = useState(false)
-    const [paymentMode, setPaymentMode] = useState(null);
-    const [paidTo, setPaidTo] = useState(null);
-    const [createdBy, setCreatedBy] = useState(null)
-    const [category, setCategory] = useState(null)
+    const [paymentMode, setPaymentMode] = useState([]);
+    const [paidTo, setPaidTo] = useState([]);
+    const [createdBy, setCreatedBy] = useState([])
+    const [category, setCategory] = useState([])
+    const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState([]);
+
 
     const selectStyles = {
         control: (base) => ({
@@ -107,18 +108,42 @@ function ExpenseFilter({ show, handleClose , size, page}) {
 
 
 
-    // const filterOptionsData = useSelector(
-    //     (state) => state.InvoiceList?.billsList?.filterOptions
-    // );
+    const filterOptionsData = useSelector(
+        (state) => state.reports?.getExpenseRegister?.filtersData
+    );
 
 
+    const categoryOptions =
+        filterOptionsData?.category?.map(item => ({
+            label: item.categoryName,
+            value: item.categoryId
+        })) || [];
 
 
+    const paymentModeOptions =
+        filterOptionsData?.paymentMode?.map(item => ({
+            label: item,
+            value: item
+        })) || [];
 
 
-    
+    const createdByOptions =
+        filterOptionsData?.createdBy?.map(item => ({
+            label: item.userName,
+            value: item.userId
+        })) || [];
 
+    const paidToOptions =
+        filterOptionsData?.paidTo?.map(item => ({
+            label: item,
+            value: item,
+        })) || [];
 
+    const periodOptions =
+        filterOptionsData?.periods?.map(item => ({
+            label: item.name,
+            value: item.value,
+        })) || [];
 
     const CheckboxOption = (props) => {
         const { isSelected, label } = props;
@@ -165,6 +190,57 @@ function ExpenseFilter({ show, handleClose , size, page}) {
     };
 
 
+    const handlePeriodChange = (opt) => {
+        setPeriod(opt?.value)
+    }
+    const handlePaymentMode = (selected) => {
+        setPaymentMode(selected.map(opt => opt.value))
+    }
+
+    const handlePaidChange = (opt) => setPaidTo(opt?.value);
+
+    const handleCreatedByChange = (selected) => {
+        setCreatedBy(selected.map(opt => opt.value))
+        setSelectedCollectedBylabels(selected.map(opt => opt.label))
+
+    }
+
+
+
+    const handleCategoryChange = (selected) => {
+        console.log("selected", selected)
+        setCategory(selected.map(opt => opt.value));
+        setSelectedCategory(selected.map(opt => opt.label))
+    };
+
+    const selectedCategoryOptions = categoryOptions.filter(opt =>
+        category.includes(opt.value)
+    );
+
+
+
+    const selectedPaymentModeOptions =
+        paymentModeOptions.filter(opt => paymentMode.includes(opt.value)
+        )
+
+    const selectedPeriodOption =
+        periodOptions.filter(opt => period.includes(opt.value)
+        )
+
+
+    const selectedPaidToOption =
+        paidToOptions.filter(opt => paidTo.includes(opt.value)
+        )
+
+
+
+    const selectedCreatedByOption =
+        createdByOptions.filter(opt => createdBy.includes(opt.value)
+        )
+
+
+
+
 
 
 
@@ -173,13 +249,60 @@ function ExpenseFilter({ show, handleClose , size, page}) {
 
     const handleFilterBills = () => {
 
-    }
+
+        if (!state.login?.selectedHostel_Id) return;
+
+        const expnseFilter = {
+            category: category?.length
+                ? category
+                : undefined,
+            categoryLabel: selectedCategory?.length
+                ? selectedCategory
+                : undefined,
+            paymentMode: paymentMode?.length
+                ? paymentMode
+                : undefined,
+
+            createdBy: createdBy?.length
+                ? createdBy
+                : undefined,
+
+            period: period?.value
+                ? period.value
+                : "",
+            createdByLabels: selectedCollectedBylabels,
+
+            page: page,
+            size: size,
+        };
 
 
-    const handlePeriodChange = (opt) => setPeriod(opt?.value);
-    const handlePaymentMode = (opt) => setPaymentMode(opt?.value);
-    const handlePaidChange = (opt) => setPaidTo(opt?.value);
-    const handleCreatedByChange = (opt) => setCreatedBy(opt?.value);
+        dispatch({
+            type: "SET_EXPENSE_REGISTER_FILTERS",
+            payload: expnseFilter
+        });
+
+
+
+        const hasFilters = Object.values(expnseFilter).some(
+            v => v !== undefined && v !== "" && v !== 0
+        );
+
+        if (!hasFilters) return;
+
+        dispatch({
+            type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: expnseFilter
+            }
+        });
+
+        setFormLoading(true);
+    };
+
+
+
 
 
 
@@ -254,16 +377,22 @@ function ExpenseFilter({ show, handleClose , size, page}) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Category
                             </Form.Label>
-                            <Select isDisabled
+
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                options={categoryOptions}
+                                value={selectedCategoryOptions}
+                                onChange={handleCategoryChange}
                                 styles={selectStyles}
-                                value={category}
-                                onChange={setCategory}
-                                options={[{ label: "Electricity", value: "electricity" }]}
+                                components={{ Option: CheckboxOption }}
                                 placeholder="Select"
                             />
+
                         </Form.Group>
 
-                     
+
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
@@ -272,7 +401,7 @@ function ExpenseFilter({ show, handleClose , size, page}) {
                                 styles={selectStyles}
                                 value={period}
                                 onChange={handlePeriodChange}
-                                options={[{ label: "Last Month", value: "last_month" }]}
+                                options={periodOptions}
                                 placeholder="Select"
                             />
                         </Form.Group>
@@ -282,12 +411,17 @@ function ExpenseFilter({ show, handleClose , size, page}) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Payment Mode
                             </Form.Label>
-                            <Select isDisabled
-                                styles={selectStyles}
-                                value={paymentMode}
+
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                options={paymentModeOptions}
+                                value={selectedPaymentModeOptions}
                                 onChange={handlePaymentMode}
-                                options={[{ label: "Cash", value: "cash" }]}
-                                placeholder="Select"
+                                styles={selectStyles}
+                                components={{ Option: CheckboxOption }}
+                                placeholder="Select Payment Mode"
                             />
                         </Form.Group>
 
@@ -298,11 +432,16 @@ function ExpenseFilter({ show, handleClose , size, page}) {
                             </Form.Label>
                             <Select isDisabled
                                 styles={selectStyles}
-                                value={paidTo}
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                value={selectedPaidToOption}
                                 onChange={handlePaidChange}
-                                options={[{ label: "Vendor", value: "vendor" }]}
+                                options={paidToOptions}
+                                components={{ Option: CheckboxOption }}
                                 placeholder="Select"
                             />
+
                         </Form.Group>
 
 
@@ -310,13 +449,18 @@ function ExpenseFilter({ show, handleClose , size, page}) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Created By
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
                                 styles={selectStyles}
-                                value={createdBy}
+                                value={selectedCreatedByOption}
                                 onChange={handleCreatedByChange}
-                                options={[{ label: "Admin", value: "admin" }]}
+                                options={createdByOptions}
+                                components={{ Option: CheckboxOption }}
                                 placeholder="Select"
                             />
+
                         </Form.Group>
                     </div>
                 </Offcanvas.Body>
@@ -363,10 +507,11 @@ function ExpenseFilter({ show, handleClose , size, page}) {
                 }}>
                     <Button
                         onClick={() => {
-                            setBillStatus([]);
-                            setInvoiceType([]);
-                            setInvoiceMode([]);
+                            setPeriod([]);
+                            setPaymentMode([]);
+                            setPaidTo([]);
                             setCreatedBy([]);
+                            setCategory([]);
                         }}
                         style={{
                             backgroundColor: "transparent",
@@ -399,7 +544,7 @@ ExpenseFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
-        page:  PropTypes.any,
+    page: PropTypes.any,
 };
 
 export default ExpenseFilter
