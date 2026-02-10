@@ -126,7 +126,7 @@ function ReceiptRegister() {
         endDate: undefined,
         invoiceType: [],
         collectedBy: [],
-        period: undefined,
+        period: [],
         paymentMode: [],
         createdByLabels: [],
       },
@@ -165,7 +165,7 @@ function ReceiptRegister() {
         endDate: undefined,
         invoiceType: [],
         collectedBy: [],
-        period: undefined,
+        period: [],
         paymentMode: [],
         createdByLabels: [],
       },
@@ -224,7 +224,7 @@ function ReceiptRegister() {
         endDate: undefined,
         invoiceType: [],
         collectedBy: [],
-        period: undefined,
+        period: [],
         paymentMode: [],
         createdByLabels: [],
       },
@@ -300,6 +300,29 @@ function ReceiptRegister() {
     setChips(filterData);
   }, [state.reports.receiptRegisterFilters]);
 
+
+  useEffect(() => {
+    const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
+    const apiEnd = state?.reports?.getReceiptRegister?.summary?.endDate;
+
+    if (!apiStart || !apiEnd) return;
+
+    const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+    const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+
+    if (
+      selectedRange?.from &&
+      selectedRange?.to &&
+      dayjs(selectedRange.from).isSame(from, "day") &&
+      dayjs(selectedRange.to).isSame(to, "day")
+    ) {
+      return;
+    }
+
+    setSelectedRange({ from, to });
+  }, [state?.reports?.getReceiptRegister]);
+
+
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
@@ -324,12 +347,13 @@ function ReceiptRegister() {
       return;
     }
 
-    const range = {
-      from: dates[0].toDate(),
-      to: dates[1].toDate(),
-    };
+    const [from, to] = dates;
 
-    setSelectedRange(range);
+
+    setSelectedRange({
+      from: from ? from.toDate() : null,
+      to: to ? to.toDate() : null,
+    });
 
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
@@ -349,10 +373,14 @@ function ReceiptRegister() {
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
     const filters = {
-      startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-      endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
-      size: size,
-      page: page,
+      startDate: selectedRange?.from
+        ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+        : undefined,
+      endDate: selectedRange?.to
+        ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+        : undefined,
+      size,
+      page,
     };
     dispatch({
       type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
@@ -482,12 +510,6 @@ function ReceiptRegister() {
                 if (current && current > dayjs().endOf("day")) {
                   return true;
                 }
-
-
-                if (selectedRange?.from) {
-                  return current < dayjs(selectedRange.from).startOf("day");
-                }
-
                 return false;
               }}
 

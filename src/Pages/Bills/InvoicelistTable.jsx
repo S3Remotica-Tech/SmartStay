@@ -129,14 +129,13 @@ const InvoiceTable = (props) => {
 
 
 
-  const handleDownload = (item) => {
+  const handleNavigatePDF = (item) => {
     if (item) {
-          //  dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
-
+                  dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
       navigate(`/invoice/details/${item.invoiceId}`, {
          replace: false,
         state: {
-          rowData: item
+          rowData: item, ts: Date.now() 
         },
       });
 
@@ -145,8 +144,7 @@ const InvoiceTable = (props) => {
 
 
   const handleNavigateTenantProfile = (view) => {
-    // console.log("view", view)
-    if (view) {
+       if (view) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
       navigate(`/tenant/details/${view.customerId}`, {
         state: {
@@ -168,7 +166,7 @@ const InvoiceTable = (props) => {
       <tr key={props.item.invoiceId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer", lineHeight: 'normal' }} className='ps-2'>
-          <div onClick={() => handleDownload(props.item)} className="Invoice_Name">
+          <div onClick={() => handleNavigatePDF(props.item)} className="Invoice_Name">
             {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
           </div>
         </td>

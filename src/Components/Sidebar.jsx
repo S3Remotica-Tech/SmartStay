@@ -1369,7 +1369,7 @@ function Sidebar() {
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <div key={window.location.pathname} className="mt-1 ml-2.5 mr-1">
+                  <div  className="mt-1 ml-2.5 mr-1">
                     <BillsPdfDetails />
                   </div>
                 }

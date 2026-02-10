@@ -363,51 +363,7 @@ useEffect(() => {
 
   const handleInvoiceDetail = (item) => {
 
-    if (item.User_Id) {
-      const originalDate = new Date(item.Date);
-      const year = originalDate.getFullYear();
-      const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-      const day = originalDate.getDate().toString().padStart(2, "0");
-      const newDate = `${year}-${month}-${day}`;
-
-      if (
-        (item.EbAmount === 0 || item.EbAmount === undefined) &&
-        item.invoice_type === 1 &&
-        item.AmnitiesAmount === 0
-      ) {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            Date: newDate,
-            User_Id: item.User_Id,
-            id: item.id,
-            hostel_Id: item.Hostel_Id,
-            invoice_type: item.invoice_type,
-          },
-        });
-      } else if (item.invoice_type === 2) {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            User_Id: item.User_Id,
-            id: item.id,
-            hostel_Id: item.Hostel_Id,
-            invoice_type: item.invoice_type,
-          },
-        });
-      } else {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            Date: newDate,
-            User_Id: item.User_Id,
-            id: item.id,
-          },
-        });
-      }
-
-      setShowLoader(true);
-    }
+   
   };
 
 

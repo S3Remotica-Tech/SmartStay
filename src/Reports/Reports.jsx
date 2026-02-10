@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
@@ -30,7 +30,7 @@ function Reports() {
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
   const location = useLocation();
-
+const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
 
@@ -47,13 +47,13 @@ function Reports() {
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
-    } 
+    }
   }, [canReadReports]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -289,11 +289,12 @@ useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       setLoading(true)
 
-       dispatch({
-                type: 'GET_REEPORTS_SAGA', payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {}
-                  }}) 
+      dispatch({
+        type: 'GET_REEPORTS_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {}
+        }
+      })
 
 
     }
@@ -353,43 +354,65 @@ useEffect(() => {
       navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
   }
- 
+
+  useEffect(() => {
+    if (reportsList?.startDate && reportsList?.endDate) {
+      setSelectedRange({
+        from: dayjs(reportsList.startDate, "DD/MM/YYYY"),
+        to: dayjs(reportsList.endDate, "DD/MM/YYYY"),
+      });
+    }
+  }, [reportsList]);
+
+
+
+
 
 
  const handleDateChange = (dates) => {
-        if (!dates) {
-            setSelectedRange(null);
-                      dispatch({
-                type: 'GET_REEPORTS_SAGA', payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {}
-                  }})                
-                        return;
-        }
+  if (!dates) {
+    setSelectedRange(null);
+    dispatch({
+      type: "GET_REEPORTS_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {},
+      },
+    });
+    return;
+  }
 
-        const range = {
-            from: dates[0].toDate(),
-            to: dates[1].toDate(),
-        };
+  const [from, to] = dates;
 
-        setSelectedRange(range);
-       
-    };
-    
-    useEffect(() => {
-        if (!state.login?.selectedHostel_Id) return;
-        const filters = {
-            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
-                   };
-        dispatch({
-            type: "GET_REEPORTS_SAGA",
-            payload: {
-                hostelId: state.login.selectedHostel_Id,
-                filters: filters,
-            },
-        });
-    }, [selectedRange]);
+  setSelectedRange({
+    from: from ? from.toDate() : null,
+    to: to ? to.toDate() : null,
+  });
+};
+
+
+
+  useEffect(() => {
+  if (!state.login?.selectedHostel_Id) return;
+  if (!selectedRange?.from || !selectedRange?.to) return;
+
+  const currentRangeKey = `${dayjs(selectedRange.from).format("YYYY-MM-DD")}_${dayjs(selectedRange.to).format("YYYY-MM-DD")}`;
+
+  if (lastRangeRef.current === currentRangeKey) return; 
+
+  lastRangeRef.current = currentRangeKey;
+
+  dispatch({
+    type: "GET_REEPORTS_SAGA",
+    payload: {
+      hostelId: state.login.selectedHostel_Id,
+      filters: {
+        startDate: dayjs(selectedRange.from).format("DD-MM-YYYY"),
+        endDate: dayjs(selectedRange.to).format("DD-MM-YYYY"),
+      },
+    },
+  });
+}, [selectedRange]);
 
 
 
@@ -426,40 +449,35 @@ useEffect(() => {
           className="datepicker-wrapper"
           style={{ position: "relative", }}
         >
-            <RangePicker
-                                      style={{
-                                          width: "100%",
-                                          height: "100%",
-                                          cursor: "pointer",
-                                          fontFamily: "Gilroy",
-          
-                                      }}
-                                      format="DD/MM/YYYY"
-                                      placeholder={["From date", "To date"]}
-                                      value={
-                                          selectedRange?.from && selectedRange?.to
-                                              ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
-                                              : null
-                                      }
-                                      onChange={handleDateChange}
-                                      disabledDate={(current) => {
-          
-                                          if (current && current > dayjs().endOf("day")) {
-                                              return true;
-                                          }
-          
-          
-                                          if (selectedRange?.from) {
-                                              return current < dayjs(selectedRange.from).startOf("day");
-                                          }
-          
-                                          return false;
-                                      }}
-          
-                                      getPopupContainer={(triggerNode) =>
-                                          triggerNode.closest(".datepicker-wrapper")
-                                      }
-                                  />
+          <RangePicker
+            style={{
+              width: "100%",
+              height: "100%",
+              cursor: "pointer",
+              fontFamily: "Gilroy",
+
+            }}
+            format="DD/MM/YYYY"
+            placeholder={["From date", "To date"]}
+            value={
+              selectedRange?.from && selectedRange?.to
+                ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                : null
+            }
+            onChange={handleDateChange}
+            disabledDate={(current) => {
+
+                if (current && current > dayjs().endOf("day")) {
+                    return true;
+                }
+             
+                return false;
+            }}
+
+            getPopupContainer={(triggerNode) =>
+              triggerNode.closest(".datepicker-wrapper")
+            }
+          />
         </div>
 
       </div>
@@ -467,12 +485,12 @@ useEffect(() => {
       {!canReadReports ? (
         <div className="flex-1 flex items-center justify-center">
           <div>
-          <img src={Emptystate} alt="Empty State"/>
-           <ErrorMessage
-            message={['You do not have access to view Reports']}
-            type="warning"
-          />
-           </div>
+            <img src={Emptystate} alt="Empty State" />
+            <ErrorMessage
+              message={['You do not have access to view Reports']}
+              type="warning"
+            />
+          </div>
         </div>
       ) : (
 

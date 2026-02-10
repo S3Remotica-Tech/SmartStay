@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect, useRef } from "react";
-import {  Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,14 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import '../OthersComponent/BillPdfModal.css';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ReceiptPdfDetails() {
 
     const location = useLocation();
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
@@ -31,7 +31,10 @@ function ReceiptPdfDetails() {
 
 
     useEffect(() => {
-        setSelectedInvoiceId(rowData.transactionId)
+        if(rowData.transactionId){
+ setSelectedInvoiceId(rowData.transactionId)
+        }
+       
     }, [rowData])
 
     // console.log("rowData",rowData)
@@ -40,6 +43,11 @@ function ReceiptPdfDetails() {
         // console.log("itemmmmm", item)
         setRowDatas(item)
         setSelectedInvoiceId(item.transactionId)
+        navigate(`/receipts/details/${item.transactionId}`, {
+            state: {
+                rowData: item
+            },
+        });
         if (item?.transactionId && state.login.selectedHostel_Id) {
 
             dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: item.transactionId } })
@@ -98,7 +106,7 @@ function ReceiptPdfDetails() {
                     {state.InvoiceList.ReceiptList &&
                         state.InvoiceList.ReceiptList?.map((item) => (
                             <>
-                                <div key={item.transactionId}  ref={(el) => (invoiceRefs.current[item.transactionId] = el)}
+                                <div key={item.transactionId} ref={(el) => (invoiceRefs.current[item.transactionId] = el)}
                                     className="mb-3  shadow-sm rounded"
                                     style={{
                                         padding: "12px 12px", cursor: "pointer",
@@ -126,8 +134,8 @@ function ReceiptPdfDetails() {
                                                             height: 40,
                                                             width: 40,
                                                             borderRadius: "50%",
-                                                             backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                                                            backgroundColor: "#E2E8F0",
+                                                            color: "#44536A",
                                                             display: "flex",
                                                             alignItems: "center",
                                                             justifyContent: "center",
@@ -144,21 +152,21 @@ function ReceiptPdfDetails() {
 
                                         </div>
 
-                                        <div className="flex-grow-1 ms-2">
+                                        <div className="flex-grow-1 ms-2" onClick={() => {
+                                            setSelectedInvoiceId(item.transactionId);
+                                            handleDisplayInvoiceDownload(item)
+                                        }}>
                                             <div className="d-flex justify-content-between align-items-center mb-1">
                                                 <div
-                                                    className="Invoice_Name d-flex flex-wrap"
+                                                    className=" d-flex flex-wrap"
                                                     style={{
                                                         fontFamily: "Gilroy",
                                                         fontSize: "14px",
                                                         fontWeight: 600,
-                                                        color: "#222",
+                                                        color: "#1E45E1",
                                                         cursor: "pointer",
                                                     }}
-                                                    onClick={() => {
-                                                        setSelectedInvoiceId(item.transactionId);
-                                                        handleDisplayInvoiceDownload(item)
-                                                    }}
+
                                                 >
                                                     {item.fullName || "Unnamed"}
                                                 </div>

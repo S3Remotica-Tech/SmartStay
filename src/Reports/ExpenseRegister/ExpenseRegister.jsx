@@ -82,7 +82,7 @@ function ExpenseRegister() {
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
       payload: {
-           startDate: undefined,
+        startDate: undefined,
         endDate: undefined,
         category: [],
         period: undefined,
@@ -90,7 +90,7 @@ function ExpenseRegister() {
         paidTo: [],
         createdBy: [],
         createdByLabels: [],
-        categoryLabel:[]
+        categoryLabel: []
 
       },
     })
@@ -157,7 +157,7 @@ function ExpenseRegister() {
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
       payload: {
-           startDate: undefined,
+        startDate: undefined,
         endDate: undefined,
         category: [],
         period: undefined,
@@ -165,7 +165,7 @@ function ExpenseRegister() {
         paidTo: [],
         createdBy: [],
         createdByLabels: [],
-        categoryLabel:[]
+        categoryLabel: []
       },
     })
   }
@@ -198,78 +198,101 @@ function ExpenseRegister() {
     { title: "Final Settlement" },
   ];
 
-  
 
-  
-const handleDateChange = (dates) => {
-        if (!dates) {
-            setSelectedRange(null);
-            dispatch({
-      type: "SET_EXPENSE_REGISTER_FILTERS",
-      payload: {
-           startDate: undefined,
-        endDate: undefined,
-        category: [],
-        period: undefined,
-        paymentMode: [],
-        paidTo: [],
-        createdBy: [],
-        createdByLabels: [],
-        categoryLabel:[]
 
-      },
-    })
-            dispatch({
-                type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {
-                        size: size,
-                        page: page,
-                    }
-                }
-            })
+  useEffect(() => {
+    const apiStart = state?.reports?.getExpenseRegister?.summary?.startDate;
+    const apiEnd = state?.reports?.getExpenseRegister?.summary?.endDate;
 
-            return;
+    if (!apiStart || !apiEnd) return;
+
+    const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+    const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+
+    if (
+      selectedRange?.from &&
+      selectedRange?.to &&
+      dayjs(selectedRange.from).isSame(from, "day") &&
+      dayjs(selectedRange.to).isSame(to, "day")
+    ) {
+      return;
+    }
+
+    setSelectedRange({ from, to });
+  }, [state?.reports?.getExpenseRegister]);
+
+
+
+  const handleDateChange = (dates) => {
+    if (!dates) {
+      setSelectedRange(null);
+      dispatch({
+        type: "SET_EXPENSE_REGISTER_FILTERS",
+        payload: {
+          startDate: undefined,
+          endDate: undefined,
+          category: [],
+          period: undefined,
+          paymentMode: [],
+          paidTo: [],
+          createdBy: [],
+          createdByLabels: [],
+          categoryLabel: []
+
+        },
+      })
+      dispatch({
+        type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size: size,
+            page: page,
+          }
         }
+      })
 
-        const range = {
-            from: dates[0].toDate(),
-            to: dates[1].toDate(),
-        };
+      return;
+    }
 
-        setSelectedRange(range);
-      
-        const filters = {
-            startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
-            endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
-            size: size,
-            page: page,
-        };
-
-        dispatch({
-            type: "SET_EXPENSE_REGISTER_FILTERS",
-            payload: filters
-        });
+   const [from, to] = dates;
 
 
+    setSelectedRange({
+      from: from ? from.toDate() : null,
+      to: to ? to.toDate() : null,
+    });
+
+    const filters = {
+      startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+      endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+      size: size,
+      page: page,
     };
-    
-    useEffect(() => {
-        if (!state.login?.selectedHostel_Id) return;
-        const filters = {
-            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
-            size: size,
-            page: page,
-        };
-        dispatch({
-            type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
-            payload: {
-                hostelId: state.login.selectedHostel_Id,
-                filters: filters,
-            },
-        });
-    }, [size, page, selectedRange]);
+
+    dispatch({
+      type: "SET_EXPENSE_REGISTER_FILTERS",
+      payload: filters
+    });
+
+
+  };
+
+  useEffect(() => {
+    if (!state.login?.selectedHostel_Id) return;
+    const filters = {
+      startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
+      endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+      size: size,
+      page: page,
+    };
+    dispatch({
+      type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: filters,
+      },
+    });
+  }, [size, page, selectedRange]);
 
 
 
@@ -311,7 +334,7 @@ const handleDateChange = (dates) => {
         paidTo: [],
         createdBy: [],
         createdByLabels: [],
-        categoryLabel:[]
+        categoryLabel: []
 
       },
     })
@@ -341,7 +364,7 @@ const handleDateChange = (dates) => {
 
   };
 
- 
+
 
 
 
@@ -365,7 +388,7 @@ const handleDateChange = (dates) => {
       });
     }
 
- if (invoiceFilters?.categoryLabel?.length) {
+    if (invoiceFilters?.categoryLabel?.length) {
       filterData.push({
         key: "category",
         label: "Category  is",
@@ -377,7 +400,7 @@ const handleDateChange = (dates) => {
 
 
 
- if (invoiceFilters?.createdByLabels?.length) {
+    if (invoiceFilters?.createdByLabels?.length) {
       filterData.push({
         key: "collected",
         label: "Collected By  is",
@@ -409,7 +432,7 @@ const handleDateChange = (dates) => {
   }, [state.reports.expenseRegisterFilters]);
 
 
-  
+
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -496,11 +519,6 @@ const handleDateChange = (dates) => {
 
                 if (current && current > dayjs().endOf("day")) {
                   return true;
-                }
-
-
-                if (selectedRange?.from) {
-                  return current < dayjs(selectedRange.from).startOf("day");
                 }
 
                 return false;

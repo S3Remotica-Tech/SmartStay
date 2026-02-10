@@ -126,17 +126,20 @@ function InvoiceRegister() {
         dispatch({
             type: "SET_INVOICE_REGISTER_FILTERS",
             payload: {
-                startDate: undefined,
-                endDate: undefined,
-                invoiceTypes: [],
-                createdBy: [],
-                invoiceModes: [],
-                paymentStatus: [],
-                search: "",
-                minPaidAmount: "",
-                maxPaidAmount: "",
-                minOutstandingAmount: "",
-                maxOutstandingAmount: "",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+                    invoiceTypes: [],
+                    createdBy: [],
+                    invoiceModes: [],
+                    paymentStatus: [],
+                    search: "",
+                    minPaidAmount: "",
+                    maxPaidAmount: "",
+                    minOutstandingAmount: "",
+                    maxOutstandingAmount: "",
+                    period: []
+                },
             },
         })
     }
@@ -161,6 +164,7 @@ function InvoiceRegister() {
                 maxPaidAmount: "",
                 minOutstandingAmount: "",
                 maxOutstandingAmount: "",
+                period: []
             },
         })
         dispatch({
@@ -190,14 +194,17 @@ function InvoiceRegister() {
 
 
 
-    const statusColor = {
-        Paid: "bg-[#D9FFD9] text-[#065F46]",
-        Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
-        PARTIAL_PAYMENT: "bg-[#FFD9D9] text-[#7A1C1C]",
-        REFUNDED: "bg-[#FFF3CD] text-[#8B8000]",
-        PARTIALLY_REFUNDED: "bg-[#FFF3CD] text-[#8B8000]",
-        PENDING_REFUND: "bg-[#FFE6B3] text-[#b45309]",
-    };
+   const statusColor = {
+  Paid: "bg-[#D9FFD9] text-[#065F46]",
+
+  Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
+  "Partial Payment": "bg-[#FFD9D9] text-[#7A1C1C]",
+
+  Refunded: "bg-[#FFF3CD] text-[#8B8000]",
+  "Partial Refund": "bg-[#FFF3CD] text-[#8B8000]",
+  "Pending Refund": "bg-[#FFE6B3] text-[#b45309]",
+  Cancelled: "bg-[#E5E7EB] text-[#374151]", 
+};
 
 
 
@@ -270,6 +277,7 @@ function InvoiceRegister() {
                 maxPaidAmount: "",
                 minOutstandingAmount: "",
                 maxOutstandingAmount: "",
+                period: []
             },
         })
     }
@@ -310,14 +318,19 @@ function InvoiceRegister() {
             });
         }
 
-        if (invoiceFilters?.period?.length) {
+        const periodValue = Array.isArray(invoiceFilters?.period)
+            ? invoiceFilters.period.join(", ")
+            : invoiceFilters?.period;
+
+        if (periodValue) {
             filterData.push({
                 key: "period",
-                label: "Period  is",
+                label: "Period is",
                 type: "period",
-                value: invoiceFilters.period.join(", "),
+                value: periodValue,
             });
         }
+
 
 
 
@@ -382,14 +395,40 @@ function InvoiceRegister() {
 
 
         setChips(filterData);
-    }, [state.reports.invoiceRegisterFilters, ]);
+    }, [state.reports.invoiceRegisterFilters,]);
+
+
+
+
+   useEffect(() => {
+  const apiStart = state?.reports?.getInvoiceRegister?.startDate;
+  const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
+
+  if (!apiStart || !apiEnd) return;
+
+  const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+  const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+
+  if (
+    selectedRange?.from &&
+    selectedRange?.to &&
+    dayjs(selectedRange.from).isSame(from, "day") &&
+    dayjs(selectedRange.to).isSame(to, "day")
+  ) {
+    return; 
+  }
+
+  setSelectedRange({ from, to });
+}, [state?.reports?.getInvoiceRegister]);
+
+
 
 
     const handleDateChange = (dates) => {
         if (!dates) {
             setSelectedRange(null);
             dispatch({
-                type: "SET_EXPENSE_REGISTER_FILTERS",
+                type: "SET_INVOICE_REGISTER_FILTERS",
                 payload: {
                     startDate: undefined,
                     endDate: undefined,
@@ -409,12 +448,13 @@ function InvoiceRegister() {
             return;
         }
 
-        const range = {
-            from: dates[0].toDate(),
-            to: dates[1].toDate(),
-        };
+        const [from, to] = dates;
 
-        setSelectedRange(range);
+
+        setSelectedRange({
+            from: from ? from.toDate() : null,
+            to: to ? to.toDate() : null,
+        });
 
         const filters = {
             startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
@@ -424,7 +464,7 @@ function InvoiceRegister() {
         };
 
         dispatch({
-            type: "SET_EXPENSE_REGISTER_FILTERS",
+            type: "SET_INVOICE_REGISTER_FILTERS",
             payload: filters
         });
 
@@ -433,20 +473,27 @@ function InvoiceRegister() {
 
     useEffect(() => {
         if (!state.login?.selectedHostel_Id) return;
+
         const filters = {
-            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
-            size: size,
-            page: page,
+            startDate: selectedRange?.from
+                ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+                : undefined,
+            endDate: selectedRange?.to
+                ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+                : undefined,
+            size,
+            page,
         };
+
         dispatch({
             type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
             payload: {
                 hostelId: state.login.selectedHostel_Id,
-                filters: filters,
+                filters,
             },
         });
     }, [size, page, selectedRange]);
+
 
 
 
@@ -564,16 +611,9 @@ function InvoiceRegister() {
                             }
                             onChange={handleDateChange}
                             disabledDate={(current) => {
-
                                 if (current && current > dayjs().endOf("day")) {
                                     return true;
                                 }
-
-
-                                if (selectedRange?.from) {
-                                    return current < dayjs(selectedRange.from).startOf("day");
-                                }
-
                                 return false;
                             }}
 
