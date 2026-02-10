@@ -74,6 +74,10 @@ const InvoiceTable = (props) => {
     props.OnHandleshowInvoicePdf(item)
   }
 
+
+
+
+
   const handleBillDelete = (props) => {
     props.OnHandleshowDeleteform(props)
   }

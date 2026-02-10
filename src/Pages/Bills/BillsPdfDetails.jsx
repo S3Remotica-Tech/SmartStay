@@ -30,26 +30,30 @@ function BillsPdfDetails() {
     const { rowData, isReportsInvoiceRegisterWay } = location.state || {};
 
 
-console.log("selectedInvoiceId",selectedInvoiceId)
+
 
     useEffect(() => {
-        if(rowData?.invoiceId){
- setSelectedInvoiceId(rowData?.invoiceId)
+        if (rowData?.invoiceId) {
+            setSelectedInvoiceId(rowData?.invoiceId)
         }
-       
-       
+
+
     }, [rowData])
 
     const handleDisplayInvoicePDF = (item) => {
         setRowDatas(item)
         setSelectedInvoiceId(item?.invoiceId)
-         navigate(`/invoice/details/${item?.invoiceId}`, {
+        navigate(`/invoice/details/${item?.invoiceId}`, {
             replace: false,
             state: { ts: Date.now() }
         });
         if (item) {
-            dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId,
-                 invoiceId: item.invoiceId } })
+            dispatch({
+                type: 'GETPARTICULARBILLSDETAILS', payload: {
+                    hostelId: item.hostelId,
+                    invoiceId: item.invoiceId
+                }
+            })
 
         }
     };

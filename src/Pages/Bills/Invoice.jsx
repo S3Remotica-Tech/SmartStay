@@ -141,15 +141,15 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!canReadInvoice) {
       setLoading(false);
-    } 
-      
-    
+    }
+
+
   }, [canReadInvoice]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -361,12 +361,37 @@ useEffect(() => {
   ];
 
 
-  const handleInvoiceDetail = (item) => {
-
+  const handleInvoiceDetail = (rowData) => {
    
+    dispatch({
+      type: "INVOICEPDF",
+      payload: {
+        hostelId: rowData.hostelId,
+        invoiceId: rowData.invoiceId,
+      },
+    });
+
+
   };
 
 
+  useEffect(() => {
+    const pdfUrl = state?.InvoiceList?.invoicePDF;
+    if (pdfUrl) {
+      window.open(pdfUrl, "_blank");
+      dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' })
+    }
+  }, [state?.InvoiceList?.invoicePDF]);
+
+
+
+
+
+
+
+
+
+  
 
   useEffect(() => {
     if (state.InvoiceList.pdfErrorStatusCode === 201) {
@@ -2235,34 +2260,34 @@ useEffect(() => {
 
                                 <div className="mt-2 flex justify-center">
                                   <div>
-                                  <div style={{ textAlign: "center" }}>
-                                    {" "}
-                                    <img src={Emptystate} alt="emptystate" />
-                                  </div>
-                                  <div
-                                    className="pb-1"
-                                    style={{
-                                      textAlign: "center",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      fontSize: 18,
-                                      color: "rgba(75, 75, 75, 1)",
-                                    }}
-                                  >
-                                    No bills available{" "}
-                                  </div>
-                                  <div
-                                    className="pb-1"
-                                    style={{
-                                      textAlign: "center",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      fontSize: 14,
-                                      color: "rgba(75, 75, 75, 1)",
-                                    }}
-                                  >
-                                    There are no bills added{" "}
-                                  </div>
+                                    <div style={{ textAlign: "center" }}>
+                                      {" "}
+                                      <img src={Emptystate} alt="emptystate" />
+                                    </div>
+                                    <div
+                                      className="pb-1"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 18,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      No bills available{" "}
+                                    </div>
+                                    <div
+                                      className="pb-1"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 14,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      There are no bills added{" "}
+                                    </div>
                                   </div>
                                 </div>
                               )
