@@ -118,20 +118,24 @@ function TenantsRegister() {
     ];
 
 
-const handleReset = () => {
-    dispatch({
-      type: "SET_TENANT_REGISTER_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
+    const handleReset = () => {
+        dispatch({
+            type: "SET_TENANT_REGISTER_FILTERS",
+            payload: {
+                startDate: undefined,
+                endDate: undefined,
 
-      },
-    })
-    dispatch({ type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: { hostelId: state.login.selectedHostel_Id, filters: {
-                        size: size,
-                        page: page,
-                    }} })
-  }
+            },
+        })
+        dispatch({
+            type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: {
+                hostelId: state.login.selectedHostel_Id, filters: {
+                    size: size,
+                    page: page,
+                }
+            }
+        })
+    }
 
 
     const handleNavigateReports = () => {
@@ -177,9 +181,28 @@ const handleReset = () => {
     ];
 
 
-    
- 
-const handleDateChange = (dates) => {
+    useEffect(() => {
+        const apiStart = state?.reports?.getTenantRegister?.dateRange?.from;
+        const apiEnd = state?.reports?.getTenantRegister?.dateRange?.to;
+
+        if (!apiStart || !apiEnd) return;
+
+        const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+        const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+
+        if (
+            selectedRange?.from &&
+            selectedRange?.to &&
+            dayjs(selectedRange.from).isSame(from, "day") &&
+            dayjs(selectedRange.to).isSame(to, "day")
+        ) {
+            return;
+        }
+
+        setSelectedRange({ from, to });
+    }, [state?.reports?.getTenantRegister]);
+
+    const handleDateChange = (dates) => {
         if (!dates) {
             setSelectedRange(null);
             dispatch({
@@ -203,13 +226,14 @@ const handleDateChange = (dates) => {
             return;
         }
 
-        const range = {
-            from: dates[0].toDate(),
-            to: dates[1].toDate(),
-        };
+        const [from, to] = dates;
 
-        setSelectedRange(range);
-      
+
+        setSelectedRange({
+            from: from ? from.toDate() : null,
+            to: to ? to.toDate() : null,
+        });
+
         const filters = {
             startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
             endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
@@ -224,7 +248,7 @@ const handleDateChange = (dates) => {
 
 
     };
-    
+
     useEffect(() => {
         if (!state.login?.selectedHostel_Id) return;
         const filters = {
@@ -244,24 +268,24 @@ const handleDateChange = (dates) => {
 
 
 
- useEffect(() => {
-    const invoiceFilters = state.reports.tenantRegisterFilters;
-    const filterData = [];
+    useEffect(() => {
+        const invoiceFilters = state.reports.tenantRegisterFilters;
+        const filterData = [];
 
-    if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
-      filterData.push({
-        key: "date-range",
-        label: "Date Range is",
-        type: "date",
-        value:
-          invoiceFilters.startDate && invoiceFilters.endDate
-            ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-            : invoiceFilters.startDate || invoiceFilters.endDate,
-      });
-    }
+        if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+            filterData.push({
+                key: "date-range",
+                label: "Date Range is",
+                type: "date",
+                value:
+                    invoiceFilters.startDate && invoiceFilters.endDate
+                        ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+                        : invoiceFilters.startDate || invoiceFilters.endDate,
+            });
+        }
 
-    setChips(filterData);
-  }, [state.reports.tenantRegisterFilters]);
+        setChips(filterData);
+    }, [state.reports.tenantRegisterFilters]);
 
     const handleNavigateRegister = (item) => {
         setRegister(false)
@@ -326,7 +350,7 @@ const handleDateChange = (dates) => {
     };
 
 
-   
+
 
 
 
@@ -396,39 +420,34 @@ const handleDateChange = (dates) => {
                         style={{ position: "relative", }}
                     >
                         <RangePicker
-                                     style={{
-                                       width: "100%",
-                                       height: "100%",
-                                       cursor: "pointer",
-                                       fontFamily: "Gilroy",
-                       
-                                     }}
-                                     format="DD/MM/YYYY"
-                                     placeholder={["From date", "To date"]}
-                                     value={
-                                       selectedRange?.from && selectedRange?.to
-                                         ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
-                                         : null
-                                     }
-                                     onChange={handleDateChange}
-                                     disabledDate={(current) => {
-                       
-                                       if (current && current > dayjs().endOf("day")) {
-                                         return true;
-                                       }
-                       
-                       
-                                       if (selectedRange?.from) {
-                                         return current < dayjs(selectedRange.from).startOf("day");
-                                       }
-                       
-                                       return false;
-                                     }}
-                       
-                                     getPopupContainer={(triggerNode) =>
-                                       triggerNode.closest(".datepicker-wrapper")
-                                     }
-                                   />
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                cursor: "pointer",
+                                fontFamily: "Gilroy",
+
+                            }}
+                            format="DD/MM/YYYY"
+                            placeholder={["From date", "To date"]}
+                            value={
+                                selectedRange?.from && selectedRange?.to
+                                    ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                                    : null
+                            }
+                            onChange={handleDateChange}
+                            disabledDate={(current) => {
+
+                                if (current && current > dayjs().endOf("day")) {
+                                    return true;
+                                }
+
+                                return false;
+                            }}
+
+                            getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".datepicker-wrapper")
+                            }
+                        />
                     </div>
 
                     <button onClick={handleClickFilter}
@@ -448,32 +467,32 @@ const handleDateChange = (dates) => {
 
 
             <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
- {chips.length > 0 && (
-          <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+                {chips.length > 0 && (
+                    <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
 
 
-            <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
-              {chips.map((chip) => (
-                <div key={chip.key}>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
-                    {chip.label} :
-                    <span className="text-[12px] font-medium text-[#16151C]">
-                      {chip.value}
-                    </span>
-                  </span>
-                </div>
-              ))}
-            </div>
+                        <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
+                            {chips.map((chip) => (
+                                <div key={chip.key}>
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
+                                        {chip.label} :
+                                        <span className="text-[12px] font-medium text-[#16151C]">
+                                            {chip.value}
+                                        </span>
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
 
 
-            <span
-              onClick={handleReset}
-              className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
-            >
-              Reset
-            </span>
-          </div>
-        )}
+                        <span
+                            onClick={handleReset}
+                            className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
+                        >
+                            Reset
+                        </span>
+                    </div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3 ms-1 me-1 ">
                     {stats.map((item, i) => (

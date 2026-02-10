@@ -280,7 +280,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'INVOICE_PDF':
             return { ...state, invoicePDF: action.payload.response, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_INVOICE_PDF_STATUS_CODE':
-            return { ...state, statusCodeForPDf: 0 }
+            return { ...state, statusCodeForPDf: 0, invoicePDF: '' }
         case 'AMENITIES_SETTINGS':
             return { ...state, AmenitiesSettings: action.payload.response, statusCode: action.payload.statusCode }
         case 'AMENITIES_LIST':

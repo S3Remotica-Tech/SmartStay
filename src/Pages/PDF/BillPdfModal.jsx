@@ -94,72 +94,112 @@ const InvoiceCard = ({ rowData ,isReportsInvoiceRegisterWay}) => {
 
   const innerScrollRef = useRef(null);
 
-  const handleDownload = async () => {
-    const element = cardRef.current;
-    const innerElement = innerScrollRef.current;
+  // const handleDownload = async () => {
+  //   const element = cardRef.current;
+  //   const innerElement = innerScrollRef.current;
 
-    if (!element || !innerElement) return;
-
-
-    const outerOriginal = {
-      height: element.style.height,
-      maxHeight: element.style.maxHeight,
-      overflow: element.style.overflow,
-      overflowY: element.style.overflowY,
-    };
-
-    const innerOriginal = {
-      height: innerElement.style.height,
-      maxHeight: innerElement.style.maxHeight,
-      overflow: innerElement.style.overflow,
-      overflowY: innerElement.style.overflowY,
-    };
+  //   if (!element || !innerElement) return;
 
 
-    element.style.height = "auto";
-    element.style.maxHeight = "none";
-    element.style.overflow = "visible";
-    element.style.overflowY = "visible";
+  //   const outerOriginal = {
+  //     height: element.style.height,
+  //     maxHeight: element.style.maxHeight,
+  //     overflow: element.style.overflow,
+  //     overflowY: element.style.overflowY,
+  //   };
 
-    innerElement.style.height = "auto";
-    innerElement.style.maxHeight = "none";
-    innerElement.style.overflow = "visible";
-    innerElement.style.overflowY = "visible";
-
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    const canvas = await html2canvas(element, {
-      scale: 2,
-      useCORS: true,
-      logging: true,
-      allowTaint: false,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
-    const imgWidth = 595.28;
-    const pageHeight = 841.89;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    const pdf = new jsPDF("p", "pt", "a4");
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft > 0) {
-      pdf.addPage();
-      position = -(imgHeight - heightLeft);
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    pdf.save("invoice.pdf");
+  //   const innerOriginal = {
+  //     height: innerElement.style.height,
+  //     maxHeight: innerElement.style.maxHeight,
+  //     overflow: innerElement.style.overflow,
+  //     overflowY: innerElement.style.overflowY,
+  //   };
 
 
-    Object.assign(element.style, outerOriginal);
-    Object.assign(innerElement.style, innerOriginal);
+  //   element.style.height = "auto";
+  //   element.style.maxHeight = "none";
+  //   element.style.overflow = "visible";
+  //   element.style.overflowY = "visible";
+
+  //   innerElement.style.height = "auto";
+  //   innerElement.style.maxHeight = "none";
+  //   innerElement.style.overflow = "visible";
+  //   innerElement.style.overflowY = "visible";
+
+  //   await new Promise((resolve) => setTimeout(resolve, 100));
+
+  //   const canvas = await html2canvas(element, {
+  //     scale: 2,
+  //     useCORS: true,
+  //     logging: true,
+  //     allowTaint: false,
+  //   });
+
+  //   const imgData = canvas.toDataURL("image/png");
+  //   const imgWidth = 595.28;
+  //   const pageHeight = 841.89;
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //   let heightLeft = imgHeight;
+  //   let position = 0;
+
+  //   const pdf = new jsPDF("p", "pt", "a4");
+  //   pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+  //   heightLeft -= pageHeight;
+
+  //   while (heightLeft > 0) {
+  //     pdf.addPage();
+  //     position = -(imgHeight - heightLeft);
+  //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+  //     heightLeft -= pageHeight;
+  //   }
+
+  //   pdf.save("invoice.pdf");
+
+
+  //   Object.assign(element.style, outerOriginal);
+  //   Object.assign(innerElement.style, innerOriginal);
+  // };
+
+
+
+
+const handleDownload =  (rowData) => {
+    console.log("rowData",rowData )
+
+  dispatch({
+          type: "INVOICEPDF",
+          payload: {
+           
+            hostelId: rowData.hostelId,
+            invoiceId: rowData.invoiceId,
+          },
+        });
+
   };
+
+
+
+console.log("state", state?.InvoiceList?.invoicePDF)
+
+
+
+useEffect(() => {
+  const pdfUrl = state?.InvoiceList?.invoicePDF;
+
+  if (pdfUrl) {
+    window.open(pdfUrl, "_blank");
+
+    dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE'})
+
+
+  }
+}, [state?.InvoiceList?.invoicePDF]);
+
+
+
+
+
 
 
   const handleBackInvoice = () => {
@@ -366,7 +406,7 @@ console.log("pdfDetails",pdfDetails, state)
               <div
                 className="d-flex justify-content-center align-items-center border"
                 style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
-                onClick={handleDownload}
+                onClick={() => handleDownload(rowData)}
               >
                 <img
                   src={DownLoad}

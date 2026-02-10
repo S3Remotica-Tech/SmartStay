@@ -844,7 +844,7 @@ function* handleInvoicePdf(action) {
       if (response?.status === 200) {
          yield put({
             type: 'INVOICE_PDF', payload: {
-               response: response.data.pdf_url, statusCode: response?.status
+               response: response.data, statusCode: response?.status
             }
          })
       }

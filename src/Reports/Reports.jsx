@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
@@ -12,7 +12,6 @@ import {
 } from "iconsax-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineBarChart } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -31,7 +30,7 @@ function Reports() {
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
   const location = useLocation();
-
+const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
 
@@ -48,13 +47,13 @@ function Reports() {
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
-    } 
+    }
   }, [canReadReports]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -290,7 +289,12 @@ useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       setLoading(true)
 
-      dispatch({ type: 'GET_REEPORTS_SAGA', payload: state.login.selectedHostel_Id })
+      dispatch({
+        type: 'GET_REEPORTS_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {}
+        }
+      })
 
 
     }
@@ -350,13 +354,65 @@ useEffect(() => {
       navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
     }
   }
-  // useEffect(() => {
-  //   setSelectedRange({
-  //     from: dayjs().startOf("month").toDate(),
-  //     to: dayjs().endOf("month").toDate(),
-  //   });
-  // }, []);
 
+  useEffect(() => {
+    if (reportsList?.startDate && reportsList?.endDate) {
+      setSelectedRange({
+        from: dayjs(reportsList.startDate, "DD/MM/YYYY"),
+        to: dayjs(reportsList.endDate, "DD/MM/YYYY"),
+      });
+    }
+  }, [reportsList]);
+
+
+
+
+
+
+ const handleDateChange = (dates) => {
+  if (!dates) {
+    setSelectedRange(null);
+    dispatch({
+      type: "GET_REEPORTS_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {},
+      },
+    });
+    return;
+  }
+
+  const [from, to] = dates;
+
+  setSelectedRange({
+    from: from ? from.toDate() : null,
+    to: to ? to.toDate() : null,
+  });
+};
+
+
+
+  useEffect(() => {
+  if (!state.login?.selectedHostel_Id) return;
+  if (!selectedRange?.from || !selectedRange?.to) return;
+
+  const currentRangeKey = `${dayjs(selectedRange.from).format("YYYY-MM-DD")}_${dayjs(selectedRange.to).format("YYYY-MM-DD")}`;
+
+  if (lastRangeRef.current === currentRangeKey) return; 
+
+  lastRangeRef.current = currentRangeKey;
+
+  dispatch({
+    type: "GET_REEPORTS_SAGA",
+    payload: {
+      hostelId: state.login.selectedHostel_Id,
+      filters: {
+        startDate: dayjs(selectedRange.from).format("DD-MM-YYYY"),
+        endDate: dayjs(selectedRange.to).format("DD-MM-YYYY"),
+      },
+    },
+  });
+}, [selectedRange]);
 
 
 
@@ -393,8 +449,7 @@ useEffect(() => {
           className="datepicker-wrapper"
           style={{ position: "relative", }}
         >
-          <RangePicker disabled
-
+          <RangePicker
             style={{
               width: "100%",
               height: "100%",
@@ -409,23 +464,14 @@ useEffect(() => {
                 ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
                 : null
             }
-            onChange={(dates) => {
-
-              if (dates) {
-                setSelectedRange({
-                  from: dates[0].toDate(),
-                  to: dates[1].toDate(),
-                });
-              } else {
-                setSelectedRange(null);
-              }
-            }}
+            onChange={handleDateChange}
             disabledDate={(current) => {
-              if (!selectedRange?.from) return current > dayjs().endOf("day");
-              return (
-                current > dayjs().endOf("day") ||
-                current < dayjs(selectedRange.from).startOf("day")
-              );
+
+                if (current && current > dayjs().endOf("day")) {
+                    return true;
+                }
+             
+                return false;
             }}
 
             getPopupContainer={(triggerNode) =>
@@ -439,12 +485,12 @@ useEffect(() => {
       {!canReadReports ? (
         <div className="flex-1 flex items-center justify-center">
           <div>
-          <img src={Emptystate} alt="Empty State"/>
-           <ErrorMessage
-            message={['You do not have access to view Reports']}
-            type="warning"
-          />
-           </div>
+            <img src={Emptystate} alt="Empty State" />
+            <ErrorMessage
+              message={['You do not have access to view Reports']}
+              type="warning"
+            />
+          </div>
         </div>
       ) : (
 

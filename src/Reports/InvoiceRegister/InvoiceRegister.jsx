@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
+import { StarRate } from '@material-ui/icons';
 
 
 function InvoiceRegister() {
@@ -125,19 +126,27 @@ function InvoiceRegister() {
         dispatch({
             type: "SET_INVOICE_REGISTER_FILTERS",
             payload: {
-                startDate: undefined,
-                endDate: undefined,
-                invoiceTypes: [],
-                createdBy: [],
-                invoiceModes: [],
-                paymentStatus: [],
-                search: "",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+                    invoiceTypes: [],
+                    createdBy: [],
+                    invoiceModes: [],
+                    paymentStatus: [],
+                    search: "",
+                    minPaidAmount: "",
+                    maxPaidAmount: "",
+                    minOutstandingAmount: "",
+                    maxOutstandingAmount: "",
+                    period: []
+                },
             },
         })
     }
 
     const handleClickFilter = () => {
         setInvoiceFilter(true)
+
     }
 
     const handleReset = () => {
@@ -151,6 +160,11 @@ function InvoiceRegister() {
                 invoiceModes: [],
                 paymentStatus: [],
                 search: "",
+                minPaidAmount: "",
+                maxPaidAmount: "",
+                minOutstandingAmount: "",
+                maxOutstandingAmount: "",
+                period: []
             },
         })
         dispatch({
@@ -180,14 +194,17 @@ function InvoiceRegister() {
 
 
 
-    const statusColor = {
-        PAID: "bg-[#D9FFD9] text-[#065F46]",
-        PENDING: "bg-[#FFD9D9] text-[#7A1C1C]",
-        PARTIAL_PAYMENT: "bg-[#FFD9D9] text-[#7A1C1C]",
-        REFUNDED: "bg-[#FFF3CD] text-[#8B8000]",
-        PARTIALLY_REFUNDED: "bg-[#FFF3CD] text-[#8B8000]",
-        PENDING_REFUND: "bg-[#FFE6B3] text-[#b45309]",
-    };
+   const statusColor = {
+  Paid: "bg-[#D9FFD9] text-[#065F46]",
+
+  Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
+  "Partial Payment": "bg-[#FFD9D9] text-[#7A1C1C]",
+
+  Refunded: "bg-[#FFF3CD] text-[#8B8000]",
+  "Partial Refund": "bg-[#FFF3CD] text-[#8B8000]",
+  "Pending Refund": "bg-[#FFE6B3] text-[#b45309]",
+  Cancelled: "bg-[#E5E7EB] text-[#374151]", 
+};
 
 
 
@@ -256,6 +273,11 @@ function InvoiceRegister() {
                 invoiceModes: [],
                 paymentStatus: [],
                 search: "",
+                minPaidAmount: "",
+                maxPaidAmount: "",
+                minOutstandingAmount: "",
+                maxOutstandingAmount: "",
+                period: []
             },
         })
     }
@@ -296,6 +318,19 @@ function InvoiceRegister() {
             });
         }
 
+        const periodValue = Array.isArray(invoiceFilters?.period)
+            ? invoiceFilters.period.join(", ")
+            : invoiceFilters?.period;
+
+        if (periodValue) {
+            filterData.push({
+                key: "period",
+                label: "Period is",
+                type: "period",
+                value: periodValue,
+            });
+        }
+
 
 
 
@@ -322,15 +357,78 @@ function InvoiceRegister() {
             });
         }
 
+        if (invoiceFilters?.minPaidAmount) {
+            filterData.push({
+                key: "minPaidAmount",
+                label: `min-paid Amount`,
+                type: "minPaidAmount",
+                value: `₹${invoiceFilters.minPaidAmount}`,
+            });
+        }
+
+        if (invoiceFilters?.maxPaidAmount) {
+            filterData.push({
+                key: "maxPaidAmount",
+                label: `max-paid Amount`,
+                type: "maxPaidAmount",
+                value: `₹${invoiceFilters.maxPaidAmount}`,
+            });
+        }
+
+        if (invoiceFilters?.minOutstandingAmount) {
+            filterData.push({
+                key: "minOutstandingAmount",
+                label: `min-outstanding`,
+                type: "minOutstandingAmount",
+                value: `₹${invoiceFilters.minOutstandingAmount}`,
+            });
+        }
+
+        if (invoiceFilters?.maxOutstandingAmount) {
+            filterData.push({
+                key: "maxOutstandingAmount",
+                label: `max-outstanding`,
+                type: "maxOutstandingAmount",
+                value: `₹${invoiceFilters.maxOutstandingAmount}`,
+            });
+        }
+
+
         setChips(filterData);
-    }, [state.reports.invoiceRegisterFilters]);
+    }, [state.reports.invoiceRegisterFilters,]);
+
+
+
+
+   useEffect(() => {
+  const apiStart = state?.reports?.getInvoiceRegister?.startDate;
+  const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
+
+  if (!apiStart || !apiEnd) return;
+
+  const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+  const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+
+  if (
+    selectedRange?.from &&
+    selectedRange?.to &&
+    dayjs(selectedRange.from).isSame(from, "day") &&
+    dayjs(selectedRange.to).isSame(to, "day")
+  ) {
+    return; 
+  }
+
+  setSelectedRange({ from, to });
+}, [state?.reports?.getInvoiceRegister]);
+
+
 
 
     const handleDateChange = (dates) => {
         if (!dates) {
             setSelectedRange(null);
             dispatch({
-                type: "SET_EXPENSE_REGISTER_FILTERS",
+                type: "SET_INVOICE_REGISTER_FILTERS",
                 payload: {
                     startDate: undefined,
                     endDate: undefined,
@@ -350,13 +448,14 @@ function InvoiceRegister() {
             return;
         }
 
-        const range = {
-            from: dates[0].toDate(),
-            to: dates[1].toDate(),
-        };
+        const [from, to] = dates;
 
-        setSelectedRange(range);
-      
+
+        setSelectedRange({
+            from: from ? from.toDate() : null,
+            to: to ? to.toDate() : null,
+        });
+
         const filters = {
             startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
             endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
@@ -365,33 +464,40 @@ function InvoiceRegister() {
         };
 
         dispatch({
-            type: "SET_EXPENSE_REGISTER_FILTERS",
+            type: "SET_INVOICE_REGISTER_FILTERS",
             payload: filters
         });
 
 
     };
-    
+
     useEffect(() => {
         if (!state.login?.selectedHostel_Id) return;
+
         const filters = {
-            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
-            size: size,
-            page: page,
+            startDate: selectedRange?.from
+                ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+                : undefined,
+            endDate: selectedRange?.to
+                ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+                : undefined,
+            size,
+            page,
         };
+
         dispatch({
             type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
             payload: {
                 hostelId: state.login.selectedHostel_Id,
-                filters: filters,
+                filters,
             },
         });
     }, [size, page, selectedRange]);
 
 
 
-    
+
+
 
     const currentPage =
         state?.reports?.getInvoiceRegister?.currentPage ?? 1;
@@ -505,16 +611,9 @@ function InvoiceRegister() {
                             }
                             onChange={handleDateChange}
                             disabledDate={(current) => {
-
                                 if (current && current > dayjs().endOf("day")) {
                                     return true;
                                 }
-
-
-                                if (selectedRange?.from) {
-                                    return current < dayjs(selectedRange.from).startOf("day");
-                                }
-
                                 return false;
                             }}
 
@@ -600,7 +699,7 @@ function InvoiceRegister() {
 
                             </div>
                             {item.link && (
-                                <p className="text-xs text-[#155DFC]  cursor-pointer">
+                                <p className="text-xs text-[#155DFC]  cursor-pointer" onClick={handleClickFilter}>
                                     Click to filter
                                 </p>
                             )}

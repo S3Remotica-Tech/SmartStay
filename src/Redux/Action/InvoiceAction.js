@@ -220,10 +220,16 @@ export  function ReceiptPDf() {
 })
 }
 
-export  function InvoicePDf() {
- new Promise((resolve) => {
-  resolve({status: 200});
-})
+
+
+
+
+export async function InvoicePDf(bill) {
+  return await AxiosConfigV2.get(`/v2/bills/download/${bill.hostelId}/${bill.invoiceId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
 }
 
 

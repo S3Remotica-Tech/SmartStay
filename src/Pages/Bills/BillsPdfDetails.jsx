@@ -11,7 +11,7 @@ import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import '../OthersComponent/BillPdfModal.css';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 function BillsPdfDetails() {
@@ -19,7 +19,7 @@ function BillsPdfDetails() {
     const location = useLocation();
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
@@ -30,25 +30,35 @@ function BillsPdfDetails() {
     const { rowData, isReportsInvoiceRegisterWay } = location.state || {};
 
 
-
+console.log("selectedInvoiceId",selectedInvoiceId)
 
     useEffect(() => {
-        setSelectedInvoiceId(rowData?.invoiceId)
+        if(rowData?.invoiceId){
+ setSelectedInvoiceId(rowData?.invoiceId)
+        }
+       
+       
     }, [rowData])
 
-    const handleDisplayInvoiceDownload = (item) => {
+    const handleDisplayInvoicePDF = (item) => {
         setRowDatas(item)
         setSelectedInvoiceId(item?.invoiceId)
+         navigate(`/invoice/details/${item?.invoiceId}`, {
+            replace: false,
+            state: { ts: Date.now() }
+        });
         if (item) {
-            dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
+            dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId,
+                 invoiceId: item.invoiceId } })
 
         }
     };
 
-  
+
 
     useEffect(() => {
         if (rowData?.invoiceId) {
+
             setSelectedInvoiceId(rowData.invoiceId);
 
             setTimeout(() => {
@@ -61,13 +71,13 @@ function BillsPdfDetails() {
     }, [rowData]);
 
 
-useEffect(()=>{
-    if(isReportsInvoiceRegisterWay){
+    useEffect(() => {
+        if (isReportsInvoiceRegisterWay) {
             dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
-    }
+        }
 
-},[isReportsInvoiceRegisterWay])
+    }, [isReportsInvoiceRegisterWay])
 
 
     return (
@@ -165,12 +175,12 @@ useEffect(()=>{
                                             </span>
                                         </div>
 
-                                        <div className="flex-grow-1 ms-3"
+                                        <div className="flex-grow-1 ms-3 cursor-pointer"
                                             // onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
                                             // onMouseLeave={() => setHoveredInvoiceId(null)}
                                             onClick={() => {
                                                 setSelectedInvoiceId(item.invoiceId);
-                                                handleDisplayInvoiceDownload(item);
+                                                handleDisplayInvoicePDF(item);
                                             }}>
                                             <div className="d-flex justify-content-between align-items-center mb-1">
                                                 <div

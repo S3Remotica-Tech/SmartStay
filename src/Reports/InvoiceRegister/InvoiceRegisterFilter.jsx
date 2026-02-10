@@ -12,7 +12,7 @@ import { Filter } from 'iconsax-react'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
-function InvoiceRegisterFilter({ show, handleClose, size, page  }) {
+function InvoiceRegisterFilter({ show, handleClose, size, page }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billStatus, setBillStatus] = useState([]);
@@ -26,6 +26,11 @@ function InvoiceRegisterFilter({ show, handleClose, size, page  }) {
     const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
     const [dateError, setDateError] = useState("");
     const [formLoading, setFormLoading] = useState(false)
+    const [paidAmountMin, setPaidAmountMin] = useState("");
+    const [paidAmountMax, setPaidAmountMax] = useState("");
+
+    const [outstandingMin, setOutstandingMin] = useState("");
+    const [outstandingMax, setOutstandingMax] = useState("");
 
 
 
@@ -147,27 +152,30 @@ function InvoiceRegisterFilter({ show, handleClose, size, page  }) {
         })) || [];
 
 
-const periodOptions =
-  filterOptionsData?.periods?.map(item => ({
-    label: item,
-    value: item
-      
-  })) || [];
+    const periodOptions =
+        filterOptionsData?.periods?.map(item => ({
+            label: item,
+            value: item
+
+        })) || [];
 
 
 
-//    const periodOptions = [
-//         { label: "This Month", value: "THIS_MONTH" },
-//         { label: "Last Month", value: "LAST_MONTH" },
-//         { label: "Last 3 Months", value: "LAST_3_MONTHS" },
-//         { label: "Custom", value: "CUSTOM" },
-//     ];
+    const handlePaidMinChange = (e) => {
+        setPaidAmountMin(e.target.value);
+    };
 
+    const handlePaidMaxChange = (e) => {
+        setPaidAmountMax(e.target.value);
+    };
 
-    // const handleBillStatusChange = (selected) => {
-    //     setBillStatus(selected.map(opt => opt.value))
-    // };
+    const handleOutstandingMinChange = (e) => {
+        setOutstandingMin(e.target.value);
+    };
 
+    const handleOutstandingMaxChange = (e) => {
+        setOutstandingMax(e.target.value);
+    };
 
 
 
@@ -181,12 +189,12 @@ const periodOptions =
         const hasAll = selectedOptions.some(opt => opt.value === "ALL");
 
         if (hasAll) {
-           
+
             const allOption = selectedOptions.find(opt => opt.value === "ALL");
             setSelectedBillStatusOptions([allOption]);
             setBillStatus(["ALL"]);
         } else {
-                       setSelectedBillStatusOptions(selectedOptions);
+            setSelectedBillStatusOptions(selectedOptions);
             setBillStatus(selectedOptions.map(opt => opt.value));
         }
     };
@@ -239,7 +247,7 @@ const periodOptions =
         setTenantName(e.target.value);
     };
 
-
+    console.log("period", period)
 
 
     const CheckboxOption = (props) => {
@@ -288,7 +296,7 @@ const periodOptions =
 
 
 
- 
+
 
 
 
@@ -300,59 +308,71 @@ const periodOptions =
 
 
 
-    
 
-   const handleFilterBills = () => {
-  
-    if (!startDate && endDate) {
-        setDateError("Please Select Start Date");
-        return;
-    }
-    setDateError("");
 
-    if (!state.login?.selectedHostel_Id) return;
+    const handleFilterBills = () => {
 
-    const InvoiceFilter = {
-        search: tenantName?.trim() || undefined,
-        paymentStatus: billStatus?.length ? billStatus : undefined,
-        invoiceModes: invoiceMode?.length ? invoiceMode : undefined,
-        invoiceTypes: invoiceType?.length ? invoiceType : undefined,
-        createdBy: createdBy?.length ? createdBy.map(c => c.value) : undefined,
-        page: 0,
-        size: 10,
-    };
+        if (!startDate && endDate) {
+            setDateError("Please Select Start Date");
+            return;
+        }
+        setDateError("");
 
- dispatch({
+        if (!state.login?.selectedHostel_Id) return;
+
+        const InvoiceFilter = {
+            search: tenantName?.trim() || undefined,
+            paymentStatus: billStatus?.length ? billStatus : undefined,
+            invoiceModes: invoiceMode?.length ? invoiceMode : undefined,
+            invoiceTypes: invoiceType?.length ? invoiceType : undefined,
+            createdBy: createdBy?.length ? createdBy.map(c => c.value) : undefined,
+            period: period?.value ? period?.value : "",
+            minPaidAmount: paidAmountMin,
+            maxPaidAmount: paidAmountMax,
+            minOutstandingAmount: outstandingMin,
+            maxOutstandingAmount: outstandingMax,
+            page: 0,
+            size: 10,
+        };
+
+        dispatch({
             type: "SET_INVOICE_REGISTER_FILTERS",
             payload: InvoiceFilter
         });
-    const hasFilters = Object.values(InvoiceFilter).some(
-        v => v !== undefined && v !== 0
-    );
+        const hasFilters = Object.values(InvoiceFilter).some(
+            v => v !== undefined && v !== 0
+        );
 
-    if (!hasFilters) return;
+        if (!hasFilters) return;
 
-    const isOnlyAllStatus =
-        Array.isArray(billStatus) &&
-        billStatus.length === 1 &&
-        billStatus[0] === "ALL";
+        const isOnlyAllStatus =
+            Array.isArray(billStatus) &&
+            billStatus.length === 1 &&
+            billStatus[0] === "ALL";
 
-    dispatch({
-        type: 'GET_REPORTS_INVOICE_REGISTER_SAGA',
-        payload: {
-            hostelId: state.login.selectedHostel_Id,
-            filters: isOnlyAllStatus
-                ? { page: page, size: size }
-                : InvoiceFilter
-        }
-    });
+        dispatch({
+            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA',
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: isOnlyAllStatus
+                    ? { page: page, size: size }
+                    : InvoiceFilter
+            }
+        });
 
-    setFormLoading(true);
-};
-
-
+        setFormLoading(true);
+    };
 
 
+
+    const inputClass =
+        "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
+        "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
+    const paidMin = Number(paidAmountMin);
+    const paidMax = Number(paidAmountMax);
+
+    const outstandingMinVal = Number(outstandingMin);
+    const outstandingMaxVal = Number(outstandingMax);
 
 
 
@@ -627,7 +647,7 @@ const periodOptions =
 
                             </div>
 
-                            <Select isDisabled
+                            <Select
                                 isSearchable={false}
                                 options={periodOptions}
                                 styles={CustomStyles}
@@ -720,8 +740,78 @@ const periodOptions =
 
                             </div>
                         )}
+                        <div className='mb-3'>
+                            <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>Other Filter</label>
+                        </div>
 
-                       
+                        <div className="mt-2 mb-3">
+                            <label className="text-xs font-medium text-gray-600">
+                                Paid Amount Range
+                            </label>
+
+                            <div className="flex gap-2">
+                                <input
+                                    type="number"
+                                    placeholder="₹Min"
+                                    value={paidAmountMin}
+                                    onChange={handlePaidMinChange}
+                                    className={inputClass}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="₹Max"
+                                    value={paidAmountMax}
+                                    onChange={handlePaidMaxChange}
+                                    className={inputClass}
+                                />
+                            </div>
+                            {paidAmountMin &&
+                                paidAmountMax &&
+                                paidMin > paidMax && (
+                                    <ErrorMessage
+                                        message="Max amount should be greater than Min"
+                                        type="error"
+                                    />
+                                )}
+
+
+                        </div>
+
+
+                        <div className="mt-2 mb-3">
+                            <label className="text-xs font-medium text-gray-600">
+                                Outstanding Amount Range
+                            </label>
+
+                            <div className="flex gap-2">
+                                <input
+                                    type="number"
+                                    placeholder="₹Min"
+                                    value={outstandingMin}
+                                    onChange={handleOutstandingMinChange}
+                                    className={inputClass}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="₹Max"
+                                    value={outstandingMax}
+                                    onChange={handleOutstandingMaxChange}
+                                    className={inputClass}
+                                />
+                            </div>
+                            {outstandingMin &&
+                                outstandingMax &&
+                                outstandingMinVal > outstandingMaxVal && (
+                                    <ErrorMessage
+                                        message="Max amount should be greater than Min"
+                                        type="error"
+                                    />
+                                )}
+
+
+                        </div>
+
+
                     </div>
                 </Offcanvas.Body>
 
@@ -771,6 +861,10 @@ const periodOptions =
                             setInvoiceType([]);
                             setInvoiceMode([]);
                             setCreatedBy([]);
+                            setPaidAmountMin("");
+                            setPaidAmountMax("");
+                            setOutstandingMin("");
+                            setOutstandingMax("");
                         }}
                         style={{
                             backgroundColor: "transparent",
@@ -803,6 +897,6 @@ InvoiceRegisterFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
-    page:  PropTypes.any,
+    page: PropTypes.any,
 };
 export default InvoiceRegisterFilter
