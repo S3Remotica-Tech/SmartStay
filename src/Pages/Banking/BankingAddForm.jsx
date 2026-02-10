@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-bootstrap/Modal";
 import { FormControl, Nav } from "react-bootstrap";
-import React, { useEffect, useState , useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -28,12 +28,12 @@ function BankingAddForm(props) {
   const [hostel_id, setHostel_Id] = useState("")
   const [formLoading, setFormLoading] = useState(false)
   const [isChangedError, setIsChangedError] = useState("")
-     const [activeTab, setActiveTab] = useState("BANK");
+  const [activeTab, setActiveTab] = useState("BANK");
 
-const accountNameRef = useRef(null)
-const bankNameUPIRef = useRef(null)
-const bankNameCardRef = useRef(null)
-const benificiaryNameRef = useRef(null)
+  const accountNameRef = useRef(null)
+  const bankNameUPIRef = useRef(null)
+  const bankNameCardRef = useRef(null)
+  const benificiaryNameRef = useRef(null)
   const [bankaccount, setBankAccount] = useState("");
   const [bankaccountError, setBankAccountError] = useState("");
   // const [isSelectOpen, setIsSelectOpen] = useState(false);
@@ -42,29 +42,29 @@ const benificiaryNameRef = useRef(null)
 
 
 
-useEffect(() => {
-  if (activeTab === "UPI") {
-    bankNameUPIRef.current?.focus();
-  } else if (activeTab === "CARD") {
-    bankNameCardRef.current?.focus();
-  } else if (activeTab === "BANK") {
-    accountNameRef.current?.focus();
-  } else if  (activeTab === "CASH") {
-    benificiaryNameRef.current.focus()
+  useEffect(() => {
+    if (activeTab === "UPI") {
+      bankNameUPIRef.current?.focus();
+    } else if (activeTab === "CARD") {
+      bankNameCardRef.current?.focus();
+    } else if (activeTab === "BANK") {
+      accountNameRef.current?.focus();
+    } else if (activeTab === "CASH") {
+      benificiaryNameRef.current.focus()
 
-  }
-}, [activeTab]);
-
-
+    }
+  }, [activeTab]);
 
 
 
-   
+
+
+
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
 
-// console.log("props",props)
+  // console.log("props",props)
 
   const handleAccountName = (e) => {
     const value = e.target.value
@@ -140,16 +140,16 @@ useEffect(() => {
   const [upiIdError, setUpiIdError] = useState("")
 
   const handleUpiId = (e) => {
-  const value = e.target.value;
+    const value = e.target.value;
     const pattern = /^[a-zA-Z0-9@._-]*$/;
-  if (!pattern.test(value)) {
-    return;
-  }
+    if (!pattern.test(value)) {
+      return;
+    }
 
-  setUpiId(value);
-  setUpiIdError("");
-  setIsChangedError("");
-};
+    setUpiId(value);
+    setUpiIdError("");
+    setIsChangedError("");
+  };
 
 
 
@@ -176,7 +176,7 @@ useEffect(() => {
     // setAllFieldErrmsg("");
     // setPaymentError("");
     setBankAccountError("")
-  
+
     const holderName = selectedOption.label.split(" - ")[0] || "";
     setBankHolderName(holderName);
     setBankAccount(selectedOption.value);
@@ -206,26 +206,13 @@ useEffect(() => {
     return (
       <components.MenuList {...props}>
 
-        <div style={{ maxHeight: 150, overflowY: "auto" }}>{children}</div>
+        <div className="max-h-[150px] overflow-y-auto"
+        >{children}</div>
 
 
         <div
-          style={{
-            position: "sticky",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderTop: "1px solid #E0E0E0",
-            backgroundColor: "#fff",
-            padding: "10px",
-            textAlign: "center",
-            cursor: "pointer",
-            color: "#1E45E1",
-            fontWeight: 600,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            zIndex: 1,
-          }}
+          className="font-gilroy sticky bottom-0 inset-x-0 border-t bg-white hover:bg-blue-50 p-2 text-center cursor-pointer text-blue-600 font-semibold text-sm z-10"
+
           onClick={() => selectProps.onAddBank?.()}
           onMouseEnter={(e) =>
             (e.currentTarget.style.backgroundColor = "#F5F8FF")
@@ -240,12 +227,12 @@ useEffect(() => {
     );
   };
   CustomMenuList.propTypes = {
-  children: PropTypes.node,
-  selectProps: PropTypes.shape({
-    onAddBank: PropTypes.func,
-  }).isRequired,
-};
-  
+    children: PropTypes.node,
+    selectProps: PropTypes.shape({
+      onAddBank: PropTypes.func,
+    }).isRequired,
+  };
+
 
 
 
@@ -363,10 +350,10 @@ useEffect(() => {
     if (!accountNo) {
       setaccountNumberError("Please Enter Account No");
       isHas = true;
-    }  else if (/^0+$/.test(accountNo)) {
-    setaccountNumberError("Account Number cannot be zeros");
-    isHas = true;
-  }else if (accountNo.length < 9 || accountNo.length > 18) {
+    } else if (/^0+$/.test(accountNo)) {
+      setaccountNumberError("Account Number cannot be zeros");
+      isHas = true;
+    } else if (accountNo.length < 9 || accountNo.length > 18) {
       setaccountNumberError("Account Number Must Be 9–18 Digits");
       isHas = true;
     }
@@ -756,19 +743,13 @@ useEffect(() => {
 
       >
 
-        <Modal.Header style={{ position: "relative", borderBottom: "none" }}>
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
+        <Modal.Header className="relative border-b-0">
+          <div className="text-lg font-semibold font-gilroy">
             {props.edit ? "Edit Bank" : "Add Bank"}
           </div>
 
           <CloseCircle size="24" color="#000" onClick={handleClose}
-            style={{ cursor: 'pointer' }} />
+            className="cursor pointer" />
         </Modal.Header>
         {/* <Nav
           variant="tabs"
@@ -823,69 +804,59 @@ useEffect(() => {
         </Nav> */}
 
 
-<div className="flex gap-2 mx-2 border-b">
-  {["BANK", "UPI", "CARD", "CASH"].map((tab) => {
-    const isActive = activeTab === tab;
-    const isDisabled =
-      props.editAddBank?.bankingId &&
-      props.editAddBank.accountType !== tab;
+        <div className="flex gap-2 mx-2 border-b-0">
+          {["BANK", "UPI", "CARD", "CASH"].map((tab) => {
+            const isActive = activeTab === tab;
+            const isDisabled =
+              props.editAddBank?.bankingId &&
+              props.editAddBank.accountType !== tab;
 
-    return (
-      <button
-        key={tab}
-        // type="button"
-        disabled={isDisabled}
-        onClick={() => {
-          if (isDisabled) return;
-          setActiveTab(tab);
-          setError("");
-          setUpiIdError("");
-          setBankAccountError("");
-          setCardTypeError("");
-          setIsChangedError("");
-          setaccountNumberError("");
-          dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
-        }}
-        className={`
+            return (
+              <button
+                key={tab}
+                // type="button"
+                disabled={isDisabled}
+                onClick={() => {
+                  if (isDisabled) return;
+                  setActiveTab(tab);
+                  setError("");
+                  setUpiIdError("");
+                  setBankAccountError("");
+                  setCardTypeError("");
+                  setIsChangedError("");
+                  setaccountNumberError("");
+                  dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
+                }}
+                className={`
           px-2 py-1 w-[150px] text-center font-medium rounded-t-lg font-[Gilroy]
           transition-all
           ${isActive
-            ? "bg-[#1E45E1] text-white"
-            : "text-[#4B4B4B] bg-transparent"}
+                    ? "bg-[#1E45E1] text-white"
+                    : "text-[#4B4B4B] bg-transparent"}
           ${isDisabled
-            ? "opacity-60 cursor-not-allowed"
-            : " cursor-pointer"}
+                    ? "opacity-60 cursor-not-allowed"
+                    : " cursor-pointer"}
         `}
-      >
-        {tab === "BANK"
-          ? "Bank Name"
-          : tab.charAt(0) + tab.slice(1).toLowerCase()}
-      </button>
-    );
-  })}
-</div>
+              >
+                {tab === "BANK"
+                  ? "Bank Name"
+                  : tab.charAt(0) + tab.slice(1).toLowerCase()}
+              </button>
+            );
+          })}
+        </div>
 
 
         <Modal.Body className="pb-0">
           {activeTab === "BANK" && (
-            <div className="row">
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            // <div className="row">
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3">
+
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy" >
                     Benificiary Name {" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
+                    <span className="text-red-500 text-xl" >
                       {" "}
                       *{" "}
                     </span>
@@ -898,16 +869,8 @@ useEffect(() => {
                     placeholder="Enter Benificiary Name"
                     value={accountName}
                     onChange={(e) => handleAccountName(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+
                   />
                 </Form.Group>
                 {accountNameError && (
@@ -917,16 +880,9 @@ useEffect(() => {
                   <ErrorMessage message={error} type="error" />
                 )}
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-2" >
                     Bank Name{" "}
 
                   </Form.Label>
@@ -936,16 +892,7 @@ useEffect(() => {
                     placeholder="Enter Bank Name"
                     value={bankName}
                     onChange={(e) => handleBankName(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
                 {bankNameError && (
@@ -954,22 +901,11 @@ useEffect(() => {
 
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Account No {" "}   <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-2">
+                    Account No {" "}
+                    <span className="text-red-500 text-xl" >
                       {" "}
                       *{" "}
                     </span>
@@ -982,16 +918,7 @@ useEffect(() => {
                     value={accountNo}
                     onChange={(e) => handleAccountNo(e)}
                     maxLength={18}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
                 {accountNumberError && (
@@ -1000,16 +927,9 @@ useEffect(() => {
               </div>
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3" >
                     IFSC Code{" "}
 
                   </Form.Label>
@@ -1019,31 +939,16 @@ useEffect(() => {
                     placeholder="Enter IFSC Code"
                     value={ifscCode}
                     onChange={(e) => handleIfscCode(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
                 {ifcsCodeError && (
                   <ErrorMessage message={ifcsCodeError} type="error" />
                 )}
               </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-span-12">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
-                    }}
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3"
                   >
                     Description{" "}
                   </Form.Label>
@@ -1053,30 +958,20 @@ useEffect(() => {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
 
               </div>
 
               {isChangedError && (
-                <div className="d-flex justify-content-center mt-1">
+                <div className="flex content-center mt-1">
 
                   <ErrorMessage message={isChangedError} type="error" />
                 </div>
               )}
               {
-                state.bankingDetails.bankingCreateError && <div className="d-flex justify-content-center mt-1 mb-1">
+                state.bankingDetails.bankingCreateError && <div className="flex content-center mt-1 mb-1">
 
                   <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
                 </div>
@@ -1088,48 +983,33 @@ useEffect(() => {
                 </div>
                 : null} */}
 
+              <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0" >
+                <Button
+                  disabled={formLoading}
+                  className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
 
-
-
-              <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
-                <Button disabled={formLoading}
-                  className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    height: 50,
-                    fontWeight: 600,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    width: "100%"
-                  }}
                   onClick={handleSubmitBank}
                 >
                   {props.edit ? "Save Changes" : "Add Bank"}
                 </Button>
               </Modal.Footer>
+
             </div>
 
           )}
-          {activeTab === "UPI" && (
-            <div className="row">
-              
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          {activeTab === "UPI" && (
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3">
+
+
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
                   className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
                     Bank{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-500 text-xl">*</span>
                   </Form.Label>
 
                   <Select inputRef={bankNameUPIRef}
@@ -1204,23 +1084,11 @@ useEffect(() => {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
                     UPI ID{" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
+                    <span className="text-red-500 text-xl">
                       {" "}
                       *{" "}
                     </span>
@@ -1232,16 +1100,7 @@ useEffect(() => {
                     placeholder="Enter Upi Id"
                     value={upiId}
                     onChange={(e) => handleUpiId(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
                 {upiIdError && (
@@ -1249,16 +1108,9 @@ useEffect(() => {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
                     Description{" "}
                   </Form.Label>
                   <FormControl
@@ -1267,51 +1119,29 @@ useEffect(() => {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
 
               </div>
 
-
-
-
               {isChangedError && (
-                <div className="d-flex justify-content-center">
+                <div className="flex justify-center">
                   <ErrorMessage message={isChangedError} type="error" />
                 </div>
               )}
 
 
               {
-                state.bankingDetails.bankingCreateError && <div className="d-flex justify-content-center mt-1 mb-1">
+                state.bankingDetails.bankingCreateError && <div className="flex justify-center mt-1 mb-1">
 
                   <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
                 </div>
               }
 
-              <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
+              <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0" >
                 <Button disabled={formLoading}
-                  className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    height: 50,
-                    fontWeight: 600,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    width: "100%"
-                  }}
+                  className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitUpi}
                 >
                   {props.edit ? "Save Changes" : "ADD UPI"}
@@ -1322,27 +1152,23 @@ useEffect(() => {
 
 
           {activeTab === "CARD" && (
-            <div className="row">
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3">
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group
                   className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
                     Bank{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-500 text-xl">
+                      {" "}
+                      *{" "}
+                    </span>
                   </Form.Label>
 
                   <Select inputRef={bankNameCardRef}
-                  
+
                     options={paymentOptions}
                     value={
                       paymentOptions.find((opt) => opt.value === String(bankaccount)) || null
@@ -1414,24 +1240,12 @@ useEffect(() => {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      // paddingTop: 7
-                    }}
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3"
                   >
                     Card Type
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
+                    <span className="text-red-500 text-xl">
                       {" "}
                       *{" "}
                     </span>
@@ -1498,16 +1312,9 @@ useEffect(() => {
               </div>
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
                     Card Number
                   </Form.Label>
                   <FormControl
@@ -1516,16 +1323,7 @@ useEffect(() => {
                     placeholder="Enter Card No"
                     value={cardNo}
                     onChange={(e) => handleCardNo(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
 
@@ -1533,15 +1331,10 @@ useEffect(() => {
 
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
                   <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
-                    }}
+                    className="text-sm font-medium text-gray-900 font-gilroy mt-3"
                   >
                     Description{" "}
                   </Form.Label>
@@ -1551,46 +1344,27 @@ useEffect(() => {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
 
               </div>
               {isChangedError && (
-                <div className="d-flex justify-content-center">
+                <div className="flex justify-center">
                   <ErrorMessage message={isChangedError} type="error" />
                 </div>
               )}
               {
-                state.bankingDetails.bankingCreateError && <div className="d-flex justify-content-center mt-1 mb-1">
+                state.bankingDetails.bankingCreateError && <div className="flex justify-center mt-1 mb-1">
 
                   <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
                 </div>
               }
 
 
-              <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
+              <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button disabled={formLoading}
-                  className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    height: 50,
-                    fontWeight: 600,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    width: "100%"
-                  }}
+                  className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitCard}
                 >
                   {props.edit ? "Save Changes" : "Add Card"}
@@ -1601,24 +1375,12 @@ useEffect(() => {
 
           )}
           {activeTab === "CASH" && (
-            <div className="row">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
                     Benificiary Name{" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
+                    <span className="text-red-500 text-xl">
                       {" "}
                       *{" "}
                     </span>
@@ -1629,16 +1391,7 @@ useEffect(() => {
                     placeholder="Enter Benificiary Name"
                     value={accountName}
                     onChange={(e) => handleAccountName(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
                 {accountNameError && (
@@ -1650,16 +1403,10 @@ useEffect(() => {
               </div>
 
 
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-span-12 lg:col-span-6">
                 <Form.Group >
                   <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
-                    }}
-                  >
+                    className="text-sm font-medium text-gray-900 font-gilroy mt-4">
                     Description{" "}
                   </Form.Label>
                   <FormControl
@@ -1668,46 +1415,27 @@ useEffect(() => {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-
-                    }}
+                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
 
               </div>
               {isChangedError && (
-                <div className="d-flex justify-content-center">
+                <div className="flex justify-center">
                   <ErrorMessage message={isChangedError} type="error" />
                 </div>
               )}
               {
-                state.bankingDetails.bankingCreateError && <div className="d-flex justify-content-center mt-1 mb-1">
+                state.bankingDetails.bankingCreateError && <div className="flex justify-center mt-1 mb-1">
 
                   <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
                 </div>
               }
 
-              <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
+              <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button
-                disabled={formLoading}
-                  className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    height: 50,
-                    fontWeight: 600,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    width: "100%"
-                  }}
+                  disabled={formLoading}
+                  className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitCash}
                 >
                   {props.edit ? "Save Changes" : "Add Cash"}
@@ -1717,38 +1445,14 @@ useEffect(() => {
             </div>
           )}
 
-
-
-
-
-
         </Modal.Body>
 
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
+        {formLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 rounded-full border-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
+          </div>
+        )}
+
 
 
       </Modal>
@@ -1764,3 +1468,7 @@ BankingAddForm.propTypes = {
   setShowForm: PropTypes.func.isRequired,
 };
 export default BankingAddForm;
+
+
+
+

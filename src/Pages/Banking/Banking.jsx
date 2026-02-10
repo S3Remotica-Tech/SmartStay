@@ -76,10 +76,6 @@ function Banking() {
   } = useHasPermission("Banking");
 
 
-
-
-
-
   // const canReadBanking = useHasPermission("Banking", "canRead");
   // const canWriteBanking = useHasPermission("Banking", "canWrite");
   // const canUpdateBanking = useHasPermission("Banking", "canUpdate");
@@ -92,19 +88,15 @@ function Banking() {
     }
   }, [canReadBanking]);
 
-
-useEffect(() => {
-    if (state.UsersList?.accessRestrictionError) {
-      setLoader(false);
-      setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
-    }
-
-  }, [state.UsersList?.accessRestrictionError])
-
-
-
+  useEffect(() => {
+      if (state.UsersList?.accessRestrictionError) {
+        setLoader(false);
+        setTimeout(() => {
+          dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+        }, 1000)
+      }
+  
+    }, [state.UsersList?.accessRestrictionError])
 
 
   useEffect(() => {
@@ -123,8 +115,8 @@ useEffect(() => {
     if (hostel_id) {
       setLoader(true);
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
-    }else{
-        setLoader(false);
+    } else {
+      setLoader(false);
     }
   }, [hostel_id]);
 
@@ -258,20 +250,6 @@ useEffect(() => {
     setShowForm(true);
     setEditAddBank(item);
     setOpenMenuId(false);
-  };
-
-  const buttonStyle = {
-    fontFamily: "Gilroy",
-    fontSize: "14px",
-    backgroundColor: "#1E45E1",
-    color: "white",
-    fontWeight: 600,
-    borderRadius: "8px",
-    padding: "8px",
-    marginBottom: "10px",
-    // maxHeight: 0,
-    width: "146px",
-    whiteSpace: "nowrap",
   };
 
   const handleShowForm = () => {
@@ -551,135 +529,66 @@ useEffect(() => {
 
   return (
     <>
+      <div className="h-screen overflow-hidden">
 
-      <div className="sticky-top bg-white" style={{ margin: 5 }} >
+      <div className="sticky top-0 bg-white m-1">
         <div
-          className="d-flex flex-wrap justify-content-between align-items-center ms-2"
-
-          style={{ marginTop: 0 }}  >
-          <div className="">
-            <label style={{
-              fontSize: 18,
-              color: "#000000",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-
-            }}>Banking</label>
+          className="d-flex flex-wrap justify-content-between align-items-center ml-2">
+          <div>
+            <label className="text-lg text-black font-semibold font-gilroy">
+              Banking
+            </label>
           </div>
 
-          <div style={{ marginTop: 10, }} className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+          <div className="flex justify-between items-center flex-wrap md:flex-nowrap mt-2.5">
             {search ? (
               <>
-                <div
-
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "0px",
-                    marginBottom: "5px",
-                  }}
-
+                <div className="relative flex items-center mt-0 mb-[5px]"
                 >
-                  <div
-                    style={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      width: "100%",
-                      cursor: "pointer",
-
-                    }}
-                  >
+                  <div className="relative flex items-center w-full cursor-pointer">
                     <Image
                       src={searchteam}
                       alt="Search"
-                      style={{
-                        position: "absolute",
-
-                        width: "24px",
-                        height: "24px",
-                        pointerEvents: "none",
-                      }}
+                      className="absolute w-6 h-6 pointer-events-none"
                     />
-                    <div
-                      className="input-group"
 
-
-
-                    >
-                      <span className="input-group-text bg-white border-end-0">
+                    <div className="input-group">
+                      <span className="input-group-text bg-white border-r-0">
                         <Image
                           src={searchteam}
-                          style={{ height: 20, width: 20, }}
+                          className="w-5 h-5"
                         />
                       </span>
                       <input
                         type="text"
-                        className="form-control border-start-0"
+                        className="form-control border-start-0 shadow-none outline-none border-gray-300 border-r-0 w-40 h-10 font-gilroy"
                         placeholder="Search"
                         aria-label="Search"
-                        style={{
-                          boxShadow: "none",
-                          outline: "none",
-                          borderColor: "rgb(207,213,219)",
-                          borderRight: "none",
-                          width: "160px",
-                          height: 40,
-                          fontFamily: "Gilroy"
-
-                        }}
+                       
                         value={filterInput}
                         onChange={(e) => handlefilterInput(e)}
                       />
                       <span className="input-group-text bg-white border-start-0">
                         <img src={closecircle} alt="close" onClick={handleCloseSearch}
-                          style={{ height: 20, width: 20 }}
+                          className="w-5 h-5"
                         />
                       </span>
                     </div>
                   </div>
 
                   {isDropdownVisible && transactionFilterddata?.length > 0 && (
-                    <div
-                      style={{
-                        border: "1px solid #d9d9d9 ",
-                        position: "absolute",
-                        top: 45,
-                        left: 0,
-                        zIndex: 1000,
-                        padding: 10,
-                        borderRadius: 8,
-                        backgroundColor: "#fff",
-                        width: "100%",
-                      }}
+                    <div className="border border-[#d9d9d9] absolute top-11 left-0 z-50 p-2.5 rounded-md bg-white w-full"
                     >
-                      <ul
-                        className="show-scroll p-0"
-                        style={{
-                          backgroundColor: "#fff",
-                          maxHeight: "174px",
-                          minHeight: transactionFilterddata?.length > 1 ? "100px" : "auto",
-                          overflowY: transactionFilterddata?.length > 3 ? "auto" : "hidden",
-                          margin: "0",
-                          listStyleType: "none",
-                          borderRadius: 8,
-                          boxSizing: "border-box",
-                        }}
+                      <ul className={`show-scroll p-0 bg-white max-h-44 m-0 list-none rounded-md ${transactionFilterddata?.length > 1 ? 'min-h-24' : 'min-h-auto'
+                        } ${transactionFilterddata?.length > 3 ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
+
                       >
                         {transactionFilterddata?.map((user, index) => {
                           return (
                             <li
                               key={index}
-                              className="list-group-item d-flex align-items-center"
-                              style={{
-                                cursor: "pointer",
-                                padding: "10px 5px",
-                                borderBottom:
-                                  index !== transactionFilterddata.length - 1
-                                    ? "1px solid #eee"
-                                    : "none",
-                              }}
+                              className={`flex items-center cursor-pointer px-1.5 py-2.5 ${index !== transactionFilterddata.length - 1 ? 'border-b border-b-[#eee]' : 'border-b-0'
+                                }`}
                               onClick={() => handleUserSelect(user)}
                             >
 
@@ -695,35 +604,26 @@ useEffect(() => {
             ) : (
               <>
 
-                <div style={{ paddingRight: 15, cursor: "pointer" }}>
+
+                <div className="pr-4">
                   <Image
                     src={searchteam}
                     roundedCircle
-                    style={{
-                      height: "24px", width: "24px",
-                      cursor: canReadBanking ? "pointer" : "not-allowed",
-                      opacity: canReadBanking ? 1 : 0.4,
-                      pointerEvents: canReadBanking ? "auto" : "none",
-                      transition: "opacity 0.3s ease"
-                    }}
+                    className={`w-6 h-6 rounded-full transition-opacity duration-300 ease-in-out
+      ${canReadBanking ? 'cursor-pointer opacity-100 pointer-events-auto' : 'cursor-not-allowed opacity-40 pointer-events-none'}`}
                     onClick={handleSearch}
                   />
                 </div>
+
               </>
             )}
 
-
-            <div style={{ paddingRight: 15, cursor: "pointer" }}>
+            <div className="pr-4">
               <Image
                 src={Filters}
                 roundedCircle
-                style={{
-                  height: "50px", width: "50px",
-                  cursor: canReadBanking ? "pointer" : "not-allowed",
-                  opacity: canReadBanking ? 1 : 0.4,
-                  pointerEvents: canReadBanking ? "auto" : "none",
-                  transition: "opacity 0.3s ease"
-                }}
+                className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
+      ${canReadBanking ? 'cursor-pointer opacity-100 pointer-events-auto' : 'cursor-not-allowed opacity-40 pointer-events-none'}`}
                 onClick={handleFilterd}
               />
             </div>
@@ -732,21 +632,14 @@ useEffect(() => {
             {
               filterStatus &&
 
-
-              <div className='me-3'
-                style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "120px" : "120px", }}>
+              <div className="mr-4 border border-[#D4D4D4] rounded-md w-30">
 
                 <Form.Select
                   onChange={(e) => handleStatusFilter(e)}
                   value={statusfilter}
                   aria-label="Select Price Range"
                   id="statusselect"
-                  style={{
-                    color: "rgba(34, 34, 34, 1)",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    cursor: "pointer"
-                  }}
+                  className="text-gray-900 font-semibold font-gilroy cursor-pointer"
                 >
                   <option value="All">All</option>
                   <option value="1">Credit</option>
@@ -757,23 +650,24 @@ useEffect(() => {
 
             }
             {statusfilter === "date" && (
-              <div className="me-3">
+              <div className="mr-4">
                 <RangePicker
                   value={dateRange}
                   format="DD-MM-YYYY"
                   onChange={handleDateRangeChange}
-                  style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
+                  className="h-9 rounded-md cursor-pointer"
                 />
               </div>
+
             )}
 
 
-            <div className="me-2">
+            <div className="mr-2">
 
               <Button
                 disabled={!canWriteBanking}
                 onClick={handleShowForm}
-                style={buttonStyle}
+                className="!font-gilroy text-[14px] !bg-[#1e45e1] text-white !font-semibold rounded-[8px] p-2 mb-2.5 w-[146px] whitespace-nowrap"
               >
                 + Add
               </Button>
@@ -783,290 +677,173 @@ useEffect(() => {
         </div>
         {!canReadBanking ? (
           <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "60vh",
-              }}
-            >
 
+            <div className="flex flex-col items-center justify-center h-[60vh]">
               <img
                 src={emptyimg}
                 alt="Empty State"
-                style={{ maxWidth: "100%", height: "auto" }}
+                className="max-w-full h-auto"
               />
 
-
-
               <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
-
             </div>
+
           </>
         ) : (
-          <div className="d-flex overflow-auto mt-3 gap-2 ms-1"  >
-            {bankking && bankking?.length > 0 ? (
-              bankking?.map((item) => {
+
+
+          <div 
+            className="
+    flex flex-row gap-4 mt-1 ml-1
+    overflow-x-auto overflow-y-hidden
+    whitespace-nowrap
+    pb-2
+    scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200
+  "
+          >
+            {bankking && bankking.length > 0 ? (
+              bankking.map((item) => {
                 return (
                   <div
                     key={item.id}
-                    className="card gap-2"
-                    style={{
-                      minWidth: "280px",
-                      border: "1px, solid, #ddd",
-                      borderRadius: "12px",
-                      overflow: "hidden",
-                      height: 187,
-                      position: "relative",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-
-                    }}
+                    className="
+            flex-shrink-0
+            w-[280px]
+            h-[180px]
+            flex flex-col justify-between
+            border border-gray-300
+            rounded-xl
+            overflow-hidden
+            relative
+            bg-white
+          "
                   >
-
-                    <div
-                      className="card-body"
-                      style={{ overflowY: "auto", scrollBehavior: "smooth" }}
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
+             
+                    <div className="p-4 overflow-y-auto">
+                      <div className="flex justify-between items-center">
                         <div>
-                          <p
-                            className="mb-0"
-                            style={{
-                              fontSize: 14,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                            }}
-                          >
+                          <p className="text-sm font-semibold font-gilroy mb-0">
                             Type: {item?.accountType}
                           </p>
-                          <p
-                            className="text-muted mb-0"
-                            style={{
-                              fontSize: 13,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              color: "#4B4B4B",
-                            }}
-                          >
+
+                          <p className="text-sm font-semibold text-gray-600 font-gilroy mb-0">
                             {item.accountHolderName || item.benificiary_name}
                           </p>
-
                         </div>
 
-                        <div style={{
-                          cursor: "pointer",
-                          height: 40,
-                          width: 40,
-                          borderRadius: 100,
-                          border: "1px solid #EFEFEF",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          position: "relative",
-                          backgroundColor: openMenuId === item.bankingId ? "#E7F1FF" : "white"
-
-                        }} onClick={() => handleShowDots(item.bankingId)}>
-                          <PiDotsThreeOutlineVerticalFill
-
-                            alt="More options"
-                            style={{ height: 20, width: 20, cursor: "pointer" }}
-                          />
+              
+                        <div
+                          className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${openMenuId === item.bankingId
+                            ? "bg-blue-100"
+                            : "bg-white"
+                            }`}
+                          onClick={() => handleShowDots(item.bankingId)}
+                        >
+                          <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                         </div>
+
+                   
                         {openMenuId === item.bankingId && (
                           <div
                             ref={popupRef}
-                            style={{
-                              cursor: "pointer",
-                              backgroundColor: "#F9F9F9",
-                              position: "absolute",
-                              right: 30,
-                              top: 50,
-                              width: 160,
-                              height: "auto",
-                              border: "1px solid #EBEBEB",
-                              borderRadius: 10,
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "start",
-                              zIndex: 9999,
-                              padding: 0,
-                            }}
+                            className="
+                    absolute right-7 top-12
+                    w-40
+                    bg-gray-50
+                    border border-gray-200
+                    rounded-xl
+                    z-[9999]
+                  "
                           >
-                            <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
+                            <div
+                              className={`flex items-center gap-2 px-3 py-2 rounded-t-xl ${canWriteBanking
+                                ? "cursor-pointer hover:bg-blue-100"
+                                : "cursor-not-allowed opacity-50"
+                                }`}
+                              onClick={() => {
+                                if (canWriteBanking) {
+                                  handleOpenSelfTransfer(item);
+                                }
+                              }}
+                            >
+                              <img
+                                src={transArrow}
+                                alt="transArrow"
+                                className="h-4 w-4"
+                              />
+                              <span className="text-sm font-semibold font-gilroy">
+                                Self Transfer
+                              </span>
+                            </div>
 
+                            <div className="h-px bg-gray-200" />
+                            <div
+                              className={`flex items-center gap-2 px-3 py-2 ${canUpdateBanking
+                                ? "cursor-pointer hover:bg-blue-100"
+                                : "cursor-not-allowed opacity-50 pointer-events-none"
+                                }`}
+                              onClick={() => {
+                                if (canUpdateBanking) {
+                                  handleEditAddBank(item);
+                                }
+                              }}
+                            >
+                              <Edit
+                                size={16}
+                                color={!canUpdateBanking ? "#A9A9A9" : "#1E45E1"}
+                              />
+                              <span className="text-sm font-semibold font-gilroy">
+                                Edit
+                              </span>
+                            </div>
 
-                              <div
-                                className="d-flex justify-content-start align-items-center gap-2"
-                                onClick={() => {
-                                  if (canWriteBanking) {
-                                    handleOpenSelfTransfer(item);
-                                  }
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                }}
-                                style={{
-                                  padding: "8px 12px",
-                                  width: "100%",
-                                  backgroundColor: "#F9F9F9",
-                                  cursor: !canWriteBanking ? "not-allowed" : "pointer",
-                                  opacity: !canWriteBanking ? 0.5 : 1,
-                                  borderTopLeftRadius: 10,
-                                  borderTopRightRadius: 10,
-                                }}
-                              >
-                                <img src={transArrow} style={{ height: 16, width: 16 }} alt="transArrow" />
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy, sans-serif",
-
-                                    color: !canWriteBanking ? "#A9A9A9" : "#000000",
-                                    cursor: !canWriteBanking ? "not-allowed" : "pointer",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  Self Transfer
-                                </label>
-                              </div>
-
-                              <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
-
-                              <div
-                                className="d-flex justify-content-start align-items-center gap-2"
-                                onClick={() => {
-                                  if (canUpdateBanking) {
-                                    handleEditAddBank(item);
-                                  }
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                }}
-                                style={{
-                                  padding: "8px 12px",
-                                  width: "100%",
-                                  backgroundColor: "#F9F9F9",
-                                  cursor: !canUpdateBanking ? "not-allowed" : "pointer",
-                                  pointerEvents: !canUpdateBanking ? "none" : "auto",
-                                  opacity: !canUpdateBanking ? 0.5 : 1,
-                                }}
-                              >
-
-                                <Edit
-                                  size="16"
-                                  color={!canUpdateBanking ? "#A9A9A9" : "#1E45E1"}
-                                />
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy, sans-serif",
-                                    color: !canUpdateBanking ? "#A9A9A9" : "#222222",
-                                    cursor: !canUpdateBanking ? "not-allowed" : "pointer",
-                                  }}
-                                >
-                                  Edit
-                                </label>
-                              </div>
-
-                              <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
-
-
-                              <div
-                                className="d-flex justify-content-start align-items-center gap-2"
-                                onClick={() => {
-                                  if (canDeleteBanking) {
-                                    handleDeleteForm(item);
-                                  }
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                }}
-                                style={{
-                                  padding: "8px 12px",
-                                  width: "100%",
-                                  backgroundColor: "#F9F9F9",
-                                  cursor: !canDeleteBanking ? "not-allowed" : "pointer",
-                                  opacity: !canDeleteBanking ? 0.5 : 1,
-                                  borderBottomLeftRadius: 10,
-                                  borderBottomRightRadius: 10,
-                                }}
-                              >
-                                {/* <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" /> */}
-                                <Trash
-                                  size="16"
-                                  color={!canDeleteBanking ? "#A9A9A9" : "red"}
-                                />
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy, sans-serif",
-                                    color: !canDeleteBanking ? "#A9A9A9" : "#FF0000",
-                                    cursor: !canDeleteBanking ? "not-allowed" : "pointer",
-                                  }}
-                                >
-                                  Delete
-                                </label>
-                              </div>
+                            <div className="h-px bg-gray-200" />
+                            <div
+                              className={`flex items-center gap-2 px-3 py-2 rounded-b-xl ${canDeleteBanking
+                                ? "cursor-pointer hover:bg-red-50"
+                                : "cursor-not-allowed opacity-50"
+                                }`}
+                              onClick={() => {
+                                if (canDeleteBanking) {
+                                  handleDeleteForm(item);
+                                }
+                              }}
+                            >
+                              <Trash
+                                size={16}
+                                color={!canDeleteBanking ? "#A9A9A9" : "red"}
+                              />
+                              <span className="text-sm font-semibold text-red-500 font-gilroy">
+                                Delete
+                              </span>
                             </div>
                           </div>
-
                         )}
                       </div>
 
-                      <div className="mt-3">
-                        <p
-                          className="mt-3"
-                          style={{
-                            fontSize: 20,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {item?.accountNumber || item?.upiId || item.creditCardNumber}
-                        </p>
-                      </div>
+                      <p className="mt-2 text-lg font-medium font-gilroy">
+                        {item?.accountNumber ||
+                          item?.upiId ||
+                          item.creditCardNumber}
+                      </p>
 
-                      <div className="d-flex justify-content-between align-items-center mb-2">
-                        <div style={{ fontFamily: "Gilroy", }}>
-
-
-                          <p className="text-muted mb-0" style={{ fontSize: 14, fontWeight: 500 }}>
+                      <div className="flex justify-between items-center mt-3">
+                        <div>
+                          <p className="text-sm text-gray-500 font-medium mb-0">
                             {item.isDefault
-                              ? `Default: ${item.transactionType === "BOTH" ? "Both A/C" : item.transactionType + " A/C"}`
+                              ? `Default: ${item.transactionType === "BOTH"
+                                ? "Both A/C"
+                                : item.transactionType + " A/C"
+                              }`
                               : ""}
                           </p>
 
-
                           {item.isDefault === 0 && (
                             <p
-                              style={{
-                                color: !canWriteBanking
-                                  ? "#ccc"
-                                  : "#007bff",
-                                cursor: !canWriteBanking
-                                  ? "not-allowed"
-                                  : "pointer",
-                                marginBottom: 0,
-                                fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                              }}
+                              className={`text-sm font-semibold ${canWriteBanking
+                                ? "text-blue-600 cursor-pointer"
+                                : "text-gray-300 cursor-not-allowed"
+                                }`}
                               onClick={() => {
                                 if (canWriteBanking) {
                                   handleAccountTypeChange(item);
@@ -1079,49 +856,31 @@ useEffect(() => {
                         </div>
 
                         <span
-                          href={!canWriteBanking ? "#" : undefined}
-                          onClick={(e) => {
-                            if (!canWriteBanking) {
-                              e.preventDefault();
-                            } else {
-                              // handleAccountTypeChange(item);
-                            }
-                          }}
-                          className={
-                            !canWriteBanking ? "text-muted" : "text-primary"
-                          }
-                          style={{
-                            textAlign: "end",
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            textDecoration: "none",
-                            cursor: !canWriteBanking
-                              ? "not-allowed"
-                              : "pointer",
-                          }}
+                          className={`text-sm font-semibold ${canWriteBanking
+                            ? "text-blue-600 cursor-pointer"
+                            : "text-gray-400 cursor-not-allowed"
+                            }`}
                         >
                           Change
                         </span>
                       </div>
+
+                
                       {showAccountTypeOptions === item.bankingId && (
                         <div
-                          className="account-type-dropdown"
+                          className="
+                  absolute top-16 left-12
+                  bg-white
+                  border border-gray-200
+                  rounded-xl
+                  p-2
+                  w-36
+                  shadow-md
+                  z-[1000]
+                "
                           onMouseDown={(e) => e.stopPropagation()}
-                          style={{
-                            position: "absolute",
-                            top: 70,
-                            left: 50,
-                            backgroundColor: "#FFFFFF",
-                            border: "1px solid #EBEBEB",
-                            borderRadius: "10px",
-                            padding: "10px",
-                            zIndex: 1000,
-                            width: 150,
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                          }}
                         >
-                          <label style={{ display: "block", marginBottom: "5px" }}>
+                          <label className="block text-sm mb-1">
                             <input
                               type="radio"
                               name={`accountType-${item.bankingId}`}
@@ -1131,7 +890,8 @@ useEffect(() => {
                             />{" "}
                             Credit A/C
                           </label>
-                          <label style={{ display: "block", marginBottom: "5px" }}>
+
+                          <label className="block text-sm mb-1">
                             <input
                               type="radio"
                               name={`accountType-${item.bankingId}`}
@@ -1141,7 +901,8 @@ useEffect(() => {
                             />{" "}
                             Debit A/C
                           </label>
-                          <label style={{ display: "block", marginBottom: "5px" }}>
+
+                          <label className="block text-sm mb-1">
                             <input
                               type="radio"
                               name={`accountType-${item.bankingId}`}
@@ -1153,51 +914,25 @@ useEffect(() => {
                           </label>
                         </div>
                       )}
-
                     </div>
 
-                    <div
-                      className="card-footer d-flex justify-content-between align-items-center"
-                      style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-                    >
-                      <span
-                        style={{
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        <img
-                          src={money}
-                          alt="money"
-                          width={18}
-                          height={18}
-                          style={{ marginTop: "-5px" }}
-                        />{" "}
+              
+                    <div className="bg-blue-100 px-4 py-2 flex justify-between items-center">
+                      <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
+                        <img src={money} alt="money" className="h-4 w-4" />
                         Balance
                       </span>
+
                       {item.accountBalance === 0 ||
                         item.accountBalance === "" ||
                         item.accountBalance === null ? (
                         <span
-                          href={!canWriteBanking ? "#" : undefined}
-                          className={
-                            !canWriteBanking ? "text-muted" : "text-primary"
-                          }
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            color: !canWriteBanking ? "gray" : "blue",
-                            textDecoration: "none",
-                            cursor: !canWriteBanking
-                              ? "not-allowed"
-                              : "pointer",
-                          }}
-                          onClick={(e) => {
-                            if (!canWriteBanking) {
-                              e.preventDefault();
-                            } else {
+                          className={`text-sm font-semibold ${canWriteBanking
+                            ? "text-blue-600 cursor-pointer"
+                            : "text-gray-400 cursor-not-allowed"
+                            }`}
+                          onClick={() => {
+                            if (canWriteBanking) {
                               handleShowAddBalance(item);
                             }
                           }}
@@ -1205,250 +940,90 @@ useEffect(() => {
                           +Add Amount
                         </span>
                       ) : (
-                        <span
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            color: "black",
-                          }}
-                        >
-                          ₹{item?.accountBalance}
+                        <span className="text-sm font-semibold text-black font-gilroy">
+                          ₹{item.accountBalance}
                         </span>
                       )}
                     </div>
                   </div>
                 );
               })
-            ) : (
-              <></>
-
-            )}
+            ) : null}
           </div>
+
         )}
 
         <div >
 
           {sortedData?.length > 0 ? (
-            <div
-              className='show-scrolls me-2 sticky-top ms-1'
-              style={{
-                maxHeight: 300,
-                overflow: "auto",
-                borderTop: "1px solid #E8E8E8",
-                marginBottom: 20,
-                marginTop: "20px",
-                paddingRight: 0,
-                paddingLeft: 0
-              }}
-            >
 
-              <Table
-                responsive="md"
+            <div className="overflow-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px]">
 
-                style={{
-                  fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                  top: 0,
-                  zIndex: 1,
-                  borderRadius: 0
-                }}
-              >
-                <thead style={{
-                  fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                  top: 0,
-                  zIndex: 1
-                }}>
-                  <tr>
-                    <th
-                      style={{
-                        textAlign: "start",
+              <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10]"
+                responsive="md" >
+                <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10">
 
-                        color: "rgb(147, 147, 147)",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        // paddingLeft: "20px",
-                        whiteSpace: "nowrap"
-
-                      }}
-                    >
-                      <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                        Account Name</div>
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "center",
-                        // padding: "10px",
-                        color: "rgb(147, 147, 147)",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                        Date</div>
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        // padding: "10px",
-                        color: "rgb(147, 147, 147)",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                        Amount</div>
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        // padding: "10px",
-                        color: "rgb(147, 147, 147)",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                        Description</div>
+                  <tr >
+                    <th className="text-start align-middle">
+                      Account Name
                     </th>
 
-                    <th
-                      style={{
-                        textAlign: "start",
-                        // padding: "10px",
-                        color: "rgb(147, 147, 147)",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                        Transaction</div>
+                    <th className="text-start align-middle">
+                      Date
                     </th>
 
+                    <th className="text-start align-middle">
+                      Amount
+                    </th>
+
+                    <th className="text-start align-middle">
+                      Description
+                    </th>
+
+                    <th className="text-start align-middle">
+                      Transaction
+                    </th>
                   </tr>
+
                 </thead>
 
 
-                <tbody style={{ textAlign: "center" }}>
+                <tbody className="text-center">
                   <PaginationList>
                     {sortedData?.map((user) => {
 
 
                       return (
+
                         <tr
                           key={user.id}
-                          style={{
-                            fontSize: "13px",
-                            fontWeight: 600,
-                            textAlign: "center",
-                            marginTop: 10,
-                          }}
+                          className="text-[13px] font-gilroy font-semibold text-center border-b border-[#E8E8E8]"
                         >
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              // paddingTop: 15,
-                            }}
-                            className=""
-                          >
-                            <div className="">
-                              {user.accountHolder}
-                            </div>
+                          <td className="border-0 text-start font-semibold">
+                            {user.accountHolder}
                           </td>
-                          <td
-                            style={{
-                              // paddingTop: 15,
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              whiteSpace: "nowrap",
-                            }}
-                            className=""
-                          >
-                            <span
-                              style={{
-                                // padding: "3px 10px",
-                                // color:"6B7280",
-                                borderRadius: "60px",
-                                textAlign: "center",
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                // backgroundColor: "#EBEBEB",
-                              }}
-                            >
+
+                          <td className="border-0 text-start font-gilroy whitespace-nowrap">
+                            <span>
                               {user.createdAt}
                             </span>
                           </td>
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              // paddingTop: 15,
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
+
+                          <td className="border-0 text-start font-gilroy">
                             {user.amount}
                           </td>
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              // paddingTop: 15,
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
+
+                          <td className="border-0 text-start font-gilroy">
                             {user.source}
                           </td>
-                          <td
-                            style={{
-                              // paddingTop: 15,
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              whiteSpace: "nowrap",
-                            }}
-                            className=""
-                          >
-                            <span
-                              style={{
-                                // padding: "3px 10px",
-                                color: "#222222",
-                                borderRadius: "60px",
-                                // backgroundColor: "#EBEBEB",
-                                textAlign: "start",
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+
+                          <td className="border-0 text-start font-gilroy whitespace-nowrap">
+                            <span>
                               {user.type}
                             </span>
                           </td>
                         </tr>
+
                       );
                     })}
                   </PaginationList>
@@ -1463,12 +1038,12 @@ useEffect(() => {
 
           ) : (
 
-            <div>
-              {!loader && sortedData.length === 0 && canReadBanking &&
 
+            <div>
+              {!loader && sortedData.length === 0 && canReadBanking && (
                 <div className="flex justify-center mt-3">
                   <div>
-                    <div style={{ textAlign: "center" }}>
+                    <div className="text-center">
                       <img
                         src={emptyimg}
                         width={240}
@@ -1476,66 +1051,30 @@ useEffect(() => {
                         alt="emptystate"
                       />
                     </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 18,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No Transaction{" "}
+
+                    <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                      No Transaction
                     </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no Transaction available.{" "}
+
+                    <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
+                      There are no Transaction available.
                     </div>
                   </div>
                 </div>
-              }
-              {loader &&
-                <div
-                  style={{
-                    position: 'fixed',
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
+              )}
+
+              {loader && (
+                <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                  <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
                 </div>
-              }
+              )}
             </div>
+
           )}
 
 
         </div>
+
         <Modal
           show={deleteShow}
           onHide={handleCloseDelete}
@@ -1543,76 +1082,29 @@ useEffect(() => {
           backdrop="static"
           dialogClassName="custom-delete-modal"
         >
-          <Modal.Header style={{ borderBottom: "none" }}>
-            <Modal.Title
-              className="w-100 text-center"
-              style={{
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-
-                fontWeight: 600,
-                color: "#222222",
-
-              }}
-            >
+          <Modal.Header className="!border-t-0">
+            <Modal.Title className="w-full text-center !font-semibold !text-[18px] !font-gilroy !text-[#222222]">
               Delete Banking?
             </Modal.Title>
           </Modal.Header>
 
-          <Modal.Body
-            className="text-center"
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              color: "#646464",
-
-              marginTop: "-10px",
-            }}
+          <Modal.Body className="text-center !text-[14px] !font-medium !font-gilroy !text-[#646464] -mt-2.5"
           >
             Are you sure you want to delete this Bank-details?
           </Modal.Body>
 
           <Modal.Footer
-            className="d-flex justify-content-center"
-            style={{
-
-              borderTop: "none",
-              marginTop: "-10px",
-            }}
-          >
+            className="flex content-center !border-t-0 -mt-2.5" >
+        
             <Button
-              className="me-2"
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+              className="me-2 w-full max-w-[160px] h-[52px] rounded-[8px] px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
               onClick={handleCloseDelete}
             >
               Cancel
             </Button>
+
             <Button disabled
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+              className="w-full max-w-[160px] h-[52px] rounded-[8px] px-3 py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold !text-[14px] !disabled:opacity-50 !disabled:cursor-not-allowed"
               onClick={handleDeleteBank}
             >
               {/* Delete */} Coming Soon
@@ -1625,90 +1117,49 @@ useEffect(() => {
           onHide={() => handleCloseAddBalance()}
           backdrop="static"
           centered
-          className="modal-dialog-centered"
-          style={{
-            maxWidth: "353px",
-            width: "80vw",
-          }}
+          className="modal-dialog-centered max-w-[353px] w-[80vw]"
         >
-          <Modal.Header
-            style={{ position: "relative" }}
+          <Modal.Header className="relative"
           >
-            <div
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
-            >
+            <div className="text-[1.25rem] font-semibold font-gilroy" >
               Add Balance
             </div>
-            <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
-              style={{ cursor: 'pointer' }} />
+            <CloseCircle size="24" color="#000" className="cursor pointer" onClick={handleCloseAddBalance} />
 
           </Modal.Header>
           <Modal.Body className="pt-2">
-            <div className="col-12">
-              <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
+            <div className="w-full">
+              <Form.Group className="mb-2">
+                <Form.Label className="!text-[14px] !text-[#222222] !font-gilroy !font-medium">
                   Account{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  <span className="text-red-500 text-[20px]"> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="Enter Account"
                   value={AddBankName}
+                  className="text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
 
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
                 />
               </Form.Group>
             </div>
 
-            <div className="col-12" style={{ marginTop: -10 }}>
+            <div className="w-full">
               <Form.Group className="mb-3">
                 <Form.Label
-                  style={{
-                    fontSize: "0.875rem",
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                  className="text-[0.875rem] text-[#222222] font-gilroy font-medium"
                 >
                   Balance {""}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  <span className="text-red-500 text-[20px]"> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
                   placeholder="Enter Amount"
                   value={AddBankAmount}
                   onChange={(e) => handleAddBankAmount(e)}
-                  style={{
-                    fontSize: "1rem",
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: "50px",
-                    borderRadius: "8px",
-                  }}
+                  className="text-[1rem] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+
                 />
                 {amountError && (
                   <ErrorMessage message={amountError} type="error" />
@@ -1716,29 +1167,14 @@ useEffect(() => {
                 )}
               </Form.Group>
 
-
-
-
-
               {/* {state.createAccount?.networkError ?
                 <div className="d-flex justify-content-center mt-1 mb-1">
                   <ErrorMessage message={state.createAccount?.networkError} type="error" />
                   </div>
                   : null} */}
 
-
-
               <Button
-                className="col-12"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  height: "50px",
-                  borderRadius: "12px",
-                  fontSize: "16px",
-                  fontFamily: "Gilroy",
-                  marginTop: "10px",
-                }}
+                className="w-full !bg-[#1E45E1] !font-semibold h-[50px] rounded-[12px] !text-[16px] !font-gilroy mt-2.5"
                 onClick={handleAddAmountSubmit}
               >
                 Add balance
@@ -1747,36 +1183,12 @@ useEffect(() => {
 
           </Modal.Body>
 
+          {formLoading && (
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+              <div className="w-[40px] h-[40px] rounded-full border-t-[4px] border-t-[#1E45E1] border-r-[4px] border-r-transparent animate-spin"></div>
+            </div>
+          )}
 
-
-
-
-
-          {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
         </Modal>
 
 
@@ -1784,105 +1196,108 @@ useEffect(() => {
 
         <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
 
-          <Modal.Header
-            style={{ position: "relative" }}
-          >
-            <div
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                color: "#1E45E1"
-              }}
-            >
+          <Modal.Header className="relative">
+            <div className="text-[1.25rem] font-semibold font-gilroy text-[#1E45E1]">
               Self Transfer
             </div>
-            <CloseCircle size="24" color="#000" onClick={handleCloseSElfTransfer}
-              style={{ cursor: 'pointer' }} />
+            <CloseCircle size="24" color="#000" className="cursor pointer" onClick={handleCloseSElfTransfer} />
 
           </Modal.Header>
 
           <Modal.Body>
             <div>
-              <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
+            <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy">From</h6>
 
-              <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
+              <div className="flex items-center p-3 border-b border-[#ccc]">
                 <img
                   src={banklogo}
-                  style={{ marginTop: "-10px" }}
-                  width="50"
-                  height="50"
-                  className="me-3"
+                  className="-mt-2 mr-3 w-12 h-12"
                   alt="bank"
                 />
 
-                <div className="w-100 d-flex justify-content-between align-items-start">
+                <div className="w-full flex justify-between items-start">
                   <div>
-                    <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}>Canara Bank</div>
-                    <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                      Canara Bank
+                    </div>
+                    <div className="text-xs text-gray-500 font-gilroy">
+                      Savings A/C
+                    </div>
                   </div>
 
-                  <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-                    <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
-                    <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
-                    <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                  <div className="text-right font-gilroy">
+                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                      Immanuel
+                    </div>
+                    <div className="text-xs font-normal font-gilroy mb-0.5">
+                      4561 2013 6210 6540
+                    </div>
+                    <div className="text-xs font-semibold text-[#1E45E1]">
                       Avl Bal : ₹10,000.00
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
 
 
-            <div className="mb-3">
-              <h6 className="mt-1" style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>To</h6>
+       
 
-              <div className="d-flex align-items-center p-3" >
+            <div className="mb-3">
+              <h6 className="mt-1 text-[#4B4B4B] text-base font-medium font-gilroy">
+                To
+              </h6>
+              <div className="flex items-center p-3">
                 <img
                   src={banklogo}
-                  style={{ marginTop: "-10px" }}
-                  width="50"
-                  height="50"
-                  className="me-3"
+                  className="-mt-2 mr-3 w-12 h-12"
                   alt="bank"
                 />
-
-                <div className="w-100 d-flex justify-content-between align-items-start">
+                <div className="w-full flex justify-between items-start">
                   <div>
-                    <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> State Bank of India</div>
-                    <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                      State Bank of India
+                    </div>
+                    <div className="text-xs text-gray-500 font-gilroy">
+                      Savings A/C
+                    </div>
                   </div>
 
-                  <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-                    <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
-                    <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
-                    <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                  <div className="text-right font-gilroy">
+                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">Immanuel</div>
+                    <div className="text-xs font-normal font-gilroy mb-0.5">
+                      4561 2013 6210 6540
+                    </div>
+                    <div className="text-xs font-semibold text-[#1E45E1] ">
                       Avl Bal : ₹10,000.00
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="d-flex align-items-center p-3" style={{ marginTop: "-10px" }}>
+              <div className="flex items-center p-3 -mt-2">
                 <img
                   src={banklogo}
-                  style={{ marginTop: "-10px" }}
-                  width="50"
-                  height="50"
-                  className="me-3"
+                  className="-mt-2 mr-3 w-12 h-12"
                   alt="bank"
                 />
-
-                <div className="w-100 d-flex justify-content-between align-items-start">
+                <div className="w-full flex justify-between items-start">
                   <div>
-                    <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> ICICI</div>
-                    <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                      ICICI
+                    </div>
+                    <div className="text-xs text-gray-500 font-gilroy">
+                      Savings A/C
+                    </div>
                   </div>
 
-                  <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-                    <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
-                    <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
-                    <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                  <div className="text-right font-gilroy">
+                    <div className="font-medium text-[#1A1A1A] text-sm  mb-0.5">Immanuel</div>
+                    <div className="text-xs font-normal font-gilroy mb-0.5">
+                      4561 2013 6210 6540
+                    </div>
+                    <div className="text-xs font-semibold text-[#1E45E1] ">
                       Avl Bal : ₹10,000.00
                     </div>
                   </div>
@@ -1892,19 +1307,18 @@ useEffect(() => {
 
 
             <div className="input-group">
-              <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
+              <span className="input-group-text bg-white border-r-0 rounded-l-md">₹</span>
               <input
                 type="text"
-                className="form-control border-start-0 rounded-end"
+                className="form-control border-l-0 rounded-r-md shadow-none outline-none font-gilroy"
                 placeholder="Enter amount"
                 value={amount}
                 onChange={handleChange}
-                style={{ boxShadow: 'none', outline: "none", fontFamily: "Gilroy" }}
               />
             </div>
 
 
-            <div className="text-end mt-3">
+            <div className="text-right mt-3">
               <Button variant="primary" disabled>
                 {/* Transfer */} Coming Soon
               </Button>
@@ -1929,6 +1343,7 @@ useEffect(() => {
 
           />
         ) : null}
+      </div>
       </div>
 
     </>
