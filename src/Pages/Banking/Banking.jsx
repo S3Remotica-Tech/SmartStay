@@ -76,10 +76,6 @@ function Banking() {
   } = useHasPermission("Banking");
 
 
-
-
-
-
   // const canReadBanking = useHasPermission("Banking", "canRead");
   // const canWriteBanking = useHasPermission("Banking", "canWrite");
   // const canUpdateBanking = useHasPermission("Banking", "canUpdate");
@@ -91,6 +87,16 @@ function Banking() {
       setLoader(false);
     }
   }, [canReadBanking]);
+
+  useEffect(() => {
+      if (state.UsersList?.accessRestrictionError) {
+        setLoader(false);
+        setTimeout(() => {
+          dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+        }, 1000)
+      }
+  
+    }, [state.UsersList?.accessRestrictionError])
 
 
   useEffect(() => {
@@ -555,19 +561,10 @@ function Banking() {
                       </span>
                       <input
                         type="text"
-                        className="form-control border-start-0"
+                        className="form-control border-start-0 shadow-none outline-none border-gray-300 border-r-0 w-40 h-10 font-gilroy"
                         placeholder="Search"
                         aria-label="Search"
-                        style={{
-                          boxShadow: "none",
-                          outline: "none",
-                          borderColor: "rgb(207,213,219)",
-                          borderRight: "none",
-                          width: "160px",
-                          height: 40,
-                          fontFamily: "Gilroy"
-
-                        }}
+                       
                         value={filterInput}
                         onChange={(e) => handlefilterInput(e)}
                       />
@@ -991,7 +988,7 @@ function Banking() {
                 </thead>
 
 
-                <tbody style={{ textAlign: "center" }}>
+                <tbody className="text-center">
                   <PaginationList>
                     {sortedData?.map((user) => {
 
@@ -1085,7 +1082,7 @@ function Banking() {
           backdrop="static"
           dialogClassName="custom-delete-modal"
         >
-          <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Header className="!border-t-0">
             <Modal.Title className="w-full text-center !font-semibold !text-[18px] !font-gilroy !text-[#222222]">
               Delete Banking?
             </Modal.Title>

@@ -211,22 +211,6 @@ function BankingAddForm(props) {
 
 
         <div
-          // style={{
-          //   position: "sticky",
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   borderTop: "1px solid #E0E0E0",
-          //   backgroundColor: "#fff",
-          //   padding: "10px",
-          //   textAlign: "center",
-          //   cursor: "pointer",
-          //   color: "#1E45E1",
-          //   fontWeight: 600,
-          //   fontSize: 14,
-          //   fontFamily: "Gilroy",
-          //   zIndex: 1,
-          // }}
           className="font-gilroy sticky bottom-0 inset-x-0 border-t bg-white hover:bg-blue-50 p-2 text-center cursor-pointer text-blue-600 font-semibold text-sm z-10"
 
           onClick={() => selectProps.onAddBank?.()}
@@ -1484,3 +1468,7 @@ BankingAddForm.propTypes = {
   setShowForm: PropTypes.func.isRequired,
 };
 export default BankingAddForm;
+
+
+
+
