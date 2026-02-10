@@ -861,7 +861,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     type="text"
                     placeholder="Enter Last Name"
                     className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                 </Form.Group>

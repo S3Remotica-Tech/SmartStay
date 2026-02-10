@@ -307,7 +307,7 @@ function CreateBill() {
     };
 
     const handleBackBill = () => {
-         dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
+        dispatch({ type: 'REMOVE_MANUAL_INVOICE_ERROR' })
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
         setFormLoading(false)
         // setShowManualInvoice(false);
@@ -588,7 +588,7 @@ function CreateBill() {
 
 
     const handleNewRowChange = (index, field, value) => {
-         dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
+        dispatch({ type: 'REMOVE_MANUAL_INVOICE_ERROR' })
         setNewRows((prevRows) =>
             prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
         );
@@ -598,16 +598,16 @@ function CreateBill() {
 
 
     const isApiEBPresent = newRows.some(
-  row => row.isFromApi && row.am_name === "EB"
-);
-  
+        row => row.isFromApi && row.am_name === "EB"
+    );
+
     const handleRowTypeSelect = (type) => {
-         dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
+        dispatch({ type: 'REMOVE_MANUAL_INVOICE_ERROR' })
         let newRow = {
-    am_name: "",
-    amount: "0",
-    isFromApi: false, 
-  };
+            am_name: "",
+            amount: "0",
+            isFromApi: false,
+        };
 
         if (type === "RoomRent") {
             newRow.am_name = "Room Rent";
@@ -828,7 +828,7 @@ function CreateBill() {
 
 
     const handleEditBill = () => {
-               dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
+        dispatch({ type: 'REMOVE_MANUAL_INVOICE_ERROR' })
         let hasError = false;
         setCustomerErrmsg("");
         setInvoicenumberErrmsg("");
@@ -1040,20 +1040,20 @@ function CreateBill() {
 
     return (
         <div className="mt-4" style={{ paddingLeft: 5, position: "relative" }}>
-          <div className="sticky top-0 left-0 z-[1000] w-full h-[50px] bg-white px-[5px] py-[5px] flex items-start justify-start whitespace-nowrap">
-  <div className="fixed flex items-center gap-2">
-    <img
-      src={leftarrow}
-      alt="leftarrow"
-      className="w-5 h-5 cursor-pointer"
-      onClick={handleBackBill}
-    />
+            <div className="sticky top-0 left-0 z-[1000] w-full h-[50px] bg-white px-[5px] py-[5px] flex items-start justify-start whitespace-nowrap">
+                <div className="fixed flex items-center gap-2">
+                    <img
+                        src={leftarrow}
+                        alt="leftarrow"
+                        className="w-5 h-5 cursor-pointer"
+                        onClick={handleBackBill}
+                    />
 
-    <span className="font-medium text-[18px] font-['Gilroy'] pl-2">
-      {billData ? "Edit Bill" : "New Bill"}
-    </span>
-  </div>
-</div>
+                    <span className="font-medium text-[18px] font-['Gilroy'] pl-2">
+                        {billData ? "Edit Bill" : "New Bill"}
+                    </span>
+                </div>
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
@@ -1369,7 +1369,7 @@ function CreateBill() {
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
                                                 // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
-                                               disabled={u.isFromApi}
+                                                disabled={u.isFromApi}
 
                                                 value={u.am_name}
                                                 onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
@@ -1396,20 +1396,20 @@ function CreateBill() {
                                             <CloseCircle
                                                 onClick={() =>
                                                     !u.isFromApi &&
-                                                     handleDeleteNewRow(index)
+                                                    handleDeleteNewRow(index)
                                                 }
                                                 style={{
-                                                    color:u.isFromApi ? "gray" : "#FF0000",
+                                                    color: u.isFromApi ? "gray" : "#FF0000",
                                                     cursor:
                                                         !u.isFromApi ? "pointer" : "not-allowed",
-                                                                                                                       
+
                                                     opacity:
                                                         u.isFromApi
                                                             ? 0.4
                                                             : 1,
                                                 }}
-                                               size="24"
-                                                
+                                                size="24"
+
                                             />
 
 
