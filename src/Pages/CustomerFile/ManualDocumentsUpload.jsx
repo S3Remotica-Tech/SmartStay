@@ -1,16 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { CloseCircle, DocumentUpload, CloseSquare } from "iconsax-react";
 import PropTypes from "prop-types";
-
+import { useDispatch, useSelector } from "react-redux";
 
 function ManualDocumentsUpload({ show, handleClose }) {
     const fileInputRef = useRef(null);
-
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [files, setFiles] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [hover, setHover] = useState(false)
+
+    const [loading, setLoading] = useState(false)
+    console.log("files", files)
+
 
     const handleFileSelect = () => {
         fileInputRef.current.click();
@@ -44,13 +49,46 @@ function ManualDocumentsUpload({ show, handleClose }) {
 
     const selectedFile = files[selectedIndex];
 
+    const CustomerOverView = state.UsersList?.customerdetails;
+
+    const handleUpload = () => {
+        if (!files?.length) return;
+
+        dispatch({
+            type: "TENANTDOCUMENTUPLOADSAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                customerId: CustomerOverView?.customerId,
+                files: files,
+                payload: {
+                    type: "OTHER"
+                }
+            }
+        });
+        setLoading(true)
+    };
 
 
+    useEffect(() => {
+        if (state.UsersList?.tenantDocumentUploadStatusCode === 201) {
+            setLoading(false)
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+            handleClose()
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_TENANT_DOCUMENT_UPLOAD" });
+            }, 100)
+        }
+
+    }, [state.UsersList?.tenantDocumentUploadStatusCode])
 
 
+    useEffect(()=>{
+        if(state.UsersList?.tenantDocumentUploadError){
+             setLoading(false)
+           
+        }
 
-
-
+    },[state.UsersList?.tenantDocumentUploadError])
 
 
 
@@ -64,7 +102,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
         >
             <Modal.Header className="border border-[#E7E7E7]">
                 <Modal.Title className="!font-gilroy !font-semibold text-[#222222] !text-lg"
-                 >
+                >
                     Upload Document
                 </Modal.Title>
 
@@ -88,7 +126,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
                                     <div
                                         key={index}
                                         onClick={() => setSelectedIndex(index)}
-                                         className={`cursor-pointer rounded-[8px] p-[5px] mb-[10px] 
+                                        className={`cursor-pointer rounded-[8px] p-[5px] mb-[10px] 
   ${selectedIndex === index
                                                 ? "border-2 border-[#1E45E1] bg-[#EEF3FF]"
                                                 : "border border-[#ddd] bg-white"
@@ -123,7 +161,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
                                 {selectedFile.file.type.startsWith("image/") ? (
                                     <img
                                         src={selectedFile.url}
-                                         className="w-full h-[300px] object-contain rounded-[8px] bg-[#f8f8f8]"
+                                        className="w-full h-[300px] object-contain rounded-[8px] bg-[#f8f8f8]"
 
                                     />
                                 ) : (
@@ -160,7 +198,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
                                     Documents
                                 </label>
 
-                              <div className="flex items-center justify-center gap-5 bg-[#E3E3E37D] p-[15px] rounded-[8px]">
+                                <div className="flex items-center justify-center gap-5 bg-[#E3E3E37D] p-[15px] rounded-[8px]">
 
                                     <div className="flex items-center bg-[#E0ECFF] px-[8px] py-[4px] rounded-[5px]">
                                         <DocumentUpload size="16" color="#1E45E1" />
@@ -197,7 +235,11 @@ function ManualDocumentsUpload({ show, handleClose }) {
                     </div>
                 </div>
             </Modal.Body>
-
+   {loading && (
+                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
             <Modal.Footer style={{ border: "none" }}>
                 <div className={`d-flex ${selectedFile ? 'justify-content-between' : ' justify-content-end'} w-100 px-2 `}>
 
@@ -214,21 +256,21 @@ function ManualDocumentsUpload({ show, handleClose }) {
                     <div>
                         <Button
                             onClick={handleClose}
-                           className="bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] mr-3 !font-gilroy"
+                            className="bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] mr-3 !font-gilroy"
                         >
                             Cancel
                         </Button>
 
-                        <Button
+                        <Button onClick={handleUpload}
                             className="bg-[#1E45E1] text-white !font-semibold rounded-[12px] !font-gilroy"
-                         >
+                        >
                             Attach
                         </Button>
 
                         <input
                             type="file"
                             ref={fileInputRef}
-                           className="hidden"
+                            className="hidden"
                             multiple
                             onChange={handleFileUpload}
                             accept="image/*,.pdf"

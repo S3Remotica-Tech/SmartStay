@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ReceiptFilter({ show, handleClose , size, page }) {
+function ReceiptFilter({ show, handleClose , size, page , startDate, endDate}) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
@@ -262,6 +262,8 @@ console.log("selectedCollectedBylabels",selectedCollectedBylabels)
 
             page: page,
             size: size,
+             startDate: startDate,
+      endDate: endDate,
         };
 
 
