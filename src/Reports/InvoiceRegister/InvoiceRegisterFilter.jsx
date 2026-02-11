@@ -12,7 +12,7 @@ import { Filter } from 'iconsax-react'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
-function InvoiceRegisterFilter({ show, handleClose, size, page }) {
+function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endDate}) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billStatus, setBillStatus] = useState([]);
@@ -20,11 +20,10 @@ function InvoiceRegisterFilter({ show, handleClose, size, page }) {
     const [invoiceMode, setInvoiceMode] = useState([]);
     const [createdBy, setCreatedBy] = useState([]);
     const [period, setPeriod] = useState(null);
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+   
     const [tenantName, setTenantName] = useState("");
     const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
-    const [dateError, setDateError] = useState("");
+
     const [formLoading, setFormLoading] = useState(false)
     const [paidAmountMin, setPaidAmountMin] = useState("");
     const [paidAmountMax, setPaidAmountMax] = useState("");
@@ -312,11 +311,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page }) {
 
     const handleFilterBills = () => {
 
-        if (!startDate && endDate) {
-            setDateError("Please Select Start Date");
-            return;
-        }
-        setDateError("");
+       
 
         if (!state.login?.selectedHostel_Id) return;
 
@@ -331,8 +326,10 @@ function InvoiceRegisterFilter({ show, handleClose, size, page }) {
             maxPaidAmount: paidAmountMax,
             minOutstandingAmount: outstandingMin,
             maxOutstandingAmount: outstandingMax,
-            page: 0,
-            size: 10,
+            page: page,
+            size: size,
+             startDate: startDate,
+      endDate: endDate,
         };
 
         dispatch({
@@ -663,83 +660,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page }) {
                             />
                         </Form.Group>
 
-                        {period?.value === "CUSTOM" && (
-                            <div style={{ display: "flex", gap: 12 }}>
-
-
-                                <Form.Group style={{ flex: 1 }} className="mb-3">
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            fontSize: "12px",
-                                            color: "#4B4B4B",
-                                        }}
-                                    >
-                                        Start Date
-                                    </Form.Label>
-
-                                    <div className="datepicker-wrapper" style={{ position: "relative", width: "100%", fontSize: 12 }}>
-                                        <DatePicker
-                                            style={{ width: "100%", height: 39, cursor: "pointer", fontFamily: "Gilroy", fontSize: 12 }}
-                                            format="DD/MM/YYYY"
-                                            placeholder="Start Date"
-                                            value={startDate ? dayjs(startDate) : null}
-                                            onChange={(date) => {
-                                                setStartDate(date);
-                                                setEndDate(null);
-                                                setDateError('')
-                                            }}
-                                            disabledDate={(current) =>
-                                                current && current > dayjs().endOf("day")
-                                            }
-                                            getPopupContainer={(triggerNode) =>
-                                                triggerNode.closest(".datepicker-wrapper")
-                                            }
-                                        />
-                                    </div>
-
-                                    {dateError && <ErrorMessage message={dateError} type="error" />}
-
-                                </Form.Group>
-
-
-                                <Form.Group style={{ flex: 1 }}>
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            fontSize: "12px",
-                                            color: "#4B4B4B",
-                                        }}
-                                    >
-                                        End Date
-                                    </Form.Label>
-
-                                    <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                                        <DatePicker
-                                            style={{ width: "100%", height: 39, cursor: "pointer", fontFamily: "Gilroy", fontSize: 12 }}
-                                            format="DD/MM/YYYY"
-                                            placeholder="End Date"
-                                            value={endDate ? dayjs(endDate) : null}
-                                            onChange={(date) => setEndDate(date)}
-                                            disabledDate={(current) =>
-                                                current &&
-                                                (
-                                                    current > dayjs().endOf("day") ||
-                                                    (startDate && current < dayjs(startDate).startOf("day"))
-                                                )
-                                            }
-                                            getPopupContainer={(triggerNode) =>
-                                                triggerNode.closest(".datepicker-wrapper")
-                                            }
-                                        />
-                                    </div>
-
-                                </Form.Group>
-
-                            </div>
-                        )}
+                       
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>Other Filter</label>
                         </div>

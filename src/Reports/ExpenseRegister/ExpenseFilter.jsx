@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ExpenseFilter({ show, handleClose, size, page }) {
+function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [period, setPeriod] = useState(null);
@@ -274,6 +274,8 @@ function ExpenseFilter({ show, handleClose, size, page }) {
 
             page: page,
             size: size,
+             startDate: startDate,
+      endDate: endDate,
         };
 
 

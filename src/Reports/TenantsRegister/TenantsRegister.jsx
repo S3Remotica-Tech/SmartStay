@@ -36,20 +36,20 @@ function TenantsRegister() {
 
 
 
-    useEffect(() => {
-        if (state.login?.selectedHostel_Id) {
-            dispatch({
-                type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {
-                        size: size,
-                        page: page,
-                    }
-                }
-            })
-            setLoading(true)
-        }
-    }, [state.login?.selectedHostel_Id])
+    // useEffect(() => {
+    //     if (state.login?.selectedHostel_Id) {
+    //         dispatch({
+    //             type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: {
+    //                 hostelId: state.login.selectedHostel_Id,
+    //                 filters: {
+    //                     size: size,
+    //                     page: page,
+    //                 }
+    //             }
+    //         })
+    //         setLoading(true)
+    //     }
+    // }, [state.login?.selectedHostel_Id])
 
 
 
@@ -181,6 +181,12 @@ function TenantsRegister() {
     ];
 
 
+
+
+
+
+
+
     useEffect(() => {
         const apiStart = state?.reports?.getTenantRegister?.dateRange?.from;
         const apiEnd = state?.reports?.getTenantRegister?.dateRange?.to;
@@ -249,14 +255,49 @@ function TenantsRegister() {
 
     };
 
+
+
+
+
+
     useEffect(() => {
-        if (!state.login?.selectedHostel_Id) return;
+        return () => {
+            
+
+            dispatch({
+                type: "SET_TENANT_REGISTER_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+
+                },
+            })
+        };
+    }, []);
+
+
+
+const startDate = selectedRange?.from
+  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+  : undefined;
+
+const endDate = selectedRange?.to
+  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+  : undefined;
+
+
+
+
+    useEffect(() => {
+               if (!state.login?.selectedHostel_Id) return;
         const filters = {
-            startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-            endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+            startDate: startDate,
+            endDate: endDate,
             size: size,
             page: page,
         };
+
+        
         dispatch({
             type: "GET_REPORTS_TENANT_REGISTER_SAGA",
             payload: {
@@ -264,7 +305,8 @@ function TenantsRegister() {
                 filters: filters,
             },
         });
-    }, [size, page, selectedRange]);
+         setLoading(true)
+    }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
 
 
@@ -755,7 +797,10 @@ function TenantsRegister() {
                 </div>
 
                 {
-                    invoiceFilter && <TenantsFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
+                    invoiceFilter && <TenantsFilter show={invoiceFilter} handleClose={handleCloseFilterBills} 
+                     startDate={startDate} endDate={endDate}
+                    
+                    />
                 }
             </div>
         </div>
