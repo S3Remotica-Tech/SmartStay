@@ -435,8 +435,7 @@ useEffect(() => {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         filters: {
-          
-        }, 
+                  }, 
       },
     });
     }
