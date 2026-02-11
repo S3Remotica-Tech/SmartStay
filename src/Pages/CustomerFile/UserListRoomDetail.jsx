@@ -186,7 +186,7 @@ function UserListRoomDetail(props) {
   const [reAssignDetail, setReasignDetail] = useState("");
   const [customerReassign, setCustomerReAssign] = useState(false);
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
- const [DueCustomerShow, setDueCustomerShow] = useState(false)
+  const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
 
@@ -876,23 +876,23 @@ function UserListRoomDetail(props) {
     setBacktoCheckInForm(false)
   }
 
- const handleConformCheckout = (item) => {
+  const handleConformCheckout = (item) => {
     setDueCustomerShow(true)
     setCheckOutDetails(item)
-  
+
   }
-const handleCloseDuePopup = () => {
+  const handleCloseDuePopup = () => {
     setDueCustomerShow(false)
   }
 
 
   useEffect(() => {
-          if (state.UsersList.cancelCheckoutStatusCode === 200) {
-              setBacktoCheckInForm(false)
+    if (state.UsersList.cancelCheckoutStatusCode === 200) {
+      setBacktoCheckInForm(false)
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-          }
-  
-      }, [state.UsersList.cancelCheckoutStatusCode])
+    }
+
+  }, [state.UsersList.cancelCheckoutStatusCode])
 
 
   const handleUpdateChange = () => {
@@ -2137,25 +2137,25 @@ const handleCloseDuePopup = () => {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
-useEffect(() => {
-        if (state.Booking.StatusCodeInactiveCode === 200) {
-           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-           setTimeout(() => {
+  useEffect(() => {
+    if (state.Booking.StatusCodeInactiveCode === 200) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_BOOKING_InActive' })
       }, 1000)
-        }
+    }
 
-    }, [state.Booking.StatusCodeInactiveCode])
+  }, [state.Booking.StatusCodeInactiveCode])
 
- useEffect(() => {
-        if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
-         navigate(`/tenant/${state.login.selectedHostel_Id}`)
-            setTimeout(() => {
-                dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
-            }, 500);
-        }
+  useEffect(() => {
+    if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`)
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+      }, 500);
+    }
 
-    }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
+  }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
 
 
 
@@ -2322,9 +2322,9 @@ useEffect(() => {
       : null;
 
 
-console.log("CustomerOverView",CustomerOverView)
+  console.log("CustomerOverView", CustomerOverView)
 
- 
+
 
   // const handleFileUpload = (index, e) => {
   //   const file = e.target.files[0];
@@ -2437,20 +2437,20 @@ console.log("CustomerOverView",CustomerOverView)
     setBookingAssignForm(true)
   }
 
-const handleInActive = (item) => {
+  const handleInActive = (item) => {
     setInActiveForm(true)
-       setInactiveDetails(item)
-     }
+    setInactiveDetails(item)
+  }
 
   const handleCloseBooking = () => {
     setBookingAssignForm(false)
   }
 
 
- const handleCloseInActive = () => {
-       dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
+  const handleCloseInActive = () => {
+    dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
     setInActiveForm(false)
-    }
+  }
 
 
 
@@ -2672,7 +2672,7 @@ const handleInActive = (item) => {
                         >
                           <Notification1 size="18"
                             color="#1E45E1"
-                            />
+                          />
                           Move to Notice Period
                         </button>
 
@@ -2731,7 +2731,7 @@ const handleInActive = (item) => {
                       state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED" &&
                       <>
                         <button
- 
+
                           onClick={() => {
                             if (canWriteTenant) {
                               handleConformCheckout(CustomerOverView);
@@ -2785,7 +2785,7 @@ const handleInActive = (item) => {
 
                           onClick={() => {
                             if (canWriteTenant) {
-                            handleInActive(CustomerOverView);
+                              handleInActive(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
@@ -2816,13 +2816,13 @@ const handleInActive = (item) => {
                 orientation={
                   isSmallScreen ? "vertical" : "horizontal"
                 }
-                
+
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
                 // className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
-                 className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
+                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
 
-             >
+              >
                 <Tab
                   label="Overview"
                   value="1"
@@ -2841,7 +2841,7 @@ const handleInActive = (item) => {
                   value="3"
                   className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "3" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
-               
+
 
 
                 <Tab
@@ -3155,116 +3155,129 @@ const handleInActive = (item) => {
 
 
 
-                  <div className="flex-1 bg-white h-auto max-h-[200px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
+                  <div className="flex-1 bg-white h-auto max-h-[200px] overflow-y-auto border border-[#E5E7EB] rounded-[20px]">
                     <TabContext value={documentvalue}
                       className="flex flex-col sm:flex-row justify-center items-center"
 
                     >
-                      <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="flex flex-col sm:flex-row justify-start items-center"
+                      <Box
+                        sx={{ borderBottom: 0, borderColor: "divider" ,}}
+                        className="sticky top-0 z-[999] bg-white"
                       >
-                        <TabList
-                          onChange={handleChangesupload}
-                          aria-label="custom tabs"
-                          className="d-flex  justify-content-center flex-sm-row"
-                          TabIndicatorProps={{ style: { display: "none" } }}
-                        >
-                          <Tab
-                            label="KYC Documents"
-                            value="1"
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: 16,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
-                              borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
-                              minWidth: "auto",
-                            }}
-                          />
-                          <Tab
-                            label="Manual Documents"
-                            value="2"
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: 16,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
-                              borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-                              minWidth: "auto",
-                            }}
-                          />
+                        <div className="flex flex-col sm:flex-row justify-start items-center bg-white ">
+                          <TabList
+                            onChange={handleChangesupload}
+                            aria-label="custom tabs"
+                            className="d-flex justify-content-center flex-sm-row bg-white"
+                            TabIndicatorProps={{ style: { display: "none", backgroundColor:"white", } }}
+                          >
+                            <Tab className="bg-white"
+                              label="KYC Documents"
+                              value="1"
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
+                                borderBottom:
+                                  documentvalue === "1"
+                                    ? "2px solid #1E45E1"
+                                    : "2px solid transparent",
+                                minWidth: "auto",
+                                 backgroundColor:"white",
+                              }}
+                            />
 
-                        </TabList>
+                            <Tab className="bg-white"
+                              label="Manual Documents"
+                              value="2"
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
+                                borderBottom:
+                                  documentvalue === "2"
+                                    ? "2px solid #1E45E1"
+                                    : "2px solid transparent",
+                                minWidth: "auto",
+                                backgroundColor:"yellow",
+                              }}
+                            />
+                          </TabList>
+                        </div>
                       </Box>
+
 
                       <TabPanel value="1">
                         <KYCDocuments />
                       </TabPanel>
                       <TabPanel value="2">
 
-                           <div className="relative w-full">
+                        <div className="relative w-full py-2 px-2">
 
-  {/* CONTENT */}
-  <div className="flex items-center mt-3">
-    <div className="w-full">
-      <div className="flex flex-wrap w-full">
 
-        {CustomerOverView?.files?.otherDoc?.length > 0 ? (
-          <ManualDocumentsDetails
-            documents={CustomerOverView?.files?.otherDoc}
-          />
-        ) : (
-          <div className="text-center text-sm font-normal font-gilroy w-full">
-            No Manual Documents are there!
+                          <div className="flex items-center mt-3">
+                            <div className="w-full">
+                              <div className="flex flex-wrap w-full">
 
-            <p>
-              <button
-                onClick={handlePreview}
-                type="button"
-                className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto"
-                disabled={!canWriteTenant}
-              >
-                <img src={FileAdd} alt="" />
-                <span>Upload Document</span>
-              </button>
-            </p>
-          </div>
-        )}
+                                {CustomerOverView?.files?.otherDoc?.length > 0 ? (
+                                  <ManualDocumentsDetails
+                                    documents={CustomerOverView?.files?.otherDoc}
+                                  />
+                                ) : (
+                                  <div className="text-center text-sm font-normal font-gilroy w-full">
+                                    No Manual Documents are there!
 
-      </div>
-    </div>
-  </div>
+                                    <p>
+                                      <button
+                                        onClick={handlePreview}
+                                        type="button"
+                                        className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto"
+                                        disabled={!canWriteTenant}
+                                      >
+                                        <img src={FileAdd} alt="" />
+                                        <span>Upload Document</span>
+                                      </button>
+                                    </p>
+                                  </div>
+                                )}
 
-{
-  CustomerOverView?.files?.otherDoc?.length > 0 && 
+                              </div>
+                            </div>
+                          </div>
+                          {
+                            CustomerOverView?.files?.otherDoc?.length > 0 && documentvalue === "2" &&
 
-  <div
-    className="absolute bottom-0 right-0 bg-green-600 rounded-full p-3 cursor-pointer shadow-lg hover:scale-105 transition"
-    onClick={handlePreview}
-  >
-    <DocumentUpload size="12" color="#FFFFFF" />
-  </div>
-}
-</div>
-
-                          <Modal
-                            show={showDocModal}
-                            onHide={() => setShowDocModal(false)}
-                            size="md"
-                            centered
-                            backdrop="static"
-                          >
-                            <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
+                            <div
+                              className="absolute bottom-0 right-0 bg-green-600 rounded-full p-3 cursor-pointer shadow-lg hover:scale-105 transition"
+                              onClick={handlePreview}
                             >
-                              <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
+                              <DocumentUpload size="12" color="#FFFFFF" />
+                            </div>
+                          }
 
-                                variant="light"
-                                onClick={() => setShowDocModal(false)}
-                              >
-                                &times;
-                              </Button>
-                              {/* {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                        </div>
+
+                        <Modal
+                          show={showDocModal}
+                          onHide={() => setShowDocModal(false)}
+                          size="md"
+                          centered
+                          backdrop="static"
+                        >
+                          <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
+                          >
+                            <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
+
+                              variant="light"
+                              onClick={() => setShowDocModal(false)}
+                            >
+                              &times;
+                            </Button>
+                            {/* {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                                   <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
                                 ) : (
                                   <iframe
@@ -3273,29 +3286,29 @@ const handleInActive = (item) => {
                                     title="Document Preview"
                                   />
                                 )} */}
-                            </Modal.Body>
-                          </Modal>
+                          </Modal.Body>
+                        </Modal>
 
 
 
 
 
-                          <Modal
-                            show={showDocModaldoc2}
-                            onHide={() => setShowDocModaldoc2(false)}
-                            size="lg"
-                            centered
-                            backdrop="static"
+                        <Modal
+                          show={showDocModaldoc2}
+                          onHide={() => setShowDocModaldoc2(false)}
+                          size="lg"
+                          centered
+                          backdrop="static"
+                        >
+                          <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
                           >
-                            <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
+                            <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
+                              variant="light"
+                              onClick={() => setShowDocModaldoc2(false)}
                             >
-                              <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
-                                variant="light"
-                                onClick={() => setShowDocModaldoc2(false)}
-                              >
-                                &times;
-                              </Button>
-                              {/* {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                              &times;
+                            </Button>
+                            {/* {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                                   <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
                                 ) : (
                                   <iframe
@@ -3304,9 +3317,9 @@ const handleInActive = (item) => {
                                     title="Document Preview"
                                   />
                                 )} */}
-                            </Modal.Body>
-                          </Modal>
-                       
+                          </Modal.Body>
+                        </Modal>
+
                       </TabPanel>
                     </TabContext>
                   </div>
@@ -5511,12 +5524,12 @@ const handleInActive = (item) => {
       }
 
 
- {
+      {
         DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
       }
 
 
-   {
+      {
         inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails} />}
 
 

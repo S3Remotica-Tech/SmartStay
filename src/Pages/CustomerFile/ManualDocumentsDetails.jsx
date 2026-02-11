@@ -19,7 +19,8 @@ function ManualDocumentsDetails({ documents }) {
     setShowDeleteDoc(false)
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4  w-full">
+    <div className="w-full h-[200px] overflow-y-auto show-scrolls pr-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4  w-full ">
 
       {documents?.map((doc, index) => (
         <div key={doc?.documentId} className="mt-2">
@@ -66,7 +67,7 @@ function ManualDocumentsDetails({ documents }) {
             </div>
 
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 shrink-0">
               {doc.type === "IMAGE" && (
                 <Eye
                   size="22"
@@ -127,6 +128,7 @@ function ManualDocumentsDetails({ documents }) {
       {
         showDeleteDoc && <DeleteTenantDocument showDeleteDoc={showDeleteDoc}  handleDeleteDocumentClose={handleDeleteDocumentClose} showDocumentId={showDocumentId}/>
       }
+    </div>
     </div>
 
   );
