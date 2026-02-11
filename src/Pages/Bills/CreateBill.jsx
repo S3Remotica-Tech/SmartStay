@@ -136,70 +136,12 @@ function CreateBill() {
     }, [billData])
 
 
-    // console.log("state", state.InvoiceList.getInitializeRecurring)
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // useEffect(() => {
-    //     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
-
-    //         setTimeout(() => {
-    //             // setReceiptLoader(false);
-    //             dispatch({ type: "CLEAR_NODATA_RECEIPTS_LIST" });
-    //         }, 100);
-    //     }
-    // }, [state.InvoiceList.NodataReceiptStatusCode]);
-
-
-
-
-    // const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.listBanks)
-    //     ? state.bankingDetails?.bankingList?.listBanks.map((item) => {
-    //         let label = "";
-    //         if (item.accountType === "BANK") label = "BANK";
-    //         else if (item.accountType === "UPI") label = "UPI";
-    //         else if (item.accountType === "CARD") label = "CARD";
-    //         else if (item.accountType === "CASH") label = "CASH";
-
-    //         return {
-    //             value: item?.bankingId,
-    //             label: `${item?.accountHolderName} - ${label}`,
-    //         };
-    //     })
-    //     : [];
-
-
-    // const combinedOptions = [...bankingOptions];
-
-
-
-
-    // useEffect(() => {
-    //     if (state.InvoiceList.pdfErrorStatusCode === 201) {
-    //         setLoading(false)
-    //         setShowLoader(false);
-    //         setTimeout(() => {
-    //             dispatch({ type: "REMOVE_PDF_ERROR" });
-    //         }, 100);
-    //     }
-    // }, [state.InvoiceList.pdfErrorStatusCode]);
 
 
     useEffect(() => {
         if (state.createAccount?.networkError) {
-            // setLoading(false)
             setFormLoading(false)
-            // setShowLoader(false);
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
             }, 3000)
@@ -711,28 +653,32 @@ function CreateBill() {
             setTableErrmsg("");
         }
 
-        const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === customername);
+        const selectedUser = state.UsersList?.customerdetails?.hostelInfo?.joiningDate
 
-
+        console.log("selectedUser", selectedUser)
         if (selectedUser) {
-            const joiningDate = dayjs(selectedUser.actualJoining).format("YYYY-MM-DD");
+            const formattedJoiningDate = dayjs(
+                selectedUser,
+                "DD/MM/YYYY"
+            ).format("YYYY-MM-DD");
+
             const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
             const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
-
-            if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+           
+            if (dayjs(formattedInvoiceDate).isBefore(formattedJoiningDate, "day")) {
                 setInvoiceDateErrmsg("Before join date not allowed");
                 hasError = true;
             }
 
 
-            if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+            if (dayjs(formattedDueDate).isBefore(formattedJoiningDate, "day")) {
                 setInvoiceDueDateErrmsg("Before join date not allowed");
                 hasError = true;
             }
 
 
-            if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+            if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate, "day")) {
                 setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
                 hasError = true;
             }
@@ -744,21 +690,7 @@ function CreateBill() {
 
         const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
         const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
-        // const rentAmount = newRows
-        //     .filter((row) => row.am_name?.toLowerCase() === "room rent")
-        //     .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
-        // const ebAmount = newRows
-        //     .filter((row) => row.am_name?.toLowerCase() === "eb")
-        //     .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-        // const amenityAmount = newRows
-        //     .filter(
-        //         (row) =>
-        //             row.am_name?.toLowerCase() !== "room rent" &&
-        //             row.am_name?.toLowerCase() !== "eb"
-        //     )
-        //     .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
         dispatch({
             type: "MANUAL-INVOICE-ADD",
