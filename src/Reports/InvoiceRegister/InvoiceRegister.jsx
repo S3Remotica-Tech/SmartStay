@@ -41,7 +41,6 @@ function InvoiceRegister() {
         setInvoiceFilter(false)
     }
 
-    // console.log("invoiceRegister", invoiceRegister)
 
 
     // useEffect(() => {
@@ -398,31 +397,59 @@ function InvoiceRegister() {
         setChips(filterData);
     }, [state.reports.invoiceRegisterFilters,]);
 
+
+    // useEffect(() => {
+
+
+    //     if (!apiStart || !apiEnd) return;
+
+    //     const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+    //     const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+
+    //     if (
+    //         selectedRange?.from &&
+    //         selectedRange?.to &&
+    //         dayjs(selectedRange.from).isSame(from, "day") &&
+    //         dayjs(selectedRange.to).isSame(to, "day")
+    //     ) {
+    //         return;
+    //     }
+
+    //     setSelectedRange({ from, to });
+    // }, [apiStart, apiEnd]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const apiStart = state?.reports?.getInvoiceRegister?.startDate;
     const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
 
 
+    
+    const isInitialLoad = useRef(true);
+
     useEffect(() => {
+        if (!apiStart || !apiEnd || !isInitialLoad.current) return;
 
+        isInitialLoad.current = false;
 
-        if (!apiStart || !apiEnd) return;
-
-        const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
-        const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
-
-        if (
-            selectedRange?.from &&
-            selectedRange?.to &&
-            dayjs(selectedRange.from).isSame(from, "day") &&
-            dayjs(selectedRange.to).isSame(to, "day")
-        ) {
-            return;
-        }
-
-        setSelectedRange({ from, to });
+        setSelectedRange({
+            from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+            to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+        });
     }, [apiStart, apiEnd]);
-
-
 
 
     const handleDateChange = (dates) => {
@@ -473,6 +500,9 @@ function InvoiceRegister() {
     };
 
 
+    // useEffect(() => {
+    //     setPage(0);
+    // }, [startDate, endDate]);
 
 
 
@@ -496,8 +526,22 @@ function InvoiceRegister() {
                     period: []
                 },
             });
+            const filters = {
+                size,
+                page,
+            };
+
+            dispatch({
+                type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters,
+                },
+            });
         };
     }, []);
+
+
 
     const startDate = useMemo(() => {
         return selectedRange?.from
@@ -512,42 +556,16 @@ function InvoiceRegister() {
     }, [selectedRange?.to]);
 
 
-    const lastApiParamsRef = useRef(null);
-
-    
-    const filters = useMemo(() => ({
-        startDate,
-        endDate,
-        size,
-        page,
-    }), [startDate, endDate, size, page]);
-
-
-
-
-    console.log("startDate", startDate)
-    console.log("end Date", endDate)
-    console.log("size", size)
-    console.log("page", page)
-
-
     useEffect(() => {
+
         if (!state.login?.selectedHostel_Id) return;
 
-        const apiParams = {
-            hostelId: state.login.selectedHostel_Id,
-            ...filters,
+        const filters = {
+            startDate: startDate,
+            endDate: endDate,
+            size,
+            page,
         };
-
-
-        if (
-            lastApiParamsRef.current &&
-            JSON.stringify(lastApiParamsRef.current) === JSON.stringify(apiParams)
-        ) {
-            return;
-        }
-
-        lastApiParamsRef.current = apiParams;
 
         dispatch({
             type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
@@ -558,47 +576,13 @@ function InvoiceRegister() {
         });
 
         setLoading(true);
-    }, [state.login?.selectedHostel_Id, filters]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //    useEffect(() => {
-
-    //   if (!state.login?.selectedHostel_Id) return;
-
-    //   const filters = {
-    //   startDate: startDate,
-    //       endDate: endDate,
-    //     size,
-    //     page,
-    //   };
-
-    //   dispatch({
-    //     type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
-    //     payload: {
-    //       hostelId: state.login.selectedHostel_Id,
-    //       filters,
-    //     },
-    //   });
-
-    //   setLoading(true);
-    // }, [
-    //   state.login?.selectedHostel_Id,
-    //   size,
-    //   page,
-    //   startDate,
-    //   endDate,
-    // ]);
+    }, [
+        state.login?.selectedHostel_Id,
+        size,
+        page,
+        startDate,
+        endDate,
+    ]);
 
 
 

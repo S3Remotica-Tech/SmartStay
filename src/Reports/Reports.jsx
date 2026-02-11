@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef , useMemo} from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
@@ -30,7 +30,7 @@ function Reports() {
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
   const location = useLocation();
-const lastRangeRef = useRef(null);
+  const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
 
@@ -285,20 +285,7 @@ const lastRangeRef = useRef(null);
     })
   });
 
-  useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-      setLoading(true)
-
-      dispatch({
-        type: 'GET_REEPORTS_SAGA', payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {}
-        }
-      })
-
-
-    }
-  }, [state.login?.selectedHostel_Id])
+  
 
 
   useEffect(() => {
@@ -355,67 +342,105 @@ const lastRangeRef = useRef(null);
     }
   }
 
-  useEffect(() => {
-    if (reportsList?.startDate && reportsList?.endDate) {
-      setSelectedRange({
-        from: dayjs(reportsList.startDate, "DD/MM/YYYY"),
-        to: dayjs(reportsList.endDate, "DD/MM/YYYY"),
+  // useEffect(() => {
+  //   if (reportsList?.startDate && reportsList?.endDate) {
+  //     setSelectedRange({
+  //       from: dayjs(reportsList.startDate, "DD/MM/YYYY"),
+  //       to: dayjs(reportsList.endDate, "DD/MM/YYYY"),
+  //     });
+  //   }
+  // }, [reportsList]);
+
+
+ const apiStart = reportsList?.startDate;
+    const apiEnd = reportsList?.endDate;
+
+
+    
+    const isInitialLoad = useRef(true);
+
+    useEffect(() => {
+        if (!apiStart || !apiEnd || !isInitialLoad.current) return;
+
+        isInitialLoad.current = false;
+
+        setSelectedRange({
+            from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+            to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+        });
+    }, [apiStart, apiEnd]);
+
+
+
+  const handleDateChange = (dates) => {
+    if (!dates) {
+      setSelectedRange(null);
+      dispatch({
+        type: "GET_REEPORTS_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {},
+        },
       });
+      return;
     }
-  }, [reportsList]);
+
+    const [from, to] = dates;
+
+    setSelectedRange({
+      from: from ? from.toDate() : null,
+      to: to ? to.toDate() : null,
+    });
+  };
+
+  const startDate = useMemo(() => {
+    return selectedRange?.from
+      ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+      : undefined;
+  }, [selectedRange?.from]);
+
+  const endDate = useMemo(() => {
+    return selectedRange?.to
+      ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+      : undefined;
+  }, [selectedRange?.to]);
 
 
 
 
+  useEffect(() => {
+    if (!state.login?.selectedHostel_Id) return;
 
-
- const handleDateChange = (dates) => {
-  if (!dates) {
-    setSelectedRange(null);
     dispatch({
       type: "GET_REEPORTS_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        filters: {},
+        filters: {
+          startDate: startDate,
+          endDate: endDate,
+        },
       },
     });
-    return;
-  }
-
-  const [from, to] = dates;
-
-  setSelectedRange({
-    from: from ? from.toDate() : null,
-    to: to ? to.toDate() : null,
-  });
-};
+    setLoading(true);
+  }, [
+    state.login?.selectedHostel_Id, 
+    startDate,
+    endDate,]);
 
 
-
-  useEffect(() => {
-  if (!state.login?.selectedHostel_Id) return;
-  if (!selectedRange?.from || !selectedRange?.to) return;
-
-  const currentRangeKey = `${dayjs(selectedRange.from).format("YYYY-MM-DD")}_${dayjs(selectedRange.to).format("YYYY-MM-DD")}`;
-
-  if (lastRangeRef.current === currentRangeKey) return; 
-
-  lastRangeRef.current = currentRangeKey;
-
-  dispatch({
-    type: "GET_REEPORTS_SAGA",
-    payload: {
-      hostelId: state.login.selectedHostel_Id,
-      filters: {
-        startDate: dayjs(selectedRange.from).format("DD-MM-YYYY"),
-        endDate: dayjs(selectedRange.to).format("DD-MM-YYYY"),
+useEffect(() => {
+    return () =>{
+       dispatch({
+      type: "GET_REEPORTS_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          
+        }, 
       },
-    },
-  });
-}, [selectedRange]);
-
-
-
+    });
+    }
+  }, [])
 
 
   return (
@@ -467,11 +492,11 @@ const lastRangeRef = useRef(null);
             onChange={handleDateChange}
             disabledDate={(current) => {
 
-                if (current && current > dayjs().endOf("day")) {
-                    return true;
-                }
-             
-                return false;
+              if (current && current > dayjs().endOf("day")) {
+                return true;
+              }
+
+              return false;
             }}
 
             getPopupContainer={(triggerNode) =>

@@ -978,3 +978,6 @@ export async function deleteTenantUploadDocument(document) {
 }
 
 
+export async function deleteAttachment(document) {
+  return await AxiosConfigV2.delete(` /v2/hostel/config/${document.hostelId}/${document.templateId}/${document.templateTypeId}`)
+}
