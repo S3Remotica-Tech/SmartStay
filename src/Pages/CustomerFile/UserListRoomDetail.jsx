@@ -2322,16 +2322,9 @@ useEffect(() => {
       : null;
 
 
+console.log("CustomerOverView",CustomerOverView)
 
-
-  const [documents, setDocuments] = useState([
-  ]);
-
-
-  useEffect(() => {
-    setDocuments([]);
-  }, []);
-
+ 
 
   // const handleFileUpload = (index, e) => {
   //   const file = e.target.files[0];
@@ -3210,50 +3203,50 @@ const handleInActive = (item) => {
                       </TabPanel>
                       <TabPanel value="2">
 
-                        <div className="flex justify-between mt-3" >
-                          <div className="w-full">
-                            <div className="flex items-center relative">
-                              <div className="flex items-center flex-wrap w-full">
+                           <div className="relative w-full">
 
-                                {documents.length > 0 ? (
-                                  <ManualDocumentsDetails documents={documents} />
-                                ) : (
-                                  <div className="text-center text-sm font-normal font-gilroy w-full"
-                                  >
-                                    No Manual Documents are there!
-                                    <p>
-                                      <button onClick={() => handlePreview()}
-                                        type="button"
-                                        className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3"
+  {/* CONTENT */}
+  <div className="flex items-center mt-3">
+    <div className="w-full">
+      <div className="flex flex-wrap w-full">
 
-                                        disabled={!canWriteTenant}
-                                      >
-                                        <img src={FileAdd} alt="" className="ml-12 mb-1" />
-                                        <span>Upload Document</span>
-                                      </button>
-                                    </p>
-                                  </div>
-                                )}
-                              </div>
+        {CustomerOverView?.files?.otherDoc?.length > 0 ? (
+          <ManualDocumentsDetails
+            documents={CustomerOverView?.files?.otherDoc}
+          />
+        ) : (
+          <div className="text-center text-sm font-normal font-gilroy w-full">
+            No Manual Documents are there!
 
+            <p>
+              <button
+                onClick={handlePreview}
+                type="button"
+                className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto"
+                disabled={!canWriteTenant}
+              >
+                <img src={FileAdd} alt="" />
+                <span>Upload Document</span>
+              </button>
+            </p>
+          </div>
+        )}
 
-                              {documents.length > 0 && (
-                                <div className="flex absolute bottom-0 right-0 bg-green-600 rounded-full p-3 cursor-pointer"
-                                  onClick={() => handlePreview()}
-                                >
-                                  <DocumentUpload
-                                    size="20"
-                                    color="#FFFFFF"
-                                  />
-                                </div>
-                              )}
+      </div>
+    </div>
+  </div>
 
+{
+  CustomerOverView?.files?.otherDoc?.length > 0 && 
 
-
-                            </div>
-                          </div>
-
-
+  <div
+    className="absolute bottom-0 right-0 bg-green-600 rounded-full p-3 cursor-pointer shadow-lg hover:scale-105 transition"
+    onClick={handlePreview}
+  >
+    <DocumentUpload size="12" color="#FFFFFF" />
+  </div>
+}
+</div>
 
                           <Modal
                             show={showDocModal}
@@ -3313,7 +3306,7 @@ const handleInActive = (item) => {
                                 )} */}
                             </Modal.Body>
                           </Modal>
-                        </div>
+                       
                       </TabPanel>
                     </TabContext>
                   </div>
