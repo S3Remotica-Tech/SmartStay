@@ -144,8 +144,8 @@ function Receipt() {
     // const [chips, setChips] = useState([])
     const [receiptdata, setReceiptData] = useState([]);
     const [receiptLoader, setReceiptLoader] = useState(false);
-  
-   
+
+
 
 
     const {
@@ -154,21 +154,21 @@ function Receipt() {
     } = useHasPermission("Receipt");
 
 
- useEffect(() => {
-    if (!canReadReceipt) {
-      setReceiptLoader(false);
-    } 
-  }, [canReadReceipt]);
+    useEffect(() => {
+        if (!canReadReceipt) {
+            setReceiptLoader(false);
+        }
+    }, [canReadReceipt]);
 
-useEffect(() => {
-    if (state.UsersList?.accessRestrictionError) {
-     setReceiptLoader(false);
-      setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
-    }
+    useEffect(() => {
+        if (state.UsersList?.accessRestrictionError) {
+            setReceiptLoader(false);
+            setTimeout(() => {
+                dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+            }, 1000)
+        }
 
-  }, [state.UsersList?.accessRestrictionError])
+    }, [state.UsersList?.accessRestrictionError])
 
     useEffect(() => {
         if (state.InvoiceList.updateTenantRecurringStatusCode) {
@@ -183,9 +183,9 @@ useEffect(() => {
     }, [state.InvoiceList.updateTenantRecurringStatusCode])
 
 
- 
 
-   
+
+
 
     // useEffect(() => {
     //     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -212,11 +212,11 @@ useEffect(() => {
     };
 
 
-  
+
 
     useEffect(() => {
         if (state.InvoiceList.pdfErrorStatusCode === 201) {
-                       setTimeout(() => {
+            setTimeout(() => {
                 dispatch({ type: "REMOVE_PDF_ERROR" });
             }, 100);
         }
@@ -524,7 +524,7 @@ useEffect(() => {
 
     const [editvalue, setEditvalue] = useState("");
     const [receiptedit, setReceiptEdit] = useState(false);
-        // const [payableamountError, setPayableAmountError] = useState("")
+    // const [payableamountError, setPayableAmountError] = useState("")
 
 
 
@@ -536,14 +536,14 @@ useEffect(() => {
         setReceiptEdit(true);
     };
 
-  
-   
 
 
 
-   
 
-    
+
+
+
+
 
 
 
@@ -562,7 +562,7 @@ useEffect(() => {
         // setEndDate("");
         // setInvoiceDate("");
         // setInvoiceDueDate("");
-          };
+    };
 
 
 
@@ -768,10 +768,10 @@ useEffect(() => {
 
 
 
-    
 
 
-   
+
+
 
 
     const sortedDataReceipt = React.useMemo(() => {
@@ -779,16 +779,16 @@ useEffect(() => {
     }, [receiptdata]);
 
 
-   
+
 
 
 
 
     const handleDisplayReceiptDownload = (
-               ) => {
-       
+    ) => {
+
         setSearch(false)
-           };
+    };
 
     useEffect(() => {
         if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -831,7 +831,7 @@ useEffect(() => {
     useEffect(() => {
         if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
             setReceiptData(state.InvoiceList.ReceiptList);
-                        setReceiptLoader(false);
+            setReceiptLoader(false);
             setTimeout(() => {
                 dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
             }, 100);
@@ -1028,21 +1028,12 @@ useEffect(() => {
 
 
     return (
-        <div className="sticky-top bg-white" style={{ position: "relative", overflow: "hidden" }}>
-
+        <div className="relative sticky top-0 bg-white overflow-hidden"
+        >
 
             {!canReadReceipt ? (
                 <>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginTop: 90
-
-                        }}
-                    >
+                    <div className="flex flex-col items-center justify-center mt-[90px]">
                         <img
                             src={Emptystate}
                             alt="Empty State"
@@ -1057,415 +1048,150 @@ useEffect(() => {
 
 
                     {receiptLoader &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: 200,
-                                right: 0,
-                                bottom: 0,
-                                left: 200,
-                                display: 'flex',
-                                height: "50vh",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
+                        <div className="absolute top-[200px] left-[200px] right-0 bottom-0 flex items-center justify-center h-[50vh] bg-transparent opacity-75 z-10">
+                            <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
                         </div>
 
                     }
 
-                    <Container fluid className="p-0 ">
-                        <Row
-                            className={` "m-0 g-0"
-                                }`}
-                        >
-                            <Col
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
-                            >
-                                <div className="sticky-top bg-white d-flex justify-content-between align-items-center  flex-wrap h-auto"
-                                    style={{
-                                        position: 'sticky',
-                                        backgroundColor: 'white',
-                                        zIndex: 10, borderBottom: "none",
-                                        boxShadow: "initial"
-
-                                    }}
-                                >
-                                    <div style={{ marginTop: 0 }}>
-                                        <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
-                                            Receipt</label>
-                                    </div>
-
-                                    <div className=" d-flex justify-content-between gap-2 align-items-center flex-wrap p-2">
-
-
-
-                                        <div style={{
-                                            backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-                                            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-                                        }}>
-                                            <FiSearch
-                                                style={{
-                                                    height: "20px",
-                                                    width: "20px",
-                                                    cursor: canReadReceipt ? "pointer" : "not-allowed",
-                                                    opacity: canReadReceipt ? 1 : 0.4,
-                                                    pointerEvents: canReadReceipt ? "auto" : "none",
-                                                    transition: "opacity 0.3s ease"
-                                                }}
-                                                onClick={handleSearch}
-                                            />
-                                        </div>
-
-                                        {
-                                            search &&
-
-                                            <div className='  flex flex-wrap ' style={{
-                                                position: 'relative', cursor: "pointer", marginTop: 0
-                                            }}>
-                                                <InputGroup
-                                                    style={{
-                                                        maxWidth: "100%",
-                                                        flexWrap: 'nowrap', fontFamily: "Gilroy"
-                                                    }}
-                                                >
-
-                                                    <FormControl size="lg"
-                                                        //    value={searchQuery}
-                                                        //    onChange={handleInputChange}
-
-                                                        style={{
-                                                            width: "100%",
-                                                            maxWidth: "235px",
-                                                            boxShadow: "none",
-                                                            borderColor: "lightgray", fontFamily: "Gilroy",
-                                                            borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                                                        }}
-                                                        placeholder="Search..."
-                                                    />
-                                                    <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
-                                                        <CloseCircle size="24" color="#222"
-                                                        //    onClick={handleCloseSearch}
-                                                        />
-                                                    </InputGroup.Text>
-                                                </InputGroup>
-
-
-
-                                            </div>
-
-                                        }
-
-
-                                        <div className='me-2' style={{ marginTop: 0, cursor: "pointer" }}>
-                                            <img src={excelimg} alt='excel' width={38} height={38}
-
-                                                style={{
-                                                    cursor: canReadReceipt ? "pointer" : "not-allowed",
-                                                    opacity: canReadReceipt ? 1 : 0.4,
-                                                    pointerEvents: canReadReceipt ? "auto" : "none",
-                                                    transition: "opacity 0.3s ease"
-                                                }}
-                                            //    onClick={() => { if (canReadReceipt) handleAssetsExcel() }}
-                                            />
-                                        </div>
-
-
-                                        <Button
-                                            disabled={!canWriteReceipt}
-                                            onClick={handleReceiptShow}
-
-                                            style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "14px",
-                                                backgroundColor: "#1E45E1",
-                                                color: "white",
-                                                fontWeight: 600,
-                                                borderRadius: "8px",
-                                                padding: "8px 8px",
-                                                marginTop: 0,
-                                                whiteSpace: "nowrap",
-                                                minWidth: "150px",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            {" "} + Create Receipt
-                                        </Button>
-                                    </div>
+                    <Container className="w-full p-0">
+                        <div className="w-full">
+                            <div className="sticky top-0 bg-white z-10 flex justify-between items-center flex-wrap h-auto border-b border-transparent shadow-none">
+                             
+                                <div className="mt-0">
+                                    <label className="text-[18px] text-[#222222] font-gilroy font-semibold">
+                                        Receipt
+                                    </label>
                                 </div>
 
+                             
+                                <div className="flex flex-wrap items-center justify-between gap-2 p-2">
+                                   
+                                    <div className="border border-[#CBD5E1] rounded-full p-1.5 h-fit flex items-center justify-center">
+                                        <FiSearch
+                                            className={`h-5 w-5 transition-opacity duration-300 ${canReadReceipt
+                                                ? "cursor-pointer opacity-100 pointer-events-auto"
+                                                : "cursor-not-allowed opacity-40 pointer-events-none"
+                                                }`}
+                                            onClick={handleSearch}
+                                        />
+                                    </div>
+                                    
+                                    {search && (
+                                        <div className="relative flex flex-wrap cursor-pointer mt-0">
+                                            <InputGroup className="flex-nowrap max-w-full font-gilroy">
+                                                <FormControl
+                                                    size="lg"
+                                                    placeholder="Search..."
+                                                    className="w-full max-w-[235px] shadow-none border border-r-0 border-gray-300 text-[15px] font-medium text-[#222222] font-gilroy"
+                                                />
+                                                <InputGroup.Text className="bg-white cursor-pointer">
+                                                    <CloseCircle size={24} color="#222" />
+                                                </InputGroup.Text>
+                                            </InputGroup>
+                                        </div>
+                                    )}
 
+                                    <div className="me-2 mt-0 cursor-pointer">
+                                        <img
+                                            src={excelimg}
+                                            alt="excel"
+                                            width={38}
+                                            height={38}
+                                            className={`transition-opacity duration-300 ${canReadReceipt
+                                                ? "opacity-100 pointer-events-auto"
+                                                : "opacity-40 pointer-events-none"
+                                                }`}
+                                        />
+                                    </div>
 
+                                    <Button
+                                        disabled={!canWriteReceipt}
+                                        onClick={handleReceiptShow}
+                                        className="!font-gilroy text-[14px] !bg-[#1E45E1] text-white !font-semibold rounded-lg py-2 px-2 mt-0 min-w-[150px] text-center whitespace-nowrap"
+                                    >
+                                        + Create Receipt
+                                    </Button>
+                                </div>
+                            </div>
 
-
-
-
-
-                                {sortedDataReceipt &&
-                                    sortedDataReceipt.length > 0 && (
-                                        <div
-                                            className=" booking-table-userlist  booking-table ms-2 me-4"
-                                            style={{ paddingBottom: "20px", marginLeft: "-22px" }}
-                                        >
-                                            <div
-
-                                                className='show-scrolls'
-                                                style={{
-
-                                                    height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "450px" : "auto",
-                                                    overflow: "auto",
-                                                    borderTop: "1px solid #E8E8E8",
-                                                    marginBottom: 20,
-                                                    marginTop: "20px",
-                                                    paddingRight: 0,
-                                                    paddingLeft: 0
-
-                                                }}
-                                            >
-                                                <Table
-                                                    responsive="md"
-
-                                                    style={{
-                                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                        top: 0,
-                                                        zIndex: 1,
-                                                        borderRadius: 0
-                                                    }}
+                            {sortedDataReceipt && sortedDataReceipt.length > 0 && (
+                                <div className="ms-2 me-4 pb-5">
+                                    <div
+                                        className="show-scrolls overflow-auto mt-5"
+                                        style={{
+                                            height:
+                                                sortedDataReceipt.length >= 5
+                                                    ? "450px"
+                                                    : "auto",
+                                        }}
+                                    >
+                                        <Table responsive="md"
+                                            className="sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none">
+                                            <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
+                                                <tr>
+                                                    <th>Receipt No</th>
+                                                    <th><span className="ml-4">Name</span></th>
+                                                    <th>Reference_Id</th>
+                                                    <th>Invoice Number</th>
+                                                    <th>Type</th>
+                                                    <th>Payment Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Payment Mode</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-[10px] relative min-h-[200px]">
+                                                <PaginationList
+                                                    pageSizeOptions={[
+                                                        { value: 10, label: "10" },
+                                                        { value: 50, label: "50" },
+                                                        { value: 100, label: "100" },
+                                                    ]}
                                                 >
-                                                    <thead style={{
-                                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                        top: 0,
-                                                        zIndex: 1
-                                                    }}>
-                                                        <tr>
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap"
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                    {sortedDataReceipt.map((item) => (
+                                                        <ReceiptList
+                                                            key={item.id}
+                                                            item={item}
+                                                            OnHandleshowInvoicePdf={handleReceiptDetail}
+                                                            onhandleEdit={handleEditReceipt}
+                                                            DisplayInvoice={handleDisplayReceiptDownload}
+                                                        />
+                                                    ))}
+                                                </PaginationList>
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                </div>
+                            )}
 
-                                                                    Receipt No</div>
-                                                            </th>
-
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-
-                                                                    paddingLeft: "20px",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontWeight: 500,
-
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                                                                    Name</div>
-                                                            </th>
-
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap"
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                    Reference_Id</div>
-                                                            </th>
-
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap"
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                                                                    Invoice Number</div>
-                                                            </th>
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap"
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                                                                    Type</div>
-                                                            </th>
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap"
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                                                                    Payment Date</div>
-                                                            </th>
-
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                    Amount</div>
-                                                            </th>
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontStyle: "normal",
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap"
-                                                                }}
-                                                            >
-                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                                                                    Payment Mode</div>
-                                                            </th>
-
-                                                            <th
-                                                                style={{
-                                                                    textAlign: "start",
-                                                                    fontFamily: "Gilroy",
-                                                                    color: "rgb(147, 147, 147)",
-                                                                    fontSize: 12,
-                                                                    fontWeight: 500,
-
-                                                                }}
-                                                            >Action</th>
-                                                        </tr>
-                                                    </thead>
-
-
-                                                    <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
-                                                        <PaginationList pageSizeOptions={[{ value: 10, label: "10" }, { value: 50, label: "50" }, { value: 100, label: "100" }]}>
-                                                            {sortedDataReceipt.map((item) => (
-                                                                <ReceiptList
-                                                                    key={item.id}
-                                                                    item={item}
-                                                                    // receiptaddPermission={receiptaddPermission}
-                                                                    // billrolePermission={billrolePermission}
-                                                                    // OnHandleshowform={handleShowForm}
-                                                                    OnHandleshowInvoicePdf={handleReceiptDetail}
-                                                                    onhandleEdit={handleEditReceipt}
-                                                                    DisplayInvoice={handleDisplayReceiptDownload}
-
-                                                                />
-                                                            ))}
-                                                        </PaginationList>
-                                                    </tbody>
-
-                                                </Table>
-                                            </div>
+                            {!receiptLoader && sortedDataReceipt?.length === 0 && (
+                                <div className="mt-2 flex justify-center">
+                                    <div>
+                                        <div className="text-center">
+                                            <img src={Emptystate} alt="emptystate" />
                                         </div>
-                                    )}
-
-
-                                {!receiptLoader && sortedDataReceipt &&
-                                    sortedDataReceipt?.length === 0 && (
-                                        <div className="mt-2 flex justify-center">
-                                  <div>
-                                            <div style={{ textAlign: "center" }}>
-                                                {" "}
-                                                <img src={Emptystate} alt="emptystate" />
-                                            </div>
-                                            <div
-                                                className="pb-1"
-                                                style={{
-                                                    textAlign: "center",
-                                                    fontWeight: 600,
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 18,
-                                                    color: "rgba(75, 75, 75, 1)",
-                                                }}
-                                            >
-                                                No Receipt available{" "}
-                                            </div>
-                                            <div
-                                                className="pb-1"
-                                                style={{
-                                                    textAlign: "center",
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 14,
-                                                    color: "rgba(75, 75, 75, 1)",
-                                                }}
-                                            >
-                                                There are no receipt added{" "}
-                                            </div>
-                                            </div>
+                                        <div className="pb-1 text-center text-[18px] font-gilroy font-semibold text-[#4B4B4B]">
+                                            No Receipt available
                                         </div>
-                                    )}
+                                        <div className="pb-1 text-center text-[14px] font-gilroy font-medium text-[#4B4B4B]">
+                                            There are no receipt added
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
-
-                            </Col>
-
-
-                        </Row>
-                        {receiptformShow && (
-                            <>
+                    
+                            {receiptformShow && (
                                 <AddReceiptForm
                                     onhandleback={handleBackBill}
                                     editvalue={editvalue}
                                     receiptedit={receiptedit}
                                 />
-                            </>
-                        )}
+                            )}
+                        </div>
                     </Container>
+
                 </>
             )}
         </div>
