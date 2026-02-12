@@ -165,13 +165,11 @@ const InvoiceCard = ({ rowData ,isReportsInvoiceRegisterWay}) => {
 
 
 const handleDownload =  (rowData) => {
-    console.log("rowData",rowData )
-
+  
   dispatch({
           type: "INVOICEPDF",
           payload: {
-           
-            hostelId: rowData.hostelId,
+                       hostelId: rowData.hostelId,
             invoiceId: rowData.invoiceId,
           },
         });
@@ -1647,6 +1645,9 @@ console.log("pdfDetails",pdfDetails, state)
 
         {isOpenPayment && (
           <div style={{ fontFamily: "Gilroy" }}>
+            {
+              pdfDetails?.paymentHistory?.length > 0  ? 
+            
             <Table responsive className="mb-0">
               <thead style={{ background: "#F9FAFB" }}>
                 <tr>
@@ -1706,12 +1707,81 @@ console.log("pdfDetails",pdfDetails, state)
                   <tr>
                     <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
                       No payments found
+                      
+                    </td>
+                  </tr>
+                )}
+                 
+              </tbody>
+            </Table>
+            :
+
+ <Table responsive className="mb-0">
+              <thead style={{ background: "#F9FAFB" }}>
+                <tr>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>RETURNED FROM</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                                {pdfDetails?.refundHistory?.length > 0 ? (
+                  pdfDetails.refundHistory.map((item, index) => (
+                    <tr key={index}>
+                      <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
+                        {item.date || "-"}
+                      </td>
+
+                      <td
+                        style={{
+                          color: "#1E45E1",
+                          fontWeight: 500,
+                          fontSize: 12,
+                        }}
+                      >
+                        {item.transactionReferenceId || item.referenceNumber || "-"}
+                      </td>
+
+
+                      <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                       {item.returnedFrom}
+                      </td>
+
+
+                      <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                        ₹{item.amount}
+                      </td>
+
+
+                      <td>
+                        <Badge
+                          bg="success"
+                          style={{
+                            borderRadius: 20,
+                            fontWeight: 500,
+                            padding: "6px 10px",
+                            fontSize: 12,
+                          }}
+                        >
+                          ● Refunded
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
+                      No refund found
+                      
                     </td>
                   </tr>
                 )}
               </tbody>
             </Table>
-
+}
             <div
               className="d-flex justify-content-end px-5 py-2"
               style={{ borderTop: "1px solid #eee" }}
