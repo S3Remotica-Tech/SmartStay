@@ -848,11 +848,14 @@ function* handleInvoicePdf(action) {
             }
          })
       }
-      else if (response?.status === 201) {
-         yield put({ type: 'PDF_ERROR', payload: { response: response.data.message, statusCode: response?.status } })
-
-         toast.error(response.data.message, {
-            position: "top-center",
+         }
+   catch (error) {
+      yield* handleApiError(error);
+console.log("error", error)
+ if (error.status === 400) {
+         yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
+          toast.error(error.response.data, {
+            position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
             closeButton: false,
@@ -862,17 +865,7 @@ function* handleInvoicePdf(action) {
             progress: undefined,
             style: toastStyle
          })
-
-
       }
-      if (response) {
-         refreshToken(response)
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
    }
 }
 

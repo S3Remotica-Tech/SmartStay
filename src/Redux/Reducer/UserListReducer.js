@@ -163,8 +163,10 @@ export const initialState = {
     initializeCancelCheckout: '',
     finalSettlementAddRoomReadingStatusCode: 0,
     alreadyMobileBasicError: '',
-    accessRestrictionError:''
-
+    accessRestrictionError: '',
+    tenantDocumentUploadStatusCode: 0,
+    tenantDocumentUploadError: "",
+    tenantDocumentDeleteStatusCode: 0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -178,18 +180,38 @@ const UserListReducer = (state = initialState, action) => {
         case 'AVAILABLE_BED':
             return { ...state, availableBedList: action.payload.response }
 
-            case 'ACCESS_RESTRICTION_ERROR':
-                 return { ...state, accessRestrictionError: action.payload }
-                  case 'ACCESS_RESTRICTION_ERROR_REMOVE':
-                 return { ...state, accessRestrictionError:"" }
+        case 'ACCESS_RESTRICTION_ERROR':
+            return { ...state, accessRestrictionError: action.payload }
+        case 'ACCESS_RESTRICTION_ERROR_REMOVE':
+            return { ...state, accessRestrictionError: "" }
+
+        case 'TENANT_DOCUMENT_UPLOAD':
+            return { ...state, tenantDocumentUploadStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_TENANT_DOCUMENT_UPLOAD':
+            return { ...state, tenantDocumentUploadStatusCode: 0 }
+        case 'TENANT_DOCUMENT_UPLOAD_ERROR':
+            return { ...state, tenantDocumentUploadError: action.payload }
+
+        case 'REMOVE_TENANT_DOCUMENT_UPLOAD_ERROR':
+            return { ...state, tenantDocumentUploadError: "" }
+
+        case 'DELETE_TENANT_DOCUMENT':
+            return { ...state, tenantDocumentDeleteStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_DELETE_TENANT_DOCUMENT':
+            return { ...state, tenantDocumentDeleteStatusCode: 0 }
+
+
+
 
         case 'GET_INITIALIZE_CHECKOUT':
             return { ...state, initializeCheckout: action.payload.response }
 
-            case 'ALREADY_MOBILE_BASIC_ERROR':
-                  return { ...state, alreadyMobileBasicError: action.payload }
-                   case 'REMOVE_ALREADY_MOBILE_BASIC_ERROR':
-                  return { ...state, alreadyMobileBasicError:''}
+        case 'ALREADY_MOBILE_BASIC_ERROR':
+            return { ...state, alreadyMobileBasicError: action.payload }
+        case 'REMOVE_ALREADY_MOBILE_BASIC_ERROR':
+            return { ...state, alreadyMobileBasicError: '' }
 
         case 'INITIALIZE_CANCEL_CHECKOUT':
             return { ...state, initializeCancelCheckout: action.payload.response }

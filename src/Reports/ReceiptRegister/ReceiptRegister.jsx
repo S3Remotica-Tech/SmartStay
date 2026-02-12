@@ -32,23 +32,9 @@ function ReceiptRegister() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [size, setSize] = useState('');
   const [page, setPage] = useState(0);
+  const skipApiRef = useRef(false);
 
 
-  useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: 'GET_REPORTS_RECEIPT_REGISTER_SAGA', payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            size: size,
-            page: page,
-          }
-        }
-      })
-      setLoading(true)
-
-    }
-  }, [state.login?.selectedHostel_Id])
 
 
 
@@ -67,7 +53,7 @@ function ReceiptRegister() {
 
 
 
-  console.log("getReceiptRegister", state.reports)
+
 
 
   useEffect(() => {
@@ -369,16 +355,45 @@ function ReceiptRegister() {
 
 
   };
+  
+  
+  
+
+
 
   useEffect(() => {
-    if (!state.login?.selectedHostel_Id) return;
+    return () => {
+    
+      dispatch({
+        type: "SET_RECEIPT_REGISTER_FILTERS",
+        payload: {
+          startDate: undefined,
+          endDate: undefined,
+          invoiceType: [],
+          collectedBy: [],
+          period: [],
+          paymentMode: [],
+          createdByLabels: [],
+        },
+      });
+    };
+  }, []);
+
+
+const startDate = selectedRange?.from
+  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+  : undefined;
+
+const endDate = selectedRange?.to
+  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+  : undefined;
+
+
+  useEffect(() => {
+        if (!state.login?.selectedHostel_Id) return;
     const filters = {
-      startDate: selectedRange?.from
-        ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-        : undefined,
-      endDate: selectedRange?.to
-        ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-        : undefined,
+      startDate: startDate,
+      endDate: endDate,
       size,
       page,
     };
@@ -389,7 +404,8 @@ function ReceiptRegister() {
         filters: filters,
       },
     });
-  }, [size, page, selectedRange]);
+    setLoading(true)
+  }, [size, page, selectedRange, state.login?.selectedHostel_Id,]);
 
 
 
@@ -846,7 +862,7 @@ function ReceiptRegister() {
 
       </div>
       {
-        invoiceFilter && <ReceiptFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} />
+        invoiceFilter && <ReceiptFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} startDate={startDate} endDate={endDate}/>
       }
     </div>
   )

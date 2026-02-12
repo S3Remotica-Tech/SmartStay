@@ -72,7 +72,12 @@ const InvoiceTable = (props) => {
 
   const handleInvoicepdf = (item) => {
     props.OnHandleshowInvoicePdf(item)
+    setShowDots(false)
   }
+
+
+
+
 
   const handleBillDelete = (props) => {
     props.OnHandleshowDeleteform(props)

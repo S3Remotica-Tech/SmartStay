@@ -180,9 +180,6 @@ const handleDownload =  (rowData) => {
 
 
 
-console.log("state", state?.InvoiceList?.invoicePDF)
-
-
 
 useEffect(() => {
   const pdfUrl = state?.InvoiceList?.invoicePDF;

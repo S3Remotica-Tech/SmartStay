@@ -44,21 +44,21 @@ function InvoiceRegister() {
     // console.log("invoiceRegister", invoiceRegister)
 
 
-    useEffect(() => {
-        if (state.login?.selectedHostel_Id) {
+    // useEffect(() => {
+    //     if (state.login?.selectedHostel_Id) {
 
-            dispatch({
-                type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {
-                        size: size,
-                        page: page,
-                    }
-                }
-            })
-            setLoading(true)
-        }
-    }, [state.login?.selectedHostel_Id])
+    //         dispatch({
+    //             type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
+    //                 hostelId: state.login.selectedHostel_Id,
+    //                 filters: {
+    //                     size: size,
+    //                     page: page,
+    //                 }
+    //             }
+    //         })
+    //         setLoading(true)
+    //     }
+    // }, [state.login?.selectedHostel_Id])
 
 
 
@@ -116,6 +116,7 @@ function InvoiceRegister() {
         { title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount, up: "8%", link: true },
         { title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, down: "5%", link: true },
     ];
+
 
 
 
@@ -471,28 +472,70 @@ function InvoiceRegister() {
 
     };
 
+
+
+
+
     useEffect(() => {
-        if (!state.login?.selectedHostel_Id) return;
+  return () => {
+    
+    dispatch({
+      type: "SET_INVOICE_REGISTER_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        invoiceTypes: [],
+        createdBy: [],
+        invoiceModes: [],
+        paymentStatus: [],
+        search: "",
+        minPaidAmount: "",
+        maxPaidAmount: "",
+        minOutstandingAmount: "",
+        maxOutstandingAmount: "",
+        period: []
+      },
+    });
+  };
+}, []);
 
-        const filters = {
-            startDate: selectedRange?.from
-                ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-                : undefined,
-            endDate: selectedRange?.to
-                ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-                : undefined,
-            size,
-            page,
-        };
+const startDate = selectedRange?.from
+  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+  : undefined;
 
-        dispatch({
-            type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
-            payload: {
-                hostelId: state.login.selectedHostel_Id,
-                filters,
-            },
-        });
-    }, [size, page, selectedRange]);
+const endDate = selectedRange?.to
+  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+  : undefined;
+
+
+   useEffect(() => {
+ 
+  if (!state.login?.selectedHostel_Id) return;
+
+  const filters = {
+  startDate: startDate,
+      endDate: endDate,
+    size,
+    page,
+  };
+
+  dispatch({
+    type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+    payload: {
+      hostelId: state.login.selectedHostel_Id,
+      filters,
+    },
+  });
+
+  setLoading(true);
+}, [
+  state.login?.selectedHostel_Id,
+  size,
+  page,
+  startDate,
+  endDate,
+]);
+
 
 
 
@@ -970,7 +1013,7 @@ function InvoiceRegister() {
 
                 {
                     invoiceFilter &&
-                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} />
+                    <InvoiceRegisterFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} startDate={startDate} endDate={endDate} />
                 }
             </div>
 

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {finalAddRoomReading,
+import {finalAddRoomReading,TenantUploadDocument,deleteTenantUploadDocument,
    cancelCheckoutInitialize, getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading, editHostelReading,
@@ -41,6 +41,118 @@ function* handleApiError(error) {
 }
 
 
+
+function* handleDeleteTenantUploadDocument(args) {
+   try {
+      const response = yield call(deleteTenantUploadDocument, args.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response?.status === 204) {
+         yield put({ type: 'DELETE_TENANT_DOCUMENT', payload: { response: response.data, statusCode: response?.status } })
+
+         toast.success('Deleted successfully!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+      }
+     
+   }
+   catch (error) {
+      yield* handleApiError(error);
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+function* handleTenantUploadDocument(datum) {
+   try {
+      const response = yield call(TenantUploadDocument, datum.payload);
+     if (response?.status === 201) {
+         yield put({
+            type: 'TENANT_DOCUMENT_UPLOAD',
+            payload: { response: response.message, statusCode: response?.status },
+         });
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.status) {
+                    yield put({ type: 'TENANT_DOCUMENT_UPLOAD_ERROR', payload: error.response.data });
+                           toast.error(`${error.response.data}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+         });
+             
+                  }
+   }
+}
 
 
 function* handleGetInitializeCheckout(action) {
@@ -3137,6 +3249,8 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('DELETETENANTDOCUMENT', handleDeleteTenantUploadDocument)
+   yield takeEvery('TENANTDOCUMENTUPLOADSAGA',handleTenantUploadDocument)
  yield takeEvery('FINALSETTLEMENTADDROOMREADINGSAGA', handleFinalSettlementAddRoomReading)
    yield takeEvery('DELETEREADING', handleDeleteReading)
    yield takeEvery('INITIALIZECANCELCHECKOUT', handleCancelCheckoutInitialize)

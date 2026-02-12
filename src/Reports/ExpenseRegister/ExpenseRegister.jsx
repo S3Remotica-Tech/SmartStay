@@ -38,21 +38,6 @@ function ExpenseRegister() {
   const [size, setSize] = useState('');
   const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-
-      dispatch({
-        type: 'GET_REPORTS_EXPENSE_REGISTER_SAGA', payload: {
-          hostelId: state.login.selectedHostel_Id, filters: {
-            size: size,
-            page: page,
-          }
-        }
-      })
-      setLoading(true)
-    }
-  }, [state.login?.selectedHostel_Id])
-
 
 
   useEffect(() => {
@@ -254,7 +239,7 @@ function ExpenseRegister() {
       return;
     }
 
-   const [from, to] = dates;
+    const [from, to] = dates;
 
 
     setSelectedRange({
@@ -277,11 +262,44 @@ function ExpenseRegister() {
 
   };
 
+  
   useEffect(() => {
+    return () => {
+          dispatch({
+        type: "SET_EXPENSE_REGISTER_FILTERS",
+        payload: {
+          startDate: undefined,
+          endDate: undefined,
+          category: [],
+          period: undefined,
+          paymentMode: [],
+          paidTo: [],
+          createdBy: [],
+          createdByLabels: [],
+          categoryLabel: []
+        },
+      });
+    };
+  }, []);
+
+
+const startDate = selectedRange?.from
+  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+  : undefined;
+
+const endDate = selectedRange?.to
+  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+  : undefined;
+
+
+
+
+  useEffect(() => {
+    
     if (!state.login?.selectedHostel_Id) return;
     const filters = {
-      startDate: selectedRange?.from ? dayjs(selectedRange?.from).format("DD-MM-YYYY") : undefined,
-      endDate: selectedRange?.to ? dayjs(selectedRange?.to).format("DD-MM-YYYY") : undefined,
+      startDate: startDate,
+      endDate: endDate,
       size: size,
       page: page,
     };
@@ -292,7 +310,8 @@ function ExpenseRegister() {
         filters: filters,
       },
     });
-  }, [size, page, selectedRange]);
+    setLoading(true);
+  }, [size, page, selectedRange, state.login?.selectedHostel_Id]);
 
 
 
@@ -860,7 +879,10 @@ function ExpenseRegister() {
         </div>
 
         {
-          invoiceFilter && <ExpenseFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} />
+          invoiceFilter && <ExpenseFilter show={invoiceFilter}
+           handleClose={handleCloseFilterBills} size={size} page={page} 
+            startDate={startDate} endDate={endDate}
+           />
         }
       </div>
     </div>

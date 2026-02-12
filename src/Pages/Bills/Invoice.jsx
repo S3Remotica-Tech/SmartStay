@@ -361,56 +361,49 @@ const InvoicePage = () => {
   ];
 
 
-  const handleInvoiceDetail = (item) => {
+  const handleInvoiceDetail = (rowData) => {
+   
+    dispatch({
+      type: "INVOICEPDF",
+      payload: {
+        hostelId: rowData.hostelId,
+        invoiceId: rowData.invoiceId,
+      },
+    });
 
-    if (item.User_Id) {
-      const originalDate = new Date(item.Date);
-      const year = originalDate.getFullYear();
-      const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-      const day = originalDate.getDate().toString().padStart(2, "0");
-      const newDate = `${year}-${month}-${day}`;
 
-      if (
-        (item.EbAmount === 0 || item.EbAmount === undefined) &&
-        item.invoice_type === 1 &&
-        item.AmnitiesAmount === 0
-      ) {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            Date: newDate,
-            User_Id: item.User_Id,
-            id: item.id,
-            hostel_Id: item.Hostel_Id,
-            invoice_type: item.invoice_type,
-          },
-        });
-      } else if (item.invoice_type === 2) {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            User_Id: item.User_Id,
-            id: item.id,
-            hostel_Id: item.Hostel_Id,
-            invoice_type: item.invoice_type,
-          },
-        });
-      } else {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            Date: newDate,
-            User_Id: item.User_Id,
-            id: item.id,
-          },
-        });
-      }
-
-      setShowLoader(true);
-    }
   };
 
+const pdfOpenedRef = useRef(false);
 
+ 
+useEffect(() => {
+  if (
+    state.InvoiceList?.statusCodeForPDf === 200 &&
+    state.InvoiceList?.invoicePDF &&
+    !pdfOpenedRef.current
+  ) {
+    pdfOpenedRef.current = true;
+
+    setLoading(false);
+    setShowLoader(false);
+
+    window.open(state.InvoiceList.invoicePDF, "_blank");
+
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+          }, 100);
+  }
+}, [state.InvoiceList?.statusCodeForPDf]);
+
+
+
+
+
+
+
+
+  
 
   useEffect(() => {
     if (state.InvoiceList.pdfErrorStatusCode === 201) {

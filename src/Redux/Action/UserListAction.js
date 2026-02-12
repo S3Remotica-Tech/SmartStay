@@ -933,3 +933,48 @@ export async function getInitializeCheckout(hostel) {
  
   return await AxiosConfigV2.post(`/v2/bookings/initialize/checkout/${hostel.hostelId}/${hostel.customerId}`)
 }
+
+
+export async function TenantUploadDocument(params) {
+  console.log("params", params);
+  const formData = new FormData();
+    if (params.files?.length) {
+    params.files.forEach((item) => {
+      if (item.file instanceof File) {
+        formData.append("files", item.file);
+      }
+    });
+  }
+ 
+  if (params.payload) {
+    const payloadBlob = new Blob(
+      [JSON.stringify(params.payload)],
+      { type: "application/json" }
+    );
+    formData.append("payload", payloadBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.post(
+      `/v2/documents/${params.hostelId}/${params.customerId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+
+export async function deleteTenantUploadDocument(document) {
+  return await AxiosConfigV2.delete(`/v2/documents/${document.hostelId}/${document.customerId}/${document.documentId}`)
+}
+
+
