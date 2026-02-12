@@ -221,7 +221,7 @@ export  function ReferenceIdGet() {
 // }
 
 export async function ReceiptPDf(bill) {
-  return await AxiosConfigV2.get(`/v2/bills/download/${bill.hostelId}/${bill.invoiceId}`, {
+  return await AxiosConfigV2.get(`/v2/transaction/download/${bill.hostelId}/${bill.transactionId}`, {
     headers: {
       "Content-Type": "application/json",
     },

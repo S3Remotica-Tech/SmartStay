@@ -31,10 +31,10 @@ function ReceiptPdfDetails() {
 
 
     useEffect(() => {
-        if(rowData.transactionId){
- setSelectedInvoiceId(rowData.transactionId)
+        if (rowData.transactionId) {
+            setSelectedInvoiceId(rowData.transactionId)
         }
-       
+
     }, [rowData])
 
     // console.log("rowData",rowData)
@@ -68,6 +68,9 @@ function ReceiptPdfDetails() {
             }, 100);
         }
     }, [rowData]);
+
+
+
 
 
     return (

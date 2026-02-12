@@ -1743,7 +1743,7 @@ function* handleReceiptPdf(action) {
       if (response?.status === 200) {
          yield put({
             type: 'RECEIPT_PDF', payload: {
-               response: response.data.pdf_url, statusCode: response?.status
+               response: response.data, statusCode: response?.status
             }
          })
       }
