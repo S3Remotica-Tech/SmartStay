@@ -660,11 +660,11 @@ function TenantsRegister() {
 
 
                             </div>
-                            {item.link && (
+                            {/* {item.link && (
                                 <p className="text-xs text-[#155DFC]  cursor-pointer">
                                     Click to filter
                                 </p>
-                            )}
+                            )} */}
                         </div>
                     ))}
                 </div>
