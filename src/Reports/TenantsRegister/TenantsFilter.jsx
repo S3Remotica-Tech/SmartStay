@@ -244,12 +244,10 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
                 startDate: startDate,
                 endDate: endDate,
                 period: period?.value || null,
-                floor: floor.map(f => f.value),
-                room: room.map(r => r.value),
+                floor: floor.map(f => f.label),
+                room: room.map(r => r.label),
                 search: tenantName,
                 tenantStatus: tenantStatus,
-
-
             },
         })
 
@@ -262,6 +260,20 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
         });
         setFormLoading(true);
     };
+
+
+useEffect(() => {
+        if (state.createAccount?.networkError) {
+             setFormLoading(false);
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
+
+
+
 
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {

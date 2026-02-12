@@ -9,8 +9,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
+
 
 function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endDate}) {
     const state = useSelector((state) => state);
@@ -246,7 +245,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
         setTenantName(e.target.value);
     };
 
-    console.log("period", period)
+  
 
 
     const CheckboxOption = (props) => {
