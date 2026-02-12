@@ -17,6 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
 import { CloseCircle, } from "iconsax-react";
+import closecircle from "../../Assets/Images/New_images/close-circle.png";
+import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import '../OthersComponent/BillPdfModal.css';
 // import AxiosConfig from "../../WebService/AxiosConfig";
 // import Swal from 'sweetalert2';
@@ -42,6 +44,7 @@ function RecurringBills() {
   const [search, setSearch] = useState(false);
   const [originalRecuiring, setOriginalRecuiring] = useState([]);
   const [checkedRows, setCheckedRows] = useState({});
+  const [filterInput, setFilterInput] = useState("");
   const [activeStay, setActiveStay] = useState("long_stay");
 
   const {
@@ -59,13 +62,13 @@ function RecurringBills() {
   useEffect(() => {
     if (!canReadRecurring) {
       setRecurLoader(false)
-    } 
+    }
 
   }, [canReadRecurring])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setRecurLoader(false)
+      setRecurLoader(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -210,13 +213,6 @@ useEffect(() => {
 
 
 
-
-
-
-
-
-
-
   useEffect(() => {
     if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
       setRecurLoader(false);
@@ -289,9 +285,6 @@ useEffect(() => {
 
 
 
-
-
-
   // useEffect(() => {
   //   const handleClickOutside = (event) => {
   //     if (
@@ -331,31 +324,77 @@ useEffect(() => {
   };
 
 
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("");
+  };
 
-
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+  };
 
 
 
 
   return (
-    <div className="sticky-top bg-white" style={{ position: "relative" }}>
-      <div className=" d-flex justify-content-between align-items-center  flex-wrap h-auto"
-        style={{
-          position: 'sticky',
-          backgroundColor: 'white',
-          zIndex: 10,
-        }}
+    <div className="relative bg-white">
+      <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap h-auto"
       >
-        <div style={{ marginTop: 0 }}>
-          <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+        <div className="mt-0">
+          <label className="text-lg text-gray-900 font-semibold">
             Recurring</label>
         </div>
 
-        <div className=" d-flex justify-content-between gap-2 align-items-center flex-wrap p-2">
+        <div className="flex justify-between items-center flex-wrap gap-2 mt-2 mb-1">
+          <div className="flex items-center ">
+            {search ? (
+              <>
+                <div className="relative min-w-[160px] max-w-[250px] z-[3000]"
+                >
+                  <div
+                    className="input-group p-0 mr-5"
+                  >
+                    <span className="input-group-text bg-white" >
+                      <img
+                        src={searchteam}
+                        alt="search"
+                        className="h-5 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
 
+                      />
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 font-gilroy"
+                      placeholder="Search"
+                      value={filterInput}
+                      onChange={(e) => handlefilterInput(e)}
+                    // disabled={!canReadInvoice}
+                    />
+                    <span className="input-group-text bg-white border-start-0">
+                      <img
+                        src={closecircle}
+                        alt="close"
+                        onClick={() => handleCloseSearch()}
+                        className="h-5 w-5 cursor-pointer"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mt-2 border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
+                  <FiSearch
+                    className="h-6 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
+                    onClick={handleSearch}
+                  />
+                </div>
+              </>
+            )}
 
+          </div>
 
-          <div style={{
+          {/* <div style={{
             backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
             padding: "6px 8px", lineHeight: "normal", height: "fit-content"
           }}>
@@ -409,16 +448,16 @@ useEffect(() => {
 
             </div>
 
-          }
-          <div className='me-2' style={{ marginTop: 0, cursor: "pointer" }}>
-            <img src={excelimg} alt='excel' width={38} height={38}
+          } */}
 
-              style={{
-                cursor: canReadRecurring ? "pointer" : "not-allowed",
-                opacity: canReadRecurring ? 1 : 0.4,
-                pointerEvents: canReadRecurring ? "auto" : "none",
-                transition: "opacity 0.3s ease"
-              }}
+          <div className="mt-0 mr-2 cursor-pointer"
+          >
+            <img src={excelimg} alt='excel' width={38} height={38}
+              className={`transition-opacity duration-300 ${canReadRecurring
+                ? "cursor-pointer opacity-100 pointer-events-auto"
+                : "cursor-not-allowed opacity-40 pointer-events-none"
+                }`}
+
             //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
             />
           </div>
@@ -429,24 +468,13 @@ useEffect(() => {
 
       {!canReadRecurring ? (
         <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 95
-
-            }}
-          >
+          <div className="flex flex-col items-center justify-center mt-[95px]">
 
             <img
               src={Emptystate}
               alt="Empty State"
 
             />
-
-
 
             <ErrorMessage message={['You do not have access to view Recurring']} type="warning" />
 
@@ -456,35 +484,23 @@ useEffect(() => {
         <>
 
 
-          <div className="d-flex gap-3 align-items-center mt-1  mb-0">
+          <div className="flex items-center gap-3 mt-1 mb-0">
             <button
               onClick={() => handleClick("long_stay")}
-              style={{
-                backgroundColor: activeStay === "long_stay" ? "#1E45E1" : "#fff",
-                color: activeStay === "long_stay" ? "#fff" : "#1E1E1E",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                padding: "8px 25px",
-                borderRadius: 20,
-                border: activeStay === "long_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
-                fontSize: 12,
-              }}
+              className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
+                ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                }`}
             >
               Long Stay
             </button>
 
             <button
               onClick={() => handleClick("short_stay")}
-              style={{
-                backgroundColor: activeStay === "short_stay" ? "#1E45E1" : "#fff",
-                color: activeStay === "short_stay" ? "#fff" : "#1E1E1E",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                padding: "8px 25px",
-                borderRadius: 20,
-                border: activeStay === "short_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
-                fontSize: 12,
-              }}
+              className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
+                ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                }`}
             >
               Short Stay
             </button>
@@ -495,53 +511,26 @@ useEffect(() => {
             activeStay === 'long_stay' ?
             (
               <div className="mt-2 flex justify-center">
-                                  <div>
-                <div style={{ textAlign: "center" }}>
-                  {" "}
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No {activeStay} Recuring bills available{" "}
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no Recuring bills added{" "}
+                <div>
+                  <div className="text-center">
+                    {" "}
+                    <img src={Emptystate} alt="emptystate" />
+                  </div>
+                  <div className="pb-1 text-center font-semibold text-[18px] text-[#4B4B4B] font-gilroy">
+                    No {activeStay} Recuring bills available{" "}
+                  </div>
+                  <div
+                    className="pb-1 text-center font-medium text-[14px] text-[#4B4B4B] font-gilroy"
+                  >
+                    There are no Recuring bills added{" "}
+                  </div>
                 </div>
               </div>
-                   </div>
             ) : !recurLoader && activeStay === 'short_stay' ?
-              <div className="mt-5"
-                style={{
-                  height: "400px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "#f2f6fc",
-                  borderRadius: "10px",
-                  marginRight: "20px",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                  border: "1px dashed #b0c4de",
+              <div className="mt-5 h-[400px] flex justify-center items-center bg-[#f2f6fc] rounded-[10px] mr-5 shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-dashed border-[#b0c4de]"
 
-                }}
               >
-                <div style={{ textAlign: "center" }}>
+                <div className="text-center">
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
                     alt="Coming Soon"
@@ -550,127 +539,64 @@ useEffect(() => {
                     style={{ marginBottom: "15px", opacity: 0.7 }}
                   />
 
-                  <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                  <p className="text-[#7a7a7a] text-[14px] font-gilroy">Coming Soon. Stay tuned!</p>
                 </div>
               </div>
-             :
+              :
               ""}
 
 
 
           {!loading && recurLoader &&
-            <div
-              style={{
-                position: 'absolute',
-                top: 200,
-                right: 0,
-                bottom: 0,
-                left: 200,
-                display: 'flex',
-                height: "50vh",
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
+
+            <div className="absolute top-[200px] left-[200px] right-0 bottom-0 flex items-center justify-center h-[50vh] bg-transparent opacity-75 z-10">
               <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
+                className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"
               ></div>
             </div>
+
 
           }
 
           {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
             <div
-              className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
-              style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              className=" booking-table-userlist  booking-table ml-2 mr-4 mt-4 pb-5"
+
             >
 
               <div
-                className='show-scrolls '
-                style={{
-                  height: sortedDataRecure?.length >= 12 ? "400px" : "auto",
-                  overflowY: "auto",
-                  borderTop: "1px solid #E8E8E8",
-                  marginBottom: 20,
-                  marginTop: "10px",
-                  paddingRight: 0,
-                  paddingLeft: 0
 
-                }}
+                className={`show-scrolls  overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 ${sortedDataRecure?.length >= 12 ? "h-[400px]" : "h-auto"
+                  }`}
               >
                 <Table
+                responsive="md"
+                className="sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
 
-                  responsive="md"
-
-                  style={{
-                    fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1,
-                    borderRadius: 0
-                  }}
                 >
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)",
-                    fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1
-                  }}>
+                  <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"
+>
                     <tr>
-                      <th
-                        style={headerStyle}
-                      >
-                        <label style={labelStyle}>
-
-                          Name</label>
+                      <th>
+                       Name
+                      </th>
+                      <th> 
+                        Last Invoice number
+                      </th>
+                      <th>
+                       Last Invoice Date
+                      </th>
+                      <th>
+                       Next Invoice Date
+                      </th>
+                      <th>
+                        Amount
                       </th>
                       <th
-                        style={headerStyle}
                       >
-                        <label style={labelStyle}>
-
-                          Last Invoice number</label>
+                       Recurring
                       </th>
-                      <th
-                        style={headerStyle}
-                      >
-                        <label style={labelStyle}>
-
-                          Last Invoice Date</label>
-                      </th>
-                      <th
-                        style={headerStyle}
-                      >
-                        <label style={labelStyle} >
-
-                          Next Invoice Date</label>
-                      </th>
-                      <th
-                        style={headerStyle}
-                      >
-                        <label style={labelStyle}>
-
-                          Amount</label>
-                      </th>
-                      <th
-                        style={headerStyle}
-                      >
-                        <label style={labelStyle}>
-
-                          Recurring</label>
-                      </th>
-                      <th
-                        style={headerStyle}
-                      ><label style={labelStyle}>Action</label> </th>
+                      <th>Action</th>
                     </tr>
                   </thead>
 

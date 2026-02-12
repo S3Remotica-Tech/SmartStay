@@ -64,98 +64,47 @@ function ApplyBookingModal({ show, handleClose }) {
 
     return (
         <Modal show={show} onHide={handleClose} centered size="lg">
-            <div
-                style={{
-                    fontFamily:
-                        "Gilroy, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
-                    padding: 16,
-                }}
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: 16,
-                    }}
-                >
-                    <h5
-                        style={{
-                            margin: 0,
-                            fontWeight: 600,
-                            fontSize: 16,
-                        }}
-                    >
+            <div className="font-gilroy p-4">
+                <div className="flex justify-between items-center mb-4" >
+                    <h5 className="m-0 font-semibold text-base">
                         Apply Booking to Invoice
                     </h5>
 
-                    <span
+                    <span className="cursor-pointer text-lg font-medium text-red-500" 
                         onClick={handleClose}
-                        style={{
-                            cursor: "pointer",
-                            fontSize: 18,
-                            fontWeight: 500, color: '#FF0000'
-                        }}
                     >
                         ✕
                     </span>
                 </div>
 
 
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        background: "#F8FAFC",
-                        padding: 15,
-                        borderRadius: 6,
-                        marginBottom: 16,
-                    }}
-                >
-                    <div style={{ display: "flex", gap: 12 }}>
-                        <div
-                            style={{
-                                width: 36,
-                                height: 36,
-                                borderRadius: "50%",
-                                background: "#E2E8F0",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontWeight: 600, color: "#44536A"
-                            }}
-                        >
+                <div className='flex justify-between items-center bg-gray-50 p-4 rounded mb-4'>
+                    <div className="flex gap-3">
+                        <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
                             SK
                         </div>
 
                         <div>
-                            <div style={{ fontWeight: 500, fontSize: 18, color: "#222222" }}>Ravi Kumar</div>
-                            <div style={{ fontSize: 12, }}>
-                                <span style={{ backgroundColor: "#FFEFCF", fontSize: 10, color: "#222222", padding: "6px 14px", borderRadius: 10 }}>First Floor </span>
-                                &nbsp; | &nbsp; <span style={{ backgroundColor: "#FFE0D9", fontSize: 10, color: "#222222", padding: "6px 14px", borderRadius: 10 }}> G105 - B02</span>
+                            <div className="font-medium text-lg text-gray-800">Ravi Kumar</div>
+                            <div className="text-xs">
+                                <span className="bg-yellow-100 text-[10px] text-gray-900 px-3 py-1.5 rounded-md">First Floor 
+                                </span>
+                                &nbsp; | &nbsp;
+                                 <span className="bg-[#FFE0D9] text-[10px] text-[#222222] px-[14px] py-[6px] rounded-[10px]"> G105 - B02</span>
                             </div>
                         </div>
                     </div>
 
-                    <div style={{}}>
-                        <div style={{ fontSize: 12, color: "#64748B" }}>
+                    <div>
+                        <div className="text-xs text-gray-400">
                             Booking Amount
                         </div>
-                        <div className="d-flex gap-2 align-items-center" style={{ fontWeight: 600 }}>
+                        <div className="flex items-center gap-2 font-semibold">
 
                             <div>
                                 <label>₹500</label>
                             </div>
-                            <Button
-                                style={{
-                                    background: "#16A34A",
-                                    border: "none",
-                                    fontWeight: 500,
-                                    padding: "6px 11px",
-                                    fontSize: 10
-                                }}
-                            >
+                            <Button className="bg-[#16A34A] border-0 font-medium px-[11px] py-[6px] text-[10px]" >
                                 Apply
                             </Button>
                         </div>
@@ -169,42 +118,19 @@ function ApplyBookingModal({ show, handleClose }) {
                     responsive="md"
                 >
 
-                    <thead style={{
-                        fontFamily: "Gilroy", backgroundColor: "#F9FAFB", color: "#6B7280", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                        top: 0,
-                        zIndex: 1
-                    }}>
+                    <thead className='sticky top-0 z-10 bg-gray-50 text-gray-400 text-xs font-medium'>
                         <tr>
-                            <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
+                            <th className="align-middle text-left text-gray-400 text-xs font-medium">TYPE </th>
 
-                                TYPE </th>
+                            <th className="text-left text-gray-400 text-xs font-medium" >INV NO </th>
 
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }} >
+                            <th className="text-left text-gray-400 text-xs font-medium" > DUE DATE</th>
 
+                            <th className="text-left text-gray-400 text-xs font-medium">INVOICE AMOUNT </th>
 
-                                INV NO </th>
+                            <th className="text-left text-gray-400 text-xs font-medium"> INVOICE BALANCE </th>
 
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-
-
-                                DUE DATE</th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-
-
-                                INVOICE AMOUNT </th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-
-
-                                INVOICE BALANCE</th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-
-
-                                AMOUNT TO APPLY</th>
-
-
+                            <th className="text-left text-gray-400 text-xs font-medium">AMOUNT TO APPLY </th>
 
                         </tr>
                     </thead>
@@ -217,13 +143,13 @@ function ApplyBookingModal({ show, handleClose }) {
                                 <tr key={index} style={{ fontSize: 14, }}>
                                     <td>{item.type}</td>
 
-                                    <td style={{ color: "#2563EB", cursor: "pointer" }}>
+                                    <td className='!text-[#2563EB] cursor pointer'>
                                         {item.invNo}
                                     </td>
 
                                     <td>{item.dueDate}</td>
 
-                                    <td style={{ fontWeight: 600 }}>
+                                    <td className='font-semibold'>
                                         ₹{item.invoiceAmount.toFixed(2)}
                                     </td>
 
@@ -238,23 +164,14 @@ function ApplyBookingModal({ show, handleClose }) {
                                                 handleApplyAmountChange(index, e.target.value)
                                             }
                                             placeholder="₹ 0.00"
-                                            style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: 14,
-                                                height: 34,
-                                                textAlign: "start",
-                                                borderRadius: 6,
-                                                border: "1px solid #E5E7EB",
-                                                paddingRight: 10, boxShadow: "none",
-                                                fontWeight: item.applyAmount ? 600 : 500
-                                            }}
+                                              className={`text-sm h-[34px] text-left rounded-md border border-gray-200 pr-[10px] shadow-none ${item.applyAmount ? 'font-semibold' : 'font-medium'}`}
                                         />
                                     </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={6} style={{ textAlign: "center", padding: 20 }}>
+                                <td colSpan={6} className="text-center py-5">
                                     No invoices found
                                 </td>
                             </tr>
@@ -265,70 +182,36 @@ function ApplyBookingModal({ show, handleClose }) {
                 </Table>
 
 
-                <div
-                    style={{
-                        marginTop: 24,
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        width: "100%",
-                    }}
+                <div className="mt-6 flex justify-end w-full"
                 >
-                    <div
-                        style={{
-                            // width: "100%",               
-                            backgroundColor: "#F8F8F8",
-                            padding: "14px 20px",
-                            borderRadius: 10,
-                        }}
-                    >
-                        <div className='g-2'
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between ",
-                                marginBottom: 8, gap: 10
-                            }}
+                    <div className="bg-gray-100 px-5 py-3 rounded-[10px]">
+                        <div className="flex justify-between mb-2 gap-2.5"
                         >
-                            <div style={{ fontSize: 12, color: "#64748B" }}>
+                            <div className="text-xs text-[#64748B]">
                                 Amount Applied
                             </div>
-                            <div style={{ fontWeight: 600 }}>₹ 0.00</div>
+                            <div className="font-semibold">₹ 0.00</div>
                         </div>
 
                         <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                            }}
+                            className="flex justify-between"
                         >
-                            <div style={{ fontSize: 12, color: "#64748B" }}>
+                            <div className="text-xs text-[#64748B]">
                                 Available Balance
                             </div>
-                            <div style={{ fontWeight: 600 }}>₹ 500.00</div>
+                            <div className="font-semibold ml-4">₹ 500.00</div>
                         </div>
                     </div>
                 </div>
 
 
                 {/* Actions */}
-                <div
-                    style={{
-                        marginTop: 24,
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 12,
-                    }}
+                <div className="mt-6 flex justify-end gap-3"
                 >
                     <Button variant="light" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button
-                        style={{
-                            background: "#1E45E1",
-                            border: "none",
-                            fontWeight: 500,
-                            padding: "6px 16px",
-                        }}
-                    >
+                    <Button className="bg-[#16A34A] border-0 font-medium px-[11px] py-[6px] text-[10px]" >
                         Apply →
                     </Button>
                 </div>
