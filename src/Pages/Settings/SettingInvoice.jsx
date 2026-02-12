@@ -1112,7 +1112,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     setGlobal(true)
   }
 
-  console.log("BillsTemplateList", BillsTemplateList)
+
 
   // const handleDeleteImage = () => {
 

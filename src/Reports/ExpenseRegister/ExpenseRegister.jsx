@@ -274,17 +274,17 @@ function ExpenseRegister() {
         },
       });
 
- const filters = {
-            size: size,
-      page: page,
-    };
-    dispatch({
-      type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: filters,
-      },
-    });
+      const filters = {
+        size: size,
+        page: page,
+      };
+      dispatch({
+        type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
 
 
 
@@ -460,7 +460,15 @@ function ExpenseRegister() {
   }, [state.reports.expenseRegisterFilters]);
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">

@@ -124,6 +124,11 @@ function TenantsRegister() {
             payload: {
                 startDate: undefined,
                 endDate: undefined,
+                period: [],
+                search: "",
+                tenantStatus: [],
+                floor: [],
+                room: [],
 
             },
         })
@@ -145,6 +150,11 @@ function TenantsRegister() {
             payload: {
                 startDate: undefined,
                 endDate: undefined,
+                period: [],
+                search: "",
+                tenantStatus: [],
+                floor: [],
+                room: [],
 
             },
         })
@@ -263,6 +273,11 @@ function TenantsRegister() {
                 payload: {
                     startDate: undefined,
                     endDate: undefined,
+                    period: [],
+                    search: "",
+                    tenantStatus: [],
+                    floor: [],
+                    room: [],
 
                 },
             })
@@ -320,24 +335,80 @@ function TenantsRegister() {
 
 
 
-    useEffect(() => {
-        const invoiceFilters = state.reports.tenantRegisterFilters;
-        const filterData = [];
+   useEffect(() => {
+  const filters = state.reports.tenantRegisterFilters;
+  const filterData = [];
+  if (filters?.startDate || filters?.endDate) {
+    filterData.push({
+      key: "date-range",
+      label: "Date",
+      type: "date",
+      value:
+        filters.startDate && filters.endDate
+          ? `${filters.startDate} - ${filters.endDate}`
+          : filters.startDate || filters.endDate,
+    });
+  }
 
-        if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
-            filterData.push({
-                key: "date-range",
-                label: "Date Range is",
-                type: "date",
-                value:
-                    invoiceFilters.startDate && invoiceFilters.endDate
-                        ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-                        : invoiceFilters.startDate || invoiceFilters.endDate,
-            });
-        }
 
-        setChips(filterData);
-    }, [state.reports.tenantRegisterFilters]);
+  if (filters?.period?.length) {
+    filterData.push({
+      key: "period",
+      label: "Period",
+      type: "single",
+      value: filters.period[0]?.label || filters.period[0],
+    });
+  }
+
+ 
+  if (filters?.search?.trim()) {
+    filterData.push({
+      key: "search",
+      label: "Search",
+      type: "text",
+      value: filters.search,
+    });
+  }
+
+
+  if (filters?.tenantStatus?.length) {
+    filters.tenantStatus.forEach(status => {
+      filterData.push({
+        key: "tenantStatus",
+        label: "Status",
+        type: "multi",
+        value: status.label || status,
+      });
+    });
+  }
+
+
+  if (filters?.floor?.length) {
+    filters.floor.forEach(floor => {
+      filterData.push({
+        key: "floor",
+        label: "Floor",
+        type: "multi",
+        value: floor.label || floor,
+      });
+    });
+  }
+
+
+  if (filters?.room?.length) {
+    filters.room.forEach(room => {
+      filterData.push({
+        key: "room",
+        label: "Room",
+        type: "multi",
+        value: room.label || room,
+      });
+    });
+  }
+
+  setChips(filterData);
+}, [state.reports.tenantRegisterFilters]);
+
 
     const handleNavigateRegister = (item) => {
         setRegister(false)
@@ -370,6 +441,11 @@ function TenantsRegister() {
             payload: {
                 startDate: undefined,
                 endDate: undefined,
+                period: [],
+                search: "",
+                tenantStatus: [],
+                floor: [],
+                room: [],
 
             },
         })
@@ -403,7 +479,15 @@ function TenantsRegister() {
 
 
 
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
+    }, [state.createAccount?.networkError])
 
 
     return (
@@ -809,6 +893,7 @@ function TenantsRegister() {
                 {
                     invoiceFilter && <TenantsFilter show={invoiceFilter} handleClose={handleCloseFilterBills}
                         startDate={startDate} endDate={endDate}
+                        size={size} page={page}
 
                     />
                 }

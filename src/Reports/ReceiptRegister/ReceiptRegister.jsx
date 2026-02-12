@@ -443,7 +443,15 @@ function ReceiptRegister() {
   };
 
 
-
+useEffect(() => {
+      if (state.createAccount?.networkError) {
+        setLoading(false)
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        }, 3000)
+      }
+  
+    }, [state.createAccount?.networkError])
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">

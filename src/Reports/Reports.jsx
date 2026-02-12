@@ -442,6 +442,16 @@ useEffect(() => {
   }, [])
 
 
+   useEffect(() => {
+      if (state.createAccount?.networkError) {
+        setLoading(false)
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        }, 3000)
+      }
+  
+    }, [state.createAccount?.networkError])
+
   return (
 
     <div className="w-full h-screen flex flex-col font-[Gilroy] px-0 mt-px">

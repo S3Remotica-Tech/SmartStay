@@ -53,6 +53,12 @@ export const initialState = {
         startDate: undefined,
         endDate: undefined,
          period: [],
+         search: "",
+         tenantStatus: [],
+         floor: [],
+         room: [],
+         
+
     }
 
 
