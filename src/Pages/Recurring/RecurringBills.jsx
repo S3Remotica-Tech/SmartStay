@@ -600,7 +600,7 @@ function RecurringBills() {
                     </tr>
                   </thead>
 
-                  <tbody style={{ fontSize: "10px" }}>
+                  <tbody>
                     <PaginationList>
                       {recurringbills.map((item) => (
                         <RecurringBillList
