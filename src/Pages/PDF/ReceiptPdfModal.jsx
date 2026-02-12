@@ -11,8 +11,6 @@ import Mail_white from '../../Assets/Images/gmail_white.png'
 import Message_text from '../../Assets/Images/message-text.png'
 import Message_text_white from '../../Assets/Images/message-white.png'
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import Payment from '../../Assets/Images/New_images/Mask-group.png'
@@ -126,7 +124,6 @@ const InvoiceCard = ({ rowData, }) => {
     }
   };
 
-  console.log("state.InvoiceList.ReceiptPDF", state.InvoiceList.ReceiptPDF)
 
   useEffect(() => {
     if (!state.InvoiceList.ReceiptPDF) return;
