@@ -109,12 +109,12 @@ const RecurringBillList = (props) => {
   } = useHasPermission("Recurring bills");
 
 
-  
+
   return (
 
     <>
 
-      <tr key={props.item.customerId}
+      {/* <tr key={props.item.customerId}
         style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
@@ -256,7 +256,91 @@ const RecurringBillList = (props) => {
 
 
 
+      </tr> */}
+      <tr
+        key={props.item.customerId}
+        className="m-2 text-black font-gilroy text-sm align-middle"
+      >
+
+        <td className="text-center whitespace-nowrap border-b border-gray-200">
+          <div className="flex items-center">
+            <div className="text-[13px] font-medium cursor-pointer">
+              {props.item?.fullName}
+            </div>
+          </div>
+        </td>
+
+        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+          {props?.item?.lastInvoiceNumber || "-"}
+        </td>
+
+        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+          {props.item?.lastInvoiceDate || "-"}
+        </td>
+
+        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+          {props.item?.nextInvoiceDate || "-"}
+        </td>
+
+        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+          ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
+        </td>
+
+        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+          <Form.Check
+            type="switch"
+            id="recurring-switch"
+            checked={props.checked}
+            disabled={!canUpdateRecurring}
+            onChange={canUpdateRecurring ? props.onToggle : undefined}
+          />
+        </td>
+
+        <td className="text-left border-b border-gray-200">
+          <div className="w-full flex justify-start">
+            <div
+              className="flex items-center relative rounded-full cursor-pointer"
+              onClick={(e) => handleShowDots(e)}
+            >
+              <PiDotsThreeOutlineVerticalFill
+                className={`h-5 w-5 rotate-90 ${showDots ? "text-blue-600" : "text-gray-500"
+                  }`}
+              />
+
+              {showDots && (
+                <div
+                  ref={popupRef}
+                  className="fixed w-32 bg-gray-50 border border-gray-200 rounded-lg flex flex-col z-50"
+                  style={{
+                    top: popupPosition.top,
+                    left: popupPosition.left,
+                  }}
+                >
+                  <div className="w-full rounded-lg">
+                    <div
+                      className={`flex items-center gap-2 p-2 rounded-lg ${canDeleteRecurring
+                          ? "cursor-pointer opacity-100"
+                          : "cursor-not-allowed opacity-50"
+                        }`}
+                      onClick={() => {
+                        if (canDeleteRecurring) {
+                          handleDeleteForm();
+                        }
+                      }}
+                    >
+                      <img src={Delete} alt="Delete" className="h-4 w-4" />
+                      <label className="text-sm font-medium text-red-600">
+                        Delete
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </td>
       </tr>
+
 
       <Modal
         show={deleteShow}
@@ -265,83 +349,35 @@ const RecurringBillList = (props) => {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            className="w-100 text-center"
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
 
-              fontWeight: 600,
-              color: "#222222",
-
-            }}
-          >
+        <Modal.Header className="border-0">
+          <Modal.Title className="w-full text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
             Delete Recurring Bill?
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body
-          className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-
-            marginTop: "-10px",
-          }}
-        >
+        <Modal.Body className="text-center !text-sm !font-medium !text-gray-500 !font-gilroy -mt-2">
           Are you sure you want to delete this Recurring Bill?
         </Modal.Body>
 
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{
-
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
+        <Modal.Footer className="flex justify-center !border-0 -mt-2">
           <Button
-            className="me-2"
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
             onClick={handleCloseDelete}
+            className="w-full max-w-40 h-13 rounded-lg px-5 py-3 bg-white !text-blue-700 !border !border-blue-700 !font-semibold !text-sm !font-gilroy mr-2"
           >
             Cancel
           </Button>
-          <Button disabled
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
+
+          <Button
+            disabled
             onClick={handleDelete}
+            className="w-full max-w-40 h-13 rounded-lg px-5 py-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !font-gilroy disabled:opacity-60 disabled:cursor-not-allowed"
           >
-                              Coming Soon
-            {/* Delete */} 
+            Coming Soon {/* Delete */}
           </Button>
         </Modal.Footer>
       </Modal>
+
 
 
     </>

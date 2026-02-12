@@ -872,43 +872,21 @@ useEffect(() => {
   const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container w-100 relative"
         onClick={onClick}
-        style={{ position: "relative" }}
       >
         <FormControl
           type="text"
-          className="date_input"
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+          className={`date_input w-full h-[50px] border border-[#D9D9D9] rounded-lg p-[9px] text-sm font-gilroy ${value ? "font-semibold" : "font-medium"
+            } bg-white cursor-pointer shadow-none box-border`}
+
         />
         <img
           src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
+          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
           alt="Calendar"
           onClick={onClick}
         />
@@ -920,43 +898,21 @@ useEffect(() => {
   const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container w-100 relative"
         onClick={onClick}
-        style={{ position: "relative" }}
       >
         <FormControl
           type="text"
-          className="date_input"
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+          className={`date_input w-full h-12 border border-gray-300 rounded-lg p-2.5 text-sm font-gilroy ${value ? "font-semibold" : "font-medium"
+            } bg-white cursor-pointer box-border shadow-none`}
+
         />
         <img
           src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
+          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
           alt="Calendar"
           onClick={onClick} />
       </div>
@@ -968,43 +924,20 @@ useEffect(() => {
   const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container w-100 relative"
         onClick={onClick}
-        style={{ position: "relative" }}
       >
         <FormControl
           type="text"
-          className="date_input"
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+          className={`date_input w-full h-12 border border-gray-300 rounded-lg p-2.5 text-sm font-gilroy ${value ? "font-semibold" : "font-medium"
+            } bg-white cursor-pointer box-border shadow-none`}
         />
         <img
           src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
+          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
           alt="Calendar"
           onClick={onClick}
         />
@@ -1015,43 +948,20 @@ useEffect(() => {
   const CustomInvoiceDueDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container w-100 relative"
         onClick={onClick}
-        style={{ position: "relative" }}
       >
         <FormControl
           type="text"
-          className="date_input"
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+          className={`date_input w-full h-12 border border-gray-300 rounded-lg p-2.5 text-sm font-gilroy ${value ? "font-semibold" : "font-medium"
+            } bg-white cursor-pointer box-border shadow-none`}
         />
         <img
           src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
+          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
           alt="Calendar"
           onClick={onClick}
         />
@@ -1060,17 +970,6 @@ useEffect(() => {
   });
 
   CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
-
-
-
-
-
-
-
-
-
-
-
 
   const handleDisplayInvoiceDownload = (isVisible) => {
     setDownloadInvoice(isVisible);
@@ -1149,15 +1048,6 @@ useEffect(() => {
       }, 300);
     }
   }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
-
-
-
-
-
-
-
-
-
 
 
   useEffect(() => {
@@ -1358,11 +1248,6 @@ useEffect(() => {
   }, [state.InvoiceList.ManualInvoices,])
 
 
-
-
-
-
-
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       // setShowManualInvoice(false)
@@ -1434,19 +1319,6 @@ useEffect(() => {
       dueRef.current.flatpickr.set(optionsone);
     }
   }, [startdate, enddate, invoicedate, invoiceduedate]);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   const handlefilterInput = (e) => {
@@ -1685,653 +1557,250 @@ useEffect(() => {
       }
 
       {showAllBill && (
-        <Row className="p-0" style={{ width: "100%", }}>
-          <Col className="p-0"
-            lg={12}
-            md={12}
-            sm={12}
-            xs={12}
-          >
-            <div
-              className="ms-auto sticky-top bg-white"
-              style={{
-                zIndex: 0,
-                height: 'auto',
-                paddingBottom: 0,
-                borderBottom: "none",
-                boxShadow: "initial"
-              }}
-            >
-              <div className="d-flex justify-content-between align-items- flex-wrap">
-                <div className="ms-3" style={{
-                  marginTop: 12,
-                }}>
-                  <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
-                </div>
-
-
-                {showLoader && <LoaderComponent />}
-                {loading && <LoaderComponent />}
-                <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
-
-                  <div className={` d-flex align-items-center`} >
-                    {search ? (
-                      <>
-                        <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
-                          <div
-                            className="input-group p-0"
-                            style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
-                          >
-                            <span className="input-group-text bg-white border-end-0" >
-                              <Image
-                                src={searchteam}
-                                style={{
-                                  height: 15, width: 15, cursor: canReadInvoice ? "pointer" : "not-allowed",
-                                  opacity: canReadInvoice ? 1 : 0.4,
-                                  pointerEvents: canReadInvoice ? "auto" : "none",
-                                  transition: "opacity 0.3s ease"
-                                }}
-                              />
-                            </span>
-                            <input
-                              type="text"
-                              className="form-control border-start-0"
-                              placeholder="Search"
-                              style={{
-                                boxShadow: "none",
-                                outline: "none",
-                                borderColor: "rgb(207,213,219)",
-                                borderRight: "none",
-                                fontFamily: "Gilroy", padding: "8px 10px"
-                              }}
-                              value={filterInput}
-                              onChange={(e) => handlefilterInput(e)}
-                              disabled={!canReadInvoice}
-                            />
-                            <span className="input-group-text bg-white border-start-0">
-                              <img
-                                src={closecircle}
-                                alt="close"
-                                onClick={() => handleCloseSearch()}
-
-                                style={{ height: 20, width: 20, cursor: "pointer" }}
-                              />
-                            </span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div style={{
-                          marginTop: 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-                          padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-                        }}>
-                          <FiSearch
-                            style={{
-                              height: "20px",
-                              width: "20px",
-                              cursor: canReadInvoice ? "pointer" : "not-allowed",
-                              opacity: canReadInvoice ? 1 : 0.4,
-                              pointerEvents: canReadInvoice ? "auto" : "none",
-                              transition: "opacity 0.3s ease"
-                            }}
-                            onClick={handleSearch}
-                          />
-                        </div>
-                      </>
-                    )}
-
-
-
-
-
-
-
-
-
-                  </div>
-
-
-
-
-                  <div className="text-center" style={{}} >
-
-                    <Button className="d-flex justify-content-center"
-                      disabled={!canWriteInvoice}
-                      onClick={handleManualShow}
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: DownloadInvoice ? "16px" : "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: DownloadInvoice ? "6px 12px" : "8px 8px",
-                        marginTop: DownloadInvoice ? 0 : 12,
-                        whiteSpace: "nowrap",
-                        minWidth: DownloadInvoice ? "50px" : "150px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {DownloadInvoice ? "+ " : "+ Create Bill"}
-                    </Button>
-
-
-
-
-                  </div>
-                </div>
-                {/* </div> */}
+        <div className="w-full p-0">
+          <div className="sticky top-0 bg-white z-20">
+            <div className="flex flex-wrap justify-between items-center">
+              <div className="ml-3 mt-3">
+                <label className="text-lg font-semibold text-black">Bills</label>
               </div>
-            </div>
 
-            <div className="">
+              {(showLoader || loading) && <LoaderComponent />}
 
-              <div
-
-              >
-
-                <div className="d-flex justify-content-start ms-3 pe-2 align-items-center mt-2">
-
-
-                  <div className="d-flex gap-3 align-items-center">
-
+              <div className="flex flex-wrap items-center gap-2 pl-6">
+                <div className="flex items-center">
+                  {search ? (
                     <>
-                      <div
-                        className=""
-                        style={{
-                          border: "1px solid #D4D4D4",
-                          borderRadius: 8,
-                          width: 150,
-                          zIndex: 9999,
-                        }}
+                      <div className="relative min-w-[160px] max-w-[250px] z-[3000]"
                       >
-                        <Select
-                          options={selectOptions}
-                          styles={CustomStyles}
-                          disabled={!canReadInvoice}
-                          onChange={(e) => handleStatusFilter(e)}
-                          value={selectOptions.find(
-                            (opt) => opt.value === statusfilter
-                          )}
-                          aria-label="Select"
-                          className=""
-                          id="statusselect"
+                        <div
+                          className="input-group p-0 mr-5 pt-6 mt-3"
+                        >
+                          <span className="input-group-text bg-white" >
+                            <Image
+                              src={searchteam}
+                              className={`h-5 w-5 transition-opacity duration-300 ${canReadInvoice
+                                ? "cursor-pointer opacity-100 pointer-events-auto"
+                                : "cursor-not-allowed opacity-40 pointer-events-none"
+                                }`}
 
-
-                        />
-
-
-
-                      </div>
-
-
-
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "12px",
-                          alignItems: "center",
-                          zIndex: 9999,
-                        }}
-                      >
-                        <Select
-                          options={monthOptions}
-                          value={selectedMonth}
-                          onChange={handleMonthChange}
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No options"}
-                          styles={CustomStyles}
-
-                        />
-
-
-
-
-
-                      </div>
-
-                      <div
-                        className=" d-flex"
-                        style={{
-                          border: "1px solid #CBD5E1",
-                          backgroundColor: "white",
-                          borderRadius: "50%",
-                          padding: 10, cursor: canReadInvoice ? "pointer" : "not-allowed",
-                        }}
-                        onClick={() => canReadInvoice && handleShowFilterBills()}
-                      >
-                        <Filter size={18} style={{
-                          cursor: canReadInvoice ? "pointer" : "not-allowed",
-                          opacity: canReadInvoice ? 1 : 0.4,
-                          pointerEvents: canReadInvoice ? "auto" : "none",
-                          transition: "opacity 0.3s ease"
-                        }} />
+                            />
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 font-gilroy"
+                            placeholder="Search"
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
+                            disabled={!canReadInvoice}
+                          />
+                          <span className="input-group-text bg-white border-start-0">
+                            <img
+                              src={closecircle}
+                              alt="close"
+                              onClick={() => handleCloseSearch()}
+                              className="h-5 w-5 cursor-pointer"
+                            />
+                          </span>
+                        </div>
                       </div>
                     </>
+                  ) : (
+                    <>
+                      <div className="mt-3 border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
+                        <FiSearch
+                          className={`h-6 w-5 transition-opacity duration-300 ${canReadInvoice
+                              ? "cursor-pointer opacity-100 pointer-events-auto"
+                              : "cursor-not-allowed opacity-40 pointer-events-none"
+                            }`}
 
+                          onClick={handleSearch}
+                        />
+                      </div>
+                    </>
+                  )}
 
+                </div>
+
+                <div className="text-center">
+                  <Button
+                    disabled={!canWriteInvoice}
+                    onClick={handleManualShow}
+                    className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 mt-3 min-w-[150px]"
+                  >
+                    {DownloadInvoice ? "+ " : "+ Create Bill"}
+                  </Button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-2 flex flex-wrap justify-start items-center ml-3 pr-2 gap-3">
+            <div className="border border-gray-300 rounded-lg w-36 z-50">
+              <Select
+                options={selectOptions}
+                styles={CustomStyles}
+                disabled={!canReadInvoice}
+                onChange={(e) => handleStatusFilter(e)}
+                value={selectOptions.find((opt) => opt.value === statusfilter)}
+                id="statusselect"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 z-50">
+              <Select
+                options={monthOptions}
+                value={selectedMonth}
+                onChange={handleMonthChange}
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No options"}
+                styles={CustomStyles}
+              />
+            </div>
+            <div
+              className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+              onClick={() => canReadInvoice && handleShowFilterBills()}
+            >
+              <Filter
+                size={18}
+                className={`transition-opacity duration-300 ${canReadInvoice
+                  ? "cursor-pointer opacity-100 pointer-events-auto"
+                  : "cursor-not-allowed opacity-40 pointer-events-none"
+                  }`}
+
+              />
+            </div>
+          </div>
+          <div className={`overflow-x-hidden ${chips.length > 0 ? "overflow-y-auto h-[32rem]" : "overflow-y-hidden h-auto"}`}
+          >
+            {chips.length > 0 && (
+              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip.key}
+                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                    >
+                      {chip.label} :
+                      <span className="text-gray-900">{chip.value}</span>
+                    </span>
+                  ))}
+                </div>
+                <span
+                  className="text-blue-600 text-sm font-medium cursor-pointer"
+                  onClick={handleReset}
+                >
+                  Reset
+                </span>
+              </div>
+            )}
+
+            {!canReadInvoice ? (
+              <div className="flex flex-col items-center justify-center mt-24">
+                <img src={Emptystate} alt="Empty State" />
+                <ErrorMessage message={['You do not have access to view Invoice']} type="warning" />
+              </div>
+            ) : (
+              <div className="relative">
+                {showdeleteform && (
+                  <Modal
+                    show={showdeleteform}
+                    onHide={handleCloseDeleteform}
+                    centered
+                    backdrop="static"
+                    dialogClassName="custom-delete-modal"
+                  >
+                    <Modal.Header className="border-b-0 justify-center">
+                      <Modal.Title className="text-center text-lg font-semibold text-gray-800">
+                        Delete Billing?
+                      </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="text-center text-sm text-gray-600 mt-[-10px]">
+                      Are you sure you want to delete this Billing?
+                    </Modal.Body>
+                    <Modal.Footer className="flex justify-center border-t-0 mt-[-10px] gap-2">
+                      <Button
+                        className="w-full max-w-xs h-12 rounded-lg border border-blue-600 text-blue-600 font-semibold"
+                        onClick={handleCloseDeleteform}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        disabled
+                        className="w-full max-w-xs h-12 rounded-lg bg-blue-600 text-white font-semibold"
+                        onClick={handleBillDeleted}
+                      >
+                        {/* Delete */} Coming Soon
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                )}
+
+                <div className="mx-auto mt-2">
+                  <div className="overflow-x-hidden">
+                    {sortedData && sortedData.length > 0 ? (
+                      <div className="p-2">
+                        <div className="overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0">
+                          <Table responsive="md" className="mb-0 table-auto w-full text-sm text-gray-800">
+                            <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
+                              <tr>
+                                <th>Invoice Number</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Invoice Date</th>
+                                <th>Due Date</th>
+                                <th>Amount</th>
+                                <th>Due</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody className="relative">
+                              <PaginationList>
+                                {sortedData.map((item, index) => (
+                                  <InvoiceTable
+                                    key={item.id}
+                                    item={item}
+                                    index={index}
+                                    OnHandleshowform={handleShowForm}
+                                    OnHandleshowEditform={handleEdit}
+                                    OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                    OnHandleshowDeleteform={handleBillDelete}
+                                    DisplayInvoice={handleDisplayInvoiceDownload}
+                                  />
+                                ))}
+                              </PaginationList>
+                            </tbody>
+                          </Table>
+                        </div>
+                      </div>
+                    ) : (
+                      !loading &&
+                      sortedData &&
+                      sortedData.length === 0 && (
+                        <div className="mt-2 flex justify-center">
+                          <div className="text-center">
+                            <img src={Emptystate} alt="emptystate" className="mx-auto" />
+                            <div className="text-gray-700 font-semibold text-lg">
+                              No bills available
+                            </div>
+                            <div className="text-gray-600 font-medium text-sm">
+                              There are no bills added
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
+            )}
 
-              <div
+          </div>
 
-                className='show-scrolls'
-                style={{
+        </div>
 
-                  height: chips.length > 0 ? "500px" : "",
-                  overflowY: chips.length > 0 ? "auto" : "none",
-                  overflowX: "hidden",
-
-                }}
-              >
-
-                {
-
-
-                  chips.length > 0 && (
-                    <div
-                      className="me-3 ms-3 mt-3"
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: 12,
-                        padding: "12px 14px",
-                        borderRadius: 10,
-                        background: "#F9FAFB",
-                        border: "1px solid #E5E7EB",
-                        fontFamily: "Gilroy, sans-serif",
-                      }}
-                    >
-                      <div style={{
-                        display: "flex",
-                        gap: 8,
-                        flex: 1,
-                        flexWrap: "wrap",
-                        overflowX: "hidden",
-                        overflowY: "auto",
-                        whiteSpace: "wrap",
-                        minWidth: 0,
-
-
-                      }}>
-                        {chips.map((chip) => (
-                          <div
-                            key={chip.key}
-
-                          >
-                            <span
-                              style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 6,
-                                padding: "6px 12px",
-                                background: "#EEF2FF",
-                                borderRadius: 999,
-                                fontSize: 12,
-                                fontWeight: 500,
-                                color: "#1F2937",
-                                border: "1px solid #E0E7FF", flexShrink: 0,
-                              }}
-
-                            >{chip.label} :
-                              <span style={{
-
-                                fontSize: 12,
-                                fontWeight: 500,
-                                color: "#16151C",
-                              }}>{chip.value}</span></span>
-
-                          </div>
-                        ))}
-                      </div>
-
-                      <span
-                        onClick={() => handleReset()}
-
-                        style={{
-                          color: "#1E45E1",
-                          fontSize: 13,
-                          fontWeight: 500,
-                          cursor: "pointer",
-                        }}
-                      >
-                        Reset
-                      </span>
-                    </div>
-                  )
-
-                }
-
-
-                {!canReadInvoice ? (
-                  <>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginTop: 90
-                      }}
-                    >
-
-                      <img
-                        src={Emptystate}
-                        alt="Empty State"
-
-                      />
-
-
-
-                      <ErrorMessage message={['You do not have access to view Invoice']} type="warning" />
-
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className=""
-                    style={{ position: "relative", }}
-                  >
-
-
-
-
-                    {showdeleteform && (
-                      <div>
-                        <Modal
-                          show={showdeleteform}
-                          onHide={handleCloseDeleteform}
-                          centered
-                          backdrop="static"
-                          dialogClassName="custom-delete-modal"
-                        >
-                          <Modal.Header style={{ borderBottom: "none" }}>
-                            <Modal.Title
-                              className="w-100 text-center"
-                              style={{
-                                fontSize: "18px",
-                                fontFamily: "Gilroy",
-
-                                fontWeight: 600,
-                                color: "#222222",
-
-                              }}
-                            >
-                              Delete Billing?
-                            </Modal.Title>
-                          </Modal.Header>
-
-                          <Modal.Body
-                            className="text-center"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              color: "#646464",
-
-                              marginTop: "-10px",
-                            }}
-                          >
-                            Are you sure you want to delete this Billing?
-                          </Modal.Body>
-
-                          <Modal.Footer
-                            className="d-flex justify-content-center"
-                            style={{
-
-                              borderTop: "none",
-                              marginTop: "-10px",
-                            }}
-                          >
-                            <Button
-                              className="me-2"
-                              style={{
-                                width: "100%",
-                                maxWidth: 160,
-                                height: 52,
-                                borderRadius: 8,
-                                padding: "12px 20px",
-                                background: "#fff",
-                                color: "#1E45E1",
-                                border: "1px solid #1E45E1",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: "14px",
-                              }}
-                              onClick={handleCloseDeleteform}
-                            >
-                              Cancel
-                            </Button>
-                            <Button disabled
-                              style={{
-                                width: "100%",
-                                maxWidth: 160,
-                                height: 52,
-                                borderRadius: 8,
-                                padding: "12px 20px",
-                                background: "#1E45E1",
-                                color: "#FFFFFF",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: "14px",
-                              }}
-                              onClick={handleBillDeleted}
-                            >
-                              {/* Delete */} Coming Soon
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </div>
-                    )}
-
-                    <div className={`p-0 table-bills  "mt-0" `}>
-                      <Row
-                        className={` 
-                          "m-0 g-0"
-                          }`}
-                      >
-                        <Col
-                          lg={12}
-                          md={12}
-                          sm={12}
-                          xs={12}
-                        >
-
-                          <>
-                            {sortedData && sortedData.length > 0 ? (
-
-                              <div
-                                className=" ms-3"
-                                style={{ overflowx: "hidden", }}
-                              >
-                                <div
-
-                                  className='show-scrolls'
-                                  style={{
-
-                                    height: sortedData?.length >= 12 ? "500px" : "auto",
-                                    overflowY: "auto",
-                                    borderTop: "1px solid #E8E8E8",
-                                    marginTop: "5px",
-                                    paddingRight: 0,
-                                    paddingLeft: 0
-
-                                  }}
-                                >
-                                  <Table
-                                    responsive="md"
-
-                                    style={{
-                                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                      top: 0,
-                                      zIndex: 1,
-                                      borderRadius: 0
-                                    }}
-                                    className="mb-0"
-                                  >
-                                    <thead style={{
-                                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                      top: 0,
-                                      zIndex: 1,
-                                    }}>
-                                      <tr className="">
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-
-                                            Invoice Number</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-
-                                            Name</label>
-                                        </th>
-
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-
-                                            Type</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-                                            Invoice Date</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-                                            Due Date</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-                                            Amount</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle} >
-                                            Due</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        >
-                                          <label style={labelStyle}>
-
-                                            Status</label>
-                                        </th>
-                                        <th
-                                          style={headerStyle}
-                                        > <label style={labelStyle}>Action</label></th>
-                                      </tr>
-                                    </thead>
-
-                                    <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
-
-                                      <PaginationList>
-                                        {sortedData.map((item, index) => (
-                                          <InvoiceTable
-                                            key={item.id}
-                                            item={item}
-                                            index={index}
-                                            OnHandleshowform={handleShowForm}
-                                            OnHandleshowEditform={handleEdit}
-                                            OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                            OnHandleshowDeleteform={handleBillDelete}
-                                            DisplayInvoice={handleDisplayInvoiceDownload}
-                                          />
-                                        ))}
-                                      </PaginationList>
-
-                                    </tbody>
-
-
-                                  </Table>
-
-
-
-                                </div>
-
-                              </div>
-                            ) : (
-
-                              !loading &&
-                              sortedData &&
-                              sortedData?.length === 0 && (
-
-                                <div className="mt-2 flex justify-center">
-                                  <div>
-                                    <div style={{ textAlign: "center" }}>
-                                      {" "}
-                                      <img src={Emptystate} alt="emptystate" />
-                                    </div>
-                                    <div
-                                      className="pb-1"
-                                      style={{
-                                        textAlign: "center",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        fontSize: 18,
-                                        color: "rgba(75, 75, 75, 1)",
-                                      }}
-                                    >
-                                      No bills available{" "}
-                                    </div>
-                                    <div
-                                      className="pb-1"
-                                      style={{
-                                        textAlign: "center",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        fontSize: 14,
-                                        color: "rgba(75, 75, 75, 1)",
-                                      }}
-                                    >
-                                      There are no bills added{" "}
-                                    </div>
-                                  </div>
-                                </div>
-                              )
-                            )}
-
-
-                          </>
-
-                        </Col>
-
-
-                      </Row>
-                    </div>
-
-
-
-
-                  </div>
-                )}
-
-              </div>
-
-
-            </div>
-
-
-
-          </Col>
-
-
-
-        </Row>
       )}
 
 
@@ -2375,3 +1844,6 @@ InvoicePage.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 export default withErrorBoundary(InvoicePage);
+
+
+
