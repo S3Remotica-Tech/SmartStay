@@ -20,7 +20,7 @@ import Payment from '../../Assets/Images/New_images/Mask-group.png'
 import PropTypes from "prop-types";
 
 
-const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) => {
+const RentalReceiptPdfTemplate = ({ BillsTemplateList, templateReceiptThemes }) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -397,124 +397,91 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) =
 
 
 
-  // useEffect(() => {
-  //   if (RentalreceiptTemplate || templateReceiptThemes) {
-  //     setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-  //     setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-  //     setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
-  //     setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-  //     setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-  //     setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-  //     setNotes(RentalreceiptTemplate.receiptNotes)
-  //     setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
-  //     const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
-  //     if (templateTheme && templateTheme.trim() !== '') {
-  //       if (templateTheme.includes('rgba')) {
-  //         const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
-  //         if (match) {
-  //           setColor({
-  //             r: parseInt(match[1]),
-  //             g: parseInt(match[2]),
-  //             b: parseInt(match[3]),
-  //             a: parseFloat(match[4]),
-  //           });
-  //           setUseGradient(false);
-  //         }
-  //       } else {
-  //         setUseGradient(true);
-  //       }
-  //     } else {
-  //       setUseGradient(true);
-  //     }
-
-  //   }
-
-  // }, [RentalreceiptTemplate , templateReceiptThemes])
 
 
-useEffect(() => {
-  
-  if (templateReceiptThemes && Object.keys(templateReceiptThemes).length > 0) {
-    setLogoPreview(templateReceiptThemes.logoPreview || "");
-    // setHostelLogo(templateReceiptThemes.logoPreview || "");
-    setMobileNum(templateReceiptThemes.mobilenum || "");
-    setEmail(templateReceiptThemes.email || "");
-    setSignaturePreview(templateReceiptThemes.signaturePreview || "");
-    setSignature(templateReceiptThemes.signaturePreview || "");
-    setNotes(templateReceiptThemes.notes || "");
-    setTerms(templateReceiptThemes.terms || "");
-    setColor(templateReceiptThemes.color || { r: 0, g: 0, b: 0, a: 1 });
-    setUseGradient(false);
-    return; 
-  }
+  useEffect(() => {
+
+    if (templateReceiptThemes && Object.keys(templateReceiptThemes).length > 0) {
+      setLogoPreview(templateReceiptThemes.logoPreview || "");
+      // setHostelLogo(templateReceiptThemes.logoPreview || "");
+      setMobileNum(templateReceiptThemes.mobilenum || "");
+      setEmail(templateReceiptThemes.email || "");
+      setSignaturePreview(templateReceiptThemes.signaturePreview || "");
+      setSignature(templateReceiptThemes.signaturePreview || "");
+      setNotes(templateReceiptThemes.notes || "");
+      setTerms(templateReceiptThemes.terms || "");
+      setColor(templateReceiptThemes.color || { r: 0, g: 0, b: 0, a: 1 });
+      setUseGradient(false);
+      return;
+    }
 
 
-   if (BillsTemplateList && Object.keys(BillsTemplateList).length > 0 && RentalreceiptTemplate) {
-    setLogoPreview(
-      BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
-        ? RentalreceiptTemplate.receiptLogoUrl
-        : BillsTemplateList.logo || ""
-    );
+    if (BillsTemplateList && Object.keys(BillsTemplateList).length > 0 && RentalreceiptTemplate) {
+      setLogoPreview(
+        BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
+          ? RentalreceiptTemplate.receiptLogoUrl
+          : BillsTemplateList.logo || ""
+      );
 
-    // setHostelLogo(
-    //   BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
-    //     ? RentalreceiptTemplate.receiptLogoUrl
-    //     : BillsTemplateList.logo || ""
-    // );
+      // setHostelLogo(
+      //   BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
+      //     ? RentalreceiptTemplate.receiptLogoUrl
+      //     : BillsTemplateList.logo || ""
+      // );
 
-    setMobileNum(
-      BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber
-        ? RentalreceiptTemplate.receiptMobileNumber
-        : BillsTemplateList.mobile || ""
-    );
+      setMobileNum(
+        BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber
+          ? RentalreceiptTemplate.receiptMobileNumber
+          : BillsTemplateList.mobile || ""
+      );
 
-    setEmail(
-      BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId
-        ? RentalreceiptTemplate.receiptMailId
-        : BillsTemplateList.emailId || ""
-    );
+      setEmail(
+        BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId
+          ? RentalreceiptTemplate.receiptMailId
+          : BillsTemplateList.emailId || ""
+      );
 
-    setSignaturePreview(
-      BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl
-        ? RentalreceiptTemplate.receiptSignatureUrl
-        : BillsTemplateList.signature || ""
-    );
+      setSignaturePreview(
+        BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl
+          ? RentalreceiptTemplate.receiptSignatureUrl
+          : BillsTemplateList.signature || ""
+      );
 
-    setSignature(
-      BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl
-        ? RentalreceiptTemplate.receiptSignatureUrl
-        : BillsTemplateList.signature || ""
-    );
+      setSignature(
+        BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl
+          ? RentalreceiptTemplate.receiptSignatureUrl
+          : BillsTemplateList.signature || ""
+      );
 
-    setNotes(RentalreceiptTemplate.receiptNotes || "");
-    setTerms(RentalreceiptTemplate.receiptTermsAndCondition || "");
+      setNotes(RentalreceiptTemplate.receiptNotes || "");
+      setTerms(RentalreceiptTemplate.receiptTermsAndCondition || "");
 
 
-    const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
-    if (templateTheme && templateTheme.trim() !== "") {
-      if (templateTheme.includes("rgba")) {
-        const match = templateTheme.match(
-          /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/
-        );
-        if (match) {
-          setColor({
-            r: parseInt(match[1]),
-            g: parseInt(match[2]),
-            b: parseInt(match[3]),
-            a: parseFloat(match[4]),
-          });
-          setUseGradient(false);
+      const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
+      if (templateTheme && templateTheme.trim() !== "") {
+        if (templateTheme.includes("rgba")) {
+          const match = templateTheme.match(
+            /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/
+          );
+          if (match) {
+            setColor({
+              r: parseInt(match[1]),
+              g: parseInt(match[2]),
+              b: parseInt(match[3]),
+              a: parseFloat(match[4]),
+            });
+            setUseGradient(false);
+          }
+        } else {
+          setUseGradient(true);
         }
       } else {
         setUseGradient(true);
       }
-    } else {
-      setUseGradient(true);
-    }
 
-    
-  }
-}, [BillsTemplateList, RentalreceiptTemplate, templateReceiptThemes]);
+
+    }
+  }, [BillsTemplateList, RentalreceiptTemplate, templateReceiptThemes]);
 
 
 
@@ -551,7 +518,7 @@ useEffect(() => {
             ></div>
           </div>
         }
-       
+
 
         <div className="g-0 d-flex justify-content-center ps-5 pe-5 pt-1 " style={{ backgroundColor: '#F7F8FC' }}>
 
@@ -560,7 +527,7 @@ useEffect(() => {
             overflowY: "auto",
             overflowX: 'hidden',
           }}>
-          
+
 
             <div ref={innerScrollRef}
               className=" col-lg-12  justify-content-center"
@@ -845,26 +812,43 @@ useEffect(() => {
 
                 </div>
 
-                <div className="mt-4 mb-0 px-5 row">
-                  <div className="col-md-6 p-0">
-                    <h6 style={{ color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, fontSize: "10px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
-                    <p style={{ fontSize: "9px", color: "#555", fontFamily: "Gilroy" }}>
-                      {terms}    </p>
-                  </div>
+               <div className="mt-4 mb-0 px-4 grid grid-cols-2 gap-4">
+ 
+  <div>
+    <h6
+      className="text-[10px] font-semibold font-[Gilroy]"
+      style={{
+        color: useGradient
+          ? defaultGradient
+          : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+      }}
+    >
+      Terms and Conditions
+    </h6>
 
-                  <div className="col-md-6 text-end">
-                    <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-                    </p>
-                    {signaturePreview && (
-                      <img
-                        src={signaturePreview}
-                        alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
+    <p className="text-[9px] text-[#555] font-[Gilroy]">
+      {terms}
+    </p>
+  </div>
 
-                      />
-                    )}
-                    <p className="mt-0" style={{ fontSize: "11px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "5px" }}>Authorized Signature</p>
-                  </div>
-                </div>
+  
+  <div className="flex flex-col justify-end items-end">
+    <div className="mt-auto">
+      {signaturePreview && (
+        <img
+          src={signaturePreview}
+          alt="Digital Signature"
+          className="h-[60px] w-[130px]"
+        />
+      )}
+
+      <p className="text-[11px] font-[Gilroy] text-[#2C2C2C] pt-1">
+        Authorized Signature
+      </p>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -877,16 +861,16 @@ useEffect(() => {
 
                   <div className="col-md-4 p-0 d-flex flex-column justify-content-end align-items-end bg-white">
 
-                   
-                      <p className="text-success fw-bold border-success d-inline-block">
-                        <img
-                          src={Payment}
-                          alt="payment received"
-                          className="img-fluid"
-                          style={{ transform: "rotate(0deg)" }}
-                        />
-                      </p>
-                  
+
+                    <p className="text-success fw-bold border-success d-inline-block">
+                      <img
+                        src={Payment}
+                        alt="payment received"
+                        className="img-fluid"
+                        style={{ transform: "rotate(0deg)" }}
+                      />
+                    </p>
+
                   </div>
                 </div>
 
@@ -895,138 +879,138 @@ useEffect(() => {
 
 
 
-                 <div className="table-responsive row justify-content-between mt-0 mb-2 px-4" style={{ fontFamily: "Gilroy, sans-serif" }}>
-                      <table className="p-0"
-                        style={{
-                          width: "100%",
-                          borderCollapse: "separate",
-                          borderSpacing: 0,
-                          border: "1px solid #dee2e6",
-                          borderRadius: "12px",
-                          overflow: "hidden",
-                          fontFamily: "Gilroy, sans-serif",
-                        }}
-                      >
-                        <thead>
-                          <tr >
-                            <th
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                color: "#000",
-                                textAlign: "left",
-                                borderBottom: "1px solid #dee2e6",
-                                width: "20%",
-                              }}
-                            >
-                              INVOICE NO.
-                            </th>
-                            <th
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                color: "#000",
-                                textAlign: "left",
-                                borderBottom: "1px solid #dee2e6",
-                                width: "20%",
-                              }}
-                            >
-                              INV DATE
-                            </th>
-                            <th
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                color: "#000",
-                                textAlign: "right",
-                                borderBottom: "1px solid #dee2e6",
-                                width: "30%",
-                              }}
-                            >
-                              INVOICE AMOUNT
-                            </th>
-                            <th
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                color: "#000",
-                                textAlign: "right",
-                                borderBottom: "1px solid #dee2e6",
-                                width: "30%",
-                              }}
-                            >
-                              PAYMENT AMOUNT
-                            </th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr
+                  <div className="table-responsive row justify-content-between mt-0 mb-2 px-4" style={{ fontFamily: "Gilroy, sans-serif" }}>
+                    <table className="p-0"
+                      style={{
+                        width: "100%",
+                        borderCollapse: "separate",
+                        borderSpacing: 0,
+                        border: "1px solid #dee2e6",
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                        fontFamily: "Gilroy, sans-serif",
+                      }}
+                    >
+                      <thead>
+                        <tr >
+                          <th
                             style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              color: "#000",
+                              textAlign: "left",
                               borderBottom: "1px solid #dee2e6",
-                              backgroundColor: "#fff",
+                              width: "20%",
                             }}
                           >
-                            <td
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#1E80E1",
-                                textDecoration: "underline",
-                                textAlign: "left",
-                                verticalAlign: "middle",
-                              }}
-                            >
+                            INVOICE NO.
+                          </th>
+                          <th
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              color: "#000",
+                              textAlign: "left",
+                              borderBottom: "1px solid #dee2e6",
+                              width: "20%",
+                            }}
+                          >
+                            INV DATE
+                          </th>
+                          <th
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              color: "#000",
+                              textAlign: "right",
+                              borderBottom: "1px solid #dee2e6",
+                              width: "30%",
+                            }}
+                          >
+                            INVOICE AMOUNT
+                          </th>
+                          <th
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              color: "#000",
+                              textAlign: "right",
+                              borderBottom: "1px solid #dee2e6",
+                              width: "30%",
+                            }}
+                          >
+                            PAYMENT AMOUNT
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          style={{
+                            borderBottom: "1px solid #dee2e6",
+                            backgroundColor: "#fff",
+                          }}
+                        >
+                          <td
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              color: "#1E80E1",
+                              textDecoration: "underline",
+                              textAlign: "left",
+                              verticalAlign: "middle",
+                            }}
+                          >
                             INV-501
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#444",
-                                textAlign: "left",
-                                verticalAlign: "middle",
-                              }}
-                            >
-                              03-11-2025
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#444",
-                                textAlign: "right",
-                                verticalAlign: "middle",
-                              }}
-                            >
-                              ₹ 3000
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#444",
-                                textAlign: "right",
-                                verticalAlign: "middle",
-                              }}
-                            >
-                              ₹ 3000
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              color: "#444",
+                              textAlign: "left",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            03-11-2025
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              color: "#444",
+                              textAlign: "right",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            ₹ 3000
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px 14px",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              color: "#444",
+                              textAlign: "right",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            ₹ 3000
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-             
+
 
 
 
@@ -1075,7 +1059,7 @@ useEffect(() => {
               </div> */}
 
 
-    <hr className="m-0"
+              <hr className="m-0"
                 style={{
                   border: "none",
                   height: "1px",
@@ -1085,7 +1069,7 @@ useEffect(() => {
                 }}
               />
               <div className="px-4 py-2 pb-2">
-                 <div
+                <div
                   className="text-center rounded-bottom d-flex justify-content-between"
                   style={{
                     borderTopRightRadius: '38px',
@@ -1139,7 +1123,7 @@ useEffect(() => {
                     </span>
                   </p>
                 </div>
-                </div>
+              </div>
 
             </div>
           </div>
@@ -1230,7 +1214,7 @@ useEffect(() => {
 
                   <div ref={innerScrollRef}
                     className="show-scroll col-lg-12 justify-content-center"
-                   >
+                  >
                     <div className=" text-white  p-2 position-relative" style={{ minHeight: 90, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
 
                       <div className="d-flex justify-content-between align-items-center">

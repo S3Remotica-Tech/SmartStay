@@ -73,17 +73,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   }, [])
 
 
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-
-
-
-
-
-
-
-
-
-
+  
   const {
     // canWriteModule: canWriteInvoice,
     // canReadModule: canReadReceipt,
