@@ -1550,7 +1550,7 @@ useEffect(() => {
         <div className="w-full p-0">
           <div className="sticky top-0 bg-white z-20">
             <div className="flex flex-wrap justify-between items-center">
-              <div className="ml-3 mt-3">
+              <div className="ml-1">
                 <label className="text-lg font-semibold text-black">Bills</label>
               </div>
 

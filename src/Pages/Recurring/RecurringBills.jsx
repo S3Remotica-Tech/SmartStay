@@ -571,7 +571,7 @@ function RecurringBills() {
               >
                 <Table
                 responsive="md"
-                className="sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
+                className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
 
                 >
                   <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"

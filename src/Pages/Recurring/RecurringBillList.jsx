@@ -114,179 +114,29 @@ const RecurringBillList = (props) => {
 
     <>
 
-      {/* <tr key={props.item.customerId}
-        style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
-
-
-        <td className="table-cells" style={{ border: "none", flexWrap: "wrap", textAlign: "center", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
-          <div className="d-flex  align-items-center">
-
-            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px',  fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
-
-            >{props.item?.fullName}</div><br />
-
-          </div>
-        </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
-          {props?.item?.lastInvoiceNumber || "-"}
-        </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
-          {props.item?.lastInvoiceDate || "-"}
-        </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
-          {props.item?.nextInvoiceDate || "-"}
-        </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
-
-          ₹{(props?.item?.invoiceAmount || 0).toLocaleString('en-IN')}
-
-
-        </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
-          <Form.Check
-            type="switch"
-            id="recurring-switch" style={{}}
-            checked={props.checked}
-            disabled={!canUpdateRecurring}
-            onChange={canUpdateRecurring ? props.onToggle : undefined}
-            // label={
-            //   <span
-            //     style={{
-            //       fontWeight: 500,
-            //       color: !canUpdateRecurring ? "#9E9E9E" : "#1E1E1E",
-            //       marginLeft: 8,
-            //     }}
-            //   >
-            //     {props.checked ? "On" : "Off"}
-            //   </span>
-            // }
-          />
-
-
-        </td>
-        <td style={{ textAlign: 'start', border: "none", borderBottom: "1px solid #E8E8E8"  }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-            <div style={{ cursor: "pointer", 
-            // backgroundColor: showDots ? "#E7F1FF" : "white",
-              //  height: 40, width: 40, 
-               borderRadius: 100,
-                // border: "1px solid #EFEFEF", 
-                display: "flex", alignItems: "center", position: "relative",justifyContent: "" }} onClick={(e) => handleShowDots(e)}>
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:"rotate(90deg)",color:showDots ? "#1E45E1" : "#6B7280",  }} />
-
-              {showDots && <>
-                <div
-                  ref={popupRef}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "fixed",
-                    top: popupPosition.top,
-                    left: popupPosition.left,
-                    width: 130,
-                    height: "auto",
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-
-                    zIndex: showDots ? 1000 : "auto",
-                  }}
-                >
-                  <div style={{
-                    width: "100%", borderRadius: 10,
-                  }}>
-                    <div
-                      className={`d-flex justify-content-start align-items-center gap-2 ${canDeleteRecurring ? "disabled" : ""
-                        }`}
-                      style={{
-                        cursor: !canDeleteRecurring ? "not-allowed" : "pointer",
-                        borderRadius: 10,
-                        padding: 10,
-                        opacity: !canDeleteRecurring ? 0.5 : 1,
-
-                      }}
-                      onClick={() => {
-                        if (canDeleteRecurring) {
-                          handleDeleteForm();
-                        }
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!canDeleteRecurring)
-                          e.currentTarget.style.backgroundColor = "#FFF0F0";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }}
-                    >
-                      <img
-                        src={Delete}
-                        alt="Delete"
-                        style={{
-                          height: 16,
-                          width: 16,
-
-                        }}
-                      />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: "#FF0000",
-                          cursor: !canDeleteRecurring ? "not-allowed" : "pointer",
-                        }}
-                      >
-                        Delete
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-              </>}
-
-
-            </div>
-         </div>
-        </td>
-
-
-
-
-
-
-
-      </tr> */}
+     
       <tr
         key={props.item.customerId}
         className="m-2 text-black font-gilroy text-sm align-middle"
       >
-
-        <td className="text-center whitespace-nowrap border-b border-gray-200">
-          <div className="flex items-center">
-            <div className="text-[13px] font-medium cursor-pointer">
+        <td className="text-center whitespace-nowrap" style={{borderBottom: '1px solid #E8E8E8'}}>
+          <div className="flex items-center text-[13px] font-medium cursor-pointer">
               {props.item?.fullName}
-            </div>
           </div>
         </td>
-
-        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+        <td className="text-left align-middle text-[13px] font-medium text-black" style={{borderBottom: '1px solid #E8E8E8'}}>
           {props?.item?.lastInvoiceNumber || "-"}
         </td>
-
-        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
           {props.item?.lastInvoiceDate || "-"}
         </td>
-
-        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
           {props.item?.nextInvoiceDate || "-"}
         </td>
-
-        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
           ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
         </td>
-
-        <td className="text-left align-middle text-[13px] font-medium text-black border-b border-gray-200">
+        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
           <Form.Check
             type="switch"
             id="recurring-switch"
@@ -295,18 +145,15 @@ const RecurringBillList = (props) => {
             onChange={canUpdateRecurring ? props.onToggle : undefined}
           />
         </td>
-
-        <td className="text-left border-b border-gray-200">
+        <td className="text-left" style={{borderBottom: '1px solid #E8E8E8'}}>
           <div className="w-full flex justify-start">
             <div
               className="flex items-center relative rounded-full cursor-pointer"
               onClick={(e) => handleShowDots(e)}
             >
               <PiDotsThreeOutlineVerticalFill
-                className={`h-5 w-5 rotate-90 ${showDots ? "text-blue-600" : "text-gray-500"
-                  }`}
+                className={`h-5 w-5 rotate-90 ${showDots ? "text-blue-600" : "text-gray-500"}`}
               />
-
               {showDots && (
                 <div
                   ref={popupRef}
@@ -320,8 +167,7 @@ const RecurringBillList = (props) => {
                     <div
                       className={`flex items-center gap-2 p-2 rounded-lg ${canDeleteRecurring
                           ? "cursor-pointer opacity-100"
-                          : "cursor-not-allowed opacity-50"
-                        }`}
+                          : "cursor-not-allowed opacity-50"}`}
                       onClick={() => {
                         if (canDeleteRecurring) {
                           handleDeleteForm();

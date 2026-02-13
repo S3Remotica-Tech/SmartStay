@@ -501,7 +501,7 @@ useEffect(() => {
                   disabled={!canWriteVendor}
                   onClick={handleShow}
                   className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
-             rounded-lg px-4 py-2 w-[146px] whitespace-nowrap font-gilroy
+             rounded-md px-4 py-2.5 w-[146px] whitespace-nowrap font-gilroy
              disabled:opacity-50 disabled:cursor-not-allowed "
                 >
                   + Vendor

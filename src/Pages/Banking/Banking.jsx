@@ -531,7 +531,7 @@ function Banking() {
     <>
       <div className="h-screen overflow-hidden">
 
-        <div className="sticky top-0 bg-white m-1">
+        <div className="sticky top-0 bg-white">
           <div
             className="d-flex flex-wrap justify-content-between align-items-center ml-2">
             <div>
