@@ -50,52 +50,27 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
                 backdrop="static"
                 dialogClassName="custom-delete-modal"
             >
-                <Modal.Header
-                    style={{
-                        borderBottom: "none",
-                    }}
-                >
-                    <Modal.Title
-                        style={{
-                            fontSize: 18,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            textAlign: "center",
-                            flex: 1,
-                        }}
-                    >
+                <Modal.Header className="!border-b-0"
+                  >
+                    <Modal.Title className="text-lg font-semibold font-gilroy text-center flex-1">
                         Delete Reading
                     </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body
-                    style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                        marginTop: "-20px",
-                    }}
+                    className="!text-sm !font-semibold !font-gilroy !text-center !mt-[-20px]"
                 >
                     Are you sure you want to delete the reading?
                 </Modal.Body>
-                {/* {deleteRoomError && (
-          <ErrorMessage message={deleteRoomError} type="error" />
-        )} */}
-
-                <Modal.Footer
-                    style={{
-                        justifyContent: "center",
-                        borderTop: "none",
-                        marginTop: "-10px",
-                    }}
+             <Modal.Footer
+                    className="!justify-center !border-t-0 !mt-[-10px]"
                 >
 
-                    <Button onClick={handleDeleteReading} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                    <Button onClick={handleDeleteReading} className="!rounded-lg !px-10 !py-4 !border !border-blue-700 !bg-white !text-blue-700 !font-gilroy">
                         Cancel
                     </Button>
 
-                    <Button style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                    <Button className="!rounded-lg !px-10 !py-4 !border !border-blue-700 !bg-blue-700 !text-white !font-gilroy"
                         onClick={handleDeleteConfirm}>
                         Delete
                     </Button>

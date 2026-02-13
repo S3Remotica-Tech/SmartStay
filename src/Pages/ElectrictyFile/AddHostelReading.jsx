@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState , useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle, } from "iconsax-react";
@@ -31,10 +31,10 @@ function AddHostelReading({ show, handleClose
     });
     const readingDateRef = useRef(null);
 
-useEffect(() => {
- 
-  readingDateRef.current?.focus();
-}, []);
+    useEffect(() => {
+
+        readingDateRef.current?.focus();
+    }, []);
 
 
     const handleCurrentReadingChange = (e) => {
@@ -48,7 +48,7 @@ useEffect(() => {
     };
 
     const handleReadingDateChange = (date) => {
-              setChangesError('')
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setReadingDate(date ? date : null);
         setDateError('')
@@ -167,204 +167,123 @@ useEffect(() => {
 
 
     return (
-        <div>   <Modal show={show} onHide={handleClose} centered backdrop="static">
+        <div>
+            <Modal show={show} onHide={handleClose} centered backdrop="static">
 
-            <Modal.Header className="d-flex justify-content-between align-items-center" style={{ borderBottom: "none" }}>
-                <Modal.Title
-                    style={{
-                        fontFamily: 'Gilroy, sans-serif',
-                        fontWeight: 600,
-                        fontStyle: 'normal',
-                        fontSize: '20px',
-                    }}>
-                    {editHostelReading ? "Edit Hostel Reading" : "Add Hostel Reading"}
-                </Modal.Title>
+                <Modal.Header
+                    className="flex justify-between items-center p-3 mb-0"
+                >
+                    <Modal.Title className="!text-xl !font-semibold !font-gilroy">
+                        {editHostelReading ? "Edit Hostel Reading" : "Add Hostel Reading"}
+                    </Modal.Title>
 
-                <CloseCircle
-                    size={26}
-                    color="black"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleClose}
-                />
-            </Modal.Header>
-            <Modal.Body className="border pt-1">
+                    <CloseCircle
+                        size={26}
+                        color="black"
+                        className="cursor-pointer"
+                        onClick={handleClose}
+                    />
+                </Modal.Header>
+                <Modal.Body className="">
+
+                    {state.UsersList?.roomReadingError && (
+                        <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
+                    )}
+
+                    <Form.Group className="mt-0">
+
+                        <Form.Label className="block text-sm font-medium font-gilroy mb-1"
+                        >
+                            Reading Date <span className="text-red-500 text-xl">*</span>
+                        </Form.Label>
+
+                        <div
+                            className="datepicker-wrapper relative w-full mt-1"
+                        >
+
+                            <div className="datepicker-wrapper  relative w-full">
+                                <DatePicker ref={readingDateRef}
+                                    className="w-full h-12 px-2 cursor-pointer font-gilroy"
+                                    format="DD/MM/YYYY"
+                                    placeholder="DD/MM/YYYY"
+                                    value={readingDate ? dayjs(readingDate) : null}
+                                    onChange={handleReadingDateChange}
+                                    getPopupContainer={() => document.body}
+                                    disabledDate={(current) => current && current > dayjs()}
+                                />
+                            </div>
 
 
 
-
-
-
-
-
-                {state.UsersList?.roomReadingError && (
-                    <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
-                )}
-
-                <Form.Group className="mt-0">
-
-                    <Form.Label
-                        style={{
-                            fontFamily: 'Gilroy',
-                            fontWeight: 500,
-                            fontStyle: 'normal',
-                            fontSize: '14px',
-                            lineHeight: '100%',
-                            letterSpacing: '0',
-                            marginBottom: 0,
-                            padding: 0
-                        }}
-                    >
-                        Reading Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-
-                    <div
-                        className="datepicker-wrapper"
-                        style={{ position: "relative", width: "100%", marginTop: 6 }}
-                    >
-
-                        <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            <DatePicker  ref={readingDateRef}
-                                style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={readingDate ? dayjs(readingDate) : null}
-                                onChange={handleReadingDateChange}
-                                getPopupContainer={() => document.body}
-                                disabledDate={(current) => current && current > dayjs()}
-                            />
                         </div>
 
+                        {dateError && (
+                            <ErrorMessage message={dateError} type="error" />
+
+                        )}
 
 
-                    </div>
+                    </Form.Group>
 
-                    {dateError && (
-                        <ErrorMessage message={dateError} type="error" />
+                    <Form.Group className="mt-2">
+                        <div className="flex justify-between items-center w-full mb-1">
+                            <Form.Label>
+                                Reading  {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                            </Form.Label>
+                            {
+                                !editHostelReading &&
 
-                    )}
+                                <span className="font-gilroy font-normal text-sm leading-none text-gray-500">
+                                    Last Reading : {" "}
+                                    <span className="text-[#1E45E1] font-gilroy">
+                                        {state.UsersList?.getRoomReadingList?.hostelReadings[0]?.lastReading}
+                                    </span>
 
-
-                </Form.Group>
-
-                <Form.Group className="mt-2">
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: '100%',
-                            marginBottom: 5
-                        }}
-                    >
-                        <Form.Label
-                            style={{
-                                fontFamily: 'Gilroy',
-                                fontWeight: 500,
-                                fontStyle: 'normal',
-                                fontSize: '14px',
-                                lineHeight: '100%',
-                                letterSpacing: '0',
-                                marginBottom: 0,
-                                padding: 0
-                            }}
-                        >
-                            Reading  {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                        </Form.Label>
-                        {
-                            !editHostelReading &&
-
-                            <span
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 400,
-                                    fontStyle: 'normal',
-                                    fontSize: '14px',
-                                    lineHeight: '100%',
-                                    letterSpacing: '0',
-                                    color: "gray"
-                                }}
-                            >
-                                Last Reading : {" "}
-                                <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
-                                    {state.UsersList?.getRoomReadingList?.hostelReadings[0]?.lastReading}
                                 </span>
-                            </span>
-                        }
+                            }
+                        </div>
+
+                        <Form.Control className={`mt-2 w-full px-3 py-3 text-sm font-gilroy ${currentReading ? "font-semibold" : "font-medium"
+                            }`}
+                            type="number"
+                            placeholder="Enter Reading"
+                            value={currentReading}
+                            onChange={handleCurrentReadingChange}
+                        />
+                        {readingError && (
+                            <ErrorMessage message={readingError} type="error" />
+
+                        )}
+
+                    </Form.Group>
+
+                    {
+                        changesError &&
+                        <div className="flex justify-center">
+                            <ErrorMessage message={changesError} type="error" />
+                        </div>
+                    }
+
+
+
+                </Modal.Body>
+                {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                        <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
                     </div>
+                )}
 
-                    <Form.Control
-                        style={{ marginTop: 10, fontSize: 14, fontWeight: currentReading ? 600 : 500, padding: "12px 14px", fontFamily: "Gilroy" }}
-                        type="number"
-                        placeholder="Enter Reading"
-
-                        value={currentReading}
-                        onChange={handleCurrentReadingChange}
-                    />
-
-
-                    {readingError && (
-                        <ErrorMessage message={readingError} type="error" />
-
-                    )}
-
-
-
-
-
-
-                </Form.Group>
-
-                {
-                    changesError &&
-                    <div className="d-flex justify-content-center">
-                        <ErrorMessage message={changesError} type="error" />
-                    </div>
-                }
-
-
-
-            </Modal.Body>
-            {loading &&
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    ></div>
-                </div>
-            }
-            <Modal.Footer style={{ border: 'none' }}>
-                <Button style={{ backgroundColor: "transparent", border: "none", color: "black", fontFamily: "Gilroy" }} onClick={handleClose}>
-                    Cancel
-                </Button>
-                <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
-                    {editHostelReading ? "Update" : "Add"}
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                <Modal.Footer className="!border-t-0">
+                    <Button className="bg-transparent border-0 !text-black !font-gilroy"
+                     onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button className="!bg-blue-700 w-[130px] !font-gilroy"
+                    onClick={handleSubmit}>
+                        {editHostelReading ? "Update" : "Add"}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }
