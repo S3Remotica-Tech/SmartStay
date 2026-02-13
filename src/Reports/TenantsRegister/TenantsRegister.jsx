@@ -673,12 +673,12 @@ function TenantsRegister() {
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                                    {/* <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
                                         Tenant ID
-                                    </th>
+                                    </th> */}
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
+                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[40px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
                                         NAME
                                     </th>
 
@@ -686,7 +686,7 @@ function TenantsRegister() {
 
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                                    <th className="px-4 py-2.5 text-center font-semibold uppercase sticky left-[170px] z-30 bg-[#F9FAFB]">
                                         Mobile No
                                     </th>
 
@@ -730,15 +730,15 @@ function TenantsRegister() {
                                         className="border-b last:border-none  transition"
                                     >
                                         <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
-                                        <td
+                                        {/* <td
                                             className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
                                             title={row.no}
                                         >
                                             {row.no || '-'}
                                         </td>
+ */}
 
-
-                                        <td className="px-4 py-2.5 sticky left-[170px] z-20 bg-white w-[200px]">
+                                        <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white w-[200px]">
                                             <div className="flex items-center gap-2">
                                                 {/* <img
                                                     src={}
@@ -759,7 +759,7 @@ function TenantsRegister() {
 
 
 
-                                        <td className="px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap">
+                                        <td className="px-4 py-2.5 text-center text-[#6B7280] bg-white  sticky left-[170px] z-20 whitespace-nowrap">
                                             {row.mobileNo}
                                         </td>
 
