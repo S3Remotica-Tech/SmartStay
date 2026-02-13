@@ -214,13 +214,19 @@ export  function ReferenceIdGet() {
 })
 }
 
-export  function ReceiptPDf() {
- new Promise((resolve) => {
-  resolve({status: 200});
-})
+// export  function ReceiptPDf() {
+//  new Promise((resolve) => {
+//   resolve({status: 200});
+// })
+// }
+
+export async function ReceiptPDf(bill) {
+  return await AxiosConfigV2.get(`/v2/transaction/download/${bill.hostelId}/${bill.transactionId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
 }
-
-
 
 
 

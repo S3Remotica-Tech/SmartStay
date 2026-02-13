@@ -73,6 +73,7 @@ const InvoiceTable = (props) => {
   const handleInvoicepdf = (item) => {
     props.OnHandleshowInvoicePdf(item)
     setShowDots(false)
+   
   }
 
 

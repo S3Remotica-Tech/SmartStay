@@ -99,6 +99,14 @@ export async function getTenantRegister(hostelId, filters = {}) {
       period: filters?.period,
       page: filters.page,
       size: filters.size,
+      status: filters.status,
+      floor: filters?.floor,
+      room: filters?.room,
+      search: filters?.search,
+
+
+
+
     },
     paramsSerializer: params =>
       qs.stringify(params, { arrayFormat: "repeat" }),

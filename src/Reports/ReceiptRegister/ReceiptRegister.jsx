@@ -34,7 +34,9 @@ function ReceiptRegister() {
   const [page, setPage] = useState(0);
   const skipApiRef = useRef(false);
 
-
+  const isInitialLoad = useRef(true);
+  const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
+  const apiEnd = state?.reports?.getReceiptRegister?.summary?.endDate;
 
 
 
@@ -288,26 +290,15 @@ function ReceiptRegister() {
 
 
   useEffect(() => {
-    const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
-    const apiEnd = state?.reports?.getReceiptRegister?.summary?.endDate;
+    if (!apiStart || !apiEnd || !isInitialLoad.current) return;
 
-    if (!apiStart || !apiEnd) return;
+    isInitialLoad.current = false;
 
-    const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
-    const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
-
-    if (
-      selectedRange?.from &&
-      selectedRange?.to &&
-      dayjs(selectedRange.from).isSame(from, "day") &&
-      dayjs(selectedRange.to).isSame(to, "day")
-    ) {
-      return;
-    }
-
-    setSelectedRange({ from, to });
-  }, [state?.reports?.getReceiptRegister]);
-
+    setSelectedRange({
+      from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+      to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+    });
+  }, [apiStart, apiEnd]);
 
   const handleDateChange = (dates) => {
     if (!dates) {
@@ -355,15 +346,15 @@ function ReceiptRegister() {
 
 
   };
-  
-  
-  
+
+
+
 
 
 
   useEffect(() => {
     return () => {
-    
+
       dispatch({
         type: "SET_RECEIPT_REGISTER_FILTERS",
         payload: {
@@ -376,21 +367,35 @@ function ReceiptRegister() {
           createdByLabels: [],
         },
       });
+
+      const filters = {
+        size,
+        page,
+      };
+      dispatch({
+        type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+
+
     };
   }, []);
 
 
-const startDate = selectedRange?.from
-  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-  : undefined;
+  const startDate = selectedRange?.from
+    ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+    : undefined;
 
-const endDate = selectedRange?.to
-  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-  : undefined;
+  const endDate = selectedRange?.to
+    ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+    : undefined;
 
 
   useEffect(() => {
-        if (!state.login?.selectedHostel_Id) return;
+    if (!state.login?.selectedHostel_Id) return;
     const filters = {
       startDate: startDate,
       endDate: endDate,
@@ -438,7 +443,15 @@ const endDate = selectedRange?.to
   };
 
 
-
+useEffect(() => {
+      if (state.createAccount?.networkError) {
+        setLoading(false)
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        }, 3000)
+      }
+  
+    }, [state.createAccount?.networkError])
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -862,7 +875,7 @@ const endDate = selectedRange?.to
 
       </div>
       {
-        invoiceFilter && <ReceiptFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} startDate={startDate} endDate={endDate}/>
+        invoiceFilter && <ReceiptFilter show={invoiceFilter} handleClose={handleCloseFilterBills} size={size} page={page} startDate={startDate} endDate={endDate} />
       }
     </div>
   )

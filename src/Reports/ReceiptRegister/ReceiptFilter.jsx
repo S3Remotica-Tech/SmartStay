@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function ReceiptFilter({ show, handleClose , size, page , startDate, endDate}) {
+function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ function ReceiptFilter({ show, handleClose , size, page , startDate, endDate}) {
     const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState([]);
     const [formLoading, setFormLoading] = useState(false)
 
-console.log("selectedCollectedBylabels",selectedCollectedBylabels)
+    console.log("selectedCollectedBylabels", selectedCollectedBylabels)
 
     const selectStyles = {
         control: (base) => ({
@@ -238,7 +238,7 @@ console.log("selectedCollectedBylabels",selectedCollectedBylabels)
 
 
     const handleFilterBills = () => {
-   
+
 
         if (!state.login?.selectedHostel_Id) return;
 
@@ -258,12 +258,12 @@ console.log("selectedCollectedBylabels",selectedCollectedBylabels)
             period: selectedPeriod?.value
                 ? selectedPeriod.value
                 : "",
-                createdByLabels: selectedCollectedBylabels ,
+            createdByLabels: selectedCollectedBylabels,
 
             page: page,
             size: size,
-             startDate: startDate,
-      endDate: endDate,
+            startDate: startDate,
+            endDate: endDate,
         };
 
 
@@ -272,7 +272,7 @@ console.log("selectedCollectedBylabels",selectedCollectedBylabels)
             payload: ReceiptFilter
         });
 
-        console.log("ReceiptFilter",ReceiptFilter)
+        console.log("ReceiptFilter", ReceiptFilter)
 
         const hasFilters = Object.values(ReceiptFilter).some(
             v => v !== undefined && v !== "" && v !== 0
@@ -358,7 +358,7 @@ console.log("selectedCollectedBylabels",selectedCollectedBylabels)
                             <Select
                                 isMulti
                                 closeMenuOnSelect={false}
-                                 hideSelectedOptions={false}
+                                hideSelectedOptions={false}
                                 options={paymentModeOptions}
                                 value={selectedPaymentModeOptions}
                                 onChange={handlePaymentModeChange}
@@ -374,8 +374,8 @@ console.log("selectedCollectedBylabels",selectedCollectedBylabels)
                                 Collected By
                             </Form.Label>
                             <Select
-                                isMulti 
-                                 hideSelectedOptions={false}
+                                isMulti
+                                hideSelectedOptions={false}
                                 closeMenuOnSelect={false}
                                 options={collectedByOptions}
                                 value={selectedCollectedByOptions}

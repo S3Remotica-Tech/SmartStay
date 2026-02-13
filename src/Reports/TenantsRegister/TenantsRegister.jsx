@@ -36,22 +36,6 @@ function TenantsRegister() {
 
 
 
-    // useEffect(() => {
-    //     if (state.login?.selectedHostel_Id) {
-    //         dispatch({
-    //             type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //                 filters: {
-    //                     size: size,
-    //                     page: page,
-    //                 }
-    //             }
-    //         })
-    //         setLoading(true)
-    //     }
-    // }, [state.login?.selectedHostel_Id])
-
-
 
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {
@@ -124,6 +108,11 @@ function TenantsRegister() {
             payload: {
                 startDate: undefined,
                 endDate: undefined,
+                period: [],
+                search: "",
+                tenantStatus: [],
+                floor: [],
+                room: [],
 
             },
         })
@@ -145,6 +134,11 @@ function TenantsRegister() {
             payload: {
                 startDate: undefined,
                 endDate: undefined,
+                period: [],
+                search: "",
+                tenantStatus: [],
+                floor: [],
+                room: [],
 
             },
         })
@@ -185,28 +179,22 @@ function TenantsRegister() {
 
 
 
+    const apiStart = state?.reports?.getTenantRegister?.dateRange?.from;
+    const apiEnd = state?.reports?.getTenantRegister?.dateRange?.to;
+
+    const isInitialLoad = useRef(true);
 
 
     useEffect(() => {
-        const apiStart = state?.reports?.getTenantRegister?.dateRange?.from;
-        const apiEnd = state?.reports?.getTenantRegister?.dateRange?.to;
+        if (!apiStart || !apiEnd || !isInitialLoad.current) return;
 
-        if (!apiStart || !apiEnd) return;
+        isInitialLoad.current = false;
 
-        const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
-        const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
-
-        if (
-            selectedRange?.from &&
-            selectedRange?.to &&
-            dayjs(selectedRange.from).isSame(from, "day") &&
-            dayjs(selectedRange.to).isSame(to, "day")
-        ) {
-            return;
-        }
-
-        setSelectedRange({ from, to });
-    }, [state?.reports?.getTenantRegister]);
+        setSelectedRange({
+            from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+            to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+        });
+    }, [apiStart, apiEnd]);
 
     const handleDateChange = (dates) => {
         if (!dates) {
@@ -262,34 +250,55 @@ function TenantsRegister() {
 
     useEffect(() => {
         return () => {
-            
+
 
             dispatch({
                 type: "SET_TENANT_REGISTER_FILTERS",
                 payload: {
                     startDate: undefined,
                     endDate: undefined,
+                    period: [],
+                    search: "",
+                    tenantStatus: [],
+                    floor: [],
+                    room: [],
 
                 },
             })
+
+            const filters = {
+                size: size,
+                page: page,
+            };
+
+
+            dispatch({
+                type: "GET_REPORTS_TENANT_REGISTER_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: filters,
+                },
+            });
+
+
         };
     }, []);
 
 
 
-const startDate = selectedRange?.from
-  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-  : undefined;
+    const startDate = selectedRange?.from
+        ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+        : undefined;
 
-const endDate = selectedRange?.to
-  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-  : undefined;
+    const endDate = selectedRange?.to
+        ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+        : undefined;
 
 
 
 
     useEffect(() => {
-               if (!state.login?.selectedHostel_Id) return;
+        if (!state.login?.selectedHostel_Id) return;
         const filters = {
             startDate: startDate,
             endDate: endDate,
@@ -297,7 +306,7 @@ const endDate = selectedRange?.to
             page: page,
         };
 
-        
+
         dispatch({
             type: "GET_REPORTS_TENANT_REGISTER_SAGA",
             payload: {
@@ -305,29 +314,85 @@ const endDate = selectedRange?.to
                 filters: filters,
             },
         });
-         setLoading(true)
+        setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
 
 
     useEffect(() => {
-        const invoiceFilters = state.reports.tenantRegisterFilters;
+        const filters = state.reports.tenantRegisterFilters;
         const filterData = [];
-
-        if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+        if (filters?.startDate || filters?.endDate) {
             filterData.push({
                 key: "date-range",
-                label: "Date Range is",
+                label: "Date",
                 type: "date",
                 value:
-                    invoiceFilters.startDate && invoiceFilters.endDate
-                        ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-                        : invoiceFilters.startDate || invoiceFilters.endDate,
+                    filters.startDate && filters.endDate
+                        ? `${filters.startDate} - ${filters.endDate}`
+                        : filters.startDate || filters.endDate,
+            });
+        }
+
+
+        if (filters?.period?.length) {
+            filterData.push({
+                key: "period",
+                label: "Period",
+                type: "single",
+                value: filters.period[0]?.label || filters.period[0],
+            });
+        }
+
+
+        if (filters?.search?.trim()) {
+            filterData.push({
+                key: "search",
+                label: "Search",
+                type: "text",
+                value: filters.search,
+            });
+        }
+
+
+        if (filters?.tenantStatus?.length) {
+            filters.tenantStatus.forEach(status => {
+                filterData.push({
+                    key: "tenantStatus",
+                    label: "Status",
+                    type: "multi",
+                    value: status.label || status,
+                });
+            });
+        }
+
+
+        if (filters?.floor?.length) {
+            filters.floor.forEach(floor => {
+                filterData.push({
+                    key: "floor",
+                    label: "Floor",
+                    type: "multi",
+                    value: floor.label || floor,
+                });
+            });
+        }
+
+
+        if (filters?.room?.length) {
+            filters.room.forEach(room => {
+                filterData.push({
+                    key: "room",
+                    label: "Room",
+                    type: "multi",
+                    value: room.label || room,
+                });
             });
         }
 
         setChips(filterData);
     }, [state.reports.tenantRegisterFilters]);
+
 
     const handleNavigateRegister = (item) => {
         setRegister(false)
@@ -360,6 +425,11 @@ const endDate = selectedRange?.to
             payload: {
                 startDate: undefined,
                 endDate: undefined,
+                period: [],
+                search: "",
+                tenantStatus: [],
+                floor: [],
+                room: [],
 
             },
         })
@@ -393,7 +463,15 @@ const endDate = selectedRange?.to
 
 
 
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
+    }, [state.createAccount?.networkError])
 
 
     return (
@@ -561,16 +639,16 @@ const endDate = selectedRange?.to
 
                             <div className="flex items-center gap-2 mt-2">
                                 <h2 className="text-2xl font-semibold text-[#101828]">
-                                    {item.value}
+                                    {item.value ?? ""}
                                 </h2>
 
 
                             </div>
-                            {item.link && (
+                            {/* {item.link && (
                                 <p className="text-xs text-[#155DFC]  cursor-pointer">
                                     Click to filter
                                 </p>
-                            )}
+                            )} */}
                         </div>
                     ))}
                 </div>
@@ -646,7 +724,7 @@ const endDate = selectedRange?.to
 
 
                             <tbody>
-                                {tenantRegister?.tenants?.map((row, i) => (
+                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row, i) => (
                                     <tr
                                         key={row.tenantId}
                                         className="border-b last:border-none  transition"
@@ -705,7 +783,18 @@ const endDate = selectedRange?.to
                                             {row.stayDuration || "-"}
                                         </td>
                                     </tr>
-                                ))}
+                                ))
+                                    :
+                                    <tr>
+                                        <td
+                                            colSpan={9}
+                                            className="py-10 text-center text-sm text-red-800 font-semibold"
+                                        >
+                                            No Data Found
+                                        </td>
+                                    </tr>
+
+                                }
                             </tbody>
 
                         </table>
@@ -797,9 +886,10 @@ const endDate = selectedRange?.to
                 </div>
 
                 {
-                    invoiceFilter && <TenantsFilter show={invoiceFilter} handleClose={handleCloseFilterBills} 
-                     startDate={startDate} endDate={endDate}
-                    
+                    invoiceFilter && <TenantsFilter show={invoiceFilter} handleClose={handleCloseFilterBills}
+                        startDate={startDate} endDate={endDate}
+                        size={size} page={page}
+
                     />
                 }
             </div>

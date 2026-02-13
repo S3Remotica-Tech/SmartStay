@@ -15,23 +15,22 @@ import Questionimage from '../../Assets/Images/question.png';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import PropTypes from "prop-types";
+import { Trash } from 'iconsax-react'
 
-const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange}) => {
+const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-    const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [notes_errmsg, setNotesErrMsg] = useState('')
   const [terms_errmsg, setTermsErrMsg] = useState('')
-  // const [showFullView, setShowFullView] = useState(false);
   const [editErrmsg, setEditErrMessage] = useState('')
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
   const [useGradient, setUseGradient] = useState(true);
   const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
 
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
   const {
     // canWriteModule: canWriteInvoice,
@@ -260,31 +259,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
 
   const handleSaveTemplate = () => {
-    // const currentData = {
-    //   // contact_number: mobilenum,
-    //   // email: email,
-    //   // receiptSignatureUrl: signature || '',
-    //   notes: notes?.replace(/"/g, '') || '',
-    //   terms_and_condition: terms || '',
-    //   // template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-    //   // logo_url: hostel_logo || '',
-    // };
 
-    // const originalData = {
-    //   // contact_number: RentalreceiptTemplate.receiptMobileNumber,
-    //   // email: RentalreceiptTemplate.receiptMailId,
-    //   // receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
-    //   notes: RentalreceiptTemplate.receiptNotes?.replace(/"/g, '') || '',
-    //   terms_and_condition: RentalreceiptTemplate.receiptTermsAndCondition || '',
-    //   // template_theme: RentalreceiptTemplate.receiptTemplateColor || '',
-    //   // logo_url: RentalreceiptTemplate.receiptLogoUrl || ''
-    // };
-
-    // if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
-    //   setEditErrMessage("No changes detected");
-    //   setSignatureErrMsg("");
-    //   return;
-    // }
 
 
     if (RentalreceiptTemplate.isSignatureCustomized) {
@@ -392,12 +367,12 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl && RentalreceiptTemplate.receiptLogoUrl)
+      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl && RentalreceiptTemplate.receiptLogoUrl)
       setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
       setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl && RentalreceiptTemplate.receiptSignatureUrl)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl && RentalreceiptTemplate.receiptSignatureUrl)
       setNotes(RentalreceiptTemplate.receiptNotes)
       setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
       const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
@@ -432,7 +407,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
       mobilenum,
       email,
       signaturePreview,
-      
+
       notes,
       terms,
       color,
@@ -441,11 +416,54 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
     mobilenum,
     email,
     signaturePreview,
-   
+
     notes,
     terms,
     color,]);
 
+  const handleDeleteLogo = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: RentalreceiptTemplate?.typeId,
+          type: "RECEIPT-LOGO"
+
+        }
+      })
+    }
+  }
+
+  const handleDeleteRentalSignature = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: RentalreceiptTemplate?.typeId,
+          type: "RECEIPT-SIGNATURE"
+
+        }
+      })
+    }
+  }
+
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.templatesImagesDeleteStatusCode === 204) {
+      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_DELETE_TEMPLATES_IMAGES' })
+      }, 100)
+
+
+    }
+
+  }, [state.UsersList?.templatesImagesDeleteStatusCode])
 
 
 
@@ -519,11 +537,83 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
                       </div>
                       <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
 
-                        {logoPreview ? (
-                          <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
-                        ) : (
-                          <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
-                        )}
+                        <div
+                          className="flex justify-center"
+                        >
+                          <div
+                            className="relative inline-block"
+                            onMouseEnter={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "flex";
+                              if (overlay) overlay.style.display = "block";
+                            }}
+                            onMouseLeave={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "none";
+                              if (overlay) overlay.style.display = "none";
+                            }}
+                          >
+
+                            {logoPreview ? (
+                              <img
+                                src={logoPreview}
+                                alt="Preview"
+                                className="h-[60px] rounded-md mb-2"
+                              />
+                            ) : (
+                              <img
+                                src={uploadsett}
+                                alt="upload"
+                                className="h-[30px] mb-2"
+                              />
+                            )}
+
+                            {!logoPreview?.startsWith("data:") && <>
+
+
+                              {logoPreview && (
+                                <div
+                                  className="
+                                                      qr-overlay
+                                                      absolute inset-0
+                                                      hidden
+                                                      bg-black/40
+                                                      rounded-md
+                                                    "
+                                />
+                              )}
+
+
+                              {logoPreview && (
+                                <div
+                                  className="
+                                                     qr-trash
+                                                      absolute -top-1 -right-1
+                                                      hidden
+                                                      items-center justify-center 
+                                                      rounded-full
+                                                      bg-gray-100 text-white
+                                                      p-1
+                                                      cursor-pointer
+                                                    "
+                                  onClick={handleDeleteLogo}
+                                >
+                                  <div
+                                    className="bg-black/70 text-white p-2 rounded-full">
+                                    <Trash size={12} />
+                                  </div>
+                                </div>
+                              )}
+
+                            </>
+                            }
+                          </div>
+
+                        </div>
 
                         <div>
                           <label
@@ -717,18 +807,81 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
                             <div className="col-12">
                               <div
-                                className="rounded mt-2 d-flex justify-content-center align-items-center"
-                                style={{
-                                  height: '120px', borderStyle: 'dotted', borderWidth: '3px',
-                                  borderColor: '#ced4da'
+                                className="
+                                                                relative mt-2
+                                                                flex items-center justify-center
+                                                                h-[120px]
+                                                                rounded
+                                                                border-[3px] border-dotted border-[#ced4da]
+                                                                group
+                                                              "
+                                onMouseEnter={(e) => {
+                                  const trash = e.currentTarget.querySelector(".qr-trash");
+                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                  if (trash) trash.style.display = "flex";
+                                  if (overlay) overlay.style.display = "block";
+                                }}
+                                onMouseLeave={(e) => {
+                                  const trash = e.currentTarget.querySelector(".qr-trash");
+                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                  if (trash) trash.style.display = "none";
+                                  if (overlay) overlay.style.display = "none";
                                 }}
                               >
+
                                 {signaturePreview ? (
-                                  <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+                                  <img
+                                    src={signaturePreview}
+                                    alt="signature"
+                                    className="max-h-full max-w-full"
+                                  />
                                 ) : (
-                                  <span className="text-muted" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                  >No signature uploaded</span>
+                                  <span
+                                    className="
+                                                                    text-[14px]
+                                                                    font-normal
+                                                                    text-[rgba(34,34,34,1)]
+                                                                  "
+                                    style={{ fontFamily: 'Gilroy' }}
+                                  >
+                                    No signature uploaded
+                                  </span>
                                 )}
+
+                                {!signaturePreview?.startsWith("blob:") && <>
+
+
+
+                                  {signaturePreview && (
+                                    <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                  )}
+
+                                  {signaturePreview && (
+                                    <div
+                                      className="qr-trash
+                                                                    absolute -top-1 -right-1
+                                                                    hidden
+                                                                    items-center justify-center 
+                                                                    rounded-full
+                                                                    bg-gray-100 text-white
+                                                                    p-1
+                                                                    cursor-pointer"
+                                      style={{
+                                        display: 'none',
+                                        cursor: 'pointer',
+                                      }}
+                                      onClick={handleDeleteRentalSignature}
+                                    >
+                                      <div
+                                        className="bg-black/70 text-white p-2 rounded-full">
+                                        <Trash size={12} />
+                                      </div>
+                                    </div>
+                                  )}
+                                </>
+                                }
                               </div>
 
                               <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
@@ -800,7 +953,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
                           paddingTop: '20px'
                         }}
                       >
-                        <img src={Questionimage} alt="question" className="me-2" />
+
                         Override Global Value?
                       </Modal.Title>
                     </Modal.Header>
@@ -1020,8 +1173,8 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
           </div>
 
           {editErrmsg.trim() !== "" && (
-             <div className="d-flex justify-content-center">
-            <ErrorMessage message={editErrmsg} type="error" />
+            <div className="d-flex justify-content-center">
+              <ErrorMessage message={editErrmsg} type="error" />
             </div>
           )}
           <div className="d-flex justify-content-end mt-2 col-lg-10">

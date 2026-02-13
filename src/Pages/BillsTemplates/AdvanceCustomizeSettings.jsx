@@ -3,39 +3,22 @@ import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
-// import Logo from '../../Assets/Images/get.png'
-// import Dial from '../../Assets/Images/dial.png'
-// import Room from '../../Assets/Images/Car.png'
-// import Locat from '../../Assets/Images/location 03.png'
-// import Barcode from '../../Assets/Images/invoice_barcode.svg'
-// import Gpay from '../../Assets/Images/gpay.png'
-// import Phonepe from '../../Assets/Images/phonepe.png'
-// import Paytm from '../../Assets/Images/paytm.png'
-import Questionimage from '../../Assets/Images/question.png';
+// import Questionimage from '../../Assets/Images/question.png';
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../../Assets/Images/textarea.png'
 import BankICon from '../../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-// import { CloseCircle } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
 import uploadsett from "../../Assets/Images/New_images/upload setting.png";
-// import ZoomImage from '../../Assets/Images/zoom.png'
-// import Topbottom from '../../Assets/Images/cancel_presentation.png';
-// import left85arrow from '../../Assets/Images/arrow85.png';
-// import printdown from '../../Assets/Images/printericon.png';
-// import downloadicon from '../../Assets/Images/pdfdown.png';
-// import CloseIcon from '../../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
 import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import {Trash } from 'iconsax-react'
-// import { IoBed } from "react-icons/io5";
-// import { Container, Row, Col, Table } from "react-bootstrap";
+import { Trash } from 'iconsax-react'
+
 
 const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
@@ -44,31 +27,23 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-  // const [accountName, setAccountName] = useState("")
-  // const [account_number, setAccount_Number] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [ifsccode, setIfscCode] = useState("");
-  // const [bank_name, setBankName] = useState("");
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-  // const [loading, setLoading] = useState(false)
+
   const [editErrmsg, setEditErrMessage] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const [contactnumberform, setContactNumberForm] = useState(false)
 
-  // const cardRef = useRef(null);
-  // const innerScrollRef = useRef(null);
 
-  // const [accountNameError, setaccountnameError] = useState("");
   const [prefix_errmsg, setPrefixErrMsg] = useState('')
   const [suffix_errmsg, setSuffixErrMsg] = useState('')
   const [tax_errmsg, setTaxErrMsg] = useState('')
   const [notes_errmsg, setNotesErrMsg] = useState('')
   const [terms_errmsg, setTermsErrMsg] = useState('')
-  // const [showFullView, setShowFullView] = useState(false);
+
 
   const [mobilenum, setMobileNum] = useState("")
   const [MobileError, setMobileError] = useState("")
@@ -93,19 +68,9 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   const [edit, setEdit] = useState(false);
 
 
-  useEffect(()=>{
-setEdit(false)
-  },[])
-
-
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-
-
-
-
-
-
-
+  useEffect(() => {
+    setEdit(false)
+  }, [])
 
 
 
@@ -219,62 +184,10 @@ setEdit(false)
 
 
 
-  // const handleAccountName = (e) => {
-  //   const value = e.target.value
-  //   const pattern = /^[a-zA-Z\s]*$/;
-  //   if (!pattern.test(value)) {
-  //     return;
-  //   }
-  //   setAccountName(value);
-  //   // setaccountnameError("")
-  // };
 
 
 
-  // const handleAccountNumberChange = (e) => {
-  //   const numericValue = e.target.value.replace(/[^0-9]/g, "");
-  //   setAccount_Number(numericValue);
 
-  // };
-
-
-  // const handleIfscCodeChange = (e) => {
-  //   const Value = e.target.value
-  //   setIfscCode(Value)
-
-
-  // }
-
-  // const handleBankNameChange = (e) => {
-  //   const Value = e.target.value
-  //   setBankName(Value)
-
-
-  // }
-
-  // const handleDescription = (e) => {
-  //   setDescription(e.target.value);
-  // };
-
-
-  // const handleSubmitBank = () => {
-
-  //   if (!accountName) {
-  //     setaccountnameError("Please Enter Benificiary Name");
-  //     return;
-  //   }
-  //   setaccountnameError("");
-
-  //   if (accountName) {
-  //     dispatch({
-  //       type: "ADD_BANKING",
-  //       payload: {
-  //         type: "bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
-  //         ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
-  //       },
-  //     });
-  //   }
-  // };
 
 
   const hanldePrefix = (e) => {
@@ -419,21 +332,10 @@ setEdit(false)
     setEditErrMessage("")
   }
 
-const handleRemoveQr = () => {
-    setQrImage(null);
-    setQRImagePreview(null)
-    if (qrFileInputRef.current) {
-      qrFileInputRef.current.value = "";
-    }
-  };
+
   const handleCloseBankAccount = () => {
     setBankAccountForm(false)
-    // setaccountnameError("")
-    // setAccountName("")
-    // setAccount_Number("")
-    // setIfscCode("")
-    // setBankName("")
-    // setDescription("")
+
   }
 
 
@@ -450,11 +352,7 @@ const handleRemoveQr = () => {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
-      // setAccountName("")
-      // setAccount_Number("")
-      // setIfscCode("")
-      // setBankName("")
-      // setDescription("")
+
       handleCloseBankAccount();
 
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -472,7 +370,7 @@ const handleRemoveQr = () => {
 
 
   const handleBankClick = (id) => {
-      setEditErrMessage("")
+    setEditErrMessage("")
     setSelectedBankId(id);
   };
 
@@ -500,15 +398,6 @@ const handleRemoveQr = () => {
   }, [invoicedueDate]);
 
 
-
-
-  // useEffect(() => {
-  //   if (showFullView) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'auto';
-  //   }
-  // }, [showFullView]);
 
 
   const [logoPreview, setLogoPreview] = useState(null);
@@ -551,92 +440,7 @@ const handleRemoveQr = () => {
 
   const handleSaveTemplate = () => {
 
-    // const currentTemplate = {
-    //   // hostelId: state.login.selectedHostel_Id,
-    //   // templateTypeId: securityDepositInvoiceTemplate.typeId,
-    //   // mobile: BillsTemplateList.mobile,
-    //   // email: BillsTemplateList.emailId,
-    //   // invoicePhoneNumber: mobilenum,
-    //   // invoiceMailId: email,
-    //   // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-    //   // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-    //   // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-    //   // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-    //   // hostelLogo: BillsTemplateList?.logo,
-    //   // billSignature: BillsTemplateList?.signature,
-    //   // invLogo: hostel_logo,
-    //   // invSign: signature,
-    //   qrCode: qrimagepreview,
-    //   prefix: prefix,
-    //   suffix: suffix,
-    //   gstPercentile: tax,
-    //   invoiceNotes: notes,
-    //   invoiceTermsAndCondition: terms,
-    //   bankId: selectedBankId || "",
-    //   invoiceTemplateColor: useGradient
-    //     ? defaultGradient
-    //     : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-    // };
 
-    // const oldTemplate = {
-    //   // hostelId: state.login.selectedHostel_Id,
-    //   // templateTypeId: securityDepositInvoiceTemplate.typeId,
-    //   // mobile: BillsTemplateList.mobile,
-    //   // email: BillsTemplateList.emailId,
-    //   // invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
-    //   // invoiceMailId: securityDepositInvoiceTemplate.email || "",
-    //   // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-    //   // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-    //   // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-    //   // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-    //   // hostelLogo: BillsTemplateList?.logo,
-    //   // billSignature: BillsTemplateList?.signature,
-    //   // invLogo: securityDepositInvoiceTemplate.logo_url || null,
-    //   // invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
-    //   qrCode: securityDepositInvoiceTemplate.qrCodeUrl || null,
-    //   prefix: securityDepositInvoiceTemplate.prefix || "",
-    //   suffix: securityDepositInvoiceTemplate.suffix || "",
-    //   gstPercentile: securityDepositInvoiceTemplate.gstPercentile || "",
-    //   invoiceNotes: securityDepositInvoiceTemplate.invoiceNotes || "",
-    //   invoiceTermsAndCondition: securityDepositInvoiceTemplate.invoiceTermsAndCondition || "",
-    //   bankId: securityDepositInvoiceTemplate.selectedBankId || "",
-    //   invoiceTemplateColor: securityDepositInvoiceTemplate.invoiceTemplateColor || "",
-    // };
-
-
-
-// console.log("currentTemplate",currentTemplate)
-
-
-// console.log("oldTemplate",oldTemplate)
-
-    // const normalize = (val) => {
-    //   if (val === null || val === undefined) return "";
-    //   const v = String(val).trim();
-    //   return v === "null" || v === "undefined" ? "" : v;
-    // };
-
-
-
-    // const isChanged =
-    //   normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
-    //   normalize(currentTemplate.prefix) !== normalize(oldTemplate.prefix) ||
-    //   normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
-    //   normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
-    //   normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
-    //   normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition)
-      // normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) 
-      // normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
-
-
-
-
-
-    // if (!isChanged) {
-    //   setEditErrMessage("No changes detected");
-    //   setSignatureErrMsg("")
-    //   return;
-    // }
 
     if (securityDepositInvoiceTemplate.isSignatureCustomized) {
       const Signatureverify = !securityDepositInvoiceTemplate.invoiceSignatureUrl
@@ -724,16 +528,7 @@ const handleRemoveQr = () => {
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
-  //   useEffect(() => {
-  //        if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
 
-  //   setBillsTemplateList(state.Settings.settingsBillsTemplateList)
-  //     setTimeout(() => {
-  //         setLoading(false)
-  //       dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-  //     }, 500);
-  //   }
-  // }, [state.Settings.SettingsBilltemplategetsuccessCode]);
 
   useEffect(() => {
     if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {
@@ -751,19 +546,19 @@ const handleRemoveQr = () => {
   );
 
 
-// console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
+
 
 
 
   useEffect(() => {
     if (securityDepositInvoiceTemplate) {
       setLogoPreview(BillsTemplateList.isLogoCustomized
-        && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
-        : BillsTemplateList.logo);
+        && securityDepositInvoiceTemplate.invoiceLogoUrl && securityDepositInvoiceTemplate.invoiceLogoUrl
+      );
       setHostelLogo(
         BillsTemplateList.isLogoCustomized
-          && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
-          : BillsTemplateList.logo
+        && securityDepositInvoiceTemplate.invoiceLogoUrl && securityDepositInvoiceTemplate.invoiceLogoUrl
+
       );
       setMobileNum(
         BillsTemplateList.isMobileCustomized
@@ -779,12 +574,12 @@ const handleRemoveQr = () => {
       setSuffix(securityDepositInvoiceTemplate.suffix || "");
       setSignature(
         BillsTemplateList.isSignatureCustomized
-          && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
-          : BillsTemplateList.signature
+        && securityDepositInvoiceTemplate.invoiceSignatureUrl && securityDepositInvoiceTemplate.invoiceSignatureUrl
+
       );
       setSignaturePreview(BillsTemplateList.isSignatureCustomized
-        && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
-        : BillsTemplateList.signature);
+        && securityDepositInvoiceTemplate.invoiceSignatureUrl && securityDepositInvoiceTemplate.invoiceSignatureUrl
+      );
       setTerms(securityDepositInvoiceTemplate.invoiceTermsAndCondition || "");
       setTax(securityDepositInvoiceTemplate.gstPercentile || "");
       setSelectedBankId(securityDepositInvoiceTemplate.selectedBankId || null);
@@ -830,7 +625,7 @@ const handleRemoveQr = () => {
   }, [state.Settings.settingGlobalAddStatusCode])
 
 
- 
+
 
 
   useEffect(() => {
@@ -862,7 +657,65 @@ const handleRemoveQr = () => {
 
 
 
+  const handleRemoveQr = () => {
 
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: securityDepositInvoiceTemplate?.typeId,
+          type: "QRCODE"
+
+        }
+      })
+    }
+  };
+
+
+  const handleDeleteLogo = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: securityDepositInvoiceTemplate?.typeId,
+          type: "INVOICE-LOGO"
+
+        }
+      })
+    }
+  }
+
+  const handleDeleteRentalSignature = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: securityDepositInvoiceTemplate?.typeId,
+          type: "INVOICE-SIGNATURE"
+
+        }
+      })
+    }
+  }
+
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.templatesImagesDeleteStatusCode === 204) {
+      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_DELETE_TEMPLATES_IMAGES' })
+      }, 100)
+
+
+    }
+
+  }, [state.UsersList?.templatesImagesDeleteStatusCode])
 
 
 
@@ -938,15 +791,81 @@ const handleRemoveQr = () => {
                         alignItems: 'center',
                         marginBottom: '6px'
                       }}>
-                        <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
+                        <label style={{ fontWeight: 600, fontFamily: "Gilroy" }}>Hostel/PG Logo</label>
                       </div>
                       <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
 
-                        {logoPreview ? (
-                          <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
-                        ) : (
-                          <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
-                        )}
+                        <div
+                          className="flex justify-center"
+                        >
+                          <div
+                            className="relative inline-block"
+                            onMouseEnter={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "flex";
+                              if (overlay) overlay.style.display = "block";
+                            }}
+                            onMouseLeave={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "none";
+                              if (overlay) overlay.style.display = "none";
+                            }}
+                          >
+
+                            {logoPreview ? (
+                              <img
+                                src={logoPreview}
+                                alt="Preview"
+                                className="h-[60px] rounded-md mb-2"
+                              />
+                            ) : (
+                              <img
+                                src={uploadsett}
+                                alt="upload"
+                                className="h-[30px] mb-2"
+                              />
+                            )}
+
+
+                            {logoPreview && !logoPreview.startsWith("data:") && (
+                              <>
+                                <div
+                                  className="
+                                   qr-overlay
+                                   absolute inset-0
+                                   hidden
+                                   bg-black/40
+                                   rounded-md
+                                 "
+                                />
+
+
+                                <div
+                                  className="
+                                   qr-trash
+                                   absolute -top-1 -right-1
+                                   hidden
+                                   flex items-center justify-center 
+                                   rounded-full
+                                   bg-gray-100
+                                   p-1
+                                   cursor-pointer
+                                 "
+                                  onClick={handleDeleteLogo}
+                                >
+                                  <div className="bg-black/70 text-white p-2 rounded-full">
+                                    <Trash size={10} />
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </div>
+
+                        </div>
 
                         <div>
                           <label
@@ -961,7 +880,7 @@ const handleRemoveQr = () => {
                             Choose file
                             <input
                               type="file"
-                              accept="image/png"
+                              accept="image/*"
                               className="d-none"
                               ref={fileInputRef}
                               onChange={handleFileUploadHostel}
@@ -1139,7 +1058,7 @@ const handleRemoveQr = () => {
                             </div>
 
                             <div className="col-12">
-                              <div
+                              {/* <div
                                 className="rounded mt-2 d-flex justify-content-center align-items-center"
                                 style={{
                                   height: '120px', borderStyle: 'dotted', borderWidth: '3px',
@@ -1152,6 +1071,90 @@ const handleRemoveQr = () => {
                                   <span className="text-muted" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
                                   >No signature uploaded</span>
                                 )}
+                              </div> */}
+
+                              <div
+                                className="
+                                  relative mt-2
+                                  flex items-center justify-center
+                                  h-[120px]
+                                  rounded
+                                  border-[3px] border-dotted border-[#ced4da]
+                                  group
+                                "
+                                onMouseEnter={(e) => {
+                                  const trash = e.currentTarget.querySelector(".qr-trash");
+                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                  if (trash) trash.style.display = "flex";
+                                  if (overlay) overlay.style.display = "block";
+                                }}
+                                onMouseLeave={(e) => {
+                                  const trash = e.currentTarget.querySelector(".qr-trash");
+                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                  if (trash) trash.style.display = "none";
+                                  if (overlay) overlay.style.display = "none";
+                                }}
+                              >
+
+                                {signaturePreview ? (
+                                  <img
+                                    src={signaturePreview}
+                                    alt="signature"
+                                    className="max-h-full max-w-full"
+                                  />
+                                ) : (
+                                  <span
+                                    className="
+                                      text-[14px]
+                                      font-normal
+                                      text-[rgba(34,34,34,1)]
+                                    "
+                                    style={{ fontFamily: 'Gilroy' }}
+                                  >
+                                    No signature uploaded
+                                  </span>
+                                )}
+
+{
+  !signaturePreview?.startsWith("blob:") && <>
+  
+  
+ 
+                                {signaturePreview && (
+                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                )}
+
+
+
+
+                                {signaturePreview && (
+                                  <div
+                                    className="qr-trash
+                                      absolute -top-1 -right-1
+                                      hidden
+                                      items-center justify-center 
+                                      rounded-full
+                                      bg-gray-100 text-white
+                                      p-1
+                                      cursor-pointer"
+                                    style={{
+                                      display: 'none',
+                                      cursor: 'pointer',
+                                    }}
+                                    onClick={handleDeleteRentalSignature}
+                                  >
+                                    <div
+                                      className="bg-black/70 text-white p-2 rounded-full">
+                                      <Trash size={12} />
+                                    </div>
+                                  </div>
+                                )}
+
+                                 </>
+}
+
                               </div>
 
                               <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
@@ -1223,7 +1226,7 @@ const handleRemoveQr = () => {
                           paddingTop: '20px'
                         }}
                       >
-                        <img src={Questionimage} alt="question" className="me-2" />
+
                         Override Global Value?
                       </Modal.Title>
                     </Modal.Header>
@@ -1554,142 +1557,142 @@ const handleRemoveQr = () => {
             </p>
 
             <div className="col-12">
-             <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
+              <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
 
-                  <div
-                              style={{
-                                position: "relative",
-                                width: "100%",
-                                maxWidth: 100,
-                                aspectRatio: "1 / 1",
-                                backgroundColor: "#fff",
-                                // border: "1px solid #ddd",
-                                borderRadius: 8,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                              onMouseEnter={(e) => {
-                                const trash = e.currentTarget.querySelector(".qr-trash");
-                                const overlay = e.currentTarget.querySelector(".qr-overlay");
-                                if (trash) trash.style.display = "flex";
-                                if (overlay) overlay.style.display = "block";
-                              }}
-                              onMouseLeave={(e) => {
-                                const trash = e.currentTarget.querySelector(".qr-trash");
-                                const overlay = e.currentTarget.querySelector(".qr-overlay");
-                                if (trash) trash.style.display = "none";
-                                if (overlay) overlay.style.display = "none";
-                              }}
-                            >
-                {qrImage ? (
-                  <>
-                  <img
-                    src={qrImage}
-                    alt="QR Preview"
-                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                      objectFit: "contain",
-                                      borderRadius: "8px",
-                                      marginBottom: "10px",
-                                      // border: "1px solid #ddd",
-                                      backgroundColor: "#fff", zIndex: 1,
-                                    }}
-                  />
-                    <div
-                                                      className="qr-overlay"
-                                                      style={{
-                                                        display: "none",
-                                                        position: "absolute",
-                                                        inset: 0,
-                                                        backgroundColor: "rgba(0,0,0,0.15)",
-                                                        borderRadius: 8,
-                                                        zIndex: 2,
-                                                        pointerEvents: "none",
-                                                      }}
-                                                    />
-                  
-                  
-                                                    <div
-                                                      className="qr-trash"
-                                                      onClick={handleRemoveQr}
-                                                      style={{
-                                                        display: "none",
-                                                        position: "absolute",
-                                                        // top: "50%",
-                                                        // right: 6,
-                                                        width: 28,
-                                                        height: 28,
-                                                        borderRadius: "50%",
-                                                        backgroundColor: "rgba(0,0,0,0.7)",
-                                                        color: "#fff",
-                                                        cursor: "pointer",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        fontSize: 14, zIndex: 3,
-                                                      }}
-                                                    >
-                                                      <Trash size="20" />
-                                                    </div>
-                                                  </>
-                                                  
-                ) : (
-                  <img
-                    src={uploadsett}
-                    alt="upload"
-                    style={{
-                      height: 30,
-                      marginBottom: "10px",
-                    }}
-                  />
-                )}
-</div>
-  <div className="d-flex flex-column ms-3">
-                <div>
-                  <label
-                    style={{
-                      cursor: "pointer",
-                      color: "rgba(30, 69, 225, 1)",
-                      fontFamily: "Gilroy",
-                      fontSize: 12,
-                      fontWeight: 400,
-                    }}
-                  >
-                    Choose file
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="d-none"
-                      ref={qrFileInputRef}
-                      onChange={handleQrImageChange}
-                    />
-                  </label>
-                  <span
-                    className="ms-1"
-                    style={{
-                      color: "rgba(22, 21, 28, 1)",
-                      fontFamily: "Gilroy",
-                      fontSize: 12,
-                      fontWeight: 400,
-                    }}
-                  >
-                    to Upload
-                  </span>
-                </div>
-
-                <small
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 9,
-                    color: "rgba(75, 75, 75, 1)",
-                    fontWeight: 400,
-                    display: "block",
-                    marginTop: "5px",
+                <div
+                  className="
+                   relative
+                   w-full max-w-[100px]
+                   aspect-square
+                   bg-white
+                   rounded-lg
+                   flex items-center justify-center
+                 "
+                  onMouseEnter={(e) => {
+                    const trash = e.currentTarget.querySelector(".qr-trash");
+                    const overlay = e.currentTarget.querySelector(".qr-overlay");
+                    if (trash) trash.style.display = "flex";
+                    if (overlay) overlay.style.display = "block";
+                  }}
+                  onMouseLeave={(e) => {
+                    const trash = e.currentTarget.querySelector(".qr-trash");
+                    const overlay = e.currentTarget.querySelector(".qr-overlay");
+                    if (trash) trash.style.display = "none";
+                    if (overlay) overlay.style.display = "none";
                   }}
                 >
-                  JPG SVG PNG (150px × 150px)
-                </small>
+                  {qrImage ? (
+                    <>
+
+                      <img
+                        src={qrImage}
+                        alt="QR Preview"
+                        className="
+                         w-full h-full
+                         object-contain
+                         rounded-lg
+                         bg-white
+                         mb-2
+                         z-[1]
+                       "
+                      />
+
+
+                      {
+                        !qrImage?.startsWith("blob:") && <>
+
+                          <div
+                            className="
+                              qr-overlay
+                              hidden
+                              absolute inset-0
+                              bg-black/15
+                              rounded-lg
+                              z-[2]
+                              pointer-events-none
+                            "
+                          />
+
+
+
+                          <div
+                            className="
+                        qr-trash
+                        absolute
+                        hidden
+                        flex items-center justify-center
+                        rounded-full
+                        bg-gray-100
+                        p-1
+                        cursor-pointer
+                        z-[3]
+                      "
+                            onClick={handleRemoveQr}
+                          >
+
+                            <div className="qr-trash" onClick={handleRemoveQr}>
+                              <Trash size={12} />
+                            </div>
+
+                          </div>
+
+                        </>
+                      }
+
+                    </>
+                  ) : (
+                    <img
+                      src={uploadsett}
+                      alt="upload"
+                      className="h-[30px] mb-2"
+                    />
+                  )}
+                </div>
+                <div className="d-flex flex-column ms-3">
+                  <div>
+                    <label
+                      style={{
+                        cursor: "pointer",
+                        color: "rgba(30, 69, 225, 1)",
+                        fontFamily: "Gilroy",
+                        fontSize: 12,
+                        fontWeight: 400,
+                      }}
+                    >
+                      Choose file
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="d-none"
+                        ref={qrFileInputRef}
+                        onChange={handleQrImageChange}
+                      />
+                    </label>
+                    <span
+                      className="ms-1"
+                      style={{
+                        color: "rgba(22, 21, 28, 1)",
+                        fontFamily: "Gilroy",
+                        fontSize: 12,
+                        fontWeight: 400,
+                      }}
+                    >
+                      to Upload
+                    </span>
+                  </div>
+
+                  <small
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: 9,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontWeight: 400,
+                      display: "block",
+                      marginTop: "5px",
+                    }}
+                  >
+                    JPG SVG PNG (150px × 150px)
+                  </small>
                 </div>
               </div>
             </div>
@@ -1864,8 +1867,8 @@ const handleRemoveQr = () => {
 
         <BankingAddForm showForm={bankaccountform}
           setShowForm={handleCloseForm}
-          setEdit={setEdit} 
-edit={edit}
+          setEdit={setEdit}
+          edit={edit}
 
         />
 
@@ -1875,7 +1878,7 @@ edit={edit}
 }
 AdvanceCustomizeSettings.propTypes = {
   hostelid: PropTypes.func.isRequired,
-   onTemplateChange: PropTypes.func.isRequired,
+  onTemplateChange: PropTypes.func.isRequired,
   BillsTemplateList: PropTypes.shape({
     mobile: PropTypes.string,
     emailId: PropTypes.string,

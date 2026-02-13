@@ -5,10 +5,6 @@ import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../../Assets/Images/arrow-left.png"
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-// import Gpay from '../../Assets/Images/gpay.png'
-// import Phonepe from '../../Assets/Images/phonepe.png'
-// import Paytm from '../../Assets/Images/paytm.png'
-import Questionimage from '../../Assets/Images/question.png';
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../../Assets/Images/textarea.png'
 import BankICon from '../../Assets/Images/bank_white.png'
@@ -460,6 +456,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [hostel_logo, setHostelLogo] = useState(null)
 
 
+
   const handleFileUploadHostel = (e) => {
     if (!allowImageUpload) return;
     const file = e.target.files[0];
@@ -473,6 +470,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       };
       reader.readAsDataURL(file);
     }
+    // e.target.value = null
   };
 
 
@@ -603,82 +601,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  // const handleSaveInvoice = () => {
-  //   if (
-  //     !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
-  //   ) {
-  //     if (!prefix) setPrefixErrMsg("Please Enter Prefix");
-  //     if (!suffix) setSuffixErrMsg("Please Enter Suffix");
-  //     if (!tax) setTaxErrMsg("Please Enter Tax");
-  //     if (!notes) setNotesErrMsg("Please Enter Notes");
-  //     if (!terms) setTermsErrMsg("Please Enter Terms");
-  //     if (!selectedBankId) setBankIdError("Please Add or select bank")
-  //     if (!signature) {
-  //       setSignatureErrMsg("Please select signature");
-  //     } else if (!isSignatureConfirmed) {
-  //       setSignatureErrMsg("Please click Done after selecting a signature");
-  //     }
-  //     return;
-  //   }
-
-
-  //   const currentData = {
-  //     prefix,
-  //     suffix,
-  //     tax,
-  //     notes: notes?.replace(/"/g, '') || '',
-  //     privacyPolicy: terms,
-  //     signatureFile: signature,
-  //     bankingId: Number(selectedBankId)
-  //   };
-
-  //   const originalData = {
-  //     prefix: InvoiceList?.invoiceSettings?.prefix || '',
-  //     suffix: InvoiceList?.invoiceSettings?.suffix || '',
-  //     tax: InvoiceList?.invoiceSettings?.tax || '',
-  //     notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
-  //     privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
-  //     signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
-  //     bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
-  //   };
-
-  //   if (
-  //     InvoiceList?.invoiceSettings &&
-  //     JSON.stringify(currentData) === JSON.stringify(originalData)
-  //   ) {
-  //     setEditErrMessage("No changes detected");
-  //     setSignatureErrMsg("")
-  //     return;
-  //   }
-
-  //   if (selectedBankId) {
-  //     dispatch({
-  //       type: "ADD_INVOICE_SETTINGS",
-  //       payload: {
-  //         hostelId: Number(state.login.selectedHostel_Id),
-  //         bank_id: Number(selectedBankId),
-  //         prefix,
-  //         suffix,
-  //         tax,
-  //         notes,
-  //         privacyPolicy: terms,
-  //         signature,
-  //       },
-  //     });
-  //   }
-
-
-  // };
-
-
-
 
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
-      // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
@@ -710,16 +638,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   });
 
 
-  // useEffect(() => {
-  //   if (state.Settings?.settingsInvoicegetSucesscode === 200) {
-  //     setLoading(false)
-  //     setInvoiceList(state.Settings.SettingsInvoice)
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_SETTINGSGETINVOICE_STATUS_CODE" });
-  //     }, 1000);
-  //   }
-  // }, [state.Settings.settingsInvoicegetSucesscode]);
 
 
   useEffect(() => {
@@ -729,8 +647,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       setPrefix("")
       setSuffix("")
       setTax("")
-      // setSignature(null)
-      // setSignaturePreview(null)
       setBankIdError("")
 
       setTimeout(() => {
@@ -746,8 +662,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   useEffect(() => {
     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
-
-      // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: hostelid } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
@@ -780,7 +694,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  // const [selectedcard, setSelectedard] = useState('')
 
 
 
@@ -798,13 +711,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       });
       return;
     }
-    // dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    // setIsInvoiceAddMode(true)
-    // setIsSidebarOpen(false)
     handleFormPage(true)
-    // setSelectedard(type)
     setShowForm(true);
-    // setEdit(false);
+
     setCardShow(false)
   };
 
@@ -812,10 +721,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   const handleCloseForm = () => {
     setBankAccountForm(false);
-    // setEdit(false);
     setCardShow(true)
     setShowForm(false)
-    // setSelectedard('')
     setPrefix('')
     setSelectedDate('')
     setInvoiceDueDate('')
@@ -825,7 +732,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   const handleCloseFormBank = () => {
     setBankAccountForm(false);
-    // setEdit(false);
   }
   const [bankaccountform, setBankAccountForm] = useState(false)
 
@@ -834,22 +740,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     setBankAccountForm(true)
   }
 
-  const handleRemoveQr = () => {
-    setQrImage(null);
-    setQRImagePreview(null)
-    if (qrFileInputRef.current) {
-      qrFileInputRef.current.value = "";
-    }
-  };
 
   const handleCloseBankAccount = () => {
     setBankAccountForm(false)
-    // setaccountnameError("")
-    // setAccountName("")
-    // setAccount_Number("")
-    // setIfscCode("")
-    // setBankName("")
-    // setDescription("")
   }
 
   useEffect(() => {
@@ -859,6 +752,21 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
     }
   }, [state.login.selectedHostel_Id]);
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.templatesImagesDeleteStatusCode === 204) {
+      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_DELETE_TEMPLATES_IMAGES' })
+      }, 100)
+
+
+    }
+
+  }, [state.UsersList?.templatesImagesDeleteStatusCode])
+
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking) {
@@ -872,11 +780,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
-      // setAccountName("")
-      // setAccount_Number("")
-      // setIfscCode("")
-      // setBankName("")
-      // setDescription("")
       handleCloseBankAccount();
 
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -925,12 +828,16 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [qrimagepreview, setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
 
+  console.log("qrImage, ", qrImage)
+  console.log("qrimagepreview", qrimagepreview)
+
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setEditFormErrMessage('')
       setQRImagePreview(file)
       setQrImage(URL.createObjectURL(file));
+      e.target.value = null;
     }
   };
 
@@ -939,11 +846,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   );
 
 
-
   useEffect(() => {
     if (RentalinvoiceTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalinvoiceTemplate.invoiceLogoUrl ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalinvoiceTemplate.invoiceLogoUrl ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalinvoiceTemplate.invoiceLogoUrl && RentalinvoiceTemplate.invoiceLogoUrl
+        //  : BillsTemplateList.logo
+      )
+      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalinvoiceTemplate.invoiceLogoUrl && RentalinvoiceTemplate.invoiceLogoUrl)
       setPaymentMobileNum(
         BillsTemplateList.isMobileCustomized && RentalinvoiceTemplate.invoiceMobileNumber
           ? RentalinvoiceTemplate.invoiceMobileNumber
@@ -952,9 +860,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       setPaymentinvoiceEmail(BillsTemplateList.isMailIdCustomized && RentalinvoiceTemplate.invoiceMailId ? RentalinvoiceTemplate.invoiceMailId : BillsTemplateList.emailId)
       setPrefix(RentalinvoiceTemplate.prefix || '')
       setSuffix(RentalinvoiceTemplate.suffix || '')
-      // setSignature(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-      setRentalSignatureFile(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-      setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
+      setRentalSignatureFile(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl && RentalinvoiceTemplate.invoiceSignatureUrl)
+      setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl && RentalinvoiceTemplate.invoiceSignatureUrl)
       setTerms(RentalinvoiceTemplate.invoiceTermsAndCondition || '')
       setTax(RentalinvoiceTemplate.gstPercentile || '')
       setSelectedBankId(RentalinvoiceTemplate.selectedBankId || null)
@@ -996,78 +903,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   const handleSaveRentalTemplate = () => {
     setEditFormErrMessage('')
-    // const currentTemplate = {
-    //   // hostelId: Number(state.login.selectedHostel_Id),
-    //   // templateTypeId: RentalinvoiceTemplate.typeId,
-    //   // invSign: rentalSignatureFile,
-    //   // isSignatureCustomized: isCheckedSignature,
-    //   // invoicePhoneNumber: paymentmobilenum,
-    //   // isMobileCustomized: isCheckedmobile,
-    //   // invoiceMailId: paymentinvoiceemail,
-    //   // isEmailCustomized: isCheckedEmail,
-    //   // invLogo: hostel_logo,
-    //   // isLogoCustomized: isCheckedLogo,
-    //   qrCode: qrimagepreview,
-    //   prefix: prefix,
-    //   suffix: suffix,
-    //   gstPercentile: tax,
-    //   invoiceNotes: notes,
-    //   invoiceTermsAndCondition: terms,
-    //   bankId: selectedBankId || "",
-    //   invoiceTemplateColor: useGradient
-    //     ? defaultGradient
-    //     : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-    // };
-
-    // const oldTemplate = {
-    //   // hostelId: Number(state.login.selectedHostel_Id),
-    //   // templateTypeId: RentalinvoiceTemplate.typeId,
-    //   // invSign: RentalinvoiceTemplate.invSign || null,
-    //   // isSignatureCustomized: RentalinvoiceTemplate.isSignatureCustomized,
-    //   // invoicePhoneNumber: RentalinvoiceTemplate.invoicePhoneNumber || "",
-    //   // isMobileCustomized: RentalinvoiceTemplate.isMobileCustomized,
-    //   // invoiceMailId: RentalinvoiceTemplate.invoiceMailId || "",
-    //   // isEmailCustomized: RentalinvoiceTemplate.isEmailCustomized,
-    //   // invLogo: RentalinvoiceTemplate.invLogo || null,
-    //   // isLogoCustomized: RentalinvoiceTemplate.isLogoCustomized,
-    //   qrCode: RentalinvoiceTemplate.qrCodeUrl || null,
-    //   prefix: RentalinvoiceTemplate.prefix || "",
-    //   suffix: RentalinvoiceTemplate.suffix || "",
-    //   gstPercentile: RentalinvoiceTemplate.gstPercentile || "",
-    //   invoiceNotes: RentalinvoiceTemplate.invoiceNotes || "",
-    //   invoiceTermsAndCondition: RentalinvoiceTemplate.invoiceTermsAndCondition || "",
-    //   bankId: RentalinvoiceTemplate.selectedBankId || "",
-    //   invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
-    // };
-
-
-    // const isChanged =
-
-    //   currentTemplate.qrCode !== oldTemplate.qrCode ||
-    //   currentTemplate.prefix !== oldTemplate.prefix ||
-    //   currentTemplate.suffix !== oldTemplate.suffix ||
-    //   currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
-    //   currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
-    //   currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-    //   currentTemplate.bankId !== oldTemplate.bankId
-    //  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
-
-
-
-
-
-
-
-
-    // if (!isChanged) {
-    //   setEditFormErrMessage("No changes detected");
-    //   setSignatureErrMsg("");
-    //   return;
-    // }
-
-
-
-
     if (RentalinvoiceTemplate.isSignatureCustomized) {
       const Signatureverify = !RentalinvoiceTemplate.invoiceSignatureUrl;
 
@@ -1137,11 +972,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   };
 
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-  //   }
-  // }, [])
 
   useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
@@ -1168,25 +998,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-
-
-  // useEffect(() => {
-  //   if (showFullView) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'auto';
-  //   }
-  // }, [showFullView]);
-
-
-
-
-
   const [fieldError, setFieldError] = useState("")
 
   const handleSaveTemplate = () => {
-    // const hasSignatureInDB = BillsTemplateList?.signature;
-
 
 
     if (sign && isSignatureConfirmed) {
@@ -1306,11 +1120,65 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
+  // const handleDeleteImage = () => {
+
+  //   if (BillsTemplateList?.hostelId) {
+  //     dispatch({
+  //       type: 'DELETETEMPLATESIMAGES', payload: {
+  //         hostelId: BillsTemplateList?.hostelId,
+  //         templateId: BillsTemplateList?.templateId,
+  //         templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+  //         type: "QRCODE"
+
+  //       }
+  //     })
+  //   }
 
 
+  // }
+
+  const handleRemoveQr = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: RentalinvoiceTemplate?.typeId,
+          type: "QRCODE"
+
+        }
+      })
+    }
+  };
 
 
+  const handleDeleteLogo = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: RentalinvoiceTemplate?.typeId,
+          type: "INVOICE-LOGO"
 
+        }
+      })
+    }
+  }
+
+  const handleDeleteRentalSignature = () => {
+    if (BillsTemplateList?.hostelId) {
+      dispatch({
+        type: 'DELETETEMPLATESIMAGES', payload: {
+          hostelId: BillsTemplateList?.hostelId,
+          templateId: BillsTemplateList?.templateId,
+          templateTypeId: RentalinvoiceTemplate?.typeId,
+          type: "INVOICE-SIGNATURE"
+
+        }
+      })
+    }
+  }
 
 
 
@@ -1512,13 +1380,79 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   }}>
                                     <label style={{ fontWeight: 600, fontFamily: "Gilroy" }}>Hostel/PG Logo</label>
                                   </div>
-                                  <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+                                  <div className=" p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+                                    <div
+                                      className="flex justify-center"
+                                    >
+                                      <div
+                                        className="relative inline-block"
+                                        onMouseEnter={(e) => {
+                                          const trash = e.currentTarget.querySelector(".qr-trash");
+                                          const overlay = e.currentTarget.querySelector(".qr-overlay");
 
-                                    {logoPreview ? (
-                                      <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
-                                    ) : (
-                                      <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
-                                    )}
+                                          if (trash) trash.style.display = "flex";
+                                          if (overlay) overlay.style.display = "block";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          const trash = e.currentTarget.querySelector(".qr-trash");
+                                          const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                          if (trash) trash.style.display = "none";
+                                          if (overlay) overlay.style.display = "none";
+                                        }}
+                                      >
+
+                                        {logoPreview ? (
+                                          <img
+                                            src={logoPreview}
+                                            alt="Preview"
+                                            className="h-[60px] rounded-md mb-2"
+                                          />
+                                        ) : (
+                                          <img
+                                            src={uploadsett}
+                                            alt="upload"
+                                            className="h-[30px] mb-2"
+                                          />
+                                        )}
+
+                                        {logoPreview && !logoPreview.startsWith("data:") && (
+                                          <>
+                                            <div
+                                              className="
+        qr-overlay
+        absolute inset-0
+        hidden
+        bg-black/40
+        rounded-md
+      "
+                                            />
+
+
+                                            <div
+                                              className="
+        qr-trash
+        absolute -top-1 -right-1
+        hidden
+        flex items-center justify-center 
+        rounded-full
+        bg-gray-100
+        p-1
+        cursor-pointer
+      "
+                                              onClick={handleDeleteLogo}
+                                            >
+                                              <div className="bg-black/70 text-white p-2 rounded-full">
+                                                <Trash size={10} />
+                                              </div>
+                                            </div>
+                                          </>
+                                        )}
+
+                                      </div>
+
+                                    </div>
+
 
                                     <div>
                                       <label
@@ -1533,7 +1467,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                         Choose file
                                         <input
                                           type="file"
-                                          accept="image/png"
+                                          accept="image/*"
                                           className="d-none"
                                           ref={fileInputRef}
                                           onChange={handleFileUploadHostel}
@@ -1712,19 +1646,90 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                                         <div className="col-12">
                                           <div
-                                            className="rounded mt-2 d-flex justify-content-center align-items-center"
-                                            style={{
-                                              height: '120px', borderStyle: 'dotted', borderWidth: '3px',
-                                              borderColor: '#ced4da'
+                                            className="
+    relative mt-2
+    flex items-center justify-center
+    h-[120px]
+    rounded
+    border-[3px] border-dotted border-[#ced4da]
+    group
+  "
+                                            onMouseEnter={(e) => {
+                                              const trash = e.currentTarget.querySelector(".qr-trash");
+                                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                              if (trash) trash.style.display = "flex";
+                                              if (overlay) overlay.style.display = "block";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              const trash = e.currentTarget.querySelector(".qr-trash");
+                                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                              if (trash) trash.style.display = "none";
+                                              if (overlay) overlay.style.display = "none";
                                             }}
                                           >
+
                                             {rentalSignaturePreview ? (
-                                              <img src={rentalSignaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+                                              <img
+                                                src={rentalSignaturePreview}
+                                                alt="signature"
+                                                className="max-h-full max-w-full"
+                                              />
                                             ) : (
-                                              <span className="text-muted" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                              >No signature uploaded</span>
+                                              <span
+                                                className="
+        text-[14px]
+        font-normal
+        text-[rgba(34,34,34,1)]
+      "
+                                                style={{ fontFamily: 'Gilroy' }}
+                                              >
+                                                No signature uploaded
+                                              </span>
                                             )}
+
+
+                                            {
+                                              !rentalSignaturePreview?.startsWith("blob:") && <>
+
+
+
+
+                                                {rentalSignaturePreview && (
+                                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                                )}
+
+
+
+
+                                                {rentalSignaturePreview && (
+                                                  <div
+                                                    className="qr-trash
+        absolute -top-1 -right-1
+        hidden
+        items-center justify-center 
+        rounded-full
+        bg-gray-100 text-white
+        p-1
+        cursor-pointer"
+                                                    style={{
+                                                      display: 'none',
+                                                      cursor: 'pointer',
+                                                    }}
+                                                    onClick={handleDeleteRentalSignature}
+                                                  >
+                                                    <div
+                                                      className="bg-black/70 text-white p-2 rounded-full">
+                                                      <Trash size={12} />
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </>
+                                            }
                                           </div>
+
+
 
                                           <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
                                             <div className="d-flex flex-row">
@@ -1795,7 +1800,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                       paddingTop: '20px'
                                     }}
                                   >
-                                    <img src={Questionimage} alt="question" className="me-2" />
+
                                     Override Global Value?
                                   </Modal.Title>
                                 </Modal.Header>
@@ -2117,18 +2122,14 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
 
                             <div
-                              style={{
-                                position: "relative",
-                                width: "100%",
-                                maxWidth: 120,
-                                aspectRatio: "1 / 1",
-                                backgroundColor: "#fff",
-                                // border: "1px solid #ddd",
-                                borderRadius: 8,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
+                              className="
+    relative
+    w-full max-w-[100px]
+    aspect-square
+    bg-white
+    rounded-lg
+    flex items-center justify-center
+  "
                               onMouseEnter={(e) => {
                                 const trash = e.currentTarget.querySelector(".qr-trash");
                                 const overlay = e.currentTarget.querySelector(".qr-overlay");
@@ -2142,69 +2143,87 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 if (overlay) overlay.style.display = "none";
                               }}
                             >
-
                               {qrImage ? (
                                 <>
+
                                   <img
                                     src={qrImage}
                                     alt="QR Preview"
-                                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                      objectFit: "contain",
-                                      borderRadius: "8px",
-                                      marginBottom: "10px",
-                                      // border: "1px solid #ddd",
-                                      backgroundColor: "#fff", zIndex: 1,
-                                    }}
-                                  />
-                                  <div
-                                    className="qr-overlay"
-                                    style={{
-                                      display: "none",
-                                      position: "absolute",
-                                      inset: 0,
-                                      backgroundColor: "rgba(0,0,0,0.15)",
-                                      borderRadius: 8,
-                                      zIndex: 2,
-                                      pointerEvents: "none",
-                                    }}
+                                    className="
+          w-full h-full
+          object-contain
+          rounded-lg
+          bg-white
+          mb-2
+          z-[1]
+        "
                                   />
 
+                                  {
+                                    !qrImage?.startsWith("blob:") && <>
 
-                                  <div
-                                    className="qr-trash"
-                                    onClick={handleRemoveQr}
-                                    style={{
-                                      display: "none",
-                                      position: "absolute",
-                                      // top: "50%",
-                                      // right: 6,
-                                      width: 28,
-                                      height: 28,
-                                      borderRadius: "50%",
-                                      backgroundColor: "rgba(0,0,0,0.7)",
-                                      color: "#fff",
-                                      cursor: "pointer",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      fontSize: 14, zIndex: 3,
-                                    }}
-                                  >
-                                    <Trash size="20" />
-                                  </div>
+                                      <div
+                                        className="
+          qr-overlay
+          hidden
+          absolute inset-0
+          bg-black/15
+          rounded-lg
+          z-[2]
+          pointer-events-none
+        "
+                                      />
+
+
+
+                                      <div
+                                        className="
+    qr-trash
+    absolute
+    hidden
+    flex items-center justify-center
+    rounded-full
+    bg-gray-100
+    p-1
+    cursor-pointer
+    z-[3]
+  "
+                                        onClick={handleRemoveQr}
+                                      >
+
+                                        <div className="qr-trash" onClick={handleRemoveQr}>
+                                          <Trash size={12} />
+                                        </div>
+
+                                      </div>
+
+                                    </>
+                                  }
                                 </>
+
                               ) : (
                                 <img
                                   src={uploadsett}
                                   alt="upload"
-                                  style={{
-                                    height: 30,
-                                    marginBottom: "10px",
-                                  }}
+                                  className="h-[30px] mb-2"
                                 />
                               )}
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <div className="d-flex flex-column ms-3">
                               <div>
                                 <label style={{ cursor: 'pointer', color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>
@@ -3019,7 +3038,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
               <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
                 <label className="font-gilroy text-[18px] text-[#222] font-semibold">
-                 Bill Template Manager
+                  Bill Template Manager
                 </label>
               </div>
 
@@ -3157,12 +3176,54 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           className="d-flex align-items-center justify-content-center p-3 border rounded"
                           style={{ backgroundColor: "#f9f9f9" }}
                         >
-                          <img
-                            src={previewURL ? previewURL : uploadsett}
-                            alt="logo-preview"
-                            style={{ height: 30 }}
-                          />
+                          <div
+                            className="relative inline-block"
+                            onMouseEnter={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
 
+                              if (trash) trash.style.display = "flex";
+                              if (overlay) overlay.style.display = "block";
+                            }}
+                            onMouseLeave={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "none";
+                              if (overlay) overlay.style.display = "none";
+                            }}
+                          >
+
+                            <img
+                              src={previewURL ? previewURL : uploadsett}
+                              alt="logo-preview"
+                              className="h-[60px] w-[60px]"
+                            />
+
+
+                            {previewURL && (
+                              <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                            )}
+
+
+                            {/* {previewURL && (
+                              <div
+                                className="
+        qr-trash
+        absolute -top-1 -right-1
+        hidden
+        items-center justify-center 
+        rounded-full
+        bg-gray-100 text-white
+        p-1
+        cursor-pointer
+      "
+                              // onClick={handleDeleteImage}
+                              >
+                                <Trash size={18} color="#f31717" />
+                              </div>
+                            )} */}
+                          </div>
 
 
 

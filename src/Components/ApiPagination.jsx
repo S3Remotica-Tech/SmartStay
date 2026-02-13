@@ -73,7 +73,7 @@ function ApiPagination({
 
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-6 py-1">
+    <div className="sticky bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200 px-6 py-1">
       <div className="flex items-center justify-between">
         <div className="text-sm font-medium text-gray-700">
           Total Records :  <span className="text-[#1E45E1] font-semibold">{totalRecords}</span>

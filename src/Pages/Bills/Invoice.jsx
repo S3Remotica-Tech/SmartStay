@@ -374,32 +374,22 @@ const InvoicePage = () => {
 
   };
 
-const pdfOpenedRef = useRef(false);
+
 
  
+const pdfOpenedRef = useRef(false);
+
 useEffect(() => {
-  if (
-    state.InvoiceList?.statusCodeForPDf === 200 &&
-    state.InvoiceList?.invoicePDF &&
-    !pdfOpenedRef.current
-  ) {
-    pdfOpenedRef.current = true;
+  if (!state.InvoiceList?.invoicePDF) return;
+  if (pdfOpenedRef.current) return;
 
-    setLoading(false);
-    setShowLoader(false);
+  pdfOpenedRef.current = true;
+  setLoading(false);
+  setShowLoader(false);
+  window.open(state.InvoiceList.invoicePDF, "_blank");
 
-    window.open(state.InvoiceList.invoicePDF, "_blank");
-
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-          }, 100);
-  }
-}, [state.InvoiceList?.statusCodeForPDf]);
-
-
-
-
-
+  dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+}, [state.InvoiceList?.invoicePDF]);
 
 
 

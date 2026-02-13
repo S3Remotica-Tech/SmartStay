@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef} from "react";
 import ReceiptList from "../../Pages/Receipt/ReceiptList";
 import { Container, Row, Col, InputGroup, Table, Button, FormControl, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -30,123 +30,13 @@ import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 
 function Receipt() {
-
-
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
-    // const [recurLoader, setRecurLoader] = useState(false);
-    //    const [initials, setInitials] = useState("");
-    // const [formRecordLoading, setFormRecordLoading] = useState(false)
-    // const dropdownRef = useRef(null);
-    // const [invoiceList, setInvoiceList] = useState({
-    //     firstName: "",
-    //     lastName: "",
-    //     phone: "",
-    //     email: "",
-    //     hostel_Name: "",
-    //     hostel_Id: "",
-    //     FloorNo: "",
-    //     RoomNo: "",
-    //     date: "",
-    //     paymentType: "",
-    //     amount: "",
-    //     balanceDue: "",
-    //     dueDate: "",
-    //     payableAmount: "",
-    //     InvoiceId: "",
-    //     invoice_type: "",
-    //     transaction: "",
-    // });
-
-
-
-
-
-
-    // const location = useLocation();
-
-    // const isDuplicate = location.pathname.includes("/invoice/new/");
-
-
-    // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
-
-
-    // const [showLoader, setShowLoader] = useState(false);
-    // const [statusfilter, setStatusfilter] = useState("");
-    // const [selectedUserId, setSelectedUserId] = useState("");
-    // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
-    // const [amounterrormsg, setAmountErrmsg] = useState("");
-    // const [dateerrmsg, setDateErrmsg] = useState("");
-    // const [totalErrormsg, setTotalErrmsg] = useState("");
-    // const [customername, setCustomerName] = useState("");
-    // const [invoicenumber, setInvoiceNumber] = useState("");
-    // const [startdate, setStartDate] = useState(null);
-    // const [enddate, setEndDate] = useState(null);
-    // const [invoicedate, setInvoiceDate] = useState(null);
-    // const [invoiceduedate, setInvoiceDueDate] = useState(null);
-    // const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
-    // const [formatduedate, setFormatDueDate] = useState(null);
-    // const [totalAmount, setTotalAmount] = useState("");
-    // const [bills, setBills] = useState([]);
-    // const [newRows, setNewRows] = useState([])
-    // const [customererrmsg, setCustomerErrmsg] = useState("");
-    // const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-    // const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
-    // const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
-    // const [allfielderrmsg, setAllFieldErrmsg] = useState("");
-    // const [amenityArray, setamenityArray] = useState([]);
-    // const [recurringbills, setRecurringBills] = useState([]);
-    // const [account, setAccount] = useState("");
-    // const [accountError, setAccountError] = useState("");
-    // const startRef = useRef(null);
-    // const endRef = useRef(null);
-    // const invoiceRef = useRef(null);
-    // const dueRef = useRef(null);
-    // const [showmanualinvoice, setShowManualInvoice] = useState(false);
-    // const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
+    const pdfOpenedRef = useRef(false);
     const [receiptformShow, setReceiptFormShow] = useState(false);
-    // const [showAllBill, setShowAllBill] = useState(true);
-    // const [billrolePermission, setBillRolePermission] = useState("");
-    // const [billpermissionError, setBillPermissionError] = useState("");
-    // const [billAddPermission, setBillAddPermission] = useState("");
-    // const [billDeletePermission, setBillDeletePermission] = useState("");
-    // const [billEditPermission, setBillEditPermission] = useState("");
-    // const [recuringbillAddPermission, setRecuringBillAddPermission] = useState("");
-    // const [recurringPermission, setRecurringPermission] = useState("");
-    // const [receiptPermission, setReceiptPermission] = useState("");
-    // const [receiptaddPermission, setReceiptAddPermission] = useState("");
-    // const [showform, setShowform] = useState(false);
-    // const [selectedDate, setSelectedDate] = useState(null);
-    // const calendarRef = useRef(null);;
-    // const [tableErrmsg, setTableErrmsg] = useState("");
-    // const [value, setValue] = React.useState("1");
-    // const [DownloadInvoice, setDownloadInvoice] = useState(false);
-    // const [DownloadReceipt, setDownloadReceipt] = useState(false);
-    // const [showPdfModal, setShowPdfModal] = useState(false);
-    // const [showPdfReceiptModal, setShowPdfReceiptModal] = useState(false);
-    // const [rowData, setRowData] = useState("");
-    // const [showdeleteform, setShowDeleteform] = useState(false);
-    // const [billMode, setBillMode] = useState("New Bill");
-    // const [isEditing, setIsEditing] = useState(false);
-    // const [deleteId, setDeleteId] = useState("");
-    // const [filterInput, setFilterInput] = useState("");
-    // const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [search, setSearch] = useState(false);
-    // const [filterStatus, setFilterStatus] = useState(false);
-    // const theme = useTheme();
-    // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-
-
-    // const [transactionId, setTransactionId] = useState("");
-    // const [hostelId, setHostelId] = useState("");
-    // const [chips, setChips] = useState([])
     const [receiptdata, setReceiptData] = useState([]);
     const [receiptLoader, setReceiptLoader] = useState(false);
-
-
-
 
     const {
         canWriteModule: canWriteReceipt,
@@ -187,18 +77,6 @@ function Receipt() {
 
 
 
-    // useEffect(() => {
-    //     if (state.InvoiceList.BillsErrorstatusCode === 201) {
-
-    //         setTimeout(() => {
-    //             setLoading(false);
-    //             dispatch({ type: "REMOVE_NODATA_BILL_LIST" });
-    //         }, 100);
-    //     }
-    // }, [state.InvoiceList.BillsErrorstatusCode]);
-
-
-
     const handleReceiptShow = () => {
         if (!state.login.selectedHostel_Id) {
             toast.error('Please add a hostel before adding receipt information.', {
@@ -206,9 +84,6 @@ function Receipt() {
             });
             return;
         }
-        // setShowAllBill(false);
-        // setReceiptFormShow(true);
-        // dispatch({ type: "GET_REFERENCE_ID" });
     };
 
 
@@ -233,14 +108,16 @@ function Receipt() {
     }, [state.createAccount?.networkError])
 
     const handleReceiptDetail = (item) => {
+        console.log("item", item)
 
-
-        if (item.user_id) {
+        if (item.transactionId) {
 
             dispatch({
                 type: "RECEIPTPDF",
                 payload: {
-                    id: item.id,
+                    transactionId: item.transactionId,
+                    hostelId: state.login?.selectedHostel_Id
+
                 },
             });
 
@@ -250,273 +127,15 @@ function Receipt() {
 
 
 
+    useEffect(() => {
+        if (!state.InvoiceList.ReceiptPDF) return;
+        if (pdfOpenedRef.current) return;
+        pdfOpenedRef.current = true;
+        //    setShowLoader(false);
+        window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
-    // const CustomStyles = {
-    //     control: (base) => ({
-    //         ...base,
-    //         height: "auto",
-    //         border: "1px solid #D9D9D9",
-    //         borderRadius: "8px",
-    //         fontSize: "14px",
-    //         color: "#4B4B4B",
-    //         fontFamily: "Gilroy, sans-serif",
-    //         fontWeight: 500,
-    //         boxShadow: "none",
-    //         cursor: "pointer",
-    //         outline: "none",
-    //         "&:hover": {
-    //             border: "1px solid #D9D9D9",
-    //         },
-    //     }),
-    //     valueContainer: (base) => ({
-    //         ...base,
-    //         maxHeight: "60px",
-    //         overflowY: "auto",
-    //         flexWrap: "wrap",
-    //     }), multiValue: (base) => ({
-    //         ...base,
-    //         backgroundColor: "#FFF",
-    //         borderRadius: "6px",
-    //     }),
-
-    //     multiValueLabel: (base) => ({
-    //         ...base,
-    //         fontSize: "12px",
-    //         fontWeight: 600,
-    //         color: "#000000",
-    //     }),
-
-    //     multiValueRemove: (base) => ({
-    //         ...base,
-    //         cursor: "pointer",
-    //         borderRadius: 10,
-    //         color: "#FF0000",
-    //         ":hover": {
-    //             color: "#FF0000",
-    //         },
-    //     }),
-
-    //     menu: (base) => ({
-    //         ...base,
-    //         backgroundColor: "#f8f9fa",
-    //         border: "1px solid #ced4da",
-    //         fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-    //     }),
-    //     menuList: (base) => ({
-    //         ...base,
-    //         backgroundColor: "#1E45E1",
-    //         color: "#FFF",
-    //         maxHeight: "120px",
-    //         padding: 0,
-    //         scrollbarWidth: "thin",
-    //         overflowY: "auto",
-    //         fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-    //     }),
-    //     placeholder: (base) => ({
-    //         ...base,
-    //         color: "#555",
-    //     }),
-    //     option: (base, state) => ({
-    //         ...base,
-    //         cursor: "pointer",
-    //         backgroundColor: state.isFocused ? "" : "white",
-    //         color: state.isFocused ? "#FFF" : "#000000",
-    //     }),
-    //     dropdownIndicator: (base) => ({
-    //         ...base,
-    //         color: "#555",
-    //         cursor: "pointer"
-    //     }),
-    //     indicatorSeparator: () => ({
-    //         display: "none",
-    //     }), clearIndicator: () => ({
-    //         display: "none",
-    //     }),
-    // }
-
-    // const handleStatusFilter = (selectedOption) => {
-    //     dispatch({
-    //         type: "SET_INVOICE_FILTERS",
-    //         payload: {
-    //             startDate: undefined,
-    //             endDate: undefined,
-    //             type: [],
-    //             createdBy: [],
-    //             createdByLabels: [],
-    //             modes: [],
-    //             paymentStatus: [],
-    //             search: "",
-    //         },
-    //     })
-    //     if (!selectedOption) {
-    //         setStatusfilter(null);
-
-    //         if (state.login?.selectedHostel_Id) {
-    //             dispatch({
-    //                 type: "INVOICESLISTFILTER",
-    //                 payload: {
-    //                     hostelId: state.login.selectedHostel_Id,
-    //                 },
-    //             });
-    //         }
-    //         return;
-    //     }
-
-    //     setStatusfilter(selectedOption);
-    //     // console.log("selectedOption", selectedOption);
-
-    //     if (!state.login?.selectedHostel_Id) return;
-
-
-    //     if (selectedOption.value === "ALL") {
-    //         dispatch({
-    //             type: "INVOICESLISTFILTER",
-    //             payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //             },
-    //         });
-    //     }
-
-    //     else {
-    //         dispatch({
-    //             type: "INVOICESLISTFILTER",
-    //             payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //                 filters: {
-    //                     paymentStatus: [selectedOption.value],
-    //                     search: filterInput
-    //                 },
-    //             },
-    //         });
-    //     }
-    // };
-
-
-
-
-
-    // const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
-    // const handleStatusFilterReceipt = (event) => {
-    //     const searchTerm = event.target.value;
-    //     setStatusFilterReceipt(searchTerm);
-    // };
-
-    // useEffect(() => {
-    //     if (statusFilterReceipt !== "date") {
-    //         setReceiptDateRange([]);
-
-    //         if (statusFilterReceipt === "All") {
-    //             setReceiptData(originalBillsFilterReceipt);
-    //         } else {
-    //             const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
-    //                 const mode = user.paymentMode?.toLowerCase() || "";
-
-    //                 if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
-    //                 if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
-    //                 if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
-    //                 if (statusFilterReceipt === "Card") return mode.endsWith("-card");
-
-    //                 return false;
-    //             });
-
-    //             setReceiptData(filteredItemsReceipt);
-    //             // setCurrentReceiptPage(1);
-    //         }
-    //     }
-    // }, [statusFilterReceipt]);
-
-
-
-
-
-    // const [receiptDateRange, setReceiptDateRange] = useState([]);
-    // const handleDateRangeChangeReceipt = (dates) => {
-    //     setReceiptDateRange(dates);
-
-
-    //     if (!dates || dates.length !== 2) {
-    //         setStatusFilterReceipt("All");
-    //         setReceiptData(originalBillsFilterReceipt);
-    //         return;
-    //     }
-
-    //     const [start, end] = dates;
-
-    //     const filtered = originalBillsFilterReceipt.filter((item) => {
-    //         const itemDate = dayjs(item.payment_date);
-    //         return (
-    //             itemDate.isSame(start, 'day') ||
-    //             itemDate.isSame(end, 'day') ||
-    //             (itemDate.isAfter(start) && itemDate.isBefore(end))
-    //         );
-    //     });
-
-    //     setReceiptData(filtered);
-    //     // setCurrentReceiptPage(1)
-    // };
-
-
-    // useEffect(() => {
-    //     if (statusFilterReceipt !== "date") {
-    //         setReceiptDateRange([]);
-    //     }
-    // }, [statusFilterReceipt]);
-    // useEffect(() => {
-    //     if (statusFilterReceipt === "All") {
-    //         setReceiptData(originalBillsFilterReceipt);
-    //         setReceiptDateRange([]);
-
-    //     }
-    // }, [statusFilterReceipt]);
-
-
-    // useEffect(() => {
-    //     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
-    //         setOriginalBillsFilterReceipt(receiptdata);
-    //     }
-    // }, [receiptdata]);
-
-
-
-
-    // const formatDateForPayload = (date) => {
-    //     if (!date) return null;
-    //     const offset = date.getTimezoneOffset();
-    //     const localDate = new Date(date.getTime() - offset * 60 * 1000);
-
-    //     const day = String(localDate.getDate()).padStart(2, "0");
-    //     const month = String(localDate.getMonth() + 1).padStart(2, "0");
-    //     const year = localDate.getFullYear();
-
-    //     return `${day}-${month}-${year}`;
-    // };
-
-
-    // const [payableAmount, setPayableAmount] = useState("");
-    // const [balance, setBalance] = useState(0);
-
-
-    // const handleAmount = (e) => {
-    //     setAmountErrmsg('')
-    //     let value = e.target.value;
-
-    //     if (value !== "") {
-    //         let numValue = Number(value);
-    //         if (numValue > (invoiceList.balanceDue || 0)) {
-    //             numValue = invoiceList.balanceDue || 0;
-    //         }
-    //         value = numValue;
-    //         setBalance((invoiceList.balanceDue || 0) - numValue);
-    //     } else {
-
-    //         setBalance(invoiceList.balanceDue || 0);
-    //     }
-
-    //     setPayableAmount(value);
-    //     setPayableAmountError("")
-    //     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-    // };
-
+        dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+    }, [state.InvoiceList.ReceiptPDF]);
 
 
 
@@ -524,13 +143,10 @@ function Receipt() {
 
     const [editvalue, setEditvalue] = useState("");
     const [receiptedit, setReceiptEdit] = useState(false);
-    // const [payableamountError, setPayableAmountError] = useState("")
-
 
 
 
     const handleEditReceipt = (item) => {
-        // setShowAllBill(false);
         setReceiptFormShow(true);
         setEditvalue(item);
         setReceiptEdit(true);
@@ -549,226 +165,12 @@ function Receipt() {
 
     const handleBackBill = () => {
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-        // setFormLoading(false)
-        // setShowManualInvoice(false);
-        // setShowRecurringBillForm(false);
         setReceiptFormShow(false);
-        // setShowAllBill(true);
+
         setEditvalue("");
         setReceiptEdit(false);
-        // setCustomerName("");
-        // setInvoiceNumber("");
-        // setStartDate("");
-        // setEndDate("");
-        // setInvoiceDate("");
-        // setInvoiceDueDate("");
+
     };
-
-
-
-
-
-
-
-
-
-    // const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    //     return (
-    //         <div
-    //             className="date-input-container w-100"
-    //             onClick={onClick}
-    //             style={{ position: "relative" }}
-    //         >
-    //             <FormControl
-    //                 type="text"
-    //                 className="date_input"
-    //                 value={value || "DD/MM/YYYY"}
-    //                 readOnly
-    //                 ref={ref}
-    //                 style={{
-    //                     border: "1px solid #D9D9D9",
-    //                     borderRadius: 8,
-    //                     padding: 9,
-    //                     fontSize: 14,
-    //                     fontFamily: "Gilroy",
-    //                     fontWeight: value ? 600 : 500,
-    //                     width: "100%",
-    //                     height: 50,
-    //                     boxSizing: "border-box",
-    //                     boxShadow: "none",
-    //                     backgroundColor: "#fff",
-    //                     cursor: "pointer",
-    //                 }}
-    //             />
-    //             <img
-    //                 src={Calendars}
-    //                 style={{
-    //                     height: 24,
-    //                     width: 24,
-    //                     marginLeft: 10,
-    //                     cursor: "pointer",
-    //                     position: "absolute",
-    //                     right: 10,
-    //                     top: "50%",
-    //                     transform: "translateY(-50%)",
-    //                 }}
-    //                 alt="Calendar"
-    //                 onClick={onClick}
-    //             />
-    //         </div>
-    //     );
-    // });
-    // CustomStartDateInput.displayName = "CustomStartDateInput";
-
-    // const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    //     return (
-    //         <div
-    //             className="date-input-container w-100"
-    //             onClick={onClick}
-    //             style={{ position: "relative" }}
-    //         >
-    //             <FormControl
-    //                 type="text"
-    //                 className="date_input"
-    //                 value={value || "DD/MM/YYYY"}
-    //                 readOnly
-    //                 ref={ref}
-    //                 style={{
-    //                     border: "1px solid #D9D9D9",
-    //                     borderRadius: 8,
-    //                     padding: 9,
-    //                     fontSize: 14,
-    //                     fontFamily: "Gilroy",
-    //                     fontWeight: value ? 600 : 500,
-    //                     width: "100%",
-    //                     height: 50,
-    //                     boxSizing: "border-box",
-    //                     boxShadow: "none",
-    //                     backgroundColor: "#fff",
-    //                     cursor: "pointer",
-    //                 }}
-    //             />
-    //             <img
-    //                 src={Calendars}
-    //                 style={{
-    //                     height: 24,
-    //                     width: 24,
-    //                     marginLeft: 10,
-    //                     cursor: "pointer",
-    //                     position: "absolute",
-    //                     right: 10,
-    //                     top: "50%",
-    //                     transform: "translateY(-50%)",
-    //                 }}
-    //                 alt="Calendar"
-    //                 onClick={onClick} />
-    //         </div>
-    //     );
-    // });
-
-    // CustomEndDateInput.displayName = "CustomEndDateInput";
-
-    // const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    //     return (
-    //         <div
-    //             className="date-input-container w-100"
-    //             onClick={onClick}
-    //             style={{ position: "relative" }}
-    //         >
-    //             <FormControl
-    //                 type="text"
-    //                 className="date_input"
-    //                 value={value || "DD/MM/YYYY"}
-    //                 readOnly
-    //                 ref={ref}
-    //                 style={{
-    //                     border: "1px solid #D9D9D9",
-    //                     borderRadius: 8,
-    //                     padding: 9,
-    //                     fontSize: 14,
-    //                     fontFamily: "Gilroy",
-    //                     fontWeight: value ? 600 : 500,
-    //                     width: "100%",
-    //                     height: 50,
-    //                     boxSizing: "border-box",
-    //                     boxShadow: "none",
-    //                     backgroundColor: "#fff",
-    //                     cursor: "pointer",
-    //                 }}
-    //             />
-    //             <img
-    //                 src={Calendars}
-    //                 style={{
-    //                     height: 24,
-    //                     width: 24,
-    //                     marginLeft: 10,
-    //                     cursor: "pointer",
-    //                     position: "absolute",
-    //                     right: 10,
-    //                     top: "50%",
-    //                     transform: "translateY(-50%)",
-    //                 }}
-    //                 alt="Calendar"
-    //                 onClick={onClick}
-    //             />
-    //         </div>
-    //     );
-    // });
-    // CustomInvoiceDateInput.displayName = "CustomInvoiceDateInput";
-    // const CustomInvoiceDueDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    //     return (
-    //         <div
-    //             className="date-input-container w-100"
-    //             onClick={onClick}
-    //             style={{ position: "relative" }}
-    //         >
-    //             <FormControl
-    //                 type="text"
-    //                 className="date_input"
-    //                 value={value || "DD/MM/YYYY"}
-    //                 readOnly
-    //                 ref={ref}
-    //                 style={{
-    //                     border: "1px solid #D9D9D9",
-    //                     borderRadius: 8,
-    //                     padding: 9,
-    //                     fontSize: 14,
-    //                     fontFamily: "Gilroy",
-    //                     fontWeight: value ? 600 : 500,
-    //                     width: "100%",
-    //                     height: 50,
-    //                     boxSizing: "border-box",
-    //                     boxShadow: "none",
-    //                     backgroundColor: "#fff",
-    //                     cursor: "pointer",
-    //                 }}
-    //             />
-    //             <img
-    //                 src={Calendars}
-    //                 style={{
-    //                     height: 24,
-    //                     width: 24,
-    //                     marginLeft: 10,
-    //                     cursor: "pointer",
-    //                     position: "absolute",
-    //                     right: 10,
-    //                     top: "50%",
-    //                     transform: "translateY(-50%)",
-    //                 }}
-    //                 alt="Calendar"
-    //                 onClick={onClick}
-    //             />
-    //         </div>
-    //     );
-    // });
-
-    // CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
-
-
-
-
-
-
 
 
 
@@ -884,7 +286,6 @@ function Receipt() {
 
     useEffect(() => {
         if (state.createAccount?.networkError) {
-            // setFormLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
             }, 3000)
@@ -892,78 +293,6 @@ function Receipt() {
 
     }, [state.createAccount?.networkError])
 
-
-
-
-    // useEffect(() => {
-    //     const invoiceFilters = state.InvoiceList.invoiceFilters;
-    //     const filterData = [];
-
-
-    //     if (invoiceFilters?.paymentStatus?.length) {
-    //         filterData.push({
-    //             key: "payment-status",
-    //             label: "Status is",
-    //             type: "paymentStatus",
-    //             value: invoiceFilters.paymentStatus.join(", "),
-    //         });
-    //     }
-
-
-    //     if (invoiceFilters?.type?.length) {
-    //         filterData.push({
-    //             key: "type",
-    //             label: "Type is",
-    //             type: "type",
-    //             value: invoiceFilters.type.join(", "),
-    //         });
-    //     }
-
-
-    //     if (invoiceFilters?.modes?.length) {
-    //         filterData.push({
-    //             key: "modes",
-    //             label: "Mode is",
-    //             type: "modes",
-    //             value: invoiceFilters.modes.join(", "),
-    //         });
-    //     }
-
-
-    //     if (invoiceFilters?.createdByLabels?.length) {
-    //         filterData.push({
-    //             key: "created-by",
-    //             label: "Created By",
-    //             type: "createdBy",
-    //             value: invoiceFilters.createdByLabels.join(", "),
-    //         });
-    //     }
-
-
-    //     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
-    //         filterData.push({
-    //             key: "date-range",
-    //             label: "Date Range is",
-    //             type: "date",
-    //             value:
-    //                 invoiceFilters.startDate && invoiceFilters.endDate
-    //                     ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-    //                     : invoiceFilters.startDate || invoiceFilters.endDate,
-    //         });
-    //     }
-
-
-    //     if (invoiceFilters?.search) {
-    //         filterData.push({
-    //             key: "search",
-    //             label: "Tenant",
-    //             type: "search",
-    //             value: invoiceFilters.search,
-    //         });
-    //     }
-
-    //     setChips(filterData);
-    // }, [state.InvoiceList.invoiceFilters]);
 
 
     useEffect(() => {
@@ -984,45 +313,6 @@ function Receipt() {
             });
         };
     }, [state.login.selectedHostel_Id]);
-
-    // const handleReset = () => {
-    //     dispatch({
-    //         type: "SET_INVOICE_FILTERS",
-    //         payload: {
-    //             startDate: undefined,
-    //             endDate: undefined,
-    //             type: [],
-    //             createdBy: [],
-    //             createdByLabels: [],
-    //             modes: [],
-    //             paymentStatus: [],
-    //             search: "",
-    //         },
-    //     })
-
-
-    //     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-    // }
-
-
-    // useEffect(() => {
-    //     const handleClickOutside = (event) => {
-    //         if (
-    //             dropdownRef.current &&
-    //             !dropdownRef.current.contains(event.target)
-
-    //         ) {
-    //             setDropdownVisible(false);
-
-    //         }
-    //     };
-
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, []);
-
 
 
 
@@ -1057,16 +347,16 @@ function Receipt() {
                     <Container className="w-full p-0">
                         <div className="w-full">
                             <div className="sticky top-0 bg-white z-10 flex justify-between items-center flex-wrap h-auto border-b border-transparent shadow-none">
-                             
+
                                 <div className="mt-0">
                                     <label className="text-[18px] text-[#222222] font-gilroy font-semibold">
                                         Receipt
                                     </label>
                                 </div>
 
-                             
+
                                 <div className="flex flex-wrap items-center justify-between gap-2 p-2">
-                                   
+
                                     <div className="border border-[#CBD5E1] rounded-full p-1.5 h-fit flex items-center justify-center">
                                         <FiSearch
                                             className={`h-5 w-5 transition-opacity duration-300 ${canReadReceipt
@@ -1076,7 +366,7 @@ function Receipt() {
                                             onClick={handleSearch}
                                         />
                                     </div>
-                                    
+
                                     {search && (
                                         <div className="relative flex flex-wrap cursor-pointer mt-0">
                                             <InputGroup className="flex-nowrap max-w-full font-gilroy">
@@ -1181,7 +471,7 @@ function Receipt() {
                                 </div>
                             )}
 
-                    
+
                             {receiptformShow && (
                                 <AddReceiptForm
                                     onhandleback={handleBackBill}

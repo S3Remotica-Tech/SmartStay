@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import {
     Filter,
     Export, ArrowLeft,
@@ -41,7 +41,6 @@ function InvoiceRegister() {
         setInvoiceFilter(false)
     }
 
-    // console.log("invoiceRegister", invoiceRegister)
 
 
     // useEffect(() => {
@@ -195,17 +194,17 @@ function InvoiceRegister() {
 
 
 
-   const statusColor = {
-  Paid: "bg-[#D9FFD9] text-[#065F46]",
+    const statusColor = {
+        Paid: "bg-[#D9FFD9] text-[#065F46]",
 
-  Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
-  "Partial Payment": "bg-[#FFD9D9] text-[#7A1C1C]",
+        Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
+        "Partial Payment": "bg-[#FFD9D9] text-[#7A1C1C]",
 
-  Refunded: "bg-[#FFF3CD] text-[#8B8000]",
-  "Partial Refund": "bg-[#FFF3CD] text-[#8B8000]",
-  "Pending Refund": "bg-[#FFE6B3] text-[#b45309]",
-  Cancelled: "bg-[#E5E7EB] text-[#374151]", 
-};
+        Refunded: "bg-[#FFF3CD] text-[#8B8000]",
+        "Partial Refund": "bg-[#FFF3CD] text-[#8B8000]",
+        "Pending Refund": "bg-[#FFE6B3] text-[#b45309]",
+        Cancelled: "bg-[#E5E7EB] text-[#374151]",
+    };
 
 
 
@@ -399,30 +398,58 @@ function InvoiceRegister() {
     }, [state.reports.invoiceRegisterFilters,]);
 
 
+    // useEffect(() => {
 
 
-   useEffect(() => {
-  const apiStart = state?.reports?.getInvoiceRegister?.startDate;
-  const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
+    //     if (!apiStart || !apiEnd) return;
 
-  if (!apiStart || !apiEnd) return;
+    //     const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
+    //     const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
 
-  const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
-  const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+    //     if (
+    //         selectedRange?.from &&
+    //         selectedRange?.to &&
+    //         dayjs(selectedRange.from).isSame(from, "day") &&
+    //         dayjs(selectedRange.to).isSame(to, "day")
+    //     ) {
+    //         return;
+    //     }
 
-  if (
-    selectedRange?.from &&
-    selectedRange?.to &&
-    dayjs(selectedRange.from).isSame(from, "day") &&
-    dayjs(selectedRange.to).isSame(to, "day")
-  ) {
-    return; 
-  }
-
-  setSelectedRange({ from, to });
-}, [state?.reports?.getInvoiceRegister]);
+    //     setSelectedRange({ from, to });
+    // }, [apiStart, apiEnd]);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const apiStart = state?.reports?.getInvoiceRegister?.startDate;
+    const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
+
+
+    
+    const isInitialLoad = useRef(true);
+
+    useEffect(() => {
+        if (!apiStart || !apiEnd || !isInitialLoad.current) return;
+
+        isInitialLoad.current = false;
+
+        setSelectedRange({
+            from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+            to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+        });
+    }, [apiStart, apiEnd]);
 
 
     const handleDateChange = (dates) => {
@@ -473,68 +500,89 @@ function InvoiceRegister() {
     };
 
 
+    // useEffect(() => {
+    //     setPage(0);
+    // }, [startDate, endDate]);
 
 
 
     useEffect(() => {
-  return () => {
-    
-    dispatch({
-      type: "SET_INVOICE_REGISTER_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        invoiceTypes: [],
-        createdBy: [],
-        invoiceModes: [],
-        paymentStatus: [],
-        search: "",
-        minPaidAmount: "",
-        maxPaidAmount: "",
-        minOutstandingAmount: "",
-        maxOutstandingAmount: "",
-        period: []
-      },
-    });
-  };
-}, []);
+        return () => {
 
-const startDate = selectedRange?.from
-  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-  : undefined;
+            dispatch({
+                type: "SET_INVOICE_REGISTER_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+                    invoiceTypes: [],
+                    createdBy: [],
+                    invoiceModes: [],
+                    paymentStatus: [],
+                    search: "",
+                    minPaidAmount: "",
+                    maxPaidAmount: "",
+                    minOutstandingAmount: "",
+                    maxOutstandingAmount: "",
+                    period: []
+                },
+            });
+            const filters = {
+                size,
+                page,
+            };
 
-const endDate = selectedRange?.to
-  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-  : undefined;
+            dispatch({
+                type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters,
+                },
+            });
+        };
+    }, []);
 
 
-   useEffect(() => {
- 
-  if (!state.login?.selectedHostel_Id) return;
 
-  const filters = {
-  startDate: startDate,
-      endDate: endDate,
-    size,
-    page,
-  };
+    const startDate = useMemo(() => {
+        return selectedRange?.from
+            ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+            : undefined;
+    }, [selectedRange?.from]);
 
-  dispatch({
-    type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
-    payload: {
-      hostelId: state.login.selectedHostel_Id,
-      filters,
-    },
-  });
+    const endDate = useMemo(() => {
+        return selectedRange?.to
+            ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+            : undefined;
+    }, [selectedRange?.to]);
 
-  setLoading(true);
-}, [
-  state.login?.selectedHostel_Id,
-  size,
-  page,
-  startDate,
-  endDate,
-]);
+
+    useEffect(() => {
+
+        if (!state.login?.selectedHostel_Id) return;
+
+        const filters = {
+            startDate: startDate,
+            endDate: endDate,
+            size,
+            page,
+        };
+
+        dispatch({
+            type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters,
+            },
+        });
+
+        setLoading(true);
+    }, [
+        state.login?.selectedHostel_Id,
+        size,
+        page,
+        startDate,
+        endDate,
+    ]);
 
 
 

@@ -183,28 +183,22 @@ function ExpenseRegister() {
     { title: "Final Settlement" },
   ];
 
-
+  const isInitialLoad = useRef(true);
+  const apiStart = state?.reports?.getExpenseRegister?.summary?.startDate;
+  const apiEnd = state?.reports?.getExpenseRegister?.summary?.endDate;
 
   useEffect(() => {
-    const apiStart = state?.reports?.getExpenseRegister?.summary?.startDate;
-    const apiEnd = state?.reports?.getExpenseRegister?.summary?.endDate;
+    if (!apiStart || !apiEnd || !isInitialLoad.current) return;
 
-    if (!apiStart || !apiEnd) return;
+    isInitialLoad.current = false;
 
-    const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
-    const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
+    setSelectedRange({
+      from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+      to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+    });
+  }, [apiStart, apiEnd]);
 
-    if (
-      selectedRange?.from &&
-      selectedRange?.to &&
-      dayjs(selectedRange.from).isSame(from, "day") &&
-      dayjs(selectedRange.to).isSame(to, "day")
-    ) {
-      return;
-    }
 
-    setSelectedRange({ from, to });
-  }, [state?.reports?.getExpenseRegister]);
 
 
 
@@ -262,10 +256,10 @@ function ExpenseRegister() {
 
   };
 
-  
+
   useEffect(() => {
     return () => {
-          dispatch({
+      dispatch({
         type: "SET_EXPENSE_REGISTER_FILTERS",
         payload: {
           startDate: undefined,
@@ -279,23 +273,38 @@ function ExpenseRegister() {
           categoryLabel: []
         },
       });
+
+      const filters = {
+        size: size,
+        page: page,
+      };
+      dispatch({
+        type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+
+
+
     };
   }, []);
 
 
-const startDate = selectedRange?.from
-  ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-  : undefined;
+  const startDate = selectedRange?.from
+    ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+    : undefined;
 
-const endDate = selectedRange?.to
-  ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-  : undefined;
+  const endDate = selectedRange?.to
+    ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+    : undefined;
 
 
 
 
   useEffect(() => {
-    
+
     if (!state.login?.selectedHostel_Id) return;
     const filters = {
       startDate: startDate,
@@ -451,7 +460,15 @@ const endDate = selectedRange?.to
   }, [state.reports.expenseRegisterFilters]);
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -880,9 +897,9 @@ const endDate = selectedRange?.to
 
         {
           invoiceFilter && <ExpenseFilter show={invoiceFilter}
-           handleClose={handleCloseFilterBills} size={size} page={page} 
+            handleClose={handleCloseFilterBills} size={size} page={page}
             startDate={startDate} endDate={endDate}
-           />
+          />
         }
       </div>
     </div>

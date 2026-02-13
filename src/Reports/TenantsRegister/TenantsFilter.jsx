@@ -11,16 +11,17 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function TenantsFilter({ show, handleClose }) {
-    // const state = useSelector((state) => state);
+function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
+    const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] = useState([]);
     const [tenantStatus, setTenantStatus] = useState([]);
 
     const [period, setPeriod] = useState(null);
     const [sharingType, setSharingType] = useState(null);
-    const [floor, setFloor] = useState(null);
-    const [room, setRoom] = useState(null);
+    const [floor, setFloor] = useState([]);
+    const [room, setRoom] = useState([]);
+
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
 
@@ -109,22 +110,38 @@ function TenantsFilter({ show, handleClose }) {
 
 
 
-    // const filterOptionsData = useSelector(
-    //     (state) => state.InvoiceList?.billsList?.filterOptions
-    // );
+    const filterOptionsData = useSelector(
+        (state) => state.reports?.getTenantRegister?.filters
+    );
+
+
+    const tenantStatusOptions =
+        filterOptionsData?.tenantStatus?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
 
+    const periodOptions =
+        filterOptionsData?.period?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
+    const floorOptions =
+        filterOptionsData?.floor?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
-
-
-
-
-
-
+    const roomOptions =
+        filterOptionsData?.room?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
 
@@ -134,14 +151,6 @@ function TenantsFilter({ show, handleClose }) {
         setTenantName(e.target.value);
     };
 
-    const tenantStatusOptions = [
-        { label: "All", value: "ALL" },
-        { label: "Check in", value: "CHECK_IN" },
-        { label: "Inactive", value: "INACTIVE" },
-        { label: "Notice period", value: "NOTICE_PERIOD" },
-        { label: "Checkout", value: "CHECK_OUT" },
-        { label: "Walk in", value: "WALK_IN" },
-    ];
 
 
 
@@ -202,7 +211,6 @@ function TenantsFilter({ show, handleClose }) {
         const isAllSelected = selectedOptions.some(opt => opt.value === "ALL");
 
         if (isAllSelected) {
-            // Keep ONLY ALL
             const allOption = selectedOptions.find(opt => opt.value === "ALL");
             setSelectedTenantStatusOptions([allOption]);
             setTenantStatus(["ALL"]);
@@ -217,9 +225,65 @@ function TenantsFilter({ show, handleClose }) {
 
     const handleFilterBills = () => {
 
-    }
+        if (!state.login?.selectedHostel_Id) return;
+        const tenantPayload = {
+            status: tenantStatus,
+            period: period?.value || null,
+            floor: floor.map(f => f.value),
+            room: room.map(r => r.value),
+            search: tenantName,
+            size: size,
+            page: page,
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        dispatch({
+            type: "SET_TENANT_REGISTER_FILTERS",
+            payload: {
+                startDate: startDate,
+                endDate: endDate,
+                period: period?.value || null,
+                floor: floor.map(f => f.label),
+                room: room.map(r => r.label),
+                search: tenantName,
+                tenantStatus: tenantStatus,
+            },
+        })
+
+        dispatch({
+            type: 'GET_REPORTS_TENANT_REGISTER_SAGA',
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: tenantPayload
+            }
+        });
+        setFormLoading(true);
+    };
 
 
+useEffect(() => {
+        if (state.createAccount?.networkError) {
+             setFormLoading(false);
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
+
+
+
+
+    useEffect(() => {
+        if (state.reports.getTenantRegisterSuccess === 200) {
+            setFormLoading(false);
+                       setTimeout(() => {
+                dispatch({ type: 'REMOVE_GET_REPORTS_TENANT_REGISTER_REDUCER' })
+            }, 100)
+        }
+
+    }, [state.reports.getTenantRegisterSuccess])
 
 
 
@@ -270,7 +334,7 @@ function TenantsFilter({ show, handleClose }) {
 
                             </div>
 
-                            <Form.Control disabled
+                            <Form.Control
                                 style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
                                 type="text"
                                 placeholder="Enter Tenant Name"
@@ -294,7 +358,7 @@ function TenantsFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Tenant Status
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 isMulti
                                 closeMenuOnSelect={false}
                                 hideSelectedOptions={false}
@@ -311,16 +375,14 @@ function TenantsFilter({ show, handleClose }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 styles={selectStyles}
                                 placeholder="Last Month"
                                 value={period}
                                 onChange={setPeriod}
-                                options={[
-                                    { label: "This Month", value: "THIS_MONTH" },
-                                    { label: "Last Month", value: "LAST_MONTH" },
-                                ]}
+                                options={periodOptions}
                             />
+
                         </Form.Group>
 
                         <Form.Group className="mb-3">
@@ -341,45 +403,41 @@ function TenantsFilter({ show, handleClose }) {
                         </Form.Group>
 
 
-                        <div className="mb-3">
-                            <label className="text-muted" style={{ fontSize: 12 }}>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted text-[12px]">
                                 Floor
-                            </label>
-
-                            <div className="d-flex flex-wrap gap-2 mt-2">
-                                {["Ground", "First", "Second", "Third", "Fourth"].map((f) => (
-                                    <Button isDisabled
-                                        key={f}
-                                        variant={floor === f ? "primary" : "outline-secondary"}
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 13,
-                                            borderRadius: 8,
-                                        }}
-                                        onClick={() => setFloor(f)}
-                                    >
-                                        {f}
-                                    </Button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <Form.Group>
-                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Room
                             </Form.Label>
-                            <Select isDisabled
+
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
                                 styles={selectStyles}
-                                placeholder="Select room..."
-                                value={room}
-                                onChange={setRoom}
-                                options={[
-                                    { label: "101", value: "101" },
-                                    { label: "102", value: "102" },
-                                    { label: "201", value: "201" },
-                                ]}
+                                placeholder="Select floor(s)"
+                                value={floor}
+                                onChange={setFloor}
+                                options={floorOptions}
                             />
                         </Form.Group>
+
+
+                        <Form.Group>
+                            <Form.Label className="text-muted text-[12px]">
+                                Room
+                            </Form.Label>
+
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                styles={selectStyles}
+                                placeholder="Select room(s)"
+                                value={room}
+                                onChange={setRoom}
+                                options={roomOptions}
+                            />
+                        </Form.Group>
+
                     </div>
                 </Offcanvas.Body>
 

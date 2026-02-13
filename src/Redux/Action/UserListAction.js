@@ -978,3 +978,14 @@ export async function deleteTenantUploadDocument(document) {
 }
 
 
+export async function deleteTemplatesImages({
+  hostelId,
+  templateId,
+  templateTypeId,
+  type,
+}) {
+  return AxiosConfigV2.delete(
+    `/v2/hostel/config/${hostelId}/${templateId}/${templateTypeId}`,
+    { data: { type } }
+  );
+}

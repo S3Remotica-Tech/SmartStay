@@ -3155,7 +3155,7 @@ function UserListRoomDetail(props) {
 
 
 
-                  <div className="flex-1 bg-white h-auto max-h-[200px] overflow-y-auto border border-[#E5E7EB] rounded-[20px]">
+                  <div className="flex-1 bg-white relative h-auto max-h-[200px] overflow-y-auto border border-[#E5E7EB] rounded-[20px]">
                     <TabContext value={documentvalue}
                       className="flex flex-col sm:flex-row justify-center items-center"
 
@@ -3168,10 +3168,10 @@ function UserListRoomDetail(props) {
                           <TabList
                             onChange={handleChangesupload}
                             aria-label="custom tabs"
-                            className="d-flex justify-content-center flex-sm-row bg-white"
-                            TabIndicatorProps={{ style: { display: "none", backgroundColor:"white", } }}
+                            className="d-flex justify-content-center flex-sm-row bg-white w-full"
+                            TabIndicatorProps={{ style: { display: "none",  } }}
                           >
-                            <Tab className="bg-white"
+                            <Tab 
                               label="KYC Documents"
                               value="1"
                               sx={{
@@ -3185,11 +3185,11 @@ function UserListRoomDetail(props) {
                                     ? "2px solid #1E45E1"
                                     : "2px solid transparent",
                                 minWidth: "auto",
-                                 backgroundColor:"white",
+                                
                               }}
                             />
 
-                            <Tab className="bg-white"
+                            <Tab 
                               label="Manual Documents"
                               value="2"
                               sx={{
@@ -3203,9 +3203,19 @@ function UserListRoomDetail(props) {
                                     ? "2px solid #1E45E1"
                                     : "2px solid transparent",
                                 minWidth: "auto",
-                                backgroundColor:"yellow",
+                                
                               }}
                             />
+                             {
+                            CustomerOverView?.files?.otherDoc?.length > 0 && documentvalue === "2" &&
+
+                            <div
+                              className="bg-green-600 absolute right-2 bottom-2 rounded-full px-2 py-2 cursor-pointer shadow-lg hover:scale-105 transition"
+                              onClick={handlePreview}
+                            >
+                              <DocumentUpload size="14" color="#FFFFFF" />
+                            </div>
+                          }
                           </TabList>
                         </div>
                       </Box>
@@ -3248,16 +3258,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </div>
                           </div>
-                          {
-                            CustomerOverView?.files?.otherDoc?.length > 0 && documentvalue === "2" &&
-
-                            <div
-                              className="absolute bottom-0 right-0 bg-green-600 rounded-full p-3 cursor-pointer shadow-lg hover:scale-105 transition"
-                              onClick={handlePreview}
-                            >
-                              <DocumentUpload size="12" color="#FFFFFF" />
-                            </div>
-                          }
+                         
 
                         </div>
 
@@ -3321,7 +3322,10 @@ function UserListRoomDetail(props) {
                         </Modal>
 
                       </TabPanel>
+
+                      
                     </TabContext>
+                    
                   </div>
 
                 </div>
