@@ -18,7 +18,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
     const [formLoading, setFormLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState([]);
-    const [paidTo, setPaidTo] = useState([]);
+    // const [paidTo, setPaidTo] = useState([]);
     const [createdBy, setCreatedBy] = useState([])
     const [category, setCategory] = useState([])
     const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState([]);
@@ -133,16 +133,16 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
             value: item.userId
         })) || [];
 
-    const paidToOptions =
-        filterOptionsData?.paidTo?.map(item => ({
-            label: item,
-            value: item,
-        })) || [];
+    // const paidToOptions =
+    //     filterOptionsData?.paidTo?.map(item => ({
+    //         label: item,
+    //         value: item,
+    //     })) || [];
 
     const periodOptions =
-        filterOptionsData?.periods?.map(item => ({
-            label: item.name,
-            value: item.value,
+        filterOptionsData?.period?.map(item => ({
+            label: item.label,
+            value: item.id,
         })) || [];
 
     const CheckboxOption = (props) => {
@@ -197,7 +197,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
         setPaymentMode(selected.map(opt => opt.value))
     }
 
-    const handlePaidChange = (opt) => setPaidTo(opt?.value);
+    // const handlePaidChange = (opt) => setPaidTo(opt?.value);
 
     const handleCreatedByChange = (selected) => {
         setCreatedBy(selected.map(opt => opt.value))
@@ -224,13 +224,13 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
         )
 
     const selectedPeriodOption =
-        periodOptions.filter(opt => period.includes(opt.value)
+        periodOptions?.filter(opt => period?.includes(opt.value)
         )
 
 
-    const selectedPaidToOption =
-        paidToOptions.filter(opt => paidTo.includes(opt.value)
-        )
+    // const selectedPaidToOption =
+    //     paidToOptions.filter(opt => paidTo.includes(opt.value)
+    //     )
 
 
 
@@ -243,7 +243,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
 
 
-
+    console.log("period", period)
 
 
 
@@ -267,15 +267,15 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                 ? createdBy
                 : undefined,
 
-            period: period?.value
-                ? period.value
+            period: period
+                ? period
                 : "",
             createdByLabels: selectedCollectedBylabels,
 
             page: page,
             size: size,
-             startDate: startDate,
-      endDate: endDate,
+           startDate: period ? undefined : startDate,
+        endDate: period ? undefined : endDate,
         };
 
 
@@ -284,6 +284,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
             payload: expnseFilter
         });
 
+        console.log("expnseFilter", expnseFilter)
 
 
         const hasFilters = Object.values(expnseFilter).some(
@@ -399,9 +400,9 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 styles={selectStyles}
-                                value={period}
+                                value={selectedPeriodOption}
                                 onChange={handlePeriodChange}
                                 options={periodOptions}
                                 placeholder="Select"
@@ -428,7 +429,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                         </Form.Group>
 
 
-                        <Form.Group className="mb-3">
+                        {/* <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Paid To
                             </Form.Label>
@@ -444,7 +445,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                                 placeholder="Select"
                             />
 
-                        </Form.Group>
+                        </Form.Group> */}
 
 
                         <Form.Group className="mb-3">

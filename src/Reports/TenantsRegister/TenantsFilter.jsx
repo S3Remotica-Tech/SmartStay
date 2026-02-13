@@ -234,15 +234,15 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
             search: tenantName,
             size: size,
             page: page,
-            startDate: startDate,
-            endDate: endDate
+            startDate: period?.value ? undefined : startDate,
+            endDate: period?.value ? undefined : endDate,
         };
 
         dispatch({
             type: "SET_TENANT_REGISTER_FILTERS",
             payload: {
-                startDate: startDate,
-                endDate: endDate,
+                startDate: period?.value ? undefined : startDate,
+                endDate: period?.value ? undefined : endDate,
                 period: period?.value || null,
                 floor: floor.map(f => f.label),
                 room: room.map(r => r.label),
@@ -262,9 +262,9 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     };
 
 
-useEffect(() => {
+    useEffect(() => {
         if (state.createAccount?.networkError) {
-             setFormLoading(false);
+            setFormLoading(false);
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
             }, 3000)
@@ -278,7 +278,7 @@ useEffect(() => {
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {
             setFormLoading(false);
-                       setTimeout(() => {
+            setTimeout(() => {
                 dispatch({ type: 'REMOVE_GET_REPORTS_TENANT_REGISTER_REDUCER' })
             }, 100)
         }
@@ -377,7 +377,7 @@ useEffect(() => {
                             </Form.Label>
                             <Select
                                 styles={selectStyles}
-                                placeholder="Last Month"
+                                placeholder="Select"
                                 value={period}
                                 onChange={setPeriod}
                                 options={periodOptions}
@@ -483,10 +483,13 @@ useEffect(() => {
                 }}>
                     <Button
                         onClick={() => {
-                            // setBillStatus([]);
-                            // setInvoiceType([]);
-                            // setInvoiceMode([]);
-                            // setCreatedBy([]);
+                            setTenantStatus([]);
+                            setPeriod(null);
+                            setSharingType(null);
+                            setFloor([]);
+                            setRoom([]);
+                            setTenantName("");
+                            setSelectedTenantStatusOptions([])
                         }}
                         style={{
                             backgroundColor: "transparent",
