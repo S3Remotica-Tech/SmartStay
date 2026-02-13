@@ -6,7 +6,6 @@ import Image from "react-bootstrap/Image";
 import User from "../../Assets/Images/New_images/profile-picture.png";
 import Tickicon from "../../Assets/Images/tick-circle.png";
 import Profile_add from "../../Assets/Images/profile-add.png";
-// import moment from "moment";
 import ChangeStatusIcon from "../../Assets/Images/ComplaintChangeStatusicon.svg";
 import AssignComplaintIcon from "../../Assets/Images/profile-add-AssingnComplaint.svg";
 import CommentIcon from "../../Assets/Images/Comment-icon-complaints page.svg";
@@ -134,10 +133,10 @@ const ComplianceList = (props) => {
     }
 
     setShowCard(true);
-   
+
   };
 
- 
+
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
@@ -154,10 +153,10 @@ const ComplianceList = (props) => {
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
-      setTimeout(()=>{
-      dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
 
-      },1000)
+      }, 1000)
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
@@ -234,12 +233,12 @@ const ComplianceList = (props) => {
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
-  
+
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     // setAssignId(item?.ID);
     setShowDots(false);
     const normalizedStatus = item?.status?.toLowerCase() ?? "pending";
-   setStatus(normalizedStatus);
+    setStatus(normalizedStatus);
 
     setSelectedStatus(item?.status === null ? "pending" : item?.status)
     setComplaintId(item?.complaintId)
@@ -272,8 +271,8 @@ const ComplianceList = (props) => {
       return;
     }
 
-// console.log("prevStatus",prevStatus)
-// console.log("status",status)
+    // console.log("prevStatus",prevStatus)
+    // console.log("status",status)
 
     if (status === prevStatus) {
       setStatusError("No Changes Detected");
@@ -296,11 +295,11 @@ const ComplianceList = (props) => {
     setFormLoading(true)
   };
 
- 
+
 
 
   const handleAssignComplaintClick = () => {
-// console.log("compliant",compliant)
+    // console.log("compliant",compliant)
 
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     if (alreadyAssigned === compliant && compliant !== "") {
@@ -382,7 +381,7 @@ const ComplianceList = (props) => {
   };
 
   const handleCompliant = (selectedOption) => {
-// console.log("selectedOption",selectedOption)
+    // console.log("selectedOption",selectedOption)
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setCompliant(selectedOption?.value || '');
 
@@ -403,7 +402,7 @@ const ComplianceList = (props) => {
     }
   };
 
-  
+
 
   useEffect(() => {
     const appearOptions = {
@@ -429,7 +428,7 @@ const ComplianceList = (props) => {
   });
 
 
- 
+
 
 
 
@@ -473,7 +472,7 @@ const ComplianceList = (props) => {
 
   const handleNavigateComplaintsView = (view) => {
     setComplaintsDetails(view)
-    
+
     setShowComplaint(true)
     setTrigger(true)
   }
@@ -486,40 +485,16 @@ const ComplianceList = (props) => {
     <>
 
       {loading ? (
-        <div
-          style={{
-            position: 'fixed',
-            top: '53%',
-            left: '57%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[1050]">
+          <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
         </div>
+
       ) : (
         <div>
-          <Card
-            style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
-          >
-            <Card.Body style={{ padding: 15 }}>
-              <div className="d-flex justify-content-between align-items-center flex-wrap">
-                <div className="d-flex flex-wrap gap-2 align-items-start">
+          <div className="bg-white border border-gray-200 rounded-[16px] h-[330px] p-2">
+            <div className="p-3">
+              <div className="flex justify-between items-center flex-wrap">
+                <div className="flex flex-wrap gap-2 items-start">
 
                   <div>
                     {props.complaints?.customerProfile ?
@@ -532,81 +507,37 @@ const ComplianceList = (props) => {
                             : props?.complaints?.customerProfile
                         }
                         roundedCircle
-                        style={{ height: "60px", width: "60px", objectFit: "cover" }}
+                        className="h-[60px] w-[60px] object-cover"
                       />
                       :
                       <div
-                        style={{
-                          height: 50,
-                          width: 50,
-                          borderRadius: "50%",
-                           backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          fontSize: 20,
-                          fontWeight: "600",
-                           fontFamily: "Gilroy"
-                        }}
-                      >
+                        className="h-14 w-14 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center text-xl font-semibold">
                         {props.complaints?.initials || "-"}
                       </div>
                     }
                   </div>
 
 
-                  <div className="flex-grow-1">
+                  <div className="flex-grow">
                     <div className="pb-2">
-                      <label 
-                      onClick={() => handleNavigateComplaintsView(props.complaints)}
-                        className="d-block"
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "#1E45E1",
-                          fontWeight: 600,
-                          marginLeft: "10px", cursor: "pointer",
-                           textDecoration: "underline"
-                        }}
+                      <label
+                        onClick={() => handleNavigateComplaintsView(props.complaints)}
+                        className="ml-2.5 text-blue-700 font-semibold text-base underline cursor-pointer mb-1"
                       >
                         {props.complaints && props?.complaints?.customerName}
                       </label>
 
 
-                      <div className="d-flex flex-wrap gap-2 ms-2">
+                      <div className="flex flex-wrap gap-2 ml-1">
 
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            background: "#FFE0D9",
-                            padding: "6px 12px",
-                            borderRadius: "60px",
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "#222",
-                            fontWeight: 500,
-                            whiteSpace: "nowrap",
-                          }}
+                        <div className="flex items-center bg-[#FFE0D9] px-2.5 h-7 rounded-full text-gray-900 text-base font-medium font-gilroy text-sm whitespace-nowrap"
+
                         >
                           {props.complaints?.roomName} - {props.complaints?.bedName}
                         </div>
 
 
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            background: "#FFEFCF",
-                            padding: "6px 12px",
-                            borderRadius: "60px",
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "#222",
-                            fontWeight: 500,
-                            whiteSpace: "nowrap",
-                          }}
+                        <div className="flex items-center bg-[#FFEFCF] px-2.5 h-7 rounded-full text-gray-900 text-base font-medium font-gilroy text-sm whitespace-nowrap"
                         >
                           {props.complaints?.floorName}
                         </div>
@@ -618,64 +549,37 @@ const ComplianceList = (props) => {
 
                 <div>
                   <div
-                    style={{
-                      height: 40,
-                      width: 40,
-                      borderRadius: 100,
-                      border: "1px solid #EFEFEF",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      position: "relative",
-                      cursor: "pointer",
-                      backgroundColor: showDots === props.complaints?.complaintId ? "#E7F1FF" : "white",
 
-                    }}
+                    className={`
+    h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center relative cursor-pointer
+    ${showDots === props.complaints?.complaintId ? 'bg-blue-100' : 'bg-white'}
+  `}
                     onClick={() => handleShowDots(props.complaints?.complaintId)}
                   >
                     <PiDotsThreeOutlineVerticalFill
-                      style={{ height: 20, width: 20, cursor: "pointer" }}
+                      className="h-5 w-5 cursor-pointer"
                     />
 
                     {showDots === props.complaints.complaintId && (
                       <>
                         <div
                           ref={popupRef}
-                          className="complist"
-                          style={{
-                            backgroundColor: "#F9F9F9",
-                            position: "absolute",
-                            right: 40,
-                            top: '2px',
-                            width: 175,
-                            height: "auto",
-                            border: "1px solid #F9F9F9",
-                            borderRadius: 12,
-                            display: "flex",
-                            justifyContent: "start",
-                            alignItems: "center",
-                            zIndex: 1000,
-                          }}
+                          // className="complist"
+                          className="absolute right-12 top-0 w-[175px] bg-gray-50 border border-gray-50 rounded-lg flex items-center justify-start z-[1000]"
                         >
-                          <div style={{ width: "100%" }}>
+                          <div className="w-full">
                             <div
-                              className="d-flex align-items-center"
+
                               onClick={() => {
                                 if (canWriteComplaints) {
                                   handleChangeStatusOpenClose(props.complaints)
 
                                 }
                               }}
-                              style={{
-                                cursor: !canWriteComplaints ? "not-allowed" : "pointer",
-
-                                opacity: !canWriteComplaints ? 0.5 : 1,
-                                borderTopLeftRadius: 10,
-                                borderTopRightRadius: 10,
-                                backgroundColor: "#F9F9F9",
-                                padding: "8px 12px",
-                                width: "100%",
-                              }}
+                              className={`flex items-center
+    w-full bg-gray-50 px-3 py-2 rounded-t-lg
+    ${!canWriteComplaints ? 'cursor-not-allowed opacity-50' : 'cursor-pointer opacity-100'}
+  `}
                               onMouseEnter={(e) => {
                                 (e.currentTarget.style.backgroundColor = "#EDF2FF")
                               }}
@@ -683,35 +587,28 @@ const ComplianceList = (props) => {
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
                             >
-                              <img src={ChangeStatusIcon} style={{ height: 16, width: 16 }} alt="Change Status" />
+                              <img src={ChangeStatusIcon} className="h-4 w-4" alt="Change Status" />
                               <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  cursor: !canWriteComplaints ? "not-allowed" : "pointer",
-                                  paddingLeft: 5,
-                                  color: !canWriteComplaints ? "#A9A9A9" : "#222222"
-                                }}
+                                className={`
+    text-sm font-semibold pl-2
+    ${!canWriteComplaints ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer text-gray-900'}
+  `}
                               >
                                 Change Status
                               </label>
                             </div>
 
                             <div
-                              className="d-flex align-items-center"
                               onClick={() => {
                                 if (canWriteComplaints) {
                                   handleAssignOpenClose(props.complaints)
                                 }
                               }
                               }
-                              style={{
-                                cursor: !canWriteComplaints ? "not-allowed" : "pointer",
-                                opacity: !canWriteComplaints ? 0.5 : 1,
-                                padding: "8px 12px",
-                                width: "100%",
-                              }}
+                              className={`flex items-center
+    w-full px-3 py-2
+    ${!canWriteComplaints ? 'cursor-not-allowed opacity-50' : 'cursor-pointer opacity-100'}
+  `}
                               onMouseEnter={(e) => {
                                 (e.currentTarget.style.backgroundColor = "#EDF2FF")
 
@@ -720,33 +617,27 @@ const ComplianceList = (props) => {
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
                             >
-                              <img src={AssignComplaintIcon} style={{ height: 16, width: 16 }} alt="Assign Complaint" />
+                              <img src={AssignComplaintIcon} className="h-4 w-4" alt="Assign Complaint" />
                               <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: !canWriteComplaints ? "#A9A9A9" : "#222222",
-                                  cursor: !canWriteComplaints ? "not-allowed" : "pointer",
-                                  paddingLeft: 5,
-                                }}
+                                className={`
+    text-sm font-semibold pl-2
+    ${!canWriteComplaints ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer text-gray-900'}
+  `}
                               >
                                 Assign Complaint
                               </label>
                             </div>
 
                             <div
-                              className="d-flex align-items-center"
                               onClick={() => {
                                 if (canUpdateComplaints) {
                                   handleEdit(props.complaints);
                                 }
                               }}
-                              style={{
-                                cursor: !canUpdateComplaints ? "not-allowed" : "pointer",
-                                padding: "8px 12px",
-                                width: "100%",
-                              }}
+                              className={`flex items-center
+    w-full px-3 py-2
+    ${!canUpdateComplaints ? 'cursor-not-allowed opacity-50' : 'cursor-pointer opacity-100'}
+  `}
                               onMouseEnter={(e) =>
                               (e.currentTarget.style.backgroundColor = !canUpdateComplaints
                                 ? "transparent"
@@ -761,34 +652,26 @@ const ComplianceList = (props) => {
                                 color={!canUpdateComplaints ? "#A9A9A9" : "#1E45E1"}
                               />
                               <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: !canUpdateComplaints ? "#ccc" : "#222222",
-                                  cursor: !canUpdateComplaints ? "not-allowed" : "pointer",
-                                  paddingLeft: 5,
-                                }}
+                                className={`
+    text-sm font-semibold pl-2
+    ${!canUpdateComplaints ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer text-gray-900'}
+  `}
                               >
                                 Edit
                               </label>
                             </div>
 
                             <div
-                              className="d-flex align-items-center"
                               onClick={() => {
                                 if (canDeleteComplaints) {
                                   handleDeleteFormShow(props.complaints)
                                 }
                               }
                               }
-                              style={{
-                                cursor: !canDeleteComplaints ? "not-allowed" : "pointer",
-                                padding: "8px 12px",
-                                width: "100%",
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                              }}
+                              className={`flex items-center
+    w-full px-3 py-2
+    ${!canDeleteComplaints ? 'cursor-not-allowed opacity-50' : 'cursor-pointer opacity-100'}
+  `}
                               onMouseEnter={(e) =>
                               (e.currentTarget.style.backgroundColor = !canDeleteComplaints
                                 ? "transparent"
@@ -803,14 +686,11 @@ const ComplianceList = (props) => {
                                 color={!canDeleteComplaints ? "#A9A9A9" : "red"}
                               />
                               <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: !canDeleteComplaints ? "#ccc" : "#FF0000",
-                                  cursor: !canDeleteComplaints ? "not-allowed" : "pointer",
-                                  paddingLeft: 5,
-                                }}
+                                className={`
+    text-sm font-semibold pl-2
+    ${!canDeleteComplaints ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer text-red-500'}
+  `}
+
                               >
                                 Delete
                               </label>
@@ -823,239 +703,118 @@ const ComplianceList = (props) => {
                   </div>
                 </div>
               </div>
-              <hr style={{ border: "1px solid #E7E7E7" }} />
+              <hr className="border border-gray-200" />
 
-              <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+              <div className="flex flex-wrap justify-between items-center mb-3 ">
                 <div className="mb-2">
                   <div className="mb-1">
-                    <label
-                      style={{
-                        color: "#939393",
-                        fontSize: 12,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      Request ID{" "}
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
+                      Request ID
                     </label>
                   </div>
                   <div>
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {props.complaints && props.complaints?.complaintId}
+                    <label className="text-gray-900 text-base font-semibold font-gilroy">
+                      {props.complaints?.complaintId}
                     </label>
                   </div>
                 </div>
 
                 <div className="mb-2">
                   <div className="mb-1">
-                    <label
-                      style={{
-                        color: "#939393",
-                        fontSize: 12,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {" "}
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
                       Complaint Date
                     </label>
                   </div>
                   <div>
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {props.complaints?.complaintDate}{" "}
+                    <label className="text-gray-900 text-base font-semibold font-gilroy">
+                      {props.complaints?.complaintDate}
                     </label>
                   </div>
                 </div>
 
                 <div className="mb-1">
                   <div className="mb-1">
-                    <label
-                      style={{
-                        color: "#939393",
-                        fontSize: 12,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
                       Assigned To
                     </label>
                   </div>
                   <div>
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {props.complaints?.assigneeName === "" ||
-                        props.complaints?.assigneeName === null ? (
-                        <span
-                          style={{
-                            color: !canWriteComplaints ? "#DBDBDB" : "#1E45E1",
-                            fontSize: "16px",
-                            cursor: "pointer",
-                            textDecoration: "none",
-                          }}
-                          onClick={() => canWriteComplaints ? handleAssignOpenClose(props.complaints) : ''}
-                        >
-                          + Assign
-                        </span>
-                      ) : (
-                        props.complaints?.assigneeName
-                      )}
-                    </label>
-
+                    {props.complaints?.assigneeName ? (
+                      <label className="text-gray-900 text-base font-semibold font-gilroy">
+                        {props.complaints?.assigneeName}
+                      </label>
+                    ) : (
+                      <span
+                        className={`text-base font-semibold cursor-pointer ${!canWriteComplaints ? 'text-gray-300' : 'text-blue-600'
+                          } font-gilroy`}
+                        onClick={() => (canWriteComplaints ? handleAssignOpenClose(props.complaints) : null)}
+                      >
+                        + Assign
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div className="">
+              <div className="flex justify-between">
+                <div>
                   <div className="mb-1">
-                    <label
-                      style={{
-                        color: "#939393",
-                        fontSize: 12,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {" "}
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
                       Complaint Types
                     </label>
                   </div>
 
                   <div>
                     <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                        display: "block",
-                      }}
+                      className="text-gray-900 text-base font-semibold font-gilroy block"
                       title={props.complaints?.complaintTypeName}
                     >
-                      {props.complaints && props.complaints?.complaintTypeName}
+                      {props.complaints?.complaintTypeName}
                       {props.complaints?.description && (
                         <span
+                          className="inline-block max-w-[200px] truncate align-middle ml-1 -mt-1"
                           title={props.complaints?.description}
-                          style={{
-                            display: "inline-block",
-                            maxWidth: "200px",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            verticalAlign: "middle",
-                            marginTop: "-6px",
-                            paddingLeft: 4
-                          }}
                         >
-                          {" "}  {" - "}{props.complaints?.description}
+                          {" - "}{props.complaints?.description}
                         </span>
                       )}
-
-
                     </label>
                   </div>
                 </div>
 
-                <div className="">
-                  <div className="mb-1">
-                    <label
-                      style={{
-                        color: "#939393",
-                        fontSize: 12,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {" "}
+                <div>
+                  <div >
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
                       Status
                     </label>
                   </div>
 
-                  <div style={{fontFamily:"Gilroy", fontSize:14}}>
+                  <div>
                     <label
-                      style={ 
-                        props.complaints &&
-                          props?.complaints?.status?.toUpperCase() === "1"
-                          ? { color: "#00A32E" }
-                          : { color: "#FF9E00" }
-                      }
+                      className={`text-sm font-gilroy ${props.complaints?.status?.toUpperCase() === "1"
+                        ? "text-green-600"
+                        : "text-orange-500"
+                        }`}
                     >
-                      {props.complaints && props.complaints?.status === null ? "Open" : props?.complaints?.status}
+                      {props.complaints?.status === null ? "Open" : props.complaints?.status}
                     </label>
                   </div>
                 </div>
               </div>
 
-              <hr style={{ border: "1px solid #E7E7E7" }} />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 32,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center" }}>
+
+              <hr className="!border !border-gray-400" />
+              <div className="flex justify-between items-center min-h-[32px]" >
+                <div className="flex items-center">
                   {props.complaints?.assigneeName === "" || props.complaints?.assigneeName === null ? (
                     <>
                       <img
                         src={Profile_add}
                         alt="Add Profile"
-                        style={{ marginRight: 8, height: 16, width: 16 }}
+                        className="mr-2 h-4 w-4
+"
                       />
-                      <span
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          color: "#222",
-                          fontFamily: "Gilroy",
-                          lineHeight: "16px",
-                        }}
-                      >
+                      <span className="text-sm font-semibold text-[#222] font-gilroy leading-4">
                         Yet to assign the complaint
                       </span>
                     </>
@@ -1064,16 +823,10 @@ const ComplianceList = (props) => {
                       <img
                         src={Tickicon}
                         alt="Success"
-                        style={{ marginRight: 8, height: 16, width: 16 }}
+                        className="mr-2 h-4 w-4"
                       />
                       <span
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          color: "#222",
-                          fontFamily: "Gilroy",
-                          lineHeight: "16px",
-                        }}
+                        className="text-sm font-semibold text-[#222] font-gilroy leading-4"
                       >
                         successfully attended on{" "}
                         {
@@ -1086,38 +839,17 @@ const ComplianceList = (props) => {
 
                 <div
                   onClick={() => canWriteComplaints ? handleIconClick(props.complaints) : ''}
-                  style={{
-                    border: "1px solid #DCDCDC",
-                    borderRadius: "50px",
-                    padding: "6px 10px",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center", justifyContent: "center",
-                  }}
+                  className="border border-[#DCDCDC] rounded-full px-2.5 py-1.5 cursor-pointer flex items-center justify-center"
                 >
                   <img
                     src={CommentIcon}
                     alt="Comments"
-                    height={14}
-                    width={14}
+                    className="h-3.5 w-3.5"
                   />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      color: "#333",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <span className="text-xs font-medium text-[#333] font-gilroy" >
                     {props.complaints?.commentCount}
                   </span>
                 </div>
-
-
-
-
-
-
 
 
 
@@ -1127,30 +859,10 @@ const ComplianceList = (props) => {
                   centered
                   backdrop="static"
                 >
-                  <Modal.Dialog
-                    style={{
-                      maxWidth: 950,
-                      paddingTop: "-10px",
-                      borderRadius: "30px",
-
-                    }}
-                    className="m-0 p-0"
-                  >
-                    <Modal.Header
-                      style={{
-                        marginBottom: "10px",
-                        position: "relative",
-                        display: "flex",
-                        marginleft: "-15px", gap: 2
-                      }}
+                  <Modal.Dialog className="m-0 p-0 max-w-[950px] rounded-[30px] -mt-[10px]" >
+                    <Modal.Header className="relative flex mb-2.5 gap-0.5"
                     >
-                      <div className="gap-2"
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "100%",
-
-                        }}
+                      <div className="flex items-center w-full gap-2"
                       >
                         {
                           props.complaints?.customerProfile ?
@@ -1164,52 +876,24 @@ const ComplianceList = (props) => {
                                   : props?.complaints?.customerProfile
                               }
                               alt="Profile"
-                              style={{
-                                cursor: "pointer",
-                                width: "40px",
-                                height: "40px",
-                                borderRadius: "50%",
-                                marginRight: "10px",
-                              }}
+                              className="cursor-pointer w-10 h-10 rounded-full mr-2.5"
                             />
                             :
-                            <div
-                              style={{
-                                height: 50,
-                                width: 50,
-                                borderRadius: "50%",
-                                 backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                fontSize: 20,
-                                fontWeight: "600",
-                                 fontFamily: "Gilroy",
-                              }}
+                            <div className="font-gilroy cursor-pointer h-12 w-12 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center text-lg font-semibold"
+
                             >
                               {props?.complaints?.initials || "-"}
                             </div>
 
                         }
-                        <div style={{ flexGrow: 1 }}>
-                          <p
-                            style={{
-                              margin: 0,
-                              fontSize: "16px",
-                              fontWeight: "600px",
-                              fontFamily: "Gilroy",
-                            }}
+                        <div className="flex-1">
+                          <p className="m-0 text-base font-semibold font-gilroy "
+
                           >
                             {props.complaints?.customerName}
                           </p>
                           <p
-                            style={{
-                              margin: 0,
-                              fontSize: "14px",
-                              color: "gray",
-                              fontFamily: "Gilroy",
-                            }}
+                            className="m-0 text-sm text-gray-500 font-gilroy"
                           >
                             {props.complaints?.complaintDate}
                           </p>
@@ -1218,33 +902,21 @@ const ComplianceList = (props) => {
 
 
                       <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
-                        style={{ cursor: 'pointer' }} />
+                        className="cursor-pointer" />
                     </Modal.Header>
                     <Modal.Body>
 
                       <div
-                        style={{
-                          height:
-                            state.ComplianceList?.complaintsView?.comments
-                              ?.length > 2
-                              ? "250px"
-                              : "auto",
-                          overflowY:
-                            state.ComplianceList?.complaintsView?.comments
-                              ?.length > 2
-                              ? "auto"
-                              : "hidden",
-                          padding: "10px",
-                          backgroundColor: "#F4F5F7",
-                          borderRadius: "10px",
-                        }}
+                        className={`p-2.5 bg-[#F4F5F7] rounded-[10px]
+    ${comments.length > 2 ? "h-[250px] overflow-y-auto" : "h-auto overflow-y-hidden"}
+  `}
                       >
 
 
                         {state.ComplianceList?.complaintsView?.comments?.length > 0 ? (
                           state.ComplianceList?.complaintsView?.comments.map((item, index) => {
 
-                           const [day, month, year] = item?.commentedAt?.split("/") || [];
+                            const [day, month, year] = item?.commentedAt?.split("/") || [];
 
 
                             let Dated = new Date(year, month - 1, day);
@@ -1259,121 +931,56 @@ const ComplianceList = (props) => {
 
 
                             return (
+
                               <div
                                 key={index}
-                                className="row d-flex "
-                                style={{
-                                  display: "flex",
-                                  alignItems: "flex-start",
-                                  borderBottom: "1px solid #EDF0F4",
-                                  marginBottom: "10px", width: "100%",
-                                }}
+                                className="w-full mb-2.5"
                               >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "flex-start",
-                                    gap: "10px", width: "100%",
-                                  }}
-                                >
 
-                                  {
-                                    item?.profilePic ?
-
-                                     <img
-  src={
-    item?.profilePic &&
-    item.profilePic !== "0" &&
-    item.profilePic !== "null"
-      ? item.profilePic
-      : undefined
-  }
-  alt="User"
-  style={{
-    width: "40px",
-    height: "40px",
-    borderRadius: "50%",
-    marginRight: "10px",
-  }}
-/>
-
-                                      :
-
-                                      <div
-                                        style={{
-                                          height: 40,
-                                          width: 40,
-                                          borderRadius: "50%",
-                                           backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          fontSize: 14,
-                                          fontWeight: "600",
-                                           fontFamily: "Gilroy",
-                                        }}
-                                      >
+                                <div className="flex items-start w-full">
+                                  <div className="flex items-start gap-2.5 w-full">
+                                    {item?.profilePic ? (
+                                      <img
+                                        src={
+                                          item?.profilePic &&
+                                            item.profilePic !== "0" &&
+                                            item.profilePic !== "null"
+                                            ? item.profilePic
+                                            : undefined
+                                        }
+                                        alt="User"
+                                        className="w-10 h-10 rounded-full mr-2.5 cursor-pointer"
+                                      />
+                                    ) : (
+                                      <div className="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-sm font-semibold font-gilroy">
                                         {item?.initials || "-"}
                                       </div>
-                                  }
+                                    )}
 
+                                    <div className="flex-1">
+                                      <p className="m-0 text-base font-semibold font-gilroy">
+                                        {item.commentText}
+                                      </p>
+                                      <p className="m-0 text-sm text-gray-500 font-gilroy">
+                                        {formattedDate}
+                                      </p>
+                                    </div>
+                                  </div>
 
-
-
-                                  <div style={{ flex: 1 }}>
-                                    <p
-                                      style={{
-                                        margin: 0,
-                                        fontSize: "16px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      {item.commentText}
-                                    </p>
-                                    <p
-                                      style={{
-                                        margin: 0,
-                                        fontSize: "14px",
-                                        color: "#666666",
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      {formattedDate}
-                                    </p>
+                                  <div>
+                                    <label className="block break-words whitespace-pre-wrap max-w-full mt-2 text-base font-normal text-gray-800 font-gilroy">
+                                      {item.comment}
+                                    </label>
                                   </div>
                                 </div>
-                                <div>
-                                  <label
-                                    style={{
-                                      wordWrap: "break-word",
-                                      overflowWrap: "break-word",
-                                      whiteSpace: "pre-wrap",
-                                      maxWidth: "100%",
-                                      marginTop: "8px",
-                                      fontSize: "16px",
-                                      fontWeight: "400",
-                                      color: "#333",
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    {item.comment}
-                                  </label>
-                                </div>
+
+                                <div className="mt-3 border-b border-[#EDF0F4]" />
                               </div>
+
                             );
                           })
                         ) : (
-                          <div
-                            style={{
-                              textAlign: "center",
-                              color: "red",
-                              fontSize: "16px",
-                              padding: "20px",
-                              fontFamily: "Gilroy",
-                            }}
-                          >
+                          <div className="text-center text-red-500 text-base p-5 font-gilroy">
                             No Comments available
                           </div>
                         )}
@@ -1382,29 +989,9 @@ const ComplianceList = (props) => {
 
                       <div ref={commentsEndRef} />
                       {commentsLoading && <div
-                        style={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: 'transparent',
-                          opacity: 0.75,
-                          zIndex: 10,
-                        }}
-                      >
-                        <div
-                          style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                          }}
-                        ></div>
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10" >
+                        <div className="w-10 h-10 rounded-full border-4 border-r-transparent border-t-[#1E45E1] animate-spin" >
+                        </div>
                       </div>}
 
 
@@ -1412,65 +999,29 @@ const ComplianceList = (props) => {
                         <ErrorMessage message={state.createAccount?.networkError} type="error" />
                         : null} */}
 
-                      <Modal.Footer style={{ border: "none" }} className="p-0">
-                        <div
-                          style={{
-                            marginTop: 15,
-                            position: "relative",
-                            display: "inline-block",
-                            width: "100%",
-                          }}
-                        >
+                      <Modal.Footer className="p-0 border-0">
+                        <div className="mt-4 relative inline-block w-full">
                           <Form.Control
                             type="text"
                             value={comments}
                             onChange={(e) => handleComments(e)}
-                            className="input-field"
-                            style={{
-                              border: "1px solid #E7E7E7",
-                              paddingTop: 6,
-                              paddingBottom: 6,
-                              paddingLeft: 16,
-                              width: "100%",
-                              height: "52px",
-                              fontFamily: "Gilroy",
-                              borderRadius: "12px",
-                            }}
                             placeholder="Post your reply here"
+                            className="w-full h-[52px] border border-[#E7E7E7] rounded-xl pl-4 py-1 font-gilroy focus:outline-none"
                           />
-                          <div className="input-field"
-                            style={{
 
-                              position: "absolute",
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              backgroundColor: "#1E45E1",
-                              border: "1px solid #E7E7E7",
-                              borderRadius: "60px",
-                              padding: "12px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              cursor: "pointer",
-
-                            }}
+                          <div
                             onClick={handleAddComment}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-[#1E45E1] border border-[#E7E7E7] rounded-full p-2 flex items-center justify-center cursor-pointer"
                           >
                             <img
                               src={send}
                               alt="Send"
-                              style={{
-                                width: "16px",
-                                height: "16px",
-                              }}
-
+                              className="w-4 h-4"
                             />
                           </div>
-
                         </div>
-
                       </Modal.Footer>
+
                       {commentError && (
                         <ErrorMessage message={commentError} type="error" />
 
@@ -1479,68 +1030,32 @@ const ComplianceList = (props) => {
                   </Modal.Dialog>
                 </Modal>
 
+                {/* change status */}
                 <Modal
                   show={showChangeStatus}
                   onHide={ChangeStatusClose}
                   centered
                   backdrop="static"
                 >
-                  <Modal.Dialog
-                    style={{
-                      maxWidth: 950,
-                      paddingRight: "10px",
-                      borderRadius: "30px",
-                    }}
-                    className="m-0 p-0"
-                  >
+                  <Modal.Dialog className="m-0 p-0 max-w-5xl pr-2 rounded-3xl">
                     <Modal.Body>
                       <div>
-                        <Modal.Header
-                          style={{ position: "relative", paddingTop: "2px", paddingRight: 1, }}
-                        >
-                          <div
-                            style={{
-                              fontSize: 20,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-
-                              marginLeft: "-13px"
-                            }}
-                          >
+                        <Modal.Header className="relative pr-px h-12" >
+                          <div className="text-xl font-semibold font-gilroy -ml-3 -mt-3" >
                             Change Status
                           </div>
 
-                          <CloseCircle size="24" color="#000" onClick={ChangeStatusClose}
-                            style={{ cursor: 'pointer' }} />
-
-
+                          <CloseCircle size="24" color="#301414" onClick={ChangeStatusClose}
+                            className="-mt-3 cursor-pointer" />
                         </Modal.Header>
                       </div>
 
-                      <div className="row mt-2">
-
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <Form.Group
-                            className="mb-3"
-                            controlId="exampleForm.ControlInput5"
-                          >
-                            <Form.Label className="mb-2"
-                              style={{
-                                fontSize: 14,
-                                color: "#222",
-                                fontFamily: "'Gilroy'",
-                                fontWeight: 500,
-                                fontStyle: "normal",
-                                lineHeight: "normal",
-                              }}
-                            >
-                              Change Status {" "}
-                              <span style={{ color: "red", fontSize: "20px" }}>
-                                *
-                              </span>
-                            </Form.Label>
-
-
+                      <div className="mt-2">
+                        <div className="w-full">
+                          <div>
+                            <label className="mb-2 block text-sm font-medium text-gray-900 font-gilroy">
+                              Change Status <span className="text-red-500 text-xl">*</span>
+                            </label>
                             <Select
                               options={[
                                 { value: "pending", label: "Pending" },
@@ -1548,19 +1063,17 @@ const ComplianceList = (props) => {
                                 { value: "resolved", label: "Resolved" },
                               ]}
                               onChange={handleStatus}
-
                               value={
                                 status
                                   ? { value: status, label: status.replace("-", " ") }
                                   : null
                               }
-
                               placeholder="Select a Status"
                               classNamePrefix="custom"
                               styles={{
                                 control: (base) => ({
                                   ...base,
-                                  height: "50px",
+                                  height: "46px",
                                   border: "1px solid #D9D9D9",
                                   borderRadius: "8px",
                                   fontSize: "16px",
@@ -1568,110 +1081,81 @@ const ComplianceList = (props) => {
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
                                   boxShadow: "none",
-                                  textTransform: "capitalize"
+                                  textTransform: "capitalize",
                                 }),
                                 menu: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy", textTransform: "capitalize"
+                                  fontFamily: "Gilroy",
+                                  textTransform: "capitalize",
                                 }),
                                 menuList: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   maxHeight: "120px",
                                   padding: 0,
-                                  scrollbarWidth: "thin",
                                   overflowY: "auto",
-                                  fontFamily: "Gilroy", textTransform: "capitalize"
+                                  fontFamily: "Gilroy",
+                                  textTransform: "capitalize",
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
-                                  color: "#555", textTransform: "capitalize"
+                                  color: "#555",
+                                  textTransform: "capitalize",
                                 }),
                                 dropdownIndicator: (base) => ({
                                   ...base,
                                   color: "#555",
-                                  cursor: "pointer"
+                                  cursor: "pointer",
                                 }),
                                 option: (base, state) => ({
                                   ...base,
                                   cursor: "pointer",
                                   backgroundColor: state.isFocused ? "lightblue" : "white",
-                                  color: "#000", textTransform: "capitalize"
+                                  color: "#000",
+                                  textTransform: "capitalize",
                                 }),
                                 indicatorSeparator: () => ({
                                   display: "none",
                                 }),
                               }}
                             />
-
-
-                          </Form.Group>
+                          </div>
 
                           {statusError.trim() !== "" && (
-                            <div className="d-flex justify-content-center mb-1">
-
+                            <div className="flex justify-center mb-1">
                               <ErrorMessage message={statusError} type="error" />
                             </div>
                           )}
 
-
-                          {state.ComplianceList?.complianceChangeError &&
-                            <div className="d-flex justify-content-center mb-1">
-                              <ErrorMessage message={state.ComplianceList?.complianceChangeError} type="error" />
+                          {state.ComplianceList?.complianceChangeError && (
+                            <div className="flex justify-center mb-1">
+                              <ErrorMessage
+                                message={state.ComplianceList?.complianceChangeError}
+                                type="error"
+                              />
                             </div>
-                          }
+                          )}
                         </div>
                       </div>
+
                       {/* {state.createAccount?.networkError ?
                         <ErrorMessage message={state.createAccount?.networkError} type="error" />
                         : null} */}
                     </Modal.Body>
 
 
+                    {formLoading && (
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+                        <div className="w-10 h-10 rounded-full border-4 border-r-transparent border-t-blue-700 animate-spin"></div>
+                      </div>
+                    )}
 
 
-
-                    {formLoading && <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                        }}
-                      ></div>
-                    </div>}
-                    <Modal.Footer style={{ border: "none" }}>
+                    <Modal.Footer className="!border-t-0">
                       <Button disabled={formLoading}
-                        className="w-100"
-                        style={{
-                          backgroundColor: "#1E45E1",
-                          fontWeight: 500,
-                          height: 50,
-                          borderRadius: 12,
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                          marginTop: "-25px"
-                        }}
+                        className="w-full !bg-blue-700 font-medium h-12 rounded-xl !text-base !font-gilroy"
                         onClick={handleChangeStatusClick}
                       >
                         Change Status
@@ -1680,36 +1164,21 @@ const ComplianceList = (props) => {
                   </Modal.Dialog>
                 </Modal>
 
+                {/* Assign complaint */}
                 <Modal
                   show={showAssignComplaint}
                   onHide={handleCloseAssign}
                   centered
                   backdrop="static"
                 >
-                  <Modal.Dialog
-                    style={{
-                      maxWidth: 950,
-                      paddingRight: "10px",
-                      borderRadius: "30px",
-                    }}
-                    className="m-0 p-0"
-                  >
-                    <Modal.Header
-                      style={{ position: "relative" }}
-                    >
-                      <div
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-
-                        }}
-                      >
+                  <Modal.Dialog className="m-0 p-0 max-w-5xl pr-2 rounded-3xl">
+                    <Modal.Header className="relative pr-px" >
+                      <div className="text-xl font-semibold font-gilroy" >
                         Assign Complaint
                       </div>
 
                       <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
-                        style={{ cursor: 'pointer' }} />
+                        className="cursor-pointer" />
 
 
                     </Modal.Header>
@@ -1718,187 +1187,94 @@ const ComplianceList = (props) => {
 
                       </div>
 
-                      <div className="row">
 
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <Form.Group
-                            className="mb-2"
-                            controlId="exampleForm.ControlInput5"
-                          >
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                color: "#222",
-                                fontFamily: "'Gilroy'",
-                                fontWeight: 500,
-                                fontStyle: "normal",
-                                lineHeight: "normal",
-                              }}
-                            >
-                              Assign Complaint {" "}
-                              <span style={{ color: "red", fontSize: "20px" }}>
-                                *
-                              </span>
-                            </Form.Label>
+                      <div className="w-full">
+                        <div className="mb-2">
 
+                          <label className="block mb-2 text-base font-medium text-gray-900 font-gilroy">
+                            Assign Complaint <span className="text-red-500 text-xl">*</span>
+                          </label>
 
-                            {/* <Select
-                              options={
-                                state.Settings.addSettingStaffList
-                                  ? state.Settings.addSettingStaffList.map((v) => ({
-                                    value: v.userId,
-                                    label: v.first_name,
-                                  }))
-                                  : []
-                              }
-                              onChange={handleCompliant}
-                              value={
-                                compliant
-                                  ? (() => {
-                                    const selected = state.Settings.addSettingStaffList.find((v) => String(v.userId) === String(compliant));
-                                    return selected
-                                      ? { value: selected.userId, label: selected.first_name }
-                                      : null;
-                                  })()
-                                  : null
-                              }
-                              placeholder="Select a User"
-                              classNamePrefix="custom"
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  height: "50px",
-                                  border: "1px solid #D9D9D9",
-                                  borderRadius: "8px",
-                                  fontSize: "16px",
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                }),
-                                menu: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
-                                }),
-                                menuList: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  maxHeight: "120px",
-                                  padding: 0,
-                                  scrollbarWidth: "thin",
-                                  overflowY: "auto",
-                                  fontFamily: "Gilroy",
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  cursor: "pointer"
-                                }),
-                                option: (base, state) => ({
-                                  ...base,
-                                  cursor: "pointer",
-                                  backgroundColor: state.isFocused ? "lightblue" : "white",
-                                  color: "#000",
-                                }),
-                                indicatorSeparator: () => ({
-                                  display: "none",
-                                }),
-                              }}
-                            /> */}
-
-                            <Select
-                              options={
-                                state.Settings.addSettingStaffList
-                                  ? state.Settings.addSettingStaffList.map((v) => ({
-                                    value: v.userId,
-                                    label: v.firstName,
-                                  }))
-                                  : []
-                              }
-                              onChange={handleCompliant}
-                              value={
-                                compliant
-                                  ? (() => {
-                                    const selected = state.Settings.addSettingStaffList.find(
+                          <Select
+                            options={
+                              state.Settings.addSettingStaffList
+                                ? state.Settings.addSettingStaffList.map((v) => ({
+                                  value: v.userId,
+                                  label: v.firstName,
+                                }))
+                                : []
+                            }
+                            onChange={handleCompliant}
+                            value={
+                              compliant
+                                ? (() => {
+                                  const selected =
+                                    state.Settings.addSettingStaffList?.find(
                                       (v) => String(v.userId) === String(compliant)
                                     );
-                                    return selected
-                                      ? { value: selected.userId, label: selected.firstName }
-                                      : null;
-                                  })()
-                                  : null
-                              }
-                              placeholder="Select a Staff"
-                              classNamePrefix="custom"
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  height: "50px",
-                                  border: "1px solid #D9D9D9",
-                                  borderRadius: "8px",
-                                  fontSize: "16px",
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                }),
-                                menu: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
-                                }),
-                                menuList: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  maxHeight: "120px",
-                                  padding: 0,
-                                  scrollbarWidth: "thin",
-                                  overflowY: "auto",
-                                  fontFamily: "Gilroy",
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  cursor: "pointer"
-                                }),
-                                option: (base, state) => ({
-                                  ...base,
-                                  cursor: "pointer",
-                                  backgroundColor: state.isFocused ? "lightblue" : "white",
-                                  color: "#000",
-                                }),
-                                indicatorSeparator: () => ({
-                                  display: "none",
-                                }),
-                              }}
-                            />
+                                  return selected
+                                    ? { value: selected.userId, label: selected.firstName }
+                                    : null;
+                                })()
+                                : null
+                            }
+                            placeholder="Select a Staff"
+                            classNamePrefix="custom"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                height: "46px",
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                fontSize: "16px",
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                border: "1px solid #ced4da",
+                                fontFamily: "Gilroy",
+                              }),
+                              menuList: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                maxHeight: "120px",
+                                padding: 0,
+                                overflowY: "auto",
+                                fontFamily: "Gilroy",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                backgroundColor: state.isFocused ? "lightblue" : "white",
+                                color: "#000",
+                              }),
+                              indicatorSeparator: () => ({
+                                display: "none",
+                              }),
+                            }}
+                          />
 
-
-
-
-                            {statusErrorType.trim() !== "" && (
-                              <div className="d-flex justify-content-center">
+                          {statusErrorType.trim() !== "" && (
+                            <div className="flex justify-center mt-1">
                               <ErrorMessage message={statusErrorType} type="error" />
-
-                              </div>
-
-                            )}
-
-                          </Form.Group>
-
+                            </div>
+                          )}
                         </div>
                       </div>
+
 
                       {state.ComplianceList?.complianceAssignChangeError &&
 
@@ -1906,45 +1282,16 @@ const ComplianceList = (props) => {
 
                       }
                     </Modal.Body>
-                    {formAssignCompliantLoading && <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                        }}
-                      ></div>
-                    </div>}
-                    <Modal.Footer style={{ border: "none", marginTop: '12px' }}>
+
+                    {formAssignCompliantLoading && (
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+                        <div className="w-10 h-10 rounded-full border-4 border-r-transparent border-t-blue-700 animate-spin"></div>
+                      </div>
+                    )}
+
+                    <Modal.Footer className="border-0">
                       <Button disabled={formAssignCompliantLoading}
-                        className="w-100"
-                        style={{
-                          backgroundColor: "#1E45E1",
-                          fontWeight: 500,
-                          height: 50,
-                          borderRadius: 12,
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                          marginTop: "-20px"
-                        }}
+                        className="w-full !bg-blue-700 font-medium h-12 rounded-xl !text-base !font-gilroy"
                         onClick={handleAssignComplaintClick}
                       >
                         Assign Complaint
@@ -1955,15 +1302,15 @@ const ComplianceList = (props) => {
 
 
               </div>
-            </Card.Body>
-          </Card>
+            </div>
+          </div>
 
         </div>
       )}
 
 
 
-
+      {/* Delete Compliance Modal */}
       <Modal
         show={deleteForm}
         onHide={handleCloseDeleteForm}
@@ -1971,88 +1318,42 @@ const ComplianceList = (props) => {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            className="w-100 text-center"
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
 
-              fontWeight: 600,
-              color: "#222222",
-
-            }}
-          >
+        <Modal.Header className="border-0">
+          <Modal.Title className="w-full text-center !text-lg !font-semibold !text-gray-900 !font-gilroy mb-0">
             Delete Compliance?
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body
-          className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
 
-            marginTop: "-10px",
-          }}
-        >
+        <Modal.Body className="text-center text-sm font-medium font-gilroy text-gray-500 -mt-2.5">
           Are you sure you want to delete this Compliance?
         </Modal.Body>
 
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{
+        <Modal.Footer className="flex justify-center border-0 ">
 
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
           <Button
-            className="me-2"
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
             onClick={handleCloseDeleteForm}
+            className="w-full max-w-[160px] h-12 px-5 py-3 rounded-lg !border !border-blue-700 bg-white !text-blue-700 !text-sm !font-semibold !font-gilroy"
           >
             Cancel
           </Button>
+
           <Button
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
             onClick={handleComplianceDelete}
+            className="w-full max-w-[160px] h-12 px-5 py-3 rounded-lg !bg-blue-700 text-white !text-sm !font-semibold !font-gilroy"
           >
             Delete
           </Button>
         </Modal.Footer>
+
       </Modal>
 
       {
-        showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView} 
-        complaintsDetails={complaintsDetails} 
-        trigger={trigger} 
-         />
+        showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView}
+          complaintsDetails={complaintsDetails}
+          trigger={trigger}
+        />
       }
 
 
