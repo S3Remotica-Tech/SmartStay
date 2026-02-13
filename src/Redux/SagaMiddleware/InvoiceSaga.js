@@ -826,6 +826,8 @@ function* handleInvoiceSettings(param) {
 function* handleInvoicePdf(action) {
    try {
       const response = yield call(InvoicePDf, action.payload)
+
+      
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "red",

@@ -1366,7 +1366,7 @@ function AddCustomer({ showMenu, handleClose }) {
                             maxHeight: 45,
                             width: "146px",
                             whiteSpace: "nowrap", marginLeft: 10, marginRight: 10
-                          }} onClick={handleSaveUserlist}>Create Customer</Button>
+                          }} onClick={handleSaveUserlist}>Create Tenant</Button>
 
                         </div>
                       </>

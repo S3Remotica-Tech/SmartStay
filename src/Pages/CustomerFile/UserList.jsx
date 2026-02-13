@@ -4329,7 +4329,7 @@ function UserList(props) {
               textAlign: "center",
             }}
           >
-            Delete Customer?
+            Delete Tenant?
           </h5>
         </Modal.Header>
 
@@ -4343,7 +4343,7 @@ function UserList(props) {
             marginTop: "-10px",
           }}
         >
-          Are you sure you want to delete this Customer?
+          Are you sure you want to delete this Tenant?
         </Modal.Body>
         {formLoading && <div
           style={{
