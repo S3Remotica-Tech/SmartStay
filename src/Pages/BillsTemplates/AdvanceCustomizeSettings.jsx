@@ -27,17 +27,17 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-    const [prefix, setPrefix] = useState("");
+  const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-  
+
   const [editErrmsg, setEditErrMessage] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const [contactnumberform, setContactNumberForm] = useState(false)
 
- 
+
   const [prefix_errmsg, setPrefixErrMsg] = useState('')
   const [suffix_errmsg, setSuffixErrMsg] = useState('')
   const [tax_errmsg, setTaxErrMsg] = useState('')
@@ -73,7 +73,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   }, [])
 
 
-  
+
   const {
     // canWriteModule: canWriteInvoice,
     // canReadModule: canReadReceipt,
@@ -184,7 +184,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
- 
+
 
 
 
@@ -352,7 +352,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
-   
+
       handleCloseBankAccount();
 
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -440,7 +440,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const handleSaveTemplate = () => {
 
-  
+
 
     if (securityDepositInvoiceTemplate.isSignatureCustomized) {
       const Signatureverify = !securityDepositInvoiceTemplate.invoiceSignatureUrl
@@ -831,38 +831,37 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                             )}
 
 
-                            {logoPreview && (
-                              <div
-                                className="
-                               qr-overlay
-                               absolute inset-0
-                               hidden
-                               bg-black/40
-                               rounded-md
-                             "
-                              />
-                            )}
-
-
-                            {logoPreview && (
-                              <div
-                                className="
-                              qr-trash
-                               absolute -top-1 -right-1
-                               hidden
-                               items-center justify-center 
-                               rounded-full
-                               bg-gray-100 text-white
-                               p-1
-                               cursor-pointer
-                             "
-                                onClick={handleDeleteLogo}
-                              >
+                            {logoPreview && !logoPreview.startsWith("data:") && (
+                              <>
                                 <div
-                                  className="bg-black/70 text-white p-2 rounded-full">
-                                  <Trash size={12} />
+                                  className="
+                                   qr-overlay
+                                   absolute inset-0
+                                   hidden
+                                   bg-black/40
+                                   rounded-md
+                                 "
+                                />
+
+
+                                <div
+                                  className="
+                                   qr-trash
+                                   absolute -top-1 -right-1
+                                   hidden
+                                   flex items-center justify-center 
+                                   rounded-full
+                                   bg-gray-100
+                                   p-1
+                                   cursor-pointer
+                                 "
+                                  onClick={handleDeleteLogo}
+                                >
+                                  <div className="bg-black/70 text-white p-2 rounded-full">
+                                    <Trash size={10} />
+                                  </div>
                                 </div>
-                              </div>
+                              </>
                             )}
                           </div>
 
@@ -881,7 +880,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                             Choose file
                             <input
                               type="file"
-                             accept="image/*"
+                              accept="image/*"
                               className="d-none"
                               ref={fileInputRef}
                               onChange={handleFileUploadHostel}
@@ -1117,6 +1116,12 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                     No signature uploaded
                                   </span>
                                 )}
+
+{
+  !signaturePreview?.startsWith("blob:") && <>
+  
+  
+ 
                                 {signaturePreview && (
                                   <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
                                 )}
@@ -1146,6 +1151,10 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                     </div>
                                   </div>
                                 )}
+
+                                 </>
+}
+
                               </div>
 
                               <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
@@ -1589,37 +1598,46 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                       />
 
 
-                      <div
-                        className="
-                         qr-overlay
-                         hidden
-                         absolute inset-0
-                         bg-black/15
-                         rounded-lg
-                         z-[2]
-                         pointer-events-none
-                       "
-                      />
+                      {
+                        !qrImage?.startsWith("blob:") && <>
+
+                          <div
+                            className="
+                              qr-overlay
+                              hidden
+                              absolute inset-0
+                              bg-black/15
+                              rounded-lg
+                              z-[2]
+                              pointer-events-none
+                            "
+                          />
 
 
-                      <div
-                        className="
-                   qr-trash
-                   absolute
-                   hidden
-                   flex items-center justify-center
-                   rounded-full
-                   bg-gray-100
-                   p-1
-                   cursor-pointer
-                   z-[3]
-                 "
-                        onClick={handleRemoveQr}
-                      >
-                        <div className="bg-black/70 text-white p-1 rounded-full">
-                          <Trash size={12} />
-                        </div>
-                      </div>
+
+                          <div
+                            className="
+                        qr-trash
+                        absolute
+                        hidden
+                        flex items-center justify-center
+                        rounded-full
+                        bg-gray-100
+                        p-1
+                        cursor-pointer
+                        z-[3]
+                      "
+                            onClick={handleRemoveQr}
+                          >
+
+                            <div className="qr-trash" onClick={handleRemoveQr}>
+                              <Trash size={12} />
+                            </div>
+
+                          </div>
+
+                        </>
+                      }
 
                     </>
                   ) : (

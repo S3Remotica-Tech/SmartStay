@@ -17,11 +17,11 @@ import { useHasPermission } from '../../Utils/Permission';
 import PropTypes from "prop-types";
 import { Trash } from 'iconsax-react'
 
-const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange}) => {
+const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-    const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [notes_errmsg, setNotesErrMsg] = useState('')
   const [terms_errmsg, setTermsErrMsg] = useState('')
@@ -31,7 +31,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
   const [useGradient, setUseGradient] = useState(true);
   const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
 
- 
+
   const {
     // canWriteModule: canWriteInvoice,
     // canReadModule: canReadReceipt,
@@ -259,7 +259,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
 
   const handleSaveTemplate = () => {
-   
+
 
 
     if (RentalreceiptTemplate.isSignatureCustomized) {
@@ -407,7 +407,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
       mobilenum,
       email,
       signaturePreview,
-      
+
       notes,
       terms,
       color,
@@ -416,12 +416,12 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
     mobilenum,
     email,
     signaturePreview,
-   
+
     notes,
     terms,
     color,]);
 
-const handleDeleteLogo = () => {
+  const handleDeleteLogo = () => {
     if (BillsTemplateList?.hostelId) {
       dispatch({
         type: 'DELETETEMPLATESIMAGES', payload: {
@@ -538,57 +538,59 @@ const handleDeleteLogo = () => {
                       <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
 
                         <div
-                                                 className="flex justify-center"
-                                               >
-                                                 <div
-                                                   className="relative inline-block"
-                                                   onMouseEnter={(e) => {
-                                                     const trash = e.currentTarget.querySelector(".qr-trash");
-                                                     const overlay = e.currentTarget.querySelector(".qr-overlay");
-                       
-                                                     if (trash) trash.style.display = "flex";
-                                                     if (overlay) overlay.style.display = "block";
-                                                   }}
-                                                   onMouseLeave={(e) => {
-                                                     const trash = e.currentTarget.querySelector(".qr-trash");
-                                                     const overlay = e.currentTarget.querySelector(".qr-overlay");
-                       
-                                                     if (trash) trash.style.display = "none";
-                                                     if (overlay) overlay.style.display = "none";
-                                                   }}
-                                                 >
-                       
-                                                   {logoPreview ? (
-                                                     <img
-                                                       src={logoPreview}
-                                                       alt="Preview"
-                                                       className="h-[60px] rounded-md mb-2"
-                                                     />
-                                                   ) : (
-                                                     <img
-                                                       src={uploadsett}
-                                                       alt="upload"
-                                                       className="h-[30px] mb-2"
-                                                     />
-                                                   )}
-                       
-                       
-                                                   {logoPreview && (
-                                                     <div
-                                                       className="
+                          className="flex justify-center"
+                        >
+                          <div
+                            className="relative inline-block"
+                            onMouseEnter={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "flex";
+                              if (overlay) overlay.style.display = "block";
+                            }}
+                            onMouseLeave={(e) => {
+                              const trash = e.currentTarget.querySelector(".qr-trash");
+                              const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                              if (trash) trash.style.display = "none";
+                              if (overlay) overlay.style.display = "none";
+                            }}
+                          >
+
+                            {logoPreview ? (
+                              <img
+                                src={logoPreview}
+                                alt="Preview"
+                                className="h-[60px] rounded-md mb-2"
+                              />
+                            ) : (
+                              <img
+                                src={uploadsett}
+                                alt="upload"
+                                className="h-[30px] mb-2"
+                              />
+                            )}
+
+                            {!logoPreview?.startsWith("data:") && <>
+
+
+                              {logoPreview && (
+                                <div
+                                  className="
                                                       qr-overlay
                                                       absolute inset-0
                                                       hidden
                                                       bg-black/40
                                                       rounded-md
                                                     "
-                                                     />
-                                                   )}
-                       
-                       
-                                                   {logoPreview && (
-                                                     <div
-                                                       className="
+                                />
+                              )}
+
+
+                              {logoPreview && (
+                                <div
+                                  className="
                                                      qr-trash
                                                       absolute -top-1 -right-1
                                                       hidden
@@ -598,17 +600,20 @@ const handleDeleteLogo = () => {
                                                       p-1
                                                       cursor-pointer
                                                     "
-                                                       onClick={handleDeleteLogo}
-                                                     >
-                                                       <div
-                                                         className="bg-black/70 text-white p-2 rounded-full">
-                                                         <Trash size={12} />
-                                                       </div>
-                                                     </div>
-                                                   )}
-                                                 </div>
-                       
-                                               </div>
+                                  onClick={handleDeleteLogo}
+                                >
+                                  <div
+                                    className="bg-black/70 text-white p-2 rounded-full">
+                                    <Trash size={12} />
+                                  </div>
+                                </div>
+                              )}
+
+                            </>
+                            }
+                          </div>
+
+                        </div>
 
                         <div>
                           <label
@@ -801,8 +806,8 @@ const handleDeleteLogo = () => {
                             </div>
 
                             <div className="col-12">
-                                <div
-                                                              className="
+                              <div
+                                className="
                                                                 relative mt-2
                                                                 flex items-center justify-center
                                                                 h-[120px]
@@ -810,50 +815,52 @@ const handleDeleteLogo = () => {
                                                                 border-[3px] border-dotted border-[#ced4da]
                                                                 group
                                                               "
-                                                              onMouseEnter={(e) => {
-                                                                const trash = e.currentTarget.querySelector(".qr-trash");
-                                                                const overlay = e.currentTarget.querySelector(".qr-overlay");
-                              
-                                                                if (trash) trash.style.display = "flex";
-                                                                if (overlay) overlay.style.display = "block";
-                                                              }}
-                                                              onMouseLeave={(e) => {
-                                                                const trash = e.currentTarget.querySelector(".qr-trash");
-                                                                const overlay = e.currentTarget.querySelector(".qr-overlay");
-                              
-                                                                if (trash) trash.style.display = "none";
-                                                                if (overlay) overlay.style.display = "none";
-                                                              }}
-                                                            >
-                              
-                                                              {signaturePreview ? (
-                                                                <img
-                                                                  src={signaturePreview}
-                                                                  alt="signature"
-                                                                  className="max-h-full max-w-full"
-                                                                />
-                                                              ) : (
-                                                                <span
-                                                                  className="
+                                onMouseEnter={(e) => {
+                                  const trash = e.currentTarget.querySelector(".qr-trash");
+                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                  if (trash) trash.style.display = "flex";
+                                  if (overlay) overlay.style.display = "block";
+                                }}
+                                onMouseLeave={(e) => {
+                                  const trash = e.currentTarget.querySelector(".qr-trash");
+                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+
+                                  if (trash) trash.style.display = "none";
+                                  if (overlay) overlay.style.display = "none";
+                                }}
+                              >
+
+                                {signaturePreview ? (
+                                  <img
+                                    src={signaturePreview}
+                                    alt="signature"
+                                    className="max-h-full max-w-full"
+                                  />
+                                ) : (
+                                  <span
+                                    className="
                                                                     text-[14px]
                                                                     font-normal
                                                                     text-[rgba(34,34,34,1)]
                                                                   "
-                                                                  style={{ fontFamily: 'Gilroy' }}
-                                                                >
-                                                                  No signature uploaded
-                                                                </span>
-                                                              )}
-                                                              {signaturePreview && (
-                                                                <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                                              )}
-                              
-                              
-                              
-                              
-                                                              {signaturePreview && (
-                                                                <div
-                                                                  className="qr-trash
+                                    style={{ fontFamily: 'Gilroy' }}
+                                  >
+                                    No signature uploaded
+                                  </span>
+                                )}
+
+                                {!signaturePreview?.startsWith("blob:") && <>
+
+
+
+                                  {signaturePreview && (
+                                    <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                  )}
+
+                                  {signaturePreview && (
+                                    <div
+                                      className="qr-trash
                                                                     absolute -top-1 -right-1
                                                                     hidden
                                                                     items-center justify-center 
@@ -861,19 +868,21 @@ const handleDeleteLogo = () => {
                                                                     bg-gray-100 text-white
                                                                     p-1
                                                                     cursor-pointer"
-                                                                  style={{
-                                                                    display: 'none',
-                                                                    cursor: 'pointer',
-                                                                  }}
-                                                                  onClick={handleDeleteRentalSignature}
-                                                                >
-                                                                  <div
-                                                                    className="bg-black/70 text-white p-2 rounded-full">
-                                                                    <Trash size={12} />
-                                                                  </div>
-                                                                </div>
-                                                              )}
-                                                            </div>
+                                      style={{
+                                        display: 'none',
+                                        cursor: 'pointer',
+                                      }}
+                                      onClick={handleDeleteRentalSignature}
+                                    >
+                                      <div
+                                        className="bg-black/70 text-white p-2 rounded-full">
+                                        <Trash size={12} />
+                                      </div>
+                                    </div>
+                                  )}
+                                </>
+                                }
+                              </div>
 
                               <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
                                 <div className="d-flex flex-row">
@@ -944,7 +953,7 @@ const handleDeleteLogo = () => {
                           paddingTop: '20px'
                         }}
                       >
-                        
+
                         Override Global Value?
                       </Modal.Title>
                     </Modal.Header>
@@ -1164,8 +1173,8 @@ const handleDeleteLogo = () => {
           </div>
 
           {editErrmsg.trim() !== "" && (
-             <div className="d-flex justify-content-center">
-            <ErrorMessage message={editErrmsg} type="error" />
+            <div className="d-flex justify-content-center">
+              <ErrorMessage message={editErrmsg} type="error" />
             </div>
           )}
           <div className="d-flex justify-content-end mt-2 col-lg-10">

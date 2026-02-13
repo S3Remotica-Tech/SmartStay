@@ -456,6 +456,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [hostel_logo, setHostelLogo] = useState(null)
 
 
+
   const handleFileUploadHostel = (e) => {
     if (!allowImageUpload) return;
     const file = e.target.files[0];
@@ -469,6 +470,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       };
       reader.readAsDataURL(file);
     }
+    // e.target.value = null
   };
 
 
@@ -826,12 +828,16 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [qrimagepreview, setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
 
+  console.log("qrImage, ", qrImage)
+  console.log("qrimagepreview", qrimagepreview)
+
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setEditFormErrMessage('')
       setQRImagePreview(file)
       setQrImage(URL.createObjectURL(file));
+      e.target.value = null;
     }
   };
 
@@ -1410,40 +1416,39 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                           />
                                         )}
 
-
-                                        {logoPreview && (
-                                          <div
-                                            className="
+                                        {logoPreview && !logoPreview.startsWith("data:") && (
+                                          <>
+                                            <div
+                                              className="
         qr-overlay
         absolute inset-0
         hidden
         bg-black/40
         rounded-md
       "
-                                          />
-                                        )}
+                                            />
 
 
-                                        {logoPreview && (
-                                          <div
-                                            className="
-       qr-trash
+                                            <div
+                                              className="
+        qr-trash
         absolute -top-1 -right-1
         hidden
-        items-center justify-center 
+        flex items-center justify-center 
         rounded-full
-        bg-gray-100 text-white
+        bg-gray-100
         p-1
         cursor-pointer
       "
-                                            onClick={handleDeleteLogo}
-                                          >
-                                            <div
-                                              className="bg-black/70 text-white p-2 rounded-full">
-                                              <Trash size={12} />
+                                              onClick={handleDeleteLogo}
+                                            >
+                                              <div className="bg-black/70 text-white p-2 rounded-full">
+                                                <Trash size={10} />
+                                              </div>
                                             </div>
-                                          </div>
+                                          </>
                                         )}
+
                                       </div>
 
                                     </div>
@@ -1683,16 +1688,24 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                                 No signature uploaded
                                               </span>
                                             )}
-                                            {rentalSignaturePreview && (
-                                              <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                            )}
+
+
+                                            {
+                                              !rentalSignaturePreview?.startsWith("blob:") && <>
 
 
 
 
-                                            {rentalSignaturePreview && (
-                                              <div
-                                                className="qr-trash
+                                                {rentalSignaturePreview && (
+                                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                                )}
+
+
+
+
+                                                {rentalSignaturePreview && (
+                                                  <div
+                                                    className="qr-trash
         absolute -top-1 -right-1
         hidden
         items-center justify-center 
@@ -1700,18 +1713,20 @@ function SettingInvoice({ hostelid, handleFormPage }) {
         bg-gray-100 text-white
         p-1
         cursor-pointer"
-                                                style={{
-                                                  display: 'none',
-                                                  cursor: 'pointer',
-                                                }}
-                                                onClick={handleDeleteRentalSignature}
-                                              >
-                                                <div
-                                                  className="bg-black/70 text-white p-2 rounded-full">
-                                                  <Trash size={12} />
-                                                </div>
-                                              </div>
-                                            )}
+                                                    style={{
+                                                      display: 'none',
+                                                      cursor: 'pointer',
+                                                    }}
+                                                    onClick={handleDeleteRentalSignature}
+                                                  >
+                                                    <div
+                                                      className="bg-black/70 text-white p-2 rounded-full">
+                                                      <Trash size={12} />
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </>
+                                            }
                                           </div>
 
 
@@ -2144,9 +2159,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
         "
                                   />
 
+                                  {
+                                    !qrImage?.startsWith("blob:") && <>
 
-                                  <div
-                                    className="
+                                      <div
+                                        className="
           qr-overlay
           hidden
           absolute inset-0
@@ -2155,11 +2172,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
           z-[2]
           pointer-events-none
         "
-                                  />
+                                      />
 
 
-                                  <div
-                                    className="
+
+                                      <div
+                                        className="
     qr-trash
     absolute
     hidden
@@ -2170,14 +2188,19 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     cursor-pointer
     z-[3]
   "
-                                    onClick={handleRemoveQr}
-                                  >
-                                    <div className="bg-black/70 text-white p-1 rounded-full">
-                                      <Trash size={12} />
-                                    </div>
-                                  </div>
+                                        onClick={handleRemoveQr}
+                                      >
 
+                                        <div className="qr-trash" onClick={handleRemoveQr}>
+                                          <Trash size={12} />
+                                        </div>
+
+                                      </div>
+
+                                    </>
+                                  }
                                 </>
+
                               ) : (
                                 <img
                                   src={uploadsett}
