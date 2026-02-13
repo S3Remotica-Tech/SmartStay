@@ -362,38 +362,60 @@ const InvoicePage = () => {
 
 
   const handleInvoiceDetail = (rowData) => {
-   
-    dispatch({
-      type: "INVOICEPDF",
-      payload: {
-        hostelId: rowData.hostelId,
-        invoiceId: rowData.invoiceId,
-      },
-    });
+    if (rowData.invoiceId) {
+      dispatch({
+        type: "INVOICEPDF",
+        payload: {
+          hostelId: rowData.hostelId,
+          invoiceId: rowData.invoiceId,
+        },
+      });
+
+    }
 
 
   };
 
 
 
- 
-const pdfOpenedRef = useRef(false);
 
-useEffect(() => {
-  if (!state.InvoiceList?.invoicePDF) return;
-  if (pdfOpenedRef.current) return;
+    useEffect(() => {
+    if (state.InvoiceList?.statusCodeForPDf === 200) {
+      const pdfUrl = state.InvoiceList?.invoicePDF;
+      if (!pdfUrl) return;
+      setLoading(false);
+      setShowLoader(false);
+      window.open(pdfUrl, "_blank");
+      dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+    }
 
-  pdfOpenedRef.current = true;
-  setLoading(false);
-  setShowLoader(false);
-  window.open(state.InvoiceList.invoicePDF, "_blank");
-
-  dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-}, [state.InvoiceList?.invoicePDF]);
+  }, [state.InvoiceList?.statusCodeForPDf]);
 
 
 
-  
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (!state.InvoiceList?.invoicePDF) return;
+  //   if (pdfOpenedRef.current) return;
+
+  //   pdfOpenedRef.current = true;
+  //   setLoading(false);
+  //   setShowLoader(false);
+  //   window.open(state.InvoiceList.invoicePDF, "_blank");
+
+  //   dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+  // }, [state.InvoiceList?.invoicePDF]);
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.pdfErrorStatusCode === 201) {
@@ -1083,84 +1105,84 @@ useEffect(() => {
 
 
 
-  const sendWhatsAppMessage = async (type) => {
-    const isInvoice = type === "invoice";
+  // const sendWhatsAppMessage = async (type) => {
+  //   const isInvoice = type === "invoice";
 
-    const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
-    const statusCode = isInvoice ? state.InvoiceList?.statusCodeForPDf : state.InvoiceList?.statusCodeForReceiptPDf;
-    const isWhatsAppEnabled = state.InvoiceList.whatsappSettings?.[isInvoice ? 1 : 2];
-    const receiptData = isInvoice
-      ? state.InvoiceList.BillsPdfDetails
-      : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
+  //   const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
+  //   const statusCode = isInvoice ? state.InvoiceList?.statusCodeForPDf : state.InvoiceList?.statusCodeForReceiptPDf;
+  //   const isWhatsAppEnabled = state.InvoiceList.whatsappSettings?.[isInvoice ? 1 : 2];
+  //   const receiptData = isInvoice
+  //     ? state.InvoiceList.BillsPdfDetails
+  //     : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
 
-    if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
-      setShowLoader(false);
+  //   if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
+  //     setShowLoader(false);
 
-      if (!isWhatsAppEnabled) {
-        Swal.fire({
-          icon: "info",
-          text: `WhatsApp notification for ${isInvoice ? "Bills" : "Deposit Receipt"} is not enabled. Please enable it in Settings > Notifications.`,
-        });
-        return;
-      }
+  //     if (!isWhatsAppEnabled) {
+  //       Swal.fire({
+  //         icon: "info",
+  //         text: `WhatsApp notification for ${isInvoice ? "Bills" : "Deposit Receipt"} is not enabled. Please enable it in Settings > Notifications.`,
+  //       });
+  //       return;
+  //     }
 
-      setLoading(true);
+  //     setLoading(true);
 
-      try {
-        const parsedUrl = new URL(pdfUrl);
-        const filename = parsedUrl.pathname.slice(1);
-        const userName = receiptData?.user_details?.name || '';
-        let userPhone = receiptData?.user_details?.phone?.toString() || '';
+  //     try {
+  //       const parsedUrl = new URL(pdfUrl);
+  //       const filename = parsedUrl.pathname.slice(1);
+  //       const userName = receiptData?.user_details?.name || '';
+  //       let userPhone = receiptData?.user_details?.phone?.toString() || '';
 
-        if (!userPhone.startsWith("+91")) {
-          userPhone = userPhone.startsWith("91") ? "+" + userPhone : "+91" + userPhone;
-        }
+  //       if (!userPhone.startsWith("+91")) {
+  //         userPhone = userPhone.startsWith("91") ? "+" + userPhone : "+91" + userPhone;
+  //       }
 
-        const response = await AxiosConfig.post("/send-whatsapp", {
-          to: userPhone,
-          templateName: "invoice_notification",
-          parameters: [userName, filename],
-        });
+  //       const response = await AxiosConfig.post("/send-whatsapp", {
+  //         to: userPhone,
+  //         templateName: "invoice_notification",
+  //         parameters: [userName, filename],
+  //       });
 
-        if (response.data.statusCode === 200) {
-          Swal.fire({
-            icon: "success",
-            text: response.data.message,
-          });
-        } else {
-          Swal.fire({
-            icon: "warning",
-            text: "Unexpected response from server.",
-          });
-        }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          text: error.response?.data?.error || "Failed to send WhatsApp message",
-        });
-      } finally {
-        setLoading(false);
-      }
+  //       if (response.data.statusCode === 200) {
+  //         Swal.fire({
+  //           icon: "success",
+  //           text: response.data.message,
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           icon: "warning",
+  //           text: "Unexpected response from server.",
+  //         });
+  //       }
+  //     } catch (error) {
+  //       Swal.fire({
+  //         icon: "error",
+  //         text: error.response?.data?.error || "Failed to send WhatsApp message",
+  //       });
+  //     } finally {
+  //       setLoading(false);
+  //     }
 
-      dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-    } else if (statusCode === 200 && pdfUrl) {
-      const pdfWindow = window.open("", "_blank");
-      if (pdfWindow) {
-        pdfWindow.location.href = pdfUrl;
-      }
-      dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-    }
-  };
+  //     dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+  //   } else if (statusCode === 200 && pdfUrl) {
+  //     const pdfWindow = window.open("", "_blank");
+  //     if (pdfWindow) {
+  //       pdfWindow.location.href = pdfUrl;
+  //     }
+  //     dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+  //   }
+  // };
 
 
 
-  useEffect(() => {
-    sendWhatsAppMessage("invoice");
-  }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+  // useEffect(() => {
+  //   sendWhatsAppMessage("invoice");
+  // }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
 
-  useEffect(() => {
-    sendWhatsAppMessage("receipt");
-  }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+  // useEffect(() => {
+  //   sendWhatsAppMessage("receipt");
+  // }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
 
   useEffect(() => {
     if (selectedUserId) {
@@ -1541,7 +1563,7 @@ useEffect(() => {
 
 
   return (
-    <div className="sticky-top bg-white" >
+    <div className="sticky-top bg-white font-[Gilroy]" >
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
@@ -1599,8 +1621,8 @@ useEffect(() => {
                       <div className="mt-3 border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
                         <FiSearch
                           className={`h-6 w-5 transition-opacity duration-300 ${canReadInvoice
-                              ? "cursor-pointer opacity-100 pointer-events-auto"
-                              : "cursor-not-allowed opacity-40 pointer-events-none"
+                            ? "cursor-pointer opacity-100 pointer-events-auto"
+                            : "cursor-not-allowed opacity-40 pointer-events-none"
                             }`}
 
                           onClick={handleSearch}

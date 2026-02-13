@@ -327,8 +327,8 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
             maxOutstandingAmount: outstandingMax,
             page: page,
             size: size,
-             startDate: startDate,
-      endDate: endDate,
+              startDate: period?.value ? undefined : startDate,
+        endDate: period?.value ? undefined : endDate,
         };
 
         dispatch({

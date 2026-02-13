@@ -262,8 +262,8 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
 
             page: page,
             size: size,
-            startDate: startDate,
-            endDate: endDate,
+            startDate: selectedPeriod?.value ? undefined : startDate,
+        endDate: selectedPeriod?.value ? undefined : endDate,
         };
 
 

@@ -608,7 +608,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                         <Button
                             style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
                             onClick={handleSaveInvoiceList}
-                        >Record</Button>
+                        >Refund</Button>
                     </div>
                 </Modal.Footer>
             </Modal.Dialog>

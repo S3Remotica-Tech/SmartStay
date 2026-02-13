@@ -23,7 +23,7 @@ import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import { Location, Call, Profile, Edit, Trash } from 'iconsax-react'
+import { Location, Call, Profile, Edit, Trash, DocumentUpload } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Row, Col, Table, Card } from "react-bootstrap";
 import AdvanceCustomizeSettings from '../BillsTemplates/AdvanceCustomizeSettings'
@@ -3193,13 +3193,14 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                               if (overlay) overlay.style.display = "none";
                             }}
                           >
-
-                            <img
-                              src={previewURL ? previewURL : uploadsett}
-                              alt="logo-preview"
-                              className="h-[60px] w-[60px]"
-                            />
-
+                            {previewURL ?
+                              <img
+                                src={previewURL}
+                                alt="logo-preview"
+                                className="h-[60px] w-[60px]"
+                              />
+                              :
+                              <DocumentUpload  color="#1E45E1"/>}
 
                             {previewURL && (
                               <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />

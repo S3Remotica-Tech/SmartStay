@@ -982,7 +982,7 @@ useEffect(() => {
               textAlign: "center",
             }}
           >
-            Delete Customer?
+            Delete Tenant?
           </h5>
         </Modal.Header>
 
@@ -996,7 +996,7 @@ useEffect(() => {
             marginTop: "-10px",
           }}
         >
-          Are you sure you want to delete this Customer?
+          Are you sure you want to delete this Tenant?
         </Modal.Body>
         {formLoading && <div
           style={{
