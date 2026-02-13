@@ -36,22 +36,6 @@ function TenantsRegister() {
 
 
 
-    // useEffect(() => {
-    //     if (state.login?.selectedHostel_Id) {
-    //         dispatch({
-    //             type: 'GET_REPORTS_TENANT_REGISTER_SAGA', payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //                 filters: {
-    //                     size: size,
-    //                     page: page,
-    //                 }
-    //             }
-    //         })
-    //         setLoading(true)
-    //     }
-    // }, [state.login?.selectedHostel_Id])
-
-
 
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {
@@ -335,79 +319,79 @@ function TenantsRegister() {
 
 
 
-   useEffect(() => {
-  const filters = state.reports.tenantRegisterFilters;
-  const filterData = [];
-  if (filters?.startDate || filters?.endDate) {
-    filterData.push({
-      key: "date-range",
-      label: "Date",
-      type: "date",
-      value:
-        filters.startDate && filters.endDate
-          ? `${filters.startDate} - ${filters.endDate}`
-          : filters.startDate || filters.endDate,
-    });
-  }
+    useEffect(() => {
+        const filters = state.reports.tenantRegisterFilters;
+        const filterData = [];
+        if (filters?.startDate || filters?.endDate) {
+            filterData.push({
+                key: "date-range",
+                label: "Date",
+                type: "date",
+                value:
+                    filters.startDate && filters.endDate
+                        ? `${filters.startDate} - ${filters.endDate}`
+                        : filters.startDate || filters.endDate,
+            });
+        }
 
 
-  if (filters?.period?.length) {
-    filterData.push({
-      key: "period",
-      label: "Period",
-      type: "single",
-      value: filters.period[0]?.label || filters.period[0],
-    });
-  }
-
- 
-  if (filters?.search?.trim()) {
-    filterData.push({
-      key: "search",
-      label: "Search",
-      type: "text",
-      value: filters.search,
-    });
-  }
+        if (filters?.period?.length) {
+            filterData.push({
+                key: "period",
+                label: "Period",
+                type: "single",
+                value: filters.period[0]?.label || filters.period[0],
+            });
+        }
 
 
-  if (filters?.tenantStatus?.length) {
-    filters.tenantStatus.forEach(status => {
-      filterData.push({
-        key: "tenantStatus",
-        label: "Status",
-        type: "multi",
-        value: status.label || status,
-      });
-    });
-  }
+        if (filters?.search?.trim()) {
+            filterData.push({
+                key: "search",
+                label: "Search",
+                type: "text",
+                value: filters.search,
+            });
+        }
 
 
-  if (filters?.floor?.length) {
-    filters.floor.forEach(floor => {
-      filterData.push({
-        key: "floor",
-        label: "Floor",
-        type: "multi",
-        value: floor.label || floor,
-      });
-    });
-  }
+        if (filters?.tenantStatus?.length) {
+            filters.tenantStatus.forEach(status => {
+                filterData.push({
+                    key: "tenantStatus",
+                    label: "Status",
+                    type: "multi",
+                    value: status.label || status,
+                });
+            });
+        }
 
 
-  if (filters?.room?.length) {
-    filters.room.forEach(room => {
-      filterData.push({
-        key: "room",
-        label: "Room",
-        type: "multi",
-        value: room.label || room,
-      });
-    });
-  }
+        if (filters?.floor?.length) {
+            filters.floor.forEach(floor => {
+                filterData.push({
+                    key: "floor",
+                    label: "Floor",
+                    type: "multi",
+                    value: floor.label || floor,
+                });
+            });
+        }
 
-  setChips(filterData);
-}, [state.reports.tenantRegisterFilters]);
+
+        if (filters?.room?.length) {
+            filters.room.forEach(room => {
+                filterData.push({
+                    key: "room",
+                    label: "Room",
+                    type: "multi",
+                    value: room.label || room,
+                });
+            });
+        }
+
+        setChips(filterData);
+    }, [state.reports.tenantRegisterFilters]);
 
 
     const handleNavigateRegister = (item) => {
@@ -655,7 +639,7 @@ function TenantsRegister() {
 
                             <div className="flex items-center gap-2 mt-2">
                                 <h2 className="text-2xl font-semibold text-[#101828]">
-                                    {item.value}
+                                    {item.value ?? ""}
                                 </h2>
 
 
@@ -740,7 +724,7 @@ function TenantsRegister() {
 
 
                             <tbody>
-                                {tenantRegister?.tenants?.map((row, i) => (
+                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row, i) => (
                                     <tr
                                         key={row.tenantId}
                                         className="border-b last:border-none  transition"
@@ -799,7 +783,18 @@ function TenantsRegister() {
                                             {row.stayDuration || "-"}
                                         </td>
                                     </tr>
-                                ))}
+                                ))
+                                    :
+                                    <tr>
+                                        <td
+                                            colSpan={9}
+                                            className="py-10 text-center text-sm text-red-800 font-semibold"
+                                        >
+                                            No Data Found
+                                        </td>
+                                    </tr>
+
+                                }
                             </tbody>
 
                         </table>
