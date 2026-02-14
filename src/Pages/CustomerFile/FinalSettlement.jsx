@@ -1141,7 +1141,8 @@ function FinalSettlement() {
 
 
                                         {
-                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount && <>
+                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount > 0 && 
+<>
 
 
                                                 <div className="d-flex justify-content-between align-items-start mt-2">
