@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef , useMemo} from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
@@ -152,7 +152,7 @@ function Reports() {
     },
     {
       title: "Electricity Billing Register",
-      subTitle: "This Month",
+      subTitle: "Last Month",
       desc: "Meter readings, consumption, and billing records",
       value: `₹${reportsList?.electricity?.totalAmount || 0}`,
       icon: Flash,
@@ -285,7 +285,7 @@ function Reports() {
     })
   });
 
-  
+
 
 
   useEffect(() => {
@@ -342,33 +342,26 @@ function Reports() {
     }
   }
 
-  // useEffect(() => {
-  //   if (reportsList?.startDate && reportsList?.endDate) {
-  //     setSelectedRange({
-  //       from: dayjs(reportsList.startDate, "DD/MM/YYYY"),
-  //       to: dayjs(reportsList.endDate, "DD/MM/YYYY"),
-  //     });
-  //   }
-  // }, [reportsList]);
 
 
- const apiStart = reportsList?.startDate;
-    const apiEnd = reportsList?.endDate;
+
+  const apiStart = reportsList?.startDate;
+  const apiEnd = reportsList?.endDate;
 
 
-    
-    const isInitialLoad = useRef(true);
 
-    useEffect(() => {
-        if (!apiStart || !apiEnd || !isInitialLoad.current) return;
+  const isInitialLoad = useRef(true);
 
-        isInitialLoad.current = false;
+  useEffect(() => {
+    if (!apiStart || !apiEnd || !isInitialLoad.current) return;
 
-        setSelectedRange({
-            from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
-            to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
-        });
-    }, [apiStart, apiEnd]);
+    isInitialLoad.current = false;
+
+    setSelectedRange({
+      from: dayjs(apiStart, "DD/MM/YYYY").toDate(),
+      to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
+    });
+  }, [apiStart, apiEnd]);
 
 
 
@@ -423,34 +416,34 @@ function Reports() {
     });
     setLoading(true);
   }, [
-    state.login?.selectedHostel_Id, 
+    state.login?.selectedHostel_Id,
     startDate,
     endDate,]);
 
 
-useEffect(() => {
-    return () =>{
-       dispatch({
-      type: "GET_REEPORTS_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: {
-                  }, 
-      },
-    });
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "GET_REEPORTS_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+          },
+        },
+      });
     }
   }, [])
 
 
-   useEffect(() => {
-      if (state.createAccount?.networkError) {
-        setLoading(false)
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        }, 3000)
-      }
-  
-    }, [state.createAccount?.networkError])
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
   return (
 
@@ -575,7 +568,7 @@ useEffect(() => {
                   ];
 
                   const isClickable =
-                    isDev || (isProd && allowedRegisters.includes(item.title));
+                    (isDev && allowedRegisters.includes(item.title) )|| (isProd && allowedRegisters.includes(item.title));
 
                   return (
                     <div

@@ -1369,7 +1369,7 @@ function Sidebar() {
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <div  className="mt-1 ml-2.5 mr-1">
+                  <div className="mt-1 ml-2.5 mr-1">
                     <BillsPdfDetails />
                   </div>
                 }
@@ -1509,23 +1509,6 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/reports/bank-transaction-register/:hostelId"
-                element={
-                  <div >
-                    <BankTransactionRegister />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/reports/occupancy-register/:hostelId"
-                element={
-                  <div >
-                    <OccupancyRegister />
-                  </div>
-                }
-              />
-              <Route
                 path="/reports/expense-register/:hostelId"
                 element={
                   <div >
@@ -1533,49 +1516,74 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
-                path="/reports/vendor-register/:hostelId"
-                element={
-                  <div >
-                    <VendorRegister />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/electricity-billing-register/:hostelId"
-                element={
-                  <div >
-                    <ElectricityRegister />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/request-register/:hostelId"
-                element={
-                  <div >
-                    <RequestRegister />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/final-settlement-register/:hostelId"
-                element={
-                  <div >
-                    <FinalSettlementRegister />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/reports/complaint-register/:hostelId"
-                element={
-                  <div >
-                    <ComplaintsRegister />
-                  </div>
-                }
-              />
 
 
+              {
+                import.meta.env.MODE === "development" &&
+                <>
+
+
+                  <Route
+                    path="/reports/bank-transaction-register/:hostelId"
+                    element={
+                      <div >
+                        <BankTransactionRegister />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/reports/occupancy-register/:hostelId"
+                    element={
+                      <div >
+                        <OccupancyRegister />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/reports/vendor-register/:hostelId"
+                    element={
+                      <div >
+                        <VendorRegister />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/reports/electricity-billing-register/:hostelId"
+                    element={
+                      <div >
+                        <ElectricityRegister />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/reports/request-register/:hostelId"
+                    element={
+                      <div >
+                        <RequestRegister />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/reports/final-settlement-register/:hostelId"
+                    element={
+                      <div >
+                        <FinalSettlementRegister />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/reports/complaint-register/:hostelId"
+                    element={
+                      <div >
+                        <ComplaintsRegister />
+                      </div>
+                    }
+                  />
+                </>
+              }
 
               <Route
                 path="/reports/month-revenue/:hostelId"
@@ -2013,7 +2021,7 @@ function Sidebar() {
                 <img src={SettingIcon} alt="Settings Icon" className="w-6 h-6" />
               </NavLink>
 
-              
+
               <div
                 onMouseEnter={() => handleMouseEnter("helpVideo")}
                 onMouseLeave={handleMouseLeave}
