@@ -1138,10 +1138,6 @@ function FinalSettlement() {
                                                 </div>
                                             ))}
 
-
-
-
-
 <div className="d-flex justify-content-between align-items-start mt-2">
 
   <div className="d-flex gap-3">
