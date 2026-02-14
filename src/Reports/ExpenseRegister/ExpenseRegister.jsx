@@ -127,7 +127,9 @@ function ExpenseRegister() {
   }, [register]);
 
   const stats = [
-    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses, up: "12%" },
+    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses, 
+      // up: "12%" 
+    },
     { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.summary?.totalAmount },
 
   ];

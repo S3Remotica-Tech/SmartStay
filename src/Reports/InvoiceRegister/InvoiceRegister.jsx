@@ -14,12 +14,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
-import { StarRate } from '@material-ui/icons';
+
 
 
 function InvoiceRegister() {
-
-
     const navigate = useNavigate();
     const state = useSelector(state => state)
     const { RangePicker } = DatePicker;
@@ -43,21 +41,7 @@ function InvoiceRegister() {
 
 
 
-    // useEffect(() => {
-    //     if (state.login?.selectedHostel_Id) {
-
-    //         dispatch({
-    //             type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //                 filters: {
-    //                     size: size,
-    //                     page: page,
-    //                 }
-    //             }
-    //         })
-    //         setLoading(true)
-    //     }
-    // }, [state.login?.selectedHostel_Id])
+   
 
 
 
@@ -111,9 +95,15 @@ function InvoiceRegister() {
 
     const stats = [
         { title: "Total Invoices", value: state?.reports?.getInvoiceRegister?.totalInvoices },
-        { title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount, up: "12%" },
-        { title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount, up: "8%", link: true },
-        { title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, down: "5%", link: true },
+        { title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount,
+            //  up: "12%"
+             },
+        { title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount,
+            //  up: "8%",
+              link: true },
+        { title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, 
+            // down: "5%",
+             link: true },
     ];
 
 

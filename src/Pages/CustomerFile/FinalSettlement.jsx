@@ -45,6 +45,8 @@ function FinalSettlement() {
     const [showInvoices, setShowInvoices] = React.useState(false);
     const [showRentDetails, setShowRentDetails] = React.useState(false);
     const [showEbMissed, setShowEbMissed] = useState(false);
+    const [showOtherCharges, setShowOtherCharges] = useState(false);
+
     const [showRoomReading, setShowRoomReading] = useState(false);
     const [showDeductions, setShowDeductions] = useState(false);
 
@@ -996,7 +998,7 @@ function FinalSettlement() {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        ₹{finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
+                                        ₹{finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount}
                                     </span>
                                 </div>
 
@@ -1135,6 +1137,98 @@ function FinalSettlement() {
                                                     )}
                                                 </div>
                                             ))}
+
+
+
+
+
+<div className="d-flex justify-content-between align-items-start mt-2">
+
+  <div className="d-flex gap-3">
+    <div
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        color: "black",
+        cursor: "pointer",
+        userSelect: "none"
+      }}
+    >
+      Other Charges 
+     
+    </div>
+
+    <div
+      className="d-flex"
+      onClick={() => setShowOtherCharges(!showOtherCharges)}
+    >
+      <span
+        style={{
+          backgroundColor: "#E7F1FF",
+          borderRadius: 5,
+          padding: 4,
+        }}
+      >
+        {showOtherCharges ? (
+          <ArrowUp2 size="16" color="#1E45E1" />
+        ) : (
+          <ArrowDown2 size="16" color="#1E45E1" />
+        )}
+      </span>
+    </div>
+  </div>
+
+  <div
+    style={{
+      fontFamily: "Gilroy",
+      fontSize: 14,
+      color: "black",
+    }}
+  >
+    ₹{finalSettlementList?.currentMonthRentInfo?.otherItemAmount}
+  </div>
+</div>
+
+{showOtherCharges &&
+  finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems?.map((item, index) => (
+    <div key={index} style={{ marginTop: 8 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "#1E45E1",
+          width: "100%",
+          backgroundColor: "#F9F9F9",
+          padding: 10,
+          borderRadius: 8
+        }}
+      >
+        <div style={{ whiteSpace: "nowrap" }}>
+          {item.item}
+        </div>
+
+        <div style={{ whiteSpace: "nowrap", color: "#222" }}>
+          ₹{item.amount}
+        </div>
+      </div>
+
+      {index !== finalSettlementList?.otherChargesInfo?.chargeLists?.length - 1 && (
+        <div
+          style={{
+            borderBottom: "1px dashed #CBD5E1",
+            marginTop: 6,
+          }}
+        />
+      )}
+    </div>
+  ))}
+
+
+
+
 
 
                                     </div>
