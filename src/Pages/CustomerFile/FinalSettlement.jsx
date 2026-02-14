@@ -1122,7 +1122,7 @@ function FinalSettlement() {
 
 
                                                         <div style={{ whiteSpace: "nowrap", color: "#222" }}>
-                                                            ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rent} = {item.totalRent})
+                                                            ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rentPerDay} = {item.totalRent})
                                                         </div>
                                                     </div>
 
