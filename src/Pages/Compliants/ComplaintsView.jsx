@@ -194,21 +194,15 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
             onHide={handleClose}
             placement="end"
             backdrop="static"
-            style={{
-                width: 355,
-                borderLeft: "1px solid #E5E7EB",
-                fontFamily: "Gilroy", right: trigger ? 0 : "358px",
-                position: "fixed",
-                borderRadius: 10
-            }}
+            className="!w-[355px] !border-l !border-[#E5E7EB] !font-gilroy fixed rounded-[10px]"
+            style={{ right: trigger ? 0 : '358px' }}
         >
 
-            <Offcanvas.Header className="gap-0 d-flex justify-content-between">
-                <div className="d-flex align-items-center gap-3">
-
+            <Offcanvas.Header className="flex justify-between gap-0">
+                <div className="flex items-center gap-3">
 
                     <div>
-                        <div style={{ fontSize: 20, fontWeight: 600, color: "#1F2633" }}>
+                        <div className="text-lg font-semibold text-gray-900">
                             History & Comments
                         </div>
                         {/* <div style={{ fontSize: 13, color: "#1E45E1", fontWeight: 600 }}>
@@ -221,26 +215,13 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                     size="26"
                     color="#28303F"
                     onClick={handleClose}
-                    style={{ cursor: "pointer" }}
+                    className="cursor-pointer"
                 />
             </Offcanvas.Header>
+            <hr className="m-0 border border-gray-300" />
+            <Offcanvas.Body className="p-4 overflow-y-auto max-h-screen">
+                <div className="flex  gap-2 rounded-md mb-2">
 
-            <hr className="m-0" style={{ border: "1px solid #ccc" }} />
-
-
-            <Offcanvas.Body
-                style={{ padding: "15px", overflowY: "auto", maxHeight: "90vh" }}
-            >
-
-
-                <div className="d-flex  align_items-center gap-2"
-                    style={{
-                        padding: 15,
-                        borderRadius: 10,
-                        // border: "1px solid #E5E7EB",
-                        marginBottom: 10,
-                    }}
-                >
                     <div>
 
                         {state.createAccount?.accountList?.profilePic &&
@@ -248,25 +229,11 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             <Image
                                 src={state.createAccount?.accountList.profilePic}
                                 roundedCircle
-                                style={{ height: 50, width: 50 }}
+                                className="h-12 w-12"
                                 alt="image"
                             />
                         ) : (
-                            <div
-                                style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#E2E8F0",
-                                    color: "#44536A",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 20,
-                                    fontWeight: "600",
-                                    fontFamily: "Gilroy"
-                                }}
-                            >
+                            <div className="h-12 w-12 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-base font-semibold font-gilroy">
                                 {state.createAccount?.accountList?.initial || "-"}
                             </div>
                         )}
@@ -284,16 +251,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             onChange={(e) => {
                                 setComments(e.target.value);
                                 setCommentsError("");
-                            }}
-                            style={{
-                                width: "100%",
-                                borderRadius: 6,
-                                padding: 10,
-                                border: "1px solid #DCDCDC",
-                                outline: "none",
-                                resize: "none",
-                                fontSize: 14,
-                            }}
+                            }} className="w-full rounded-md p-2.5 border border-gray-300 outline-none resize-none text-sm"
                             rows={3}
                         ></textarea>
                         {commentsError && (
@@ -305,18 +263,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                         <button
                             onClick={handleAddComment}
                             disabled={commentsLoading}
-                            style={{
-                                marginTop: 10,
-                                background: "#1E45E1",
-                                border: "none",
-                                padding: "8px 18px",
-                                borderRadius: 8,
-                                color: "white",
-                                fontSize: 14,
-                                cursor: "pointer",
-                                fontWeight: 500,
-                            }}
-                        >
+                            className="mt-2 bg-blue-700 text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer">
                             {commentsLoading ? "Adding..." : "Add Comment"}
                         </button>
                     </div>
@@ -326,7 +273,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
 
-                <div style={{ marginTop: 10 }}>
+                <div className="mt-2">
                     {state.ComplianceList?.ComplianceUpdates?.complaintUpdates?.map((item, index, arr) => (
                         <StepItem
                             key={index}
@@ -334,17 +281,17 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             isLast={index === arr.length - 1}
                         >
 
-                            <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>
+                            <div className="font-semibold text-base text-gray-900">
                                 {item.update}
                             </div>
 
 
-                            <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
+                            <div className="text-sm text-slate-900 mt-1">
                                 {item.description}
                             </div>
 
 
-                            <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
+                            <div className="text-xs text-slate-600 mt-1">
                                 Added at: {item.updatedAt}, {item.updatedTime}
                             </div>
 
@@ -352,63 +299,38 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             {Array.isArray(item.comments) && item?.comments?.length > 0 && (
                                 <>
                                     {item?.comments.map((comment, i) => (
-                                        <div key={i} style={{
-                                            marginBottom: 14,
-                                            paddingBottom: 10,
-                                            borderBottom:
-                                                i !== item.comments.length - 1
-                                                    ? "1px dashed #E5E7EB"
-                                                    : "none",
-                                        }}>
-                                            <Row className="mt-2 align-items-center g-1">
-                                                <Col xs="auto" className="p-0">
+                                        <div key={i}
+                                            className={`mb-3 pb-2.5 ${i !== item.comments.length - 1 ? 'border-b border-dashed border-gray-300' : ''}`}
+                                        >
+                                           
+                                            <div className="flex items-center gap-1 mt-2">
+
+                                                <div className="flex-shrink-0">
                                                     {comment.profilePic ? (
-                                                        <Image
+                                                        <img
                                                             src={comment.profilePic}
-                                                            roundedCircle
-                                                            width={37}
-                                                            height={37}
+                                                            alt="profile"
+                                                            className="rounded-full w-9 h-9 object-cover"
                                                         />
                                                     ) : (
-                                                        <div
-                                                            style={{
-                                                                width: 37,
-                                                                height: 37,
-                                                                borderRadius: "50%",
-                                                                backgroundColor: "#E2E8F0",
-                                                                color: "#44536A",
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                justifyContent: "center",
-                                                                fontSize: 13,
-                                                                fontWeight: 600,
-                                                            }}
-                                                        >
+                                                        <div className="w-9 h-9 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-semibold">
                                                             {comment.initials || "-"}
                                                         </div>
                                                     )}
-                                                </Col>
+                                                </div>
 
-                                                <Col className="ps-2 d-flex gap-2">
-                                                    <div style={{ fontSize: 12, fontWeight: 600 }}>
+                                                <div className="flex gap-2 ps-2 items-center">
+                                                    <div className="text-xs font-semibold">
                                                         {comment.commentedBy}
                                                     </div>
+                                                    <div className="text-xs text-gray-700 font-normal">
+                                                        added a Comment
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                    <div style={{ fontSize: 12, color: "#3E3E3E", fontWeight: 400 }}>added a Comment</div>
 
-                                                </Col>
-                                            </Row>
-
-                                            <div
-                                                style={{
-                                                    border: "1px solid #D1D5DB",
-                                                    borderRadius: 8,
-                                                    padding: 14,
-                                                    marginTop: 8,
-                                                    background: "#FFF",
-                                                    fontSize: 12,
-                                                }}
-                                            >
+                                            <div className="border border-gray-300 rounded-md p-3 mt-2 bg-white text-xs">
                                                 {comment.comment}
                                             </div>
                                         </div>

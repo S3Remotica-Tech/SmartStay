@@ -215,7 +215,7 @@ setShowBookingPdf(false)
             Booking</label>
         </div>
 
-        <div className=" d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div className=" d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2">
           <div style={{
             backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
             padding: "6px 8px", lineHeight: "normal", height: "fit-content"
