@@ -1122,7 +1122,7 @@ function FinalSettlement() {
 
 
                                                         <div style={{ whiteSpace: "nowrap", color: "#222" }}>
-                                                            ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rentPerDay} = {item.totalRent})
+                                                            ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rent} = {item.totalRent})
                                                         </div>
                                                     </div>
 
@@ -1141,7 +1141,8 @@ function FinalSettlement() {
 
 
                                         {
-                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount && <>
+                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount > 0 && 
+<>
 
 
                                                 <div className="d-flex justify-content-between align-items-start mt-2">
