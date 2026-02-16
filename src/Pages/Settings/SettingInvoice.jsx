@@ -34,6 +34,7 @@ import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { NutFill } from "react-bootstrap-icons";
 
 function SettingInvoice({ hostelid, handleFormPage }) {
 
@@ -41,16 +42,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-
-
-
-
-
-
-
-
-
-
+  const [isHovering, setIsHovering] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
 
@@ -561,7 +553,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [isRentalSignatureConfirmed, setIsRentalSignatureConfirmed] = useState(false);
 
 
- 
+
 
   const handleRentalSignatureChange = (e) => {
     const file = e.target.files[0];
@@ -830,7 +822,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [qrimagepreview, setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
 
-  
+
 
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
@@ -1121,22 +1113,33 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  // const handleDeleteImage = () => {
+  const handleDeleteImage = () => {
+  if (!previewURL) return;
 
-  //   if (BillsTemplateList?.hostelId) {
-  //     dispatch({
-  //       type: 'DELETETEMPLATESIMAGES', payload: {
-  //         hostelId: BillsTemplateList?.hostelId,
-  //         templateId: BillsTemplateList?.templateId,
-  //         templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-  //         type: "QRCODE"
+  const isLocalImage =
+    previewURL.startsWith("blob:") ||
+    previewURL.startsWith("data:");
 
-  //       }
-  //     })
-  //   }
+  if (isLocalImage) {
+    
+    setPreviewURL(null);
+  } else {
+       if (BillsTemplateList?.hostelId) {
+      // dispatch({
+      //   type: "DELETETEMPLATESIMAGES",
+      //   payload: {
+      //     hostelId: BillsTemplateList?.hostelId,
+      //     templateId: BillsTemplateList?.templateId,
+      //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+      //     type: "QRCODE",
+      //   },
+      // });
+    }
 
+       setPreviewURL(null);
+  }
+};
 
-  // }
 
   const handleRemoveQr = () => {
     if (BillsTemplateList?.hostelId) {
@@ -1151,13 +1154,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       })
     }
   };
-const handleLocalRemoveQr = () => {
-  if (qrImage?.startsWith("blob:")) {
-    URL.revokeObjectURL(qrImage);
-  }
+  const handleLocalRemoveQr = () => {
+    if (qrImage?.startsWith("blob:")) {
+      URL.revokeObjectURL(qrImage);
+    }
 
-  setQrImage(null);
-};
+    setQrImage(null);
+  };
 
 
 
@@ -1199,13 +1202,13 @@ const handleLocalRemoveQr = () => {
     }
   }
 
-const handleLocalDeleteRentalSignature = () => {
-  if (rentalSignaturePreview?.startsWith("blob:")) {
-    URL.revokeObjectURL(rentalSignaturePreview);
-  }
+  const handleLocalDeleteRentalSignature = () => {
+    if (rentalSignaturePreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(rentalSignaturePreview);
+    }
 
-  setRentalSignaturePreview(null);
-};
+    setRentalSignaturePreview(null);
+  };
 
 
 
@@ -1753,17 +1756,17 @@ const handleLocalDeleteRentalSignature = () => {
                                                       display: 'none',
                                                       cursor: 'pointer',
                                                     }}
-                                                   onClick={() => {
-        const isLocal =
-          rentalSignaturePreview?.startsWith("data:") ||
-          rentalSignaturePreview?.startsWith("blob:");
+                                                    onClick={() => {
+                                                      const isLocal =
+                                                        rentalSignaturePreview?.startsWith("data:") ||
+                                                        rentalSignaturePreview?.startsWith("blob:");
 
-        if (isLocal) {
-          handleLocalDeleteRentalSignature();
-        } else {
-          handleDeleteRentalSignature();
-        }
-      }}
+                                                      if (isLocal) {
+                                                        handleLocalDeleteRentalSignature();
+                                                      } else {
+                                                        handleDeleteRentalSignature();
+                                                      }
+                                                    }}
                                                   >
                                                     <div
                                                       className="bg-black/70 text-white p-2 rounded-full">
@@ -1804,7 +1807,7 @@ const handleLocalDeleteRentalSignature = () => {
                                               >
                                                 Clear
                                               </button> */}
-                                            
+
                                             </div>
 
 
@@ -2227,17 +2230,17 @@ const handleLocalDeleteRentalSignature = () => {
     cursor-pointer
     z-[3]
   "
-                                       onClick={() => {
-        const isLocal =
-          qrImage?.startsWith("data:") ||
-          qrImage?.startsWith("blob:");
+                                        onClick={() => {
+                                          const isLocal =
+                                            qrImage?.startsWith("data:") ||
+                                            qrImage?.startsWith("blob:");
 
-        if (isLocal) {
-          handleLocalRemoveQr();
-        } else {
-          handleRemoveQr();
-        }
-      }}
+                                          if (isLocal) {
+                                            handleLocalRemoveQr();
+                                          } else {
+                                            handleRemoveQr();
+                                          }
+                                        }}
                                       >
 
                                         <div className="qr-trash" >
@@ -3227,53 +3230,35 @@ const handleLocalDeleteRentalSignature = () => {
                         >
                           <div
                             className="relative inline-block"
-                            onMouseEnter={(e) => {
-                              const trash = e.currentTarget.querySelector(".qr-trash");
-                              const overlay = e.currentTarget.querySelector(".qr-overlay");
-
-                              if (trash) trash.style.display = "flex";
-                              if (overlay) overlay.style.display = "block";
-                            }}
-                            onMouseLeave={(e) => {
-                              const trash = e.currentTarget.querySelector(".qr-trash");
-                              const overlay = e.currentTarget.querySelector(".qr-overlay");
-
-                              if (trash) trash.style.display = "none";
-                              if (overlay) overlay.style.display = "none";
-                            }}
+                            onMouseEnter={() => setIsHovering(true)}
+                            onMouseLeave={() => setIsHovering(false)}
                           >
-                            {previewURL ?
+                            {previewURL ? (
                               <img
                                 src={previewURL}
                                 alt="logo-preview"
-                                className="h-[60px] w-[60px]"
+                                className="h-[60px] w-[60px] rounded"
                               />
-                              :
-                              <DocumentUpload color="#1E45E1" />}
-
-                            {previewURL && (
-                              <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                            ) : (
+                              <DocumentUpload color="#1E45E1" />
                             )}
 
 
-                            {/* {previewURL && (
-                              <div
-                                className="
-        qr-trash
-        absolute -top-1 -right-1
-        hidden
-        items-center justify-center 
-        rounded-full
-        bg-gray-100 text-white
-        p-1
-        cursor-pointer
-      "
-                              // onClick={handleDeleteImage}
-                              >
-                                <Trash size={18} color="#f31717" />
+                            {previewURL && isHovering && (
+                              <div className="absolute inset-0 bg-black/40 rounded flex items-center justify-center">
+
+
+                                <div
+                                  onClick={handleDeleteImage}
+                                  className="bg-white rounded-full p-2 cursor-pointer shadow-md hover:scale-110 transition"
+                                >
+                                  <Trash size={12} />
+                                </div>
+
                               </div>
-                            )} */}
+                            )}
                           </div>
+
 
 
 
