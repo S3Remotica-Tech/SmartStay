@@ -524,17 +524,46 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  const handleClear = () => {
-    setSign("");
-    setSignPreview("")
-    setSignatureErrMsg("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+  
+const handleClear = () => {
+  if (!signPreview) return;
 
-    setNoChangesDetectedMsg("");
-    setSavebuttonshow(true);
-  };
+  const isLocalImage =
+    signPreview.startsWith("blob:") ||
+    signPreview.startsWith("data:");
+
+  if (isLocalImage) {
+       setSign("");
+    setSignPreview("");
+  } else {
+      // dispatch({
+    //   type: "DELETETEMPLATESIMAGES",
+    //   payload: {
+    //     hostelId: BillsTemplateList?.hostelId,
+    //     templateId: BillsTemplateList?.templateId,
+    //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+    //     type: "SIGNATURE", // 👈 change based on your API type
+    //   },
+    // });
+
+    setSign("");
+    setSignPreview("");
+  }
+
+  setSignatureErrMsg("");
+
+  if (fileInputRef.current) {
+    fileInputRef.current.value = "";
+  }
+
+  setNoChangesDetectedMsg("");
+  setSavebuttonshow(true);
+};
+
+
+
+
+
 
 
   const handleSignatureDone = () => {
