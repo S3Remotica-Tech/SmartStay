@@ -561,6 +561,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [isRentalSignatureConfirmed, setIsRentalSignatureConfirmed] = useState(false);
 
 
+ 
+
   const handleRentalSignatureChange = (e) => {
     const file = e.target.files[0];
     setEditFormErrMessage("")
@@ -828,8 +830,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [qrimagepreview, setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
 
-  console.log("qrImage, ", qrImage)
-  console.log("qrimagepreview", qrimagepreview)
+  
 
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
@@ -1150,6 +1151,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       })
     }
   };
+const handleLocalRemoveQr = () => {
+  if (qrImage?.startsWith("blob:")) {
+    URL.revokeObjectURL(qrImage);
+  }
+
+  setQrImage(null);
+};
+
+
 
 
   const handleDeleteLogo = () => {
@@ -1166,6 +1176,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     }
   }
 
+
+
+  const handleLocalDeleteLogo = () => {
+    setLogoPreview(null);
+  };
+
+
+
+
   const handleDeleteRentalSignature = () => {
     if (BillsTemplateList?.hostelId) {
       dispatch({
@@ -1180,6 +1199,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     }
   }
 
+const handleLocalDeleteRentalSignature = () => {
+  if (rentalSignaturePreview?.startsWith("blob:")) {
+    URL.revokeObjectURL(rentalSignaturePreview);
+  }
+
+  setRentalSignaturePreview(null);
+};
 
 
 
@@ -1416,11 +1442,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                           />
                                         )}
 
-                                        {logoPreview && !logoPreview.startsWith("data:") && (
+
+
+
+
+                                        {logoPreview && (
                                           <>
                                             <div
                                               className="
-        qr-overlay
+        qr-overlay h-[60px]
         absolute inset-0
         hidden
         bg-black/40
@@ -1440,7 +1470,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
         p-1
         cursor-pointer
       "
-                                              onClick={handleDeleteLogo}
+                                              onClick={() => {
+                                                if (logoPreview?.startsWith("data:") || logoPreview?.startsWith("blob:")) {
+                                                  handleLocalDeleteLogo();
+                                                } else {
+                                                  handleDeleteLogo();
+                                                }
+                                              }}
                                             >
                                               <div className="bg-black/70 text-white p-2 rounded-full">
                                                 <Trash size={10} />
@@ -1691,7 +1727,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
                                             {
-                                              !rentalSignaturePreview?.startsWith("blob:") && <>
+                                              rentalSignaturePreview && <>
 
 
 
@@ -1717,7 +1753,17 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                                       display: 'none',
                                                       cursor: 'pointer',
                                                     }}
-                                                    onClick={handleDeleteRentalSignature}
+                                                   onClick={() => {
+        const isLocal =
+          rentalSignaturePreview?.startsWith("data:") ||
+          rentalSignaturePreview?.startsWith("blob:");
+
+        if (isLocal) {
+          handleLocalDeleteRentalSignature();
+        } else {
+          handleDeleteRentalSignature();
+        }
+      }}
                                                   >
                                                     <div
                                                       className="bg-black/70 text-white p-2 rounded-full">
@@ -1750,22 +1796,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                               <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
                                             </div>
                                             <div className="d-flex justify-content-end">
-                                              <button
+                                              {/* <button
                                                 className="btn btn-link text-decoration-none "
                                                 onClick={handleRentalSignatureClear}
                                                 disabled={!rentalSignaturePreview}
                                                 style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}
                                               >
                                                 Clear
-                                              </button>
-                                              <button
-                                                className="btn btn-link text-decoration-none "
-                                                disabled={!rentalSignaturePreview}
-                                                onClick={handleRentalSignatureDone}
-                                                style={{ color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600 }}
-                                              >
-                                                Done
-                                              </button>
+                                              </button> */}
+                                            
                                             </div>
 
 
@@ -2160,7 +2199,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   />
 
                                   {
-                                    !qrImage?.startsWith("blob:") && <>
+                                    qrImage && <>
 
                                       <div
                                         className="
@@ -2188,10 +2227,20 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     cursor-pointer
     z-[3]
   "
-                                        onClick={handleRemoveQr}
+                                       onClick={() => {
+        const isLocal =
+          qrImage?.startsWith("data:") ||
+          qrImage?.startsWith("blob:");
+
+        if (isLocal) {
+          handleLocalRemoveQr();
+        } else {
+          handleRemoveQr();
+        }
+      }}
                                       >
 
-                                        <div className="qr-trash" onClick={handleRemoveQr}>
+                                        <div className="qr-trash" >
                                           <Trash size={12} />
                                         </div>
 
@@ -3200,7 +3249,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 className="h-[60px] w-[60px]"
                               />
                               :
-                              <DocumentUpload  color="#1E45E1"/>}
+                              <DocumentUpload color="#1E45E1" />}
 
                             {previewURL && (
                               <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
