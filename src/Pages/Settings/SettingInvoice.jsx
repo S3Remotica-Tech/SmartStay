@@ -470,6 +470,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const fileInputRef = useRef(null);
   const [sign, setSign] = useState(null);
   const [signPreview, setSignPreview] = useState(null);
+const [isHoveringSign, setIsHoveringSign] = useState(false);
 
 
 
@@ -542,7 +543,7 @@ const handleClear = () => {
     //     hostelId: BillsTemplateList?.hostelId,
     //     templateId: BillsTemplateList?.templateId,
     //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-    //     type: "SIGNATURE", // 👈 change based on your API type
+    //     type: "SIGNATURE", 
     //   },
     // });
 
@@ -3516,45 +3517,69 @@ const handleClear = () => {
                         </div>
                       </div>
                       <div className="col-md-7">
-                        <div
-                          className="rounded mt-2 d-flex justify-content-center align-items-center"
-                          style={{
-                            height: '120px',
-                            borderStyle: 'dotted',
-                            borderWidth: '3px',
-                            borderColor: '#ced4da',
-                          }}
-                        >
-                          {signPreview ? (
-                            <img
-                              src={signPreview}
-                              alt="uploaded-signature"
-                              style={{ maxHeight: '100%', maxWidth: '100%' }}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.style.display = 'none';
-                              }}
-                            />
-                          ) : (
-                            <span
-                              className="text-muted"
-                              style={{
-                                fontFamily: 'Gilroy',
-                                fontSize: 14,
-                                fontWeight: 400,
-                                color: 'rgba(34, 34, 34, 1)',
-                                fontStyle: 'normal',
-                                lineHeight: 'normal',
-                              }}
-                            >
-                              No signature uploaded
-                            </span>
-                          )}
+                       <div
+  className="rounded mt-2 d-flex justify-content-center align-items-center position-relative"
+  style={{
+    height: "120px",
+    borderStyle: "dotted",
+    borderWidth: "3px",
+    borderColor: "#ced4da",
+  }}
+  onMouseEnter={() => setIsHoveringSign(true)}
+  onMouseLeave={() => setIsHoveringSign(false)}
+>
+  {signPreview ? (
+    <>
+      <img
+        src={signPreview}
+        alt="uploaded-signature"
+        style={{ maxHeight: "100%", maxWidth: "100%" }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.style.display = "none";
+        }}
+      />
 
+     
+      {isHoveringSign && (
+        <div
+          className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+          style={{
+            backgroundColor: "rgba(0,0,0,0.4)",
+          }}
+        >
+          <div
+            onClick={handleClear}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "50%",
+              padding: "8px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Trash size={16}  />
+          </div>
+        </div>
+      )}
+    </>
+  ) : (
+    <span
+      className="text-muted"
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        fontWeight: 400,
+        color: "rgba(34, 34, 34, 1)",
+      }}
+    >
+      No signature uploaded
+    </span>
+  )}
+</div>
 
-
-
-                        </div>
 
 
                         <div className="d-flex justify-content-between align-items-center mt-2">

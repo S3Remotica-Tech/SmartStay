@@ -317,7 +317,7 @@ function TenantsRegister() {
         setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
-
+console.log("state.reports.tenantRegisterFilters",state.reports.tenantRegisterFilters)
 
     useEffect(() => {
         const filters = state.reports.tenantRegisterFilters;
@@ -340,7 +340,7 @@ function TenantsRegister() {
                 key: "period",
                 label: "Period",
                 type: "single",
-                value: filters.period[0]?.label || filters.period[0],
+                value: filters.period,
             });
         }
 
