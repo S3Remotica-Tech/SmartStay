@@ -33,7 +33,7 @@ function TenantsRegister() {
     const [size, setSize] = useState('');
     const [page, setPage] = useState(0);
     const tableRef = useRef(null);
-
+ const [isScrolled, setIsScrolled] = useState(false);
 
 
 
@@ -103,6 +103,17 @@ function TenantsRegister() {
 
 
     const handleReset = () => {
+
+        const startOfMonth = dayjs().startOf("month").toDate();
+        const endOfMonth = dayjs().endOf("month").toDate();
+
+        setSelectedRange({
+            from: startOfMonth,
+            to: endOfMonth,
+        });
+
+
+
         dispatch({
             type: "SET_TENANT_REGISTER_FILTERS",
             payload: {
@@ -317,7 +328,7 @@ function TenantsRegister() {
         setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
-console.log("state.reports.tenantRegisterFilters",state.reports.tenantRegisterFilters)
+    console.log("state.reports.tenantRegisterFilters", state.reports.tenantRegisterFilters)
 
     useEffect(() => {
         const filters = state.reports.tenantRegisterFilters;
@@ -764,22 +775,30 @@ console.log("state.reports.tenantRegisterFilters",state.reports.tenantRegisterFi
                                         </td>
 
 
-                                        <td className="px-4 py-2.5 text-center  text-[#6B7280] font-medium">
+                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}>
                                             {row.sharing || '-'}
                                         </td>
 
 
-                                        <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
+                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}>
                                             {row.checkInDate || '-'}
                                         </td>
 
 
-                                        <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
+                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}>
                                             {row.checkOutDate || "-"}
                                         </td>
 
 
-                                        <td className="px-4 py-2.5 text-center font-semibold text-[#222222]">
+                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}>
                                             {row.stayDuration || "-"}
                                         </td>
                                     </tr>

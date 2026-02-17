@@ -139,35 +139,7 @@ function InvoiceRegister() {
 
     }
 
-    const handleReset = () => {
-        dispatch({
-            type: "SET_INVOICE_REGISTER_FILTERS",
-            payload: {
-                startDate: undefined,
-                endDate: undefined,
-                invoiceTypes: [],
-                createdBy: [],
-                invoiceModes: [],
-                paymentStatus: [],
-                search: "",
-                minPaidAmount: "",
-                maxPaidAmount: "",
-                minOutstandingAmount: "",
-                maxOutstandingAmount: "",
-                period: []
-            },
-        })
-        dispatch({
-            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
-                hostelId: state.login.selectedHostel_Id,
-                filters: {
-                    size: size,
-                    page: page,
-                }
-            }
-        })
-    }
-
+   
 
 
     const handleNavigateBillsPdf = (row) => {
@@ -388,43 +360,46 @@ function InvoiceRegister() {
     }, [state.reports.invoiceRegisterFilters,]);
 
 
-    // useEffect(() => {
+     const handleReset = () => {
+        const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
 
+    setSelectedRange({
+        from: startOfMonth,
+        to: endOfMonth,
+    });
+        dispatch({
+            type: "SET_INVOICE_REGISTER_FILTERS",
+            payload: {
+                startDate: undefined,
+                endDate: undefined,
+                invoiceTypes: [],
+                createdBy: [],
+                invoiceModes: [],
+                paymentStatus: [],
+                search: "",
+                minPaidAmount: "",
+                maxPaidAmount: "",
+                minOutstandingAmount: "",
+                maxOutstandingAmount: "",
+                period: []
+            },
+        })
+        dispatch({
+            type: 'GET_REPORTS_INVOICE_REGISTER_SAGA', payload: {
+                hostelId: state.login.selectedHostel_Id,
+                filters: {
+                    size: size,
+                    page: page,
+                }
+            }
+        })
+    }
 
-    //     if (!apiStart || !apiEnd) return;
-
-    //     const from = dayjs(apiStart, "DD/MM/YYYY").toDate();
-    //     const to = dayjs(apiEnd, "DD/MM/YYYY").toDate();
-
-    //     if (
-    //         selectedRange?.from &&
-    //         selectedRange?.to &&
-    //         dayjs(selectedRange.from).isSame(from, "day") &&
-    //         dayjs(selectedRange.to).isSame(to, "day")
-    //     ) {
-    //         return;
-    //     }
-
-    //     setSelectedRange({ from, to });
-    // }, [apiStart, apiEnd]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
     const apiStart = state?.reports?.getInvoiceRegister?.startDate;
     const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
+
 
 
     
@@ -573,12 +548,6 @@ function InvoiceRegister() {
         startDate,
         endDate,
     ]);
-
-
-
-
-
-
 
     const currentPage =
         state?.reports?.getInvoiceRegister?.currentPage ?? 1;
