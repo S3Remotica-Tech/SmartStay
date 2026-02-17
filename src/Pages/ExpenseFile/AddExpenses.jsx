@@ -163,7 +163,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         })) || []
       );
       const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
-  
+
 
       if (categoryHasSubCategory && !subCategory) {
         setSubCategoryError("Please Select SubCategory");
@@ -301,7 +301,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       setCountError("Unit Count Must be a Positive Number");
       hasError = true;
     } else {
-      setCountError(""); 
+      setCountError("");
     }
 
 
@@ -338,7 +338,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         categoryId: category,
         subCategory: subCategory ? Number(subCategory) : null,
         purchaseDate: formattedDate,
-        count: Number(count) || 1 ,
+        count: Number(count) || 1,
         totalAmount: Number(totalPrice),
         description: description,
         bankId: modeOfPayment,
@@ -436,32 +436,22 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   return (
     <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-        fontFamily: "Gilroy",
-      }}
-    >
+      className="modal show block static font-gilroy">
       <Modal show={show} onHide={handleClose} dialogClassName="custom-modals-style" backdrop="static" >
-        <Modal.Dialog
-          className="m-0 p-0"
-          style={{ margin: "0 0px" }}
-        >
-          <Modal.Header>
-            <Modal.Title
-              style={{
-                fontSize: 18,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-              }}
-            >
+        <Modal.Dialog className="m-0 p-0">
+          <Modal.Header className="flex items-center justify-between">
+            <Modal.Title className="!text-lg !font-semibold text-[#222222] !font-gilroy">
               {currentItem ? "Edit Expense" : "Add Expense"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: 'pointer' }} />
+            <CloseCircle
+              size={24}
+              color="#000"
+              onClick={handleClose}
+              className="cursor-pointer"
+            />
           </Modal.Header>
+
 
 
 
@@ -469,30 +459,20 @@ function StaticExample({ show, currentItem, setShowModal }) {
             <ErrorMessage message={generalError} type="error" />
           )}
 
-          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll", padding: 20 }} className="show-scroll pt-1 mt-2 me-1">
-            <div className="row" style={{}}>
+          <Modal.Body className="max-h-95 overflow-y-scroll p-3 show-scroll pt-1 mt-2">
+            <div className="grid grid-cols-12 gap-3">
 
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
 
-
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+
                     Category {" "}
-                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
-                      *
-                    </span>
+                    <span className="text-red-600 inline-block text-xl">*</span>
+
                   </Form.Label>
-
-
 
                   <Select
                     className="custom"
@@ -516,30 +496,22 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mt-1">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+
                     SubCategory {" "}{
                       subCategoryList.length > 0 ?
 
-                        <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
-                          *
-                        </span>
+                        <span className="text-red-600 inline-block text-xl">*</span>
+
                         :
                         <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
                     }
                   </Form.Label>
-
-
 
                   <Select
                     options={subCategoryList}
@@ -608,25 +580,21 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
+
                 <Form.Group controlId="purchaseDate">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+
                     Purchase Date {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-600 inline-block text-xl">*</span>
+
                   </Form.Label>
 
 
 
-                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                  <div className="datepicker-wrapper relative w-full">
                     <DatePicker
-                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                      className="w-full h-12 cursor-pointer font-gilroy"
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -653,44 +621,21 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium" >
                     Total Amount{" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        fontSize: "20px",
-                      }}
-                    >
-                      *
-                    </span>
+                    <span className="text-red-600 inline-block text-xl">*</span>
                   </Form.Label>
                   <Form.Control
                     value={totalPrice}
                     onChange={handlePriceChange}
                     type="text"
                     placeholder="Enter Total Amount"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: totalPrice ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-base text-gray-700 font-gilroy ${totalPrice ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
                   />
                 </Form.Group>
                 {priceError && (
@@ -698,28 +643,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium" >
                     Unit Count {" "}
-                    {/* <span
-                      style={{
-                        color: "#FF0000",
-                        fontSize: "20px",
-                      }}
-                    >
-                      *
-                    </span> */}
                   </Form.Label>
                   <Form.Control
                     value={count}
@@ -727,16 +657,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     type="text"
                     placeholder="Enter Unit Count"
                     maxLength={10}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: count ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-base text-gray-700 font-gilroy ${totalPrice ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
                   />
                 </Form.Group>
                 {countError && (
@@ -744,61 +665,32 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-
-                    }}
-                  >
-                    Per Unit Amount  <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Per Unit Amount
+                    {/* <span className="invisible text-xl">*</span> */}
                   </Form.Label>
                   <Form.Control
                     value={count > 0 ? totalPrice / count : 0}
                     disabled
                     type="text"
                     placeholder=""
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 600,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                      backgroundColor: "#E7F1FF",
-                    }}
+                    className="text-base text-gray-700 font-gilroy font-semibold shadow-none border border-gray-300 h-12 rounded-md !bg-blue-100"
                   />
                 </Form.Group>
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                     Mode Of Transaction {" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        fontSize: "20px",
-                      }}
-                    >
-                      *
-                    </span>
+                    <span className="text-red-600 inline-block text-xl">*</span>
                   </Form.Label>
 
 
@@ -874,18 +766,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+
                     Description {" "} <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -893,16 +780,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     onChange={handleDescriptionChange}
                     type="email"
                     placeholder="Enter description"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: description ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-base text-gray-700 font-gilroy ${description ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
                   />
 
                 </Form.Group>
@@ -910,72 +788,39 @@ function StaticExample({ show, currentItem, setShowModal }) {
             </div>
           </Modal.Body>
 
- {/* {state.createAccount?.networkError ?
+          {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
 
 
-          {formLoading &&
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>}
-
-
-
-
-
+          {formLoading && (
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+              <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
+            </div>
+          )}
 
           {currentItem && isChangedError && (
-            <div className="d-flex align-items-center justify-content-center mb-2 mt-2">
+            <div className="flex items-center justify-center mb-2 mt-2">
               <ErrorMessage message={isChangedError} type="error" />
             </div>
           )}
 
 
           {state.ExpenseList.insufficiantFundError && (
-            <div className="d-flex align-items-center justify-content-center  mb-2 mt-2">
+            <div className="flex items-center justify-center  mb-2 mt-2">
               <ErrorMessage message={state.ExpenseList.insufficiantFundError} type="error" />
             </div>
           )}
 
 
-          <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
+
+          <Modal.Footer className="!border-t-0 mt-1 pt-1">
             <Button
-            disabled={currentItem}
+              disabled={currentItem}
               onClick={handleAddExpenses}
-              className="w-100"
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                padding: 12,
-              }}
-            >
+              className="w-100 !bg-blue-700 !font-gilroy !font-semibold rounded-xl !text-base h-12"
+             >
               {currentItem ? "Coming Soon" : "Add Expense"}
             </Button>
           </Modal.Footer>
