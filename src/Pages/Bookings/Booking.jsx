@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React,{useEffect, useState} from 'react';
-import { FormControl, InputGroup, Table, Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import React, { useEffect, useState } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 // import AddAsset from './AddAsset'
 // import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import {  CloseCircle,Filter } from 'iconsax-react';
+import { CloseCircle, Filter } from 'iconsax-react';
 // import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 // import { toast } from 'react-toastify';
@@ -31,6 +29,7 @@ function Booking() {
   const [statusfilter, setStatusfilter] = useState("");
   // const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [filterInput, setFilterInput] = useState("");
   const {
     // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
@@ -39,21 +38,21 @@ function Booking() {
   } = useHasPermission("Booking");
 
 
-// useEffect(() => {
-//     if (state.UsersList?.accessRestrictionError) {
-//     // setLoading(false)
-//       setTimeout(() => {
-//         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-//       }, 1000)
-//     }
+  // useEffect(() => {
+  //     if (state.UsersList?.accessRestrictionError) {
+  //     // setLoading(false)
+  //       setTimeout(() => {
+  //         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+  //       }, 1000)
+  //     }
 
-//   }, [state.UsersList?.accessRestrictionError])
+  //   }, [state.UsersList?.accessRestrictionError])
 
-// useEffect(() => {
-//     if (!canReadBooking) {
-//       // setLoading(false);
-//     } 
-//   }, [canReadBooking]);
+  // useEffect(() => {
+  //     if (!canReadBooking) {
+  //       // setLoading(false);
+  //     } 
+  //   }, [canReadBooking]);
 
 
 
@@ -64,9 +63,9 @@ function Booking() {
 
   const sortedData = []
 
-useEffect(()=>{
-setShowBookingPdf(false)
-},[])
+  useEffect(() => {
+    setShowBookingPdf(false)
+  }, [])
 
 
 
@@ -196,570 +195,162 @@ setShowBookingPdf(false)
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false)
   }
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+  };
 
   return (
-    <div className="sticky-top bg-white" style={{ position: "relative" }}>
+   
+   <div className="h-screen overflow-hidden flex flex-col bg-white relative font-gilroy">
 
-      {applyInvoice && <ApplyBookingModal show={applyInvoice} handleClose={handleCloseApplyInvoices} />}
+      {applyInvoice && (
+        <ApplyBookingModal
+          show={applyInvoice}
+          handleClose={handleCloseApplyInvoices}
+        />
+      )}
 
+      <div className="sticky top-0 z-20 bg-white px-1 pt-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
 
-      <div className=" d-flex justify-content-between align-items-center  flex-wrap h-auto "
-        style={{
-          position: 'sticky',
-          backgroundColor: 'white',
-          zIndex: 10,
-        }}
-      >
-        <div style={{ marginTop: 0 }}>
-          <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
-            Booking</label>
-        </div>
-
-        <div className=" d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2">
-          <div style={{
-            backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-          }}>
-            <FiSearch
-              style={{
-                height: "20px",
-                width: "20px",
-                cursor: canReadBooking ? "pointer" : "not-allowed",
-                opacity: canReadBooking ? 1 : 0.4,
-                pointerEvents: canReadBooking ? "auto" : "none",
-                transition: "opacity 0.3s ease"
-              }}
-              onClick={handleSearch}
-            />
-          </div>
+          <label className="text-[18px] font-semibold text-[#222222] font-gilroy">
+            Booking
+          </label>
 
 
-          <Button
-            onClick={handleApplyInvoices}
+          <div className="flex items-center gap-2">
 
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "8px 8px",
-              marginTop: 0,
-              whiteSpace: "nowrap",
-              minWidth: "150px",
-              textAlign: "center",
-            }}
-          >
-            Apply Invoices
-          </Button>
+            {search ? (
+              <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
+                <div className="flex items-center h-10 border border-[#CFD5DB] rounded-lg bg-white">
+                  <span className="px-2 flex items-center">
+                    <FiSearch
+                      className={`h-5 w-5 transition-opacity duration-300
+              ${canReadBooking
+                          ? "cursor-pointer opacity-100"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
+                    />
+                  </span>
 
-
-          {
-            search &&
-
-
-            <div className='me-3 flex flex-wrap ' style={{
-              position: 'relative', cursor: "pointer", marginTop: 0
-            }}>
-              <InputGroup
-                style={{
-                  maxWidth: "100%",
-                  flexWrap: 'nowrap', fontFamily: "Gilroy"
-                }}
-              >
-
-                <FormControl size="lg"
-                  //    value={searchQuery}
-                  //    onChange={handleInputChange}
-
-                  style={{
-                    width: "100%",
-                    maxWidth: "235px",
-                    boxShadow: "none",
-                    borderColor: "lightgray", fontFamily: "Gilroy",
-                    borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                  }}
-                  placeholder="Search..."
-                />
-                <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
-                  <CloseCircle size="24" color="#222"
-                  //    onClick={handleCloseSearch}
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={filterInput}
+                    onChange={handlefilterInput}
+                    disabled={!canReadBooking}
+                    className="flex-1 h-full px-2 text-sm font-gilroy
+                     outline-none border-none focus:ring-0"
                   />
-                </InputGroup.Text>
-              </InputGroup>
 
+                  <span className="px-2 flex items-center">
+                    <button onClick={() => setSearch(false)}>
+                      <CloseCircle size="20" color="#222" />
+                    </button>
+                  </span>
 
+                </div>
+              </div>
+            ) : (
+              <div
+                className="flex items-center justify-center h-10 w-10
+                 border border-[#CBD5E1] rounded-full cursor-pointer"
+                onClick={handleSearch}
+              >
+                <FiSearch
+                  className={`h-5 w-5 transition-opacity duration-300
+          ${canReadBooking
+                      ? "opacity-100"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                />
+              </div>
+            )}
 
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleApplyInvoices}
+                className="bg-[#1E45E1] text-white text-sm font-semibold font-gilroy
+                 rounded-lg px-3 py-2.5 min-w-[150px] whitespace-nowrap"
+              >
+                Apply Invoices
+              </button>
+
+              <button
+                disabled={!canReadBooking}
+                className={`${canReadBooking ? "" : "opacity-40 cursor-not-allowed"}`}
+              >
+                <img src={excelimg} alt="excel" className="w-9 h-9" />
+              </button>
             </div>
 
-          }
-          <div className='me-2' style={{ marginTop: 0, cursor: "pointer" }}>
-            <img src={excelimg} alt='excel' width={38} height={38}
-
-              style={{
-                cursor: canReadBooking ? "pointer" : "not-allowed",
-                opacity: canReadBooking ? 1 : 0.4,
-                pointerEvents: canReadBooking ? "auto" : "none",
-                transition: "opacity 0.3s ease"
-              }}
-            //    onClick={() => { if (canReadBooking) handleAssetsExcel() }}
-            />
           </div>
 
 
+
         </div>
-      </div>
 
-
-
-
-      <div className="d-flex gap-3 align-items-center ms-auto">
         {!showBookingPdf && (
-          <>
-            <div
-              className=""
-              style={{
-                border: "1px solid #D4D4D4",
-                borderRadius: 8,
-                width: 150,
-                zIndex: 9999,
-              }}
-            >
+          <div className="flex flex-wrap items-center gap-3 pb-3">
+
+            <div className="w-[150px]">
               <Select
                 options={selectOptions}
                 styles={CustomStyles}
                 disabled={!canReadBooking}
-                onChange={(e) => handleStatusFilter(e)}
+                onChange={handleStatusFilter}
                 value={statusfilter}
-                aria-label="Select"
-                className=""
-                id="statusselect"
-
-
               />
-
-
-
             </div>
 
+            <Select
+              options={monthOptions}
+              value={selectedMonth}
+              onChange={handleMonthChange}
+              styles={CustomStyles}
+            />
 
-
-            <div
-              style={{
-                display: "flex",
-                gap: "12px",
-                alignItems: "center",
-                zIndex: 9999,
-              }}
-            >
-              <Select
-                options={monthOptions}
-                value={selectedMonth}
-                onChange={handleMonthChange}
-                classNamePrefix="custom"
-                menuPlacement="auto"
-                noOptionsMessage={() => "No options"}
-                styles={CustomStyles}
-
-              />
-
-
-
-
-
-            </div>
-
-            <div
-              className=" d-flex"
-              style={{
-                border: "1px solid #CBD5E1",
-                backgroundColor: "white",
-                borderRadius: "50%",
-                padding: 10, cursor: canReadBooking ? "pointer" : "not-allowed",
-              }}
+            <button
               onClick={() => canReadBooking && handleShowFilterBills()}
+              disabled={!canReadBooking}
+              className={`border border-slate-300 rounded-full p-2
+            ${canReadBooking ? '' : 'opacity-40 cursor-not-allowed'}`}
             >
-              <Filter size={18} style={{
-                cursor: canReadBooking ? "pointer" : "not-allowed",
-                opacity: canReadBooking ? 1 : 0.4,
-                pointerEvents: canReadBooking ? "auto" : "none",
-                transition: "opacity 0.3s ease"
-              }} />
-            </div>
-          </>
-        )}
+              <Filter size={18} />
+            </button>
 
+          </div>
+        )}
       </div>
 
+      <div className="h-[calc(100vh-140px)] overflow-y-auto px-4 pb-4">
 
-      {
-        !canReadBooking ? (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100vh",
-              }}
-            >
-              <img
-                src={EmptyState}
-                alt="Empty State"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-
-              <ErrorMessage message={['You do not have access to view Booking']} type="warning" />
-
+        {!canReadBooking ? (
+          <div className="h-full flex flex-col items-center justify-center">
+            <img src={EmptyState} alt="Empty" className="max-w-full h-auto" />
+            <ErrorMessage
+              message={['You do not have access to view Booking']}
+              type="warning"
+            />
+          </div>
+        ) : (
+          <div className={`-mt-36 grid ${showBookingPdf ? 'grid-cols-12' : 'grid-cols-1'} gap-0`}>
+            <div className={showBookingPdf ? 'col-span-4' : 'col-span-12'}>
+              <ComingSoon />
             </div>
-          </>
-        ) :
-          <Row className="p-0" style={{ width: "100%", }}>
-            <Col className="p-0"
-              lg={showBookingPdf ? 4 : 12}
-              md={showBookingPdf ? 4 : 12}
-              sm={showBookingPdf ? 12 : 12}
-              xs={showBookingPdf ? 12 : 12}
-            >
-              <div className='show-scrolls' style={{
-                overflow: "auto",
-                marginBottom: 20,
-                marginTop: "20px",
-                paddingRight: 0,
-                paddingLeft: 0,
-
-              }}>
-                {
-                  showBookingPdf ? <div
-                    className="show-scroll p-2"
-                    style={{ maxHeight: 500, overflowY: "auto" }}
-                  >
-                    {/* {bills &&
-                                      bills?.map((item) => (
-                                        <>
-
-                                          <div key={item.invoiceId}
-                                            className="mb-3  shadow-sm rounded"
-                                            style={{
-                                              padding: "12px 16px", cursor: "pointer",
-                                              backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#F8F9FF" : "#FFFFFF"
-                                            }}
-                                          >
-                                            <div className="d-flex align-items-start justify-content-between">
-                                              <div>
-                                                <span>
-                                                  {
-                                                    item.profilePic && item.profilePic !== "0" ? (
-                                                      <img
-                                                        src={item.profilePic}
-                                                        alt="User"
-                                                        style={{
-                                                          height: 40,
-                                                          width: 40,
-                                                          borderRadius: "50%",
-                                                          objectFit: "cover",
-                                                        }}
-                                                      />
-                                                    ) : (
-                                                      <div
-                                                        style={{
-                                                          height: 40,
-                                                          width: 40,
-                                                          borderRadius: "50%",
-                                                          backgroundColor: "#1E45E1",
-                                                          display: "flex",
-                                                          alignItems: "center",
-                                                          justifyContent: "center",
-                                                          color: "white",
-                                                          fontWeight: 600,
-                                                          fontSize: 14,
-                                                          textTransform: "uppercase",
-                                                        }}
-                                                      >
-                                                        {item.initials}
-                                                      </div>
-                                                    )
-                                                  }
-                                                </span>
-                                              </div>
-
-                                              <div className="flex-grow-1 ms-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
-                                                  <div
-                                                    className="Invoice_Name"
-                                                    style={{
-                                                      fontFamily: "Gilroy",
-                                                      fontSize: "14px",
-                                                      wordWrap: "break-word",
-                                                      color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
-                                                      textDecoration: "underline",
-                                                      fontStyle: "normal",
-                                                      lineHeight: "normal",
-                                                      fontWeight: 600,
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
-                                                    onMouseLeave={() => setHoveredInvoiceId(null)}
-                                                    onClick={() => {
-                                                      setSelectedInvoiceId(item.invoiceId);
-                                                      handleDisplayInvoiceDownload(true, item);
-                                                    }}
-                                                  >
-                                                    {item.fullName}
-                                                  </div>
-                                                  <div
-                                                    style={{
-                                                      fontFamily: "Gilroy",
-                                                      fontSize: "12px",
-                                                      wordWrap: "break-word",
-                                                      color: "#222",
-                                                      fontStyle: "normal",
-                                                      lineHeight: "normal",
-                                                      fontWeight: 600,
-                                                    }}
-                                                  >
-                                                    {item.baseAmount}
-                                                  </div>
-                                                </div>
-
-                                                <div className="d-flex justify-content-between gap-3 mb-2">
-                                                  <div
-                                                    style={{
-                                                      fontFamily: "Gilroy",
-                                                      fontSize: "12px",
-                                                      wordWrap: "break-word",
-                                                      color: "#222",
-                                                      fontStyle: "normal",
-                                                      lineHeight: "normal",
-                                                      fontWeight: 600,
-                                                    }}
-                                                  >
-                                                    {item.invoiceNumber === null ||
-                                                      item.invoiceNumber === ""
-                                                      ? "0.00"
-                                                      : item.invoiceNumber}
-                                                  </div>
-                                                  <div
-                                                    style={{
-                                                      fontFamily: "Gilroy",
-                                                      fontSize: "12px",
-                                                      wordWrap: "break-word",
-                                                      color: "#222",
-                                                      fontStyle: "normal",
-                                                      lineHeight: "normal",
-                                                      fontWeight: 600,
-                                                    }}
-                                                  >
-                                                    {item.invoiceDate}
-                                                  </div>
-                                                </div>
-
-                                                <div className="mb-2">
-
-                                                  {(item?.paymentStatus === "Pending" ||
-                                                    item?.paymentStatus === "Partial Payment") && (
-                                                      <span
-                                                        style={{
-                                                          backgroundColor: "#FFD9D9",
-                                                          color: "#000",
-                                                          borderRadius: "12px",
-                                                          fontFamily: "Gilroy",
-                                                          padding: "8px 10px", fontSize: 12
-                                                        }}
-                                                      >
-                                                        {item?.paymentStatus}
-                                                      </span>
-                                                    )}
-
-
-                                                  {item?.paymentStatus === "Paid" && (
-                                                    <span
-                                                      style={{
-                                                        cursor: "pointer",
-                                                        backgroundColor: "#D9FFD9",
-                                                        fontFamily: "Gilroy",
-                                                        color: "#000",
-                                                        borderRadius: "14px",
-                                                        padding: "8px 12px", fontSize: 12
-                                                      }}
-                                                    >
-                                                      {item?.paymentStatus}
-                                                    </span>
-                                                  )}
-
-
-                                                  {(item?.paymentStatus === "Refunded" || item?.paymentStatus === "Partially Refunded") && (
-                                                    <span
-                                                      style={{
-                                                        backgroundColor: "#FFF3CD",
-                                                        color: "#8B8000",
-                                                        borderRadius: "14px",
-                                                        fontFamily: "Gilroy",
-                                                        padding: "8px 12px", fontSize: 12
-                                                      }}
-                                                    >
-                                                      {item?.paymentStatus}
-                                                    </span>
-                                                  )}
-
-
-                                                  {item?.paymentStatus === "Pending Refund" && (
-                                                    <span
-                                                      style={{
-                                                        backgroundColor: "#FFE6B3",
-                                                        color: "#b45309",
-                                                        borderRadius: "14px",
-                                                        fontFamily: "Gilroy",
-                                                        padding: "8px 12px", fontSize: 12
-                                                      }}
-                                                    >
-                                                      {item?.paymentStatus}
-                                                    </span>
-                                                  )}
-                                                  {item?.isCancelled && (
-                                                    <span
-                                                      style={{
-                                                        backgroundColor: "#FFE6B3",
-                                                        color: "#b45309",
-                                                        borderRadius: "14px",
-                                                        fontFamily: "Gilroy",
-                                                        padding: "8px 12px", fontSize: 12
-                                                      }}
-                                                    >
-                                                      Cancelled
-                                                    </span>
-                                                  )
-                                                  }
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-
-                                        </>
-                                      ))} */}
-                  </div>
-
-                    :
-                    <>
-                      {/* {sortedData && sortedData.length > 0 && ( */}
-
-<ComingSoon />
-
-                      {/* <div
-                        className='show-scrolls ms-2'
-                        style={{
-                        }}>
-
-                        <Table
-                          responsive="md"
-                        >
-
-                          <thead style={{
-                            fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                            top: 0,
-                            zIndex: 1
-                          }}>
-                            <tr>
-                              <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-                                <div className='d-flex gap-1 align-items-center '>
-
-                                  INV NO </div>  </th>
-
-                              <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }} >
-                                <div className='d-flex gap-1 align-items-center '>
-
-                                  BOOKING DATE </div></th>
-
-                              <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-                                <div className='d-flex gap-1 align-items-center '>
-
-                                  TENANT NAME</div> </th>
-
-                              <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-                                <div className='d-flex gap-1 align-items-center'>
-
-                                  MOBILE NO </div></th>
-
-                              <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-                                <div className='d-flex gap-1 align-items-center'>
-
-                                  AMOUNT</div></th>
-
-                              <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-                                <div className='d-flex gap-1 align-items-center '>
-
-                                  STATUS</div></th>
-
-                              <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, textTransform: "capitalize" }}>
-                                <div className='d-flex gap-1 align-items-center '>
-
-                                  ACTION</div></th>
-
-                            </tr>
-                          </thead>
-
-
-
-                          <tbody>
-                            {
-
-                              sortedData && sortedData.length > 0 && (
-                                <div>
-
-                                </div>
-
-                              )
-
-
-                            }
-                          </tbody>
-
-
-                        </Table>
-                      </div> */}
-
-
-                      {/* )} */}
-                    </>
-                }
-              </div>
-
-
-            </Col>
-
             {showBookingPdf && (
-              <>
-                <Col className="p-0"
-                  lg={showBookingPdf ? 8 : 12}
-                  md={showBookingPdf ? 8 : 12}
-                  sm={showBookingPdf ? 12 : 12}
-                  xs={showBookingPdf ? 12 : 12}
-                  style={{
-                    borderLeft: showBookingPdf
-                      ? "1px solid #ccc"
-                      : "none",
-                  }}
-                >
-                  <BookingInvoice
-                  //   show={showPdfReceiptModal}
-                  //   handleClosed={handleClosePdfReceipt}
-                  //   rowData={rowData}
-                  />
-
-
-                </Col>
-              </>
+              <div className="col-span-8 border-l border-gray-300">
+                <BookingInvoice />
+              </div>
             )}
 
-
-          </Row>
-      }
-
-
+          </div>
+        )}
+      </div>
     </div>
+
+
   )
 }
 
-export default Booking
+export default Booking;

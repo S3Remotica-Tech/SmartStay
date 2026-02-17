@@ -66,11 +66,11 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
                     className="!justify-center !border-t-0 !mt-[-10px]"
                 >
 
-                    <Button onClick={handleDeleteReading} className="!rounded-lg !px-10 !py-4 !border !border-blue-700 !bg-white !text-blue-700 !font-gilroy">
+                    <Button onClick={handleDeleteReading} className="!rounded-lg !px-10 !py-3.5 !border !border-blue-700 !bg-white !text-blue-700 !font-gilroy">
                         Cancel
                     </Button>
 
-                    <Button className="!rounded-lg !px-10 !py-4 !border !border-blue-700 !bg-blue-700 !text-white !font-gilroy"
+                    <Button className="!rounded-lg !px-10 !py-3.5 !border !border-blue-700 !bg-blue-700 !text-white !font-gilroy"
                         onClick={handleDeleteConfirm}>
                         Delete
                     </Button>
