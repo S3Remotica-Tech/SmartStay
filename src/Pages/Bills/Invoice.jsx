@@ -1637,7 +1637,7 @@ const InvoicePage = () => {
                   <Button
                     disabled={!canWriteInvoice}
                     onClick={handleManualShow}
-                    className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 mt-3 min-w-[150px]"
+                    className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 mt-3 min-w-[150px] mr-2"
                   >
                     {DownloadInvoice ? "+ " : "+ Create Bill"}
                   </Button>

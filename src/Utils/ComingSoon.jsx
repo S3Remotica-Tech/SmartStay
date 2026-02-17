@@ -14,24 +14,20 @@ function ComingSoon() {
   <img
     src={ComingSoonImage}
     alt="Coming Soon"
-    className="w-[280px] md:w-[340px] mb-6"
+    className="w-[280px] md:w-[340px]"
   />
 
 
-  <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+  <h1 className="text-2xl font-semibold text-gray-900 -mt-6">
     Coming Soon
   </h1>
 
 
-  <p className="text-sm text-gray-500 max-w-md mb-6">
+  <p className="text-sm text-gray-500 max-w-md">
     Our team is building something helpful for you.
     <br />
     Check back again shortly.
   </p>
-
- 
-
-
 
   <img
     src={BottomImage}

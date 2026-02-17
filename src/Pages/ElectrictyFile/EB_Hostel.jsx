@@ -446,7 +446,7 @@ const RoomReadingTable = () => {
 
 
       {!roomDetail && !tenantsDetail ? (
-        <div className="sticky top-0 bg-white font-gilroy mt-3">
+        <div className="sticky top-0 bg-white font-gilroy mt-3 p-1">
           <div className="mb-3">
             <label className="text-lg text-black font-semibold mr-4">
               Electricity
