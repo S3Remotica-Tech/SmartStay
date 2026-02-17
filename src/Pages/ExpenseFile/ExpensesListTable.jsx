@@ -116,35 +116,15 @@ function ExpensesListTable(props) {
   }, [popupRef, showTagAsset, showDeletePopup]);
 
 
-
-
-
-
   const handleShowTagAsset = () => {
-
     setshowTagAsset(true)
-
-
   };
-
-
-
-
-
-
 
 
   const handleAssetname = (selectedValue) => {
     setAssetName(selectedValue);
     setAssetNameError(selectedValue ? '' : 'Please select an asset');
   };
-
-
-
-
-
-
-
 
   const handleTagAsset = () => {
 
@@ -170,16 +150,12 @@ function ExpensesListTable(props) {
     }
   }, [state.ExpenseList.StatusCodeForAddExpenseTagSuccess])
 
-
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-
 
   const handleHideTagAsset = () => {
     setshowTagAsset(false);
@@ -206,79 +182,43 @@ function ExpensesListTable(props) {
 
 
 
-  return (<>
-    <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.expenseId}>
+  return (
+    <>
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-        <span style={{ backgroundColor: "", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", }}>{props.item.transactionDate}</span></td>
+      <tr className="font-gilroy border-b border-gray-300 h-10 font-medium text-sm whitespace-normal" key={props.item.expenseId}>
 
-      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
-        <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, width: "fit-content", borderRadius: 10, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.categoryName}</div>
-        </div>
-      </td>
-
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", color: "#000000", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.description || "-"}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.itemsCount}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unitPrice}</td>
-
-
-      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
-        <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
-            {props.item.totalAmount}
-          </div >
-        </div>
-
-      </td>
-
-
-
-      <td className="" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", }} className=''>
-        {props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}
-
-      </span></td>
-
-
-
-      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap", position: "relative" }} className=''>
-        <div style={{ width: "100%", display: "flex", justifyContent: "left" }}>
-          <div style={{
-            cursor: "pointer",
-            // backgroundColor: showDots === props.item.expenseId ? "#E7F1FF" : "white", 
-            // height: 40, width: 40, 
-            borderRadius: 100,
-            // border: "1px solid #EBEBEB", 
-            display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
-          }} onClick={(e) => handleShowDots(e, props.item.expenseId)}>
-            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, color: showDots === props.item.expenseId ? "#1E45E1" : "#6B7280", transform: "rotate(90deg)", }} />
+        <td>{props.item.transactionDate}</td>
+        <td>{props.item.categoryName}</td>
+        <td>{props.item.description || "-"}</td>
+        <td>{props.item.itemsCount}</td>
+        <td>{props.item.unitPrice}</td>
+        <td> {props.item.totalAmount}  </td>
+        <td>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
+        <td className="relative cursor-pointer">
+          <div onClick={(e) => handleShowDots(e, props.item.expenseId)}>
+            <PiDotsThreeOutlineVerticalFill
+              className={`h-5 w-5 rotate-90
+          ${showDots === props.item.expenseId ? "text-blue-600" : "text-gray-500"}`}
+            />
 
             {showDots === props.item.expenseId && <>
               <div
                 ref={popupRef}
+
+                className={`fixed flex flex-col items-start cursor-pointer
+    bg-gray-50 w-40 border border-gray-200 rounded-lg translate-x-10
+    ${showDots === props.item.expenseId ? "z-50" : "z-auto"
+                  }
+  `}
                 style={{
-                  cursor: "pointer",
-                  backgroundColor: "#F9F9F9",
-                  width: 160,
-                  position: "fixed",
                   top: showAbove
-                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                    : popupPosition.top - 35,
+                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 5
+                    : popupPosition.top - 9,
                   left: popupPosition.left,
-
-                  height: "auto",
-
-                  border: "1px solid #EBEBEB",
-                  borderRadius: 10,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  zIndex: showDots === props.item.expenseId ? 1000 : "auto",
                 }}
               >
 
                 <div
-                  className="d-flex justify-content-start align-items-center gap-2"
                   onClick={() => {
                     if (canWriteExpense) {
                       handleShowTagAsset();
@@ -290,32 +230,28 @@ function ExpensesListTable(props) {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = "#F9F9F9";
                   }}
-                  style={{
-                    width: "100%",
-                    padding: "8px 10px",
-                    borderTopLeftRadius: 10,
-                    borderTopRightRadius: 10,
-                    cursor: !canWriteExpense ? "not-allowed" : "pointer",
-                    opacity: !canWriteExpense ? 0.5 : 1,
-                  }}
+                  className={`flex justify-start items-center gap-2 w-full py-2 px-2 rounded-t-lg
+  ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
+`}
+
                 >
                   <img src={TagAsset} alt="tag" />
                   <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#222222",
-                      cursor: !canWriteExpense ? "not-allowed" : "pointer",
-                    }}
+                    className={`text-sm font-semibold font-gilroy text-gray-800
+  ${!canWriteExpense ? "cursor-not-allowed" : "cursor-pointer"}
+`}
                   >
                     Tag Asset
                   </label>
                 </div>
 
-                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                <div className='h-px bg-gray-100 m-0' />
                 <div
-                  className="d-flex justify-content-start align-items-center gap-2"
+                  className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${!canUpdateExpense
+                    ? "cursor-not-allowed opacity-50"
+                    : "cursor-pointer opacity-100"
+                    }`}
+
                   onClick={() => {
                     if (canUpdateExpense) {
                       handleEditExpense(props.item);
@@ -327,34 +263,24 @@ function ExpensesListTable(props) {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = "#F9F9F9";
                   }}
-                  style={{
-                    width: "100%",
-                    padding: "8px 10px",
-                    cursor: !canUpdateExpense ? "not-allowed" : "pointer",
-                    opacity: !canUpdateExpense ? 0.5 : 1,
-                  }}
                 >
                   <Edit
                     size="16"
                     color={"#1E45E1"}
                   />
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#222222",
-                      cursor: !canUpdateExpense ? "not-allowed" : "pointer",
-                    }}
+                  <label className={`text-sm font-semibold font-gilroy text-gray-800 ${!canUpdateExpense ? "cursor-not-allowed" : "cursor-pointer"
+                    }`}
                   >
                     Edit
                   </label>
                 </div>
 
-                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                <div className='h-px bg-gray-100 m-0' />
 
-                <div
-                  className="d-flex justify-content-start align-items-center gap-2"
+                <div className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
+  ${!canDeleteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
+`}
+
                   onClick={() => {
                     if (canDeleteExpense) {
                       handleDelete(props.item.id);
@@ -366,27 +292,14 @@ function ExpensesListTable(props) {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = "#F9F9F9";
                   }}
-                  style={{
-                    width: "100%",
-                    padding: "8px 10px",
-                    borderBottomLeftRadius: 10,
-                    borderBottomRightRadius: 10,
-                    cursor: !canDeleteExpense ? "not-allowed" : "pointer",
-                    opacity: !canDeleteExpense ? 0.5 : 1,
-                  }}
+
                 >
                   <Trash
                     size="16"
                     color={"red"}
                   />
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: "#FF0000",
-                      cursor: !canDeleteExpense ? "not-allowed" : "pointer",
-                    }}
+                  <label className={`text-sm font-semibold font-gilroy text-gray-800 ${!canUpdateExpense ? "cursor-not-allowed" : "cursor-pointer"
+                    }`}
                   >
                     Delete
                   </label>
@@ -399,223 +312,159 @@ function ExpensesListTable(props) {
 
 
           </div>
-        </div>
-      </td>
-    </tr>
+
+        </td>
 
 
 
+      </tr>
 
 
-    {
-      showTagAsset &&
-      <Modal
-        show={showTagAsset}
-        onHide={handleHideTagAsset}
-        centered
-        dialogClassName="custom-modal"
-        backdrop="static"
+      {
+        showTagAsset &&
+        <Modal
+          show={showTagAsset}
+          onHide={handleHideTagAsset}
+          centered
+          dialogClassName="custom-modal"
+          backdrop="static"
 
-      >
-        <Modal.Header
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingBottom: "10px",
-          }}
         >
-          <Modal.Title
-            style={{
-              fontWeight: 600,
-              fontSize: 18,
-              fontFamily: "Gilroy, sans-serif",
-              margin: 0,
-            }}
-          >
-            Tag Asset
-          </Modal.Title>
-          <img
-            src={closeicon}
-            alt="Close"
-            style={{ cursor: "pointer", width: 24, height: 24 }}
-            onClick={handleHideTagAsset}
-          />
-        </Modal.Header>
 
+          <Modal.Header className="flex items-center justify-between pb-2">
+            <Modal.Title className="!font-gilroy !font-semibold !text-lg m-0">
+              Tag Asset
+            </Modal.Title>
 
-
-        <Modal.Body>
-          <div style={{ marginTop: 10, width: "100%" }}>
-
-
-
-
-
-            <Select
-              options={options}
-              placeholder="Select Asset"
-              value={options.find((opt) => opt.value === assetname) || null}
-              onChange={(selectedOption) => handleAssetname(selectedOption?.value)}
-              styles={{
-                control: (base, state) => ({
-                  ...base,
-                  fontSize: "16px",
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  fontWeight: assetname ? 600 : 500,
-                  border: state.isFocused ? "1px solid #40a9ff" : "2px solid #D9D9D9",
-                  borderRadius: "8px",
-                  boxShadow: "none",
-                  borderBottomLeftRadius: 8,
-                  height: "50px",
-                  "&:hover": {
-                    borderColor: "lightgrey",
-                  },
-
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#BDBDBD",
-                  fontFamily: "Gilroy",
-                }),
-                singleValue: (base) => ({
-                  ...base,
-                  color: "#000",
-                  fontFamily: "Gilroy",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#555",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "8px",
-                  marginTop: 4,
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  maxHeight: "120px",
-                  padding: 0,
-                  scrollbarWidth: "thin",
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isSelected
-                    ? "#D9E6FC"
-                    : state.isFocused
-                      ? "#D9E6FC"
-                      : "#fff",
-                  color: state.isSelected
-                    ? "#000"
-                    : state.isFocused
-                      ? "#000000"
-                      : "#000",
-                  fontFamily: "Gilroy",
-                  padding: "8px 12px",
-                }),
-              }}
-              isClearable={false}
+            <img
+              src={closeicon}
+              alt="Close"
+              className="w-6 h-6 cursor-pointer"
+              onClick={handleHideTagAsset}
             />
+          </Modal.Header>
 
 
 
 
+          <Modal.Body>
+            <div className='w-full mt-3'>
 
-            {state.AssetList.assetList &&
-              state.AssetList.assetList.length === 0 && (
-                <label
-                  className="pb-1"
-                  style={{
-                    fontSize: 14,
-                    color: "red",
+              <Select
+                options={options}
+                placeholder="Select Asset"
+                value={options.find((opt) => opt.value === assetname) || null}
+                onChange={(selectedOption) => handleAssetname(selectedOption?.value)}
+                styles={{
+                  control: (base, state) => ({
+                    ...base,
+                    fontSize: "16px",
+                    color: "rgba(75, 75, 75, 1)",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Please add an &apos;Asset&apos;option in Asset page, accessible after
-                  adding an expense.
-                </label>
-              )}
-            {
-              assetnameerror &&
+                    fontWeight: assetname ? 600 : 500,
+                    border: state.isFocused ? "1px solid #40a9ff" : "2px solid #D9D9D9",
+                    borderRadius: "8px",
+                    boxShadow: "none",
+                    borderBottomLeftRadius: 8,
+                    height: "50px",
+                    "&:hover": {
+                      borderColor: "lightgrey",
+                    },
+
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#BDBDBD",
+                    fontFamily: "Gilroy",
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    color: "#000",
+                    fontFamily: "Gilroy",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    marginTop: 4,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                    fontFamily: "Gilroy",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isSelected
+                      ? "#D9E6FC"
+                      : state.isFocused
+                        ? "#D9E6FC"
+                        : "#fff",
+                    color: state.isSelected
+                      ? "#000"
+                      : state.isFocused
+                        ? "#000000"
+                        : "#000",
+                    fontFamily: "Gilroy",
+                    padding: "8px 12px",
+                  }),
+                }}
+                isClearable={false}
+              />
+
+              {state.AssetList.assetList &&
+                state.AssetList.assetList.length === 0 && (
+                  <label className="pb-1 !text-sm !text-red-500 !font-gilroy !font-medium">
+                    Please add an &apos;Asset&apos;option in Asset page, accessible after
+                    adding an expense.
+                  </label>
+                )}
+              {
+                assetnameerror &&
 
 
-              <div className="d-flex align-items-center justify-content-center mt-1 mb-1">
-                <ErrorMessage message={assetnameerror} type="error" />
-              </div>
-            }
+                <div className="flex items-center justify-center mt-1 mb-1">
+                  <ErrorMessage message={assetnameerror} type="error" />
+                </div>
+              }
 
 
 
-            <Button disabled
-              style={{
-                marginBottom: 5,
-                marginTop: 10,
-                width: "100%",
-                height: "45px",
-                borderRadius: "12px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                border: "none",
-                fontSize: "16px",
-                fontWeight: 400,
-                fontFamily: "Gilroy",
-                cursor: "pointer",
-              }}
-              onClick={handleTagAsset}
-            >
-              {/* Tag Asset */} Coming Soon
-            </Button>
-          </div>
-        </Modal.Body>
-        {formLoading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
+              <Button disabled
+                className="w-full h-11 mt-4 mb-1 rounded-xl bg-blue-600 text-white text-base font-normal !font-gilroy cursor-pointer"
+
+                onClick={handleTagAsset}
+              >
+                {/* Tag Asset */} Coming Soon
+              </Button>
+            </div>
+          </Modal.Body>
+
+          {formLoading && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10"><div className="h-10 w-10 rounded-full border-t-4 border-blue-600 border-r-4 border-r-transparent animate-spin"></div></div>}
 
 
 
-      </Modal>
-    }
+        </Modal>
+      }
 
 
-  </>
+    </>
   )
 }
 ExpensesListTable.propTypes = {

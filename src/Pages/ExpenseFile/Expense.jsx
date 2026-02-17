@@ -73,13 +73,13 @@ function Expenses({ allPageHostel_Id }) {
   useEffect(() => {
     if (!canReadExpense) {
       setLoading(false);
-    } 
+    }
   }, [canReadExpense]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -446,11 +446,11 @@ useEffect(() => {
     () => filterByPriceRange(getData) || [],
     [getData]
   );
-const sortedData = React.useMemo(() => {
+  const sortedData = React.useMemo(() => {
     return Array.isArray(filteredData) ? filteredData : [];
   }, [filteredData]);
 
-  
+
   const handleEditExpen = (item) => {
     setShowModal(true);
     setCurrentItem(item);
@@ -510,7 +510,7 @@ const sortedData = React.useMemo(() => {
     setShowFilter(false);
   };
 
-  
+
 
   const [showFilterExpense, setShowFilterExpense] = useState(false);
 
@@ -663,57 +663,26 @@ const sortedData = React.useMemo(() => {
 
 
 
-
-
-
-
-
-
   return (
     <>
 
-      <div style={{}}>
-        <div className="sticky-top bg-white" style={{  }}>
-          <div
-            className="d-flex justify-content-between align-items-center flex-wrap"
-            style={{
-              position: "sticky",
+      <div>
+        <div className="sticky-top bg-white">
+          <div className="sticky top-0 flex flex-wrap justify-between items-center bg-white z-10">
+            <div className="col-span-12 md:col-auto flex flex-wrap items-center">
 
-              backgroundColor: "white",
-              zIndex: 10,
-            }}
-          >
-            <div
-
-              className="col-12 col-md-auto d-flex flex-wrap align-items-center"
-              style={{}}
-            >
-              <label
-                style={{
-                  fontSize: 18,
-                  color: "#000000",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
+              <label className="text-lg text-black font-semibold font-gilroy">
                 Expenses
               </label>
 
               <RangePicker
-                className="range-picker-with-left-arrow"
                 key={pickerKey}
-                style={{
-                  height: 40,
-                  width: 250,
-                  marginLeft: 7,
-                  marginTop: 5,
-                  cursor: canReadExpense ? "pointer" : "not-allowed",
-                  opacity: canReadExpense ? 1 : 0.4,
-                  pointerEvents: canReadExpense ? "auto" : "none",
-                  transition: "opacity 0.3s ease",
-                  paddingLeft: 30,
-                  fontFamily: "Gilroy"
-                }}
+                className={`range-picker-with-left-arrow h-10 w-64 ml-2 mt-1 pl-7 font-gilroy transition-opacity duration-300 ease-in-out
+  ${canReadExpense
+                    ? "cursor-pointer opacity-100 pointer-events-auto"
+                    : "cursor-not-allowed opacity-40 pointer-events-none"}
+`}
+
                 onChange={handleDateChange}
                 value={dates.length === 2 ? [dates[0], dates[1]] : null}
                 format="DD-MM-YYYY"
@@ -722,55 +691,42 @@ const sortedData = React.useMemo(() => {
 
             </div>
 
-
-            <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
-
+            <div className="col-span-12 md:col flex flex-wrap md:justify-end items-center">
               {!showFilterExpense && (
                 <div onClick={() => canReadExpense && handleShowSearch()}
-                  style={{ paddingRight: 16 }}
+                  className="pr-4"
                 >
+
                   <SearchNormal1
                     color="#222"
-                    style={{
-                      height: "24px",
-                      width: "24px",
-                      cursor: canReadExpense ? "pointer" : "not-allowed",
-                      opacity: canReadExpense ? 1 : 0.4,
-                      pointerEvents: canReadExpense ? "auto" : "none",
-                      transition: "opacity 0.3s ease",
-                      fontFamily: "Gilroy",
-                      marginTop: 8,
-                    }}
+                    className={`
+    h-6 w-6  font-sans transition-opacity duration-300 ease-in-out
+    ${canReadExpense
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"}
+  `}
                   />
+
                 </div>
               )}
 
-              <div className='me-3' style={{ cursor: "pointer", marginTop: 5 }}>
+              <div className="mr-3 mt-1">
                 <Image
                   src={Filters}
-                  style={{
-                    height: "50px", width: "50px",
-                    cursor: canReadExpense ? "pointer" : "not-allowed",
-                    opacity: canReadExpense ? 1 : 0.4,
-                    pointerEvents: canReadExpense ? "auto" : "none",
-                    transition: "opacity 0.3s ease"
-                  }}
+                  className={`h-12 w-12 transition-opacity duration-300 ease-in-out
+      ${canReadExpense
+                      ? "cursor-pointer opacity-100 pointer-events-auto"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
                   onClick={handleFilterByPrice}
                 />
               </div>
+
               {showFilter && (
-                <div style={{ position: "relative" }}>
-                  <ListGroup className="filter-dropdown"
+                <div className="relative">
+                  <ListGroup
                     ref={filterRef}
-                    style={{
-                      position: "absolute",
-                      top: 25,
-                      right: 0,
-                      fontFamily: "Gilroy",
-                      cursor: "pointer",
-                      background: "white",
-                      zIndex: 10,
-                    }}
+                    className="filter-dropdown absolute top-6 right-0 cursor-pointer bg-white z-10 font-gilroy"
                   >
                     <ListGroup.Item value="All" onClick={handleExpenseAll}>
                       All
@@ -785,20 +741,7 @@ const sortedData = React.useMemo(() => {
                       Category
                       {showCategory && (
                         <ListGroup
-                          className="show-scrolls-Expense submenu"
-                          style={{
-                            position: "absolute",
-                            right: 200,
-                            top: 0,
-                            borderRadius: "8px",
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                            zIndex: 20,
-                            border: "1px solid #ccc",
-                            backgroundColor: "#fff",
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                            boxSizing: "content-box",
-                          }}
+                          className="absolute right-[200px] top-0 rounded-lg max-h-52 overflow-y-auto z-20 border border-gray-300 bg-white shadow-md box-border"
                           value={categoryValue}
                           onClick={handleCatogoryChange}
                         >
@@ -825,27 +768,12 @@ const sortedData = React.useMemo(() => {
                       Payment Mode
                       {showPaymentMode && (
                         <ListGroup
-                          className="show-scrolls-Expense"
-
-                          style={{
-                            position: "absolute",
-                            right: 200,
-                            top: 0,
-                            borderRadius: "8px",
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                            zIndex: 20,
-                            border: "1px solid #ccc",
-                            backgroundColor: "#fff",
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                            boxSizing: "content-box",
-
-                          }}
+                          className="absolute right-[200px] top-0 rounded-lg max-h-52 overflow-y-auto z-20"
                           value={modeValue}
                           onClick={handleModeValueChange}
                         >
                           {state.ExpenseList.expenseList &&
-                            state.ExpenseList.paymentModeList.map((view) => (
+                            state.ExpenseList.paymentModeList?.map((view) => (
                               <ListGroup.Item
                                 className="sub_item"
                                 key={view.id}
@@ -867,16 +795,7 @@ const sortedData = React.useMemo(() => {
                       Amount
                       {showAmount && (
                         <ListGroup
-                          className="show-scroll-category"
-                          style={{
-                            position: "absolute",
-                            right: 200,
-                            top: 0,
-                            borderRadius: "8px",
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                            zIndex: 20,
-                          }}
+                          className="absolute right-[200px] top-0 rounded-lg max-h-52 overflow-y-auto z-20"
                           value={amountValue}
                           onClick={handleAmountValueChange}
                         >
@@ -912,42 +831,21 @@ const sortedData = React.useMemo(() => {
               )}
 
               {showFilterExpense && (
-                <div className="me-3 " style={{
-                  position: "relative",
-                  width: isSmallScreen && showFilterExpense ? '150px' : '240px'
-                }}>
-                  <InputGroup
-                    style={{
-                      display: "flex",
-                      flexWrap: "nowrap",
-                      width: "100%",
-                      marginTop: 10,
-                    }}
-                  >
-
+                <div
+                  className={`mr-3 relative ${isSmallScreen && showFilterExpense ? "w-[150px]" : "w-[240px]"}`}
+                >
+                  <InputGroup className="flex flex-nowrap w-full mt-2 h-[40px]">
                     <FormControl
-                      className="search-input"
-                      size="lg"
                       value={searchQuery}
                       onChange={handleInputChange}
-                      style={{
-                        width: 235,
-                        boxShadow: "none",
-                        borderColor: "lightgray",
-                        borderRight: "none",
-                        fontSize: 15,
-                        fontWeight: 500,
-                        color: "#222",
-                        fontFamily: "Gilroy",
-
-                      }}
+                      className="w-[235px] shadow-none border border-light-gray border-r-0 text-[15px] font-medium text-[#222] font-filroy"
                       placeholder="Search..."
                     />
                     <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
                       <CloseCircle
                         size="24"
                         color="#222"
-                        style={{ cursor: "pointer" }}
+                        className="cursor-pointer"
                         onClick={handleCloseSearch}
                       />
                     </InputGroup.Text>
@@ -956,34 +854,13 @@ const sortedData = React.useMemo(() => {
                   {getData?.length > 0 &&
                     searchQuery !== "" &&
                     showDropDown && (
-                      <div
-                        style={{
-                          border: "1px solid #d9d9d9 ",
-                          position: "absolute",
-                          top: 60,
-                          left: 0,
-                          zIndex: 1000,
-                          padding: 10,
-                          borderRadius: 8,
-                          backgroundColor: "#fff",
-                        }}
-                      >
+                      <div className="absolute top-15 left-0 z-[1000] p-2.5 rounded-lg border border-gray-300 bg-white" >
                         <ul
-                          className="show-scroll"
-                          style={{
-                            width: 215,
-                            backgroundColor: "#fff",
-                            maxHeight: "174px",
-                            minHeight: getData?.length > 1 ? "100px" : "auto",
-                            overflowY:
-                              getData?.length > 2 ? "auto" : "hidden",
-                            padding: "5px 10px",
-                            margin: "0",
-                            listStyleType: "none",
-
-                            borderRadius: 8,
-                            boxSizing: "border-box",
-                          }}
+                          className={`
+    w-[215px] bg-white max-h-[174px] rounded-lg box-border p-[5px_10px] m-0 list-none
+    ${getData?.length > 1 ? "min-h-[100px]" : "min-h-auto"}
+    ${getData?.length > 2 ? "overflow-y-auto" : "overflow-y-hidden"}
+  `}
                         >
                           {getData.map((user, index) => (
                             <li
@@ -1020,43 +897,26 @@ const sortedData = React.useMemo(() => {
                 </div>
               )}
 
-              <div
-                className="me-3"
-                style={{ cursor: "pointer", }}
-              >
+              <div className="mr-3 cursor-pointer">
                 <img
                   src={excelimg}
                   alt="excel"
                   width={38}
                   height={38}
-                  style={{
-                    ursor: canReadExpense ? "pointer" : "not-allowed",
-                    opacity: canReadExpense ? 1 : 0.4,
-                    pointerEvents: canReadExpense ? "auto" : "none",
-                    transition: "opacity 0.3s ease",
-                  }}
+                  className={`
+    transition-opacity duration-300 
+    ${canReadExpense ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}
+  `}
                   onClick={handleExpenceExcel}
                 />
               </div>
 
-              <div className="me-2" style={{}}>
+              <div className="mr-1">
                 <Button
                   disabled={!canWriteExpense || state?.login?.planStatus === 0}
                   onClick={handleShow}
+                  className="!font-gilroy text-[14px] !bg-[#1E45E1] text-white !font-semibold rounded-lg p-2 w-[146px] whitespace-nowrap"
 
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "8px",
-                    // marginBottom: "10px",
-                    // maxHeight: 0,
-                    width: "146px",
-                    whiteSpace: "nowrap",
-                  }}
                 >
                   {" "}
                   + Expense
@@ -1067,54 +927,21 @@ const sortedData = React.useMemo(() => {
         </div>
 
         {searchQuery && (
-          <div
-            className="container mb-4"
-            style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
+          <div className="container mt-5 mb-4 font-gilroy font-semibold text-base"
+
           >
             {getData.length > 0 ? (
-              <span
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                  color: "rgba(100, 100, 100, 1)",
-                }}
-              >
+              <span className="text-center font-gilroy font-semibold text-base text-gray-600">
                 {getData.length} result{getData.length > 1 ? "s" : ""} found
                 for{" "}
-                <span
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(34, 34, 34, 1)",
-                  }}
-                >
+                <span className="text-center font-gilroy font-semibold text-base text-gray-600">
                   &quot;${searchQuery}&quot;
                 </span>
               </span>
             ) : (
-              <span
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                  color: "rgba(100, 100, 100, 1)",
-                }}
-              >
+              <span className="text-center font-gilroy font-semibold text-base text-gray-600">
                 No results found for{" "}
-                <span
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(34, 34, 34, 1)",
-                  }}
-                >
+                <span className="text-center font-gilroy font-semibold text-base text-gray-600">
                   &quot;${searchQuery}&quot;
                 </span>
               </span>
@@ -1123,58 +950,21 @@ const sortedData = React.useMemo(() => {
         )}
 
         {loading && (
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: "200px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "transparent",
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: "4px solid #1E45E1",
-                borderRight: "4px solid transparent",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                animation: "spin 1s linear infinite",
-              }}
-            ></div>
+          <div className="absolute top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
           </div>
         )}
 
+
         {!canReadExpense ? (
           <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "60vh",
-                overflowY: ""
-              }}
-            >
-
+            <div className="flex flex-col items-center justify-center h-[60vh]">
               <img
                 src={EmptyState}
                 alt="Empty State"
 
               />
-
-
-
               <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
-
-
             </div>
           </>
         ) :
@@ -1182,99 +972,29 @@ const sortedData = React.useMemo(() => {
           sortedData && sortedData.length > 0 ? (
 
 
-            <div
-              className=""
-              style={{  }}
-            >
-              <div
-
-                className='show-scrolls me-2'
-
-                // style={{
-
-                //   height: currentItems.length >= 8 || sortedData.length >= 8 ? "480px" : "auto",
-                //   overflow: "auto",
-                //   marginBottom: 20,
-                //   marginTop: "20px"
-
-                // }}
-                style={{
-                  // height: sortedData.length >= 5 ? "430px" : "auto",
-                  // overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "20px", position: "relative"
-                }}
-
-
-              >
+            <div>
+              <div className="show-scrolls m-2 mt-5 mb-5 relative font-gilroy
+              overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0
+              ">
 
                 <Table
                   responsive="md"
+                  className="mb-0 table-auto w-full text-sm text-gray-800"
                 >
 
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 100
-                  }}>
+                  <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> */}
-                          Date </div>
-                      </th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'>
-                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> */}
-                        Category </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> */}
-                          Description </div> </th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
-                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> */}
-                        Unit Count </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
-                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> */}
-                        Per Unit Price </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
-                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  */}
-                        Total Amount </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
-                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> */}
-                        Mode of Payment </div></th>
-
-                      <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>Action</th>
+                      <th>Date</th>
+                      <th>Category</th>
+                      <th>Description</th>
+                      <th>Unit Count</th>
+                      <th>Per Unit Price</th>
+                      <th>Total Amount</th>
+                      <th>Mode of Payment</th>
+                      <th>Action</th>
                     </tr>
+
                   </thead>
-
-
 
                   <tbody>
                     <PaginationList
@@ -1290,10 +1010,6 @@ const sortedData = React.useMemo(() => {
                       ))}
                     </PaginationList>
                   </tbody>
-
-
-
-
                 </Table>
               </div>
             </div>
@@ -1306,40 +1022,20 @@ const sortedData = React.useMemo(() => {
 
 
             !loading && (!filteredData || filteredData.length === 0) && canReadExpense ? (
-              <div
-                className="d-flex align-items-center justify-content-center animated-text mt-5"
-                style={{ width: "100%", height: 350, margin: "0px auto" }}
+              <div className="flex items-center justify-center mt-5 w-full h-[350px] animated-text mx-auto"
               >
                 <div>
-                  <div className="d-flex justify-content-center">
+                  <div className="flex justify-center">
                     <img
                       src={EmptyState}
-                      style={{ height: 240, width: 240 }}
+                      className="h-[240px] w-[240px]"
                       alt="Empty state"
                     />
                   </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 18,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
+                  <div className="pb-1 text-center font-semibold text-[18px] text-[#4B4B4B] font-gilroy">
                     No expenses available
                   </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
+                  <div className="pb-1 text-center font-medium text-[14px] text-[#4B4B4B] font-gilroy">
                     There are no expenses available.
                   </div>
                 </div>
@@ -1347,12 +1043,7 @@ const sortedData = React.useMemo(() => {
             )
               :
               null
-
-
-
         }
-
-
 
       </div>
 
@@ -1373,78 +1064,34 @@ const sortedData = React.useMemo(() => {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-        <Modal.Header
-          style={{
-            borderBottom: "none",
-          }}
-        >
-          <Modal.Title
-            className="w-100 text-center"
-            style={{
-              fontSize: 18,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
+
+        <Modal.Header className="border-b-0">
+          <Modal.Title className="w-full text-center !text-[18px] font-semibold !font-gilroy">
             Delete expense?
           </Modal.Title>
-
         </Modal.Header>
 
-        <Modal.Body
-          className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            marginTop: "-10px",
-          }}
-        >
+        <Modal.Body className="text-center text-[14px] font-medium font-gilroy -mt-2.5">
           Are you sure you want to delete this expense?
         </Modal.Body>
 
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{ borderTop: "none", marginTop: "-10px" }}
-        >
+        <Modal.Footer className="flex justify-center !border-t-0 -mt-2.5 gap-2">
           <Button
-            className="me-2"
             onClick={handleCloseForDeleteExpense}
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
+            className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white text-[#1E45E1] !border !border-[#1E45E1] font-semibold font-gilroy text-[14px] me-2"
           >
             Cancel
           </Button>
 
-          <Button disabled
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
+          <Button
+            disabled
             onClick={ConfirmDeleteExpense}
+            className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-semibold !font-gilroy !text-[14px] disabled:opacity-50"
           >
             {/* Delete */} Coming Soon
           </Button>
         </Modal.Footer>
+
       </Modal>
     </>
   );

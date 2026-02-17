@@ -6,6 +6,8 @@ import 'flatpickr/dist/themes/material_blue.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import Filters from "../../Assets/Images/Filters.svg";
+import { FiSearch } from "react-icons/fi";
+
 import 'sweetalert2/dist/sweetalert2.min.css';
 import '../Compliants/Compliance.css'
 // import '../../../Pages/Complaints/Compliance.css'
@@ -511,6 +513,7 @@ const Compliance = () => {
 
   const [selectedUsername, setSelectedUserName] = useState('')
 
+
   useEffect(() => {
     if (selectedUsername) {
       const filteredDetails = state.UsersList.Users?.listCustomers?.filter(item => {
@@ -931,7 +934,7 @@ const Compliance = () => {
 
 
 
-      <div >
+      <div>
 
         {loading && (
           <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-transparent z-[1050]">
@@ -950,22 +953,17 @@ const Compliance = () => {
             <div className="flex flex-wrap items-center gap-2">
 
               {search ? (
-                <div className="relative min-w-[40rem]">
-                  
+                <div className="relative mt-2">
+
                   <div className="input-group">
                     <span className="input-group-text bg-white border-end-0">
-                      <Image src={searchteam} style={{ height: 20, width: 20 }} />
+                      <Image src={searchteam} className="h-5 w-5"
+                      />
                     </span>
                     <input
                       type="text"
-                      className="form-control border-start-0"
                       placeholder="Search"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        borderColor: "rgb(207,213,219)",
-                        borderRight: "none",
-                      }}
+                      className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 w-full w-12 font-gilroy"
                       value={filterInput}
                       onChange={(e) => handlefilterInput(e)}
                     />
@@ -973,53 +971,28 @@ const Compliance = () => {
                       <img
                         src={closecircle}
                         alt="close"
-                        style={{ height: 20, width: 20, cursor: "pointer" }}
+                        className="h-5 w-5 cursor-pointer"
                         onClick={handleCloseSearch}
                       />
                     </span>
                   </div>
 
                   {isDropdownVisible && filteredUsers?.length > 0 && (
-                    <div
-                      style={{
-                        border: "1px solid #d9d9d9 ",
-                        position: "absolute",
-                        top: 60,
-                        left: 0,
-                        zIndex: 1000,
-                        padding: 10,
-                        borderRadius: 8,
-                        backgroundColor: "#fff",
-                        width: "100%",
-                      }}
+                    <div className="absolute top-15 left-0 z-50 w-full p-2.5 bg-white border border-gray-300 rounded-lg"
                     >
 
-                      <ul className="show-scroll p-0 m-0" style={{
-                        listStyleType: "none",
-                        borderRadius: 8,
-                        maxHeight: "174px",
-                        overflowY: "auto",
-                        backgroundColor: "#fff",
-                        boxSizing: "border-box",
-                        width: "100%",
-                      }}>
+                      <ul className="show-scroll p-0 m-0 list-none rounded-lg max-h-44 overflow-y-auto bg-white w-full box-border">
                         {filterUsers?.length > 0 ? (
                           filterUsers.map((user, index) => {
                             const imagedrop = user?.complaintResponseDto?.customerProfile || Profile;
                             return (
                               <li
                                 key={index}
-                                className="d-flex align-items-center"
-                                style={{
-                                  width: "100%",
-                                  padding: "10px",
-                                  borderRadius: 8,
-                                  backgroundColor: hoveredIndex === index ? "#1E45E1" : "#fff",
-                                  color: hoveredIndex === index ? "#fff" : "#000",
-                                  cursor: "pointer",
-                                  boxSizing: "border-box",
-                                  fontFamily: "Gilroy",
-                                }}
+                                className={`flex items-center w-full p-2.5 rounded-lg cursor-pointer box-border font-gilroy ${hoveredIndex === index
+                                  ? "bg-blue-700 text-white"
+                                  : "bg-white text-black"
+                                  }`}
+
                                 onClick={() => handleUserSelect(user.complaintResponseDto)}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
@@ -1028,12 +1001,7 @@ const Compliance = () => {
                                   src={imagedrop}
                                   alt={user?.Name || "Default Profile"}
                                   roundedCircle
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    marginRight: "10px",
-                                    flexShrink: 0,
-                                  }}
+                                  className="h-7.5 w-7.5 mr-2.5 flex-shrink-0"
                                   onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = Profile;
@@ -1047,16 +1015,7 @@ const Compliance = () => {
                           })
                         ) : (
                           <li
-                            className="d-flex align-items-center justify-content-center"
-                            style={{
-                              width: "100%",
-                              padding: "10px",
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                              color: "#000",
-                              boxSizing: "border-box",
-                              fontFamily: "Gilroy",
-                            }}
+                            className="flex items-center justify-center w-full p-2.5 rounded-lg bg-white text-black box-border font-gilroy"
                           >
                             No Customer found
                           </li>
@@ -1068,30 +1027,27 @@ const Compliance = () => {
                   )}
                 </div>
               ) : (
-                <div className='me-2' style={{ cursor: "pointer" }}>
+                <div className='me-2 cursor-pointer'>
                   <Image
                     src={searchteam}
-                    style={{
-                      height: "24px", width: "24px",
-                      cursor: canReadComplaints ? "pointer" : "not-allowed",
-                      opacity: canReadComplaints ? 1 : 0.4,
-                      pointerEvents: canReadComplaints ? "auto" : "none",
-                      transition: "opacity 0.3s ease"
-                    }}
+                    className={`h-6 w-6 transition-opacity duration-300 ease-in-out ${canReadComplaints
+                      ? "cursor-pointer opacity-100 pointer-events-auto"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
+
                     onClick={() => canReadComplaints && handleSearch()}
                   />
                 </div>
               )}
 
-              <div className='me-2' style={{ cursor: "pointer" }}>
+              <div className='me-2 cursor-pointer'>
                 <Image
                   src={Filters}
-                  style={{
-                    height: "50px", width: "50px", cursor: canReadComplaints ? "pointer" : "not-allowed",
-                    opacity: canReadComplaints ? 1 : 0.4,
-                    pointerEvents: canReadComplaints ? "auto" : "none",
-                    transition: "opacity 0.3s ease"
-                  }}
+                  className={`h-12 w-12 transition-opacity duration-300 ease-in-out ${canReadComplaints
+                    ? "cursor-pointer opacity-100 pointer-events-auto"
+                    : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+
                   onClick={handleFilterd}
                 />
               </div>
@@ -1099,14 +1055,13 @@ const Compliance = () => {
               {
                 filterStatus &&
 
-                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: "140px" }}>
+                <div className="mr-3 w-36 border border-gray-300 rounded-lg">
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
                     aria-label="Select Price Range"
-                    className=''
                     id="statusselect"
-                    style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }}
+                    className="text-gray-900 font-semibold font-gilroy cursor-pointer"
                   >
                     <option value="All">All</option>
                     <option value="open">Open</option>
@@ -1125,116 +1080,95 @@ const Compliance = () => {
                     value={selectedDateRange}
                     onChange={handleDateChange}
                     format="DD-MM-YYYY"
-                    style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy" }}
+                    className="h-10 cursor-pointer font-gilroy"
                   />
                 </div>
               )}
 
-              <div className='me-2' style={{ cursor: "pointer" }}>
+              <div className='me-2 cursor-pointer'>
                 <img
                   src={excelimg}
                   alt="excel"
                   width={38}
                   height={38}
                   onClick={handleComplianceeExcel}
-                  style={{
-                    cursor: canReadComplaints ? "pointer" : "not-allowed",
-                    opacity: canReadComplaints ? 1 : 0.4,
-                    pointerEvents: canReadComplaints ? "auto" : "none",
-                    transition: "opacity 0.3s ease"
-                  }}
+                  className={`transition-opacity duration-300 ease-in-out ${canReadComplaints
+                    ? "cursor-pointer opacity-100 pointer-events-auto"
+                    : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+
                 />
               </div>
 
-              <div className='me-2' style={{ paddingRight: 4 }}>
+              <div className='me-2 pr-1'>
                 <Button
                   disabled={!canWriteComplaints || state?.login?.planStatus === 0}
                   onClick={handleShow}
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "8px",
-                    // marginBottom: "10px",
-                    // maxHeight: 0,
-                    width: "146px",
-                    whiteSpace: "nowrap",
-                  }}
+                  className="!font-gilroy text-sm !font-semibold text-white !bg-blue-700 rounded-lg p-2 w-36 whitespace-nowrap"
                 > + Complaint</Button>
               </div>
             </div>
           </div>
         </div>
 
+
+
         {
           !canReadComplaints ? (
             <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100vh",
-                }}
-              >
+              <div className="flex flex-col items-center justify-center min-h-screen">
                 <img
                   src={Emptystate}
                   alt="Empty State"
-                  style={{ maxWidth: "100%", height: "auto" }}
+                 />
+
+                <ErrorMessage
+                  message={['You do not have access to view Compliants']}
+                  type="warning"
                 />
-
-
-                <ErrorMessage message={['You do not have access to view Compliants']} type="warning" />
-
               </div>
             </>
-          ) :
-            <div className='row row-gap-3 p-2 '
-              style={{
-                height: "600px",
-                overflowY: "auto",
-                // position: "relative",
-                // paddingRight: 20
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 h-[600px] overflow-y-auto">
 
-              }}
-            >
-              {filteredUsers.length > 0 && filteredUsers.map((complaints) => (
-                <div key={complaints.ID} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                  <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow}
-                    // complianceAddPermission={complianceAddPermission}
-                    // complianceEditPermission={complianceEditPermission} 
-                    // complianceDeletePermission={complianceDeletePermission} 
-                    disableActions={state?.login?.planStatus === 0} />
-                </div>
-              ))
-              }
-
-
-              {!loading && filteredUsers.length === 0 &&
-
-                <div className='d-flex align-items-center justify-content-center fade-in'
-                  style={{ width: "100%", height: 350, marginTop: 40 }}>
-                  <div>
-                    <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
-                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
-
-
+              {filteredUsers.length > 0 &&
+                filteredUsers.map((complaints) => (
+                  <div
+                    key={complaints.ID}
+                    className="bg-white rounded-xl p-2.5"
+                  >
+                    <ComplianceList
+                      complaints={complaints}
+                      onEditComplaints={handleEditcomplaint}
+                      onAssignshow={handleAssignShow}
+                      disableActions={state?.login?.planStatus === 0}
+                    />
                   </div>
-                  <div>
+                ))}
 
+              {!loading && filteredUsers.length === 0 && (
+                <div className="col-span-1 md:col-span-2 h-full flex items-center justify-center fade-in">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <img
+                      src={Emptystate}
+                      alt="emptystate"
+                      className="mx-auto"
+                    />
+
+                    <div className="pb-1 font-semibold font-[Gilroy] text-[18px] text-[rgba(75,75,75,1)]">
+                      No Active complaint
+                    </div>
+
+                    <div className="pb-1 font-medium font-[Gilroy] text-[14px] text-[rgba(75,75,75,1)]">
+                      There are no active complaints
+                    </div>
                   </div>
                 </div>
-
-
-              }
-
+              )}
             </div>
+          )
         }
+
         {/* {filteredUsers && filteredUsers?.length > 6 && (
 
                   <nav className=" mb-0"
@@ -1379,39 +1313,41 @@ const Compliance = () => {
       </div>
 
       {show &&
-        <div
-          className="modal show"
-          style={{
-            display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
-          }}
-        >
+        <div className="modal show block static font-sans" >
           <Modal
             show={show}
             onHide={handleClose}
             centered
             backdrop="static">
-            <Modal.Dialog style={{ minWidth: "auto", paddingRight: "10px", borderRadius: "30px", }} className='m-0 p-0'>
+            <Modal.Dialog className="m-0 p-0 pr-2 rounded-full">
 
-              <Modal.Header style={{}}>
-                <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
+              <Modal.Header>
+                <div className="text-xl font-semibold font-gilroy">
+                  {edit ? "Edit Compliant" : "Add an complaint"}
+                </div>
 
-                <CloseCircle size="24" color="#000" onClick={handleClose}
-                  style={{ cursor: 'pointer' }} />
-
+                <CloseCircle
+                  size="24"
+                  color="#000"
+                  onClick={handleClose}
+                  className="cursor-pointer"
+                />
               </Modal.Header>
-              <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 mt-2 me-3">
+
+              <Modal.Body className="show-scroll max-h-96 overflow-y-scroll pt-1 mt-2 mr-3">
 
                 {Array.isArray(complaintList) && complaintList.length === 0 && (
                   <ErrorMessage message={[" Please Create Complaint Type in Settings-Complaint  before adding an complaint"]} type="error" />
 
                 )}
 
-                <div className='row '>
+                <div className='grid grid-cols-12 gap-3'>
 
-                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "Gilroy", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Customer {" "}  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                  <div className='col-span-12'>
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal"
+                      >
+                        Customer {" "} <span className="text-red-600 text-xl">*</span>
                       </Form.Label>
 
 
@@ -1510,23 +1446,11 @@ const Compliance = () => {
 
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div className="col-span-12 ">
 
-                    <label
-                      style={{
-                        fontSize: 14,
-                        color: "#222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        marginBottom: 5,
-                        display: "block",
-                      }}
-                    >
-                      Complaint Type {" "}   <span style={{ color: "red", fontSize: "16px" }}>*</span>
+                    <label className="block text-sm text-gray-900 font-medium font-sans mb-1">
+                      Complaint Type {" "}   <span className='text-red-600 text-xl'>*</span>
                     </label>
-
-
-
                     <Select
                       options={
                         Array.isArray(complainttypelist) && complainttypelist.length > 0
@@ -1631,74 +1555,70 @@ const Compliance = () => {
 
 
                   {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length === 0 && <>
-                    <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>*
-                      Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label></>}
+                    <label className="pb-1 text-sm text-red-600 font-medium font-sans">*
+                      Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label>
+                  </>}
 
-
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
+                    <Form.Group controlId="exampleForm.ControlInput1">
                       <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                        className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal"
                       >
-                        Floor {" "} <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                        Floor {" "} <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Floor"
                         value={floorname}
                         readOnly
-                        style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 !rounded-lg"
+
                       />
                     </Form.Group>
                   </div>
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+
+                  <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
+                    <Form.Group controlId="exampleForm.ControlInput3">
                       <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                        className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal"
                       >
-                        Room {" "}  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                        Room {" "}  <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Rooms"
                         value={room_name}
                         readOnly
-                        style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 !rounded-lg"
                       />
                     </Form.Group>
                   </div>
 
-
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
                     <Form.Group className="" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Bed {" "} <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal">
+                        Bed {" "} <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Beds"
                         value={bed_name}
                         readOnly
-                        style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 !rounded-lg"
                       />
                     </Form.Group>
                   </div>
 
-
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className='' controlId="purchaseDate">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, marginBottom: '2px', }}>
-                        Complaint Date {" "}  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                  <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
+                    <Form.Group controlId="purchaseDate">
+                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal">
+                        Complaint Date {" "}  <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
 
-                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                      <div className="datepicker-wrapper w-full relative">
                         <DatePicker
-                          style={{ width: "100%", height: 50, cursor: "pointer", fontFamily: "Gilroy" }}
+                          className="w-full h-12 cursor-pointer font-sans"
+
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -1753,21 +1673,24 @@ const Compliance = () => {
 
                   </div>
 
-
-
-
-
-
-
-                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2'>
+                  <div className="col-span-12 ">
                     <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
-                      <Form.Control
-                        value={description} onChange={(e) => { setDescription(e.target.value) }}
-                        type="text" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                    </Form.Group>
 
+                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal">
+                        Description
+                      </Form.Label>
+
+                      <Form.Control
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        type="text"
+                        placeholder="Enter description"
+                        className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-lg"
+                      />
+
+                    </Form.Group>
                   </div>
+
                 </div>
 
 
@@ -1775,31 +1698,13 @@ const Compliance = () => {
               </Modal.Body>
 
 
-              {formLoading && <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                ></div>
-              </div>}
+              {formLoading && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                  flex items-center justify-center bg-transparent opacity-75 z-10">
+                  <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+
 
 
               {totalErrormsg.trim() !== "" && (
@@ -1815,34 +1720,28 @@ const Compliance = () => {
                     <ErrorMessage message={state.createAccount?.networkError} type="error" /></div>
                   : null} */}
 
-
-
-
-              <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-
-                <Button disabled={formLoading} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+              <Modal.Footer className="!border-none pt-0">
+                <Button
+                  disabled={formLoading}
+                  className="w-full !bg-blue-700 !font-gilroy text-white font-medium font-sans text-base h-12 rounded-xl"
                   onClick={handleAddcomplaint}
                 >
                   {edit ? "Save complaint" : "Add complaint"}
                 </Button>
               </Modal.Footer>
+
             </Modal.Dialog>
           </Modal>
         </div>
       }
 
       {Assignpopupshow &&
-        <div
-          className="modal show"
-          style={{
-            display: 'block', position: 'initial', fontFamily: "Gilroy",
-          }}
-        >
+        <div className="modal show block static !font-gilroy" >
           <Modal
             show={Assignpopupshow} onHide={handleAssignClose}
             centered>
-            <Modal.Dialog style={{ width: '100%' }} className='m-0 p-0 col-4'>
-              <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+            <Modal.Dialog className="w-full m-0 p-0 md:w-1/3">
+              <Modal.Header closeButton closeLabel="close-button" >
                 <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}> Assign Complaint</Modal.Title>
               </Modal.Header>
 
@@ -1875,9 +1774,6 @@ const Compliance = () => {
 
               </Modal.Body>
 
-
-
-
               {/* {state.createAccount?.networkError ?
                   <div className="d-flex justify-content-center mt-1 mb-1">
                     <ErrorMessage message={state.createAccount?.networkError} type="error" /></div>
@@ -1895,11 +1791,6 @@ const Compliance = () => {
           </Modal>
         </div>
       }
-
-
-
-
-
 
     </>
   );
