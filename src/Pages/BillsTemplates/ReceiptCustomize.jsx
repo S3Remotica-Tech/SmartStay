@@ -434,7 +434,9 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
       })
     }
   }
-
+const handleLocalDeleteLogo = () => {
+    setLogoPreview(null);
+  };
   const handleDeleteRentalSignature = () => {
     if (BillsTemplateList?.hostelId) {
       dispatch({
@@ -448,6 +450,14 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
       })
     }
   }
+
+const handleLocalDeleteRentalSignature = () => {
+  if (signaturePreview?.startsWith("blob:")) {
+    URL.revokeObjectURL(signaturePreview);
+  }
+
+  setSignaturePreview(null);
+};
 
 
 
@@ -572,7 +582,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                               />
                             )}
 
-                            {!logoPreview?.startsWith("data:") && <>
+                            {logoPreview && <>
 
 
                               {logoPreview && (
@@ -600,7 +610,13 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                                                       p-1
                                                       cursor-pointer
                                                     "
-                                  onClick={handleDeleteLogo}
+                                    onClick={() => {
+                                                if (logoPreview?.startsWith("data:") || logoPreview?.startsWith("blob:")) {
+                                                  handleLocalDeleteLogo();
+                                                } else {
+                                                  handleDeleteLogo();
+                                                }
+                                              }}
                                 >
                                   <div
                                     className="bg-black/70 text-white p-2 rounded-full">
@@ -850,7 +866,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                                   </span>
                                 )}
 
-                                {!signaturePreview?.startsWith("blob:") && <>
+                                {signaturePreview && <>
 
 
 
@@ -872,7 +888,17 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                                         display: 'none',
                                         cursor: 'pointer',
                                       }}
-                                      onClick={handleDeleteRentalSignature}
+                                       onClick={() => {
+        const isLocal =
+          signaturePreview?.startsWith("data:") ||
+          signaturePreview?.startsWith("blob:");
+
+        if (isLocal) {
+          handleLocalDeleteRentalSignature();
+        } else {
+          handleDeleteRentalSignature();
+        }
+      }}
                                     >
                                       <div
                                         className="bg-black/70 text-white p-2 rounded-full">
@@ -902,7 +928,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                                   </label>
                                   <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
                                 </div>
-                                <div className="d-flex justify-content-end">
+                                {/* <div className="d-flex justify-content-end">
                                   <button
                                     className="btn btn-link text-decoration-none "
                                     onClick={handleClear}
@@ -919,7 +945,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                                   >
                                     Done
                                   </button>
-                                </div>
+                                </div> */}
 
 
                               </div>

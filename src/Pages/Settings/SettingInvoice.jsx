@@ -34,6 +34,7 @@ import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { NutFill } from "react-bootstrap-icons";
 
 function SettingInvoice({ hostelid, handleFormPage }) {
 
@@ -41,16 +42,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-
-
-
-
-
-
-
-
-
-
+  const [isHovering, setIsHovering] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
 
@@ -478,6 +470,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const fileInputRef = useRef(null);
   const [sign, setSign] = useState(null);
   const [signPreview, setSignPreview] = useState(null);
+const [isHoveringSign, setIsHoveringSign] = useState(false);
 
 
 
@@ -532,17 +525,46 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  const handleClear = () => {
-    setSign("");
-    setSignPreview("")
-    setSignatureErrMsg("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+  
+const handleClear = () => {
+  if (!signPreview) return;
 
-    setNoChangesDetectedMsg("");
-    setSavebuttonshow(true);
-  };
+  const isLocalImage =
+    signPreview.startsWith("blob:") ||
+    signPreview.startsWith("data:");
+
+  if (isLocalImage) {
+       setSign("");
+    setSignPreview("");
+  } else {
+      // dispatch({
+    //   type: "DELETETEMPLATESIMAGES",
+    //   payload: {
+    //     hostelId: BillsTemplateList?.hostelId,
+    //     templateId: BillsTemplateList?.templateId,
+    //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+    //     type: "SIGNATURE", 
+    //   },
+    // });
+
+    setSign("");
+    setSignPreview("");
+  }
+
+  setSignatureErrMsg("");
+
+  if (fileInputRef.current) {
+    fileInputRef.current.value = "";
+  }
+
+  setNoChangesDetectedMsg("");
+  setSavebuttonshow(true);
+};
+
+
+
+
+
 
 
   const handleSignatureDone = () => {
@@ -559,6 +581,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [rentalSignaturePreview, setRentalSignaturePreview] = useState(null);
   const [rentalSignatureError, setRentalSignatureError] = useState("");
   const [isRentalSignatureConfirmed, setIsRentalSignatureConfirmed] = useState(false);
+
+
 
 
   const handleRentalSignatureChange = (e) => {
@@ -828,8 +852,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [qrimagepreview, setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
 
-  console.log("qrImage, ", qrImage)
-  console.log("qrimagepreview", qrimagepreview)
+
 
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
@@ -1120,22 +1143,33 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  // const handleDeleteImage = () => {
+  const handleDeleteImage = () => {
+  if (!previewURL) return;
 
-  //   if (BillsTemplateList?.hostelId) {
-  //     dispatch({
-  //       type: 'DELETETEMPLATESIMAGES', payload: {
-  //         hostelId: BillsTemplateList?.hostelId,
-  //         templateId: BillsTemplateList?.templateId,
-  //         templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-  //         type: "QRCODE"
+  const isLocalImage =
+    previewURL.startsWith("blob:") ||
+    previewURL.startsWith("data:");
 
-  //       }
-  //     })
-  //   }
+  if (isLocalImage) {
+    
+    setPreviewURL(null);
+  } else {
+       if (BillsTemplateList?.hostelId) {
+      // dispatch({
+      //   type: "DELETETEMPLATESIMAGES",
+      //   payload: {
+      //     hostelId: BillsTemplateList?.hostelId,
+      //     templateId: BillsTemplateList?.templateId,
+      //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+      //     type: "QRCODE",
+      //   },
+      // });
+    }
 
+       setPreviewURL(null);
+  }
+};
 
-  // }
 
   const handleRemoveQr = () => {
     if (BillsTemplateList?.hostelId) {
@@ -1150,6 +1184,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       })
     }
   };
+  const handleLocalRemoveQr = () => {
+    if (qrImage?.startsWith("blob:")) {
+      URL.revokeObjectURL(qrImage);
+    }
+
+    setQrImage(null);
+  };
+
+
 
 
   const handleDeleteLogo = () => {
@@ -1166,6 +1209,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     }
   }
 
+
+
+  const handleLocalDeleteLogo = () => {
+    setLogoPreview(null);
+  };
+
+
+
+
   const handleDeleteRentalSignature = () => {
     if (BillsTemplateList?.hostelId) {
       dispatch({
@@ -1180,6 +1232,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     }
   }
 
+  const handleLocalDeleteRentalSignature = () => {
+    if (rentalSignaturePreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(rentalSignaturePreview);
+    }
+
+    setRentalSignaturePreview(null);
+  };
 
 
 
@@ -1416,11 +1475,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                           />
                                         )}
 
-                                        {logoPreview && !logoPreview.startsWith("data:") && (
+
+
+
+
+                                        {logoPreview && (
                                           <>
                                             <div
                                               className="
-        qr-overlay
+        qr-overlay h-[60px]
         absolute inset-0
         hidden
         bg-black/40
@@ -1440,7 +1503,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
         p-1
         cursor-pointer
       "
-                                              onClick={handleDeleteLogo}
+                                              onClick={() => {
+                                                if (logoPreview?.startsWith("data:") || logoPreview?.startsWith("blob:")) {
+                                                  handleLocalDeleteLogo();
+                                                } else {
+                                                  handleDeleteLogo();
+                                                }
+                                              }}
                                             >
                                               <div className="bg-black/70 text-white p-2 rounded-full">
                                                 <Trash size={10} />
@@ -1691,7 +1760,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
                                             {
-                                              !rentalSignaturePreview?.startsWith("blob:") && <>
+                                              rentalSignaturePreview && <>
 
 
 
@@ -1717,7 +1786,17 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                                       display: 'none',
                                                       cursor: 'pointer',
                                                     }}
-                                                    onClick={handleDeleteRentalSignature}
+                                                    onClick={() => {
+                                                      const isLocal =
+                                                        rentalSignaturePreview?.startsWith("data:") ||
+                                                        rentalSignaturePreview?.startsWith("blob:");
+
+                                                      if (isLocal) {
+                                                        handleLocalDeleteRentalSignature();
+                                                      } else {
+                                                        handleDeleteRentalSignature();
+                                                      }
+                                                    }}
                                                   >
                                                     <div
                                                       className="bg-black/70 text-white p-2 rounded-full">
@@ -1750,22 +1829,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                               <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
                                             </div>
                                             <div className="d-flex justify-content-end">
-                                              <button
+                                              {/* <button
                                                 className="btn btn-link text-decoration-none "
                                                 onClick={handleRentalSignatureClear}
                                                 disabled={!rentalSignaturePreview}
                                                 style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}
                                               >
                                                 Clear
-                                              </button>
-                                              <button
-                                                className="btn btn-link text-decoration-none "
-                                                disabled={!rentalSignaturePreview}
-                                                onClick={handleRentalSignatureDone}
-                                                style={{ color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600 }}
-                                              >
-                                                Done
-                                              </button>
+                                              </button> */}
+
                                             </div>
 
 
@@ -2160,7 +2232,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   />
 
                                   {
-                                    !qrImage?.startsWith("blob:") && <>
+                                    qrImage && <>
 
                                       <div
                                         className="
@@ -2188,10 +2260,20 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     cursor-pointer
     z-[3]
   "
-                                        onClick={handleRemoveQr}
+                                        onClick={() => {
+                                          const isLocal =
+                                            qrImage?.startsWith("data:") ||
+                                            qrImage?.startsWith("blob:");
+
+                                          if (isLocal) {
+                                            handleLocalRemoveQr();
+                                          } else {
+                                            handleRemoveQr();
+                                          }
+                                        }}
                                       >
 
-                                        <div className="qr-trash" onClick={handleRemoveQr}>
+                                        <div className="qr-trash" >
                                           <Trash size={12} />
                                         </div>
 
@@ -3178,53 +3260,35 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         >
                           <div
                             className="relative inline-block"
-                            onMouseEnter={(e) => {
-                              const trash = e.currentTarget.querySelector(".qr-trash");
-                              const overlay = e.currentTarget.querySelector(".qr-overlay");
-
-                              if (trash) trash.style.display = "flex";
-                              if (overlay) overlay.style.display = "block";
-                            }}
-                            onMouseLeave={(e) => {
-                              const trash = e.currentTarget.querySelector(".qr-trash");
-                              const overlay = e.currentTarget.querySelector(".qr-overlay");
-
-                              if (trash) trash.style.display = "none";
-                              if (overlay) overlay.style.display = "none";
-                            }}
+                            onMouseEnter={() => setIsHovering(true)}
+                            onMouseLeave={() => setIsHovering(false)}
                           >
-                            {previewURL ?
+                            {previewURL ? (
                               <img
                                 src={previewURL}
                                 alt="logo-preview"
-                                className="h-[60px] w-[60px]"
+                                className="h-[60px] w-[60px] rounded"
                               />
-                              :
-                              <DocumentUpload  color="#1E45E1"/>}
-
-                            {previewURL && (
-                              <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                            ) : (
+                              <DocumentUpload color="#1E45E1" />
                             )}
 
 
-                            {/* {previewURL && (
-                              <div
-                                className="
-        qr-trash
-        absolute -top-1 -right-1
-        hidden
-        items-center justify-center 
-        rounded-full
-        bg-gray-100 text-white
-        p-1
-        cursor-pointer
-      "
-                              // onClick={handleDeleteImage}
-                              >
-                                <Trash size={18} color="#f31717" />
+                            {previewURL && isHovering && (
+                              <div className="absolute inset-0 bg-black/40 rounded flex items-center justify-center">
+
+
+                                <div
+                                  // onClick={handleDeleteImage}
+                                  className="bg-white rounded-full p-2 cursor-not-allowed shadow-md hover:scale-110 transition"
+                                >
+                                  <Trash size={12} />
+                                </div>
+
                               </div>
-                            )} */}
+                            )}
                           </div>
+
 
 
 
@@ -3453,45 +3517,69 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
                       </div>
                       <div className="col-md-7">
-                        <div
-                          className="rounded mt-2 d-flex justify-content-center align-items-center"
-                          style={{
-                            height: '120px',
-                            borderStyle: 'dotted',
-                            borderWidth: '3px',
-                            borderColor: '#ced4da',
-                          }}
-                        >
-                          {signPreview ? (
-                            <img
-                              src={signPreview}
-                              alt="uploaded-signature"
-                              style={{ maxHeight: '100%', maxWidth: '100%' }}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.style.display = 'none';
-                              }}
-                            />
-                          ) : (
-                            <span
-                              className="text-muted"
-                              style={{
-                                fontFamily: 'Gilroy',
-                                fontSize: 14,
-                                fontWeight: 400,
-                                color: 'rgba(34, 34, 34, 1)',
-                                fontStyle: 'normal',
-                                lineHeight: 'normal',
-                              }}
-                            >
-                              No signature uploaded
-                            </span>
-                          )}
+                       <div
+  className="rounded mt-2 d-flex justify-content-center align-items-center position-relative"
+  style={{
+    height: "120px",
+    borderStyle: "dotted",
+    borderWidth: "3px",
+    borderColor: "#ced4da",
+  }}
+  onMouseEnter={() => setIsHoveringSign(true)}
+  onMouseLeave={() => setIsHoveringSign(false)}
+>
+  {signPreview ? (
+    <>
+      <img
+        src={signPreview}
+        alt="uploaded-signature"
+        style={{ maxHeight: "100%", maxWidth: "100%" }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.style.display = "none";
+        }}
+      />
 
+     
+      {isHoveringSign && (
+        <div
+          className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+          style={{
+            backgroundColor: "rgba(0,0,0,0.4)",
+          }}
+        >
+          <div
+            // onClick={handleClear}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "50%",
+              padding: "8px",
+              cursor: "not-allowed",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Trash size={16}  />
+          </div>
+        </div>
+      )}
+    </>
+  ) : (
+    <span
+      className="text-muted"
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        fontWeight: 400,
+        color: "rgba(34, 34, 34, 1)",
+      }}
+    >
+      No signature uploaded
+    </span>
+  )}
+</div>
 
-
-
-                        </div>
 
 
                         <div className="d-flex justify-content-between align-items-center mt-2">

@@ -672,6 +672,16 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
     }
   };
 
+  const handleLocalRemoveQr = () => {
+    if (qrImage?.startsWith("blob:")) {
+      URL.revokeObjectURL(qrImage);
+    }
+
+    setQrImage(null);
+  };
+
+
+
 
   const handleDeleteLogo = () => {
     if (BillsTemplateList?.hostelId) {
@@ -687,6 +697,17 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
     }
   }
 
+  const handleLocalDeleteLogo = () => {
+    if (logoPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(logoPreview);
+    }
+
+    setLogoPreview(null);
+  };
+
+
+
+
   const handleDeleteRentalSignature = () => {
     if (BillsTemplateList?.hostelId) {
       dispatch({
@@ -701,6 +722,13 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
     }
   }
 
+  const handleLocalDeleteSignature = () => {
+    if (signaturePreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(signaturePreview);
+    }
+
+    setSignaturePreview(null);
+  };
 
 
 
@@ -831,7 +859,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                             )}
 
 
-                            {logoPreview && !logoPreview.startsWith("data:") && (
+                            {logoPreview && (
                               <>
                                 <div
                                   className="
@@ -855,7 +883,18 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                    p-1
                                    cursor-pointer
                                  "
-                                  onClick={handleDeleteLogo}
+                                  onClick={() => {
+                                    const isLocal =
+                                      logoPreview?.startsWith("data:") ||
+                                      logoPreview?.startsWith("blob:");
+
+                                    if (isLocal) {
+                                      handleLocalDeleteLogo();
+                                    } else {
+                                      handleDeleteLogo()
+                                    }
+                                  }}
+
                                 >
                                   <div className="bg-black/70 text-white p-2 rounded-full">
                                     <Trash size={10} />
@@ -1117,21 +1156,23 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                   </span>
                                 )}
 
-{
-  !signaturePreview?.startsWith("blob:") && <>
-  
-  
- 
-                                {signaturePreview && (
-                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                )}
+                                {
+                                  signaturePreview &&
+
+                                  <>
+
+
+
+                                    {signaturePreview && (
+                                      <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                    )}
 
 
 
 
-                                {signaturePreview && (
-                                  <div
-                                    className="qr-trash
+                                    {signaturePreview && (
+                                      <div
+                                        className="qr-trash
                                       absolute -top-1 -right-1
                                       hidden
                                       items-center justify-center 
@@ -1139,21 +1180,31 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                       bg-gray-100 text-white
                                       p-1
                                       cursor-pointer"
-                                    style={{
-                                      display: 'none',
-                                      cursor: 'pointer',
-                                    }}
-                                    onClick={handleDeleteRentalSignature}
-                                  >
-                                    <div
-                                      className="bg-black/70 text-white p-2 rounded-full">
-                                      <Trash size={12} />
-                                    </div>
-                                  </div>
-                                )}
+                                        style={{
+                                          display: 'none',
+                                          cursor: 'pointer',
+                                        }}
+                                        onClick={() => {
+                                          const isLocal =
+                                            signaturePreview?.startsWith("data:") ||
+                                            signaturePreview?.startsWith("blob:");
 
-                                 </>
-}
+                                          if (isLocal) {
+                                            handleLocalDeleteSignature();
+                                          } else {
+                                            handleDeleteRentalSignature();
+                                          }
+                                        }}
+                                      >
+                                        <div
+                                          className="bg-black/70 text-white p-2 rounded-full">
+                                          <Trash size={12} />
+                                        </div>
+                                      </div>
+                                    )}
+
+                                  </>
+                                }
 
                               </div>
 
@@ -1175,7 +1226,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                   </label>
                                   <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
                                 </div>
-                                <div className="d-flex justify-content-end">
+                                {/* <div className="d-flex justify-content-end">
                                   <button
                                     className="btn btn-link text-decoration-none "
                                     onClick={handleClear}
@@ -1192,7 +1243,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                   >
                                     Done
                                   </button>
-                                </div>
+                                </div> */}
 
 
                               </div>
@@ -1599,7 +1650,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
                       {
-                        !qrImage?.startsWith("blob:") && <>
+                        qrImage && <>
 
                           <div
                             className="
@@ -1627,10 +1678,20 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                         cursor-pointer
                         z-[3]
                       "
-                            onClick={handleRemoveQr}
+                            onClick={() => {
+                              const isLocal =
+                                qrImage?.startsWith("data:") ||
+                                qrImage?.startsWith("blob:");
+
+                              if (isLocal) {
+                                handleLocalRemoveQr();
+                              } else {
+                                handleRemoveQr();
+                              }
+                            }}
                           >
 
-                            <div className="qr-trash" onClick={handleRemoveQr}>
+                            <div className="qr-trash" >
                               <Trash size={12} />
                             </div>
 

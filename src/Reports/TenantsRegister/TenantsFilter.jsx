@@ -25,7 +25,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
 
-
+console.log("state",state)
 
     const selectStyles = {
         control: (base) => ({

@@ -359,7 +359,15 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
         setFormLoading(true);
     };
 
+ useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setFormLoading(false);
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
+    }, [state.createAccount?.networkError])
 
     const inputClass =
         "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +

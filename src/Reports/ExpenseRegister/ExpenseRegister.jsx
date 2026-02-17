@@ -64,6 +64,15 @@ function ExpenseRegister() {
 
 
   const handleReset = () => {
+ const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
+
+    setSelectedRange({
+        from: startOfMonth,
+        to: endOfMonth,
+    });
+
+
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
       payload: {
