@@ -138,11 +138,8 @@ const EBRoomOverview = ({ onBack, room }) => {
     });
 
 
-
-
     return (
         <>
-
             <div>
                 <div className="mb-2 px-4">
 
