@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister,getTenantRegister } from "../Action/ReportsAction"
+import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -15,22 +15,22 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+   else if (status === 403) {
+      yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+   }
 }
 
 function* handleReportsDetails(action) {
    try {
       const { hostelId, filters } = action.payload;
       const response = yield call(getReportsDetails, hostelId, filters)
-    
+
       const hostel_Id = GlobalHostelId(response);
       if (hostel_Id) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
@@ -64,6 +64,10 @@ function* handleGetInvoiceRegister(action) {
 
       const error = err || {};
       yield* handleApiError(error);
+      if (error?.response?.status || error?.status) {
+         yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      }
+
 
    }
 
@@ -83,6 +87,9 @@ function* handleGetExpenseRegister(action) {
 
       const error = err || {};
       yield* handleApiError(error);
+      if (error?.response?.status || error?.status) {
+         yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      }
 
    }
 
@@ -104,6 +111,9 @@ function* handleGetReceiptRegister(action) {
       yield* handleApiError(error);
 
    }
+   if (error?.response?.status || error?.status) {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+   }
 
 
 }
@@ -123,6 +133,11 @@ function* handleGetTenantRegister(action) {
       const error = err || {};
       yield* handleApiError(error);
 
+console.log("error mathu", error)
+      if (error?.code === "ERR_BAD_REQUEST") {
+         yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      }
+
    }
 
 
@@ -133,7 +148,7 @@ function* ReportSaga() {
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
    yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
    yield takeEvery('GET_REPORTS_RECEIPT_REGISTER_SAGA', handleGetReceiptRegister)
-    yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
+   yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
 
 }
 export default ReportSaga;

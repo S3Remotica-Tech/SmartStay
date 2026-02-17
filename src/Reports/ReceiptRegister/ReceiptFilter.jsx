@@ -292,7 +292,15 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     };
 
 
+ useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setFormLoading(false);
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
+    }, [state.createAccount?.networkError])
 
 
 
