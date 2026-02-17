@@ -3279,8 +3279,8 @@ const handleClear = () => {
 
 
                                 <div
-                                  onClick={handleDeleteImage}
-                                  className="bg-white rounded-full p-2 cursor-pointer shadow-md hover:scale-110 transition"
+                                  // onClick={handleDeleteImage}
+                                  className="bg-white rounded-full p-2 cursor-not-allowed shadow-md hover:scale-110 transition"
                                 >
                                   <Trash size={12} />
                                 </div>
@@ -3549,12 +3549,12 @@ const handleClear = () => {
           }}
         >
           <div
-            onClick={handleClear}
+            // onClick={handleClear}
             style={{
               backgroundColor: "white",
               borderRadius: "50%",
               padding: "8px",
-              cursor: "pointer",
+              cursor: "not-allowed",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
