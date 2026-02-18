@@ -27,6 +27,8 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     const savedFilters = state.reports?.tenantRegisterFilters;
 
 
+    console.log("savedFilters", savedFilters)
+
     useEffect(() => {
         if (show && savedFilters) {
             setTenantName(savedFilters.search || "");
@@ -47,6 +49,12 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
                 savedFilters.room?.includes(option.label)
             );
             setRoom(selectedRoomOptions);
+
+            const selecteSharingType = SharingTypeOptions.find(
+                option => option.value === savedFilters?.sharingType
+            );
+
+            setSharingType(selecteSharingType)
         }
     }, [show]);
 
@@ -164,20 +172,49 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
         })) || [];
 
 
-    const floorOptions =
+
+
+    const floorOptionsNormal =
         filterOptionsData?.floor?.map(item => ({
             label: item.label,
             value: item.id
         })) || [];
 
+    const shareTypeWithFloorOption =
+        filterOptionsData?.sharingType?.find(
+            view => view.id === Number(sharingType?.value)
+        ) || null;
 
-    const roomOptions =
-        filterOptionsData?.room?.map(item => ({
+
+    const floorOptions = sharingType?.value
+        ? shareTypeWithFloorOption?.floorIds?.map(floor => {
+            const matchedFloor = floorOptionsNormal.find(
+                f => f.value === floor.id
+            );
+
+            return {
+                label: matchedFloor?.label || floor.label,
+                value: floor.id
+            };
+        }) || []
+        : floorOptionsNormal;
+
+    const SharingTypeOptions =
+        filterOptionsData?.sharingType?.map(item => ({
             label: item.label,
             value: item.id
         })) || [];
 
 
+    const roomOptions = filterOptionsData?.room?.filter(roomItem =>
+        floor?.length === 0
+            ? true
+            : floor?.some(f => f.value === roomItem.floorId)
+    )
+        ?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
 
@@ -185,6 +222,9 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
         setTenantName(e.target.value);
     };
 
+    useEffect(() => {
+        setFloor(null);
+    }, [sharingType]);
 
 
 
@@ -255,7 +295,13 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     };
 
 
+    const handleChangeSharingType = (selectedOptions) => {
+        setSharingType(selectedOptions)
+    }
 
+
+    const selectedSharingOptions =
+        SharingTypeOptions.find(opt => opt?.value === sharingType?.value) || null;
 
     const handleFilterBills = () => {
 
@@ -270,6 +316,8 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
             page: page,
             startDate: period?.value ? undefined : startDate,
             endDate: period?.value ? undefined : endDate,
+            sharingType: sharingType?.value,
+
         };
 
         dispatch({
@@ -282,6 +330,8 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
                 room: room.map(r => r.label),
                 search: tenantName,
                 tenantStatus: tenantStatus,
+                sharingType: sharingType?.value,
+                sharingTypeLabel: sharingType?.label
             },
         })
 
@@ -423,16 +473,12 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Sharing Type
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 styles={selectStyles}
-                                placeholder="Select type..."
-                                value={sharingType}
-                                onChange={setSharingType}
-                                options={[
-                                    { label: "Single", value: "SINGLE" },
-                                    { label: "Double", value: "DOUBLE" },
-                                    { label: "Triple", value: "TRIPLE" },
-                                ]}
+                                placeholder="Select Share Type..."
+                                value={selectedSharingOptions}
+                                onChange={handleChangeSharingType}
+                                options={SharingTypeOptions}
                             />
                         </Form.Group>
 

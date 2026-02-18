@@ -61,7 +61,9 @@ export const initialState = {
          size:'',
          page: '',
          floorId: [],
-         roomId: []
+         roomId: [],
+         sharingType : "",
+          sharingTypeLabel: ''
          
 
     }

@@ -116,7 +116,8 @@ function TenantsRegister() {
             // down: `${tenantRegister?.summary?.inactive?.trend} %`, 
             link: true
         },
-        { title: "Booked Tenants", value: 0 },
+        { title: "Booked Tenants", value: tenantRegister?.summary?.booked?.count },
+         //  up: `${tenantRegister?.summary?.noticePeriod?.trend} %`,
     ];
 
 
@@ -146,6 +147,8 @@ function TenantsRegister() {
                 page: '',
                 floorId: [],
                 roomId: [],
+                 sharingType : "",
+                   sharingTypeLabel: ''
 
             },
         })
@@ -176,6 +179,8 @@ function TenantsRegister() {
                 page: '',
                 floorId: [],
                 roomId: [],
+                 sharingType : "",
+                   sharingTypeLabel: ''
 
             },
         })
@@ -309,6 +314,8 @@ function TenantsRegister() {
                     page: '',
                     floorId: [],
                     roomId: [],
+                     sharingType : "",
+                       sharingTypeLabel: ''
 
                 },
             })
@@ -357,6 +364,7 @@ function TenantsRegister() {
             floor: savedFilters?.floorId,
             room: savedFilters?.roomId,
             search: savedFilters?.search,
+             sharingType : savedFilters?.sharingType
 
         };
 
@@ -371,11 +379,12 @@ function TenantsRegister() {
         setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
-    console.log("state.reports.tenantRegisterFilters", state.reports.tenantRegisterFilters)
 
     useEffect(() => {
-        const filters = state.reports.tenantRegisterFilters;
+        const filters = state.reports?.tenantRegisterFilters;
         const filterData = [];
+
+
         if (filters?.startDate || filters?.endDate) {
             filterData.push({
                 key: "date-range",
@@ -395,6 +404,14 @@ function TenantsRegister() {
                 label: "Period",
                 type: "single",
                 value: filters.period,
+            });
+        }
+         if (filters?.sharingTypeLabel?.length) {
+            filterData.push({
+                key: "sharingType",
+                label: "Sharing Type",
+                type: "sharingType",
+                value: filters.sharingTypeLabel,
             });
         }
 
@@ -488,6 +505,8 @@ function TenantsRegister() {
                 page: '',
                 floorId: [],
                 roomId: [],
+                 sharingType : "",
+                   sharingTypeLabel: ''
 
             },
         })
