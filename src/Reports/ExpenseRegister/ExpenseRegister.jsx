@@ -515,7 +515,7 @@ function ExpenseRegister() {
                     }`}
                 />
                 {register && (
-                  <div ref={dropdownRef} className="absolute z-50 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
+                  <div ref={dropdownRef} className="absolute z-[90] mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
                     {reportCards.map((item, index) => {
                       const isFirst = index === 0;
                       const isLast = index === reportCards.length - 1;
