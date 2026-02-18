@@ -7,7 +7,12 @@ export default {
   theme: {
     extend: {
      
-    
+     zIndex: {
+        70: "70",
+        80: "80",
+        90: "90",
+        9999:"9999"
+        },
       fontFamily: {
         gilroy: ["Gilroy", "sans-serif"],
         montserrat: ['Montserrat', 'sans-serif'],

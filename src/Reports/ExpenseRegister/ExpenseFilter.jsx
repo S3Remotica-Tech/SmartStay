@@ -15,7 +15,6 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [period, setPeriod] = useState(null);
-
     const [formLoading, setFormLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState([]);
     // const [paidTo, setPaidTo] = useState([]);
@@ -133,17 +132,41 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
             value: item.userId
         })) || [];
 
-    // const paidToOptions =
-    //     filterOptionsData?.paidTo?.map(item => ({
-    //         label: item,
-    //         value: item,
-    //     })) || [];
+
 
     const periodOptions =
         filterOptionsData?.period?.map(item => ({
             label: item.label,
             value: item.id,
         })) || [];
+
+
+    const filters = state.reports?.expenseRegisterFilters;
+
+
+    useEffect(() => {
+        if (show && filters) {
+            setCategory(filters.category || []);
+            setPaymentMode(filters.paymentMode || []);
+            setCreatedBy(filters.createdBy || [])
+                       setPeriod( filters.period || null);
+
+        }
+    }, [show]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const CheckboxOption = (props) => {
         const { isSelected, label } = props;
@@ -208,42 +231,34 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
 
     const handleCategoryChange = (selected) => {
-        console.log("selected", selected)
-        setCategory(selected.map(opt => opt.value));
+               setCategory(selected.map(opt => opt.value));
         setSelectedCategory(selected.map(opt => opt.label))
     };
 
-    const selectedCategoryOptions = categoryOptions.filter(opt =>
-        category.includes(opt.value)
+    const selectedCategoryOptions = categoryOptions?.filter(opt =>
+        category?.includes(opt.value)
     );
 
 
 
     const selectedPaymentModeOptions =
-        paymentModeOptions.filter(opt => paymentMode.includes(opt.value)
+        paymentModeOptions?.filter(opt => paymentMode?.includes(opt.value)
         )
 
     const selectedPeriodOption =
-        periodOptions?.filter(opt => period?.includes(opt.value)
-        )
-
-
-    // const selectedPaidToOption =
-    //     paidToOptions.filter(opt => paidTo.includes(opt.value)
-    //     )
+        periodOptions?.find(opt =>
+            opt.value === period
+        ) || null;
 
 
 
     const selectedCreatedByOption =
-        createdByOptions.filter(opt => createdBy.includes(opt.value)
+        createdByOptions?.filter(opt => createdBy?.includes(opt.value)
         )
 
 
 
 
-
-
-    console.log("period", period)
 
 
 
@@ -274,8 +289,8 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
             page: page,
             size: size,
-           startDate: period ? undefined : startDate,
-        endDate: period ? undefined : endDate,
+            startDate: period ? undefined : startDate,
+            endDate: period ? undefined : endDate,
         };
 
 
@@ -305,7 +320,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
     };
 
 
- useEffect(() => {
+    useEffect(() => {
         if (state.createAccount?.networkError) {
             setFormLoading(false);
             setTimeout(() => {
@@ -322,7 +337,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
             <Offcanvas
                 show={show}
                 onHide={handleClose}
-                placement="end" 
+                placement="end"
             >
                 <Offcanvas.Header >
                     <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, display: "flex", alignItems: "center" }}> <Filter className='me-2' size="20" color="#364153" />Filter</Offcanvas.Title>

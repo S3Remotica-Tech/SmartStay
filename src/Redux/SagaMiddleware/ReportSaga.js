@@ -109,13 +109,13 @@ function* handleGetReceiptRegister(action) {
 
       const error = err || {};
       yield* handleApiError(error);
-
-   }
-   if (error?.response?.status || error?.status) {
+ if (error?.response?.status || error?.status) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
    }
 
 
+   }
+  
 }
 
 
@@ -133,7 +133,6 @@ function* handleGetTenantRegister(action) {
       const error = err || {};
       yield* handleApiError(error);
 
-console.log("error mathu", error)
       if (error?.code === "ERR_BAD_REQUEST") {
          yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
       }

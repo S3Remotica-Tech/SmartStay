@@ -42,7 +42,7 @@ function ExpenseRegister() {
 
   useEffect(() => {
     if (state.reports.getExpenseRegisterSuccess === 200) {
-        isInitialLoad.current = true;
+      isInitialLoad.current = true;
       setLoading(false)
       setExpenseRegister(state?.reports?.getExpenseRegister)
       setInvoiceFilter(false)
@@ -65,12 +65,12 @@ function ExpenseRegister() {
 
 
   const handleReset = () => {
- const startOfMonth = dayjs().startOf("month").toDate();
+    const startOfMonth = dayjs().startOf("month").toDate();
     const endOfMonth = dayjs().endOf("month").toDate();
 
     setSelectedRange({
-        from: startOfMonth,
-        to: endOfMonth,
+      from: startOfMonth,
+      to: endOfMonth,
     });
 
 
@@ -137,7 +137,8 @@ function ExpenseRegister() {
   }, [register]);
 
   const stats = [
-    { title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses, 
+    {
+      title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses,
       // up: "12%" 
     },
     { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.summary?.totalAmount },
@@ -318,11 +319,19 @@ function ExpenseRegister() {
   useEffect(() => {
 
     if (!state.login?.selectedHostel_Id) return;
+    const expenseFilters = state.reports?.expenseRegisterFilters;
     const filters = {
       startDate: startDate,
       endDate: endDate,
       size: size,
       page: page,
+      category: expenseFilters?.category,
+      paymentMode: expenseFilters?.paymentMode,
+      createdBy: expenseFilters?.createdBy,
+      period: expenseFilters?.period,
+
+
+
     };
     dispatch({
       type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
@@ -506,7 +515,7 @@ function ExpenseRegister() {
                     }`}
                 />
                 {register && (
-                  <div ref={dropdownRef} className="absolute z-50 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
+                  <div ref={dropdownRef} className="absolute z-[90] mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
                     {reportCards.map((item, index) => {
                       const isFirst = index === 0;
                       const isLast = index === reportCards.length - 1;
