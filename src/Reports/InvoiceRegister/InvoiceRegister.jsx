@@ -43,6 +43,7 @@ function InvoiceRegister() {
 
    
 
+    console.log("state", state.reports)
 
 
     useEffect(() => {
@@ -240,7 +241,8 @@ function InvoiceRegister() {
                 maxPaidAmount: "",
                 minOutstandingAmount: "",
                 maxOutstandingAmount: "",
-                period: []
+                period: [],
+                 createdByLabels:[],
             },
         })
     }
@@ -261,6 +263,14 @@ function InvoiceRegister() {
             });
         }
 
+         if (invoiceFilters?.createdByLabels?.length) {
+      filterData.push({
+        key: "collected",
+        label: "Collected By  is",
+        type: "collected",
+        value: invoiceFilters.createdByLabels.join(", "),
+      });
+    }
 
         if (invoiceFilters?.invoiceTypes?.length) {
             filterData.push({
@@ -372,7 +382,7 @@ function InvoiceRegister() {
         dispatch({
             type: "SET_INVOICE_REGISTER_FILTERS",
             payload: {
-                startDate: undefined,
+                 startDate: undefined,
                 endDate: undefined,
                 invoiceTypes: [],
                 createdBy: [],
@@ -383,7 +393,8 @@ function InvoiceRegister() {
                 maxPaidAmount: "",
                 minOutstandingAmount: "",
                 maxOutstandingAmount: "",
-                period: []
+                period: [],
+                 createdByLabels:[],
             },
         })
         dispatch({
@@ -466,11 +477,6 @@ function InvoiceRegister() {
     };
 
 
-    // useEffect(() => {
-    //     setPage(0);
-    // }, [startDate, endDate]);
-
-
 
     useEffect(() => {
         return () => {
@@ -479,17 +485,18 @@ function InvoiceRegister() {
                 type: "SET_INVOICE_REGISTER_FILTERS",
                 payload: {
                     startDate: undefined,
-                    endDate: undefined,
-                    invoiceTypes: [],
-                    createdBy: [],
-                    invoiceModes: [],
-                    paymentStatus: [],
-                    search: "",
-                    minPaidAmount: "",
-                    maxPaidAmount: "",
-                    minOutstandingAmount: "",
-                    maxOutstandingAmount: "",
-                    period: []
+                endDate: undefined,
+                invoiceTypes: [],
+                createdBy: [],
+                invoiceModes: [],
+                paymentStatus: [],
+                search: "",
+                minPaidAmount: "",
+                maxPaidAmount: "",
+                minOutstandingAmount: "",
+                maxOutstandingAmount: "",
+                period: [],
+                 createdByLabels:[],
                 },
             });
             const filters = {
@@ -525,12 +532,43 @@ function InvoiceRegister() {
     useEffect(() => {
 
         if (!state.login?.selectedHostel_Id) return;
+ const invoiceFilters = state.reports?.invoiceRegisterFilters;
+
+console.log("invoiceFilters",invoiceFilters)
 
         const filters = {
             startDate: startDate,
             endDate: endDate,
-            size,
-            page,
+            size: size,
+            page: page,
+                search: invoiceFilters?.search || undefined,
+
+  paymentStatus: invoiceFilters?.paymentStatus?.length
+    ? invoiceFilters.paymentStatus
+    : undefined,
+
+  invoiceModes: invoiceFilters?.invoiceModes?.length
+    ? invoiceFilters.invoiceModes
+    : undefined,
+
+  invoiceTypes: invoiceFilters?.invoiceTypes?.length
+    ? invoiceFilters.invoiceTypes
+    : undefined,
+
+  createdBy: invoiceFilters?.createdBy?.length
+    ? invoiceFilters.createdBy
+    : undefined,
+
+  period: invoiceFilters?.period || "",
+
+  minPaidAmount: invoiceFilters?.minPaidAmount || undefined,
+  maxPaidAmount: invoiceFilters?.maxPaidAmount || undefined,
+
+  minOutstandingAmount: invoiceFilters?.minOutstandingAmount || undefined,
+  maxOutstandingAmount: invoiceFilters?.maxOutstandingAmount || undefined,
+
+
+
         };
 
         dispatch({

@@ -24,8 +24,42 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
 
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
+    const savedFilters = state.reports?.tenantRegisterFilters;
 
-console.log("state",state)
+
+    useEffect(() => {
+        if (show && savedFilters) {
+            setTenantName(savedFilters.search || "");
+            setTenantStatus(savedFilters.tenantStatus || []);
+            const selectedStatusOptions = tenantStatusOptions.filter(option =>
+                savedFilters.tenantStatus?.includes(option.value)
+            );
+            setSelectedTenantStatusOptions(selectedStatusOptions);
+            const selectedPeriod = periodOptions.find(
+                option => option.value === savedFilters.period
+            );
+            setPeriod(selectedPeriod || null);
+            const selectedFloorOptions = floorOptions.filter(option =>
+                savedFilters.floor?.includes(option.label)
+            );
+            setFloor(selectedFloorOptions);
+            const selectedRoomOptions = roomOptions.filter(option =>
+                savedFilters.room?.includes(option.label)
+            );
+            setRoom(selectedRoomOptions);
+        }
+    }, [show]);
+
+
+
+
+
+
+
+
+
+
+
 
     const selectStyles = {
         control: (base) => ({

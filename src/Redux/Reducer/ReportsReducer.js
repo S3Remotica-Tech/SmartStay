@@ -15,6 +15,7 @@ export const initialState = {
         endDate: undefined,
         invoiceTypes: [],
         createdBy: [],
+        createdByLabels:[],
         invoiceModes: [],
         paymentStatus: [],
         search: "",
@@ -57,6 +58,10 @@ export const initialState = {
          tenantStatus: [],
          floor: [],
          room: [],
+         size:'',
+         page: '',
+         floorId: [],
+         roomId: []
          
 
     }

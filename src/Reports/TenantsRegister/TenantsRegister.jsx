@@ -142,6 +142,10 @@ function TenantsRegister() {
                 tenantStatus: [],
                 floor: [],
                 room: [],
+                size: '',
+                page: '',
+                floorId: [],
+                roomId: [],
 
             },
         })
@@ -168,6 +172,10 @@ function TenantsRegister() {
                 tenantStatus: [],
                 floor: [],
                 room: [],
+                size: '',
+                page: '',
+                floorId: [],
+                roomId: [],
 
             },
         })
@@ -297,6 +305,10 @@ function TenantsRegister() {
                     tenantStatus: [],
                     floor: [],
                     room: [],
+                    size: '',
+                    page: '',
+                    floorId: [],
+                    roomId: [],
 
                 },
             })
@@ -331,14 +343,21 @@ function TenantsRegister() {
 
 
 
-
     useEffect(() => {
         if (!state.login?.selectedHostel_Id) return;
+        const savedFilters = state.reports?.tenantRegisterFilters;
+
         const filters = {
             startDate: startDate,
             endDate: endDate,
             size: size,
             page: page,
+            status: savedFilters?.tenantStatus,
+            period: savedFilters?.period,
+            floor: savedFilters?.floorId,
+            room: savedFilters?.roomId,
+            search: savedFilters?.search,
+
         };
 
 
@@ -465,6 +484,10 @@ function TenantsRegister() {
                 tenantStatus: [],
                 floor: [],
                 room: [],
+                size: '',
+                page: '',
+                floorId: [],
+                roomId: [],
 
             },
         })
