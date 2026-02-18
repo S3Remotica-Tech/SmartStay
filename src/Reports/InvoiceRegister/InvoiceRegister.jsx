@@ -48,6 +48,7 @@ function InvoiceRegister() {
     useEffect(() => {
         if (state.reports.getInvoiceRegisterSuccess === 200) {
             setLoading(false)
+              isInitialLoad.current = true;
             setInvoiceRegister(state?.reports?.getInvoiceRegister)
             setInvoiceFilter(false)
             setTimeout(() => {

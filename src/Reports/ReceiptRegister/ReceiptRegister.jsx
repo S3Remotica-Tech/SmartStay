@@ -42,6 +42,7 @@ function ReceiptRegister() {
 
   useEffect(() => {
     if (state.reports.getReceiptRegisterSuccess === 200) {
+        isInitialLoad.current = true;
       setLoading(false)
       setReceiptRegister(state?.reports?.getReceiptRegister)
       setInvoiceFilter(false)

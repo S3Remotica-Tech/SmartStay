@@ -309,7 +309,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
             <Offcanvas
                 show={show}
                 onHide={handleClose}
-                placement="end" backdrop="static"
+                placement="end" 
             >
                 <Offcanvas.Header >
                     <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, display: "flex", alignItems: "center" }}> <Filter className='me-2' size="20" color="#364153" />Filter</Offcanvas.Title>
