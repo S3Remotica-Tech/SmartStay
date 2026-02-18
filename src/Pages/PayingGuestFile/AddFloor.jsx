@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -19,7 +19,7 @@ function StaticExample({
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-   const floorNameRef = useRef(null);
+  const floorNameRef = useRef(null);
   const [floorNo, setFloorNo] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [floorError, setFloorError] = useState("");
@@ -36,7 +36,7 @@ function StaticExample({
     if (floorNameRef.current) {
       floorNameRef.current.focus();
     }
-  }, []); 
+  }, []);
 
 
   useEffect(() => {
@@ -107,7 +107,7 @@ function StaticExample({
           type: "UPDATEFLOOR",
           payload: {
             floorName: floorNo,
-            isActive:true,
+            isActive: true,
             id: editFloor.floor_Id,
           },
         });
@@ -135,10 +135,10 @@ function StaticExample({
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
@@ -147,7 +147,7 @@ useEffect(() => {
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (floorNameRef.current) {
       floorNameRef.current.focus();
     }
@@ -155,68 +155,41 @@ useEffect(() => {
 
 
   return (
-    <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-        fontFamily: "Gilroy,sans-serif",
-      }}
-    >
+    <div className="modal show block static font-gilroy">
       <Modal show={show} onHide={handleClose} centered backdrop="static" >
-        <Modal.Dialog
-          style={{ maxWidth: "100%", width: "100%" }}
-          className="m-0 p-0"
-        >
-          <Modal.Header
-            style={{ border: "1px solid #E7E7E7" }}
-          >
-            <Modal.Title
-              style={{
-                fontSize: 18,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-              }}
-            >
+        <Modal.Dialog className="m-0 p-0 w-full max-w-full">
+          <Modal.Header className="m-0 border border-[#E7E7E7]">
+
+            <Modal.Title className="!text-lg !font-gilroy !font-semibold !text-[#222222]">
               {updateFloor ? " Edit Floor" : "Add Floor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
           </Modal.Header>
-          <Modal.Body style={{ padding:"10px 15px" }}>
-            <div className="row mt-1">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+          <Modal.Body className="px-3 py-2">
+            <div className="mt-1 m-0">
+              <div className="w-full">
+
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "'Gilroy', sans-serif",
-                      fontWeight: 600,
-                    }}
+                  <Form.Label className="font-gilroy text-black font-semibold text-base"
                   >
                     Floor Name or No {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-500 text-xl">*</span>
                   </Form.Label>
                   <Form.Control
-                  ref={floorNameRef}
+                    ref={floorNameRef}
                     value={floorNo}
                     onChange={handleFloorChange}
                     type="text"
                     placeholder="Enter Floor Name or No"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: floorNo ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className={`text-base text-gray-600 font-gilroy ${floorNo ? "font-semibold" : "font-medium"} shadow-none border border-gray-300
+  h-12 rounded-lg
+`}
+
+
                   />
                 </Form.Group>
               </div>
@@ -224,68 +197,40 @@ useEffect(() => {
 
             </div>
 
-             {floorId && (
-           <ErrorMessage message={floorId} type="error"/>
-          )}
+            {floorId && (
+              <ErrorMessage message={floorId} type="error" />
+            )}
 
-          {floorError && (
-           <ErrorMessage message={floorError} type="error"/>
-          )}
-          {state.UsersList?.alreadyFloorHere && (
-               <ErrorMessage message={state.UsersList?.alreadyFloorHere} type="error"/>
-          )}
-          {state.PgList?.alreadyfloorNameHere && (
-             <ErrorMessage message={state.PgList?.alreadyfloorNameHere } type="error"/>
-          )}
+            {floorError && (
+              <ErrorMessage message={floorError} type="error" />
+            )}
+            {state.UsersList?.alreadyFloorHere && (
+              <ErrorMessage message={state.UsersList?.alreadyFloorHere} type="error" />
+            )}
+            {state.PgList?.alreadyfloorNameHere && (
+              <ErrorMessage message={state.PgList?.alreadyfloorNameHere} type="error" />
+            )}
 
           </Modal.Body>
-          
-          {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-         
-          {isChangedError && (
-            <div className="d-flex align-items-center  justify-content-center">
-              <ErrorMessage message={isChangedError} type="error"/>
+
+          {formLoading && (
+            <div className="absolute inset-0 flex items-center justify-center opacity-75 z-10">
+              <div className="w-10 h-10 rounded-full border-4 border-t-blue-600 border-r-transparent animate-spin"></div>
             </div>
           )}
 
 
+          {isChangedError && (
+            <div className="flex items-center  justify-center">
+              <ErrorMessage message={isChangedError} type="error" />
+            </div>
+          )}
 
-          <Modal.Footer style={{ border: "none", padding:15}} className="mt-1">
+
+          <Modal.Footer className="border-0 p-3 mt-1">
             <Button
               onClick={handleCreateFloor}
-              className="w-100 m-0"
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                padding: 12,
-              }}
+              className="w-100 m-0 !bg-[#1e45e1] !font-semibold !rounded-xl !py-3 !font-gilroy"
             >
               {updateFloor ? "Save Changes" : "Add Floor"}
             </Button>
