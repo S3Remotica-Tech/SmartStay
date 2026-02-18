@@ -260,9 +260,9 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                         </Form.Label>
 
                         <div className="datepicker-wrapper relarive w-full mt-1">
-                             <div className="datepicker-wrapper relative w-full" >
-                                <DatePicker   ref={readingDateRef}
-                                   className="w-full h-12 cursor-pointer font-gilroy"
+                            <div className="datepicker-wrapper relative w-full" >
+                                <DatePicker ref={readingDateRef}
+                                    className="w-full h-12 cursor-pointer font-gilroy"
                                     format="DD/MM/YYYY"
                                     placeholder="DD/MM/YYYY"
                                     value={readingDate ? dayjs(readingDate) : null}
@@ -272,8 +272,11 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                                 />
                             </div>
                         </div>
-                       
 
+                        {dateError && (
+                            <ErrorMessage message={dateError} type="error" />
+
+                        )}
                     </Form.Group>
 
 

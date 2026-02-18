@@ -298,8 +298,10 @@ function Booking() {
                 options={selectOptions}
                 styles={CustomStyles}
                 disabled={!canReadBooking}
-                onChange={handleStatusFilter}
+                onChange={(e) => handleStatusFilter(e)}
                 value={statusfilter}
+                aria-label="Select"
+                id="statusselect"
               />
             </div>
 
@@ -308,6 +310,9 @@ function Booking() {
               value={selectedMonth}
               onChange={handleMonthChange}
               styles={CustomStyles}
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No options"}
             />
 
             <button

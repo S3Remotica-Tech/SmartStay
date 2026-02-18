@@ -1120,7 +1120,8 @@ const Compliance = () => {
                 <img
                   src={Emptystate}
                   alt="Empty State"
-                 />
+                  className='w-full max-w-full h-auto'
+                />
 
                 <ErrorMessage
                   message={['You do not have access to view Compliants']}
@@ -1141,6 +1142,9 @@ const Compliance = () => {
                       complaints={complaints}
                       onEditComplaints={handleEditcomplaint}
                       onAssignshow={handleAssignShow}
+                      // complianceAddPermission={complianceAddPermission}
+                      // complianceEditPermission={complianceEditPermission} 
+                      // complianceDeletePermission={complianceDeletePermission} 
                       disableActions={state?.login?.planStatus === 0}
                     />
                   </div>
