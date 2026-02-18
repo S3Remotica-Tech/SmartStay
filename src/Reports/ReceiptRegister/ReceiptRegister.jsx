@@ -32,7 +32,7 @@ function ReceiptRegister() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [size, setSize] = useState('');
   const [page, setPage] = useState(0);
-  const skipApiRef = useRef(false);
+  // const skipApiRef = useRef(false);
 
   const isInitialLoad = useRef(true);
   const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
@@ -163,21 +163,7 @@ function ReceiptRegister() {
 
   const handleClickFilter = () => {
     setInvoiceFilter(true)
-    dispatch({
-      type: "SET_RECEIPT_REGISTER_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        invoiceType: [],
-        collectedBy: [],
-        period: undefined,
-        paymentMode: [],
-        createdByLabels: [],
-      },
-    })
-
-
-  }
+     }
 
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false)
@@ -406,11 +392,22 @@ function ReceiptRegister() {
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
+
+
+ const receiptFilters = state.reports?.receiptRegisterFilters;
+
+ console.log("invoiceFilters", receiptFilters)
+
     const filters = {
       startDate: startDate,
       endDate: endDate,
-      size,
-      page,
+      size:size,
+      page:page,
+      invoiceType:receiptFilters?.invoiceType,
+      paymentMode: receiptFilters?.paymentMode,
+      collectedBy:receiptFilters?.collectedBy,
+      period: receiptFilters?.period,
+
     };
     dispatch({
       type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",

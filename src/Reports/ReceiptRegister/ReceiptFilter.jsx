@@ -26,7 +26,6 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState([]);
     const [formLoading, setFormLoading] = useState(false)
 
-    console.log("selectedCollectedBylabels", selectedCollectedBylabels)
 
     const selectStyles = {
         control: (base) => ({
@@ -146,12 +145,31 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
         })) || [];
 
 
+    const filters = state.reports?.receiptRegisterFilters;
+
+    useEffect(() => {
+        if (show && filters) {
+            setSelectedInvoiceType(filters.invoiceType || []);
+            setSelectedPaymentMode(filters.paymentMode || []);
+            setSelectedCollectedBy(filters.collectedBy || [])
+            
+            const selectedPeriodOption = periodOptions.find(opt =>
+                opt.value === filters.period
+            );
+            setSelectedPeriod(selectedPeriodOption || null);
+
+        }
+    }, [show]);
+
+
+
+
     const handleInvoiceTypeChange = (selected) => {
         setSelectedInvoiceType(selected.map(opt => opt.value));
     };
 
     const selectedTypeOptions = typeOptions.filter(opt =>
-        selectedInvoiceType.includes(opt.value)
+        selectedInvoiceType?.includes(opt.value)
     );
 
 
@@ -161,7 +179,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     };
 
     const selectedPaymentModeOptions = paymentModeOptions.filter(opt =>
-        selectedPaymentMode.includes(opt.value)
+        selectedPaymentMode?.includes(opt.value)
     );
 
     const handleCollectedByChange = (selected) => {
@@ -170,7 +188,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     };
 
     const selectedCollectedByOptions = collectedByOptions.filter(opt =>
-        selectedCollectedBy.includes(opt.value)
+        selectedCollectedBy?.includes(opt.value)
     );
 
 
@@ -263,7 +281,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
             page: page,
             size: size,
             startDate: selectedPeriod?.value ? undefined : startDate,
-        endDate: selectedPeriod?.value ? undefined : endDate,
+            endDate: selectedPeriod?.value ? undefined : endDate,
         };
 
 
@@ -292,7 +310,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     };
 
 
- useEffect(() => {
+    useEffect(() => {
         if (state.createAccount?.networkError) {
             setFormLoading(false);
             setTimeout(() => {
@@ -309,7 +327,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
             <Offcanvas
                 show={show}
                 onHide={handleClose}
-                placement="end" 
+                placement="end"
             >
                 <Offcanvas.Header >
                     <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, display: "flex", alignItems: "center" }}> <Filter className='me-2' size="20" color="#364153" />Filter</Offcanvas.Title>
