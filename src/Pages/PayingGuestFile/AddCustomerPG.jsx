@@ -605,39 +605,15 @@ function AddCustomer({ showMenu, handleClose }) {
         dialogClassName="custom-modal custom-modal-width"
       >
         <Modal.Dialog
-          style={{
-            maxWidth: 800,
-            paddingRight: "10px",
-            borderRadius: "30px",
-            marginTop: '-40px',
-            marginBottom: '100px'
-          }}
-          className="m-0 p-0"
+          className="w-full !max-w-[800px] !w-[800px] pr-2 rounded-[30px] -mt-10 mb-24 m-0 p-0"
         >
-          <Modal.Body className="p-0 " >
-            <div style={{ overflowY: "auto", }} className="d-flex justify-content-center  p-2">
-              {/* Sidebar */}
-              <div
-                className="p-4"
-                style={{
-                  width: '250px',
-                  minWidth: '240px',
-                  backgroundColor: '#f4f8ff',
-                  borderTopLeftRadius: '20px',
-                  borderBottomLeftRadius: '20px',
-                }}
-              >
-                <h5 className="mb-4" style={{ fontFamily: "Gilroy" }}>Add New Tenant</h5>
-                {/* Step 1 */}
-                <div className="d-flex align-items-center mb-4">
+          <Modal.Body className="p-0">
+            <div className="flex justify-center overflow-auto p-2">
+              <div className="p-4 w-[250px] min-w-[240px] bg-[#f4f8ff] rounded-tl-[20px] rounded-bl-[20px]" >
+                <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
+                <div className="flex items-center mb-4">
                   <div
-                    className="rounded-circle d-flex justify-content-center align-items-center"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      backgroundColor: step === 1 ? "#1E45E1" : "#ffffff",
-                      border: "1px solid #1E45E1",
-                    }}
+                    className={`rounded-full flex items-center justify-center w-8 h-8 border ${step === 1 ? "bg-[#1E45E1]" : "bg-white"} border-[#1E45E1]`}
                   >
                     {step === 1 ?
                       <img
@@ -647,11 +623,9 @@ function AddCustomer({ showMenu, handleClose }) {
                         width={15}
                       />
                       :
-                      <RiShoppingBag3Line
-                        style={{ color: "#1E45E1" }}
-                      />}
+                      <RiShoppingBag3Line className="text-[#1E45E1]" />}
                   </div>
-                  <span className="ms-2" style={{ fontFamily: "Gilroy", fontSize: "14px" }}>
+                  <span className="ml-2 font-gilroy text-sm">
                     Step 1
                     <br />
                     <small>Basic Details</small>
@@ -659,15 +633,8 @@ function AddCustomer({ showMenu, handleClose }) {
                 </div>
 
                 {/* Step 2 */}
-                <div className="d-flex align-items-center mb-4">
-                  <div
-                    className="rounded-circle d-flex justify-content-center align-items-center"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      backgroundColor: step === 2 ? "#1E45E1" : "#ffffff",
-                      border: "1px solid #1E45E1",
-                    }}
+                <div className="flex items-center mb-4">
+                  <div className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
                   >
                     <img
                       src={step === 2 ? Flipbackward : FlipbackwardBlue}
@@ -676,7 +643,7 @@ function AddCustomer({ showMenu, handleClose }) {
                       width={15}
                     />
                   </div>
-                  <span className="ms-2" style={{ fontFamily: "Gilroy", fontSize: "14px" }}>
+                  <span className="ml-2 font-gilroy text-sm">
                     Step 2
                     <br />
                     <small>Address Details</small>
@@ -687,43 +654,24 @@ function AddCustomer({ showMenu, handleClose }) {
               </div>
 
               <div
-                className="flex-grow-1 position-relative"
-                style={{
-                  backgroundColor: '#fff',
-                  borderTopRightRadius: '20px',
-                  borderBottomRightRadius: '20px',
-                  overflowY: 'auto',
-                  padding: '15px',
-                }}
-              >
-                <div
-                  className="d-flex justify-content-between align-items-start px-2 py-1"
-                  style={{
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 10,
-                    backgroundColor: '#fff',
-                    borderBottom: '1px solid #eee',
-                  }}
-                >
-                  <h5 style={{ fontFamily: 'Gilroy', fontWeight: 600 }}>
+                className="flex-1 relative bg-white rounded-tr-[20px] rounded-br-[20px] overflow-y-auto p-2.5">
+                <div className="flex justify-between items-start px-2 py-1 sticky top-0 z-10 bg-white border-b border-[#eee]">
+                  <h5 className="font-giroy font-semibold">
                     {step === 1 ? "Basic Details" : "Address Details"}
                   </h5>
-                  <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: 'pointer' }} />
+                  <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
                 </div>
-                <div className="show-scrolls ms-2 mt-1" style={{ overflowY: 'auto', maxHeight: "440px", overflowX: 'hidden', backgroundColor: "" }}>
+                <div className="show-scrolls ml-2 mt-1 overflow-y-auto overflow-x-hidden max-h-[440px] bg-transparent">
 
                   <div className="m-2">
                     {step === 1 && (
                       <>
-                        <div className="row">
-                          <div className="d-flex flex-column">
 
-                            <div className="d-flex align-items-center mt-1">
-                              <div
-                                className=""
-                                style={{ height: 100, width: 100, position: "relative" }}
-                              >
+                        <div className="grid grid-cols-12 gap-3">
+                          <div className="col-span-12 flex flex-col">
+
+                            <div className="flex items-center mt-1">
+                              <div className="relative h-[100px] w-[100px]">
                                 <Image
                                   src={
                                     file
@@ -732,201 +680,95 @@ function AddCustomer({ showMenu, handleClose }) {
                                         : URL.createObjectURL(file)
                                       : Profile
                                   }
-                                  roundedCircle
-                                  style={{ height: 100, width: 100, cursor: "pointer" }}
+                                  className="rounded-full h-[100px] w-[100px] cursor-pointer"
                                 />
 
-                                <label htmlFor="imageInput" className="">
+                                <label htmlFor="imageInput">
                                   <Image
                                     src={Plus}
-                                    roundedCircle
-                                    style={{
-                                      height: 20,
-                                      width: 20,
-                                      position: "absolute",
-                                      top: 90,
-                                      left: 80,
-                                      transform: "translate(-50%, -50%)",
-                                      cursor: "pointer"
-                                    }}
+                                    className="absolute h-[20px] w-[20px] top-[90px] left-[80px] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full"
                                   />
                                   <input
                                     type="file"
                                     accept="image/*"
                                     multiple
-                                    className="sr-only"
                                     id="imageInput"
                                     onChange={handleImageChange}
-                                    style={{ display: "none" }}
+                                    className="sr-only"
                                   />
                                 </label>
                               </div>
-                              <div className="ps-3">
+
+                              <div className="pl-5">
                                 <div>
-                                  <label
-                                    style={{
-                                      fontSize: 16,
-                                      fontWeight: 500,
-                                      color: "#222222",
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
+                                  <label className="text-base font-medium text-[#222222] font-gilroy">
                                     Profile Photo
                                   </label>
                                 </div>
                                 <div>
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
+                                  <label className="text-sm font-medium text-[#4B4B4B] font-gilroy">
                                     Max size of image 10MB
                                   </label>
                                 </div>
                               </div>
                             </div>
 
-                            <div className="row mt-4">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                <Form.Group className="mb-1">
-                                  <Form.Label
-                                    style={{
-                                      fontSize: 14,
-                                      color: "#222222",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    First Name{" "}
-                                    <span style={{ color: "red", fontSize: "20px" }}>
-                                      {" "}
-                                      *{" "}
-                                    </span>
-                                  </Form.Label>
-                                  <FormControl
-                                    id="form-controls"
-                                    placeholder="Enter First Name"
-                                    type="text"
-                                    ref={firstnameRef}
-                                    value={firstname}
-                                    onChange={(e) => handleFirstName(e)}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: firstname ? 600 : 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 40,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
+                            <div className="mt-4 col-span-12">
+
+                              <Form.Group className="mb-1">
+                                <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                                  First Name{" "}
+                                  <span className="text-red-500 text-[20px]">*</span>
+                                </Form.Label>
+                                <FormControl
+                                  id="form-controls"
+                                  placeholder="Enter First Name"
+                                  type="text"
+                                  ref={firstnameRef}
+                                  value={firstname}
+                                  onChange={(e) => handleFirstName(e)}
+                                  className={`text-base text-[#4B4B4B] font-gilroy ${firstname ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                />
                                 {firstnameError && (
-
                                   <ErrorMessage message={firstnameError} type="error" />
-
                                 )}
-                              </div>
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <Form.Group className="mb-1">
-                                  <Form.Label
-                                    style={{
-                                      marginTop: "10px",
-                                      fontSize: 14,
-                                      color: "#222222",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    Last Name{" "}
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    id="form-controls"
-                                    placeholder="Enter Last Name"
-                                    value={lastname}
-                                    onChange={(e) => handleLastName(e)}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: lastname ? 600 : 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 40,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
-                              </div>
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              </Form.Group>
+
+                              <Form.Group className="mb-1">
+                                <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                                  Last Name
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder="Enter Last Name"
+                                  value={lastname}
+                                  onChange={(e) => handleLastName(e)}
+                                  className={`text-base text-[#4B4B4B] font-gilroy ${lastname ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                />
+                              </Form.Group>
+
+                              <div className="col-span-12">
                                 <Form.Group
                                   className="mb-1" >
-                                  <Form.Label
-                                    style={{
-                                      fontSize: 14,
-                                      color: "#222222",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
+                                  <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
                                     Mobile Number{" "}
-                                    <span style={{ color: "red", fontSize: "20px" }}>
+                                    <span className="text-red-500 text-[20px]">
                                       {" "}
                                       *{" "}
                                     </span>
                                   </Form.Label>
 
                                   <InputGroup>
-                                    {/* <Form.Select
-                                      value={countryCode}
-                                      id="vendor-select-pg"
-                                      onMouseDown={(e) => e.preventDefault()}
-                                      style={{
-                                        border: "1px solid #D9D9D9",
-
-                                        borderRadius: "8px 0 0 8px",
-                                        height: 40,
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: countryCode ? 600 : 300,
-                                        boxShadow: "none",
-                                        backgroundColor: "#fff",
-                                        maxWidth: 90,
-                                        paddingRight: 10,
-                                         cursor: "default",
-    pointerEvents: "none"
-                                      }}
-                                    >
-                                      <option>{countryCode}</option>
-                                    </Form.Select> */}
 
                                     <div
-                                      className="d-flex align-items-center justify-content-between gap-2"
-                                      style={{
-                                        border: "1px solid #D9D9D9",
-                                        borderRadius: "8px 0 0 8px",
-                                        height: 40,
-                                        maxWidth: 150,
-                                        padding: "0 10px",
-                                        backgroundColor: "#fff",
-                                        fontFamily: "Gilroy",
-                                        fontSize: 16,
-                                        fontWeight: countryCode ? 600 : 300,
-                                        color: "#4B4B4B",
-                                        cursor: "default",
-                                        userSelect: "none"
-                                      }}
-                                    >
-                                     
+                                      className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${countryCode ? "font-semibold" : "font-light"
+                                        }`} >
                                       <span>+{countryCode}</span>
 
-<ArrowDown2 size="18" />
+                                      <ArrowDown2 size="18" />
                                     </div>
 
                                     <Form.Control
@@ -936,19 +778,8 @@ function AddCustomer({ showMenu, handleClose }) {
                                       type="text"
                                       placeholder="Enter Mobile Number"
                                       maxLength={10}
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: Phone ? 600 : 500,
-                                        boxShadow: "none",
-                                        borderLeft: "unset",
-                                        borderRight: "1px solid #D9D9D9",
-                                        borderTop: "1px solid #D9D9D9",
-                                        borderBottom: "1px solid #D9D9D9",
-                                        height: 40,
-                                        borderRadius: "0 8px 8px 0",
-                                      }}
+                                      className={`text-base text-[#4B4B4B] font-gilroy ${Phone ? "font-semibold" : "font-medium"
+                                        } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
                                     />
                                   </InputGroup>
 
@@ -963,83 +794,43 @@ function AddCustomer({ showMenu, handleClose }) {
                                   )}
                                 </Form.Group>
                               </div>
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <Form.Group className="mb-1">
-                                  <Form.Label
-                                    style={{
-                                      fontSize: 14,
-                                      color: "#222222",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      marginTop: "10px",
-                                    }}
-                                  >
-                                    Email ID{" "}
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    id="form-controls"
-                                    placeholder="Enter Email ID"
-                                    value={Email}
-                                    ref={emailRef}
-                                    onChange={(e) => handleEmail(e)}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: Email ? 600 : 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 40,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                  {emailError && (
-                                    <ErrorMessage message={emailError} type="error" />
-                                  )}
-                                  {state.UsersList.emailError && (
-                                    <ErrorMessage message={state.UsersList.emailError} type="error" />
-                                  )}
-                                  {emailErrorMessage && (
-                                    <ErrorMessage message={emailErrorMessage} type="error" />
-                                  )}
-                                </Form.Group>
-                              </div>
-                            </div>
 
+                              <Form.Group className="mb-1">
+                                <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                                  Email ID
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder="Enter Email ID"
+                                  value={Email}
+                                  ref={emailRef}
+                                  onChange={(e) => handleEmail(e)}
+                                  className={`text-base text-[#4B4B4B] font-gilroy ${Email ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                />
+                                {emailError && <ErrorMessage message={emailError} type="error" />}
+                                {state.UsersList.emailError && (
+                                  <ErrorMessage message={state.UsersList.emailError} type="error" />
+                                )}
+                                {emailErrorMessage && (
+                                  <ErrorMessage message={emailErrorMessage} type="error" />
+                                )}
+                              </Form.Group>
+                            </div>
                           </div>
-                          {state.createAccount?.networkError &&
-                            <ErrorMessage message={state.createAccount?.networkError} type="error" />
-                          }
                         </div>
 
+
                         <div className="d-flex justify-content-end mt-3">
-                          <Button disabled={formLoading} style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: "12px",
-                            marginBottom: "10px",
-                            maxHeight: 45,
-                            width: "146px",
-                            whiteSpace: "nowrap",
-                          }} onClick={handleSaveUserlist}>Save Info</Button>
-                          <Button style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            backgroundColor: "white",
-                            color: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: "12px",
-                            marginBottom: "10px",
-                            maxHeight: 45,
-                            width: "146px",
-                            whiteSpace: "nowrap", marginLeft: 10, marginRight: 10
-                          }} onClick={handleNext}>Next</Button>
+                          <Button disabled={formLoading}
+                            className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
+                            onClick={handleSaveUserlist}>
+                            Save Info
+                          </Button>
+                          <Button
+                            className="!font-gilroy text-sm bg-white !text-[#1E45E1] !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                            onClick={handleNext}>Next</Button>
 
                         </div>
                       </>
@@ -1049,17 +840,11 @@ function AddCustomer({ showMenu, handleClose }) {
 
                     {step === 2 && (
                       <>
-                        <div className="row mt-2">
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+
+                        <div className="grid grid-cols-1 gap-2 mt-2">
+                          <div className="col-span-1 mb-1">
+                            <Form.Group>
+                              <Form.Label className="text-sm text-gray-900 font-gilroy font-medium" >
                                 Flat , House no , Building , Company , Apartment{" "}
                               </Form.Label>
                               <FormControl
@@ -1068,16 +853,8 @@ function AddCustomer({ showMenu, handleClose }) {
                                 placeholder="Enter House No"
                                 value={house_no}
                                 onChange={(e) => handleHouseNo(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: house_no ? 600 : 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 40,
-                                  borderRadius: 8,
-                                }}
+                                className={`text-base text-gray-700 font-gilroy ${house_no ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
                               />
                             </Form.Group>
                             {house_noError && (
@@ -1085,16 +862,9 @@ function AddCustomer({ showMenu, handleClose }) {
                             )}
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                          <div className="col-span-1 mb-1">
+                            <Form.Group>
+                              <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                                 Area , Street , Sector , Village{" "}
                               </Form.Label>
                               <FormControl
@@ -1103,16 +873,9 @@ function AddCustomer({ showMenu, handleClose }) {
                                 placeholder="Enter Street"
                                 value={street}
                                 onChange={(e) => handleStreetName(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: street ? 600 : 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 40,
-                                  borderRadius: 8,
-                                }}
+                                className={`text-base text-gray-700 font-gilroy ${street ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+
                               />
                             </Form.Group>
                             {streetError && (
@@ -1120,15 +883,10 @@ function AddCustomer({ showMenu, handleClose }) {
                             )}
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                          <div className="col-span-1 mb-1">
                             <Form.Group className="">
                               <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                                className="text-sm text-gray-900 font-gilroy font-medium"
                               >
                                 Landmark{" "}
                               </Form.Label>
@@ -1138,16 +896,9 @@ function AddCustomer({ showMenu, handleClose }) {
                                 placeholder="E.g , near appollo hospital"
                                 value={landmark}
                                 onChange={(e) => handleLandmark(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: landmark ? 600 : 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 40,
-                                  borderRadius: 8,
-                                }}
+                                className={`text-base text-gray-700 font-gilroy ${landmark ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+
                               />
                             </Form.Group>
                             {landmarkError && (
@@ -1155,19 +906,11 @@ function AddCustomer({ showMenu, handleClose }) {
                             )}
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div className="col-span-1">
                             <Form.Group
-                              className=""
                               controlId="exampleForm.ControlInput1"
                             >
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
+                              <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                                 Pincode
 
                               </Form.Label>
@@ -1180,16 +923,9 @@ function AddCustomer({ showMenu, handleClose }) {
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 placeholder="Enter Pincode"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: pincode ? 600 : 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 40,
-                                  borderRadius: 8,
-                                }}
+                                className={`text-base text-gray-700 font-gilroy ${pincode ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+
                               />
 
                               {pincodeError && (
@@ -1199,19 +935,9 @@ function AddCustomer({ showMenu, handleClose }) {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                            <Form.Group className="">
-                              <Form.Label
-                                style={{
-                                  fontSize: 14,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Town/City{" "}
-
-                              </Form.Label>
+                          <div className="col-span-1 mb-1">
+                            <Form.Group>
+                              <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">Town/City{" "}</Form.Label>
                               <FormControl
                                 type="text"
                                 id="form-controls"
@@ -1219,16 +945,9 @@ function AddCustomer({ showMenu, handleClose }) {
                                 value={city}
                                 ref={cityRef}
                                 onChange={(e) => handleCity(e)}
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: city ? 600 : 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 40,
-                                  borderRadius: 8,
-                                }}
+                                className={`text-base text-gray-700 font-gilroy ${city ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+
                               />
                             </Form.Group>
                             {cityError && (
@@ -1236,24 +955,13 @@ function AddCustomer({ showMenu, handleClose }) {
                             )}
                           </div>
 
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div className="col-span-1">
                             <Form.Group
                               className="mb-3"
                               controlId="exampleForm.ControlInput5"
                             >
-                              <Form.Label
-                                style={{
-                                  fontFamily: "Gilroy",
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  color: "#222",
-                                  fontStyle: "normal",
-                                  lineHeight: "normal",
-                                }}
-                              >
-                                State
-
-                              </Form.Label>
+                              <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
+                                State </Form.Label>
 
                               <Select
                                 options={indianStates}
@@ -1333,79 +1041,34 @@ function AddCustomer({ showMenu, handleClose }) {
 
                           </div>
 
-
-
-
-
                         </div>
 
-
-                        <div className="d-flex justify-content-end mt-3">
-                          <Button style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            backgroundColor: "white",
-                            color: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: "12px",
-                            marginBottom: "10px",
-                            maxHeight: 45,
-                            width: "146px",
-                            whiteSpace: "nowrap",
-                          }} onClick={handlePrevious}>Previous</Button>
-                          <Button disabled={formLoading} style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: "12px",
-                            marginBottom: "10px",
-                            maxHeight: 45,
-                            width: "146px",
-                            whiteSpace: "nowrap", marginLeft: 10, marginRight: 10
-                          }} onClick={handleSaveUserlist}>Create Tenant</Button>
+                        <div className="flex justify-end mt-3">
+                          <Button className="!font-gilroy !text-sm bg-white !text-blue-700 !font-semibold !rounded-md mb-2 h-11 w-36 whitespace-nowrap"
+                            onClick={handlePrevious}>
+                            Previous
+                          </Button>
+                          <Button disabled={formLoading}
+                            className="!font-gilroy !text-sm !bg-blue-700 !text-white !font-semibold rounded-md px-4 mb-2 mx-2 h-11 w-36 whitespace-nowrap"
+                            onClick={handleSaveUserlist}>
+                            Create Tenant
+                          </Button>
 
                         </div>
                       </>
                     )}
-
-
-
-
                   </div>
                 </div>
               </div>
             </div>
           </Modal.Body>
-          {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+
+          {formLoading && (
+            <div className="absolute inset-x-0 top-24 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+              <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
+            </div>
+          )}
+
 
         </Modal.Dialog>
       </Modal>
