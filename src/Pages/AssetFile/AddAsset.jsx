@@ -50,8 +50,8 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-  useEffect(() => {
 
+  useEffect(() => {
     if (assetNameRef.current) {
       assetNameRef.current.focus();
     }
@@ -59,7 +59,6 @@ function StaticExample({ show, setShow, currentItem }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
-      dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
   }, []);
 
@@ -516,16 +515,9 @@ function StaticExample({ show, setShow, currentItem }) {
   return (
     <div>
       <div
-        className="modal show"
-        style={{
-          display: "block",
-          position: "initial",
-        }}
-      >
-        <Modal show={show} onHide={handleClose} backdrop="static"
-
-        >
-          <Modal.Dialog className="m-0 p-0 w-full max-w-full" >
+        className="modal show block static">
+        <Modal show={show} onHide={handleClose} backdrop="static">
+          <Modal.Dialog className="m-0 p-0 w-full max-w-full"  >
             <Modal.Header>
               <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold" >
                 {currentItem ? "Edit an Asset" : "Add Assets"}
@@ -534,7 +526,7 @@ function StaticExample({ show, setShow, currentItem }) {
               <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
             </Modal.Header>
 
-            <Modal.Body className="show-scroll p-3 mt-2 mr-3 max-h-96 overflow-y-scroll mb-2">
+            <Modal.Body className="show-scroll p-3 mt-2 mr-3 max-h-96 overflow-y-scroll mb-2"style={{ height: 390, maxHeight: 400 }}>
                  <div className="grid grid-cols-12 gap-x-4 gap-y-3 -mt-2">
 
                 <div className="col-span-12 lg:col-span-6">
@@ -756,12 +748,10 @@ function StaticExample({ show, setShow, currentItem }) {
                           setJoingDateErrmsg('')
                           setSelectedDate(date);
                         }}
-
                         disabledDate={(current) => current && current > dayjs().endOf("day")}
-
-                        getPopupContainer={(triggerNode) =>
-                          triggerNode.closest(".datepicker-wrapper")
-                        }
+                        getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000, left: '570px' }}
+                        placement="bottomLeft"
                       />
                     </div>
                   </Form.Group>
@@ -800,7 +790,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 {
                   !currentItem &&
 
-                  <div className="col-span-12 lg:col-span-6">
+                  <div className="col-span-12 lg:col-span-6 mt-1">
                     <Form.Group
 
                       controlId="exampleForm.ControlInput1"
@@ -829,7 +819,8 @@ function StaticExample({ show, setShow, currentItem }) {
                         onMenuClose={() => setIsSelectOpen(false)}
                         placeholder="Select Payment"
                         isDisabled={currentItem}
-                        className=""
+                        menuPlacement="top"
+                      
                         styles={{
                           control: (base) => ({
                             ...base,
@@ -840,7 +831,7 @@ function StaticExample({ show, setShow, currentItem }) {
                             border: "1px solid #D9D9D9",
                             borderRadius: "8px",
                             boxShadow: "none",
-                            height: 48,
+                            height: 50,
                             cursor: "pointer",
                           }),
                           menu: (base) => ({
@@ -919,14 +910,11 @@ function StaticExample({ show, setShow, currentItem }) {
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
 
-
-
-
-            <div className={`col-span-12 px-3 pb-4 ${isSelectOpen ? "pt-5" : "pt-0"}`}>
+             <div className="col-span-12 px-3 pb-4">
 
               <Button
                 onClick={handleAddAsset}
-                className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[17px] !font-gilroy p-3"
+                className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[17px] !font-gilroy p-3 mt-2"
                
               >
                 {currentItem ? "Save Changes" : "Add Asset"}

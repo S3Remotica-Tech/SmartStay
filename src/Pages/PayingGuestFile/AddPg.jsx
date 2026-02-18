@@ -55,7 +55,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
 
- 
+
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -154,7 +154,7 @@ function AddPg({ show, handleClose, currentItem }) {
     if (pgNameRef.current) {
       pgNameRef.current.focus();
     }
-  }, []); 
+  }, []);
   const handlePgNameChange = (e) => {
     const value = e.target.value;
     setPgNameError("");
@@ -172,8 +172,8 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleHouseNo = (e) => {
     const value = e.target.value;
-    
- const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+
+    const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setHouseNo(value);
@@ -186,7 +186,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleStreetName = (e) => {
     const value = e.target.value;
-   const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+    const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setStreet(value);
@@ -201,7 +201,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleLandmark = (e) => {
     const value = e.target.value;
-  const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+    const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setLandmark(value);
@@ -476,14 +476,14 @@ function AddPg({ show, handleClose, currentItem }) {
         payload: {
           mainImage: file,
           hostelId: currentItem?.hostelId,
-        additionalImages: images
-  .map((img, i) => {
-    if (img.isChanged) {
-      return img.image; 
-    }
-    return currentItem.images?.[i]?.image || null;
-  })
-  .filter(Boolean),
+          additionalImages: images
+            .map((img, i) => {
+              if (img.isChanged) {
+                return img.image;
+              }
+              return currentItem.images?.[i]?.image || null;
+            })
+            .filter(Boolean),
 
           payloads: {
             hostelName: pgName,
@@ -683,13 +683,13 @@ function AddPg({ show, handleClose, currentItem }) {
     // }
 
     setImages((prevImages) => {
-    const updatedImages = [...prevImages];
-    updatedImages[index] = {
-      image: null,
-      isChanged: true,  
-    };
-    return updatedImages;
-  });
+      const updatedImages = [...prevImages];
+      updatedImages[index] = {
+        image: null,
+        isChanged: true,
+      };
+      return updatedImages;
+    });
   };
 
 
@@ -710,47 +710,26 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
   return (
-    <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-      }}
-    >
+    <div className="modal show block static">
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Header>
-          <Modal.Title
-            style={{
-              fontSize: 18,
-              color: "#222222",
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-            }}
-          >
+          <Modal.Title className="!text-gray-900 !font-semibold !text-lg !font-gilroy">
             {currentItem ? "Edit Paying Guest" : "Add Paying Guest"}
           </Modal.Title>
           <CloseCircle
             size="24"
             color="#000"
             onClick={handleClose}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
         </Modal.Header>
         {generalError && (
           <ErrorMessage message={generalError} type="error" />
         )}
 
-
-        <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-1 me-3">
-
-
-
-
-          <div className="d-flex align-items-center">
-            <div
-              className=""
-              style={{ height: 100, width: 100, position: "relative" }}
-            >
+        <Modal.Body className="show-scroll mt-1 mr-3 max-h-96 overflow-y-scroll">
+          <div className="flex items-center">
+            <div className="h-24 w-24 relative">
               <Image
                 src={
                   file
@@ -760,63 +739,42 @@ function AddPg({ show, handleClose, currentItem }) {
                     : Profile2
                 }
                 roundedCircle
-                style={{ height: 100, width: 100 }}
+                className="h-24 w-24"
               />
-              <label htmlFor="imageInput" className="">
+              <label htmlFor="imageInput">
                 <Image
                   src={Plus}
                   roundedCircle
-                  style={{
-                    height: 20,
-                    width: 20,
-                    position: "absolute",
-                    top: 90,
-                    left: 80,
-                    transform: "translate(-50%, -50%)",
-                    cursor: "pointer",
-                  }}
+                  className="h-5 w-5 absolute top-[85px] left-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
                 />
                 <input
                   type="file"
                   accept="image/*"
                   multiple
-                  className="sr-only"
                   id="imageInput"
                   onChange={handleImageChange}
-                  style={{ display: "none" }}
+                  className="hidden sr-only"
                 />
               </label>
             </div>
-            <div className="ps-3">
+
+            <div className="pl-4">
               <div>
-                <label
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                  }}
-                >
+                <label className="text-base font-medium text-gray-900 font-gilroy">
                   Image
                 </label>
               </div>
               <div>
-                <label
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                  }}
-                >
+                <label className="text-sm font-medium text-gray-700 font-gilroy">
                   Max size of image 10MB
                 </label>
               </div>
             </div>
+
           </div>
 
-          <div className="row mt-4">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+          <div className="grid grid-cols-12 gap-x-4 gap-y-0 mt-4">
+            <div className="col-span-12 mb-2">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -830,9 +788,9 @@ function AddPg({ show, handleClose, currentItem }) {
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
-                  value={pgName} 
+                  value={pgName}
                   onChange={handlePgNameChange}
-                  type="text" 
+                  type="text"
                   ref={pgNameRef}
                   placeholder="Enter PG Name"
                   style={{
@@ -854,7 +812,7 @@ function AddPg({ show, handleClose, currentItem }) {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6 mb-2">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -922,7 +880,7 @@ function AddPg({ show, handleClose, currentItem }) {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6 mb-2">
               <Form.Group controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -961,7 +919,7 @@ function AddPg({ show, handleClose, currentItem }) {
               )}
             </div>
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+            <div className="col-span-12 mb-1">
               <Form.Group className="mb-1">
                 <Form.Label
                   style={{
@@ -996,7 +954,7 @@ function AddPg({ show, handleClose, currentItem }) {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6 mb-1">
               <Form.Group className="mb-1">
                 <Form.Label
                   style={{
@@ -1031,7 +989,7 @@ function AddPg({ show, handleClose, currentItem }) {
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6 mb-1">
               <Form.Group className="mb-1">
                 <Form.Label
                   style={{
@@ -1065,7 +1023,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 <ErrorMessage message={landmarkError} type="error" />
               )}
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
@@ -1108,7 +1066,7 @@ function AddPg({ show, handleClose, currentItem }) {
               </Form.Group>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6 mb-1">
               <Form.Group className="">
                 <Form.Label
                   style={{
@@ -1145,7 +1103,7 @@ function AddPg({ show, handleClose, currentItem }) {
               )}
             </div>
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="col-span-12 ">
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput5"
@@ -1242,15 +1200,8 @@ function AddPg({ show, handleClose, currentItem }) {
             </div>
           </div>
 
-          <div className="row">
-            <Form.Label
-              style={{
-                fontSize: 14,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
+          <div className="grid grid-cols-12 gap-x-3">
+            <Form.Label className="text-sm text-gray-900 font-medium font-sans col-span-12 mb-0" >
               Images{" "}
             </Form.Label>
 
@@ -1260,32 +1211,19 @@ function AddPg({ show, handleClose, currentItem }) {
               return (
                 <div
                   key={index}
-                  className="col-lg-3 col-md-3 col-sm-12 col-xs-12 no-height-override"
+                  className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-3 no-height-override"
                 >
-                  <Card
-                    style={{
-                      border: img.image
-                        ? "1px solid rgba(217, 217, 217, 0.5)"
-                        : "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      height: 120,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      padding: 0,
-                    }}
-                    className="m-0"
+                  <div
+                    className={`flex flex-col justify-center items-center cursor-pointer p-0 rounded-md h-32 m-0
+    ${img.image ? "border border-gray-300/50" : "border border-gray-300"}`}
                   >
                     {imageSrc ? (
-                      <div
-                        style={{ position: "relative" }}
+                      <div className="relative"
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={handleMouseLeave}
                       >
                         <Image
-                          className="img-fluid"
+                          className="object-cover rounded-md h-32 cursor-pointer w-full"
                           src={
                             imageSrc &&
                             (typeof imageSrc === "string"
@@ -1293,61 +1231,28 @@ function AddPg({ show, handleClose, currentItem }) {
                               : URL.createObjectURL(imageSrc))
                           }
                           alt={`currentItem-image-${index}`}
-                          style={{
-                            objectFit: imageSrc && "cover",
-                            borderRadius: 5,
-                            height: 120,
-                            cursor: "pointer",
-                          }}
+
                         />
 
                         {displayLayer === index && (
-                          <div
-                            style={{
-                              borderRadius: 5,
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              height: 120,
-                              width: "100%",
-                              transition: "opacity 0.3s ease-in-out",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              padding: 5,
-                            }}
+                          <div className="absolute top-0 left-0 w-full h-full bg-black/50 rounded-md flex items-center justify-center p-1 transition-opacity duration-300 ease-in-out"
                           >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                borderRadius: 100,
-                                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                                padding: 5,
-                                width: "100%",
-                              }}
-                            >
+                            <div className="flex justify-between w-full rounded-full bg-white/50 p-1">
                               <label htmlFor={`imageUpload${index}`}>
                                 <Gallery
                                   size="24"
                                   color="#FFF"
                                   variant="Bold"
-                                  style={{ cursor: "pointer" }}
+                                  className="cursor-pointer"
                                 />
                               </label>
-                              <div
-                                style={{
-                                  width: 2,
-                                  backgroundColor: "#fff",
-                                  height: "auto",
-                                  border: "1px solid #fff",
-                                }}
+                              <div className="w-[2px] bg-white border border-white"
+
                               />
                               <Trash
                                 size="24"
                                 color="#FFF"
-                                style={{ cursor: "pointer" }}
+                                className="cursor-pointer"
                                 onClick={() => {
                                   handleDeleteImages(img.name, index);
                                 }}
@@ -1362,37 +1267,23 @@ function AddPg({ show, handleClose, currentItem }) {
                           <AddCircle
                             size="24"
                             color="#1E45E1"
-                            style={{ cursor: "pointer" }}
+                            className="cursor-pointer"
                           />
                         </label>
-                        <label
-                          style={{
-                            fontSize: 13,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+                        <label className="text-sm text-gray-900 font-semibold font-gilroy">
                           Add image
                         </label>
-                        <label
-                          style={{
-                            fontSize: 10,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
+                        <label className="text-[10px] text-gray-900 font-medium font-gilroy">
                           Max size 10 MB
                         </label>
                       </>
                     )}
-                  </Card>
+                  </div>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange(index)}
-                    style={{ display: "none" }}
+                    className="hidden"
                     id={`imageUpload${index}`}
                   />
                 </div>
@@ -1401,63 +1292,32 @@ function AddPg({ show, handleClose, currentItem }) {
           </div>
 
 
+
           {/* {
             state.createAccount?.networkError &&   <ErrorMessage message={state.createAccount?.networkError} type="error" />
           } */}
 
         </Modal.Body>
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
+
+        {formLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+
         <Modal.Footer
-          className="d-flex align-items-center justify-content-center"
-          style={{ border: "none" }}
+          className="flex items-center justify-center !border-t-0"
         >
           {isChangedError && (
-            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center">
+            <div ref={nochangeRef} className="flex items-center justify-center">
               <ErrorMessage message={isChangedError} type="error" />
             </div>
           )}
 
-
-
-
-
           <Button
             disabled={formLoading}
             onClick={handleCreatePayingGuest}
-            className="w-100"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              borderRadius: 12,
-              fontSize: 16,
-              fontFamily: "Gilroy",
-              padding: 12,
-            }}
-          >
+            className="w-100 !bg-[#1E45E1] !font-semibold !rounded-lg !text-base !font-gilroy h-12">
             {currentItem ? "Save Changes" : "Add Paying Guest"}
           </Button>
         </Modal.Footer>

@@ -18,7 +18,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
   const state = useSelector((state) => state);
   const dispatch = useDispatch
 
-  
+
 
 
   const {
@@ -85,70 +85,43 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
 
     <>
       <div
-        className="modal show"
-        style={{
-          display: 'block', position: 'initial'
-        }}
-      >
+        className="modal show block static" >
         <Modal
           show={show}
           onHide={handleClose}
           centered
           size="sm"
           backdrop="static"
-          style={{ borderRadius: 24 }}
+          className='rounded-2xl'
           contentClassName="custom-modal-content"
         >
-          <Modal.Header className="border-0 px-4 pt-4 position-relative">
+          <Modal.Header className="border-0 px-4 pt-4 relative">
 
-            <Modal.Title
-              className="w-100 text-center"
-              style={{
-                fontSize: 18,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                position: "absolute",
-                left: 0,
-                right: 0,
-                textAlign: "center",
-              }}
-            >
+            <Modal.Title className="absolute inset-x-0 text-center !text-[18px] !text-gray-900 !font-semibold !font-gilroy" >
               Manage Bed
             </Modal.Title>
 
-            <div className="ms-auto" style={{ zIndex: 1 }}>
+            <div className="ml-auto z-10">
               <CloseCircle
                 size="24"
                 color="#000"
                 onClick={handleClose}
-                style={{ cursor: "pointer" }}
+                className="cursor-pointer"
               />
             </div>
 
           </Modal.Header>
 
 
-          <Modal.Body className="px-4 pb-4">
-            <div className="d-flex flex-column gap-3">
-
-
+          <Modal.Body className="px-4 pb-4 font-gilroy">
+            <div className="flex flex-col gap-3">
               <div
-                className="d-flex justify-content-between align-items-center"
-                style={{
-                  cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                  opacity: canWriteCustomers ? 1 : 0.5,
-                }}
+                className={`flex justify-between items-center ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                  }`}
                 onClick={canWriteCustomers ? handleShowAddCustomer : undefined}
               >
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: canWriteCustomers ? "rgba(34, 34, 34, 1)" : "#A0A0A0",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
+                <span className={`text-[14px] font-medium  ${canWriteCustomers ? "text-gray-900" : "text-gray-400"
+                  }`}>
                   Add Tenant
                 </span>
                 <img
@@ -156,74 +129,51 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
                   height={20}
                   width={20}
                   alt="addcustomer"
-                  style={{
-                    filter: canWriteCustomers ? "none" : "grayscale(100%)",
-                  }}
+                  className={`${canWriteCustomers ? "" : "grayscale"}`}
                 />
               </div>
 
-              <div
-                className="d-flex justify-content-between align-items-center"
-                style={{
-                  cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                  opacity: canWriteCustomers ? 1 : 0.5,
-                }}
+              <div className={`flex justify-between items-center ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                }`}
+
                 onClick={canWriteCustomers ? handleShowAssignTenant : undefined}
               >
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: canWriteCustomers ? "rgba(34, 34, 34, 1)" : "#A0A0A0",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
+                <span className={`text-[14px] font-medium font-gilroy ${canWriteCustomers ? "text-gray-900" : "text-gray-400"
+                  }`}>
                   Assign Tenant
                 </span>
                 <img
                   src={AssignTenant}
                   alt="assign_tenant"
-                  style={{
-                    filter: canWriteCustomers ? "none" : "grayscale(100%)",
-                  }}
+                  className={`${canWriteCustomers ? "" : "grayscale"}`}
                 />
               </div>
-              <div
-                className="d-flex justify-content-between align-items-center"
-                style={{
-                  cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                  opacity: canUpdatePayingGuests ? 1 : 0.5,
-                }}
+              <div className={`flex justify-between items-center ${canUpdatePayingGuests
+                ? "cursor-pointer opacity-100"
+                : "cursor-not-allowed opacity-50"
+                }`}
+
                 onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
               >
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: canUpdatePayingGuests ? "#1E45E1" : "#A0A0A0",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <span className={`text-[14px] font-medium font-gilroy ${canUpdatePayingGuests ? "text-blue-700" : "text-gray-400"
+                  }`}
+
                 >
                   Edit
                 </span>
                 <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} />
 
               </div>
-              <div
-                className="d-flex justify-content-between align-items-center"
-                style={{
-                  cursor: canDeletePayingGuests ? "pointer" : "not-allowed",
-                  opacity: canDeletePayingGuests ? 1 : 0.5,
-                }}
+              <div className={`flex justify-between items-center ${canDeletePayingGuests
+                ? "cursor-pointer opacity-100"
+                : "cursor-not-allowed opacity-50"
+                }`}
+
                 onClick={canDeletePayingGuests ? handleDeleteBed : undefined}
               >
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: canDeletePayingGuests ? "#FF0000" : "#A0A0A0",
-                    fontFamily: "Gilroy",
-                    fontWeight: 400,
-                  }}
+                <span className={`text-[14px] font-normal font-gilroy ${canDeletePayingGuests ? "text-red-600" : "text-gray-400"
+                  }`}
+
                 >
                   Delete
                 </span>
@@ -232,9 +182,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
                   height={20}
                   width={20}
                   alt="deleteicon"
-                  style={{
-                    filter: canDeletePayingGuests ? "none" : "grayscale(100%)",
-                  }}
+                  className={`${canDeletePayingGuests ? "" : "grayscale"}`}
                 />
               </div>
 
@@ -259,6 +207,6 @@ EmptyBed.propTypes = {
   showbed: PropTypes.func.isRequired,
   showtenant: PropTypes.func.isRequired,
   showcustomer: PropTypes.func.isRequired,
-  showEditBed : PropTypes.func.isRequired,
+  showEditBed: PropTypes.func.isRequired,
 }
 export default EmptyBed
