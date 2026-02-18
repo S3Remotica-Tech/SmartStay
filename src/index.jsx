@@ -7,8 +7,14 @@ import Store from './Store';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from "react-helmet-async";
 import "./Utils/FirebaseNotification";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 
 
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache(),
+});
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +22,9 @@ root.render(
   <React.StrictMode>
 <Provider store={Store}>
 <HelmetProvider>
-<App />
+ <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
 </HelmetProvider>
 
 
