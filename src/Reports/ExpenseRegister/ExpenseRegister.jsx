@@ -42,6 +42,7 @@ function ExpenseRegister() {
 
   useEffect(() => {
     if (state.reports.getExpenseRegisterSuccess === 200) {
+        isInitialLoad.current = true;
       setLoading(false)
       setExpenseRegister(state?.reports?.getExpenseRegister)
       setInvoiceFilter(false)

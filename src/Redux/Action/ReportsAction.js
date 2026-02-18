@@ -103,7 +103,7 @@ export async function getTenantRegister(hostelId, filters = {}) {
       floor: filters?.floor,
       room: filters?.room,
       search: filters?.search,
-
+sharingType: filters?.sharingType,
 
 
 

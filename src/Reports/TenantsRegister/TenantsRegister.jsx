@@ -33,12 +33,13 @@ function TenantsRegister() {
     const [size, setSize] = useState('');
     const [page, setPage] = useState(0);
     const tableRef = useRef(null);
- const [isScrolled, setIsScrolled] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
 
 
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {
+            isInitialLoad.current = true;
             setLoading(false)
             setTenantRegister(state?.reports?.getTenantRegister)
             setInvoiceFilter(false)
@@ -95,10 +96,28 @@ function TenantsRegister() {
 
     const stats = [
         { title: "Total Tenants", value: tenantRegister?.summary?.totalTenants },
-        { title: "Active Tenants", value: tenantRegister?.summary?.activeTenants?.count, up: `${tenantRegister?.summary?.activeTenants?.trend} %`, link: true },
-        { title: "Notice Period", value: tenantRegister?.summary?.noticePeriod?.count, up: `${tenantRegister?.summary?.noticePeriod?.trend} %`, link: true },
-        { title: "Check out(MTD)", value: tenantRegister?.summary?.checkoutMTD?.count, down: `${tenantRegister?.summary?.checkoutMTD?.trend} %`, link: true },
-        { title: "Inactive", value: tenantRegister?.summary?.inactive?.count, down: `${tenantRegister?.summary?.inactive?.trend} %`, link: true },
+        {
+            title: "Active Tenants", value: tenantRegister?.summary?.activeTenants?.count,
+            // up: `${tenantRegister?.summary?.activeTenants?.trend} %`,
+            link: true
+        },
+        {
+            title: "Notice Period", value: tenantRegister?.summary?.noticePeriod?.count,
+            //  up: `${tenantRegister?.summary?.noticePeriod?.trend} %`,
+            link: true
+        },
+        {
+            title: "Check out(MTD)", value: tenantRegister?.summary?.checkoutMTD?.count,
+            //  down: `${tenantRegister?.summary?.checkoutMTD?.trend} %`, 
+            link: true
+        },
+        {
+            title: "Inactive", value: tenantRegister?.summary?.inactive?.count,
+            // down: `${tenantRegister?.summary?.inactive?.trend} %`, 
+            link: true
+        },
+        { title: "Booked Tenants", value: tenantRegister?.summary?.booked?.count },
+         //  up: `${tenantRegister?.summary?.noticePeriod?.trend} %`,
     ];
 
 
@@ -124,6 +143,12 @@ function TenantsRegister() {
                 tenantStatus: [],
                 floor: [],
                 room: [],
+                size: '',
+                page: '',
+                floorId: [],
+                roomId: [],
+                 sharingType : "",
+                   sharingTypeLabel: ''
 
             },
         })
@@ -150,6 +175,12 @@ function TenantsRegister() {
                 tenantStatus: [],
                 floor: [],
                 room: [],
+                size: '',
+                page: '',
+                floorId: [],
+                roomId: [],
+                 sharingType : "",
+                   sharingTypeLabel: ''
 
             },
         })
@@ -206,6 +237,12 @@ function TenantsRegister() {
             to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
         });
     }, [apiStart, apiEnd]);
+
+
+
+
+
+
 
     const handleDateChange = (dates) => {
         if (!dates) {
@@ -273,6 +310,12 @@ function TenantsRegister() {
                     tenantStatus: [],
                     floor: [],
                     room: [],
+                    size: '',
+                    page: '',
+                    floorId: [],
+                    roomId: [],
+                     sharingType : "",
+                       sharingTypeLabel: ''
 
                 },
             })
@@ -307,14 +350,22 @@ function TenantsRegister() {
 
 
 
-
     useEffect(() => {
         if (!state.login?.selectedHostel_Id) return;
+        const savedFilters = state.reports?.tenantRegisterFilters;
+
         const filters = {
             startDate: startDate,
             endDate: endDate,
             size: size,
             page: page,
+            status: savedFilters?.tenantStatus,
+            period: savedFilters?.period,
+            floor: savedFilters?.floorId,
+            room: savedFilters?.roomId,
+            search: savedFilters?.search,
+             sharingType : savedFilters?.sharingType
+
         };
 
 
@@ -328,11 +379,12 @@ function TenantsRegister() {
         setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
-    console.log("state.reports.tenantRegisterFilters", state.reports.tenantRegisterFilters)
 
     useEffect(() => {
-        const filters = state.reports.tenantRegisterFilters;
+        const filters = state.reports?.tenantRegisterFilters;
         const filterData = [];
+
+
         if (filters?.startDate || filters?.endDate) {
             filterData.push({
                 key: "date-range",
@@ -352,6 +404,14 @@ function TenantsRegister() {
                 label: "Period",
                 type: "single",
                 value: filters.period,
+            });
+        }
+         if (filters?.sharingTypeLabel?.length) {
+            filterData.push({
+                key: "sharingType",
+                label: "Sharing Type",
+                type: "sharingType",
+                value: filters.sharingTypeLabel,
             });
         }
 
@@ -441,6 +501,12 @@ function TenantsRegister() {
                 tenantStatus: [],
                 floor: [],
                 room: [],
+                size: '',
+                page: '',
+                floorId: [],
+                roomId: [],
+                 sharingType : "",
+                   sharingTypeLabel: ''
 
             },
         })
@@ -625,44 +691,42 @@ function TenantsRegister() {
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3 ms-1 me-1 ">
-                    {stats.map((item, i) => (
-                        <div
-                            key={i}
-                            className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[130px]"
-                        >
-                            <div className='flex justify-between '>
+                <div className="mt-3 ms-1 me-1 overflow-x-auto ">
+                    <div className="flex gap-4 min-w-max">
+                        {stats.map((item, i) => (
+                            <div
+                                key={i}
+                                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] 
+                   h-[100px] min-w-[200px] flex-shrink-0"
+                            >
+                                <div className="flex justify-between">
+                                    <label className="text-sm font-semibold text-[#4A5565] whitespace-nowrap">
+                                        {item.title}
+                                    </label>
 
-                                <label className="text-sm font-semibold text-[#4A5565]">
-                                    {item.title}
-                                </label>
-                                {item.up && (
-                                    <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
-                                        ↑ {item.up}
-                                    </span>
-                                )}
-                                {item.down && (
-                                    <span className="text-xs text-[#C10007] bg-[#FEF2F2] h-fit  rounded-lg px-2 py-1">
-                                        ↓ {item.down}
-                                    </span>
-                                )}
+                                    {item.up && (
+                                        <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
+                                            ↑ {item.up}
+                                        </span>
+                                    )}
+
+                                    {item.down && (
+                                        <span className="text-xs text-[#C10007] bg-[#FEF2F2] h-fit rounded-lg px-2 py-1">
+                                            ↓ {item.down}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="flex items-center gap-2 mt-2">
+                                    <h2 className="text-2xl font-semibold text-[#101828]">
+                                        {item.value ?? ""}
+                                    </h2>
+                                </div>
                             </div>
-
-                            <div className="flex items-center gap-2 mt-2">
-                                <h2 className="text-2xl font-semibold text-[#101828]">
-                                    {item.value ?? ""}
-                                </h2>
-
-
-                            </div>
-                            {/* {item.link && (
-                                <p className="text-xs text-[#155DFC]  cursor-pointer">
-                                    Click to filter
-                                </p>
-                            )} */}
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
+
 
 
                 <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
@@ -775,28 +839,28 @@ function TenantsRegister() {
                                         </td>
 
 
-                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                                        <td className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}>
                                             {row.sharing || '-'}
                                         </td>
 
 
-                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                                        <td className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}>
                                             {row.checkInDate || '-'}
                                         </td>
 
 
-                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                                        <td className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}>
                                             {row.checkOutDate || "-"}
                                         </td>
 
 
-                                        <td  className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                                        <td className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}>
                                             {row.stayDuration || "-"}

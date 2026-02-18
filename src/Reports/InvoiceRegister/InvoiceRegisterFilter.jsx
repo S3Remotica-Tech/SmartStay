@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endDate}) {
+function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDate }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billStatus, setBillStatus] = useState([]);
@@ -19,7 +19,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
     const [invoiceMode, setInvoiceMode] = useState([]);
     const [createdBy, setCreatedBy] = useState([]);
     const [period, setPeriod] = useState(null);
-   
+
     const [tenantName, setTenantName] = useState("");
     const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
 
@@ -29,6 +29,8 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
 
     const [outstandingMin, setOutstandingMin] = useState("");
     const [outstandingMax, setOutstandingMax] = useState("");
+
+
 
 
 
@@ -158,6 +160,57 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
         })) || [];
 
 
+    const invoiceFilters = state.reports?.invoiceRegisterFilters;
+
+  
+    useEffect(() => {
+        if (show && invoiceFilters) {
+            setTenantName(invoiceFilters.search)
+
+                       setBillStatus(invoiceFilters.paymentStatus || []);
+            const selectedPaymentOptions = billStatusOptions.filter(option =>
+                invoiceFilters.paymentStatus?.includes(option.value)
+            );
+            setSelectedBillStatusOptions(selectedPaymentOptions);
+
+            const selectedInvoiceTypeValues = invoiceFilters.invoiceTypes || [];
+
+            setInvoiceType(selectedInvoiceTypeValues);
+
+
+            const selectedInvoiceModeOptions = invoiceFilters?.invoiceModes || []
+            setInvoiceMode(selectedInvoiceModeOptions);
+
+            const selectedCreatedByOptions = createdByOptions.filter(option =>
+                invoiceFilters.createdBy?.includes(option.value)
+            );
+
+            setCreatedBy(selectedCreatedByOptions);
+
+            const selectedPeriod = periodOptions.find(option =>
+                option.value === invoiceFilters.period
+            );
+            setPeriod(selectedPeriod || null);
+            setPaidAmountMin(invoiceFilters.minPaidAmount || "");
+            setPaidAmountMax(invoiceFilters.maxPaidAmount || "");
+
+            setOutstandingMin(invoiceFilters.minOutstandingAmount || "");
+            setOutstandingMax(invoiceFilters.maxOutstandingAmount || "");
+
+        }
+    }, [show]);
+
+
+
+
+
+
+
+
+
+
+
+
 
     const handlePaidMinChange = (e) => {
         setPaidAmountMin(e.target.value);
@@ -222,6 +275,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
     );
 
 
+
     const handleInvoiceModeChange = (selected) => {
         setInvoiceMode(selected.map(opt => opt.value));
     };
@@ -245,7 +299,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
         setTenantName(e.target.value);
     };
 
-  
+
 
 
     const CheckboxOption = (props) => {
@@ -310,7 +364,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
 
     const handleFilterBills = () => {
 
-       
+
 
         if (!state.login?.selectedHostel_Id) return;
 
@@ -319,7 +373,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
             paymentStatus: billStatus?.length ? billStatus : undefined,
             invoiceModes: invoiceMode?.length ? invoiceMode : undefined,
             invoiceTypes: invoiceType?.length ? invoiceType : undefined,
-            createdBy: createdBy?.length ? createdBy.map(c => c.value) : undefined,
+            createdBy: createdBy?.length ? createdBy?.map(c => c.value) : undefined,
             period: period?.value ? period?.value : "",
             minPaidAmount: paidAmountMin,
             maxPaidAmount: paidAmountMax,
@@ -327,8 +381,9 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
             maxOutstandingAmount: outstandingMax,
             page: page,
             size: size,
-              startDate: period?.value ? undefined : startDate,
-        endDate: period?.value ? undefined : endDate,
+            startDate: period?.value ? undefined : startDate,
+            endDate: period?.value ? undefined : endDate,
+            createdByLabels: createdBy?.length ? createdBy?.map(c => c.label) : undefined,
         };
 
         dispatch({
@@ -359,7 +414,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
         setFormLoading(true);
     };
 
- useEffect(() => {
+    useEffect(() => {
         if (state.createAccount?.networkError) {
             setFormLoading(false);
             setTimeout(() => {
@@ -385,7 +440,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
             <Offcanvas
                 show={show}
                 onHide={handleClose}
-                placement="end" backdrop="static"
+                placement="end"
             >
                 <Offcanvas.Header >
                     <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, display: "flex", alignItems: "center" }}> <Filter className='me-2' size="20" color="#364153" />Filter</Offcanvas.Title>
@@ -667,7 +722,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page , startDate, endD
                             />
                         </Form.Group>
 
-                       
+
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>Other Filter</label>
                         </div>

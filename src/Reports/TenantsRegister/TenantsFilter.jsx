@@ -24,8 +24,50 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
 
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
+    const savedFilters = state.reports?.tenantRegisterFilters;
 
-console.log("state",state)
+
+    console.log("savedFilters", savedFilters)
+
+    useEffect(() => {
+        if (show && savedFilters) {
+            setTenantName(savedFilters.search || "");
+            setTenantStatus(savedFilters.tenantStatus || []);
+            const selectedStatusOptions = tenantStatusOptions.filter(option =>
+                savedFilters.tenantStatus?.includes(option.value)
+            );
+            setSelectedTenantStatusOptions(selectedStatusOptions);
+            const selectedPeriod = periodOptions.find(
+                option => option.value === savedFilters.period
+            );
+            setPeriod(selectedPeriod || null);
+            const selectedFloorOptions = floorOptions.filter(option =>
+                savedFilters.floor?.includes(option.label)
+            );
+            setFloor(selectedFloorOptions);
+            const selectedRoomOptions = roomOptions.filter(option =>
+                savedFilters.room?.includes(option.label)
+            );
+            setRoom(selectedRoomOptions);
+
+            const selecteSharingType = SharingTypeOptions.find(
+                option => option.value === savedFilters?.sharingType
+            );
+
+            setSharingType(selecteSharingType)
+        }
+    }, [show]);
+
+
+
+
+
+
+
+
+
+
+
 
     const selectStyles = {
         control: (base) => ({
@@ -130,20 +172,49 @@ console.log("state",state)
         })) || [];
 
 
-    const floorOptions =
+
+
+    const floorOptionsNormal =
         filterOptionsData?.floor?.map(item => ({
             label: item.label,
             value: item.id
         })) || [];
 
+    const shareTypeWithFloorOption =
+        filterOptionsData?.sharingType?.find(
+            view => view.id === Number(sharingType?.value)
+        ) || null;
 
-    const roomOptions =
-        filterOptionsData?.room?.map(item => ({
+
+    const floorOptions = sharingType?.value
+        ? shareTypeWithFloorOption?.floorIds?.map(floor => {
+            const matchedFloor = floorOptionsNormal.find(
+                f => f.value === floor.id
+            );
+
+            return {
+                label: matchedFloor?.label || floor.label,
+                value: floor.id
+            };
+        }) || []
+        : floorOptionsNormal;
+
+    const SharingTypeOptions =
+        filterOptionsData?.sharingType?.map(item => ({
             label: item.label,
             value: item.id
         })) || [];
 
 
+    const roomOptions = filterOptionsData?.room?.filter(roomItem =>
+        floor?.length === 0
+            ? true
+            : floor?.some(f => f.value === roomItem.floorId)
+    )
+        ?.map(item => ({
+            label: item.label,
+            value: item.id
+        })) || [];
 
 
 
@@ -151,6 +222,9 @@ console.log("state",state)
         setTenantName(e.target.value);
     };
 
+    useEffect(() => {
+        setFloor(null);
+    }, [sharingType]);
 
 
 
@@ -221,7 +295,13 @@ console.log("state",state)
     };
 
 
+    const handleChangeSharingType = (selectedOptions) => {
+        setSharingType(selectedOptions)
+    }
 
+
+    const selectedSharingOptions =
+        SharingTypeOptions.find(opt => opt?.value === sharingType?.value) || null;
 
     const handleFilterBills = () => {
 
@@ -236,6 +316,8 @@ console.log("state",state)
             page: page,
             startDate: period?.value ? undefined : startDate,
             endDate: period?.value ? undefined : endDate,
+            sharingType: sharingType?.value,
+
         };
 
         dispatch({
@@ -248,6 +330,8 @@ console.log("state",state)
                 room: room.map(r => r.label),
                 search: tenantName,
                 tenantStatus: tenantStatus,
+                sharingType: sharingType?.value,
+                sharingTypeLabel: sharingType?.label
             },
         })
 
@@ -293,7 +377,7 @@ console.log("state",state)
             <Offcanvas
                 show={show}
                 onHide={handleClose}
-                placement="end" backdrop="static"
+                placement="end"
             >
                 <Offcanvas.Header >
                     <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, display: "flex", alignItems: "center" }}> <Filter className='me-2' size="20" color="#364153" />Filter</Offcanvas.Title>
@@ -389,16 +473,12 @@ console.log("state",state)
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Sharing Type
                             </Form.Label>
-                            <Select isDisabled
+                            <Select
                                 styles={selectStyles}
-                                placeholder="Select type..."
-                                value={sharingType}
-                                onChange={setSharingType}
-                                options={[
-                                    { label: "Single", value: "SINGLE" },
-                                    { label: "Double", value: "DOUBLE" },
-                                    { label: "Triple", value: "TRIPLE" },
-                                ]}
+                                placeholder="Select Share Type..."
+                                value={selectedSharingOptions}
+                                onChange={handleChangeSharingType}
+                                options={SharingTypeOptions}
                             />
                         </Form.Group>
 
