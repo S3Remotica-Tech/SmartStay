@@ -23,7 +23,7 @@ function DeleteFloor({ show, handleClose, currentItem }) {
   const handleDelete = () => {
 
     if (currentItem.floor_Id) {
-      dispatch({ type: 'DELETEFLOOR', payload: {floor_Id: currentItem.floor_Id } })
+      dispatch({ type: 'DELETEFLOOR', payload: { floor_Id: currentItem.floor_Id } })
 
     }
   }
@@ -47,34 +47,29 @@ function DeleteFloor({ show, handleClose, currentItem }) {
 
   return (
     <div>
-      <Modal show={show} onHide={handleCloseFormFloor} centered backdrop="static" dialogClassName="custom-delete-modal"
+      <Modal show={show} onHide={handleCloseFormFloor} centered backdrop="static"
+       dialogClassName="!max-w-md !w-full" 
+
       >
-        <Modal.Header style={{
-          borderBottom: "none",
-          justifyContent: "center",
-          display: "flex"
-        }} >
-          <Modal.Title style={{
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "Gilroy"
-          }}>Delete floor</Modal.Title>
+        <Modal.Header className="!border-b-0 flex !justify-center mb-1 mt-2">
+          <Modal.Title className="!text-lg !font-semibold !font-gilroy">
+            Delete floor
+          </Modal.Title>
         </Modal.Header>
 
-
-
-        <Modal.Body style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
+        <Modal.Body className="text-gray-700 text-base font-medium !font-gilroy text-center -mt-5">
           {`Are you sure you want to delete the ${currentItem.floor_Name}?`}
         </Modal.Body>
         {deleteFloorForm && (
-         <ErrorMessage message={deleteFloorForm} type="error" />
+          <ErrorMessage message={deleteFloorForm} type="error" />
         )}
-        <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-          <Button onClick={handleCloseFormFloor} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+        <Modal.Footer className="flex !justify-center !border-t-0 mb-3">
+          <Button onClick={handleCloseFormFloor} className="!rounded-lg !py-4 !px-10 !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy">
             Cancel
           </Button>
 
-          <Button style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDelete}>
+          <Button className="!rounded-lg !py-4 !px-10 !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
+            onClick={handleDelete}>
             Delete
           </Button>
 
