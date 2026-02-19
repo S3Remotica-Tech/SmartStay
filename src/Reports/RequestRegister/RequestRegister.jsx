@@ -1,3 +1,5 @@
+
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Filter,
@@ -9,7 +11,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { 
+  // useDispatch, 
+  useSelector } from "react-redux";
 import ComingSoon from "../../Utils/ComingSoon";
 
 function RequestRegister() {

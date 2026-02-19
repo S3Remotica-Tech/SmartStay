@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
-  WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home,
-  Wallet, Shop, Flash, Warning2, ClipboardText,
+   ArrowRight, DocumentText, ReceiptText,  UserOctagon, 
+  Wallet, 
   TrendUp,
   DollarCircle, Buildings,
   ReceiptItem,
@@ -30,7 +31,7 @@ function Reports() {
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
   const location = useLocation();
-  const lastRangeRef = useRef(null);
+  // const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
 
