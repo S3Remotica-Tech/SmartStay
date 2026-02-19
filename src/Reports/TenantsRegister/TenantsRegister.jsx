@@ -746,7 +746,7 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
 
                                     <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
                                         <Setting3
-                                            onClick={() => setOpen(!open)}
+                                            // onClick={() => setOpen(!open)}
                                             className="cursor-pointer"
                                             size="18"
                                             color="#4B4B4B"
