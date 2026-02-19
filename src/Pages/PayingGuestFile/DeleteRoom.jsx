@@ -63,33 +63,13 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-        <Modal.Header
-          style={{
-            borderBottom: "none",
-          }}
-        >
-          <Modal.Title
-            style={{
-              fontSize: 18,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              textAlign: "center",
-              flex: 1,
-            }}
-          >
+        <Modal.Header className="!border-b-0">
+          <Modal.Title className="!text-lg !font-semibold !font-gilroy text-center flex-1">
             Delete room
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            textAlign: "center",
-            marginTop: "-20px",
-          }}
-        >
+        <Modal.Body className="text-sm font-semibold font-gilroy text-center -mt-5 text-gray-600">
           Are you sure you want to delete the room?
         </Modal.Body>
         {deleteRoomError && (
@@ -104,11 +84,11 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
           }}
         >
 
-          <Button onClick={handleDeleteRoomForm} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+          <Button onClick={handleDeleteRoomForm} className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy">
             Cancel
           </Button>
 
-          <Button style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDeleteRoomConfirm}>
+          <Button className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy" onClick={handleDeleteRoomConfirm}>
             Delete
           </Button>
         </Modal.Footer>

@@ -738,7 +738,7 @@ useEffect(() => {
 
         {state.login.isTrigger && (
           <>
-            <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-4">
+            <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
               <FaArrowLeftLong
                 onClick={handleCloseChangeBed}
                 className="cursor-pointer"
@@ -748,19 +748,19 @@ useEffect(() => {
               </span>
             </div>
 
-            <div className="mt-1 ml-5 rounded-[14px] border border-gray-200 bg-white">
-              <div className="p-4 flex flex-col md:flex-row items-center justify-between">
-                <div className="flex items-center mb-3 md:mb-0">
+            <div className="mt-1 ml-5 rounded-[14px] border border-gray-200 bg-white mb-2">
+              <div className="p-3 flex flex-col md:flex-row items-center justify-between">
+                <div className="flex items-center mb-2 md:mb-0">
 
                   {state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic ? (
                     <img
-                      src={state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic || Profiles}
+                      src={state.PgList?.isClicedBed?.currentTenantInfo?.[0]?.profilePic || Profiles}
                       alt="Tenant Profile"
-                      className="h-15 w-15 rounded-full object-cover"
+                      className="h-16 w-16 rounded-full object-cover"
                       onError={(e) => { e.target.onerror = null; e.target.src = Profiles; }}
                     />
                   ) : (
-                    <div className="h-15 w-15 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-lg uppercase font-gilroy">
+                    <div className="h-16 w-16 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-lg uppercase font-gilroy">
                       {state.PgList?.isClickedBed?.currentTenantInfo?.[0].tenantInitials || "?"}
                     </div>
                   )}

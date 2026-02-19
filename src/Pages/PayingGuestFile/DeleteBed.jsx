@@ -27,7 +27,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   // const [customerDeletePermission, setCustomerDeletePermission] = useState("")
   const [advanceForm, setAdvanceForm] = useState(false)
   const [user_details, setUserDetails] = useState('')
-  const { bed} = deleteBedDetails
+  const { bed } = deleteBedDetails
   const [formLoading, setFormLoading] = useState(false);
   const [advanceDate, setAdvanceDate] = useState(null);
   const [advanceDueDate, setAdvanceDueDate] = useState(null);
@@ -55,15 +55,18 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
   const handleDeleteBed = () => {
-dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
-    if ( deleteBedDetails?.bed.id) {
-       setFormLoading(true);
-      dispatch({ type: 'DELETEBED', 
-        payload: { 
-        // hostelId: room.Hostel_Id, 
-        // floorId: room.Floor_Id, 
-        // roomNo: room.Room_Id, 
-        bedId: bed.id} })
+    dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
+    if (deleteBedDetails?.bed.id) {
+      setFormLoading(true);
+      dispatch({
+        type: 'DELETEBED',
+        payload: {
+          // hostelId: room.Hostel_Id, 
+          // floorId: room.Floor_Id, 
+          // roomNo: room.Room_Id, 
+          bedId: bed.id
+        }
+      })
 
     }
 
@@ -247,93 +250,64 @@ dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
   return (
     <div>
 
+      <Modal
+        show={show}
+        onHide={handleClose}
+        centered
+        backdrop="static"
+        dialogClassName="!max-w-md !w-full"
+      >
+      
+        <Modal.Header className="!flex !justify-center !border-0 !pb-0">
+          <Modal.Title className="!text-lg !font-semibold !font-gilroy">
+            Delete Bed ?
+          </Modal.Title>
+        </Modal.Header>
 
-
-      <Modal show={show} onHide={handleClose} centered backdrop="static" className=''>
-       
-
-
-
-       
-
-
-        <Modal.Body
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            textAlign: "center",
-            paddingTop: 20,
-            paddingBottom: 10,
-          }}
-        >
-
-           <div>
-          <Nav fill variant="tabs">
-
-            <Nav.Item onClick={() => handleShow('deleteBed')}>
-              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '10px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor:  "#FFF" }}>Delete Bed ?</Nav.Link>
-            </Nav.Item>
-
-          </Nav>
-        </div> 
-          Are you sure you want to delete the bed?
-
+        <Modal.Body className="!relative !text-gray-600 !text-center !pt-3 !pb-2 !text-base !font-medium !font-gilroy">
+            Are you sure you want to delete the bed?
           {/* {`Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`} */}
         </Modal.Body>
- {/* {state.PgList?.deleteBedError && (
-          <ErrorMessage message={state.PgList?.deleteBedError} type="error"/>
-        )} */}
-        {formLoading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
 
-        <Modal.Footer className='d-flex justify-content-center mb-2' style={{ border: "none" }}>
-          <Button onClick={handleClose} style={{ width: 130, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+        {/* {state.PgList?.deleteBedError && (
+    <ErrorMessage message={state.PgList?.deleteBedError} type="error"/>
+  )} */}
+
+        {formLoading && (
+          <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !opacity-75 !z-10">
+            <div className="!w-10 !h-10 !rounded-full !border-4 !border-t-[#1E45E1] !border-r-transparent !animate-spin" />
+          </div>
+        )}
+
+        <Modal.Footer className="!flex !justify-center !gap-4 !mb-2 !border-0">
+          <Button
+            onClick={handleClose}
+            className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
+          >
             Cancel
           </Button>
 
           {/* {actionType === 'addCustomer' && (
-            <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
-              disabled={customerAddPermission} onClick={handleAddCustomer}
-            >
-              Add Customer
-            </Button>
-          )} */}
+      <Button
+        className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
+        disabled={customerAddPermission}
+        onClick={handleAddCustomer}
+      >
+        Add Customer
+      </Button>
+    )} */}
 
-          <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
-            // disabled={customerDeletePermission} 
-            onClick={handleDeleteBed}>
+          <Button
+            className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
+            // disabled={customerDeletePermission}
+            onClick={handleDeleteBed}
+          >
             Delete
           </Button>
-
-
         </Modal.Footer>
       </Modal>
+
+
 
       <Modal
         show={advanceForm}
@@ -418,7 +392,7 @@ dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
                       </div>
                     </Form.Group>
                     {advanceDateError && (
-                     <ErrorMessage message={advanceDateError} type="error"/>
+                      <ErrorMessage message={advanceDateError} type="error" />
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -463,7 +437,7 @@ dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
                       </div>
                     </Form.Group>
                     {advanceDueDateError && (
-                      <ErrorMessage message={advanceDueDateError} type="error"/>
+                      <ErrorMessage message={advanceDueDateError} type="error" />
                     )}
                   </div>
                 </div>
