@@ -90,7 +90,8 @@ function ApiPagination({
             onChange={handleSizeChange}
             isSearchable={false}
             menuPlacement="top"
-            className="w-24 text-sm"
+             menuPortalTarget={document.body}
+            className="w-24 text-sm z-50 "
             classNamePrefix="react-select"
             styles={{
               control: (base) => ({
@@ -115,6 +116,7 @@ function ApiPagination({
                 cursor: "pointer",
                 backgroundColor: state.isFocused ? "#E5F0FF" : "#fff",
                 color: "#111827",
+                fontFamily:"Gilroy"
               }),
               dropdownIndicator: (base) => ({
                 ...base,
@@ -126,6 +128,10 @@ function ApiPagination({
               }), clearIndicator: () => ({
                 display: "none",
               }),
+               menuPortal: (base) => ({
+      ...base,
+      zIndex: 9999,
+    }),
             }}
           />
         </div>
