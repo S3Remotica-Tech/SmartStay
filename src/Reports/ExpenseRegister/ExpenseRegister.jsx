@@ -17,6 +17,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ExpenseFilter from './ExpenseFilter';
 import ApiPagination from "../../Components/ApiPagination";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+
+
+
 
 function ExpenseRegister() {
 
@@ -926,4 +930,4 @@ function ExpenseRegister() {
     </div>
   );
 }
-export default ExpenseRegister;
+export default withErrorBoundary(ExpenseRegister);

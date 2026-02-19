@@ -17,7 +17,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import ComingSoon from '../Utils/ComingSoon';
 import Emptystate from "../Assets/Images/Empty-State-svg.svg";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function Reports() {
@@ -699,6 +699,6 @@ function Reports() {
   )
 }
 
-export default Reports
+export default withErrorBoundary(Reports)
 
 

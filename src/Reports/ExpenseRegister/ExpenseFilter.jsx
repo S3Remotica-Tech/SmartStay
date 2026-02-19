@@ -9,6 +9,7 @@ import { IoCloseOutline } from "react-icons/io5";
 // import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
@@ -573,4 +574,4 @@ ExpenseFilter.propTypes = {
     page: PropTypes.any,
 };
 
-export default ExpenseFilter
+export default withErrorBoundary(ExpenseFilter);

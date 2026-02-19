@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function InvoiceRegister() {
@@ -1074,4 +1074,4 @@ console.log("invoiceFilters",invoiceFilters)
         </div>
     );
 }
-export default InvoiceRegister;
+export default withErrorBoundary(InvoiceRegister);
