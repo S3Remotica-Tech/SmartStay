@@ -17,4 +17,7 @@ export default defineConfig({
       exclude: [...configDefaults.coverage.exclude, './src/setupTests.jsx'],
     },
   },
+   optimizeDeps: {
+    include: ["@apollo/client", "@apollo/client/react"],
+  },
 })

@@ -7,8 +7,18 @@ import Store from './Store';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from "react-helmet-async";
 import "./Utils/FirebaseNotification";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
+// import { setContext } from "@apollo/client/link/context";
 
 
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: "https://countries.trevorblades.com/",
+  }),
+  cache: new InMemoryCache(),
+});
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +26,9 @@ root.render(
   <React.StrictMode>
 <Provider store={Store}>
 <HelmetProvider>
-<App />
+ <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
 </HelmetProvider>
 
 
@@ -30,9 +42,9 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/firebase-messaging-sw.js")
     .then((registration) => {
-      console.log("FCM Service Worker registered");
-      console.log("scope:", registration.scope);
-      console.log("active:", registration.active);
+      // console.log("FCM Service Worker registered");
+      // console.log("scope:", registration.scope);
+      // console.log("active:", registration.active);
     })
     .catch((err) => {
       console.error(" SW registration failed", err);

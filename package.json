@@ -4,6 +4,7 @@
   "private": true,
   "type": "commonjs",
   "dependencies": {
+    "@apollo/client": "^4.1.4",
     "@canvasjs/charts": "^3.9.0",
     "@canvasjs/react-charts": "^1.0.2",
     "@emailjs/browser": "^4.4.1",
@@ -39,6 +40,7 @@
     "firebase": "^12.7.0",
     "flatpickr": "^4.6.13",
     "framer-motion": "^12.23.12",
+    "graphql": "^16.12.0",
     "html2canvas": "^1.4.1",
     "iconsax-react": "^0.0.8",
     "jspdf": "^2.5.2",
@@ -84,6 +86,7 @@
     "redux-mock-store": "^1.5.5",
     "redux-saga": "^1.2.3",
     "rsuite": "^5.40.0",
+    "rxjs": "^7.8.2",
     "slick-carousel": "^1.8.1",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.11",
