@@ -1,10 +1,10 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Filter,
   Export, ArrowLeft,
   ArrowSwapVertical, Setting3, SearchNormal1,
-  ArrowDown,
+  // ArrowDown,
   ArrowDown2
 
 } from "iconsax-react";
@@ -12,7 +12,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { 
+  // useDispatch, 
+  useSelector } from "react-redux";
 
 
 function BankTransactionRegister() {
@@ -27,6 +29,10 @@ function BankTransactionRegister() {
   const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false)
   const [open, setOpen] = useState(false);
+
+console.log("invoiceFilter",invoiceFilter)
+
+
   useEffect(() => {
     setSelectedRange({
       from: dayjs().startOf("month").toDate(),

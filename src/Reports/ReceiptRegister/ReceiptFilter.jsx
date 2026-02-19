@@ -11,7 +11,8 @@ import { FaCheck } from "react-icons/fa6";
 import { IoCloseOutline } from "react-icons/io5";
 // import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
-import { Filter } from 'iconsax-react'
+import { Filter } from 'iconsax-react';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
@@ -496,6 +497,10 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
 ReceiptFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+      size: PropTypes.any,
+        page: PropTypes.any,
+         startDate: PropTypes.any,
+            endDate:  PropTypes.any,
 };
 
-export default ReceiptFilter
+export default withErrorBoundary(ReceiptFilter)

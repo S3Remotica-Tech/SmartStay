@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Filter,
@@ -10,7 +10,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { 
+  // useDispatch, 
+  useSelector } from "react-redux";
 import ComingSoon from "../../Utils/ComingSoon";
 
 function FinalSettlementRegister() {
@@ -20,7 +22,7 @@ function FinalSettlementRegister() {
   const navigate = useNavigate();
   const state = useSelector(state => state)
   const { RangePicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
   const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false)
@@ -99,7 +101,7 @@ function FinalSettlementRegister() {
   }
 
   const handleClickFilter = () => {
-    setInvoiceFilter(true)
+    // setInvoiceFilter(true)
   }
 
   // const handleCloseFilterBills = () => {

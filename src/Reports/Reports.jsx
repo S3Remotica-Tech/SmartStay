@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
-  WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home,
-  Wallet, Shop, Flash, Warning2, ClipboardText,
+   ArrowRight, DocumentText, ReceiptText,  UserOctagon, 
+  Wallet, 
   TrendUp,
   DollarCircle, Buildings,
   ReceiptItem,
@@ -17,7 +18,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import ComingSoon from '../Utils/ComingSoon';
 import Emptystate from "../Assets/Images/Empty-State-svg.svg";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function Reports() {
@@ -30,7 +31,7 @@ function Reports() {
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
   const location = useLocation();
-  const lastRangeRef = useRef(null);
+  // const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
 
@@ -670,8 +671,7 @@ function Reports() {
                     )}
                     <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
 
-                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics
-                      (item)}>
+                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics(item)}>
                       <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
                         View Analytics
                       </span>
@@ -699,6 +699,6 @@ function Reports() {
   )
 }
 
-export default Reports
+export default withErrorBoundary(Reports)
 
 

@@ -9,7 +9,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDate }) {
     const state = useSelector((state) => state);
@@ -199,16 +199,6 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
 
         }
     }, [show]);
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -490,11 +480,6 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
                                 onChange={handleTenantChange}
                             />
 
-
-
-
-
-
                         </Form.Group>
 
                         <div className='mb-3'>
@@ -714,10 +699,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
                                 value={period}
                                 onChange={(selected) => {
                                     setPeriod(selected);
-                                    if (selected.value !== "CUSTOM") {
-                                        setStartDate("");
-                                        setEndDate("");
-                                    }
+                                   
                                 }}
                             />
                         </Form.Group>
@@ -881,5 +863,7 @@ InvoiceRegisterFilter.propTypes = {
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
     page: PropTypes.any,
+     startDate: PropTypes.any,
+        endDate:  PropTypes.any,
 };
-export default InvoiceRegisterFilter
+export default withErrorBoundary(InvoiceRegisterFilter)

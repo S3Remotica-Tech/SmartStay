@@ -9,6 +9,7 @@ import { IoCloseOutline } from "react-icons/io5";
 // import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
@@ -153,16 +154,6 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
         }
     }, [show]);
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -535,7 +526,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                         onClick={() => {
                             setPeriod([]);
                             setPaymentMode([]);
-                            setPaidTo([]);
+                            // setPaidTo([]);
                             setCreatedBy([]);
                             setCategory([]);
                         }}
@@ -571,6 +562,8 @@ ExpenseFilter.propTypes = {
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
     page: PropTypes.any,
+    startDate: PropTypes.any,
+    endDate:  PropTypes.any,
 };
 
-export default ExpenseFilter
+export default withErrorBoundary(ExpenseFilter);

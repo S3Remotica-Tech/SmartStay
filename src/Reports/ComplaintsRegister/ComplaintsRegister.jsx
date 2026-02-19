@@ -1,10 +1,10 @@
-
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef } from 'react';
 
 import {
   Filter,
   Export, ArrowLeft,
-  ArrowSwapVertical, Setting3, SearchNormal1,
+  // ArrowSwapVertical, Setting3, SearchNormal1,
   ArrowDown2
 
 } from "iconsax-react";
@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ComingSoon from "../../Utils/ComingSoon";
-import ApiPagination from "../../Components/ApiPagination";
+// import ApiPagination from "../../Components/ApiPagination";
 
 
 function ComplaintsRegister() {

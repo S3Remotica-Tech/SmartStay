@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
     Filter,
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import TenantsFilter from './TenantsFilter';
 import ApiPagination from "../../Components/ApiPagination";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function TenantsRegister() {
 
@@ -799,7 +800,7 @@ function TenantsRegister() {
 
 
                             <tbody>
-                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row, i) => (
+                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row) => (
                                     <tr
                                         key={row.tenantId}
                                         className="border-b last:border-none  transition"
@@ -979,4 +980,4 @@ function TenantsRegister() {
         </div>
     );
 }
-export default TenantsRegister;
+export default withErrorBoundary(TenantsRegister);

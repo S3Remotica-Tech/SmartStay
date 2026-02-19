@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 
 
 import React, { useEffect, useState, useRef } from 'react';
@@ -6,7 +6,7 @@ import {
   Filter,
   Export, ArrowLeft,
   ArrowSwapVertical, Setting3, SearchNormal1,
-  ArrowDown,
+  // ArrowDown,
   ArrowDown2
 
 } from "iconsax-react";
@@ -17,6 +17,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ExpenseFilter from './ExpenseFilter';
 import ApiPagination from "../../Components/ApiPagination";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+
+
+
 
 function ExpenseRegister() {
 
@@ -926,4 +930,4 @@ function ExpenseRegister() {
     </div>
   );
 }
-export default ExpenseRegister;
+export default withErrorBoundary(ExpenseRegister);

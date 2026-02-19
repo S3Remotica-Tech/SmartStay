@@ -9,7 +9,7 @@ import { IoCloseOutline } from "react-icons/io5";
 // import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     const state = useSelector((state) => state);
@@ -601,6 +601,10 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
 TenantsFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    size: PropTypes.any,
+    page: PropTypes.any,
+    startDate: PropTypes.any,
+    endDate: PropTypes.any,
 };
 
-export default TenantsFilter
+export default withErrorBoundary(TenantsFilter)

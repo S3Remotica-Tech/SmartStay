@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Filter,
@@ -13,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import ReceiptFilter from './ReceiptFilter';
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 function ReceiptRegister() {
 
   const navigate = useNavigate();
@@ -888,4 +889,4 @@ useEffect(() => {
   )
 }
 
-export default ReceiptRegister
+export default withErrorBoundary(ReceiptRegister)
