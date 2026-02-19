@@ -84,6 +84,7 @@ import AnalyticalVacantOcupied from "../Reports/AnalyticalVacantOcupied/Analytic
 import AnalyticalExpenseTrend from "../Reports/AnalyticalExpenseTrend/AnalyticalExpenseTrend";
 import AnalyticalInvoiceTrend from "../Reports/AnalyticalInvoiceTrend/AnalyticalInvoiceTrend";
 import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolved/AnalyticalComplaintsResolved"
+import GraphQL from "../Pages/Dashboard/GraphQL";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1244,6 +1245,7 @@ function Sidebar() {
             <Routes>
 
               <Route path="/payment-preview" element={<PaymentPreview />} />
+               <Route path="/graph" element={<GraphQL />} />
               <Route
                 path="/dashboard/:hostelId?"
                 element={
