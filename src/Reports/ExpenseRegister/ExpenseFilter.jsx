@@ -159,16 +159,6 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
 
 
-
-
-
-
-
-
-
-
-
-
     const CheckboxOption = (props) => {
         const { isSelected, label } = props;
 
@@ -536,7 +526,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                         onClick={() => {
                             setPeriod([]);
                             setPaymentMode([]);
-                            setPaidTo([]);
+                            // setPaidTo([]);
                             setCreatedBy([]);
                             setCategory([]);
                         }}
@@ -572,6 +562,8 @@ ExpenseFilter.propTypes = {
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
     page: PropTypes.any,
+    startDate: PropTypes.any,
+    endDate:  PropTypes.any,
 };
 
 export default withErrorBoundary(ExpenseFilter);

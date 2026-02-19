@@ -863,5 +863,7 @@ InvoiceRegisterFilter.propTypes = {
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
     page: PropTypes.any,
+     startDate: PropTypes.any,
+        endDate:  PropTypes.any,
 };
 export default withErrorBoundary(InvoiceRegisterFilter)

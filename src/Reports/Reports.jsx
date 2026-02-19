@@ -671,8 +671,7 @@ function Reports() {
                     )}
                     <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
 
-                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics
-                      (item)}>
+                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics(item)}>
                       <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
                         View Analytics
                       </span>

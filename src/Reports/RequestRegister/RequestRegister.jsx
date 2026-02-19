@@ -23,7 +23,7 @@ function RequestRegister() {
   const navigate = useNavigate();
   const state = useSelector(state => state)
   const { RangePicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
   const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false)
@@ -102,7 +102,7 @@ function RequestRegister() {
   }
 
   const handleClickFilter = () => {
-    setInvoiceFilter(true)
+    // setInvoiceFilter(true)
   }
 
   // const handleCloseFilterBills = () => {

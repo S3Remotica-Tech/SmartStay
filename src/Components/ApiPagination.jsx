@@ -1,8 +1,9 @@
 // new api pagination 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import React, { useEffect, useState } from "react";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Select from "react-select";
+import PropTypes from "prop-types";
 
 function ApiPagination({
   currentPage,
@@ -196,7 +197,13 @@ function ApiPagination({
     </div>
   );
 }
-
+ApiPagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  totalRecords: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onSizeChange: PropTypes.func.isRequired,
+};
 export default ApiPagination;
 
 

@@ -601,6 +601,10 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
 TenantsFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    size: PropTypes.any,
+    page: PropTypes.any,
+    startDate: PropTypes.any,
+    endDate: PropTypes.any,
 };
 
 export default withErrorBoundary(TenantsFilter)

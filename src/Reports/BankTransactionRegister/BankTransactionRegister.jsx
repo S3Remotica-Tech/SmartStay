@@ -4,7 +4,7 @@ import {
   Filter,
   Export, ArrowLeft,
   ArrowSwapVertical, Setting3, SearchNormal1,
-  ArrowDown,
+  // ArrowDown,
   ArrowDown2
 
 } from "iconsax-react";
@@ -29,6 +29,10 @@ function BankTransactionRegister() {
   const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false)
   const [open, setOpen] = useState(false);
+
+console.log("invoiceFilter",invoiceFilter)
+
+
   useEffect(() => {
     setSelectedRange({
       from: dayjs().startOf("month").toDate(),

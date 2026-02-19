@@ -800,7 +800,7 @@ function TenantsRegister() {
 
 
                             <tbody>
-                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row, i) => (
+                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row) => (
                                     <tr
                                         key={row.tenantId}
                                         className="border-b last:border-none  transition"
