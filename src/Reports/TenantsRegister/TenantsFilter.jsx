@@ -27,7 +27,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     const savedFilters = state.reports?.tenantRegisterFilters;
 
 
-    console.log("savedFilters", savedFilters)
+    console.log("selectedTenantStatusOptions", selectedTenantStatusOptions)
 
     useEffect(() => {
         if (show && savedFilters) {
@@ -330,8 +330,10 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
                 room: room?.map(r => r.label),
                 search: tenantName,
                 tenantStatus: tenantStatus,
+                tenantStatusLabel: selectedTenantStatusOptions?.map(s=> s.label),
                 sharingType: sharingType?.value,
-                sharingTypeLabel: sharingType?.label
+                sharingTypeLabel: sharingType?.label,
+
             },
         })
 

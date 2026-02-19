@@ -149,7 +149,8 @@ function TenantsRegister() {
                 floorId: [],
                 roomId: [],
                  sharingType : "",
-                   sharingTypeLabel: ''
+                   sharingTypeLabel: '',
+                     tenantStatusLabel: []
 
             },
         })
@@ -181,7 +182,8 @@ function TenantsRegister() {
                 floorId: [],
                 roomId: [],
                  sharingType : "",
-                   sharingTypeLabel: ''
+                   sharingTypeLabel: '',
+                     tenantStatusLabel: []
 
             },
         })
@@ -316,7 +318,8 @@ function TenantsRegister() {
                     floorId: [],
                     roomId: [],
                      sharingType : "",
-                       sharingTypeLabel: ''
+                       sharingTypeLabel: '',
+                         tenantStatusLabel: []
 
                 },
             })
@@ -380,10 +383,11 @@ function TenantsRegister() {
         setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
-
+console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegisterFilters)
     useEffect(() => {
         const filters = state.reports?.tenantRegisterFilters;
         const filterData = [];
+
 
 
         if (filters?.startDate || filters?.endDate) {
@@ -427,8 +431,8 @@ function TenantsRegister() {
         }
 
 
-        if (filters?.tenantStatus?.length) {
-            filters.tenantStatus.forEach(status => {
+        if (filters?.tenantStatusLabel?.length) {
+            filters.tenantStatusLabel.forEach(status => {
                 filterData.push({
                     key: "tenantStatus",
                     label: "Status",
@@ -507,7 +511,8 @@ function TenantsRegister() {
                 floorId: [],
                 roomId: [],
                  sharingType : "",
-                   sharingTypeLabel: ''
+                   sharingTypeLabel: '',
+                     tenantStatusLabel: []
 
             },
         })
