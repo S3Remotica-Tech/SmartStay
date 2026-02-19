@@ -2425,17 +2425,17 @@ function UserList(props) {
 
 
 
-  const handleCheckoutGenrate = (item) => {
-    setFinalsettledData(item)
-    console.log("item", item)
-    setFinalSettlePage(true)
-    setDueCustomerShow(false);
+  // const handleCheckoutGenrate = (item) => {
+  //   setFinalsettledData(item)
+  //   console.log("item", item)
+  //   setFinalSettlePage(true)
+  //   setDueCustomerShow(false);
 
-    dispatch({
-      type: "GETCONFIRMCHECKOUTCUSTOMER",
-      payload: { id: item?.customerId, hostel_id: item?.Hostel_Id },
-    });
-  }
+  //   dispatch({
+  //     type: "GETCONFIRMCHECKOUTCUSTOMER",
+  //     payload: { id: item?.customerId, hostel_id: item?.Hostel_Id },
+  //   });
+  // }
 
 
 

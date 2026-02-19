@@ -106,6 +106,8 @@ function InvoiceRegister() {
         { title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, 
             // down: "5%",
              link: true },
+             { title: "Refunded Booking Amount", value: state?.reports?.getInvoiceRegister?.refundAmount },
+              { title: "Cancelled Amount", value: state?.reports?.getInvoiceRegister?.cancelledAmount },
     ];
 
 
@@ -765,12 +767,13 @@ console.log("invoiceFilters",invoiceFilters)
                 )}
 
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
+              <div className="mt-3 ms-1 me-1 overflow-x-auto">
+    <div className="flex gap-4 flex-nowrap">
                     {stats.map((item, i) => (
                         <div
-                            key={i}
-                            className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[130px]"
-                        >
+                key={i}
+                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[120px] min-w-[250px] flex-shrink-0"
+            >
                             <div className='flex justify-between '>
 
                                 <label className="text-sm font-semibold text-[#4A5565]">
@@ -790,20 +793,20 @@ console.log("invoiceFilters",invoiceFilters)
 
                             <div className="flex items-center gap-2 mt-2">
                                 <h2 className="text-2xl font-semibold text-[#101828]">
-                                    {item.value}
+                                    {item.value || 0}
                                 </h2>
 
 
                             </div>
                             {item.link && (
-                                <p className="text-xs text-[#155DFC]  cursor-pointer" onClick={handleClickFilter}>
+                                <p className="text-xs text-[#155DFC] w-fit cursor-pointer" onClick={handleClickFilter}>
                                     Click to filter
                                 </p>
                             )}
                         </div>
                     ))}
-                </div>
-
+                 </div>
+</div>
 
 
 
