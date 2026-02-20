@@ -853,7 +853,7 @@ function* handleInvoicePdf(action) {
          }
    catch (error) {
       yield* handleApiError(error);
-console.log("error", error)
+
  if (error.status === 400) {
          yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
           toast.error(error.response.data, {
@@ -1740,7 +1740,7 @@ function* handleReference_Id() {
 
 function* handleReceiptPdf(action) {
    try {
-      const response = yield call(ReceiptPDf, action.payload)
+       const response = yield call(ReceiptPDf, action.payload)
 
       if (response?.status === 200) {
          yield put({
@@ -1749,16 +1749,24 @@ function* handleReceiptPdf(action) {
             }
          })
       }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
+     
    }
    catch (error) {
       yield* handleApiError(error);
-
+ if (error.status === 400) {
+         yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
+          toast.error(error.response.data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            
+         })
+      }
    }
 }
 

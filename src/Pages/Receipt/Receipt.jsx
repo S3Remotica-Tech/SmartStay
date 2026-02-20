@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect , useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReceiptList from "../../Pages/Receipt/ReceiptList";
 import { Container, Row, Col, InputGroup, Table, Button, FormControl, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -87,22 +87,23 @@ function Receipt() {
     };
 
 
-
+    const [pdfLoading, setPdfLoading] = useState(false)
 
     useEffect(() => {
-        if (state.InvoiceList.pdfErrorStatusCode === 201) {
+        if (state.InvoiceList.pdfErrorMessage) {
+
+            setPdfLoading(false);
             setTimeout(() => {
                 dispatch({ type: "REMOVE_PDF_ERROR" });
             }, 100);
         }
-    }, [state.InvoiceList.pdfErrorStatusCode]);
+    }, [state.InvoiceList.pdfErrorMessage]);
     useEffect(() => {
         if (state.createAccount?.networkError) {
-            // setLoading(false)
-            // setShowLoader(false);
+            setPdfLoading(false);
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-            }, 3000)
+            }, 100)
         }
 
     }, [state.createAccount?.networkError])
@@ -121,7 +122,7 @@ function Receipt() {
                 },
             });
 
-            // setShowLoader(true);
+            setPdfLoading(true);
         }
     };
 
@@ -131,7 +132,7 @@ function Receipt() {
         if (!state.InvoiceList.ReceiptPDF) return;
         if (pdfOpenedRef.current) return;
         pdfOpenedRef.current = true;
-        //    setShowLoader(false);
+        setShowLoader(false);
         window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
         dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
@@ -151,15 +152,6 @@ function Receipt() {
         setEditvalue(item);
         setReceiptEdit(true);
     };
-
-
-
-
-
-
-
-
-
 
 
 
@@ -186,8 +178,7 @@ function Receipt() {
 
 
 
-    const handleDisplayReceiptDownload = (
-    ) => {
+    const handleDisplayReceiptDownload = () => {
 
         setSearch(false)
     };
@@ -284,14 +275,7 @@ function Receipt() {
 
 
 
-    useEffect(() => {
-        if (state.createAccount?.networkError) {
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-            }, 3000)
-        }
 
-    }, [state.createAccount?.networkError])
 
 
 
@@ -320,7 +304,11 @@ function Receipt() {
     return (
         <div className="relative sticky top-0 bg-white overflow-hidden"
         >
-
+            {pdfLoading && (
+                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
             {!canReadReceipt ? (
                 <>
                     <div className="flex flex-col items-center justify-center mt-[90px]">

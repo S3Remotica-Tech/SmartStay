@@ -99,7 +99,7 @@ const InvoiceCard = ({ rowData, }) => {
 
   const innerScrollRef = useRef(null);
 
-
+const [pdfLoading, setPdfLoading] = useState(false)
 
 
   const handleBackInvoice = () => {
@@ -120,6 +120,7 @@ const InvoiceCard = ({ rowData, }) => {
 
         },
       });
+      setPdfLoading(true)
 
     }
   };
@@ -129,9 +130,24 @@ const InvoiceCard = ({ rowData, }) => {
     if (!state.InvoiceList.ReceiptPDF) return;
 
     window.open(state.InvoiceList.ReceiptPDF, "_blank");
-
+setPdfLoading(false)
     dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
   }, [state.InvoiceList.ReceiptPDF]);
+
+
+
+useEffect(() => {
+    if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError) {
+     setPdfLoading(false)
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_PDF_ERROR" });
+         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 100);
+    }
+  }, [state.InvoiceList.pdfErrorMessage , state.createAccount?.networkError]);
+
+
+
 
   const handleShareClick = () => {
     setIsOpen(!isOpen);
@@ -210,7 +226,11 @@ const InvoiceCard = ({ rowData, }) => {
     <>
       <div className="sticky-top bg-white p-0 m-0 d-flex justify-content-between align-items-center" style={{ borderLeft: "1px solid #E5E7EB" }}>
 
-
+  {pdfLoading && (
+                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
         <div
           className="d-flex justify-content-between align-items-center "
           style={{

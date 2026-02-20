@@ -150,13 +150,19 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         if (emailError) {
             return;
         }
-
-        const capitalizeFirstLetter = (str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        const capitalizeFirstLetter = (str = "") => {
+            if (typeof str !== "string") return "";
+            const trimmed = str.trim();
+            return trimmed
+                ? trimmed[0].toUpperCase() + trimmed.slice(1).toLowerCase()
+                : "";
         };
 
-        const capitalizedFirstname = capitalizeFirstLetter(firstName);
-        const capitalizedLastname = capitalizeFirstLetter(lastName);
+
+
+
+        const capitalizedFirstname = capitalizeFirstLetter(firstName ?? "");
+        const capitalizedLastname = capitalizeFirstLetter(lastName ?? "");
         const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
         const currentValues = {
@@ -306,11 +312,11 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                         <span className="text-red-600 text-xl">*</span>
                                     </Form.Label>
 
-                                   <InputGroup className="w-full">
-  <Form.Select
-    value={countryCode}
-    // id="vendor-select-pg"
-    className={`
+                                    <InputGroup className="w-full">
+                                        <Form.Select
+                                            value={countryCode}
+                                            // id="vendor-select-pg"
+                                            className={`
       h-12 max-w-24
       border border-gray-300 border-r-0
       rounded-l-lg rounded-r-none
@@ -319,17 +325,17 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
       ${countryCode ? "font-semibold" : "font-medium"}
       focus:shadow-none focus:border-gray-300
     `}
-  >
-    <option value="91">+91</option>
-  </Form.Select>
+                                        >
+                                            <option value="91">+91</option>
+                                        </Form.Select>
 
-  <Form.Control
-    value={phone}
-    onChange={handlePhoneChange}
-    type="text"
-    placeholder="Enter Mobile Number"
-    maxLength={10}
-    className={`
+                                        <Form.Control
+                                            value={phone}
+                                            onChange={handlePhoneChange}
+                                            type="text"
+                                            placeholder="Enter Mobile Number"
+                                            maxLength={10}
+                                            className={`
       h-12 shadow-none
       border border-gray-300 border-l-0
       rounded-r-lg rounded-l-none
@@ -337,8 +343,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
       ${phone ? "font-semibold" : "font-medium"}
       focus:shadow-none focus:border-gray-300
     `}
-  />
-</InputGroup>
+                                        />
+                                    </InputGroup>
 
                                 </Form.Group>
 
@@ -363,10 +369,10 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
                     <Modal.Footer className="border-0 pt-0">
                         <div className="flex justify-end gap-3">
-                            
-                              <Button className="w-100 mt-1 bg-white border-0 !text-[#1E45E1] !font-bold !text-base !font-gilroy rounded-xl py-2 px-10"
+
+                            <Button className="w-100 mt-1 bg-white border-0 !text-[#1E45E1] !font-bold !text-base !font-gilroy rounded-xl py-2 px-10"
                                 onClick={handleClose}
-                                >
+                            >
                                 Cancel
                             </Button>
 

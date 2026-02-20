@@ -916,9 +916,9 @@ console.log("invoiceFilters",invoiceFilters)
                                                     )}
 
                                                     <span
-                                                        className="truncate whitespace-nowrap font-semibold text-[#111928]"
+                                                        className="min-w-0 flex-1 truncate whitespace-nowrap font-semibold text-[#111928]"
                                                         title={row.fullName}
-                                                    >
+                                                    > 
                                                         {row.fullName}
                                                     </span>
                                                 </div>

@@ -605,7 +605,7 @@ function AddCustomer({ showMenu, handleClose }) {
         dialogClassName="custom-modal custom-modal-width"
       >
         <Modal.Dialog
-          className="w-full !max-w-[800px] !w-[800px] pr-2 rounded-[30px] -mt-10 mb-24 m-0 p-0"
+          className="w-full !max-w-[800px] !w-[800px] pr-2 rounded-[30px] -mt-10 mb-24 m-0 p-0 font-gilroy"
         >
           <Modal.Body className="p-0">
             <div className="flex justify-center overflow-auto p-2">
