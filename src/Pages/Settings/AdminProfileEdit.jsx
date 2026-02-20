@@ -32,7 +32,7 @@ function AdminProfileEdit({ show, handleClose }) {
         if (!email.trim())
             newErrors.email = "Please Enter Email";
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-            newErrors.email = "Invalid Email Format";
+            newErrors.email = "Please Enter Valid Email Id";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -48,9 +48,17 @@ function AdminProfileEdit({ show, handleClose }) {
     };
 
     const handleMobileChange = (e) => {
-        setMobile(e.target.value);
-        setErrors((prev) => ({ ...prev, mobile: "" }));
-    };
+  let value = e.target.value;
+
+  
+  value = value.replace(/\D/g, "");
+
+ 
+  if (value.length > 10) return;
+
+  setMobile(value);
+  setErrors((prev) => ({ ...prev, mobile: "" }));
+};
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -61,15 +69,20 @@ function AdminProfileEdit({ show, handleClose }) {
     const handleSubmit = () => {
         if (!validate()) return;
 
-        console.log({
-            firstName,
-            lastName,
-            mobile,
-            email,
-            profileImage,
-        });
+       const payload = {
+    firstName: firstName?.trim(),
+    lastName: lastName?.trim(),
+    emailId: email?.trim(),
+    mobile: mobile,
+       profilePic: profileImage || null,
+  };
 
-        handleClose();
+  dispatch({
+    type: "PROFILE-UPDATE",
+    payload: payload,
+  });
+
+      
     };
 
 
@@ -80,9 +93,7 @@ function AdminProfileEdit({ show, handleClose }) {
         }
     };
 
-    const handleDeleteImage = () => {
-        setProfileImage(null);
-    };
+  
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] font-['Gilroy']">
@@ -130,14 +141,14 @@ function AdminProfileEdit({ show, handleClose }) {
 
                 <div className="mb-2">
                     <label className="text-[14px] text-gray-700">
-                        First Name <span className="text-red-500">*</span>
+                        First Name <span className="text-red-500 text-base">*</span>
                     </label>
                     <input
                         type="text"
                         value={firstName}
                         onChange={handleFirstNameChange}
                         placeholder="Please Enter First Name"
-                        className={`w-full h-[44px] mt-2 px-4 rounded-lg border ${errors.firstName ? "border-red-500" : "border-gray-300"
+                        className={`w-full h-[44px] mt-2 px-4  shadow-none rounded-lg border ${errors.firstName ? "border-red-500" : "border-gray-300"
                             } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
                     />
                     {errors.firstName && (
@@ -155,14 +166,14 @@ function AdminProfileEdit({ show, handleClose }) {
                         value={lastName}
                         placeholder="Please Enter Last Name"
                         onChange={handleLastNameChange}
-                        className="w-full h-[44px] mt-2 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]"
+                        className="w-full h-[44px] mt-2 px-4  shadow-none rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]"
                     />
                 </div>
 
 
                 <div className="mb-2">
                     <label className="text-[14px] text-gray-700">
-                        Mobile No <span className="text-red-500">*</span>
+                        Mobile No <span className="text-red-500 text-base">*</span>
                     </label>
                     <div className="flex mt-2">
                         <span className="flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-[14px]">
@@ -173,7 +184,7 @@ function AdminProfileEdit({ show, handleClose }) {
                             value={mobile}
                             placeholder="Please Enter Mobile Number"
                             onChange={handleMobileChange}
-                            className={`w-full h-[44px] px-4 rounded-r-lg border ${errors.mobile ? "border-red-500" : "border-gray-300"
+                            className={`w-full h-[44px] px-4 shadow-none rounded-r-lg border ${errors.mobile ? "border-red-500" : "border-gray-300"
                                 } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
                         />
                     </div>
@@ -185,14 +196,14 @@ function AdminProfileEdit({ show, handleClose }) {
 
                 <div className="mb-2">
                     <label className="text-[14px] text-gray-700">
-                        Email ID  <span className="text-red-500">*</span>
+                        Email ID  <span className="text-red-500 text-base">*</span>
                     </label>
                     <input
                         type="email"
                         value={email}
                         onChange={handleEmailChange}
                         placeholder="Please Enter Email Id"
-                        className={`w-full h-[44px] mt-2 px-4 rounded-lg border ${errors.email ? "border-red-500" : "border-gray-300"
+                        className={`w-full h-[44px] mt-2 px-4 shadow-none rounded-lg border ${errors.email ? "border-red-500" : "border-gray-300"
                             } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
                     />
                     {errors.email && (
