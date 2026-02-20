@@ -451,6 +451,23 @@ function ReceiptRegister() {
   };
 
 
+  // const handleNavigateReceiptPdf = (item) =>{
+
+  //   console.log("item",item)
+
+  //   if (item?.transactionId && state.login.selectedHostel_Id) {
+  //       dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: item.transactionId } })
+  //       navigate(`/receipts/details/${item.transactionId}`, {
+  //         state: {
+  //           rowData: item
+  //         },
+  //       });
+
+  //     }
+
+  // }
+
+
 useEffect(() => {
       if (state.createAccount?.networkError) {
         setLoading(false)
@@ -460,6 +477,11 @@ useEffect(() => {
       }
   
     }, [state.createAccount?.networkError])
+
+
+
+
+
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -648,7 +670,7 @@ useEffect(() => {
 
                   <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
                     <Setting3
-                      onClick={() => setOpen(!open)}
+                      // onClick={() => setOpen(!open)}
                       className="cursor-pointer"
                       size="18"
                       color="#4B4B4B"
@@ -716,6 +738,7 @@ useEffect(() => {
                       className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
                       left-[42px] z-20 bg-white w-[140px]"
                       title={row.receiptNo}
+                        // onClick={() => handleNavigateReceiptPdf(row)}
                     >
                       {row.receiptNo}
                     </td>

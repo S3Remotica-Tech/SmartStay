@@ -31,14 +31,14 @@ import BackToCheckIn from "../CustomerFile/BackToCheckIn";
 import { clickedBedForChange } from '../../Redux/Action/LoginAction';
 import FinalOld from '../CustomerFile/FinalOld';
 import Button from 'react-bootstrap/Button';
-
+import { useNavigate } from "react-router-dom";
 function BedDetailsMap({ room, propsValue,
     selectedBed,
     setSelectedBed }) {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
     const [occupiedCustomer, setOccupiedCustomer] = useState(false)
@@ -71,13 +71,19 @@ function BedDetailsMap({ room, propsValue,
     } = useHasPermission("Paying Guests");
 
 
-    const handleshowfinalsettlement = (isvisible, tenantDetails) => {
-       
-        setFinalSettlePage(isvisible)
-
-
+    const handleshowfinalsettlement = (tenantDetails) => {
+        // setFinalSettlePage(isvisible)
         setNoticePeriodBed(false)
         setSelectedTenant(tenantDetails)
+
+        navigate(`/tenant/final-settlement/${tenantDetails?.customerId}`, {
+            state: {
+                data: tenantDetails,
+                isPGWay: true
+            }
+        });
+
+
     }
 
     const handleClosefinalsettelment = () => {
@@ -173,10 +179,10 @@ function BedDetailsMap({ room, propsValue,
         setNoticePeriodBed(false)
     }
 
-    const handleshowNoticePeriodBooking = (isVisible, tenantDetails ) => {
+    const handleshowNoticePeriodBooking = (isVisible, tenantDetails) => {
         setNoticePeriodBooking(isVisible)
         setNoticePeriodBed(false)
-         setSelectedTenant(tenantDetails)
+        setSelectedTenant(tenantDetails)
     }
 
     const handlecloseNoticeperiodBooking = () => {

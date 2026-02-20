@@ -361,6 +361,8 @@ const InvoicePage = () => {
   ];
 
 
+
+
   const handleInvoiceDetail = (rowData) => {
     if (rowData.invoiceId) {
       dispatch({
@@ -370,10 +372,9 @@ const InvoicePage = () => {
           invoiceId: rowData.invoiceId,
         },
       });
+       setLoading(true);
 
     }
-
-
   };
 
 
@@ -418,21 +419,21 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    if (state.InvoiceList.pdfErrorStatusCode === 201) {
+    if (state.InvoiceList.pdfErrorMessage) {
       setLoading(false)
       setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_PDF_ERROR" });
       }, 100);
     }
-  }, [state.InvoiceList.pdfErrorStatusCode]);
+  }, [state.InvoiceList.pdfErrorMessage]);
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setLoading(false)
       setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+      }, 100)
     }
 
   }, [state.createAccount?.networkError])

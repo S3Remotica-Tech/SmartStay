@@ -162,7 +162,7 @@ const InvoiceCard = ({ rowData ,isReportsInvoiceRegisterWay}) => {
   // };
 
 
-
+const [pdfLoading, setPdfLoading] = useState(false)
 
 const handleDownload =  (rowData) => {
   
@@ -173,6 +173,7 @@ const handleDownload =  (rowData) => {
             invoiceId: rowData.invoiceId,
           },
         });
+        setPdfLoading(true)
 
   };
 
@@ -181,18 +182,23 @@ const handleDownload =  (rowData) => {
 
 useEffect(() => {
   const pdfUrl = state?.InvoiceList?.invoicePDF;
-
   if (pdfUrl) {
     window.open(pdfUrl, "_blank");
-
+    setPdfLoading(false)
     dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE'})
-
-
-  }
+      }
 }, [state?.InvoiceList?.invoicePDF]);
 
 
-
+ useEffect(() => {
+    if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError) {
+     setPdfLoading(false)
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_PDF_ERROR" });
+         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 100);
+    }
+  }, [state.InvoiceList.pdfErrorMessage , state.createAccount?.networkError]);
 
 
 
@@ -348,6 +354,13 @@ console.log("pdfDetails",pdfDetails, state)
       position: 'relative ',
 
     }}>
+
+
+      {pdfLoading && (
+                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
 
       <div className="" style={{ borderLeft: "1px solid #E5E7EB" }}>
 

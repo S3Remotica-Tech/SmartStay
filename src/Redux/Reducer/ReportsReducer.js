@@ -63,7 +63,8 @@ export const initialState = {
          floorId: [],
          roomId: [],
          sharingType : "",
-          sharingTypeLabel: ''
+          sharingTypeLabel: '',
+          tenantStatusLabel: []
          
 
     }

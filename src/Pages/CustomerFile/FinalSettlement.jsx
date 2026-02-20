@@ -53,23 +53,9 @@ function FinalSettlement() {
     const [isEditingDate, setIsEditingDate] = useState(false);
     const [checkoutDate, setCheckoutDate] = useState(dayjs())
     const [selectedRowDetails, setSelectedRowDetails] = useState('')
-    const { data, pgDetails } = location.state || {};
+    const { data, pgDetails, isPGWay } = location.state || {};
 
-    // const ebBreakup = [
-    //     {
-    //         floorName: "Ground Floor",
-    //         roomBed: "G 005 - B 03",
-    //         units: 27,
-    //     },
-    //     {
-    //         floorName: "First Floor",
-    //         roomBed: "F 002 - B 01",
-    //         units: 23,
-    //     },
-    // ];
-
-
-
+   
     const handleRoomReading = (item) => {
         setShowRoomReading(true)
         setSelectedRowDetails(item)
@@ -80,6 +66,7 @@ function FinalSettlement() {
         setShowRoomReading(false)
     }
 
+    console.log("data",data)
 
     useEffect(() => {
         if (!data?.customerId && !data?.tenetId) return;
@@ -239,7 +226,7 @@ function FinalSettlement() {
 
 
     const handleClose = () => {
-        if (pgDetails) {
+        if (pgDetails || isPGWay) {
             navigate(`/paying-guest/${state.login.selectedHostel_Id}`)
         } else {
             navigate(`/tenant/${state.login.selectedHostel_Id}`)
@@ -410,6 +397,7 @@ function FinalSettlement() {
 
 
 
+ const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === data?.customerId || data?.tenetId);
 
 
 
@@ -607,17 +595,13 @@ function FinalSettlement() {
                     </div>
 
 
-
-
-
-
                     <div className="flex justify-between mb-2 w-full gap-2 font-[Gilroy]">
                         <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
-                            {pgDetails?.floorName || data?.floorName || data?.hostelInfo?.floorName}
+                            {pgDetails?.floorName || data?.floorName || data?.hostelInfo?.floorName || selectedUser?.floorName}
                         </span>
 
                         <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
-                            {pgDetails?.roomName || data?.roomName || data?.hostelInfo?.roomName} - {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName}
+                            {pgDetails?.roomName || data?.roomName || data?.hostelInfo?.roomName || selectedUser?.roomName} - {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName || selectedUser?.bedName}
                         </span>
                     </div>
 

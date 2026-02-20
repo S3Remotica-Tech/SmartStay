@@ -136,10 +136,10 @@ function NoticeBedStatusDetails({
     (user) => user.customerId === selectedTenant?.tenetId
   );
 
-  console.log("matchedData", matchedData)
+ 
 
   const handleFinalsettelmentGenerate = (tenant) => {
-    showfinalsettelemnet(true, tenant)
+    showfinalsettelemnet(tenant)
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },

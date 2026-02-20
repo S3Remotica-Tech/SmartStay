@@ -75,7 +75,7 @@ finalSettlementError: '',
     AddErrorRecurrringStatusCode: 0,
     triggeredBy: '',
     CustomerRecurringEnableDisableStatusCode: 0,
-    pdfErrorStatusCode: 0,
+    pdfErrorMessage: 0,
     statusodeForPayableAmount: 0,
     payapleAmountError: '',
     finalSettlementDetails: [],
@@ -466,10 +466,10 @@ case 'REMOVE_FINAL_SETTLMENT_ERROR':
             return { ...state, triggeredBy: '' };
 
         case 'PDF_ERROR':
-            return { ...state, pdfErrorStatusCode: action.payload.statusCode };
+            return { ...state, pdfErrorMessage: action.payload.response };
 
         case 'REMOVE_PDF_ERROR':
-            return { ...state, pdfErrorStatusCode: 0 };
+            return { ...state, pdfErrorMessage: 0 };
 
         case 'SET_WHATSAPP_SETTINGS':
             return { ...state, whatsappSettings: action.payload };

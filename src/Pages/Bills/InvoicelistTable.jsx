@@ -185,10 +185,13 @@ const InvoiceTable = (props) => {
           <div className="Invoice_Name" style={{
             fontFamily: 'Gilroy', fontSize: '13px', color: "#1E45E1",
             fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer",
-            textAlign: "start",
+            textAlign: "start",whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "180px"
           }}
             onClick={() => handleNavigateTenantProfile(props.item)}
-
+title={props.item?.fullName}
           >
             {props.item?.fullName}
 
