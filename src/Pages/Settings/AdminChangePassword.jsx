@@ -3,18 +3,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Eye, EyeSlash } from "iconsax-react";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function AdminChangePassword({ show, handleClose }) {
-     const state = useSelector((state) => state);
-      const dispatch = useDispatch();
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
 
     const [errors, setErrors] = useState({});
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
-const account = state.createAccount?.accountList
+    const account = state.createAccount?.accountList
     if (!show) return null;
 
     const passwordRegex =
@@ -71,28 +71,31 @@ const account = state.createAccount?.accountList
 
                     <div className="relative mt-2">
                         <input
+                            autoComplete="off"
+                            name="current_password"
                             type={showCurrent ? "text" : "password"}
                             value={currentPassword}
-                             placeholder="Enter current password"
+                            placeholder="Enter current password"
                             onChange={(e) => {
                                 setCurrentPassword(e.target.value);
                                 setErrors({ ...errors, currentPassword: "" });
                             }}
                             className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${errors.currentPassword
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                ? "border-red-500"
+                                : "border-gray-300"
                                 } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
                         />
 
                         {showCurrent ? (
-                            <EyeSlash
+                            <Eye
                                 size="20"
                                 color="#9CA3AF"
                                 className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                                 onClick={() => setShowCurrent(false)}
                             />
                         ) : (
-                            <Eye
+                           
+                             <EyeSlash
                                 size="20"
                                 color="#9CA3AF"
                                 className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -102,47 +105,57 @@ const account = state.createAccount?.accountList
                     </div>
 
                     {errors.currentPassword && (
-                        <p className="text-red-500 text-[12px] mt-1">
-                            {errors.currentPassword}
-                        </p>
+                       <ErrorMessage  message={errors.currentPassword} type="error" />
                     )}
                 </div>
 
 
-                <div className="mt-2">
-                    <label className="text-[14px] text-gray-700">
-                        New Password <span className="text-red-500">*</span>
-                    </label>
+              
 
-                    <div className="relative mt-2">
-                        <input
-                            type={showNew ? "text" : "password"}
-                            value={newPassword}
-                            onChange={(e) => {
-                                setNewPassword(e.target.value);
-                                setErrors({ ...errors, newPassword: "" });
-                            }}
-                            placeholder="Enter new password"
-                            className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${errors.newPassword
-                                ? "border-red-500"
-                                : "border-gray-300"
-                                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
-                        />
+                    <div className="mt-2">
+                        <label className="text-[14px] text-gray-700">
+                            New Password <span className="text-red-500">*</span>
+                        </label>
 
-                        <i
-                            className={`isax ${showNew ? "isax-eye-slash" : "isax-eye"
-                                } absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer`}
-                            onClick={() => setShowNew(!showNew)}
-                        ></i>
+                        <div className="relative mt-2">
+                            <input
+                                autoComplete="new-password"
+                                name="new_password"
+                                type={showNew ? "text" : "password"}
+                                value={newPassword}
+                                placeholder="Enter new password"
+                                onChange={(e) => {
+                                    setNewPassword(e.target.value);
+                                    setErrors({ ...errors, newPassword: "" });
+                                }}
+                                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${errors.newPassword ? "border-red-500" : "border-gray-300"
+                                    } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+                            />
+
+                            {showNew ? (
+                                <Eye
+                                    size="20"
+                                    color="#9CA3AF"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                                    onClick={() => setShowNew(false)}
+                                />
+                            ) : (
+                               
+                                 <EyeSlash
+                                    size="20"
+                                    color="#9CA3AF"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                                    onClick={() => setShowNew(true)}
+                                />
+                            )}
+                        </div>
+
+                        {errors.newPassword && (
+                           <ErrorMessage  message={errors.newPassword} type="error" />
+                        )}
                     </div>
-
-                    {errors.newPassword && (
-                        <p className="text-red-500 text-[12px] mt-1">
-                            {errors.newPassword}
-                        </p>
-                    )}
-                </div>
-
+                   
+               
 
                 <div className="mt-8 flex justify-end gap-4">
                     <button
@@ -154,7 +167,7 @@ const account = state.createAccount?.accountList
 
                     <button
                         onClick={handleSubmit}
-                        className="h-[44px] px-6 rounded-lg bg-blue-600 text-white text-[14px] font-medium hover:bg-blue-700 transition"
+                        className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition"
                     >
                         Continue
                     </button>

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Edit2, Trash, Camera } from "iconsax-react";
 import AdminProfile from '../../Assets/v2Images/adminprofile.png'
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function AdminProfileEdit({ show, handleClose }) {
@@ -141,9 +141,7 @@ function AdminProfileEdit({ show, handleClose }) {
                             } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
                     />
                     {errors.firstName && (
-                        <p className="text-red-500 text-[12px] mt-1">
-                            {errors.firstName}
-                        </p>
+                         <ErrorMessage  message={errors.firstName} type="error" />
                     )}
                 </div>
 
@@ -180,9 +178,7 @@ function AdminProfileEdit({ show, handleClose }) {
                         />
                     </div>
                     {errors.mobile && (
-                        <p className="text-red-500 text-[12px] mt-1">
-                            {errors.mobile}
-                        </p>
+                         <ErrorMessage  message={errors.mobile} type="error" />
                     )}
                 </div>
 
@@ -200,9 +196,7 @@ function AdminProfileEdit({ show, handleClose }) {
                             } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-[12px] mt-1">
-                            {errors.email}
-                        </p>
+                         <ErrorMessage  message={errors.email} type="error" />
                     )}
                 </div>
 
@@ -217,7 +211,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
                     <button
                         onClick={handleSubmit}
-                        className="h-[44px] px-6 rounded-lg bg-blue-600 text-white text-[14px] font-medium hover:bg-blue-700 transition"
+                        className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition"
                     >
                         Save
                     </button>
