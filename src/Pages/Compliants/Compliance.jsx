@@ -1317,7 +1317,7 @@ const Compliance = () => {
       </div>
 
       {show &&
-        <div className="modal show block static font-sans" >
+        <div className="modal show block static font-gilroy" >
           <Modal
             show={show}
             onHide={handleClose}

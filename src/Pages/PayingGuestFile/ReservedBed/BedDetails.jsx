@@ -234,9 +234,6 @@ function BedDetails({
                                 </div>
                             </div>
 
-
-
-
                             {/* <CloseCircle size="24" color="#000" onClick={handleCloseBed} style={{ cursor: "pointer" }} /> */}
                         </Modal.Header>
                         <Modal.Body style={{ padding: "5px 20px" }}>

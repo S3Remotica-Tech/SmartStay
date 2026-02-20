@@ -2842,8 +2842,6 @@ function UserListRoomDetail(props) {
                   className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "3" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
 
-
-
                 <Tab
                   label="Transactions"
                   value="4"
@@ -2889,7 +2887,7 @@ function UserListRoomDetail(props) {
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             First Name
                           </p>
-                          <p className="text-sm font-semibold font-gilroy break-words">
+                          <p className="text-sm font-semibold font-gilroy truncate hover:whitespace-normal hover:overflow-visible">
                             {CustomerOverView?.firstName || "-"}
                           </p>
                         </div>

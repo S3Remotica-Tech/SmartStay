@@ -107,7 +107,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         }
     }
 
-console.log("checkInDetails",checkInDetails)
+    console.log("checkInDetails", checkInDetails)
 
     useEffect(() => {
         if (state.UsersList.cancelCheckoutStatusCode === 200) {
@@ -137,148 +137,81 @@ console.log("checkInDetails",checkInDetails)
 
 
     return (
-        <Modal show={show} onHide={handleClose} backdrop="static" centered>
-            <Modal.Dialog
-                style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-                className="m-0 p-0"
-            >
-                <Modal.Body>
-                    <Modal.Header
-                        className="pt-0 border-0"
-                        style={{ position: "relative" }}
-                    >
-                        <div
-                            style={{
-                                fontSize: 20,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                            }}
-                        >
+        <Modal show={show} onHide={handleClose} backdrop="static" centered >
+            <Modal.Dialog className="m-0 p-0 max-w-5xl pr-3 rounded-3xl ">
+                <Modal.Body className="p-">
+
+                    <Modal.Header className="-mx-4 px-4 pt-0 pb-2 mb-3 border-b border-gray-300 relative flex items-start justify-between">
+                        <div className="text-xl font-semibold font-gilroy">
                             Cancel Check-Out
                         </div>
 
                         <CloseCircle
-                            size="24"
+                            size="23"
                             color="#000"
                             onClick={handleClose}
-                            style={{ cursor: "pointer" }}
+                            className="cursor-pointer"
                         />
                     </Modal.Header>
 
-
-                    <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                        {
-                            imgsrc ? (
-                                <img
-                                    src={imgsrc}
-                                    alt="Profile"
-                                    className="rounded-circle"
-                                    width="35"
-                                    height="35"
-                                />
-                            ) : (
-                                <div
-                                    style={{
-                                        width: 50,
-                                        height: 50,
-                                        borderRadius: "50%",
-                                        backgroundColor: "#E2E8F0",
-                                        color: "#44536A",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontWeight: 600,
-                                        fontSize: 16,
-                                        fontFamily: "Gilroy"
-                                    }}
-                                >
-                                    {checkInDetails?.initials || checkInDetails?.tenantInitials}
-
-                                </div>
-                            )
-                        }
+                    <div className="flex items-center gap-3 mb-3 ml-2">
+                        {imgsrc ? (
+                            <img
+                                src={imgsrc}
+                                alt="Profile"
+                                className="w-9 h-9 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-14 h-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base font-gilroy">
+                                {checkInDetails?.initials || checkInDetails?.tenantInitials}
+                            </div>
+                        )}
 
                         <div>
-                            <p
-                                className="mb-1"
-                                style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}
-                            >
+                            <p className="font-semibold text-sm mb-1 font-gilroy">
                                 {checkInDetails?.fullName || checkInDetails?.tenantFullName}
                             </p>
-                            <div className="d-flex gap-2">
-                                <span
-                                    style={{
-                                        backgroundColor: "#FFF3CD",
-                                        color: "#856404",
-                                        fontSize: "12px",
-                                        padding: "2px 8px",
-                                        borderRadius: "12px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy"
-                                    }}
-                                >
-                                    {pgDetails?.floorName || checkInDetails?.floorName || checkInDetails?.hostelInfo?.floorName}
+
+                            <div className="flex gap-2 -ml-1">
+                                <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
+                                    {pgDetails?.floorName ||
+                                        checkInDetails?.floorName ||
+                                        checkInDetails?.hostelInfo?.floorName}
                                 </span>
-                                <span
-                                    style={{
-                                        backgroundColor: "#F8D7DA",
-                                        color: "#721C24",
-                                        fontSize: "12px",
-                                        padding: "2px 8px",
-                                        borderRadius: "12px",
-                                        fontWeight: 500, fontFamily: "Gilroy"
-                                    }}
-                                >
-                                    {pgDetails?.roomName || checkInDetails?.roomName || checkInDetails?.hostelInfo?.roomName} - {pgDetails?.bedName || checkInDetails?.bedName || checkInDetails?.hostelInfo?.bedName}
+
+                                <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
+                                    {pgDetails?.roomName ||
+                                        checkInDetails?.roomName ||
+                                        checkInDetails?.hostelInfo?.roomName}
+                                    {" - "}
+                                    {pgDetails?.bedName ||
+                                        checkInDetails?.bedName ||
+                                        checkInDetails?.hostelInfo?.bedName}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-
-                    <div
-                        style={{
-                            backgroundColor: "#F7F9FF",
-                            borderRadius: 10,
-                            width: "100%",
-                        }}
-                        className="mt-1 p-1"
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                gap: "10px",
-                                justifyContent: "space-between",
-                                width: "100%",
-                            }}
-                        >
+                    <div className="mt-1 p-1 py-1.5 w-full bg-indigo-50 rounded-lg">
+                        <div className="flex gap-2 w-full">
                             <button
                                 onClick={() => setActiveTab("LONG")}
-                                style={{
-                                    flex: 1,
-                                    padding: "10px 0",
-                                    backgroundColor: activeTab === "LONG" ? "#1E45E1" : "#F7F9FF",
-                                    color: activeTab === "LONG" ? "white" : "black",
-                                    border: "none",
-                                    borderRadius: "5px",
-                                    fontWeight: "600",
-                                    fontFamily: "Gilroy",
-                                }}
+                                className={`flex-1 py-2 rounded-md font-semibold font-gilroy transition
+        ${activeTab === "LONG"
+                                        ? "bg-blue-700 text-white"
+                                        : "bg-indigo-50 text-black"
+                                    }`}
                             >
                                 Long Stay
                             </button>
+
                             <button
                                 onClick={() => setActiveTab("SHORT")}
-                                style={{
-                                    flex: 1,
-                                    padding: "10px 0",
-                                    backgroundColor: activeTab === "SHORT" ? "#1E45E1" : "#F7F9FF",
-                                    color: activeTab === "SHORT" ? "white" : "black",
-                                    border: "none",
-                                    borderRadius: "5px",
-                                    fontWeight: "600",
-                                    fontFamily: "Gilroy",
-                                }}
+                                className={`flex-1 py-2 rounded-md font-semibold font-gilroy transition
+        ${activeTab === "SHORT"
+                                        ? "bg-blue-700 text-white"
+                                        : "bg-indigo-50 text-black"
+                                    }`}
                             >
                                 Short Stay
                             </button>
@@ -288,66 +221,37 @@ console.log("checkInDetails",checkInDetails)
 
                     {activeTab === "LONG" ? (
                         <>
-                            <div
-                                style={{ maxHeight: "320px", overflowY: "scroll" }}
-                                className="show-scroll p-2 mt-2 me-1"
-                            >
 
-                                <div className="col-lg-12 col-md-12 col-sm-12 mb-2">
+                            <div className="max-h-80 overflow-y-scroll p-2 mt-2 mr-1 show-scroll">
+                                <div className="mb-2">
                                     <Form.Group>
-                                        <Form.Label
-                                            style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                            }}
-                                        >
+                                        <Form.Label className="text-sm font-medium font-gilroy">
                                             Reason (Comments){" "}
-                                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                            <span className="text-red-500 text-xl">*</span>
                                         </Form.Label>
+
                                         <FormControl
                                             ref={reasonRef}
                                             type="text"
                                             placeholder="Enter Comments"
                                             value={reason}
                                             onChange={handleRecheckin}
-                                            style={{
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                boxShadow: "none",
-                                                border: "1px solid #D9D9D9",
-                                                height: 50,
-                                                borderRadius: 8,
-                                            }}
+                                            className="h-12 text-base text-gray-600 font-medium font-gilroy border border-gray-300 rounded-lg shadow-none focus:outline-none"
                                         />
                                     </Form.Group>
+
                                     {reasonError && <ErrorMessage message={reasonError} type="error" />}
                                 </div>
 
-
-                                <div className="datepicker-wrapper relative z-10">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            paddingTop: "6px",
-                                        }}
-                                    >
+                                <div className="relative z-10">
+                                    <Form.Label className="text-sm font-medium font-gilroy pt-1.5 block">
                                         Re Check-In Date{" "}
-                                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                        <span className="text-red-500 text-xl">*</span>
                                     </Form.Label>
 
                                     <DatePicker
                                         ref={dateRef}
-                                        style={{
-                                            width: "100%",
-                                            height: 48,
-                                            cursor: "pointer",
-                                            fontFamily: "Gilroy",
-                                        }}
+                                        className="w-full h-12 cursor-pointer font-gilroy"
                                         disabledDate={(current) => {
                                             if (!current) return false;
 
@@ -359,7 +263,6 @@ console.log("checkInDetails",checkInDetails)
                                             if (current.isAfter(today)) {
                                                 return true;
                                             }
-
                                             return false;
                                         }}
                                         format="DD/MM/YYYY"
@@ -372,6 +275,7 @@ console.log("checkInDetails",checkInDetails)
                                         <ErrorMessage message={recheckinDateError} type="error" />
                                     )}
                                 </div>
+
                             </div>
 
                             {state.UsersList?.cancelCheckoutError && <div className="d-flex justify-content-center">
@@ -379,112 +283,45 @@ console.log("checkInDetails",checkInDetails)
                             </div>
                             }
 
-                            {/* Loader */}
                             {formLoading && (
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        top: 100,
-                                        right: 0,
-                                        bottom: 0,
-                                        left: 0,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        opacity: 0.75,
-                                        zIndex: 10,
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            borderTop: "4px solid #1E45E1",
-                                            borderRight: "4px solid transparent",
-                                            borderRadius: "50%",
-                                            width: "40px",
-                                            height: "40px",
-                                            animation: "spin 1s linear infinite",
-                                        }}
-                                    ></div>
+                                <div className="absolute inset-x-0 bottom-0 top-24 flex items-center justify-center opacity-75 z-10">
+                                    <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
                                 </div>
                             )}
 
-                            {/* Buttons */}
-                            <div
-                                style={{
-                                    display: "flex",
-                                    gap: "16px",
-                                    alignItems: "center",
-                                    marginTop: 10,
-                                    justifyContent: "flex-end",
-                                }}
-                            >
+                            <div className="flex items-center justify-end gap-4 mt-2">
                                 <button
                                     type="button"
-                                    style={{
-                                        background: "transparent",
-                                        border: "none",
-                                        color: "#333",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Montserrat",
-                                        cursor: "pointer",
-                                    }}
                                     onClick={handleClose}
+                                    className="bg-transparent border-0 text-gray-700 text-sm font-medium font-montserrat cursor-pointer"
                                 >
                                     Cancel
                                 </button>
 
-                                <button disabled={!state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed}
+                                <button
                                     type="button"
-                                    style={{
-                                        backgroundColor: !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed ? "#9AAAF5" : "#1E45E1",
-                                        color: "#fff",
-                                        fontWeight: 600,
-                                        height: 40,
-                                        borderRadius: 8,
-                                        fontSize: 14,
-                                        fontFamily: "Montserrat",
-                                        padding: "0 24px",
-                                        border: "none",
-                                        cursor: "pointer",
-                                    }}
+                                    disabled={!state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed}
                                     onClick={handleSaveBacktoCheckin}
+                                    className={`h-10 px-6 rounded-lg text-sm font-semibold font-montserrat text-white
+      ${state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed
+                                            ? "bg-blue-700 cursor-pointer"
+                                            : "bg-indigo-300 cursor-not-allowed"
+                                        }`}
                                 >
                                     Check-In
                                 </button>
                             </div>
                         </>
                     ) : (
-                        // Short Stay Tab
-                        <div
-                            style={{
-                                height: "200px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                backgroundColor: "#f2f6fc",
-                                borderRadius: "10px",
-                                marginTop: "20px",
-                                marginRight: "0",
-                                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                                border: "1px dashed #b0c4de",
-                            }}
-                        >
-                            <div style={{ textAlign: "center" }}>
+
+                        <div className="h-52 flex items-center justify-center bg-slate-100 rounded-lg mt-5 mr-0 shadow-sm border border-dashed border-slate-300">
+                            <div className="text-center">
                                 <img
                                     src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
                                     alt="Coming Soon"
-                                    width="80"
-                                    height="80"
-                                    style={{ marginBottom: "15px", opacity: 0.7 }}
+                                    className="w-20 h-20 mb-4 opacity-70 mx-auto"
                                 />
-                                <p
-                                    style={{
-                                        color: "#7a7a7a",
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                    }}
-                                >
+                                <p className="text-gray-500 text-sm font-gilroy">
                                     Coming Soon. Stay tuned!
                                 </p>
                             </div>

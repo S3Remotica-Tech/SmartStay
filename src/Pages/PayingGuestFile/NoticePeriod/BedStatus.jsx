@@ -272,228 +272,126 @@ function NoticeBedStatusDetails({
   console.log("hasCheckinAndNotice", hasCheckinAndNotice)
   return (
     <>
-
-
-
       <div
-        className="modal show"
-        style={{
-          display: "block",
-          position: "initial",
-          fontFamily: "Gilroy,sans-serif",
-        }}
-      >
+        className="modal show block static font-gilroy">
+
         <Modal show={show} onHide={handleCloseBed} centered
         >
-          <Modal.Dialog
-            style={{ maxWidth: "100%", width: "100%", borderRadius: 16 }}
-            className="m-0 p-0"
-          >
-            <Modal.Header className="pb-0"
-              style={{ border: "1px solid #E7E7E7" }}
-            >
+          <Modal.Dialog className="w-full max-w-full rounded-2xl m-0 p-0">
+            <Modal.Header className="pb-0 border border-gray-200" >
 
-              <div className="d-flex justify-content-between w-100" style={{ padding: "5px  10px 5px 5px" }}>
+              <div className="flex justify-between w-full pr-2.5 pb-2 pl-1">
                 <div>
                   <div>
-                    <Modal.Title
-                      style={{
-                        fontSize: 18,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                      }}
-                    >
+                    <Modal.Title className="!text-xl !text-gray-900 !font-semibold">
                       Bed Status
                     </Modal.Title>
                   </div>
-                  <div className="d-flex align-items-center gap-3">
-                    <label style={{
-                      fontSize: 14,
-                      color: "#1E45E1",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>
+                  <div className="flex items-center gap-3">
+                    <label className="text-sm text-blue-600 font-gilroy font-medium">
                       {currentItem?.floorName}
                     </label>
-                    <span style={{
-                      fontSize: 14,
-                      color: "#1E45E1",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>|</span>
-                    <label style={{
-                      fontSize: 14,
-                      color: "#1E45E1",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>
+                    <span className="text-sm text-blue-600 font-gilroy font-medium">|</span>
+                    <label className="text-sm text-blue-600 font-gilroy font-medium">
                       {currentItem?.roomName}
                     </label>
-                    <span style={{
-                      fontSize: 14,
-                      color: "#1E45E1",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>|</span> <span style={{
-                      fontSize: 14,
-                      color: "#1E45E1",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>
-                      {currentItem?.bedName}
-                    </span>
+                    <span className="text-sm text-[#1E45E1] font-gilroy font-medium">|</span>
+                    <span className="text-sm text-blue-600 font-gilroy font-medium">{currentItem?.bedName}</span>
+
                   </div>
                 </div>
 
-                <div
-
-                  className=" m-0"
-                  style={{
-                    color: "#DE0202",
-                    border: "1px solid #FFF0F0",
-                    fontWeight: 600,
-                    borderRadius: 60,
-                    fontFamily: "Gilroy",
-                    padding: 10,
-                    fontSize: 14,
-                    backgroundColor: "#FFF0F0",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    height: "fit-content"
-                  }}
-                >
+                <div className="m-0 flex items-center gap-1 h-fit p-2.5 text-sm font-gilroy font-semibold text-red-600 bg-red-50 rounded-full">
                   Notice Period
                 </div>
 
               </div>
             </Modal.Header>
 
-            <Modal.Body style={{ padding: "5px 20px", maxHeight: "370px", overflowY: "scroll" }} className="show-scrolls pe-4">
-              <div className="row mt-1">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Modal.Body className="show-scrolls pr-4 p-[5px_20px] max-h-[480px] overflow-y-scroll">
+              <div className="grid grid-cols-12 gap-2">
+                <div className="col-span-12">
 
-                  <div className="d-flex justify-content-between align-items-center">
-
-                    <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">{isNoticeAndBooked ? 'Currently Occupied by' : ' Occupied by'}</label>
+                  <div className="flex justify-between items-center">
+                    <label className="-mt-1 mb-1 text-base text-gray-900 font-gilroy font-medium">
+                      {isNoticeAndBooked ? 'Currently Occupied by' : ' Occupied by'}
+                    </label>
                   </div>
 
 
                   {currentItem?.currentTenantInfo?.map((tenant, index) => (
                     <div key={tenant.tenetId || index} className="mb-3">
-                      <div className="d-flex gap-3 align-items-center justify-content-between">
-                        <div className="d-flex gap-3 align-items-center justify-content-between">
-                          <div className="d-flex gap-3 align-items-center">
+                      <div className="flex gap-3 items-center justify-between">
+                        <div className="flex gap-3 items-center justify-between">
+                          <div className="flex gap-3 items-center">
                             <div>
                               {tenant?.profilePic &&
                                 tenant?.profilePic !== "0" ? (
                                 <Image
                                   src={tenant?.profilePic}
                                   roundedCircle
-                                  style={{ height: 50, width: 50 }}
+                                  className="h-12 w-12"
                                   alt="image"
                                 />
                               ) : (
-                                <div
-                                  style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#1E45E1",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 20,
-                                    fontWeight: "600",
-                                    color: "white", fontFamily: "Gilroy"
-                                  }}
-                                >
+                                <div className="h-14 w-14 rounded-full bg-blue-800 flex justify-center items-center text-xl font-semibold text-white font-gilroy">
                                   {tenant?.tenantInitials || "-"}
                                 </div>
                               )}
                             </div>
                             <div className="mt-2">
                               <div>
-                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(tenant)} >{tenant?.tenantFullName || "N/A"}</label>
+                                <label
+                                  className="text-base text-blue-600 font-gilroy font-bold underline cursor-pointer"
+                                  onClick={() => handleNavigateTenantProfile(tenant)}
+                                >
+                                  {tenant?.tenantFullName || "N/A"}
+                                </label>
                               </div>
-                              <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-
-                                {tenant?.mobile ? `+ ${tenant?.countryCode} ${String(tenant?.mobile)}` : 'No phone'}
-
-
-                              </label></div>
+                              <div>
+                                <label className="text-base text-gray-700 font-gilroy font-medium">
+                                  {tenant?.mobile ? `+ ${tenant?.countryCode} ${String(tenant?.mobile)}` : 'No phone'}
+                                </label>
+                              </div>
                             </div>
+
                           </div>
 
                         </div>
+
                         <div onClick={() => handleShowDots(index, tenant)}
-                          style={{
-                            cursor: "pointer",
-                            height: 40,
-                            width: 40,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            // zIndex: activeMenu === 'occupied' ? 0 : "auto",
-                            backgroundColor: activeMenu === index ? "#E0ECFF" : "white",
-                            borderRadius: activeMenu === index && 100,
-                          }}
-
-
-                        >
-                          <PiDotsThreeOutlineFill style={{ height: 20, width: 20 }} />
+                          className={`cursor-pointer h-10 w-10 flex justify-center items-center relative rounded-full ${activeMenu === index ? "bg-blue-100" : "bg-white"
+                            }`} >
+                          <PiDotsThreeOutlineFill className="h-6 w-6" />
                           {activeMenu === index && (
                             <div
                               ref={popupRef}
-                              className="position-absolute"
-                              style={{
-                                right: 0,
-                                top: 50,
-                                width: 200,
-                                border: "1px solid #EBEBEB",
-                                borderRadius: 10,
-                                backgroundColor: "#f9f9f9",
-                                display: "flex",
-                                flexDirection: "column",
-                                zIndex: 100,
-                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                              }}
-                            >
-
-
-
-{
-  (
-    matchedData[0]?.currentStatus === "Notice Period" ||
-    matchedData[0]?.currentStatus === "Settlement Generated"
-  ) &&
-<>
+                              className="absolute right-0 top-12 w-48 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50">
+                              {
+                                (
+                                  matchedData[0]?.currentStatus === "Notice Period" ||
+                                  matchedData[0]?.currentStatus === "Settlement Generated"
+                                ) &&
+                                <>
                                   <div
-                                    className="d-flex gap-2 align-items-center"
                                     onClick={canWriteCustomers ? () => handleNewBooking(tenant) : undefined}
-                                    style={{
-                                      padding: "10px",
-                                      borderBottomLeftRadius: 10,
-                                      borderBottomRightRadius: 10,
-                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                      opacity: canWriteCustomers ? 1 : 0.5,
-                                    }}
+                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                      }`}
                                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
                                     <img src={TimerPause} alt="booking" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>
+                                    <label className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                      }`}>
                                       New Booking
                                     </label>
                                   </div>
-                                   <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-                                   </>
-}
+                                  <div className="h-px bg-gray-300" />
+                                </>
+                              }
 
                               {
-                                matchedData[0]?.currentStatus === "Notice Period"   &&
+                                matchedData[0]?.currentStatus === "Notice Period" &&
                                 <div>
 
                                   {/* cancel checkout */}
@@ -501,20 +399,12 @@ function NoticeBedStatusDetails({
                                     if (hasCheckinAndNotice) setShowTooltip(true);
                                   }}
                                     onMouseLeave={() => setShowTooltip(false)}
-                                    className="d-flex gap-2 align-items-center"
                                     onClick={() => {
                                       if (hasCheckinAndNotice) return;
                                       handleRecheckInBed(tenant)
                                     }}
-
-
-                                    style={{
-                                      padding: "10px",
-                                      borderTopLeftRadius: 10,
-                                      borderTopRightRadius: 10,
-                                      cursor: canWriteCustomers  && !hasCheckinAndNotice ?  "pointer" : "not-allowed",
-                                      opacity: canWriteCustomers ? 1 : 0.5,
-                                    }}
+                                    className={`flex gap-2 items-center p-2.5 rounded-t-lg ${canWriteCustomers && !hasCheckinAndNotice ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                      }`}
                                   // onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                   // onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
@@ -527,54 +417,39 @@ function NoticeBedStatusDetails({
                                           ? "none"
                                           : "grayscale(100%)",
                                       }} />
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers && !hasCheckinAndNotice ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy",
-                                      cursor: canWriteCustomers  && !hasCheckinAndNotice ?  "pointer" : "not-allowed", }}>Cancel Checkout</label>
-
-
-
-
+                                    <label
+                                      className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers && !hasCheckinAndNotice
+                                        ? "text-gray-900 cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                        }`}
+                                    >
+                                      Cancel Checkout
+                                    </label>
                                   </div>
                                   {showTooltip && (
-                                    <div
-                                      className="flex position-absolute shadow-md bg-purple-100 gap-1"
-                                      style={{
-                                        top: "-50%",
-                                        left: "50%",
-                                        transform: "translateX(-50%)",
-                                        // backgroundColor: "#f9f9f9",
-                                        color: "#222",
-                                        fontSize: 13,
-                                        padding: "6px 10px",
-                                        borderRadius: 6,
-                                        whiteSpace: "wrap",
-                                        pointerEvents: "none",
-                                        zIndex: 50, width: 230, fontFamily: "Gilroy"
-                                      }}
-                                    >
-                                      <AiOutlineExclamationCircle size={24}  color="#1E45E1"/> Not able to recheck-in because already tenant checked in
+                                    <div className="flex absolute shadow-md bg-purple-100 gap-1 text-gray-900 text-xs p-2.5 rounded-md whitespace-normal pointer-events-none z-50 w-56 font-gilroy -top-1/2 left-1/2 -translate-x-1/2" >
+                                      <AiOutlineExclamationCircle size={24} color="#1E45E1" /> Not able to recheck-in because already tenant checked in
                                     </div>
                                   )}
 
-                                 
-
-                                  <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
+                                  <div className="h-px bg-gray-300" />
                                   <div
-                                    className="d-flex gap-2 align-items-center"
                                     onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(tenant)}
+                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                      }`}
 
-                                    style={{
-                                      padding: "10px",
-                                      borderBottomLeftRadius: 10,
-                                      borderBottomRightRadius: 10,
-                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                      opacity: canWriteCustomers ? 1 : 0.5,
-                                    }}
                                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
                                     <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Generate</label>
+
+                                    <label
+                                      className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                        }`}
+                                    >
+                                      Generate
+                                    </label>
+
                                   </div>
                                 </div>
                               }
@@ -585,38 +460,30 @@ function NoticeBedStatusDetails({
 
                                 <div>
                                   <div
-                                    className="d-flex gap-2 align-items-center"
+                                    className={`flex gap-2 items-center p-4 rounded-t-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-60"
+                                      }`}
                                     onClick={() => canWriteCustomers && handleReAssignBed(tenant)}
 
-
-                                    style={{
-                                      padding: "15px",
-                                      borderTopLeftRadius: 10,
-                                      borderTopRightRadius: 10,
-                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                      opacity: canWriteCustomers ? 1 : 0.6,
-                                    }}
                                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
 
                                     <FiCalendar size={16} color={canWriteCustomers ? "#1E45E1" : "#A9A9A9"} />
-                                    <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
+                                    <label
+                                      className={`text-xs font-medium font-gilroy mb-0 ${canWriteCustomers ? "cursor-pointer" : "cursor-not-allowed"
+                                        }`}
+                                    >
+                                      Change Bed
+                                    </label>
+
                                   </div>
 
-                                  <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
-
+                                  <div className="h-px bg-gray-300" />
                                   <div
-                                    className="d-flex gap-2 align-items-center"
+                                    className={`flex gap-2 items-center p-4 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-60"
+                                      }`}
                                     onClick={() => canWriteCustomers && handleMoveToNoticePeriod(tenant)}
-                                    style={{
-                                      padding: "15px",
-                                      borderBottomLeftRadius: 10,
-                                      borderBottomRightRadius: 10,
-                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                      opacity: canWriteCustomers ? 1 : 0.6,
-                                    }}
+
                                     onMouseEnter={(e) => {
                                       e.currentTarget.style.backgroundColor = "#FFF3F3";
                                     }}
@@ -629,19 +496,14 @@ function NoticeBedStatusDetails({
                                       color={canWriteCustomers ? "#FF9500" : "#A9A9A9"}
                                     />
                                     <label
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        color: canWriteCustomers ? "#222222" : "#A9A9A9",
-                                        marginBottom: 0,
-                                        fontFamily: "Gilroy",
-                                        cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                      }}
+                                      className={`text-xs font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                        }`}
                                     >
                                       Move To Notice Period
                                     </label>
+
                                   </div>
-                                  <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                                  <div className="h-px bg-gray-300" />
                                 </div>
 
                               }
@@ -649,39 +511,31 @@ function NoticeBedStatusDetails({
                               {
                                 matchedData[0]?.currentStatus === "Settlement Generated" &&
                                 <div
-                                  className="d-flex gap-2 align-items-center"
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                    }`}
                                   onClick={canWriteCustomers ? () => handleCheckout(tenant) : undefined}
 
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
                                   <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Check-out</label>
+                                  <label
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                      }`}
+                                  >
+                                    Check-out
+                                  </label>
+
                                 </div>
                               }
 
-                              <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                              <div className="h-px bg-gray-300" />
 
                               <div
-                                className="d-flex gap-2 align-items-center"
+                                className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canUpdatePayingGuests ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-60"
+                                  }`}
 
                                 onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
-
-                                style={{
-                                  padding: "10px",
-                                  borderBottomLeftRadius: 10,
-                                  borderBottomRightRadius: 10,
-                                  cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                                  opacity: canUpdatePayingGuests ? 1 : 0.6,
-                                }}
                                 onMouseEnter={(e) => {
                                   e.currentTarget.style.backgroundColor = "#FFF3F3";
                                 }}
@@ -689,67 +543,58 @@ function NoticeBedStatusDetails({
                                   e.currentTarget.style.backgroundColor = "transparent";
                                 }}
                               >
-                                <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
-
+                                <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ml-0.5" />
                                 <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
-                                    marginBottom: 0,
-                                    fontFamily: "Gilroy",
-                                    cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                                  }}
+                                  className={`ml-1 text-sm font-medium font-gilroy mb-0 ${canUpdatePayingGuests ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                    }`}
                                 >
                                   Edit
                                 </label>
-
                               </div>
-
-
-
                             </div>
                           )}
                         </div>
                       </div>
 
-                      <div className="d-flex justify-content-between mb-2 mt-1">
+                      <div className="flex justify-between mb-1 mt-2">
                         <div>
-                          <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Rental Amount</label>
+                          <label className="font-gilroy text-sm text-gray-900">
+                            Rental Amount
+                          </label>
                         </div>
                         <div>
-                          <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>₹{tenant?.rentAmount}</label>
-                        </div>
-                      </div>
-
-                      <div className="d-flex justify-content-between mb-2">
-                        <div>
-                          <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
-                        </div>
-                        <div>
-                          <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.joiningDate}</label>
+                          <label className="font-gilroy text-sm text-gray-900 font-semibold">
+                            ₹{tenant?.rentAmount}
+                          </label>
                         </div>
                       </div>
 
 
-                      <div className="d-flex justify-content-between mb-2">
+                      <div className="flex justify-between mb-1">
                         <div>
-                          <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
+                          <label className="font-gilroy text-sm text-gray-900">
+                            Check-In Date
+                          </label>
                         </div>
                         <div>
-                          <label
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 16,
-                              color: "#1E45E1",
-                              fontWeight: 600,
-                            }}
-                          >
+                          <label className="font-gilroy text-sm text-gray-900 font-semibold">
+                            {tenant?.joiningDate}
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between mb-1">
+                        <div>
+                          <label className="font-gilroy text-sm text-gray-900">
+                            Last Invoice
+                          </label>
+                        </div>
+                        <div>
+                          <label className="font-gilroy text-sm text-blue-600 font-semibold">
                             {tenant?.lastInvoiceNumber || "N/A"}{" "}
                             {tenant?.totalInvoices > 1 && `& ${tenant.totalInvoices}`}
-
                             {tenant?.totalInvoices > 2 && (
-                              <span style={{ marginLeft: 6, fontWeight: 400 }}>
+                              <span className="ml-1 font-normal">
                                 (+{tenant.totalInvoices - 1} more)
                               </span>
                             )}
@@ -769,96 +614,56 @@ function NoticeBedStatusDetails({
                 isNoticeAndBooked &&
 
 
-                <div className="row mt-1">
-                  <hr style={{ border: "1px solid #E0ECFF" }} />
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div className="grid grid-cols-12">
+                  <hr className="col-span-12 !border !border-gray-400" />
+                  <div className="col-span-12 ">
 
-                    <div className="d-flex justify-content-between align-items-center">
-
-                      <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">Reserved by</label>
-
-
-
+                    <div className="flex justify-between items-center">
+                      <label className="mb-1 text-base text-gray-900 font-gilroy font-medium">Reserved by</label>
                     </div>
                     {currentItem?.newTenantInfo?.map((tenant, index) => (
                       <div key={index}>
-                        <div className="d-flex gap-3 align-items-center justify-content-between">
-                          <div className="d-flex gap-3 align-items-center">
+                        <div className="flex gap-3 items-center justify-between">
+                          <div className="flex gap-3 items-center">
                             <div>
                               {tenant?.profilePic &&
                                 tenant?.profilePic !== "0" ? (
                                 <Image
                                   src={tenant?.profilePic}
                                   roundedCircle
-                                  style={{ height: 50, width: 50 }}
+                                  className="h-12 w-12"
                                   alt="image"
                                 />
                               ) : (
-                                <div
-                                  style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#1E45E1",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 20,
-                                    fontWeight: "600",
-                                    color: "white", fontFamily: "Gilroy"
-                                  }}
-                                >
+                                <div className="h-14 w-14 rounded-full bg-blue-800 flex justify-center items-center text-xl font-semibold text-white font-gilroy">
                                   {tenant?.tenantInitials || "-"}
                                 </div>
                               )}
                             </div>
                             <div className="mt-2">
                               <div>
-                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateReservedTenantProfile(tenant)}  >{tenant?.tenantFullName || "N/A"}</label>
+                                <label className="text-base text-blue-600 font-gilroy font-bold underline cursor-pointer"
+                                  onClick={() => handleNavigateReservedTenantProfile(tenant)}>
+                                  {tenant?.tenantFullName || "N/A"}
+                                </label>
                               </div>
-                              <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-
-                                {tenant?.mobile ? `+ ${tenant?.countryCode} ${String(tenant?.mobile)}` : 'No phone'}
-
-
-                              </label></div>
+                              <div>
+                                <label className="text-base text-gray-700 font-gilroy font-medium">
+                                  {tenant?.mobile ? `+ ${tenant?.countryCode} ${String(tenant?.mobile)}` : 'No phone'}
+                                </label>
+                              </div>
                             </div>
                           </div>
                           <div onClick={() => handleShowDotsForReserved(index, tenant)}
-                            style={{
-                              cursor: "pointer",
-                              height: 40,
-                              width: 40,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              // zIndex: activeMenuForReserved === index ? 1000 : "auto",
-                              backgroundColor: activeMenuForReserved === index ? "#E0ECFF" : "white",
-                              borderRadius: activeMenuForReserved === index && 100,
-                            }}
-
-
+                            className={`flex justify-center items-center relative h-10 w-10 cursor-pointer rounded-full ${activeMenuForReserved === index ? "bg-blue-100" : "bg-white"
+                              }`}
                           >
-                            <PiDotsThreeOutlineFill style={{ height: 20, width: 20 }} />
+                            <PiDotsThreeOutlineFill className="h-6 w-6" />
                             {activeMenuForReserved === index && (
                               <div
                                 ref={popupRef}
-                                className="position-absolute"
-                                style={{
-                                  right: 0,
-                                  top: 50,
-                                  width: 160,
-                                  border: "1px solid #EBEBEB",
-                                  borderRadius: 10,
-                                  backgroundColor: "#f9f9f9",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  zIndex: 300,
-                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                }}
+                                className="absolute right-0 top-12 w-40 flex flex-col bg-gray-100 border border-gray-300 rounded-lg shadow-md z-50"
                               >
-
 
                                 <div
                                   // onClick={
@@ -866,16 +671,10 @@ function NoticeBedStatusDetails({
                                   //     ? () => handleCheckIn(currentItem)
                                   //     : undefined
                                   // }
-                                  className="d-flex gap-2 align-items-center"
-                                  style={{
-                                    position: "relative", zIndex: 2000,
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    cursor:
-                                      canWriteCustomers && !currentItem.isOccupied ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers && !currentItem.isOccupied ? 1 : 0.6,
-                                  }}
+                                  className={`flex gap-2 items-center relative z-[2000] p-2.5 rounded-b-lg ${canWriteCustomers && !currentItem.isOccupied
+                                    ? "cursor-pointer opacity-100"
+                                    : "cursor-not-allowed opacity-60"
+                                    }`}
                                   onMouseEnter={(e) => {
                                     if (!currentItem.isOccupied) e.currentTarget.style.backgroundColor = "#FFF3F3";
                                     else {
@@ -903,88 +702,51 @@ function NoticeBedStatusDetails({
                                           : "not-allowed",
                                     }} />
                                   <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      color:
-                                        canWriteCustomers && !currentItem.isOccupied ? "#222222" : "#dcdcdc",
-                                      marginBottom: 0,
-                                      fontFamily: "Gilroy",
-                                      cursor:
-                                        canWriteCustomers && !currentItem.isOccupied
-                                          ? "pointer"
-                                          : "not-allowed",
-                                    }}
+                                    className={`ml-0.5 text-sm font-medium font-gilroy mb-0 ${canWriteCustomers && !currentItem.isOccupied
+                                      ? "text-gray-900 cursor-pointer"
+                                      : "text-gray-300 cursor-not-allowed"
+                                      }`}
                                   >
                                     Check-In
                                   </label>
+
                                   <div>
 
                                     <div
-                                      className="tooltip-msg"
-                                      style={{
-                                        display: "none",
-                                        position: "absolute",
-                                        top: "-100px",
-                                        left: 0,
-                                        backgroundColor: "#f9f9f9",
-                                        padding: "5px 10px",
-                                        borderRadius: "6px",
-                                        color: "#222",
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "0px 2px 6px rgba(99, 94, 94, 0.2)",
-                                        zIndex: 1000,
-
-                                      }}
+                                      className="hidden absolute -top-24 left-0 bg-gray-100 px-2.5 py-1.5 rounded-md text-gray-900 text-xs font-medium font-gilroy shadow-sm z-50 tooltip-msg"
                                     >
-                                      <div
-                                        style={{}}
-                                      >
-
+                                      <div>
                                         <img src={Settings} alt="alt" /> Complete the Checkout Process for the Occupied tenant, then the button will appear
-
                                       </div>
-
-
-
                                     </div>
                                   </div>
                                 </div>
 
                                 <div
-                                  className="d-flex gap-2 align-items-center"
-
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                    }`}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={Exchange} alt="Checkout" style={{
-                                    filter: canWriteCustomers ? "none" : "grayscale(100%) brightness(60%)",
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                  }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
+                                  <img src={Exchange} alt="Checkout"
+                                    style={{
+                                      filter: canWriteCustomers ? "none" : "grayscale(100%) brightness(60%)",
+                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    }} />
+                                  <label
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-300 cursor-not-allowed"
+                                      }`}
+                                  >
+                                    Change Bed
+                                  </label>
+
                                 </div>
 
                                 <div
-                                  className="d-flex gap-2 align-items-center"
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                    }`}
                                   onClick={canWriteCustomers ? () => handleMakeAsInActive(tenant) : undefined}
 
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
@@ -992,21 +754,20 @@ function NoticeBedStatusDetails({
                                     filter: canWriteCustomers ? "none" : "grayscale(100%) brightness(60%)",
                                     cursor: canWriteCustomers ? "pointer" : "not-allowed",
                                   }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
+                                  <label
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-300 cursor-not-allowed"
+                                      }`}
+                                  >
+                                    Make as Inactive
+                                  </label>
+
                                 </div>
 
                                 <div
-                                  className="d-flex gap-2 align-items-center"
-
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canUpdatePayingGuests ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-60"
+                                    }`}
                                   onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
 
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                                    opacity: canUpdatePayingGuests ? 1 : 0.6,
-                                  }}
                                   onMouseEnter={(e) => {
                                     e.currentTarget.style.backgroundColor = "#FFF3F3";
                                   }}
@@ -1014,75 +775,65 @@ function NoticeBedStatusDetails({
                                     e.currentTarget.style.backgroundColor = "transparent";
                                   }}
                                 >
-                                  <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
-
+                                  <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ml-0" />
                                   <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
-                                      marginBottom: 0,
-                                      fontFamily: "Gilroy",
-                                      cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                                    }}
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canUpdatePayingGuests ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                   >
                                     Edit
                                   </label>
-
                                 </div>
-
-
-
                               </div>
                             )}
                           </div>
                         </div>
 
 
-                        <div className="d-flex justify-content-between mb-2 mt-1">
+                        <div className="flex justify-between mb-1 mt-1">
                           <div>
-                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
+                            <label className="font-gilroy text-sm text-gray-900">
+                              Booking Amount
+                            </label>
                           </div>
                           <div>
-                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.bookingAmount || "N/A"}</label>
-                          </div>
-                        </div>
-
-                        <div className="d-flex justify-content-between mb-2">
-                          <div>
-                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
-                          </div>
-                          <div>
-                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.joiningDate || "N/A"}</label>
+                            <label className="font-gilroy text-sm text-gray-900 font-semibold">
+                              {tenant?.bookingAmount || "N/A"}
+                            </label>
                           </div>
                         </div>
 
-
-                        <div className="d-flex justify-content-between mb-2">
+                        <div className="flex justify-between mb-1">
                           <div>
-                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
+                            <label className="font-gilroy text-sm text-gray-900">
+                              Check-In Date
+                            </label>
                           </div>
                           <div>
-                            <label
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 16,
-                                color: "#222222",
-                                fontWeight: 600,
-                              }}
-                            >
+                            <label className="font-gilroy text-sm text-gray-900 font-semibold">
+                              {tenant?.joiningDate || "N/A"}
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between mb-1">
+                          <div>
+                            <label className="font-gilroy text-sm text-gray-900">
+                              Last Invoice
+                            </label>
+                          </div>
+                          <div>
+                            <label className="font-gilroy text-sm text-gray-900 font-semibold">
                               {tenant?.lastInvoiceNumber || "N/A"}{" "}
                               {tenant?.totalInvoices > 1 && `& ${tenant.totalInvoices}`}
-
                               {tenant?.totalInvoices > 2 && (
-                                <span style={{ marginLeft: 6, fontWeight: 400 }}>
+                                <span className="ml-1 font-normal">
                                   (+{tenant.totalInvoices - 1} more)
                                 </span>
                               )}
                             </label>
                           </div>
-
                         </div>
+
 
                       </div>
                     ))}
@@ -1090,10 +841,6 @@ function NoticeBedStatusDetails({
                 </div>
 
               }
-
-
-
-
 
             </Modal.Body>
 

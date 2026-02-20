@@ -32,7 +32,7 @@ function CustomerCheckout(props) {
 
 
 
- 
+
 
 
 
@@ -202,393 +202,208 @@ function CustomerCheckout(props) {
           centered
 
         >
-          <Modal.Dialog
-            style={{
-
-              paddingRight: "10px",
-              borderRadius: "30px",
-            }}
-            className="m-0 p-0"
-          >
-            <Modal.Header
-              style={{ marginBottom: "8px", position: "relative", }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
+          <Modal.Dialog className="m-0 p-0 pr-2.5 rounded-full">
+            <Modal.Header className="relative">
+              <div className="flex flex-col">
+                <div className="text-xl font-gilroy font-semibold" >
                   Move to Notice Period
                 </div>
                 {dateDifference !== null && (
-                  <div className="col-12 mt-1">
-                    <p
-                      style={{
-                        fontSize: 15,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#1E45E1",
-                        marginBottom: 0
-                      }}
-                    >
+                  <div className="w-full mt-1">
+                    <p className="text-sm font-gilroy font-medium text-[#1E45E1] mb-0">
                       Notice Days* : {dateDifference}
                     </p>
                   </div>
+
                 )}
               </div>
               <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
-                style={{ cursor: 'pointer' }} />
+                className="cursor-pointer" />
             </Modal.Header>
-            <Modal.Body style={{ marginTop: -30 }}>
-              <div className="d-flex align-items-center">
 
-                <div className="container">
-                  <div className="row mb-3"></div>
+            <Modal.Body className="-mt-1 relative">
+              {formLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                  <div className="w-10 h-10 border-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
 
-
-
-
-                  <ModalBody className="p-0">
-
-                    <div className="row mb-3">
-
-                      <div className="d-flex align-items-center">
-                        <div
-                          className=""
-                          style={{
-                            height: 60,
-                            width: 60,
-                            position: "relative",
-                          }}
-                        >
-
-                          {
-                            props?.bedData &&
-                              (
-                                (props.bedData?.currentTenantInfo?.[0]?.profilePic?.trim()) ||
-                                (props.bedData?.profilePic?.trim())
-                              )
-                              ? (
-                                <Image
-                                  src={
-                                    props.bedData.currentTenantInfo?.[0].profilePic && props.bedData.currentTenantInfo?.[0].profilePic !== ""
-                                      ? typeof props.bedData.currentTenantInfo?.[0].profilePic === "string"
-                                        ? props.bedData.currentTenantInfo?.[0].profilePic
-                                        : URL.createObjectURL(props.bedData.currentTenantInfo?.[0].profilePic)
-                                      : typeof props.bedData.profilePic === "string"
-                                        ? props.bedData.profilePic
-                                        : URL.createObjectURL(props.bedData.profilePic)
-                                  }
-                                  alt="Profile"
-                                  roundedCircle
-                                  style={{ height: 60, width: 60 }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = Profiles;
-                                  }}
-                                />
-                              )
-                              : (
-                                <div
-                                  style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#E2E8F0",
-                                    color: "#44536A",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 20,
-                                    fontWeight: "600",
-                                    fontFamily: "Gilroy"
-                                  }}
-                                >
-                                  {props.bedData?.initials || props.bedData?.currentTenantInfo?.[0].tenantInitials || "-"}
-                                </div>
-                              )
-                          }
-
-
-
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <div className="ps-3">
-                            <div>
-                              <label
-                                style={{
-                                  fontSize: 16,
-                                  fontWeight: 500,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                {props.bedData?.currentTenantInfo?.[0].tenantFullName || props.bedData?.fullName}
-                              </label>
-                            </div>
-
-                          </div>
-
-                          <div className="d-flex flex-wrap gap-2 ms-2">
-
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "#FFEFCF",
-                                padding: "6px 12px",
-                                borderRadius: "60px",
-                                fontFamily: "Gilroy",
-                                fontSize: 12,
-                                color: "#222",
-                                fontWeight: 500,
-                                whiteSpace: "nowrap",
-                              }}
-                            >
-                              {state.UsersList.customerdetails?.data?.[0].floor_name || props.bedData?.floorName ||  props.bedData?.hostelInfo?.floorName}
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "#FFE0D9",
-                                padding: "6px 12px",
-                                borderRadius: "60px",
-                                fontFamily: "Gilroy",
-                                fontSize: 12,
-                                color: "#222",
-                                fontWeight: 500,
-                                whiteSpace: "nowrap",
-                              }}
-                            >
-                              {props.bedData?.room?.Room_Name || props.bedData?.roomName ||  props.bedData?.hostelInfo?.roomName}  - {props.bedData?.bed?.bed_no || props.bedData?.bedName ||  props.bedData?.hostelInfo?.bedName}
-                            </div>
-
-
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2" controlId="requestDate">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Request Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                          </Form.Label>
-
-                          <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                border: "1px solid lightgrey",
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={requestDate ? dayjs(requestDate) : null}
-                              onChange={(date) => {
-                                setCheckOutRequestDateError("");
-                                dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-
-                                setRequestDate(date ? date.toDate() : null);
-                                calculateDateDifference(selectedDate, date);
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".datepicker-wrapper")
-                              }
-                              disabledDate={(current) => {
-                                if (!current) return false;
-                                const joining = joiningdate ? dayjs(joiningdate, "DD/MM/YYYY") : null;
-                                if (joining && current.isBefore(joining.startOf("day"))) {
-                                  return true;
-                                }
-                                if (current.isAfter(dayjs().endOf("day"))) {
-                                  return true;
-                                }
-                                return false;
-                              }}
-                            />
-
-                          </div>
-                        </Form.Group>
-                        {checkoUtrequestDateError && (
-                          <ErrorMessage message={checkoUtrequestDateError} type="error" />
-                        )}
-                      </div>
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2" controlId="checkoutDate">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Check-Out Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                          </Form.Label>
-
-                          <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              onChange={(date) => {
-                                setSelectedDate(date);
-                                calculateDateDifference(date, requestDate);
-                                setCheckOutDateError('');
-                                setJoiningError('');
-                                dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-
-                              }}
-                              disabledDate={(current) => {
-                                if (!requestDate) {
-                                  return true;
-                                }
-                                return current && current.isBefore(dayjs(requestDate), "day");
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".datepicker-wrapper")
-                              }
-                            />
-
-                          </div>
-
-                        </Form.Group>
-                        {checkoUtDateError && (
-                          <ErrorMessage message={checkoUtDateError} type="error" />
-                        )}
-
-
-                        {joiningError && (
-                          <ErrorMessage message={joiningError} type="error" />
-                        )}
-
-
-
-                      </div>
-
-
-                      <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>
-                        <label htmlFor="comments" className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Reason(Comments)</label>
-                        <input
-                          type="text"
-                          name="comments"
-                          id="comments"
-                          value={comments}
-                          onChange={handleCommentsChange}
-                          className="form-control mt-2"
-                          placeholder="Enter Comments"
-                          required
-                          style={{ height: '50px', borderRadius: '8px', fontSize: 16, color: comments ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9" }}
-                        />
-                      </div>
-
-
-
-
-                    </div>
-
-                  </ModalBody>
-
-
-
-
-
-                  {formLoading &&
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="relative h-16 w-16">
+                    {props?.bedData &&
+                      ((props.bedData?.currentTenantInfo?.[0]?.profilePic?.trim()) ||
+                        (props.bedData?.profilePic?.trim())) ? (
+                      <Image
+                        src={
+                          props.bedData.currentTenantInfo?.[0].profilePic &&
+                            props.bedData.currentTenantInfo?.[0].profilePic !== ""
+                            ? typeof props.bedData.currentTenantInfo?.[0].profilePic === "string"
+                              ? props.bedData.currentTenantInfo?.[0].profilePic
+                              : URL.createObjectURL(props.bedData.currentTenantInfo?.[0].profilePic)
+                            : typeof props.bedData.profilePic === "string"
+                              ? props.bedData.profilePic
+                              : URL.createObjectURL(props.bedData.profilePic)
+                        }
+                        alt="Profile"
+                        className="h-16 w-16 rounded-full"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = Profiles;
                         }}
-                      ></div>
-                    </div>
-                  }
-
-
-
-
-
-                  {state.UsersList.errorMessageAddCheckOut && (
-                    <ErrorMessage message={state.UsersList.errorMessageAddCheckOut} type="error" />
-                  )}
-
-
-                  <div className="d-flex justify-content-end">
-                    <Button
-                      style={{
-                        backgroundColor: "white",
-                        fontWeight: 400,
-                        height: 40,
-                        borderRadius: 10,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        color: 'rgba(75, 75, 75, 1)',
-                        border: '1px solid white'
-                      }}
-                      onClick={handleCloseCheckout}
-                    >
-                      Cancel
-                    </Button>
-
-                    <Button disabled={formLoading}
-                      style={{
-                        backgroundColor: "#1E45E1",
-                        fontWeight: 500,
-                        height: 40,
-                        borderRadius: 10,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                      }}
-                      onClick={handleCheckOutCustomer}
-                    >
-                      Save Changes
-                    </Button>
+                      />
+                    ) : (
+                      <div className="h-16 w-16 rounded-full bg-gray-200 text-gray-700 flex justify-center items-center text-xl font-semibold">
+                        {props.bedData?.initials ||
+                          props.bedData?.currentTenantInfo?.[0].tenantInitials ||
+                          "-"}
+                      </div>
+                    )}
                   </div>
 
+                  <div className="flex flex-col">
+                    <label className="text-base font-semibold text-gray-900 font-gilroy mt-2">
+                      {props.bedData?.currentTenantInfo?.[0].tenantFullName ||
+                        props.bedData?.fullName}
+                    </label>
+
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      <div className="flex items-center bg-yellow-100 py-1 px-3.5 rounded-full text-xs text-gray-900 font-medium whitespace-nowrap font-gilroy">
+                        {state.UsersList.customerdetails?.data?.[0].floor_name ||
+                          props.bedData?.floorName ||
+                          props.bedData?.hostelInfo?.floorName}
+                      </div>
+
+                      <div className="flex items-center bg-pink-100 py-1.5 px-3 rounded-full text-xs text-gray-900 font-medium whitespace-nowrap font-gilroy">
+                        {props.bedData?.room?.Room_Name ||
+                          props.bedData?.roomName ||
+                          props.bedData?.hostelInfo?.roomName}{" "}
+                        -{" "}
+                        {props.bedData?.bed?.bed_no ||
+                          props.bedData?.bedName ||
+                          props.bedData?.hostelInfo?.bedName}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 font-gilroy">
+                      Request Date <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <div className="relative w-full mt-1">
+                      <DatePicker
+                        className="w-full h-12 border border-gray-300 rounded px-3 cursor-pointer font-gilroy"
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                        value={requestDate ? dayjs(requestDate) : null}
+                        onChange={(date) => {
+                          setCheckOutRequestDateError("");
+                          dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+                          setRequestDate(date ? date.toDate() : null);
+                          calculateDateDifference(selectedDate, date);
+                        }}
+                        // getPopupContainer={(triggerNode) =>
+                        //   triggerNode.closest(".datepicker-wrapper")
+                        // }
+                         getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000,top:'10px',left:'680px' }}
+                        placement="topLeft"
+                        disabledDate={(current) => {
+                          if (!current) return false;
+                          const joining = joiningdate ? dayjs(joiningdate, "DD/MM/YYYY") : null;
+                          if (joining && current.isBefore(joining.startOf("day"))) return true;
+                          if (current.isAfter(dayjs().endOf("day"))) return true;
+                          return false;
+                        }}
+                      />
+                    </div>
+                    {checkoUtrequestDateError && (
+                      <ErrorMessage message={checkoUtrequestDateError} type="error" />
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 font-gilroy">
+                      Check-Out Date <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <div className="relative w-full mt-1">
+                      <DatePicker
+                        className="w-full h-12 border border-gray-300 rounded px-3 cursor-pointer font-gilroy"
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                        value={selectedDate ? dayjs(selectedDate) : null}
+                        onChange={(date) => {
+                          setSelectedDate(date);
+                          calculateDateDifference(date, requestDate);
+                          setCheckOutDateError("");
+                          setJoiningError("");
+                          dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+                        }}
+                        disabledDate={(current) => {
+                          if (!requestDate) return true;
+                          return current && current.isBefore(dayjs(requestDate), "day");
+                        }}
+                        // getPopupContainer={(triggerNode) =>
+                        //   triggerNode.closest(".datepicker-wrapper")
+                        // }
+                         getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000,top:'10px',left:'430px' }}
+                        placement="topLeft"
+                      />
+                    </div>
+                    {checkoUtDateError && <ErrorMessage message={checkoUtDateError} type="error" />}
+                    {joiningError && <ErrorMessage message={joiningError} type="error" />}
+                  </div>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor="comments"
+                    className="mt-2 text-sm font-medium text-gray-700 font-gilroy"
+                  >
+                    Reason (Comments)
+                  </label>
+                  <input
+                    type="text"
+                    name="comments"
+                    id="comments"
+                    value={comments}
+                    onChange={handleCommentsChange}
+                    placeholder="Enter Comments"
+                    required
+                    className={`mt-2 w-full h-12 px-3 rounded-md text-base font-medium font-gilroy border ${comments ? "border-gray-700 text-gray-900" : "border-gray-300 text-gray-500"
+                      } focus:outline-none`}
+                  />
+                </div>
+
+                <div className="flex justify-end gap-3 mt-3">
+                  <button
+                    onClick={handleCloseCheckout}
+                    className="h-10 px-4 rounded-lg bg-white text-gray-700 font-gilroy font-medium border border-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    disabled={formLoading}
+                    onClick={handleCheckOutCustomer}
+                    className="h-10 px-4 rounded-lg !bg-blue-700 text-white font-gilroy font-medium"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+
+                {state.UsersList.errorMessageAddCheckOut && (
+                  <ErrorMessage
+                    message={state.UsersList.errorMessageAddCheckOut}
+                    type="error"
+                  />
+                )}
               </div>
             </Modal.Body>
+
 
           </Modal.Dialog>
         </Modal>

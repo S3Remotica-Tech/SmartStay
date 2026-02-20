@@ -120,129 +120,80 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >
-
-            <Modal.Header style={{ border: "none" }} className="ps-4 pe-4 pb-2 pt-4">
+            <Modal.Header className="border-0 px-4 pt-3 pb-4 flex items-start justify-between">
                 <div>
-                    <Modal.Title style={{
-                        fontSize: 20,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                    }}>Tenant Inactive?</Modal.Title>
+                    <Modal.Title className="!text-xl !font-semibold text-gray-900 !font-gilroy">
+                        Tenant Inactive?
+                    </Modal.Title>
 
-                    <label style={{
-                        fontSize: 14,
-                        color: "#646464",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                    }}>Are you sure you want to inactive this tenant?</label>
+                    <label className="block text-sm font-medium text-gray-600 font-gilroy">
+                        Are you sure you want to inactive this tenant?
+                    </label>
                 </div>
 
-                <CloseCircle size="24" color="#000" onClick={handleCloseInActive} style={{ cursor: "pointer" }} />
+                <CloseCircle
+                    size="24"
+                    color="#000"
+                    onClick={handleCloseInActive}
+                    className="cursor-pointer -mt-5"
+                />
             </Modal.Header>
-            <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-
+            <div className="flex items-center gap-3 mb-3 ml-5">
 
                 {inActiveDetails?.profilePic &&
                     inActiveDetails.profilePic !== "0" &&
                     inActiveDetails.profilePic !== "null" ? (
-                    <Image
-                        src={inActiveDetails.profilePic || inActiveDetails?.profilePic}
-                        roundedCircle
-                        style={{ height: 50, width: 50 }}
+                    <img
+                        src={inActiveDetails.profilePic}
                         alt="image"
+                        className="w-14 h-14 rounded-full object-cover"
                     />
                 ) : (
-                    <div
-                        style={{
-                            height: 50,
-                            width: 50,
-                            borderRadius: "50%",
-                            backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            fontSize: 20,
-                            fontWeight: "600",
-                            fontFamily: "Gilroy"
-                        }}
-                    >
-                        {inActiveDetails?.initials || inActiveDetails?.tenantInitials || "-"}
+                    <div className="w-14 h-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xl font-semibold font-gilroy">
+                        {inActiveDetails?.initials ||
+                            inActiveDetails?.tenantInitials ||
+                            "-"}
                     </div>
                 )}
-                <div >
-                    <div>
-                        <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                            {inActiveDetails.fullName} {inActiveDetails?.tenantFullName}
-                        </p>
 
-                    </div>
+                <div>
+                    <p className="text-sm font-semibold mb-1 font-gilroy">
+                        {inActiveDetails?.fullName || inActiveDetails?.tenantFullName}
+                    </p>
 
-
-                    <div className="d-flex gap-2">
-                        <span
-                            style={{
-                                backgroundColor: "#FFF3CD",
-                                color: "#856404",
-                                fontSize: "12px",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy"
-                            }}
-                        >
-                            {currentItem?.floorName || inActiveDetails?.floorName || inActiveDetails?.hostelInfo?.floorName}
+                    <div className="flex gap-2">
+                        <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
+                            {currentItem?.floorName ||
+                                inActiveDetails?.floorName ||
+                                inActiveDetails?.hostelInfo?.floorName}
                         </span>
-                        <span
-                            style={{
-                                backgroundColor: "#F8D7DA",
-                                color: "#721C24",
-                                fontSize: "12px",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy"
-                            }}
-                        >
-                            {currentItem?.roomName || inActiveDetails?.roomName || inActiveDetails?.hostelInfo?.roomName} - {currentItem?.bedName || inActiveDetails?.bedName || inActiveDetails?.hostelInfo?.bedName}
+
+                        <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
+                            {currentItem?.roomName ||
+                                inActiveDetails?.roomName ||
+                                inActiveDetails?.hostelInfo?.roomName}
+                            {" - "}
+                            {currentItem?.bedName ||
+                                inActiveDetails?.bedName ||
+                                inActiveDetails?.hostelInfo?.bedName}
                         </span>
                     </div>
-
                 </div>
-
-
 
             </div>
 
+            <Modal.Body className="px-4 pb-4 pt-0">
 
-
-            <Modal.Body className="ps-4 pe-4 pb-4 pt-0">
-
-
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="joiningDate">
-                        <Form.Label
-                            style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                            }}
-                        >
-                            Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                <div className="mb-2">
+                    <Form.Group controlId="joiningDate">
+                        <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
+                            Date <span className="text-red-500 text-xl">*</span>
                         </Form.Label>
 
-                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-
+                        <div className="relative w-full">
                             <DatePicker
-                                style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
-                                }}
+                                className="w-full h-12 cursor-pointer font-gilroy"
                                 format="DD/MM/YYYY"
                                 placeholder="DD/MM/YYYY"
                                 value={inActiveDate ? dayjs(inActiveDate, "DD/MM/YYYY") : null}
@@ -251,125 +202,81 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                                     setIsACtiveDateError("");
                                 }}
                                 getPopupContainer={() => document.body}
+                                popupStyle={{ zIndex: 2000, top: '-15px', left: '480px' }}
+                                placement="topLeft"
                                 disabledDate={(current) => {
-                                    const bookedDate = dayjs(CustomerOverView?.bookingInfo?.bookingDate, "DD/MM/YYYY");
+                                    const bookedDate = dayjs(
+                                        CustomerOverView?.bookingInfo?.bookingDate,
+                                        "DD/MM/YYYY"
+                                    );
                                     return (
                                         current.isBefore(bookedDate, "day") ||
                                         current.isAfter(dayjs(), "day")
                                     );
                                 }}
                             />
-
-
                         </div>
                     </Form.Group>
+
                     {isActiveDateError && (
                         <ErrorMessage message={isActiveDateError} type="error" />
                     )}
                 </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
-                        <Form.Label style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                        }}>Reason (Comments)</Form.Label>
+                <div className="mb-3">
+                    <Form.Group>
+                        <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
+                            Reason (Comments)
+                        </Form.Label>
+
                         <Form.Control
-                            style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: inActiveComments ? 600 : 500,
-                                boxShadow: "none",
-                                border: "1px solid #D9D9D9",
-                                height: 50,
-                                borderRadius: 8,
-                            }}
                             as="textarea"
                             rows={5}
                             placeholder="Enter reason here"
                             value={inActiveComments}
                             onChange={(e) => handleInActiveReason(e)}
+                            className={`h-12 text-base text-gray-600 font-gilroy border border-gray-300 rounded-lg shadow-none
+          ${inActiveComments ? "font-semibold" : "font-medium"}`}
                         />
                     </Form.Group>
                 </div>
 
-
                 {state.Booking.bookingMakeAsError && (
-                    <div className="d-flex justify-content-center mb-2">
-                        <ErrorMessage message={state.Booking.bookingMakeAsError} type="error" />
+                    <div className="flex justify-center mb-2">
+                        <ErrorMessage
+                            message={state.Booking.bookingMakeAsError}
+                            type="error"
+                        />
                     </div>
                 )}
 
 
-
-                <Modal.Footer style={{ border: "none", padding: 0 }}>
-                    <div className="d-flex  w-100 gap-3">
-
-
+                <Modal.Footer className="border-0 p-0">
+                    <div className="flex w-full gap-3">
                         <Button
                             onClick={handleCloseInActive}
-                            className="w-100"
-                            style={{
-                                backgroundColor: "#fff",
-                                border: "1px solid #D2D2D2",
-                                color: "#4B4B4B",
-                                fontWeight: 600,
-                                borderRadius: 10,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                padding: "8px 40px"
-                            }}
+                            className="w-full bg-white !border !border-gray-300 !text-gray-600 !font-semibold rounded-lg !text-base !font-gilroy py-2"
                         >
                             Cancel
                         </Button>
 
-                        <Button disabled={formLoading}
+                        <Button
+                            disabled={formLoading}
                             onClick={SubmitInActiveForm}
-                            className="w-100"
-                            style={{
-                                backgroundColor: "#1E45E1",
-                                fontWeight: 600,
-                                borderRadius: 10,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                padding: "8px 40px"
-                            }}
+                            className="w-full !bg-blue-700 text-white !font-semibold rounded-lg !text-base !font-gilroy py-2"
                         >
                             Confirm
                         </Button>
                     </div>
-
                 </Modal.Footer>
+
             </Modal.Body>
-            {formLoading && <div
-                style={{
-                    position: 'absolute',
-                    top: 100,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                }}
-            >
-                <div
-                    style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                    }}
-                ></div>
-            </div>}
+
+            {formLoading && (
+                <div className="absolute inset-x-0 bottom-0 top-24 flex items-center justify-center opacity-75 z-10">
+                    <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
+                </div>
+            )}
 
         </Modal>
     )

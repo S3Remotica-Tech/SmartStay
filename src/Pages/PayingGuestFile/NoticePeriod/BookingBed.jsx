@@ -306,75 +306,38 @@ function BookingBed({
         backdrop="static"
         centered
       >
-        <Modal.Dialog
-          style={{
-            maxWidth: 950,
-            paddingRight: "10px",
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
-        >
-          <Modal.Body>
-            <Modal.Header
-              className="pt-0 pb-2 mb-1"
-              style={{
-                position: "relative",
-                borderBottom: "1px solid #e0e0e0",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-              }}
-            >
-              <div className="w-100 d-flex justify-content-between align-items-start">
-                <div
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Booking
-                </div>
+        <Modal.Dialog className="m-0 p-0 max-w-[950px] pr-2.5 rounded-[30px]">
 
-                <CloseCircle
-                  size="24"
-                  color="#000"
-                  onClick={handleClose}
-                  style={{ cursor: "pointer" }}
-                />
+          <Modal.Header className="pb-2 mb-1 mt-1 relative flex flex-col !items-start border-b border-gray-300">
+            <div className="w-100 d-flex justify-content-between align-items-start">
+              <div className="!text-lg !font-semibold !font-gilroy">
+                Booking
               </div>
 
-              <span
-                style={{
-                  fontSize: "13px",
-                  color: "#1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                {currentItem.floorName} &nbsp; | &nbsp; {currentItem?.roomName} &nbsp; | &nbsp; {currentItem?.bedName}
-              </span>
-            </Modal.Header>
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleClose}
+                className="cursor-pointer mt-2"
+              />
+            </div>
 
-            <div
-              style={{ maxHeight: "350px", overflowY: "scroll" }}
-              className="show-scroll p-2 mt-1 me-1"
-            >
+            <span className="text-sm text-blue-600 font-semibold !font-gilroy">
+              {currentItem.floorName} &nbsp; | &nbsp; {currentItem?.roomName} &nbsp; | &nbsp; {currentItem?.bedName}
+            </span>
+          </Modal.Header>
 
+          <Modal.Body>
 
-              <div className="row ">
+            <div className="show-scroll p-2 mt-1 me-1 max-h-[350px] overflow-y-scroll">
+              <div className="grid grid-cols-12 gap-x-3 gap-y-0">
 
-                <div className="col-lg-12 col-md-12 col-sm-12 mb-1">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+                <div className="col-span-12 mb-1 -mt-3">
+                  <Form.Label className="text-sm font-medium font-gilroy">
                     Select Tenant{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-red-500 text-xl">*</span>
                   </Form.Label>
+
                   <Select
                     ref={bookingcustomerRef}
                     options={
@@ -447,30 +410,22 @@ function BookingBed({
                       }),
                     }}
                   />
-
-
                   {booking_customererrmsg.trim() !== "" && (
                     <ErrorMessage message={booking_customererrmsg} type="error" />
                   )}
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12  mb-1">
+
+                <div className="col-span-12 mb-1">
                   <Form.Group controlId="bookingDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium font-gilroy">
                       Booking Date{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
 
-                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                    <div className="datepicker-wrapper relative w-full">
                       <DatePicker
                         ref={bookingDateRef}
-                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                        className="w-full h-12 cursor-pointer font-gilroy"
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={bookingDate ? dayjs(bookingDate) : null}
@@ -503,22 +458,14 @@ function BookingBed({
                   </Form.Group>
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-sm-12  mb-1">
-                  <Form.Group >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
+                <div className="col-span-12 sm:col-span-6 md:col-span-6 mb-1">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy">
                       Booking Amount {" "}
-                      <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                      <span className="text-red-500 text-xl"> *</span>
                     </Form.Label>
 
-                    <div style={{ position: "relative" }}>
-
-
+                    <div className="relative">
                       <FormControl
                         type="text"
                         ref={amountRef}
@@ -526,16 +473,9 @@ function BookingBed({
                         placeholder="Enter Booking Amount"
                         value={amount}
                         onChange={(e) => handleAmount(e)}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: amount ? 600 : 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
+                        className={`w-full h-12 text-base font-gilroy text-gray-800 
+                        ${amount ? 'font-semibold' : 'font-medium'} 
+                         border border-gray-300 rounded-md shadow-none`}
                       />
                     </div>
                   </Form.Group>
@@ -544,35 +484,18 @@ function BookingBed({
                   )}
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-sm-12  mb-1">
-                  <Form.Group style={{ marginBottom: 0 }}>
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-
-                      }}
-                    >
+                <div className="col-span-12 sm:col-span-6 md:col-span-6 mb-1">
+                  <Form.Group className="mb-0">
+                    <Form.Label className="text-sm font-medium font-gilroy">
                       Joining Date (Tentative){" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
 
-                    <div
-                      className="datepicker-wrapper"
-                      style={{ position: "relative", width: "100%" }}
-                    >
+                    <div className="datepicker-wrapper relative w-full">
 
                       <DatePicker
                         ref={dateRef}
-                        style={{
-                          width: "100%",
-                          height: 48,
-                          cursor: "pointer",
-                          fontFamily: "Gilroy",
-                          padding: "6px 12px"
-                        }}
+                        className="w-full h-12 cursor-pointer font-gilroy px-3 py-1.5"
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={joiningDate ? dayjs(joiningDate) : null}
@@ -584,7 +507,7 @@ function BookingBed({
                         }}
                         getPopupContainer={() => document.body}
                         disabledDate={(current) => {
-                         
+
                           if (bookingDate) {
                             return current && current.isBefore(dayjs(bookingDate), "day");
                           }
@@ -605,33 +528,12 @@ function BookingBed({
 
                 </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-12  mb-1">
-                  <Form.Group
-
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-
-                      }}
-                    >
+                <div className="col-span-12 mb-1">
+                  <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Label className="text-sm font-medium font-gilroy">
                       Mode Of Transaction {" "}
-                      <span
-                        style={{
-                          color: "#FF0000",
-                          fontSize: "20px",
-                        }}
-                      >
-                        *
-                      </span>
+                      <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
-
-
-
                     <Select
                       ref={modeOfPaymentRef}
                       options={paymentOptions}
@@ -702,25 +604,11 @@ function BookingBed({
                   )}
                 </div>
 
-
-                <div className="col-lg-12 col-md-12 col-sm-12  mb-1">
-                  <Form.Group >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
+                <div className="col-span-12 mb-1">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy">
                       Transaction ID{" "}
-                      <span
-                        style={{
-                          color: "white",
-                          fontSize: "20px",
-                        }}
-                      >
-
-                      </span>
+                      <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
                     <FormControl
                       type="text"
@@ -728,17 +616,10 @@ function BookingBed({
                       placeholder="Enter Transaction ID"
                       value={transactionId}
                       onChange={(e) => handleTransactionId(e)}
+                      className={`w-full h-12 text-base font-gilroy text-gray-800 
+  ${transactionId ? 'font-semibold' : 'font-medium'} 
+  border border-gray-300 rounded-md shadow-none`}
 
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: transactionId ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
                     />
                   </Form.Group>
 
@@ -761,26 +642,10 @@ function BookingBed({
                           <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
                           : null} */}
 
-            <div
-              style={{
-                display: "flex",
-                gap: "16px",
-                alignItems: "center",
-                marginTop: 10,
-                justifyContent: "flex-end",
-              }}
-            >
+            <Modal.Footer className="flex items-center justify-end gap-4 mt-2 !border-t-0 mb-0">
               <button
                 type="button"
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#333",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Montserrat",
-                  cursor: "pointer",
-                }}
+                className="bg-transparent border-none text-gray-800 text-sm font-semibold font-gilroy cursor-pointer"
                 onClick={handleClose}
               >
                 Cancel
@@ -788,26 +653,14 @@ function BookingBed({
 
               <button
                 type="button"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  color: "#fff",
-                  fontWeight: 600,
-                  height: 40,
-                  borderRadius: 8,
-                  fontSize: 14,
-                  fontFamily: "Montserrat",
-                  padding: "0 24px",
-                  border: "none",
-                  cursor: "pointer",
-
-                }}
+                className="bg-blue-600 text-white font-semibold h-10 rounded-md text-sm font-gilroy px-6 border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmitBooking}
                 disabled={formLoading}
-
               >
                 Book
               </button>
-            </div>
+            </Modal.Footer>
+
           </Modal.Body>
 
 

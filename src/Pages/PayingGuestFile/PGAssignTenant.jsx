@@ -751,7 +751,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       <div className="col-span-12">
                         <Form.Group className="mb-1" controlId="exampleForm.ControlInput5">
                           <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                            Tenant <span className="text-red-500 text-xl">*</span>
+                            Tenant <span className="text-red-600 text-xl">*</span>
                           </Form.Label>
                           <Select
                             options={
@@ -867,7 +867,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         <Form.Group className="">
                           <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
                             Booking Amount {" "}
-                            <span className="text-red-500 text-xl">
+                            <span className="text-red-600 text-xl">
                               {" "}
                               *{" "}
                             </span>
@@ -894,7 +894,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         <Form.Group controlId="exampleForm.ControlInput1">
                           <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal" >
                             Mode Of Transaction {" "}
-                            <span className="text-red-500 text-xl"></span>
+                            <span className="text-red-600 text-xl">*</span>
                           </Form.Label>
                           <Select
                             options={paymentOptions}
@@ -968,7 +968,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         <Form.Group >
                           <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal" >
                             Transaction ID{" "}
-                            <span className="text-red-500 text-xl"></span>
+                            <span className="text-red-600 text-xl"></span>
                           </Form.Label>
                           <FormControl
                             type="text"
@@ -986,7 +986,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         <Form.Group controlId="joiningDate">
                           <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal" >
                             Joining Date (Tentative) {" "}
-                            <span className="text-red-500 text-xl"></span>
+                            <span className="text-red-600 text-xl">*</span>
                           </Form.Label>
 
                           <div className="datepicker-wrapper relative w-full mt-2">
@@ -1071,7 +1071,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           <div className="col-span-12">
                             <Form.Group controlId="exampleForm.ControlInput5">
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Tenant <span className="text-red-500 text-xl">*</span>
+                                Tenant <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
                               <Select
                                 options={
@@ -1152,7 +1152,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           <div className="col-span-12">
 
                             <label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal mb-1">
-                              Stay Type {" "}   <span className="text-red-500 text-xl">*</span>
+                              Stay Type {" "}   <span className="text-red-600 text-xl">*</span>
                             </label>
 
                             <Select
@@ -1219,7 +1219,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
                             <Form.Group>
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Rental Amount <span className="text-red-500 text-xl">*</span>
+                                Rental Amount <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -1245,7 +1245,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
                             <Form.Group>
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Advance Amount <span className="text-red-500 text-xl">*</span>
+                                Advance Amount <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -1267,7 +1267,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           <div className="col-span-12 md:col-span-12">
                             <Form.Group controlId="joiningDate">
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Joining Date  {" "} <span className="text-red-500 text-xl">*</span>
+                                Joining Date  {" "} <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
 
                               <div

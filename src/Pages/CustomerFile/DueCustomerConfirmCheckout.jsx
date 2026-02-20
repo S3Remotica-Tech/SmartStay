@@ -58,93 +58,93 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
     }, [state.UsersList?.chrckoutError])
 
-    // console.log("data", data)
+        // console.log("data", data)
 
-    // useEffect(() => {
-    //     if (state.UsersList.statusCodegetConfirmCheckout) {
-    //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-    //             (invoice) => invoice.balance > 0
-    //         );
-
-
-
-    //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-    //             (deduction) => deduction.amount > 0
-    //         );
-
-
-    //         const invoiceTotal = Array.isArray(validInvoices)
-    //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-    //             : 0;
+        // useEffect(() => {
+        //     if (state.UsersList.statusCodegetConfirmCheckout) {
+        //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+        //             (invoice) => invoice.balance > 0
+        //         );
 
 
 
-    //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-    //             const formattedFields = deduction_details.map((item) => ({
-    //                 reason_name: item.reason || "",
-    //                 amount: Number(item.amount) || 0,
-    //                 showInput: false,
-    //                 isDefault: false,
-    //             }));
+        //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+        //             (deduction) => deduction.amount > 0
+        //         );
 
-    //             formattedFields.unshift({
-    //                 reason_name: "DueAmount",
-    //                 amount: invoiceTotal,
-    //                 showInput: false,
-    //                 isDefault: true,
-    //             });
 
-    //             setFields(formattedFields);
-    //         } else {
-    //             setFields([
-    //                 { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
-    //             ]);
-    //         }
-
-    //         setDetuction(state?.UsersList?.Deduction)
+        //         const invoiceTotal = Array.isArray(validInvoices)
+        //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+        //             : 0;
 
 
 
-    //         // setHostelData(state?.UsersList?.hostelData)
+        //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+        //             const formattedFields = deduction_details.map((item) => ({
+        //                 reason_name: item.reason || "",
+        //                 amount: Number(item.amount) || 0,
+        //                 showInput: false,
+        //                 isDefault: false,
+        //             }));
 
-    //     }
+        //             formattedFields.unshift({
+        //                 reason_name: "DueAmount",
+        //                 amount: invoiceTotal,
+        //                 showInput: false,
+        //                 isDefault: true,
+        //             });
 
-    //     setTimeout(() => {
-    //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    //     }, 500);
-    // }, [state.UsersList.statusCodegetConfirmCheckout, data]);
+        //             setFields(formattedFields);
+        //         } else {
+        //             setFields([
+        //                 { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
+        //             ]);
+        //         }
 
-
-    // const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-
-    // useEffect(() => {
-    //     if (fields || advanceAmount) {
-    //         // const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-    //         // const returnAmount = Number(advanceAmount || 0) - totalDeductions;
-    //         // setReturnAmount(returnAmount)
-    //     }
-    // }, [fields, advanceAmount])
+        //         setDetuction(state?.UsersList?.Deduction)
 
 
 
+        //         // setHostelData(state?.UsersList?.hostelData)
+
+        //     }
+
+        //     setTimeout(() => {
+        //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+        //     }, 500);
+        // }, [state.UsersList.statusCodegetConfirmCheckout, data]);
 
 
+        // const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
-    // const handleFileChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         setUploadFile(file);
-    //     }
-    // };
+        // useEffect(() => {
+        //     if (fields || advanceAmount) {
+        //         // const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+        //         // const returnAmount = Number(advanceAmount || 0) - totalDeductions;
+        //         // setReturnAmount(returnAmount)
+        //     }
+        // }, [fields, advanceAmount])
 
 
 
 
 
 
+        // const handleFileChange = (e) => {
+        //     const file = e.target.files[0];
+        //     if (file) {
+        //         setUploadFile(file);
+        //     }
+        // };
 
 
-    ;
+
+
+
+
+
+
+        ;
 
     const handleCommentsChange = (event) => {
         setComments(event.target.value);
@@ -302,108 +302,81 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
             <Modal show={show} onHide={handleClosecheck} centered >
 
-                <Modal.Header
-                    style={{ marginBottom: "10px", position: "relative", borderBottom: "none" }}
-                >
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div
-                            style={{
-                                fontSize: 20,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                            }}
-                        >
-                            Check-out Tenant
-                        </div>
+                <Modal.Header className="flex items-start justify-between mb-3 relative border-b-0 pb-1">
+                    <h2 className="text-xl font-semibold font-gilroy">
+                        Check-out Tenant
+                    </h2>
 
-                    </div>
-                    <CloseCircle size="24" color="#000" onClick={handleClosecheck}
-                        style={{ cursor: 'pointer' }} />
+                    <button onClick={handleClosecheck} className="cursor-pointer">
+                        <CloseCircle size={24} color="#000" />
+                    </button>
                 </Modal.Header>
+
                 <Modal.Body>
 
-                    <div className="d-flex align-items-center  gap-3" style={{ marginTop: "-30px" }}>
+                    <div className="flex items-center gap-3 -mt-6" >
                         {getProfileImage() ? (
                             <img
                                 src={getProfileImage()}
-                                style={{ height: 55, width: 55, cursor: "pointer" }}
+                                className="h-14 w-14 cursor-pointer rounded-circle mr-3"
                                 alt="profile"
-                                className="rounded-circle me-3"
+
                             />
                         ) : (
-                            <div
-                                style={{
-                                    width: 55,
-                                    height: 55,
-                                    borderRadius: "50%",
-                                     backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontWeight: 600,
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                    cursor: "pointer"
-                                }}
-                            >
-                                {data?.initials || data?.tenantInitials ||
-
-                                    "--"}
+                            <div className="w-16 h-16 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-base font-sans cursor-pointer">
+                                {data?.initials || data?.tenantInitials || "--"}
                             </div>
                         )}
 
                         <div>
-                            <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.tenantFullName}</p>
-                            <div className="d-flex mb-2">
-                                <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                            <p className="text-lg mt-2 font-gilroy font-semibold mb-0">
+                                {data?.firstName || data?.tenantFullName}
+                            </p>
+                            <div className="flex mb-2">
+                                <span className="rounded-full bg-yellow-400 text-gray-900 me-2 text-xs font-gilroy font-normal px-2.5 py-1">
                                     {data?.floorName || pgDetails?.floorName || data?.hostelInfo?.floorName}
                                 </span>
-                                <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                <span className="rounded-full bg-red-100 text-gray-900 text-xs font-gilroy font-normal px-2.5 py-1">
                                     {data?.roomName || pgDetails?.roomName || data?.hostelInfo?.roomName} - {data?.bedName || pgDetails?.bedName || data?.hostelInfo?.bedName}
                                 </span>
                             </div>
                         </div>
-                        <div className="ms-auto text-end mt-2">
-                            <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Check-out Date</p>
-                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}</p>
+
+                        <div className="ml-auto text-right mt-2">
+                            <p className="text-sm font-gilroy font-normal text-gray-700 m-0 p-0 mb-1">
+                                Check-out Date
+                            </p>
+                            <p className="text-sm font-gilroy font-semibold m-0">
+                                {data?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div className="flex justify-between items-center">
+                        <span className="text-sm font-gilroy font-normal">
+                            Status
+                        </span>
+                        <div className="flex justify-between items-center mb-3">
+                            <button className="text-xs font-gilroy font-semibold bg-green-600 text-white px-3 py-1.5 rounded-full border-none">
+                                Checkout
+                            </button>
                         </div>
                     </div>
 
-                
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <span style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400 }}>Status</span>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-
-                                <Button
-                                    style={{
-                                        fontSize: 12,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        backgroundColor: "#0D9D35",
-                                        padding: "3px 12px",
-                                        borderRadius: 50,
-                                        border: "none",
-                                    }}
-                                >
-                                    Checkout
-                                </Button>
-                            </div>
-
-                        </div>
-
-
-                    <Form.Group >
-                        <Form.Label style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400 }}>Comments</Form.Label>
-                        <Form.Control
-                            style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, height: 50 }}
-                            as="textarea"
+                    <div>
+                        <label className="block text-sm font-gilroy font-normal mb-2 mt-2">
+                            Comments
+                        </label>
+                        <textarea
+                            className="w-full h-12 text-sm font-gilroy font-normal p-2.5 border border-gray-300 rounded"
                             placeholder="Please Enter Comments"
                             rows={3}
                             value={comments}
                             onChange={handleCommentsChange}
                         />
-                    </Form.Group>
+                    </div>
 
 
                 </Modal.Body>
@@ -414,52 +387,36 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
                 )}
 
-                {formLoading && <div
-                    style={{
-                        position: 'absolute',
-                        top: 100,
-                        right: 0,
-                        bottom: 0,
-                        left: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    ></div>
-                </div>}
-                <Modal.Footer style={{ borderTop: "none", marginTop: "-10px" }}>
-                    <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light" onClick={handleClosecheck}>
+                {formLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
+                        <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
+                    </div>
+                )}
+
+                <Modal.Footer className="!border-t-0">
+                    <Button className="!text-base !font-gilroy !font-normal !bg-transparent !text-gray-800 px-4 py-2 rounded" onClick={handleClosecheck}>
                         Cancel
                     </Button>
-                    <Button disabled={formLoading} onClick={handleConfirmCheckout} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor:"#1E45E1" }} >Check-out</Button>
+                    <Button disabled={formLoading} onClick={handleConfirmCheckout} 
+                     className="text-base !font-gilroy !font-normal !bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                     >Check-out</Button>
                 </Modal.Footer>
+
+               
             </Modal>
         </div>
     )
 }
 DueCustomerConfirmCheckout.propTypes = {
-   show: PropTypes.bool.isRequired,
+    show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
     customerID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     pgDetails: PropTypes.shape({
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
-  }).isRequired,
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
+    }).isRequired,
 
 
 };
