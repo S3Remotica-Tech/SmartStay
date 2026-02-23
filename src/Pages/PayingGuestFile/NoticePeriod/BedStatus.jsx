@@ -283,7 +283,7 @@ function NoticeBedStatusDetails({
               <div className="flex justify-between w-full pr-2.5 pb-2 pl-1">
                 <div>
                   <div>
-                    <Modal.Title className="!text-xl !text-gray-900 !font-semibold">
+                    <Modal.Title className="!text-lg !text-gray-900 !font-semibold">
                       Bed Status
                     </Modal.Title>
                   </div>

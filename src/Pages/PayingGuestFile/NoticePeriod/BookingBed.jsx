@@ -653,7 +653,7 @@ function BookingBed({
 
               <button
                 type="button"
-                className="bg-blue-600 text-white font-semibold h-10 rounded-md text-sm font-gilroy px-6 border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-blue-700 text-white font-semibold h-10 rounded-md text-sm font-gilroy px-6 border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmitBooking}
                 disabled={formLoading}
               >

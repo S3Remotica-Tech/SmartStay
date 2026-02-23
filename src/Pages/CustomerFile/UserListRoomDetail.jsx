@@ -2561,7 +2561,11 @@ function UserListRoomDetail(props) {
 
 
               <div className="ml-2.5">
-                <span className="text-xl font-semibold font-gilroy  mb-0">
+
+                <span
+                  className="text-xl font-semibold font-gilroy mb-0 block truncate max-w-[200px] cursor-pointer"
+                  title={CustomerOverView.fullName}
+                >
                   {CustomerOverView.fullName}
                 </span>
 
@@ -3159,7 +3163,7 @@ function UserListRoomDetail(props) {
 
                     >
                       <Box
-                        sx={{ borderBottom: 0, borderColor: "divider" ,}}
+                        sx={{ borderBottom: 0, borderColor: "divider", }}
                         className="sticky top-0 z-[999] bg-white"
                       >
                         <div className="flex flex-col sm:flex-row justify-start items-center bg-white ">
@@ -3167,9 +3171,9 @@ function UserListRoomDetail(props) {
                             onChange={handleChangesupload}
                             aria-label="custom tabs"
                             className="d-flex justify-content-center flex-sm-row bg-white w-full"
-                            TabIndicatorProps={{ style: { display: "none",  } }}
+                            TabIndicatorProps={{ style: { display: "none", } }}
                           >
-                            <Tab 
+                            <Tab
                               label="KYC Documents"
                               value="1"
                               sx={{
@@ -3183,11 +3187,11 @@ function UserListRoomDetail(props) {
                                     ? "2px solid #1E45E1"
                                     : "2px solid transparent",
                                 minWidth: "auto",
-                                
+
                               }}
                             />
 
-                            <Tab 
+                            <Tab
                               label="Manual Documents"
                               value="2"
                               sx={{
@@ -3201,19 +3205,19 @@ function UserListRoomDetail(props) {
                                     ? "2px solid #1E45E1"
                                     : "2px solid transparent",
                                 minWidth: "auto",
-                                
+
                               }}
                             />
-                             {
-                            CustomerOverView?.files?.otherDoc?.length > 0 && documentvalue === "2" &&
+                            {
+                              CustomerOverView?.files?.otherDoc?.length > 0 && documentvalue === "2" &&
 
-                            <div
-                              className="bg-green-600 absolute right-2 bottom-2 rounded-full px-2 py-2 cursor-pointer shadow-lg hover:scale-105 transition"
-                              onClick={handlePreview}
-                            >
-                              <DocumentUpload size="14" color="#FFFFFF" />
-                            </div>
-                          }
+                              <div
+                                className="bg-green-600 absolute right-2 bottom-2 rounded-full px-2 py-2 cursor-pointer shadow-lg hover:scale-105 transition"
+                                onClick={handlePreview}
+                              >
+                                <DocumentUpload size="14" color="#FFFFFF" />
+                              </div>
+                            }
                           </TabList>
                         </div>
                       </Box>
@@ -3256,7 +3260,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </div>
                           </div>
-                         
+
 
                         </div>
 
@@ -3321,9 +3325,9 @@ function UserListRoomDetail(props) {
 
                       </TabPanel>
 
-                      
+
                     </TabContext>
-                    
+
                   </div>
 
                 </div>
