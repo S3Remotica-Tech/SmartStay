@@ -87,22 +87,15 @@ export async function Addaccount (datum) {
 export async function UpdateProfile(params) {
   try {
     const formData = new FormData();
-
-   
+  
     formData.append(
-      "updateProfile",
+      "payloads",
       JSON.stringify({
         firstName: params.firstName,
         lastName: params.lastName,
         emailId: params.emailId,
         mobile: params.mobile,
-        houseNo: params.houseNo,
-        street: params.street,
-        landmark: params.landmark,
-        city: params.city,
-        state: params.state,
-        pincode: params.pincode,
-      })
+             })
     );
 
 

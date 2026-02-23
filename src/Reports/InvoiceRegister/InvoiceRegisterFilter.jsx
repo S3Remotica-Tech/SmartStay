@@ -162,12 +162,12 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
 
     const invoiceFilters = state.reports?.invoiceRegisterFilters;
 
-  
+
     useEffect(() => {
         if (show && invoiceFilters) {
             setTenantName(invoiceFilters.search)
 
-                       setBillStatus(invoiceFilters.paymentStatus || []);
+            setBillStatus(invoiceFilters.paymentStatus || []);
             const selectedPaymentOptions = billStatusOptions.filter(option =>
                 invoiceFilters.paymentStatus?.includes(option.value)
             );
@@ -357,6 +357,21 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
 
 
         if (!state.login?.selectedHostel_Id) return;
+        if (
+            outstandingMin &&
+            outstandingMax &&
+            Number(outstandingMin) > Number(outstandingMax)
+        ) {
+            return;
+        }
+
+        if (
+            paidAmountMin &&
+            paidAmountMax &&
+            Number(paidAmountMin) > Number(paidAmountMax)
+        ) {
+            return;
+        }
 
         const InvoiceFilter = {
             search: tenantName?.trim() || undefined,
@@ -369,7 +384,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
             maxPaidAmount: paidAmountMax,
             minOutstandingAmount: outstandingMin,
             maxOutstandingAmount: outstandingMax,
-            page: page,
+            page: 0,
             size: size,
             startDate: period?.value ? undefined : startDate,
             endDate: period?.value ? undefined : endDate,
@@ -396,7 +411,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
             payload: {
                 hostelId: state.login.selectedHostel_Id,
                 filters: isOnlyAllStatus
-                    ? { page: page, size: size }
+                    ? { page: 0, size: size }
                     : InvoiceFilter
             }
         });
@@ -699,7 +714,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
                                 value={period}
                                 onChange={(selected) => {
                                     setPeriod(selected);
-                                   
+
                                 }}
                             />
                         </Form.Group>
@@ -863,7 +878,7 @@ InvoiceRegisterFilter.propTypes = {
     handleClose: PropTypes.func.isRequired,
     size: PropTypes.any,
     page: PropTypes.any,
-     startDate: PropTypes.any,
-        endDate:  PropTypes.any,
+    startDate: PropTypes.any,
+    endDate: PropTypes.any,
 };
 export default withErrorBoundary(InvoiceRegisterFilter)

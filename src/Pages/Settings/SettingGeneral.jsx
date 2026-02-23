@@ -41,6 +41,8 @@ import {
 import Logout from "../../Components/Logout";
 import RecentActivity from "./RecentActivity";
 import ManagedUsers from "./ManagedUsers";
+import AdminChangePassword from "./AdminChangePassword";
+import AdminProfileEdit from "./AdminProfileEdit";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -51,6 +53,8 @@ function SettingGeneral() {
   const [changeLoading, setChangeLoading] = useState(false)
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
+   const [showOpenAdminProfile, setShowOpenAdminProfile] = useState(false);
+    const [showOpenAdminProfileEdit, setShowOpenAdminProfileEdit] = useState(false);
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState("masters");
 
@@ -954,8 +958,7 @@ useEffect(() => {
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-      // dispatch({ type: "ACCOUNTDETAILS" });
-      setTimeout(() => {
+            setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_GENERAL_ADD" });
       }, 200);
     }
@@ -966,8 +969,7 @@ useEffect(() => {
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-      // dispatch({ type: "ACCOUNTDETAILS" });
-      setTimeout(() => {
+            setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_EDIT_GENERAL" });
       }, 200);
     }
@@ -988,32 +990,7 @@ useEffect(() => {
   }, [state.Settings?.statusCodeForGeneralDelete]);
 
 
-  // const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
-  // const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
-
-
-  // const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
-  // const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
-  // const currentRowGeneral = generalFilterddata?.slice(
-  //   indexOfFirstRowGeneral,
-  //   indexOfLastRowGeneral
-  // );
-
-  // const handlePageChange = (generalpageNumber) => {
-  //   setGeneralcurrentPage(generalpageNumber);
-  // };
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setGeneralrowsPerPage(selectedOption.value);
-  //   setGeneralcurrentPage(1);
-  // };
-
-
-
-  // const totalPagesGeneral = Math.ceil(
-  //   generalFilterddata?.length / generalrowsPerPage
-  // );
-
+ 
 
 
   useEffect(() => {
@@ -1146,16 +1123,37 @@ useEffect(() => {
     setLogoutformshow(false);
   };
 
+const handleOpenAdminProfile = () =>{
+setShowOpenAdminProfile(true)
+}
 
+const handleCloseAdminProfile = () =>{
+setShowOpenAdminProfile(false)
+}
 
+const handleAdminEdit  = () =>{
+  setShowOpenAdminProfileEdit(true)
+}
 
-
+const handleCloseAdminEdit  = () =>{
+  setShowOpenAdminProfileEdit(false)
+}
 
   return (
     <>
       {
         logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
       }
+
+
+{
+  showOpenAdminProfile && <AdminChangePassword  show={showOpenAdminProfile} handleClose={handleCloseAdminProfile} />
+}
+
+{
+  showOpenAdminProfileEdit && <AdminProfileEdit  show={showOpenAdminProfileEdit} handleClose={handleCloseAdminEdit}/>
+}
+
       {loading &&
         <div
           style={{
@@ -1354,7 +1352,7 @@ useEffect(() => {
 
                                     <div
                                       onClick={() => {
-                                        setOpenMenu(false);
+                                        handleAdminEdit();
 
                                       }}
                                       style={{
@@ -1390,7 +1388,7 @@ useEffect(() => {
 
                                     <div
                                       onClick={() => {
-                                        setOpenMenu(false);
+                                        handleOpenAdminProfile(account)
                                       }}
                                       style={{
                                         display: "flex",

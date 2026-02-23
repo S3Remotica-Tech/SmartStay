@@ -1120,7 +1120,7 @@ const Compliance = () => {
                 <img
                   src={Emptystate}
                   alt="Empty State"
-                  className='w-full max-w-full h-auto'
+                  className='h-[240px] w-[240px]'
                 />
 
                 <ErrorMessage
@@ -1156,7 +1156,7 @@ const Compliance = () => {
                     <img
                       src={Emptystate}
                       alt="emptystate"
-                      className="mx-auto"
+                      className="h-[240px] w-[240px]"
                     />
 
                     <div className="pb-1 font-semibold font-[Gilroy] text-[18px] text-[rgba(75,75,75,1)]">

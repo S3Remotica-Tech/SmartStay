@@ -64,7 +64,7 @@ export const initialState = {
     RecurenotenableStatusCode: 0,
     Errmessage: '',
     amnitiessAddError: '',
-finalSettlementError: '',
+    finalSettlementError: '',
     BillsPdfDetails: [],
     BillsPdfSuccessCode: 0,
 
@@ -95,7 +95,9 @@ finalSettlementError: '',
     billsListStatusCode: 0,
     getInitializeRecurring: [],
     getInitializeRecurringStatusCode: 0,
-
+    sharePDF: '',
+    sharePdfSuccess: 0,
+    sharePdfError: '',
 
 
     invoiceFilters: {
@@ -444,9 +446,15 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE':
             return { ...state, BillsPdfSuccessCode: 0 }
 
+        case 'GET_SHARE_PDF':
+            return { ...state, sharePDF: action.payload.response, sharePdfSuccess: action.payload.statusCode };
+        case 'REMOVE_GET_SHARE_PDF':
+            return { ...state, sharePdfSuccess: 0 };
 
-
-
+        case 'SHARE_PDF_ERROR':
+            return { ...state, sharePdfError: action.payload };
+        case 'REMOVE_SHARE_PDF_ERROR':
+            return { ...state, sharePdfError: '' };
 
         case 'RECEIPT_PDF_CHANGES':
             return { ...state, newReceiptchanges: action.payload, statusCodeNewReceiptStatusCode: action.payload.statusCode }
@@ -456,7 +464,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'FINAL_SETTLMENT_ERROR':
             return { ...state, finalSettlementError: action.payload };
 
-case 'REMOVE_FINAL_SETTLMENT_ERROR':
+        case 'REMOVE_FINAL_SETTLMENT_ERROR':
             return { ...state, finalSettlementError: '' };
 
         case 'SET_TRIGGER_SOURCE':

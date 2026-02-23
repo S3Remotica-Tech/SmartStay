@@ -417,11 +417,9 @@ function ExpenseRegister() {
 
   };
 
-
-
-
-
-
+  useEffect(() => {
+    setPage(0);
+  }, [state.reports?.expenseRegisterFilters]);
 
 
 

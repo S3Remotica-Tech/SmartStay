@@ -1,29 +1,29 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,  UpdateProfile, UpdatePassword } from '../Action/LoginAction';
+import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount, UpdateProfile, UpdatePassword } from '../Action/LoginAction';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function* handleApiError(error) {
-   const status = error?.response?.status || error?.status;
+  const status = error?.response?.status || error?.status;
 
-   if (status === 401) {
-      yield put({
-         type: "UN-AUTHORIZED",
-         payload: "Access Denied",
-      });
-   }
-   else if (status === 500) {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
-   }
-   else if (error.code === "ERR_NETWORK") {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
-   }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+  if (status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  }
+  else if (status === 500) {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+
+  }
+  else if (error.code === "ERR_NETWORK") {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+
+  }
+  else if (status === 403) {
+    yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+  }
 }
 
 function* CreateNewAccount(args) {
@@ -108,8 +108,6 @@ function* ProfileUpdate(action) {
         type: 'PROFILEUPDATE',
         payload: { response: response.data, statusCode: response?.status }
       });
-
-
       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
@@ -125,10 +123,7 @@ function* ProfileUpdate(action) {
         padding: "10px",
 
       };
-
-
-
-      toast.success(response.message, {
+      toast.success(response.data.message, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -146,7 +141,9 @@ function* ProfileUpdate(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: 'UPDATE_PROFILE_ERROR', payload: error.response.data });
+    }
   }
 }
 

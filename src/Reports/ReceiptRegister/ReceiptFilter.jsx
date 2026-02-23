@@ -279,7 +279,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
                 : "",
             createdByLabels: selectedCollectedBylabels,
 
-            page: page,
+           page: 0,
             size: size,
             startDate: selectedPeriod?.value ? undefined : startDate,
             endDate: selectedPeriod?.value ? undefined : endDate,
