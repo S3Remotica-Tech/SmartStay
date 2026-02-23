@@ -95,13 +95,7 @@ export async function UpdateProfile(params) {
         lastName: params.lastName,
         emailId: params.emailId,
         mobile: params.mobile,
-        // houseNo: params.houseNo,
-        // street: params.street,
-        // landmark: params.landmark,
-        // city: params.city,
-        // state: params.state,
-        // pincode: params.pincode,
-      })
+             })
     );
 
 
