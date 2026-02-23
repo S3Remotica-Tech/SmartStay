@@ -305,9 +305,6 @@ function CustomerCheckout(props) {
                           setRequestDate(date ? date.toDate() : null);
                           calculateDateDifference(selectedDate, date);
                         }}
-                        // getPopupContainer={(triggerNode) =>
-                        //   triggerNode.closest(".datepicker-wrapper")
-                        // }
                          getPopupContainer={() => document.body}
                         popupStyle={{ zIndex: 2000,top:'10px',left:'680px' }}
                         placement="topLeft"
@@ -346,9 +343,6 @@ function CustomerCheckout(props) {
                           if (!requestDate) return true;
                           return current && current.isBefore(dayjs(requestDate), "day");
                         }}
-                        // getPopupContainer={(triggerNode) =>
-                        //   triggerNode.closest(".datepicker-wrapper")
-                        // }
                          getPopupContainer={() => document.body}
                         popupStyle={{ zIndex: 2000,top:'10px',left:'430px' }}
                         placement="topLeft"

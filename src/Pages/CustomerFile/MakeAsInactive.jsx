@@ -158,7 +158,9 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                 )}
 
                 <div>
-                    <p className="text-sm font-semibold mb-1 font-gilroy">
+                    <p className="mt-2 block max-w-[120px] truncate text-base font-gilroy font-semibold text-blue-700 cursor-pointer mb-1"
+                        title={inActiveDetails?.fullName || inActiveDetails?.tenantFullName}
+                    >
                         {inActiveDetails?.fullName || inActiveDetails?.tenantFullName}
                     </p>
 

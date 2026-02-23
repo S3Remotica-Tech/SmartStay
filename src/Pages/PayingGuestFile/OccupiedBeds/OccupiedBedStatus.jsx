@@ -188,7 +188,8 @@ function OccupiedBedStatus({
                                                         <div>
                                                             <label
                                                                 onClick={() => handleNavigateTenantProfile(tenant)}
-                                                                className="text-[18px] text-[#1E45E1] font-gilroy font-semibold cursor-pointer underline"
+                                                                className="block max-w-[200px] truncate text-[18px] text-[#1E45E1] font-gilroy font-semibold cursor-pointer underline"
+                                                                title={tenant?.tenantFullName || "N/A"}
                                                             >
                                                                 {tenant?.tenantFullName || "N/A"}
                                                             </label>
@@ -220,13 +221,14 @@ function OccupiedBedStatus({
                                                         >
                                                             <div
                                                                 onClick={() => canWriteCustomers && handleReAssignBed(tenant)}
-                                                                className={`flex gap-2 items-center p-[15px] rounded-t-[10px]
+                                                                className={`flex gap-2 items-center p-2 rounded-t-[10px]
             ${canWriteCustomers ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}
           `}
                                                             >
                                                                 <FiCalendar
                                                                     size={16}
                                                                     color={canWriteCustomers ? "#1E45E1" : "#A9A9A9"}
+                                                                    className="ml-1"
                                                                 />
                                                                 <label className={`text-[13px] font-medium font-gilroy mb-0
             ${canWriteCustomers ? "text-[#222222]" : "text-[#A9A9A9]"}
@@ -238,13 +240,14 @@ function OccupiedBedStatus({
                                                             <div className="h-[1px] bg-[#E0E0E0]" />
                                                             <div
                                                                 onClick={() => canWriteCustomers && handleMoveToNoticePeriod(tenant)}
-                                                                className={`flex gap-2 items-center p-[15px] -ml-[3px]
+                                                                className={`flex gap-2 items-center p-2 -ml-[3px]
             ${canWriteCustomers ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}
           `}
                                                             >
                                                                 <LogoutCurve
                                                                     size="18"
                                                                     color={canWriteCustomers ? "#FF9500" : "#A9A9A9"}
+                                                                    className="ml-1"
                                                                 />
                                                                 <label className={`text-[13px] font-medium font-gilroy mb-0
             ${canWriteCustomers ? "text-[#222222]" : "text-[#A9A9A9]"}
@@ -256,7 +259,7 @@ function OccupiedBedStatus({
                                                             <div className="h-[1px] bg-[#E0E0E0]" />
                                                             <div
                                                                 onClick={() => canUpdatePayingGuests && handleEditBed()}
-                                                                className={`flex gap-2 items-center p-[10px] rounded-b-[10px]
+                                                                className={`flex gap-2 items-center p-2 rounded-b-[10px]
             ${canUpdatePayingGuests ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}
           `}
                                                             >
@@ -322,217 +325,126 @@ function OccupiedBedStatus({
 
                                     ))}
                                 </div>
-
-
                             </div>
 
-                            <div className="row mt-1">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    {
-                                        currentItem?.newTenantInfo?.length > 0 &&
 
-                                        <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">Reserved by</label>
-                                    }
-                                    {currentItem?.newTenantInfo?.map((tenant, index) => (
-                                        <div key={index} >
-                                            <div className="d-flex justify-content-between">
+                            <div className="mt-1 font-gilroy">
+                                {currentItem?.newTenantInfo?.length > 0 && (
+                                    <label className="mt-0 mb-1 text-base text-[#222222] font-gilroy font-medium">
+                                        Reserved by
+                                    </label>
+                                )}
 
+                                {currentItem?.newTenantInfo?.map((tenant, index) => (
+                                    <div key={index} className="mb-2">
 
-                                                <div className="d-flex gap-3 align-items-center">
+                                        <div className="flex justify-between items-start">
 
-                                                    <div>
-                                                        {tenant?.profilePic &&
-                                                            tenant?.profilePic !== "0" ? (
-                                                            <Image
-                                                                src={tenant?.profilePic}
-                                                                roundedCircle
-                                                                style={{ height: 50, width: 50 }}
-                                                                alt="image"
-                                                            />
-                                                        ) : (
-                                                            <div
-                                                                style={{
-                                                                    height: 50,
-                                                                    width: 50,
-                                                                    borderRadius: "50%",
-                                                                    backgroundColor: "#1E45E1",
-                                                                    display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    fontSize: 20,
-                                                                    fontWeight: "600",
-                                                                    color: "white", fontFamily: "Gilroy"
-                                                                }}
-                                                            >
-                                                                {tenant?.tenantInitials || "-"}
-                                                            </div>
-                                                        )}
+                                            <div className="flex gap-3 items-center">
 
-                                                    </div>
-                                                    <div className="mt-2">
-                                                        <div>
-                                                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(tenant)}>{tenant?.tenantFullName || "N/A"}</label>
-                                                        </div>
-                                                        <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                            {tenant?.mobile ? `+ ${tenant?.countryCode} ${String(tenant?.mobile)}` : 'No phone'}
-
-                                                        </label></div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div onClick={() => handleShowDotsRerved(index)}
-                                                    style={{
-                                                        cursor: "pointer",
-                                                        height: 40,
-                                                        width: 40,
-                                                        borderRadius: 100,
-                                                        border: "1px solid #EFEFEF",
-                                                        display: "flex",
-                                                        justifyContent: "center",
-                                                        alignItems: "center",
-                                                        position: "relative",
-
-                                                        backgroundColor: activeRoomIdReserved === index ? "#E0ECFF" : "white",
-                                                    }}>
-                                                    <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                                                    {activeRoomIdReserved === index && (
-                                                        <div
-                                                            ref={popupRef}
-                                                            className="position-absolute"
-                                                            style={{
-                                                                right: 50,
-                                                                top: 10,
-                                                                width: 160,
-                                                                border: "1px solid #EBEBEB",
-                                                                borderRadius: 10,
-                                                                backgroundColor: "#f9f9f9",
-                                                                display: "flex",
-                                                                flexDirection: "column",
-                                                                zIndex: 1000 + index,
-                                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                                            }}
-                                                        >
-
-                                                            <div
-                                                                className="d-flex gap-2 align-items-center"
-                                                                // onClick={() => canWriteCustomers && handleCheckin(tenant)}
-
-
-                                                                style={{
-                                                                    padding: "10px",
-                                                                    borderTopLeftRadius: 10,
-                                                                    borderTopRightRadius: 10,
-                                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                                                }}
-                                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
-                                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                                            >
-                                                                <AddCircle
-                                                                    size="18"
-                                                                    color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
-                                                                />
-                                                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>
-                                                                    Check-In
-                                                                </label>
-                                                            </div>
-
-                                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
-
-                                                            <div
-                                                                className="d-flex gap-2 align-items-center"
-                                                                onClick={() => handleMakeInActive(tenant)}
-
-                                                                style={{
-                                                                    padding: "10px",
-                                                                    borderBottomLeftRadius: 10,
-                                                                    borderBottomRightRadius: 10,
-
-                                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                                                }}
-                                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                                            >
-                                                                <LogoutCurve
-                                                                    size="18"
-                                                                    color={canWriteCustomers ? "#FF9500" : "#A0A0A0"}
-
-                                                                />                                            <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
-                                                            </div>
-
-                                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-                                                            <div
-                                                                className="d-flex gap-2 align-items-center"
-
-                                                                onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
-
-                                                                style={{
-                                                                    padding: "10px",
-                                                                    borderBottomLeftRadius: 10,
-                                                                    borderBottomRightRadius: 10,
-                                                                    cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                                                                    opacity: canUpdatePayingGuests ? 1 : 0.6,
-                                                                }}
-                                                                onMouseEnter={(e) => {
-                                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                                }}
-                                                                onMouseLeave={(e) => {
-                                                                    e.currentTarget.style.backgroundColor = "transparent";
-                                                                }}
-                                                            >
-                                                                <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
-
-                                                                <label
-                                                                    style={{
-                                                                        fontSize: 14,
-                                                                        fontWeight: 500,
-                                                                        color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
-                                                                        marginBottom: 0,
-                                                                        fontFamily: "Gilroy",
-                                                                        cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
-                                                                    }}
-                                                                >
-                                                                    Edit
-                                                                </label>
-
-                                                            </div>
+                                                <div>
+                                                    {tenant?.profilePic && tenant?.profilePic !== "0" ? (
+                                                        <Image
+                                                            src={tenant.profilePic}
+                                                            roundedCircle
+                                                            alt="image"
+                                                            className="w-12 h-12 object-cover rounded-full"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-12 h-12 rounded-full bg-[#1E45E1] flex items-center justify-center text-white font-gilroy font-semibold text-xl">
+                                                            {tenant?.tenantInitials || "-"}
                                                         </div>
                                                     )}
                                                 </div>
 
-                                            </div>
+                                                <div className="mt-2">
+                                                    <label
+                                                        onClick={() => handleNavigateTenantProfile(tenant)}
+                                                        className="block max-w-[200px] truncate text-[18px] font-gilroy font-semibold text-[#1E45E1] cursor-pointer underline"
+                                                        title={tenant?.tenantFullName || "N/A"}
+                                                    >
+                                                        {tenant?.tenantFullName || "N/A"}
+                                                    </label>
 
-                                            
-
-
-                                            <div className="d-flex justify-content-between mb-2 mt-1">
-                                                <div>
-                                                    <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
-                                                </div>
-                                                <div>
-                                                    <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.bookingAmount || "N/A"}</label>
-                                                </div>
-                                            </div>
-
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <div>
-                                                    <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Date</label>
-                                                </div>
-                                                <div>
-                                                    <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.bookingDate || "N/A"}</label>
+                                                    <label className="text-[16px] font-gilroy font-medium text-[#4B4B4B]">
+                                                        {tenant?.mobile ? `+ ${tenant?.countryCode} ${tenant?.mobile}` : "No phone"}
+                                                    </label>
                                                 </div>
                                             </div>
 
-                                            <hr style={{ border: "1px solid #EDEDED" }} />
+                                            <div
+                                                onClick={() => handleShowDotsRerved(index)}
+                                                className={`relative w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${activeRoomIdReserved === index ? "bg-[#E0ECFF]" : "bg-white"
+                                                    }`}
+                                            >
+                                                <PiDotsThreeOutlineVerticalFill className="w-5 h-5" />
+
+                                                {activeRoomIdReserved === index && (
+                                                    <div
+                                                        ref={popupRef}
+                                                        className="absolute right-0 top-[25px] w-[220px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
+                                                    >
+                                                        <div
+                                                            className={`flex gap-2 items-center p-2 rounded-t-lg ${canWriteCustomers ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-50"
+                                                                }`}
+                                                        >
+                                                            <AddCircle size={18} color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
+                                                                className="ml-1" />
+                                                            <label className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-[#222222]" : "text-gray-300"}`}>
+                                                                Check-In
+                                                            </label>
+                                                        </div>
+
+                                                        <div className="h-px bg-gray-300" />
+
+                                                        <div
+                                                            className={`flex gap-2 items-center p-2 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-50"
+                                                                }`}
+                                                            onClick={() => handleMakeInActive(tenant)}
+                                                        >
+                                                            <LogoutCurve size={18} color={canWriteCustomers ? "#FF9500" : "#A0A0A0"}
+                                                                className="ml-1" />
+                                                            <label className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-[#222222]" : "text-gray-300"}`}>
+                                                                Make as Inactive
+                                                            </label>
+                                                        </div>
+
+                                                        <div className="h-px bg-gray-300" />
+
+                                                        <div
+                                                            className={`flex gap-2 items-center p-2 rounded-b-lg ${canUpdatePayingGuests ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"
+                                                                }`}
+                                                            onClick={() => canUpdatePayingGuests && handleEditBed()}
+                                                        >
+                                                            <Edit
+                                                                size={16}
+                                                                color={canUpdatePayingGuests ? "#1E45E1" : "#888888"}
+                                                                className="ml-1.5"
+                                                            />
+                                                            <label className={`text-[14px] font-gilroy font-medium mb-0 ${canUpdatePayingGuests ? "text-[#222222]" : "text-gray-400"}`}>
+                                                                Edit
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
 
                                         </div>
-                                    ))}
-                                </div>
 
+                                        <div className="flex justify-between mt-2 mb-2">
+                                            <label className="font-gilroy text-sm text-gray-800">Booking Amount</label>
+                                            <label className="font-gilroy text-sm text-gray-800 font-bold">{tenant?.bookingAmount || "N/A"}</label>
+                                        </div>
 
+                                        <div className="flex justify-between mb-2">
+                                            <label className="font-gilroy text-sm text-gray-800">Booking Date</label>
+                                            <label className="font-gilroy text-sm text-gray-800 font-bold">{tenant?.bookingDate || "N/A"}</label>
+                                        </div>
+
+                                        <hr className="border border-white" />
+
+                                    </div>
+                                ))}
                             </div>
 
                         </Modal.Body>
