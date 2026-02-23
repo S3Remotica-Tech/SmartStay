@@ -60,12 +60,12 @@ function AdminProfileEdit({ show, handleClose }) {
     const handleFirstNameChange = (e) => {
         setFirstName(e.target.value);
         setErrors((prev) => ({ ...prev, firstName: "" }));
-         setErrors((prev) => ({ ...prev, noChange: "" }));
+        setErrors((prev) => ({ ...prev, noChange: "" }));
     };
 
     const handleLastNameChange = (e) => {
         setLastName(e.target.value);
-         setErrors((prev) => ({ ...prev, noChange: "" }));
+        setErrors((prev) => ({ ...prev, noChange: "" }));
     };
 
     const handleMobileChange = (e) => {
@@ -79,7 +79,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
         setMobile(value);
         setErrors((prev) => ({ ...prev, mobile: "" }));
-         setErrors((prev) => ({ ...prev, noChange: "" }));
+        setErrors((prev) => ({ ...prev, noChange: "" }));
     };
 
     const handleEmailChange = (e) => {
@@ -104,7 +104,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
     const handleSubmit = () => {
-         setErrors((prev) => ({ ...prev, noChange: "" }));
+        setErrors((prev) => ({ ...prev, noChange: "" }));
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         if (!validate()) return;
 
@@ -121,12 +121,15 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
 
+       
         const payload = {
-            firstName: firstName?.trim(),
-            lastName: lastName?.trim(),
-            emailId: email?.trim(),
-            mobile: mobile,
             profilePic: profileImage || null,
+            payloads: {
+                firstName: firstName?.trim(),
+                lastName: lastName?.trim(),
+                emailId: email?.trim(),
+                mobile: mobile,
+            }
         };
 
         dispatch({

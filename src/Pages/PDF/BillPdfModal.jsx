@@ -357,7 +357,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }, [state.InvoiceList.createRefundStatusCode])
 
 
-
+const statusClasses = {
+  Pending: "bg-red-100 text-red-800",
+  "Partial Payment": "bg-red-100 text-red-800",
+  Paid: "bg-green-100 text-green-800",
+  Refunded: "bg-yellow-100 text-yellow-700",
+  "Partially Refunded": "bg-yellow-100 text-yellow-700",
+  "Pending Refund": "bg-orange-100 text-orange-700",
+  Cancelled: "bg-orange-100 text-orange-900",
+};
 
 
   return (
@@ -397,22 +405,37 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
               </label>
             </div>
 
-            <div className="">
-              {rowData?.paymentStatus !== "Pending" ? <span
-                style={{
-                  fontSize: '10px',
-                  backgroundColor: '#D9FFD9', color: '#000',
-                  borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px"
-                }}>
-                Paid
-              </span> : <span
-                style={{
-                  fontSize: '10px', cursor: 'pointer',
-                  backgroundColor: '#FFF0F0', fontFamily: 'Gilroy', color: '#EB2427',
-                  borderRadius: '14px', padding: "8px 12px"
-                }}>
-                Unpaid</span>}
-            </div>
+           <div>
+  {(() => {
+    const status = rowData?.isCancelled
+      ? "Cancelled"
+      : rowData?.paymentStatus;
+
+    if (!status) return null;
+
+    return (
+      <span
+        className={`inline-block px-3 py-1 rounded-full text-xs font-medium  font-[Gilroy] ${
+          statusClasses[status] || "bg-gray-100 text-gray-700"
+        }`}
+      >
+        {status}
+      </span>
+    );
+  })()}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
           </div>
 
@@ -1680,6 +1703,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                             <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
                               {item.paidDate || "-"}
                             </td>
+
+
 
                             <td
                               style={{
