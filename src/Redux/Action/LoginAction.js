@@ -84,45 +84,77 @@ export async function Addaccount (datum) {
 
 
 
+// export async function UpdateProfile(params) {
+//   try {
+//     const formData = new FormData();
+
+//     const payloadBlob = new Blob(
+//       [JSON.stringify({
+//         firstName: params.firstName,
+//         lastName: params.lastName,
+//         emailId: params.emailId,
+//         mobile: params.mobile,
+//       })],
+//       { type: "application/json" }
+//     );
+
+//     formData.append("payloads", payloadBlob);
+
+//     if (params.profilePic) {
+//       formData.append("profilePic", params.profilePic);
+//     }
+
+//     const response = await AxiosConfigV2.put(
+//       "/v2/profile",
+//       formData,
+//       { timeout: 100000 }
+//     );
+
+//     return response;
+//   } catch (error) {
+//     console.error("Update Profile Error:", error);
+//     throw error;
+//   }
+// }
+
+
+
 export async function UpdateProfile(params) {
-  try {
-    const formData = new FormData();
-  
-    formData.append(
-      "payloads",
-      JSON.stringify({
-        firstName: params.firstName,
-        lastName: params.lastName,
-        emailId: params.emailId,
-        mobile: params.mobile,
-             })
+
+
+  const formData = new FormData();
+
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+
+
+  if (params.payloads) {
+    const payloadBlob = new Blob(
+      [JSON.stringify(params.payloads)],
+      { type: "application/json" }
     );
+    formData.append("payloads", payloadBlob);
+  }
 
-
-    if (params.profilePic) {
-      formData.append("profilePic", params.profilePic);
-    }
-
+  try {
     const response = await AxiosConfigV2.put(
-      "/v2/profile",
+     "/v2/profile",
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        timeout: 100000,
+        timeout: 100000000,
+
       }
     );
-
     return response;
   } catch (error) {
-    console.error("Update Profile Error:", error);
+    console.error("Axios Error", error);
     throw error;
   }
 }
-
-
-
 
 
 
