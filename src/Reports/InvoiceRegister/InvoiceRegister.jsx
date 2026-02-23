@@ -817,7 +817,7 @@ function InvoiceRegister() {
                 <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
 
                     <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] rounded-xl ">
-                        <table className="w-full  text-[12px] font-gilroy">
+                        <table className="w-full  text-[12px] font-gilroy ">
 
                             <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                                 <tr className="border-b border-[#E8E8E8]">
@@ -833,7 +833,7 @@ function InvoiceRegister() {
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] ">
+                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] whitespace-nowrap ">
                                         INVOICE NO
                                     </th>
 
@@ -851,12 +851,12 @@ function InvoiceRegister() {
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] ">
+                                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] whitespace-nowrap">
                                         INVOICE DATE
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold ">
+                                    <th className="px-4 py-2.5 text-center font-semibold whitespace-nowrap">
                                         DUE DATE
                                     </th>
 
@@ -904,23 +904,23 @@ function InvoiceRegister() {
                                             </td>
 
 
-                                            <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white w-[200px]">
-                                                <div className="flex items-center gap-2">
+                                            <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white max-w-[200px]">
+                                                <div className="flex items-center gap-2 max-w-[200px] overflow-hidden">
                                                     {row.profilePic ? (
                                                         <img
                                                             src={row.profilePic}
                                                             alt={row.fullName}
-                                                            className="w-7 h-7 rounded-full object-cover"
+                                                            className="w-7 h-7 rounded-full object-cover flex-shrink-0"
 
                                                         />
                                                     ) : (
-                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xs font-semibold">
+                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A]  flex-shrink-0 flex items-center justify-center text-xs font-semibold">
                                                             {row.initials}
                                                         </div>
                                                     )}
 
                                                     <span
-                                                        className="min-w-0 flex-1 truncate whitespace-nowrap font-semibold text-[#111928]"
+                                                        className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928]"
                                                         title={row.fullName}
                                                     >
                                                         {row.fullName}

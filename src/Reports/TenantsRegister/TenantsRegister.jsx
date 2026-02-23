@@ -383,7 +383,14 @@ function TenantsRegister() {
         setLoading(true)
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
-console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegisterFilters)
+
+  useEffect(() => {
+        setPage(0);
+    }, [state.reports?.tenantRegisterFilters]);
+
+
+
+
     useEffect(() => {
         const filters = state.reports?.tenantRegisterFilters;
         const filterData = [];
@@ -767,7 +774,7 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
 
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold uppercase sticky left-[170px] z-30 bg-[#F9FAFB]">
+                                    <th className="px-4 py-2.5 text-center font-semibold uppercase sticky left-[170px] z-30 bg-[#F9FAFB] whitespace-nowrap">
                                         Mobile No
                                     </th>
 
@@ -780,7 +787,7 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px]">
+                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] whitespace-nowrap">
                                         <div className="flex justify-center items-center gap-1">
                                             Checkin  date
 
@@ -788,7 +795,7 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold uppercase w-[250px]">
+                                    <th className="px-4 py-2.5 text-center font-semibold uppercase w-[250px] whitespace-nowrap">
                                         <div className="flex justify-center items-center gap-1">
                                             Checkout date
                                             <ArrowSwapVertical size="16" color="#4B4B4B" />
@@ -796,7 +803,7 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] rounded-tr-xl">
+                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] rounded-tr-xl whitespace-nowrap">
                                         Stay Duration
                                     </th>
 
@@ -819,8 +826,8 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
                                         </td>
  */}
 
-                                        <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white w-[200px]">
-                                            <div className="flex items-center gap-2">
+                                        <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px]">
+                                            <div className="flex items-center gap-2 max-w-[200px] overflow-hidden">
                                                 {/* <img
                                                     src={}
                                                     alt={row.name}
@@ -828,7 +835,7 @@ console.log("state.reports?.tenantRegisterFilters",state.reports?.tenantRegister
                                                 /> */}
                                                 <ProfileCircle size="28" color="#9ca098" variant='Bold' />
                                                 <span
-                                                    className="truncate whitespace-nowrap font-semibold text-[#111928]"
+                                                    className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928]"
                                                     title={row.name}
                                                 >
                                                     {row.name}

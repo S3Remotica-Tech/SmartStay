@@ -43,7 +43,7 @@ function ReceiptRegister() {
 
   useEffect(() => {
     if (state.reports.getReceiptRegisterSuccess === 200) {
-        isInitialLoad.current = true;
+      isInitialLoad.current = true;
       setLoading(false)
       setReceiptRegister(state?.reports?.getReceiptRegister)
       setInvoiceFilter(false)
@@ -164,7 +164,7 @@ function ReceiptRegister() {
 
   const handleClickFilter = () => {
     setInvoiceFilter(true)
-     }
+  }
 
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false)
@@ -193,12 +193,12 @@ function ReceiptRegister() {
 
 
   const handleReset = () => {
- const startOfMonth = dayjs().startOf("month").toDate();
+    const startOfMonth = dayjs().startOf("month").toDate();
     const endOfMonth = dayjs().endOf("month").toDate();
 
     setSelectedRange({
-        from: startOfMonth,
-        to: endOfMonth,
+      from: startOfMonth,
+      to: endOfMonth,
     });
 
 
@@ -391,22 +391,33 @@ function ReceiptRegister() {
     : undefined;
 
 
+
+
+  useEffect(() => {
+    setPage(0);
+  }, [state.reports?.receiptRegisterFilters]);
+
+
+
+
+
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
 
- const receiptFilters = state.reports?.receiptRegisterFilters;
+    const receiptFilters = state.reports?.receiptRegisterFilters;
 
- console.log("invoiceFilters", receiptFilters)
+    console.log("invoiceFilters", receiptFilters)
 
     const filters = {
       startDate: startDate,
       endDate: endDate,
-      size:size,
-      page:page,
-      invoiceType:receiptFilters?.invoiceType,
+      size: size,
+      page: page,
+      invoiceType: receiptFilters?.invoiceType,
       paymentMode: receiptFilters?.paymentMode,
-      collectedBy:receiptFilters?.collectedBy,
+      collectedBy: receiptFilters?.collectedBy,
       period: receiptFilters?.period,
 
     };
@@ -468,15 +479,15 @@ function ReceiptRegister() {
   // }
 
 
-useEffect(() => {
-      if (state.createAccount?.networkError) {
-        setLoading(false)
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        }, 3000)
-      }
-  
-    }, [state.createAccount?.networkError])
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
 
 
@@ -678,24 +689,24 @@ useEffect(() => {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase whitespace-nowrap">
                     Receipt No
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] uppercase ">
+                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] uppercase whitespace-nowrap">
                     date
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase">
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase whitespace-nowrap">
 
                     Name
 
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase">
+                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase whitespace-nowrap">
                     Invoice No
                   </th>
 
@@ -707,14 +718,14 @@ useEffect(() => {
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
                     <div className="flex justify-center items-center gap-1">
                       Payment Made
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl" >
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl whitespace-nowrap" >
                     <div className="flex justify-center items-center gap-1">
                       Collected BY
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
@@ -738,7 +749,7 @@ useEffect(() => {
                       className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
                       left-[42px] z-20 bg-white w-[140px]"
                       title={row.receiptNo}
-                        // onClick={() => handleNavigateReceiptPdf(row)}
+                    // onClick={() => handleNavigateReceiptPdf(row)}
                     >
                       {row.receiptNo}
                     </td>
@@ -757,7 +768,7 @@ useEffect(() => {
                     </td>
 
                     <td
-                      className={`px-4 py-2.5 text-center font-semibold truncate whitespace-nowrap transition-colors
+                      className={`px-4 py-2.5 text-center font-semibold truncate max-w-[150px]
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                       title={row.customerName}
