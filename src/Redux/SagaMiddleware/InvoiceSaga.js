@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-   getInitializeEditRecurring,
+   getInitializeEditRecurring,shareWhatsappPDF, 
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
 } from "../Action/InvoiceAction";
@@ -54,7 +54,29 @@ function* handleGetInitializeEditRecurring(action) {
 
 }
 
+function* handleGetshareWhatsappPDF(action) {
 
+   try {
+      const response = yield call(shareWhatsappPDF, action.payload)
+
+
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+      }
+      if (response?.status === 200) {
+         yield put({ type: 'GET_SHARE_PDF', payload: { response: response.data, statusCode: response?.status } })
+      }
+
+   }
+   catch (error) {
+      yield* handleApiError(error);
+ if (error.status === 400 || error.status === 403) {
+         yield put({ type: 'SHARE_PDF_ERROR', payload: error.response.data });
+      }
+   }
+
+}
 
 
 function* handleGetFilterInvoice(action) {
@@ -1939,6 +1961,7 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+   yield takeEvery('GETSHAREPDF',handleGetshareWhatsappPDF)
    yield takeEvery('GETINITIALIZEEDITRECURRING', handleGetInitializeEditRecurring)
    yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
    yield takeEvery('UPDATE_TENANT_RECURRING', handleUpdateTenantRecurring)

@@ -19,7 +19,8 @@ export const initialState = {
    mobileError: '',
    email_mobile_Error: '',
    passwordDoesnotMatchError: '',
-   networkError: ''
+   networkError: '',
+   profileUpdateError: ''
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -48,6 +49,12 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, statuscodeforUpdateprofile: action.payload.statusCode }
       case 'CLEAR_UPDATE_STATUS_CODE_ACCOUNT':
          return { ...state, statuscodeforUpdateprofile: 0 }
+
+      case 'UPDATE_PROFILE_ERROR':
+         return { ...state, profileUpdateError: action.payload }
+      case 'REMOVE_UPDATE_PROFILE_ERROR':
+         return { ...state, profileUpdateError: '' }
+
       case 'PASSWORD-UPDATE':
          return { ...state, message: action.payload.message }
 
