@@ -41,15 +41,13 @@ function InvoiceRegister() {
 
 
 
-   
 
-    console.log("state", state.reports)
 
 
     useEffect(() => {
         if (state.reports.getInvoiceRegisterSuccess === 200) {
             setLoading(false)
-              isInitialLoad.current = true;
+            isInitialLoad.current = true;
             setInvoiceRegister(state?.reports?.getInvoiceRegister)
             setInvoiceFilter(false)
             setTimeout(() => {
@@ -97,17 +95,22 @@ function InvoiceRegister() {
 
     const stats = [
         { title: "Total Invoices", value: state?.reports?.getInvoiceRegister?.totalInvoices },
-        { title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount,
+        {
+            title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount,
             //  up: "12%"
-             },
-        { title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount,
+        },
+        {
+            title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount,
             //  up: "8%",
-              link: true },
-        { title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, 
+            link: true
+        },
+        {
+            title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount,
             // down: "5%",
-             link: true },
-             { title: "Refunded Booking Amount", value: state?.reports?.getInvoiceRegister?.refundAmount },
-              { title: "Cancelled Amount", value: state?.reports?.getInvoiceRegister?.cancelledAmount },
+            link: true
+        },
+        { title: "Refunded Booking Amount", value: state?.reports?.getInvoiceRegister?.refundAmount },
+        { title: "Cancelled Amount", value: state?.reports?.getInvoiceRegister?.cancelledAmount },
     ];
 
 
@@ -143,7 +146,7 @@ function InvoiceRegister() {
 
     }
 
-   
+
 
 
     const handleNavigateBillsPdf = (row) => {
@@ -244,7 +247,7 @@ function InvoiceRegister() {
                 minOutstandingAmount: "",
                 maxOutstandingAmount: "",
                 period: [],
-                 createdByLabels:[],
+                createdByLabels: [],
             },
         })
     }
@@ -265,14 +268,14 @@ function InvoiceRegister() {
             });
         }
 
-         if (invoiceFilters?.createdByLabels?.length) {
-      filterData.push({
-        key: "collected",
-        label: "Collected By  is",
-        type: "collected",
-        value: invoiceFilters.createdByLabels.join(", "),
-      });
-    }
+        if (invoiceFilters?.createdByLabels?.length) {
+            filterData.push({
+                key: "collected",
+                label: "Collected By  is",
+                type: "collected",
+                value: invoiceFilters.createdByLabels.join(", "),
+            });
+        }
 
         if (invoiceFilters?.invoiceTypes?.length) {
             filterData.push({
@@ -373,18 +376,18 @@ function InvoiceRegister() {
     }, [state.reports.invoiceRegisterFilters,]);
 
 
-     const handleReset = () => {
+    const handleReset = () => {
         const startOfMonth = dayjs().startOf("month").toDate();
-    const endOfMonth = dayjs().endOf("month").toDate();
+        const endOfMonth = dayjs().endOf("month").toDate();
 
-    setSelectedRange({
-        from: startOfMonth,
-        to: endOfMonth,
-    });
+        setSelectedRange({
+            from: startOfMonth,
+            to: endOfMonth,
+        });
         dispatch({
             type: "SET_INVOICE_REGISTER_FILTERS",
             payload: {
-                 startDate: undefined,
+                startDate: undefined,
                 endDate: undefined,
                 invoiceTypes: [],
                 createdBy: [],
@@ -396,7 +399,7 @@ function InvoiceRegister() {
                 minOutstandingAmount: "",
                 maxOutstandingAmount: "",
                 period: [],
-                 createdByLabels:[],
+                createdByLabels: [],
             },
         })
         dispatch({
@@ -410,13 +413,13 @@ function InvoiceRegister() {
         })
     }
 
-  
+
     const apiStart = state?.reports?.getInvoiceRegister?.startDate;
     const apiEnd = state?.reports?.getInvoiceRegister?.endDate;
 
 
 
-    
+
     const isInitialLoad = useRef(true);
 
     useEffect(() => {
@@ -451,7 +454,6 @@ function InvoiceRegister() {
                     }
                 }
             })
-
             return;
         }
 
@@ -487,18 +489,18 @@ function InvoiceRegister() {
                 type: "SET_INVOICE_REGISTER_FILTERS",
                 payload: {
                     startDate: undefined,
-                endDate: undefined,
-                invoiceTypes: [],
-                createdBy: [],
-                invoiceModes: [],
-                paymentStatus: [],
-                search: "",
-                minPaidAmount: "",
-                maxPaidAmount: "",
-                minOutstandingAmount: "",
-                maxOutstandingAmount: "",
-                period: [],
-                 createdByLabels:[],
+                    endDate: undefined,
+                    invoiceTypes: [],
+                    createdBy: [],
+                    invoiceModes: [],
+                    paymentStatus: [],
+                    search: "",
+                    minPaidAmount: "",
+                    maxPaidAmount: "",
+                    minOutstandingAmount: "",
+                    maxOutstandingAmount: "",
+                    period: [],
+                    createdByLabels: [],
                 },
             });
             const filters = {
@@ -515,6 +517,10 @@ function InvoiceRegister() {
             });
         };
     }, []);
+
+    useEffect(() => {
+        setPage(0);
+    }, [state.reports?.invoiceRegisterFilters]);
 
 
 
@@ -534,40 +540,38 @@ function InvoiceRegister() {
     useEffect(() => {
 
         if (!state.login?.selectedHostel_Id) return;
- const invoiceFilters = state.reports?.invoiceRegisterFilters;
-
-console.log("invoiceFilters",invoiceFilters)
+        const invoiceFilters = state.reports?.invoiceRegisterFilters;
 
         const filters = {
             startDate: startDate,
             endDate: endDate,
             size: size,
             page: page,
-                search: invoiceFilters?.search || undefined,
+            search: invoiceFilters?.search || undefined,
 
-  paymentStatus: invoiceFilters?.paymentStatus?.length
-    ? invoiceFilters.paymentStatus
-    : undefined,
+            paymentStatus: invoiceFilters?.paymentStatus?.length
+                ? invoiceFilters.paymentStatus
+                : undefined,
 
-  invoiceModes: invoiceFilters?.invoiceModes?.length
-    ? invoiceFilters.invoiceModes
-    : undefined,
+            invoiceModes: invoiceFilters?.invoiceModes?.length
+                ? invoiceFilters.invoiceModes
+                : undefined,
 
-  invoiceTypes: invoiceFilters?.invoiceTypes?.length
-    ? invoiceFilters.invoiceTypes
-    : undefined,
+            invoiceTypes: invoiceFilters?.invoiceTypes?.length
+                ? invoiceFilters.invoiceTypes
+                : undefined,
 
-  createdBy: invoiceFilters?.createdBy?.length
-    ? invoiceFilters.createdBy
-    : undefined,
+            createdBy: invoiceFilters?.createdBy?.length
+                ? invoiceFilters.createdBy
+                : undefined,
 
-  period: invoiceFilters?.period || "",
+            period: invoiceFilters?.period || "",
 
-  minPaidAmount: invoiceFilters?.minPaidAmount || undefined,
-  maxPaidAmount: invoiceFilters?.maxPaidAmount || undefined,
+            minPaidAmount: invoiceFilters?.minPaidAmount || undefined,
+            maxPaidAmount: invoiceFilters?.maxPaidAmount || undefined,
 
-  minOutstandingAmount: invoiceFilters?.minOutstandingAmount || undefined,
-  maxOutstandingAmount: invoiceFilters?.maxOutstandingAmount || undefined,
+            minOutstandingAmount: invoiceFilters?.minOutstandingAmount || undefined,
+            maxOutstandingAmount: invoiceFilters?.maxOutstandingAmount || undefined,
 
 
 
@@ -617,7 +621,7 @@ console.log("invoiceFilters",invoiceFilters)
 
 
 
- useEffect(() => {
+    useEffect(() => {
         if (state.createAccount?.networkError) {
             setLoading(false)
             setTimeout(() => {
@@ -767,46 +771,46 @@ console.log("invoiceFilters",invoiceFilters)
                 )}
 
 
-              <div className="mt-3 ms-1 me-1 overflow-x-auto">
-    <div className="flex gap-4 flex-nowrap">
-                    {stats.map((item, i) => (
-                        <div
-                key={i}
-                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[120px] min-w-[250px] flex-shrink-0"
-            >
-                            <div className='flex justify-between '>
+                <div className="mt-3 ms-1 me-1 overflow-x-auto">
+                    <div className="flex gap-4 flex-nowrap">
+                        {stats.map((item, i) => (
+                            <div
+                                key={i}
+                                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[120px] min-w-[250px] flex-shrink-0"
+                            >
+                                <div className='flex justify-between '>
 
-                                <label className="text-sm font-semibold text-[#4A5565]">
-                                    {item.title}
-                                </label>
-                                {item.up && (
-                                    <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
-                                        ↑ {item.up}
-                                    </span>
-                                )}
-                                {item.down && (
-                                    <span className="text-xs text-[#C10007] bg-[#FEF2F2] h-fit  rounded-lg px-2 py-1">
-                                        ↓ {item.down}
-                                    </span>
+                                    <label className="text-sm font-semibold text-[#4A5565]">
+                                        {item.title}
+                                    </label>
+                                    {item.up && (
+                                        <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
+                                            ↑ {item.up}
+                                        </span>
+                                    )}
+                                    {item.down && (
+                                        <span className="text-xs text-[#C10007] bg-[#FEF2F2] h-fit  rounded-lg px-2 py-1">
+                                            ↓ {item.down}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="flex items-center gap-2 mt-2">
+                                    <h2 className="text-2xl font-semibold text-[#101828]">
+                                        {item.value || 0}
+                                    </h2>
+
+
+                                </div>
+                                {item.link && (
+                                    <p className="text-xs text-[#155DFC] w-fit cursor-pointer" onClick={handleClickFilter}>
+                                        Click to filter
+                                    </p>
                                 )}
                             </div>
-
-                            <div className="flex items-center gap-2 mt-2">
-                                <h2 className="text-2xl font-semibold text-[#101828]">
-                                    {item.value || 0}
-                                </h2>
-
-
-                            </div>
-                            {item.link && (
-                                <p className="text-xs text-[#155DFC] w-fit cursor-pointer" onClick={handleClickFilter}>
-                                    Click to filter
-                                </p>
-                            )}
-                        </div>
-                    ))}
-                 </div>
-</div>
+                        ))}
+                    </div>
+                </div>
 
 
 
@@ -918,7 +922,7 @@ console.log("invoiceFilters",invoiceFilters)
                                                     <span
                                                         className="min-w-0 flex-1 truncate whitespace-nowrap font-semibold text-[#111928]"
                                                         title={row.fullName}
-                                                    > 
+                                                    >
                                                         {row.fullName}
                                                     </span>
                                                 </div>

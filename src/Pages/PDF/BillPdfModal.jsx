@@ -206,7 +206,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError,state.InvoiceList?.sharePdfError]);
 
   useEffect(() => {
-    if (state.InvoiceList.sharePdfSuccess ) {
+    if (state.InvoiceList.sharePdfSuccess) {
       setPdfLoading(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_GET_SHARE_PDF' })

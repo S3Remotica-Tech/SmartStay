@@ -369,7 +369,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
             maxPaidAmount: paidAmountMax,
             minOutstandingAmount: outstandingMin,
             maxOutstandingAmount: outstandingMax,
-            page: page,
+            page: 0,
             size: size,
             startDate: period?.value ? undefined : startDate,
             endDate: period?.value ? undefined : endDate,
@@ -396,7 +396,7 @@ function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDa
             payload: {
                 hostelId: state.login.selectedHostel_Id,
                 filters: isOnlyAllStatus
-                    ? { page: page, size: size }
+                    ? { page: 0, size: size }
                     : InvoiceFilter
             }
         });

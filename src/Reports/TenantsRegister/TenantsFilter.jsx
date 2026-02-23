@@ -313,7 +313,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
             room: room?.map(r => r.value),
             search: tenantName,
             size: size,
-            page: page,
+            page: 0,
             startDate: period?.value ? undefined : startDate,
             endDate: period?.value ? undefined : endDate,
             sharingType: sharingType?.value,

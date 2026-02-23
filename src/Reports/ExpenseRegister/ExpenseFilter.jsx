@@ -278,7 +278,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                 : "",
             createdByLabels: selectedCollectedBylabels,
 
-            page: page,
+           page: 0,
             size: size,
             startDate: period ? undefined : startDate,
             endDate: period ? undefined : endDate,
