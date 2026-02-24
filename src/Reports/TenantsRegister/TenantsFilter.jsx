@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
+function TenantsFilter({ show, handleClose, startDate, endDate, size,  }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] = useState([]);

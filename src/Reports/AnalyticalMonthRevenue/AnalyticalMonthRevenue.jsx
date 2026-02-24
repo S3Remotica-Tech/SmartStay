@@ -33,24 +33,24 @@ function AnalyticalMonthRevenue() {
   const navigate = useNavigate();
   const state = useSelector(state => state)
 
-  const janRevenue = 178350;
-  const decRevenue = 172600;
+  // const janRevenue = 178350;
+  // const decRevenue = 172600;
 
-  const total = janRevenue + decRevenue;
-  const janPercent = Math.round((janRevenue / total) * 100);
-  const decPercent = 100 - janPercent;
+  // const total = janRevenue + decRevenue;
+  // const janPercent = Math.round((janRevenue / total) * 100);
+  // const decPercent = 100 - janPercent;
   const { MonthPicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
 
   const [register, setRegister] = useState(false)
-  const [compareMonth, setCompareMonth] = useState(() =>
-    dayjs("2026-01", "YYYY-MM")
-  );
+  // const [compareMonth, setCompareMonth] = useState(() =>
+  //   dayjs("2026-01", "YYYY-MM")
+  // );
 
-  const [withMonth, setWithMonth] = useState(() =>
-    dayjs("2025-12", "YYYY-MM")
-  );
+  // const [withMonth, setWithMonth] = useState(() =>
+  //   dayjs("2025-12", "YYYY-MM")
+  // );
 
   const [compareMonthRevenue, setCompareMonthRevenue] = useState(() =>
     dayjs("2026-01", "YYYY-MM")
@@ -171,9 +171,9 @@ function AnalyticalMonthRevenue() {
     }
   }
 
-  const handleClickFilter = () => {
-    setInvoiceFilter(true)
-  }
+  // const handleClickFilter = () => {
+  //   // setInvoiceFilter(true)
+  // }
 
   // const handleCloseFilterBills = () => {
   //   setInvoiceFilter(false)

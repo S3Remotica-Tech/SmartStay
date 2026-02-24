@@ -34,7 +34,7 @@ import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { NutFill } from "react-bootstrap-icons";
+// import { NutFill } from "react-bootstrap-icons";
 
 function SettingInvoice({ hostelid, handleFormPage }) {
 
@@ -576,7 +576,7 @@ const handleClear = () => {
     }
   };
 
-  const rentalSignatureInputRef = useRef(null);
+  // const rentalSignatureInputRef = useRef(null);
   const [rentalSignatureFile, setRentalSignatureFile] = useState(null);
   const [rentalSignaturePreview, setRentalSignaturePreview] = useState(null);
   const [rentalSignatureError, setRentalSignatureError] = useState("");
@@ -596,26 +596,26 @@ const handleClear = () => {
     }
   };
 
-  const handleRentalSignatureClear = () => {
-    setEditFormErrMessage("")
-    setRentalSignatureFile(null);
-    setRentalSignaturePreview(null);
-    setRentalSignatureError("");
-    if (rentalSignatureInputRef.current) {
-      rentalSignatureInputRef.current.value = '';
-    }
-  };
+  // const handleRentalSignatureClear = () => {
+  //   setEditFormErrMessage("")
+  //   setRentalSignatureFile(null);
+  //   setRentalSignaturePreview(null);
+  //   setRentalSignatureError("");
+  //   if (rentalSignatureInputRef.current) {
+  //     rentalSignatureInputRef.current.value = '';
+  //   }
+  // };
 
-  const handleRentalSignatureDone = () => {
+  // const handleRentalSignatureDone = () => {
 
-    if (!rentalSignatureFile) {
-      setRentalSignatureError("Please select a signature file");
-    } else {
-      setEditFormErrMessage("")
-      setRentalSignatureError("");
-      setIsRentalSignatureConfirmed(true);
-    }
-  };
+  //   if (!rentalSignatureFile) {
+  //     setRentalSignatureError("Please select a signature file");
+  //   } else {
+  //     setEditFormErrMessage("")
+  //     setRentalSignatureError("");
+  //     setIsRentalSignatureConfirmed(true);
+  //   }
+  // };
 
 
 
@@ -1143,32 +1143,32 @@ const handleClear = () => {
 
 
 
-  const handleDeleteImage = () => {
-  if (!previewURL) return;
+//   const handleDeleteImage = () => {
+//   if (!previewURL) return;
 
-  const isLocalImage =
-    previewURL.startsWith("blob:") ||
-    previewURL.startsWith("data:");
+//   const isLocalImage =
+//     previewURL.startsWith("blob:") ||
+//     previewURL.startsWith("data:");
 
-  if (isLocalImage) {
+//   if (isLocalImage) {
     
-    setPreviewURL(null);
-  } else {
-       if (BillsTemplateList?.hostelId) {
-      // dispatch({
-      //   type: "DELETETEMPLATESIMAGES",
-      //   payload: {
-      //     hostelId: BillsTemplateList?.hostelId,
-      //     templateId: BillsTemplateList?.templateId,
-      //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-      //     type: "QRCODE",
-      //   },
-      // });
-    }
+//     setPreviewURL(null);
+//   } else {
+//        if (BillsTemplateList?.hostelId) {
+//       // dispatch({
+//       //   type: "DELETETEMPLATESIMAGES",
+//       //   payload: {
+//       //     hostelId: BillsTemplateList?.hostelId,
+//       //     templateId: BillsTemplateList?.templateId,
+//       //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+//       //     type: "QRCODE",
+//       //   },
+//       // });
+//     }
 
-       setPreviewURL(null);
-  }
-};
+//        setPreviewURL(null);
+//   }
+// };
 
 
   const handleRemoveQr = () => {

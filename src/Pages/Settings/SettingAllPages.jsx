@@ -138,7 +138,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                     {label}
                     <img
                       src={activePage === label ? blueArrow : blackArrow}
-                      className="w-4 h-4"
+                      className="w-4 h-4" alt="image"
                     />
                   </p>
                   <hr className="border-white -mt-2" />
@@ -171,7 +171,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       ${activePage === pageKey ? "text-[#1E45E1]" : "text-black"}`}
                   >
                     {label}
-                    <img
+                    <img alt="image"
                       src={activePage === pageKey ? blueArrow : blackArrow}
                       className="w-4 h-4"
                     />

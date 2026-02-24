@@ -41,7 +41,7 @@ root.render(
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/firebase-messaging-sw.js")
-    .then((registration) => {
+    .then(() => {
       // console.log("FCM Service Worker registered");
       // console.log("scope:", registration.scope);
       // console.log("active:", registration.active);

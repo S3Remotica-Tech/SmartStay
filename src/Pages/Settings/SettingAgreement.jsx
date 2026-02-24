@@ -131,7 +131,7 @@ const {
     <div className="flex items-center gap-2">
       <button
         disabled={!canWriteAgreement}
-        onClick={handleSave}
+        // onClick={handleSave}
         className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition ${
           canWriteAgreement
             ? "bg-blue-600 text-white hover:bg-blue-700"
