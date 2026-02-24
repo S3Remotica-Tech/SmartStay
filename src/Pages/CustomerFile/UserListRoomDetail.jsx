@@ -2647,7 +2647,7 @@ function UserListRoomDetail(props) {
             <div className="flex gap-4 items-center">
 
 
-              <div className="relative font-[Gilroy]">
+              <div className="relative font-gilroy">
                 <button
                   onClick={() =>
                     setOpenMenu(!openMenu)
@@ -3518,7 +3518,7 @@ function UserListRoomDetail(props) {
                         {state?.UsersList?.customerAllDetaills?.length === 0 ? (
                           <ParentsGuardian />
                         ) : (
-                          <div className="flex flex-col items-center justify-center text-center font-[Gilroy] text-sm text-gray-700">
+                          <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700">
                             <p>No Contact Details are there!</p>
                             <button
                               type="button"

@@ -58,6 +58,7 @@ import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Tabs, Tab } from "react-bootstrap";
 import FinalOld from "./FinalOld";
+import { FiSearch } from "react-icons/fi";
 
 
 function UserList(props) {
@@ -135,6 +136,7 @@ function UserList(props) {
   const [filterStatus, setFilterStatus] = useState(false);
   const [add_bookingshow, setAddBookingsShow] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
+
 
 
   const tableRef = useRef(null);
@@ -1473,11 +1475,12 @@ function UserList(props) {
       toast.error("Please add a hostel before adding customer information.", {
         hideProgressBar: true,
         autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
+        // style: {
+        //   color: "#000",
+        //   borderBottom: "5px solid red",
+        //   fontFamily: "Gilroy",
+        // },
+        className: "text-black font-gilroy border-b-4 border-red-500",
       });
       return;
     }
@@ -1917,11 +1920,12 @@ function UserList(props) {
       toast.error("Please add a hostel before adding booking information.", {
         hideProgressBar: true,
         autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
+        // style: {
+        //   color: "#000",
+        //   borderBottom: "5px solid red",
+        //   fontFamily: "Gilroy",
+        // },
+        className: "text-black font-gilroy border-b-[5px] border-red-500"
       });
       return;
     }
@@ -2163,40 +2167,40 @@ function UserList(props) {
   const customDateInput = (props) => {
     return (
       <div
-        className="date-input-container w-100"
+        className="date-input-container w-100 relative"
         onClick={props.onClick}
-        style={{ position: "relative" }}
       >
         <FormControl
           type="text"
-          className="date_input"
           value={props.value || "DD/MM/YYYY"}
           readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
+          // style={{
+          //   border: "1px solid #D9D9D9",
+          //   borderRadius: 8,
+          //   padding: 9,
+          //   fontSize: 14,
+          //   fontFamily: "Gilroy",
+          //   fontWeight: props.value ? 600 : 500,
+          //   width: "100%",
+          //   height: 50,
+          //   boxSizing: "border-box",
+          //   boxShadow: "none",
+          // }}
+          className={`date_input w-full h-[50px] border border-[#D9D9D9] rounded-[8px] p-[9px] box-border text-[14px] font-gilroy shadow-none ${props.value ? "font-semibold" : "font-medium"}`}
         />
         <img
           src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
+          // style={{
+          //   height: 24,
+          //   width: 24,
+          //   marginLeft: 10,
+          //   cursor: "pointer",
+          //   position: "absolute",
+          //   right: 10,
+          //   top: "50%",
+          //   transform: "translateY(-50%)",
+          // }}
+          className="h-[24px] w-[24px] ml-[10px] cursor-pointer absolute right-[10px] top-1/2 -translate-y-1/2"
           alt="Calendar"
           onClick={props.onClick}
         />
@@ -2211,8 +2215,6 @@ function UserList(props) {
     fontWeight: 600,
     borderRadius: "8px",
     padding: "8px",
-    // marginBottom: "10px",
-    // maxHeight: 0,
     width: "146px",
     whiteSpace: "nowrap",
   };
@@ -2451,6 +2453,11 @@ function UserList(props) {
     setFinalSettlePage(false)
 
   }
+  const handleSearch = () => {
+    setSearch(!search);
+
+
+  };
 
   useEffect(() => {
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
@@ -2464,7 +2471,7 @@ function UserList(props) {
 
   }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
-    <div className="sticky-top bg-white" style={{}}>
+    <div className="sticky-top bg-white font-gilroy">
       {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2492,332 +2499,134 @@ function UserList(props) {
 
       {userList && (
         <div >
-          <div className="header-container">
-            <div
-              className="d-flex justify-content-between align-items-center flex-wrap"
-              style={{}}
-            >
-              <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ">
-                <label
-                  style={{
-                    fontSize: 18,
-                    color: "#000000",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    // marginTop: -15,
-                  }}
-                >
+          <div>
+
+            <div className="flex justify-between items-center flex-wrap">
+              <div className="flex lg:justify-start justify-center items-center flex-wrap">
+                <label className="text-lg text-black font-semibold font-gilroy">
                   Tenants
                 </label>
               </div>
 
-              <div className="d-flex flex-wrap align-items-center gap-2">
-                {search ? (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: isSmallScreen && search ? "150px" : "240px",
-                    }}
-                    className="search-box"
-                  >
-                    <div className="input-group">
-                      <span className="input-group-text bg-white border-end-0">
-                        <Image
-                          src={searchteam}
-                          alt="search"
-                          style={{ height: 20, width: 20, cursor: "pointer" }}
-                        />
-                      </span>
-                      <input
-                        type="text" disabled
-                        className="form-control border-start-0"
-                        placeholder="Search"
-                        value={filterInput}
-                        // disabled={!canReadTenant}
-                        onChange={(e) => handlefilterInput(e)}
-                        style={{ boxShadow: "none", borderRight: "none", fontFamily: "Gilroy" }}
-                      />
-                      <span className="input-group-text bg-white border-start-0">
-                        <img
-                          src={closecircle}
-                          alt="close"
-                          style={{ height: 20, width: 20, cursor: "pointer" }}
-                          onClick={handleCloseSearch}
-                        />
-                      </span>
-                    </div>
+              <div className="flex flex-wrap items-center gap-2">
 
-                    {isDropdownVisible && filteredUsers?.length > 0 && (
-                      <div
-                        style={{
-                          border: "1px solid #d9d9d9",
-                          position: "absolute",
-                          top: 48,
-                          left: 0,
-                          zIndex: 1000,
-                          padding: 10,
-                          borderRadius: 8,
-                          backgroundColor: "#fff",
-                          width: "100%",
-                        }}
+                <div className="flex items-center">
+                  {search ? (
+                    <>
+                      <div className="relative min-w-[160px] max-w-[250px] z-[3000]"
                       >
-                        <ul
-                          className="show-scroll p-0"
-                          style={{
-                            backgroundColor: "#fff",
-                            maxHeight: "174px",
-                            minHeight:
-                              filteredUsers?.length > 1 ? "100px" : "auto",
-                            overflowY:
-                              filteredUsers?.length > 3 ? "auto" : "hidden",
-                            margin: 0,
-                            listStyleType: "none",
-                            borderRadius: 8,
-                            boxSizing: "border-box",
-                          }}
+                        <div
+                          className="input-group p-0 mr-5"
                         >
-                          {filteredUsers?.map((user, index) => {
-                            const imagedrop = user.profile || Profile;
-                            return (
-                              <li
-                                key={index}
-                                className="d-flex align-items-center hover-bg"
-                                style={{
-                                  cursor: "pointer",
-                                  padding: "8px",
-                                  borderBottom:
-                                    index !== filteredUsers.length - 1
-                                      ? "1px solid #eee"
-                                      : "none",
-                                  minWidth: 0,
-                                  transition: "background-color 0.2s ease",
-                                }}
-                                onClick={() => handleUserSelect(user)}
-                              >
-                                <Image
-                                  src={imagedrop}
-                                  alt={user.Name || "Default Profile"}
-                                  roundedCircle
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    marginRight: "10px",
-                                    flexShrink: 0,
-                                  }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = Profile;
-                                  }}
-                                />
-                                <div
-                                  className="text-truncate"
-                                  style={{ maxWidth: "100%" }}
-                                >
-                                  <span
-                                    style={{
-                                      fontSize: "14px",
-                                      wordBreak: "break-word",
-                                    }}
-                                  >
-                                    {value === "1"
-                                      ? user.Name
-                                      : value === "2"
-                                        ? [user?.first_name, user?.last_name]
-                                          .filter(Boolean)
-                                          .join(" ")
-                                        : value === "3"
-                                          ? user.Name
-                                          : value === "4"
-                                            ? user.first_name
-                                            : ""}
-                                  </span>
-                                </div>
-                              </li>
-                            );
-                          })}
-                        </ul>
+                          <span className="input-group-text bg-white" >
+                            <Image
+                              src={searchteam}
+                              className={`h-5 w-5 transition-opacity duration-300 ${canReadTenant
+                                ? "cursor-pointer opacity-100 pointer-events-auto"
+                                : "cursor-not-allowed opacity-40 pointer-events-none"
+                                }`}
+                            />
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 font-gilroy"
+                            placeholder="Search"
+                            value={filterInput}
+                            onChange={(e) => handlefilterInput(e)}
+                            disabled={!canReadTenant}
+                          />
+                          <span className="input-group-text bg-white border-start-0">
+                            <img
+                              src={closecircle}
+                              alt="close"
+                              onClick={() => handleCloseSearch()}
+                              className="h-5 w-5 cursor-pointer"
+                            />
+                          </span>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                ) : (
+                    </>
+                  ) : (
+                    <>
+                      <div className=" border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
+                        <FiSearch
+                          className={`h-6 w-5 transition-opacity duration-300 ${canReadTenant
+                            ? "cursor-pointer opacity-100 pointer-events-auto"
+                            : "cursor-not-allowed opacity-40 pointer-events-none"
+                            }`}
+
+                          onClick={handleSearch}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                </div>
+                <div className="">
                   <Image
-                    src={searchteam}
-                    alt="search"
-                    className="me-2"
-                    style={{
-                      height: "24px", width: "24px", cursor: canReadTenant ? "pointer" : "not-allowed",
-                      opacity: canReadTenant ? 1 : 0.4,
-                      pointerEvents: canReadTenant ? "auto" : "none",
-                      transition: "opacity 0.3s ease"
-                    }}
-                    onClick={handleShowSearch}
+                    src={Filters}
+                    roundedCircle
+                    className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
+                      ${canReadTenant ? 'cursor-pointer opacity-100 pointer-events-auto' : 'cursor-not-allowed opacity-40 pointer-events-none'}`}
+                    onClick={handleFilterd}
                   />
-                )}
-                {(value === "1" || value === "2" || value === "3" || value === "4") && (
-                  <div>
-                    <Image
-                      src={Filters}
-                      roundedCircle
-                      style={{
-                        height: "50px",
-                        width: "50px",
-                        cursor: canReadTenant ? "pointer" : "not-allowed",
-                        opacity: canReadTenant ? 1 : 0.4,
-                        pointerEvents: canReadTenant ? "auto" : "none",
-                        transition: "opacity 0.3s ease"
-                      }}
-                      onClick={handleFilterd}
-                    />
-                  </div>
-                )}
+                </div>
 
-                {value === "1" && filterStatus && (
-                  <div style={{ width: 240 }}>
-                    <RangePicker
-                      value={checkInDateRange}
-                      onChange={handleDateRangeChangeCheckIn}
-                      format="DD/MM/YYYY"
-                      style={{ width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
-                    />
-                  </div>
-                )}
-
-
-
-                {value === "2" && filterStatus && (
-                  <div style={{ width: 240 }}>
-                    <RangePicker
-                      disabled={!canReadTenant}
-                      value={bookingDateRange}
-                      onChange={handleDateRangeChangeBooking}
-                      format="DD/MM/YYYY"
-                      style={{ width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
-                    />
-                  </div>
-                )}
-
-                {value === "3" && filterStatus && (
-                  <div
-                    className="me-3"
-                    style={{
-                      border: "1px solid #D4D4D4",
-                      borderRadius: 8,
-                      width: search ? "150px" : "130px",
-                    }}
-                  >
-                    <Form.Select
-                      disabled={!canReadTenant}
-                      onChange={(e) => handleStatusFilterCheckout(e)}
-                      value={statusFilterCheckout}
-                      aria-label="Select Price Range"
-                      className=""
-                      id="statusselect"
-                      style={{
-                        color: "rgba(34, 34, 34, 1)",
-                        fontSize: 15,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <option value="All">All</option>
-                      <option value="1">Pending</option>
-                      <option value="0">Completed</option>
-                      <option value="date">Date</option>
-                    </Form.Select>
-                  </div>
-                )}
-
-                {value === "3" && statusFilterCheckout === "date" && (
-                  <div>
-                    <RangePicker
-                      disabled={!canReadTenant}
-                      value={checkoutDateRange}
-                      format="DD-MM-YYYY"
-                      onChange={handleDateRangeChangeCheckout}
-                      style={{
-                        height: "38px",
-                        borderRadius: 8,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy"
-                      }}
-                      allowClear
-                    />
-                  </div>
-                )}
-
-                {value === "4" && filterStatus && (
-                  <div style={{ width: 240 }}>
-                    <RangePicker
-                      disabled={!canReadTenant}
-                      value={walkinDateRange}
-                      onChange={handleDateRangeChangeWalkin}
-                      format="DD/MM/YYYY"
-                      style={{ width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
-                    />
-                  </div>
-                )}
-
-                <div style={{ marginTop: 1 }}>
+                <div className="flex items-center">
                   {value === "1" && (
                     <img
                       src={excelimg}
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{
-                        cursor: canReadTenant ? "pointer" : "not-allowed",
-                        opacity: canReadTenant ? 1 : 0.4,
-                        pointerEvents: canReadTenant ? "auto" : "none",
-                        transition: "opacity 0.3s ease"
-                      }}
+                      className={`transition-opacity duration-300 ${canReadTenant
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
                       onClick={() => {
                         if (canReadTenant) handleCustomerExcel();
                       }}
                     />
-
                   )}
+
                   {value === "2" && (
                     <img
                       src={excelimg}
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{
-                        cursor: canReadTenant ? "pointer" : "not-allowed",
-                        opacity: canReadTenant ? 1 : 0.4,
-                        pointerEvents: canReadTenant ? "auto" : "none",
-                        transition: "opacity 0.3s ease"
-                      }}
+                      className={`transition-opacity duration-300 ${canReadTenant
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
                       onClick={handleBookingExcel}
                     />
                   )}
+
                   {value === "3" && (
                     <img
                       src={excelimg}
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{
-                        cursor: canReadCheckout ? "pointer" : "not-allowed",
-                        opacity: canReadCheckout ? 1 : 0.4,
-                        pointerEvents: canReadCheckout ? "auto" : "none",
-                        transition: "opacity 0.3s ease"
-                      }}
+                      className={`transition-opacity duration-300 ${canReadCheckout
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
                       onClick={handlecheckoutExcel}
                     />
                   )}
+
                   {value === "4" && (
                     <img
                       src={excelimg}
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{
-                        cursor: canReadWalkin ? "pointer" : "not-allowed",
-                        opacity: canReadWalkin ? 1 : 0.4,
-                        pointerEvents: canReadWalkin ? "auto" : "none",
-                        transition: "opacity 0.3s ease"
-                      }}
+                      className={`transition-opacity duration-300 ${canReadWalkin
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
                       onClick={handlewalkinExcel}
                     />
                   )}
@@ -2855,64 +2664,38 @@ function UserList(props) {
                     <Button
                       disabled={!canWriteWalkin}
                       onClick={handleShow}
-                      style={buttonStyle}
+                      className="!font-gilroy text-sm !bg-[#1E45E1] text-white font-semibold rounded-lg w-36 whitespace-nowrap"
                     >
                       + Walk-In
                     </Button>
                   )}
                 </div>
               </div>
+
             </div>
           </div>
 
           {filterInput && (
-            <div
-              className="container ms-4 mb-4"
-              style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
-            >
+            <div className="container ms-4 mb-4 mt-5 font-semibold text-base">
               {filteredUsers.length > 0 ? (
                 <span
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(100, 100, 100, 1)",
-                  }}
+                  className="text-center font-semibold font-gilroy text-base text-gray-500"
                 >
                   {filteredUsers.length} result
                   {filteredUsers.length > 1 ? "s" : ""} found for{" "}
                   <span
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(34, 34, 34, 1)",
-                    }}
+                    className="text-center font-semibold font-gilroy text-base text-gray-800"
                   >
                     &quot;{filterInput}&quot;
                   </span>
                 </span>
               ) : (
                 <span
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(100, 100, 100, 1)",
-                  }}
+                  className="text-center font-semibold font-gilroy text-base text-gray-500"
                 >
                   No results found for{" "}
                   <span
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(34, 34, 34, 1)",
-                    }}
+                    className="text-center font-semibold font-gilroy text-base text-gray-800"
                   >
                     &quot;{filterInput}&quot;
                   </span>
@@ -2920,44 +2703,12 @@ function UserList(props) {
               )}
             </div>
           )}
-          <div
-            className=""
-            style={{
-              // paddingLeft: "27px",
-              fontFamily: "Gilroy",
-              fontSize: 16,
-              fontWeight: 500,
-              // textAlign: "left",
-              // position:"relative"
-            }}
-          >
+          <div className="font-gilroy font-medium text-base">
 
 
             {loading && (
-              <div
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "transparent",
-                  zIndex: 9999,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: "4px solid #1E45E1",
-                    borderRight: "4px solid transparent",
-                    borderRadius: "50%",
-                    width: "40px",
-                    height: "40px",
-                    animation: "spin 1s linear infinite",
-                  }}
-                />
+              <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
               </div>
             )}
 
@@ -2968,30 +2719,15 @@ function UserList(props) {
                 activeKey={value}
                 onSelect={(k) => handleChange(null, k)}
                 id="custom-tabs"
-                className="d-flex gap-5 p-0 "
-                style={{
-                  border: "none",
-                  width: "50%",
-                  display: "flex",
-                  gap: "12px",
-                  justifyContent: "", paddingBottom: 10,
-
-                }}
+                className="flex w-1/2 gap-5 p-0 pb-2 border-0"
               >
                 <Tab className="p-0 "
                   eventKey="1"
                   title={
-                    <span className="p-0"
-                      style={{
-                        padding: 0,
-                        display: "inline-block",
-                        textTransform: "capitalize",
-                        fontSize: 16,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: value === "1" ? "#222222" : "#4B4B4B",
-                        borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
-                      }}
+                    <span
+                      className={`inline-block p-0 capitalize text-[16px] font-gilroy font-medium
+    ${value === "1" ? "text-[#222222] border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] border-b-2 border-white"}
+  `}
                     >
                       Tenants
                     </span>
@@ -3002,14 +2738,10 @@ function UserList(props) {
                   eventKey="4"
                   title={
                     <span
-                      style={{
-                        textTransform: "capitalize",
-                        fontSize: 16,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: value === "4" ? "#222222" : "#4B4B4B",
-                        borderBottom: value === "4" ? "2px solid #1E45E1" : "2px solid transparent",
-                      }}
+                      className={`capitalize text-[16px] font-medium font-gilroy ${value === "4"
+                        ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                        : "text-[#4B4B4B] border-b-2 border-transparent"
+                        }`}
                     >
                       Walk-in
                     </span>
@@ -3020,14 +2752,10 @@ function UserList(props) {
                   eventKey="3"
                   title={
                     <span
-                      style={{
-                        textTransform: "capitalize",
-                        fontSize: 16,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: value === "3" ? "#222222" : "#4B4B4B",
-                        borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
-                      }}
+                      className={`capitalize text-[16px] font-medium font-gilroy ${value === "3"
+                        ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                        : "text-[#4B4B4B] border-b-2 border-transparent"
+                        }`}
                     >
                       Check-out
                     </span>
@@ -3042,15 +2770,7 @@ function UserList(props) {
               <TabPanel value="1">
 
                 {!canReadTenant ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginTop: 90
-                    }}
-                  >
+                  <div className="flex flex-col items-center justify-center mt-24">
                     <img
                       src={Emptystate}
                       alt="Empty State"
@@ -3059,32 +2779,21 @@ function UserList(props) {
                     <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
                 ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
-                  <div style={{ marginTop: 30, height: "auto" }} className="animated-text d-flex align-items-center justify-content-center">
+
+                  <div className="animated-text mt-24 h-auto flex items-center justify-center">
                     <div>
-                      <div style={{ textAlign: "center" }}>
+                      <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
                       </div>
+
                       <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
+                        className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]"
                       >
                         No Tenant available
                       </div>
+
                       <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
+                        className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]"
                       >
                         There are no tenant added.
                       </div>
@@ -3092,951 +2801,244 @@ function UserList(props) {
                   </div>
                 ) : null}
 
-                <div className='show-scrolls' style={{
-                  overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "20px",
-                  paddingRight: 0,
-                  paddingLeft: 0,
-
-                }}>
+                <div classame='font-gilroy  overflow-auto mb-5 mt-3 px-0'
+                >
                   {canReadTenant && sortedData && sortedData.length > 0 &&
-                    <div
-                      className="me-2"
-                      style={{}}
-                    >
-                      <div ref={tableRef}
-                        className="show-scrolls"
-                        style={{
-                          borderTop: "1px solid #E8E8E8",
-                          position: "relative"
-                        }}
-                      >
+                    <div>
+                      <div ref={tableRef} className="relative p-2">
                         <Table
                           responsive="md"
-                          style={{
-                            fontFamily: "Gilroy",
-                            color: "rgba(34, 34, 34, 1)",
-                            fontSize: 14,
-                            fontStyle: "normal",
-                            fontWeight: 500,
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                            borderRadius: 0, tableLayout: "fixed", width: "100%"
-                          }}
+                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 "
                         >
-                          <thead
-                            style={{
-                              fontFamily: "Gilroy",
-                              backgroundColor: "rgba(231, 241, 255, 1)",
-                              color: "rgba(34, 34, 34, 1)",
-                              fontSize: 14,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              position: "sticky",
-                              top: 0,
-                              zIndex: 1,
-                            }}
-                          >
+                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
                             <tr>
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "14%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Name
-                                </div>
-                              </th>
-
-
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "16%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Status
-                                </div>
-
-
-                              </th>
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "14%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Joining Date
-                                </div>
-                              </th>
-
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "14%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Mobile No
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "10%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Floor
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "10%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Room
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "10%"
-                                }}
-                              >
-                                <div style={labelStyle}>
-
-                                  Bed
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  ...headerStyle,
-                                  textAlign: "start", width: "10%"
-                                }}
-                              ><div style={labelStyle}>
-                                  Action
-                                </div>
-
-
-                              </th>
+                              <th>Name</th>
+                              <th>Status</th>
+                              <th>Joining Date</th>
+                              <th>Mobile No</th>
+                              <th>Floor</th>
+                              <th>Room</th>
+                              <th>Bed</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody style={{ textAlign: "start" }}>
+                          <tbody className="text-start">
                             <PaginationList>
                               {sortedData && sortedData.length > 0 && (
 
                                 sortedData.map((user) => (
-                                  <tr
-                                    key={user.customerId}
-                                    style={{
-                                      fontSize: "16px",
-                                      fontWeight: 600,
-                                      // textAlign: "center",
-                                    }}
-                                  >
+                                  <tr key={user.customerId} className="font-gilroy border-b border-[#E8E8E8]">
 
-                                    <td
-                                      style={{
-                                        border: "none",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className="max-w-[120px]"
+                                    <td className="text-start align-middle font-medium text-black whitespace-nowrap"
                                     >
                                       <span
-                                        className="
-      block max-w-[120px]
-      truncate whitespace-nowrap
-      text-[13px] font-semibold font-[Gilroy]
-      text-[#1E45E1] cursor-pointer
-      hover:underline
-    "
+                                        className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline"
                                         title={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`}
                                         onClick={() => handleRoomDetailsPage(user)}
                                       >
                                         {user?.firstName} {user?.lastName}
                                       </span>
                                     </td>
-                                    <td className=""
-                                      style={{
-                                        // paddingTop: 15,
-                                        // paddingLeft: 26,
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                    >
-                                      <span style={{ backgroundColor: "#EDD3D8", padding: 6, borderRadius: 10 }}>{user.currentStatus}</span> </td>
-                                    <td className=""
-                                      style={{
-                                        // paddingTop: 15,
-                                        // paddingLeft: 26,
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                        whiteSpace: "nowrap"
-                                      }}
-                                    >
-                                      <span>
-                                        {user?.actualJoining && user.actualJoining !== "0000-00-00"
-                                          ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
-                                          : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
-                                            ? moment(user.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
-                                            : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
-                                              ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
-                                              : "-"
-                                        }
+
+                                    <td className="text-start align-middle text-[13px] font-medium font-gilroy border-b border-[#E8E8E8]">
+                                      <span className="inline-block rounded-lg bg-[#EDD3D8] px-2">
+                                        {user.currentStatus}
                                       </span>
-
-
-
                                     </td>
 
-
-                                    <td
-                                      style={{
-                                        // paddingTop: 15,
-                                        // paddingLeft: 15,
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        marginTop: 10,
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className=""
-                                    >
-                                      +
-                                      {user &&
-                                        user.countryCode}
-                                      {" "}
-                                      {user.mobile}
-                                    </td>
-
-
-                                    <td
-                                      style={{
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        // paddingTop: 15,
-                                        // paddingLeft: 20,
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className=""
-                                    >
-                                      <div className="">
-
-
-                                        {user.currentStatus === "Booked"
-                                          ? (user.floorName || "-")
-                                          : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period" || user.currentStatus === "Settlement Generated"
-                                            ? (user.floorName || "-")
+                                    <td className="text-start align-middle text-[13px] font-medium font-gilroy border-b border-[#E8E8E8] whitespace-nowrap">
+                                      {user?.actualJoining && user.actualJoining !== "0000-00-00"
+                                        ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
+                                        : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
+                                          ? moment(user.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
+                                          : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
+                                            ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
                                             : "-"}
-                                      </div>
-
                                     </td>
 
-                                    <td
-                                      style={{
-                                        // paddingTop: 15,
-                                        // paddingLeft: 20,
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className=""
-                                    >
-                                      {" "}
-
-                                      {user.currentStatus === "Booked"
-                                        ? user.roomName || "-"
-                                        : user.roomName || "-"}
+                                    <td className="text-start align-middle text-[13px] font-medium font-gilroy border-b border-[#E8E8E8] whitespace-nowrap">
+                                      +{user?.countryCode} {user?.mobile}
                                     </td>
 
-                                    <td
-                                      className=" "
-                                      style={{
-                                        // paddingTop: 15,
-                                        border: "none",
-                                        cursor: "pointer",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        marginTop: 10,
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                    >
-                                      {/* {!user.Bed ? "-" : user.Bed} */}
-                                      {/* {user.Booking_Bed || user.floor_name || "-"} */}
-                                      {user.currentStatus === "Booked"
-                                        ? user.bedName || "-"
-                                        : user.bedName || "-"}
+                                    <td className="text-start align-middle text-[13px] font-medium font-gilroy border-b border-[#E8E8E8]">
+                                      {user.currentStatus === "Booked" ||
+                                        user.currentStatus === "Checked In" ||
+                                        user.currentStatus === "Notice Period" ||
+                                        user.currentStatus === "Settlement Generated"
+                                        ? user.floorName || "-"
+                                        : "-"}
                                     </td>
-                                    <td
-                                      style={{
-                                        textAlign: "center",
-                                        // paddingTop: 12,
-                                        border: "none",
 
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                    >
+                                    <td className="text-start align-middle text-[13px] font-semibold font-gilroy border-b border-[#E8E8E8]">
+                                      {user.roomName || "-"}
+                                    </td>
 
+                                    <td className="text-start align-middle text-[13px] font-semibold font-gilroy border-b border-[#E8E8E8] cursor-pointer">
+                                      {user.bedName || "-"}
+                                    </td>
+
+
+                                    <td className="text-center border-b border-[#E8E8E8]">
                                       <div
-                                        style={{
-                                          cursor: "pointer",
-                                          display: "flex",
-                                          justifyContent: "start",
-                                          alignItems: "center",
-                                          position: "relative",
-                                          marginTop: 3
-
-                                        }}
-                                        onClick={(e) =>
-                                          handleShowDots(user.customerId, e)
-                                        }
+                                        className="relative mt-1 flex cursor-pointer items-center justify-start"
+                                        onClick={(e) => handleShowDots(user.customerId, e)}
                                       >
                                         <PiDotsThreeOutlineVerticalFill
-                                          style={{
-                                            height: 20, width: 20, transform: "rotate(90deg)",
-                                            color: activeRow === user.customerId ? "#1E45E1" : "#6B7280",
-                                          }}
+                                          className={`h-5 w-5 rotate-90 ${activeRow === user.customerId ? "text-[#1E45E1]" : "text-gray-500"
+                                            }`}
                                         />
+
                                         {activeRow === user.customerId && (
                                           <div
                                             ref={popupRef}
+                                            className="fixed z-[1000] rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9]"
                                             style={{
-                                              position: "fixed",
                                               top: showAbove
-                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                                ? popupPosition.top -
+                                                (popupRef.current?.offsetHeight || 100) -
+                                                20
                                                 : popupPosition.top - 35,
                                               left: popupPosition.left,
-                                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                              backgroundColor: "#F9F9F9",
-                                              border: "1px solid #EBEBEB",
-                                              borderRadius: "10px",
-                                              zIndex: 1000,
                                             }}
                                           >
-                                            <div>
-                                              {(!user.bedId && (user.currentStatus === "Inactive" || user.currentStatus === "un-assigned")) && (
-                                                <div
-                                                  className="d-flex align-items-center gap-2"
-                                                  onClick={() => {
-                                                    if (canWriteTenant) {
-                                                      handleShowAssignBed(user);
-                                                    }
-                                                  }}
-                                                  style={{
-                                                    padding: "8px 12px",
-                                                    width: "100%",
-                                                    borderRadius: 6,
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                    opacity: !canWriteTenant ? 0.6 : 1,
-                                                    pointerEvents: !canWriteTenant ? "none" : "auto",
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
-
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={addcircle}
-                                                    alt="Assign Bed"
-                                                    style={{
-                                                      height: 16,
-                                                      width: 16,
-                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: !canWriteTenant ? "#888888" : "#222222",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                    }}
+                                            <div className="flex flex-col divide-y divide-gray-300">
+                                              {!user.bedId &&
+                                                (user.currentStatus === "Inactive" ||
+                                                  user.currentStatus === "un-assigned") && (
+                                                  <div
+                                                    onClick={() => canWriteTenant && handleShowAssignBed(user)}
+                                                    className={`border-b border-gray-700 flex items-center gap-2 rounded-md px-3 py-2 transition 
+                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    Check-In
-                                                  </label>
-                                                </div>
+                                                    <img
+                                                      src={addcircle}
+                                                      alt="Assign Bed"
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className={`text-sm font-medium font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}>
+                                                      Check-In
+                                                    </span>
+                                                  </div>
 
-                                              )}
+                                                )}
 
 
 
-                                              {(user.currentStatus === "un-assigned" || user.currentStatus === "Inactive") && (
-                                                <div
-                                                  className="d-flex align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: !canWriteBooking ? "not-allowed" : "pointer",
-                                                    opacity: !canWriteBooking ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onClick={() => {
-                                                    if (canWriteBooking) {
-                                                      handleAddBookings(user);
-                                                    }
-                                                  }}
-                                                  onMouseEnter={(e) => {
-
-                                                    e.currentTarget.style.backgroundColor = "#F0F4FF";
-
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    alt="Addbook"
-                                                    style={{
-                                                      width: 16,
-                                                      height: 16,
-                                                      filter: !canWriteBooking ? "grayscale(100%)" : "none",
-                                                      cursor: !canWriteBooking ? "not-allowed" : "pointer",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: !canWriteBooking ? "#888888" : "#1E45E1",
-                                                      cursor: !canWriteBooking ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
+                                              {(user.currentStatus === "un-assigned" ||
+                                                user.currentStatus === "Inactive") && (
+                                                  <div
+                                                    onClick={() => canWriteBooking && handleAddBookings(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    Add Booking
-                                                  </label>
-                                                </div>
-                                              )}
+                                                    <img
+                                                      src={Addbook}
+                                                      alt="Add Booking"
+                                                      className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                    />
+                                                    <span className={`text-sm font-medium font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}>
+                                                      Add Booking
+                                                    </span>
+                                                  </div>
+                                                )}
 
-                                              {(user.currentStatus === "un-assigned" || user.currentStatus === "Inactive") && (
-                                                <div
-
-                                                  className="d-flex align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: !canDeleteTenant ? "not-allowed" : "pointer",
-                                                    opacity: !canDeleteTenant ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onClick={() => {
-                                                    if (canDeleteTenant) {
-                                                      handleDeleteShow(user);
-                                                    }
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
-
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-
-                                                  <Trash
-                                                    size="16"
-                                                    color={!canDeleteTenant ? "#A9A9A9" : "red"}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: !canDeleteTenant ? "#888888" : "#FF0000",
-                                                      cursor: !canDeleteTenant ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
+                                              {(user.currentStatus === "un-assigned" ||
+                                                user.currentStatus === "Inactive") && (
+                                                  <div
+                                                    onClick={() => canDeleteTenant && handleDeleteShow(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    Delete
-                                                  </label>
-                                                </div>
-                                              )}
+                                                    <Trash size={16} color={canDeleteTenant ? "red" : "#A9A9A9"} />
+                                                    <span className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}>
+                                                      Delete
+                                                    </span>
+                                                  </div>
+                                                )}
+
 
 
 
                                               {user.bedId && user.currentStatus === "Checked In" && (
-
-                                                <div
-                                                  className="d-flex align-items-center gap-2"
-
-                                                  onClick={() => {
-                                                    if (canWriteTenant) {
-                                                      handleCustomerCheckout(user);
-                                                    }
-                                                  }}
-
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                    opacity: !canWriteTenant ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={addcircle}
-                                                    alt="checkout"
-                                                    style={{
-                                                      width: 16,
-                                                      height: 16,
-                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: !canWriteTenant ? "#888888" : "#222222",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
+                                                <>
+                                                  <div
+                                                    onClick={() => canWriteTenant && handleCustomerCheckout(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    Move to Notice Period
-                                                  </label>
-                                                </div>
+                                                    <img src={addcircle} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <span className="text-sm font-medium font-gilroy">Move to Notice Period</span>
+                                                  </div>
 
-                                              )}
-                                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                              {user.bedId && user.currentStatus === "Checked In" && (
-                                                <div
-                                                  className="d-flex align-items-center gap-2"
-
-                                                  onClick={() => {
-                                                    if (canWriteTenant) {
-                                                      handleCustomerReAssign(user);
-                                                    }
-                                                  }}
-
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                    opacity: !canWriteTenant ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    alt="Re-Assign"
-                                                    style={{
-                                                      width: 16,
-                                                      height: 16,
-                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: !canWriteTenant ? "#888888" : "#222222",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
+                                                  <div
+                                                    onClick={() => canWriteTenant && handleCustomerReAssign(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    Change Bed
-                                                  </label>
-                                                </div>
-
+                                                    <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <span className="text-sm font-medium font-gilroy">Change Bed</span>
+                                                  </div>
+                                                </>
                                               )}
-
 
                                               {user.bedId && user.currentStatus === "Notice Period" && (
                                                 <>
                                                   <div
-                                                    className="d-flex align-items-center gap-2"
-
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleBacktoCheckout(user);
-                                                      }
-                                                    }}
-
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
+                                                    onClick={() => canWriteTenant && handleBacktoCheckout(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img
-                                                      src={Addbook}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: !canWriteTenant ? "#888888" : "#222222",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Cancel Check-Out
-                                                    </label>
+                                                    <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <span className="text-sm font-medium font-gilroy">Cancel Check-Out</span>
                                                   </div>
-
-
-
-                                                  {/* <div
-                                                    className="d-flex align-items-center gap-2"
-
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleCheckoutGenrate(user);
-                                                      }
-                                                    }}
-
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={logout}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: !canWriteTenant ? "#888888" : "#222222",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Generate
-                                                    </label>
-                                                  </div> */}
-
 
                                                   <div
-                                                    className="d-flex align-items-center gap-2"
-
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleCheckoutGenrateNew(user);
-                                                      }
-                                                    }}
-
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
+                                                    onClick={() => canWriteTenant && handleCheckoutGenrateNew(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img
-                                                      src={logout}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: !canWriteTenant ? "#888888" : "#222222",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Generate
-                                                    </label>
+                                                    <img src={logout} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <span className="text-sm font-medium font-gilroy">Generate</span>
                                                   </div>
                                                 </>
-
                                               )}
-
-
-
 
                                               {user.bedId && user.currentStatus === "Settlement Generated" && (
-                                                <>
-
-
-
-                                                  <div
-                                                    className="d-flex align-items-center gap-2"
-
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleConformCheckout(user);
-                                                      }
-                                                    }}
-
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={logout}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: !canWriteTenant ? "#888888" : "#222222",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Check-Out
-                                                    </label>
-                                                  </div>
-
-                                                </>
-
+                                                <div
+                                                  onClick={() => canWriteTenant && handleConformCheckout(user)}
+                                                  className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img src={logout} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                  <span className="text-sm font-medium font-gilroy">Check-Out</span>
+                                                </div>
                                               )}
-                                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
 
                                               {user.currentStatus === "Booked" && (
-
                                                 <>
                                                   <div
-                                                    className="d-flex align-items-center gap-2"
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleBookingAssign(user);
-                                                      }
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      if (canWriteTenant) {
-                                                        e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                                      }
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
+                                                    onClick={() => canWriteTenant && handleBookingAssign(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img
-                                                      src={addcircle}
-                                                      alt="Edit"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Check-In
-                                                    </label>
+                                                    <img src={addcircle} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <span className="text-sm font-medium font-gilroy">Check-In</span>
                                                   </div>
+
                                                   <div
-                                                    className="d-flex align-items-center gap-2"
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleInActive(user);
-                                                      }
-                                                    }}
-                                                    onMouseEnter={(e) => {
-
-                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
-
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
+                                                    onClick={() => canWriteTenant && handleInActive(user)}
+                                                    className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img
-                                                      src={Addbook}
-                                                      alt="Addbook"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Make as Inactive
-                                                    </label>
+                                                    <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <span className="text-sm font-medium font-gilroy">Make as Inactive</span>
                                                   </div>
-
                                                 </>
-
-
                                               )}
-
-
-
-
-                                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
                                             </div>
-
                                           </div>
                                         )}
                                       </div>
-
                                     </td>
                                   </tr>
 
@@ -4047,176 +3049,10 @@ function UserList(props) {
                           </tbody>
                         </Table>
 
-
-
-
                       </div>
                     </div>
                   }
                 </div>
-
-
-
-                {/* {
-                  !customerpermissionError &&
-                  (
-                    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) > 10
-                  ) && (
-
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "0",
-                        right: "0",
-                        left: 0,
-                        backgroundColor: "white",
-                        zIndex: "1000",
-                      }}
-                    >
-                      <div>
-                        <Select
-                          options={pageOptions}
-                          value={
-                            itemsPerPage
-                              ? { value: itemsPerPage, label: `${itemsPerPage}` }
-                              : null
-                          }
-                          onChange={handleItemsPerPageChange}
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No options"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "40px",
-                              padding: "0 5px",
-                              border: "1px solid #1E45E1",
-                              borderRadius: "5px",
-                              fontSize: "14px",
-                              color: "#1E45E1",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              fontFamily: "Gilroy",
-                              boxShadow: "0 0 0 1px #1E45E1",
-                              width: 100,
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                              padding: 0,
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#1E45E1",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                              color: state.isFocused ? "#fff" : "#000",
-                              cursor: "pointer",
-                            }),
-                          }}
-                        />
-                      </div>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                              cursor:
-                                currentPage === 1 ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            <ArrowLeft2
-                              size="16"
-                              color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                            />
-                          </button>
-                        </li>
-
-                        <li
-                          style={{
-                            margin: "0 10px",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {currentPage} of {totalPages}
-                        </li>
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentPage === totalPages ? "#ccc" : "#1E45E1",
-                              cursor:
-                                currentPage === totalPages
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={
-                                currentPage === totalPages ? "#ccc" : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  )
-
-
-                } */}
 
                 {customerReassign === true ? (
                   <CustomerReAssign
@@ -4235,6 +3071,7 @@ function UserList(props) {
                   />
                 ) : null}
               </TabPanel>
+
               <TabPanel value="2">
                 <UserlistBookings
                   id={props.id}
@@ -4415,14 +3252,8 @@ function UserList(props) {
         </Modal.Footer>
       </Modal>
 
-
-      {/* Tenant Inactive - BOOKED -Tenant Inactive */}
-
       {
         inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails} />}
-
-
-
 
       {roomDetail === true ? (
         <UserListRoomDetail

@@ -1159,11 +1159,11 @@ const Compliance = () => {
                       className="h-[240px] w-[240px]"
                     />
 
-                    <div className="pb-1 font-semibold font-[Gilroy] text-[18px] text-[rgba(75,75,75,1)]">
+                    <div className="pb-1 font-semibold font-gilroy text-[18px] text-[rgba(75,75,75,1)]">
                       No Active complaint
                     </div>
 
-                    <div className="pb-1 font-medium font-[Gilroy] text-[14px] text-[rgba(75,75,75,1)]">
+                    <div className="pb-1 font-medium font-gilroy text-[14px] text-[rgba(75,75,75,1)]">
                       There are no active complaints
                     </div>
                   </div>

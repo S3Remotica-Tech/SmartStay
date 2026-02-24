@@ -183,7 +183,7 @@ const Receipt = (props) => {
 
 
 
- 
+
 
 
   return (
@@ -216,7 +216,15 @@ const Receipt = (props) => {
             }}
               onClick={() => handleNavigateTenantProfile(props.item)}
 
-            >{props.item?.fullName}</div><br />
+            >{props.item?.fullName}</div> */}
+            <br />
+            <div
+              className="font-gilroy text-[13px] ml-[17px] text-[#1E45E1] font-semibold cursor-pointer text-start truncate max-w-[150px]"
+              title={props.item?.fullName}
+              onClick={() => handleNavigateTenantProfile(props.item)}
+            >
+              {props.item?.fullName}
+            </div>
 
           </div>
         </td>

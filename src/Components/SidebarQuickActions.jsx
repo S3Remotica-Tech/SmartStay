@@ -41,7 +41,7 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
       onHide={() => setShowMenuModal(false)}
       placement="end"
       backdrop="static"
-      className="w-[300px] font-[Gilroy] border-l border-gray-200 rounded-xl bg-white"
+      className="w-[300px] font-gilroy border-l border-gray-200 rounded-xl bg-white"
     >
       {/* Header */}
       <Offcanvas.Header className="border-b border-gray-200 px-4 py-3 flex items-center gap-2.5">

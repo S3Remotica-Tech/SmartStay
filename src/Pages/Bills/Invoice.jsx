@@ -1564,7 +1564,7 @@ const InvoicePage = () => {
 
 
   return (
-    <div className="sticky-top bg-white font-[Gilroy]" >
+    <div className="sticky-top bg-white font-gilroy" >
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
