@@ -305,7 +305,7 @@ function StaticExample({ show, handleClose, currentItem }) {
         onHide={handleClose}
         backdrop="static"
         centered
-      >  
+      >
         <Modal.Dialog className="w-full max-w-full m-0 p-0" >
           <Modal.Header>
             <Modal.Title className="!text-lg text-neutral-800 !font-gilroy !font-semibold">
@@ -390,10 +390,17 @@ function StaticExample({ show, handleClose, currentItem }) {
                       fontFamily: "Gilroy",
                     }),
                     indicatorSeparator: () => ({ display: "none" }),
+
                     option: (base, state) => ({
                       ...base,
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
                       cursor: "pointer",
+                      backgroundColor: state.isSelected
+                        ? "#1E45E1"
+                        : state.isFocused
+                          ? "#E8EEFF"
+                          : "white",
+
+                      color: state.isSelected ? "#fff" : "#000",
                     }),
                   }}
                 />
@@ -509,15 +516,15 @@ function StaticExample({ show, handleClose, currentItem }) {
 
           {noChangeError && (
             <div
-             className="flex justify-center mt-1 mb-1"
+              className="flex justify-center mt-1 mb-1"
             >
               <ErrorMessage message={noChangeError} type="error" />
             </div>
           )}
-          <Modal.Footer  className="mt-1 pt-1 border-0">
+          <Modal.Footer className="mt-1 pt-1 border-0">
             <Button
               onClick={handleAddAssignAsset}
-             className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy p-3" >
+              className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy p-3" >
               {currentItem?.assignmentStatus === "Assigned" ? "Save Changes " : "Assign asset"}
             </Button>
           </Modal.Footer>

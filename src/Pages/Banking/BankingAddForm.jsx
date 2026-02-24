@@ -849,7 +849,7 @@ function BankingAddForm(props) {
 
         <Modal.Body className="pb-0">
           {activeTab === "BANK" && (
-            // <div className="row">
+
             <div className="grid grid-cols-12 gap-x-4 gap-y-3">
 
               <div className="col-span-12 lg:col-span-6">
@@ -964,10 +964,12 @@ function BankingAddForm(props) {
 
               </div>
 
-              {isChangedError && (
-                <div className="flex content-center mt-1">
 
-                  <ErrorMessage message={isChangedError} type="error" />
+              {isChangedError && (
+                <div className="col-span-12 mt-1">
+                  <div className="mx-auto w-fit text-center">
+                    <ErrorMessage message={isChangedError} type="error" />
+                  </div>
                 </div>
               )}
               {
@@ -1425,12 +1427,18 @@ function BankingAddForm(props) {
                   <ErrorMessage message={isChangedError} type="error" />
                 </div>
               )}
-              {
-                state.bankingDetails.bankingCreateError && <div className="flex justify-center mt-1 mb-1">
 
-                  <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
+              {state.bankingDetails.bankingCreateError && (
+                <div className="col-span-12 mb-1">
+                  <div className="w-full text-start">
+                    <ErrorMessage
+                      message={state.bankingDetails.bankingCreateError}
+                      type="error"
+                    />
+                  </div>
                 </div>
-              }
+              )}
+
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button

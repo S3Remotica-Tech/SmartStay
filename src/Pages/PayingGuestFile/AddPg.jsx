@@ -1309,7 +1309,7 @@ function AddPg({ show, handleClose, currentItem }) {
           className="flex items-center justify-center !border-t-0"
         >
           {isChangedError && (
-            <div ref={nochangeRef} className="flex items-center justify-center">
+            <div ref={nochangeRef} className="w-full flex justify-center text-center">
               <ErrorMessage message={isChangedError} type="error" />
             </div>
           )}

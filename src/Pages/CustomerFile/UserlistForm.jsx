@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl ,Image} from "react-bootstrap";
+import { Button, Form, FormControl, Image } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +24,7 @@ function UserlistForm(props) {
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
- 
+
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
@@ -42,7 +42,7 @@ function UserlistForm(props) {
 
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
- const state = useSelector((state) => state);
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
@@ -58,44 +58,44 @@ function UserlistForm(props) {
   const [fields, setFields] = useState([]);
 
 
-const roomOptions =
-  state.PgList?.roomsList?.map((item) => ({
-    value: item.id,
-    label: (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <span style={{ fontWeight: 600 }}>
-          {item.name}
-        </span>
-
-        <span
+  const roomOptions =
+    state.PgList?.roomsList?.map((item) => ({
+      value: item.id,
+      label: (
+        <div
           style={{
-            backgroundColor: "#E9F2FF",
-            color: "#2563EB",
-            padding: "2px 8px",
-            borderRadius: "12px",
-            fontSize: "12px",
-            fontWeight: 600,
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
-          {item?.space || 0} sharing
-        </span>
-      </div>
-    ),
-  })) || [];
+          <span style={{ fontWeight: 600 }}>
+            {item.name}
+          </span>
+
+          <span
+            style={{
+              backgroundColor: "#E9F2FF",
+              color: "#2563EB",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontSize: "12px",
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.space || 0} sharing
+          </span>
+        </div>
+      ),
+    })) || [];
 
 
 
 
 
- 
+
 
 
 
@@ -173,7 +173,7 @@ const roomOptions =
 
   const handleRooms = (selectedValue) => {
     setRooms(selectedValue);
-setBed('');
+    setBed('');
 
     setRoomRent("");
     setRoomError("");
@@ -183,7 +183,7 @@ setBed('');
   useEffect(() => {
     if (Rooms) {
       const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
-        return  view.roomId === Rooms
+        return view.roomId === Rooms
       });
       setAvailableBed(filteredBed)
     }
@@ -292,14 +292,14 @@ setBed('');
 
 
 
-  
+
 
 
 
 
   const handleSaveUserlistAddUser = async () => {
 
-  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
 
     let newErrors = [];
     let isHasError = false;
@@ -349,7 +349,7 @@ setBed('');
       setRoomRentError("Please Enter  Rental Amount");
       isHasError = true;
     }
-   
+
     if (
       AdvanceAmount === "" ||
       AdvanceAmount === null ||
@@ -420,7 +420,7 @@ setBed('');
 
 
     if (
-           Floor && Rooms && Bed &&
+      Floor && Rooms && Bed &&
       selectedDate &&
       Number(AdvanceAmount) > 0 &&
       Number(RoomRent) > 0
@@ -479,7 +479,7 @@ setBed('');
 
       setFloor(props.EditObj.booking_floor_id)
       setSelectedDate(props.EditObj.booking_joining_date)
-      
+
       setFile(props.EditObj.profile)
 
 
@@ -529,14 +529,14 @@ setBed('');
     }
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
- 
+
   useEffect(() => {
     if (state.createAccount?.networkError || state.UsersList?.bedAvailableError) {
       setFormLoading(false)
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      
+
       }, 3000)
     }
 
@@ -750,7 +750,7 @@ setBed('');
         onHide={handleCloseAssign}
         backdrop="static"
         centered
-        dialogClassName="custom-modals-style"
+        dialogClassName="custom-modals-style font-gilroy"
       >
         <Modal.Dialog className="m-0 p-0 max-w-[950px] pr-2.5 rounded-2xl">
           <Modal.Body>
@@ -769,113 +769,62 @@ setBed('');
                     className="cursor-pointer"
                   />
                 </Modal.Header>
-                
-                <div className="flex items-center gap-3 mb-3 ml-3">
 
-                  {file &&
-                    file !== "0" ? (
+                <div className="flex items-center gap-3 mb-3 ml-3">
+                  {file && file !== "0" ? (
                     <Image
                       src={file}
                       roundedCircle
-                      style={{ height: 50, width: 50 }}
+                      className="h-14 w-14"
                       alt="image"
                     />
                   ) : (
-                    <div
-                      style={{
-                        height: 50,
-                        width: 50,
-                        borderRadius: "50%",
-                       backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontSize: 20,
-                        fontWeight: "600",
-                        fontFamily: "Gilroy"
-                      }}
-                    >
+                    <div className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center text-xl !font-semibold font-gilroy">
                       {props.EditObj?.initials || "-"}
                     </div>
                   )}
 
                   <div>
-                    <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
+                    <p className="mb-1 mt-2 text-lg font-gilroy font-semibold  truncate max-w-[150px]">
                       {firstname} {lastname}
                     </p>
-
                   </div>
                 </div>
 
-
-                <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, width: "100%" }} className="mt-1 p-1">
-                  <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", width: "100%" }}>
+                <div className="mt-1 p-1 w-full bg-[#F7F9FF] rounded-lg">
+                  <div className="flex gap-2 w-full">
                     <button
                       onClick={() => setActiveTab("LONG")}
-                      style={{
-                        flex: 1,
-                        padding: "10px 0",
-                        backgroundColor: activeTab === "LONG" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "LONG" ? "white" : "black",
-                        border: "none",
-                        borderRadius: "5px",
-                        fontWeight: "600",
-                        fontFamily: "Gilroy"
-                      }}
+                      className={`flex-1 py-2 text-center rounded-md font-gilroy font-semibold ${activeTab === "LONG" ? "!bg-[#1E45E1] text-white" : "!bg-[#F7F9FF] text-black"
+                        }`}
                     >
                       Long Stay
                     </button>
+
                     <button
                       onClick={() => setActiveTab("SHORT")}
-                      style={{
-                        flex: 1,
-                        padding: "10px 0",
-                        backgroundColor: activeTab === "SHORT" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "SHORT" ? "white" : "black",
-                        border: "none",
-                        borderRadius: "5px",
-                        fontWeight: "600",
-                        fontFamily: "Gilroy"
-                      }}
+                      className={`flex-1 py-2 text-center rounded font-gilroy font-semibold ${activeTab === "SHORT" ? "!bg-[#1E45E1] text-white" : "!bg-[#F7F9FF] text-black"
+                        }`}
                     >
                       Short Stay
                     </button>
                   </div>
-
                 </div>
 
                 {activeTab === "LONG" ? <>
-                  <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                    <div className="row d-flex align-items-stretch">
+                  <div className="show-scroll p-2 mt-2 me-1 max-h-[300px] overflow-y-scroll">
+                    <div className="grid grid-cols-12 gap-x-4">
 
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                      <div className="col-span-12 mb-2">
                         <Form.Group controlId="purchaseDate">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
+                          <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                             Joining Date{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              *
-                            </span>
+                            <span className="text-red-500 text-xl">*</span>
                           </Form.Label>
 
-                          <div
-                            className="datepicker-wrapper"
-                            style={{ position: "relative", width: "100%" }}
-                          >
+                          <div className="datepicker-wrapper relative w-full">
                             <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy"
-                              }}
+                              className="w-full h-12 cursor-pointer font-gilroy"
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
                               value={selectedDate ? dayjs(selectedDate) : null}
@@ -897,20 +846,10 @@ setBed('');
                         )}
                       </div>
 
-                      <div className="col-12">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            paddingTop: "6px",
-                          }}
-                        >
+                      <div className="col-span-12 mb-2">
+                        <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                           Floor  {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                          <span className="text-red-500 text-xl">*</span>
                         </Form.Label>
 
                         <Select
@@ -995,19 +934,10 @@ setBed('');
                         )}
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                      <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
+                        <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                           Room {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                          <span className="text-red-500 text-xl">*</span>
                         </Form.Label>
 
                         <Select
@@ -1089,19 +1019,10 @@ setBed('');
                         )}
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                      <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
+                        <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                           Bed {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                          <span className="text-red-500 text-xl">*</span>
                         </Form.Label>
 
                         <Select
@@ -1204,32 +1125,19 @@ setBed('');
                         )}
                       </div>
 
-
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                         <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                          <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                             Advance Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                            <span className="text-red-500 text-xl">*</span>
+
                           </Form.Label>
                           <FormControl
                             type="text"
                             placeholder="Enter Amount"
                             value={AdvanceAmount}
                             onChange={handleAdvanceAmount}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: AdvanceAmount ? 600 : 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
+                            className={`text-base text-gray-700 font-gilroy ${AdvanceAmount ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
                           />
                         </Form.Group>
                         {advanceAmountError && (
@@ -1237,15 +1145,11 @@ setBed('');
                         )}
                       </div>
 
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                         <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                          <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                             Rental Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                            <span className="text-red-500 text-xl">*</span>
                           </Form.Label>
                           <FormControl
                             type="text"
@@ -1256,16 +1160,7 @@ setBed('');
                                 : "Enter Amount"
                             }
                             onChange={handleRoomRent}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: RoomRent ? 600 : 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
+                            className={`text-base text-gray-700 font-gilroy ${RoomRent ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
                           />
                         </Form.Group>
                         {roomrentError && (
@@ -1274,48 +1169,34 @@ setBed('');
                       </div>
 
 
-{/* {
+                      {/* {
   props.checkinNew  && <label className="mt-2" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" , color:"red"}}>Booking amount reduce from advance </label>
 } */}
 
 
                     </div>
 
-                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3">
 
-                      <div className="d-flex justify-content-between align-items-center p-4">
+
+                    <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
+                      <div className="flex justify-between items-center p-4">
                         <div>
-                          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
+                          <label className="text-sm font-medium font-gilroy">
+                            Non Refundable Amount
+                          </label>
                         </div>
                         <div>
-                          <Button
+                          <button
                             onClick={handleAddField}
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: "14px",
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              fontWeight: 600,
-                              borderRadius: "10px",
-                              padding: "6px 15px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "6px",
-                            }}
+                            className="flex items-center gap-1.5 bg-blue-700 text-white font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
                           >
                             <img
                               src={addcircle}
                               alt="Assign Bed"
-                              style={{
-                                height: 16,
-                                width: 16,
-                                filter: "brightness(0) invert(1)",
-                              }}
+                              className="h-4 w-4 filter brightness-0 invert"
                             />
                             Add
-                          </Button>
-
+                          </button>
                         </div>
                       </div>
 
@@ -1334,8 +1215,8 @@ setBed('');
                         });
 
                         return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-6">
+                          <div className="flex gap-3 mb-3 px-4" key={index}>
+                            <div className="flex-1">
 
 
                               {!item.showInput ? (
@@ -1413,20 +1294,10 @@ setBed('');
                                 <>
                                   <input
                                     type="text"
-                                    className="form-control"
                                     placeholder="Enter custom reason"
                                     value={item.customReason}
                                     onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
+                                    className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
                                   />
                                 </>
                               )}
@@ -1436,24 +1307,14 @@ setBed('');
                             </div>
 
 
-                            <div className="col-md-5">
+                            <div className="flex-1">
 
                               <input
                                 type="text"
                                 placeholder="Enter amount"
                                 value={item.amount}
                                 onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                className="form-control"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
+                                className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
 
                               />
                               {errors[index]?.amount && (
@@ -1461,55 +1322,29 @@ setBed('');
                               )}
                             </div>
 
-
-                            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-
+                            <div className="col-md-1 flex justify-center items-center p-0">
                               <Trash
-                                size="20"
+                                size={20}
                                 color="red"
                                 variant="Bold"
-                                style={{ cursor: "pointer" }}
+                                className="cursor-pointer"
                                 onClick={() => handleRemoveField(index)}
                               />
-
                             </div>
                           </div>
                         );
                       })}
 
-
-
-
                     </div>
-
-
-
-
-
-
-
-
-
                   </div>
 
-
-
-
-
-                  <Button disabled={formLoading}
-                    className="w-100"
-                    style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      height: 50,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Montserrat",
-                      marginTop: 10,
-                    }}
+                  <Button
+                    disabled={formLoading}
+                    className="w-full mt-2 h-[50px] !bg-[#1E45E1] text-white !font-semibold !text-lg !rounded-xl !font-gilroy"
+                    style={{ fontFamily: "Montserrat" }}
                     onClick={handleSaveUserlistAddUser}
                   >
-                Check-In
+                    Check-In
                   </Button>
                 </>
 
@@ -1518,119 +1353,35 @@ setBed('');
 
 
                   activeTab === "SHORT" && (
-                    <div
-                      style={{
-                        height: "400px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#f2f6fc",
-                        borderRadius: "10px",
-                        marginTop: "20px",
-                        marginRight: "0",
-                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                        border: "1px dashed #b0c4de",
-                      }}
-                    >
-                      <div style={{ textAlign: "center" }}>
+
+                    <div className="flex justify-center items-center mt-5 mr-0 h-[320px] bg-[#f2f6fc] rounded-lg shadow-sm border border-dashed border-[#b0c4de]">
+                      <div className="text-center">
                         <img
                           src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
                           alt="Coming Soon"
-                          width="80"
-                          height="80"
-                          style={{ marginBottom: "15px", opacity: 0.7 }}
+                          width={80}
+                          height={80}
+                          className="mb-4 opacity-70"
                         />
-
-                        <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                        <p className="text-[#7a7a7a] text-sm" style={{ fontFamily: "Gilroy" }}>
+                          Coming Soon. Stay tuned!
+                        </p>
                       </div>
                     </div>
 
                   )
-
-
-
                 }
 
-
-
-
-
-
               </div>
-              {/* )} */}
-
-
-
-
-
-
-
-
-
-
-
-
 
             </div>
           </Modal.Body>
 
-
-          {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
+          {(formLoading || loading) && (
+            <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
+              <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
         </Modal.Dialog>
       </Modal>
 
@@ -1678,7 +1429,7 @@ setBed('');
 
 
                 <div className="row mb-3">
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                     <Form.Group className="mb-2" controlId="checkoutDate">
                       <Form.Label
                         style={{
@@ -1724,7 +1475,7 @@ setBed('');
                       <ErrorMessage message={advanceDateError} type="error" />
                     )}
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                     <Form.Group className="mb-2" controlId="checkoutDate">
                       <Form.Label
                         style={{
