@@ -338,7 +338,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
               <div className="col-span-12">
-                <Form.Label className="text-sm font-medium font-[Gilroy]">
+                <Form.Label className="text-sm font-medium font-gilroy">
                   Floor <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
@@ -403,7 +403,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
               <div className="col-span-12 lg:col-span-6 mt-1">
-                <Form.Label className="text-sm font-medium text-[#222] font-[Gilroy]">
+                <Form.Label className="text-sm font-medium text-[#222] font-gilroy">
                   Select a Room <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
@@ -446,7 +446,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
               <div className="col-span-12 lg:col-span-6 mt-1">
-                <Form.Label className="text-sm font-medium text-[#222] font-[Gilroy]">
+                <Form.Label className="text-sm font-medium text-[#222] font-gilroy">
                   Date <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 

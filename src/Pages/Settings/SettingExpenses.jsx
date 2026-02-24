@@ -484,7 +484,7 @@ useEffect(() => {
 
                     <Card
                       key={category.categoryId}
-                      className="border-0 shadow rounded-lg p-2 font-[Gilroy] text-[16px] font-medium  flex flex-col bg-white"
+                      className="border-0 shadow rounded-lg p-2 font-gilroy text-[16px] font-medium  flex flex-col bg-white"
                     >
 
 
@@ -572,7 +572,7 @@ useEffect(() => {
                                 key={sub.subCategoryId}
                                 onMouseEnter={() => setHoveredSubId(sub.subCategoryId)}
                                 onMouseLeave={() => setHoveredSubId(null)}
-                                className="flex items-center justify-between rounded px-3 py-2 font-[Gilroy] bg-white mb-3 hover:bg-[#F5F8FF] transition"
+                                className="flex items-center justify-between rounded px-3 py-2 font-gilroy bg-white mb-3 hover:bg-[#F5F8FF] transition"
                               >
 
                                 <div
@@ -617,7 +617,7 @@ useEffect(() => {
                             ))
                           ) : (
                             <div className="flex items-center justify-center h-full text-center">
-                              <span className="text-gray-400 font-[Gilroy] text-sm">
+                              <span className="text-gray-400 font-gilroy text-sm">
                                 No Subcategory Details are there!
                               </span>
                             </div>

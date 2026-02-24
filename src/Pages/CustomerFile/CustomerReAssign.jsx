@@ -45,7 +45,7 @@ function CustomerReAssign(props) {
   const [availableBed, setAvailableBed] = useState('')
   // const [bedWarning, setBedWarning] = useState('')
 
- console.log("props",props)
+  console.log("props", props)
   const rentRef = useRef(null);
   const floorRef = useRef(null);
   const roomRef = useRef(null);
@@ -111,8 +111,8 @@ function CustomerReAssign(props) {
     }
   }, [newFloor, newRoom, state.UsersList?.availableBedList]);
 
-  
-// view.floorId === newFloor && 
+
+  // view.floorId === newFloor && 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
@@ -147,37 +147,37 @@ function CustomerReAssign(props) {
 
 
   const roomOptions =
-  state.PgList?.roomsList?.map((item) => ({
-    value: item.id,
-    label: (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <span style={{ fontWeight: 600 }}>
-          {item.name}
-        </span>
-
-        <span
+    state.PgList?.roomsList?.map((item) => ({
+      value: item.id,
+      label: (
+        <div
           style={{
-            backgroundColor: "#E9F2FF",
-            color: "#2563EB",
-            padding: "2px 8px",
-            borderRadius: "12px",
-            fontSize: "12px",
-            fontWeight: 600,
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
-          {item?.space || 0} sharing
-        </span>
-      </div>
-    ),
-  })) || [];
+          <span style={{ fontWeight: 600 }}>
+            {item.name}
+          </span>
+
+          <span
+            style={{
+              backgroundColor: "#E9F2FF",
+              color: "#2563EB",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontSize: "12px",
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.space || 0} sharing
+          </span>
+        </div>
+      ),
+    })) || [];
 
 
 
@@ -584,7 +584,7 @@ function CustomerReAssign(props) {
       const invoiceList = customerData.invoiceResponseList || [];
       const bedHistory = customerData.bedHistory || [];
 
-console.log("hostelInfo",hostelInfo)
+      console.log("hostelInfo", hostelInfo)
 
       setCurrentFloor(hostelInfo.floorName || "");
       setCustomerName(customerData.fullName || "");
@@ -708,40 +708,40 @@ console.log("hostelInfo",hostelInfo)
   }, [state.UsersList?.changeBedError])
 
   const getImageSrc = () => {
-  if (
-    customerProfile &&
-    typeof customerProfile === "string" &&
-    customerProfile.trim() !== ""
-  ) {
-    return customerProfile.startsWith("/9j/")
-      ? `data:image/jpeg;base64,${customerProfile}`
-      : customerProfile;
-  }
+    if (
+      customerProfile &&
+      typeof customerProfile === "string" &&
+      customerProfile.trim() !== ""
+    ) {
+      return customerProfile.startsWith("/9j/")
+        ? `data:image/jpeg;base64,${customerProfile}`
+        : customerProfile;
+    }
 
-  if (customerProfile && typeof customerProfile !== "string") {
-    return URL.createObjectURL(customerProfile);
-  }
+    if (customerProfile && typeof customerProfile !== "string") {
+      return URL.createObjectURL(customerProfile);
+    }
 
-  if (
-    userDetails?.profile &&
-    typeof userDetails.profile === "string" &&
-    userDetails.profile.trim() !== ""
-  ) {
-    return userDetails.profile.startsWith("/9j/")
-      ? `data:image/jpeg;base64,${userDetails.profile}`
-      : userDetails.profile;
-  }
+    if (
+      userDetails?.profile &&
+      typeof userDetails.profile === "string" &&
+      userDetails.profile.trim() !== ""
+    ) {
+      return userDetails.profile.startsWith("/9j/")
+        ? `data:image/jpeg;base64,${userDetails.profile}`
+        : userDetails.profile;
+    }
 
-  if (userDetails?.profile && typeof userDetails.profile !== "string") {
-    return URL.createObjectURL(userDetails.profile);
-  }
- 
-  return null;
-};
+    if (userDetails?.profile && typeof userDetails.profile !== "string") {
+      return URL.createObjectURL(userDetails.profile);
+    }
+
+    return null;
+  };
 
 
 
- 
+
 
   return (
     <>
@@ -752,142 +752,82 @@ console.log("hostelInfo",hostelInfo)
           backdrop="static"
           centered dialogClassName="custom-modal-style"
         >
-          <Modal.Dialog
-            style={{
-              maxWidth: 666,
-              paddingRight: "10px",
-              borderRadius: "30px",
-            }}
-            className="m-0 p-0"
+          <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white"
           >
-            <Modal.Header
-              style={{ position: "relative" }}
-            >
-              <div
-                style={{
-                  fontSize: 20,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
+            <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b">
+              <div className="text-xl font-semibold font-gilroy">
                 Change Bed
               </div>
 
               <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
-                style={{ cursor: 'pointer' }} />
+                className="cursor-pointer" />
             </Modal.Header>
-            <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-1 me-3 pt-1" >
-              <div className="d-flex align-items-center">
-                <div >
 
-                  <div className="row">
-                    <div className="d-flex justify-content-between align-items-center mb-2 mt-1 ms-3">
+            <Modal.Body className=" mt-1 mr-3 pt-1" >
+              <div className="flex items-center">
+                <div>
 
-                      <div className="d-flex align-items-center gap-3">
+                  <div className="w-full">
+
+                    <div className="flex justify-between items-center mb-2 mt-1 ml-2">
+
+                      <div className="flex items-center gap-3">
+
                         {getImageSrc() ? (
                           <img
                             src={getImageSrc()}
                             alt="Profile"
-                            style={{
-                              width: 40,
-                              height: 40,
-                              borderRadius: "50%"
-                            }}
+                            className="w-10 h-10 rounded-full object-cover"
                             onError={(e) => { e.target.src = Profileimage; }}
                           />
                         ) : (
-                          <div
-                            style={{
-                              width: 50,
-                              height: 50,
-                              borderRadius: "50%",
-                               backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontWeight: "600px",
-                              fontSize: 16,fontFamily:"Gilroy"
-                            }}
-                          >
+                          <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-semibold text-base font-gilroy">
                             {state.UsersList?.customerdetails?.initials}
                           </div>
                         )}
-
-
                         <div>
-                          <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", fontFamily: "Gilroy" }}>
+                          <p
+                            className="mb-1 font-semibold text-[15px] font-gilroy truncate max-w-[160px]"
+                            title={customerName || userDetails?.Name}
+                          >
                             {customerName || userDetails?.Name}
                           </p>
-                          <div className="d-flex gap-2">
-                            <span
-                              style={{
-                                backgroundColor: "#FFF3CD",
-                                color: "#856404",
-                                fontSize: "12px",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                fontWeight: 500, fontFamily: "Gilroy"
-                              }}
-                            >
+
+                          <div className="flex gap-2">
+                            <span className="bg-yellow-100 text-yellow-800 text-[12px] px-2 py-0.5 rounded-[12px] font-medium font-gilroy">
                               {currentFloor}
                             </span>
-                            <span
-                              style={{
-                                backgroundColor: "#F8D7DA",
-                                color: "#721C24",
-                                fontSize: "12px",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                fontWeight: 500, fontFamily: "Gilroy"
-                              }}
-                            >
+
+                            <span className="bg-red-100 text-red-800 text-[12px] px-2 py-0.5 rounded-[12px] font-medium font-gilroy">
                               {currentRoom} - {currentBed}
                             </span>
                           </div>
                         </div>
+
                       </div>
 
-                     
-                      <div className="me-4" style={{ textAlign: "right" }}>
-                        <p className="mb-1" style={{ fontSize: "14px", fontWeight: 400, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                      <div className="mr-4 text-right">
+                        <p className="mb-1 text-[14px] font-normal text-gray-700 font-gilroy">
                           Rental Amount
                         </p>
-                        <p className="mb-0" style={{ fontWeight: 600, fontSize: "16px", fontFamily:"Gilroy" }}>
+                        <p className="mb-0 font-semibold text-base font-gilroy">
                           ₹ {currentRoomRent}
                         </p>
                       </div>
+
                     </div>
                   </div>
 
-                  <div className="show-scroll p-2 mt-0 me-0">
 
-                    <div className="row  d-flex align-items-stretch">
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2" controlId="purchaseDate">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Date{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              *
-                            </span>
+                  <div className="overflow-y-auto max-h-[380px] mt-1 pt-1 show-scroll p-2">
+                    <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
+                      <div>
+                        <Form.Group controlId="purchaseDate">
+                          <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                            Date <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
-
-
-
-                          <div
-                            className="datepicker-wrapper"
-                            style={{ position: "relative", width: "100%" }}
-                          >
-
-
+                          <div className="relative w-full datepicker-wrapper">
                             <DatePicker
                               style={{
                                 width: "100%",
@@ -909,9 +849,7 @@ console.log("hostelInfo",hostelInfo)
                               }
                               disabledDate={(current) => {
                                 if (!current) return false;
-
                                 const today = dayjs().endOf("day");
-
 
                                 let joining = null;
                                 if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
@@ -919,13 +857,11 @@ console.log("hostelInfo",hostelInfo)
                                   joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
                                 }
 
-
                                 let lastBillDate = null;
                                 if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
                                   const [dd, mm, yyyy] = lastDate.split("-");
                                   lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
                                 }
-
 
                                 let reAssign = null;
                                 if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
@@ -936,7 +872,6 @@ console.log("hostelInfo",hostelInfo)
                                 let minAllowedDate = null;
 
                                 if (reAssign) {
-
                                   minAllowedDate = reAssign;
                                 } else if (joining) {
                                   const sameMonth =
@@ -950,11 +885,9 @@ console.log("hostelInfo",hostelInfo)
                                   }
                                 }
 
-
                                 if (current.isAfter(today)) {
                                   return true;
                                 }
-
 
                                 if (minAllowedDate && current.isBefore(minAllowedDate)) {
                                   return true;
@@ -963,39 +896,16 @@ console.log("hostelInfo",hostelInfo)
                                 return false;
                               }}
                             />
-
-
-
-
-
-
                           </div>
-                          {dateError && (
-                            <ErrorMessage message={dateError} type="error" />
-                          )}
+                          {dateError && <ErrorMessage message={dateError} type="error" />}
                         </Form.Group>
-
-
-
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            New Floor
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                      <div>
+                        <Form.Group >
+                          <Form.Label className="text-[14px] font-medium font-gilroy">
+                            New Floor <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
-
-
                           <Select
                             isDisabled={!selectedDate}
                             options={
@@ -1006,12 +916,8 @@ console.log("hostelInfo",hostelInfo)
                             }
                             onChange={handleFloor}
                             ref={floorRef}
-
-
                             value={
-                              state.UsersList.floorList?.find(
-                                (option) => option.id === newFloor
-                              )
+                              state.UsersList.floorList?.find((option) => option.id === newFloor)
                                 ? {
                                   value: newFloor,
                                   label: state.UsersList.floorList.find(
@@ -1028,42 +934,24 @@ console.log("hostelInfo",hostelInfo)
                               control: (base) => ({
                                 ...base,
                                 height: "50px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
+                                borderRadius: "0.5rem",
                                 fontSize: "16px",
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
                                 fontWeight: newFloor ? 600 : 500,
                                 boxShadow: "none",
                               }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
+                              menu: (base) => ({ ...base, backgroundColor: "#f8f9fa" }),
                               menuList: (base) => ({
                                 ...base,
                                 backgroundColor: "#f8f9fa",
                                 maxHeight: "120px",
                                 padding: 0,
-                                scrollbarWidth: "thin",
                                 overflowY: "auto",
-                                fontFamily: "Gilroy",
                               }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer"
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-
-                              }),
+                              placeholder: (base) => ({ ...base, color: "#555" }),
+                              dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                              indicatorSeparator: () => ({ display: "none" }),
                               option: (base, state) => ({
                                 ...base,
                                 cursor: "pointer",
@@ -1072,50 +960,26 @@ console.log("hostelInfo",hostelInfo)
                               }),
                             }}
                           />
-
-
-                          {floorError && (
-                            <ErrorMessage message={floorError} type="error" />
-                          )}
+                          {floorError && <ErrorMessage message={floorError} type="error" />}
                         </Form.Group>
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            New Room{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                      <div className="mb-2">
+                        <Form.Group >
+                          <Form.Label className="text-[14px] font-medium font-gilroy">
+                            New Room <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
-
-
                           <Select
-
-                           options={roomOptions}
-                            onChange={(selectedOption) =>
-                              handleRooms(selectedOption?.value)
-                            }
+                            options={roomOptions}
+                            onChange={(selectedOption) => handleRooms(selectedOption?.value)}
                             ref={roomRef}
                             isDisabled={!newFloor}
-
-
                             value={
-                              state.PgList?.roomsList?.find(
-                                (option) => option.id === newRoom
-                              )
+                              state.PgList?.roomsList?.find((option) => option.id === newRoom)
                                 ? {
                                   value: newRoom,
-                                  label: state.PgList?.roomsList.find(
-                                    (option) => option.id === newRoom
-                                  )?.name,
+                                  label: state.PgList?.roomsList.find((option) => option.id === newRoom)
+                                    ?.name,
                                 }
                                 : null
                             }
@@ -1127,41 +991,24 @@ console.log("hostelInfo",hostelInfo)
                               control: (base) => ({
                                 ...base,
                                 height: "50px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
+                                borderRadius: "0.5rem",
                                 fontSize: "16px",
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
                                 fontWeight: newRoom ? 600 : 500,
                                 boxShadow: "none",
                               }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
+                              menu: (base) => ({ ...base, backgroundColor: "#f8f9fa" }),
                               menuList: (base) => ({
                                 ...base,
                                 backgroundColor: "#f8f9fa",
                                 maxHeight: "120px",
                                 padding: 0,
-                                scrollbarWidth: "thin",
                                 overflowY: "auto",
-                                fontFamily: "Gilroy",
                               }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer"
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
+                              placeholder: (base) => ({ ...base, color: "#555" }),
+                              dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                              indicatorSeparator: () => ({ display: "none" }),
                               option: (base, state) => ({
                                 ...base,
                                 cursor: "pointer",
@@ -1170,115 +1017,65 @@ console.log("hostelInfo",hostelInfo)
                               }),
                             }}
                           />
-
-                          {roomError && (
-                            <ErrorMessage message={roomError} type="error" />
-                          )}
+                          {roomError && <ErrorMessage message={roomError} type="error" />}
                         </Form.Group>
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            New Bed{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                      <div>
+                        <Form.Group >
+                          <Form.Label className="text-[14px] font-medium font-gilroy">
+                            New Bed <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
-
-
                           <Select
-                            //  isDisabled={!selectedDate}
                             options={
                               availableBed
                                 ? availableBed
                                   .filter(
-                                    (item) => item &&
+                                    (item) =>
+                                      item &&
                                       item?.bedName !== "0" &&
                                       item?.bedName !== "undefined" &&
                                       item?.bedName !== "" &&
                                       item?.bedName !== "null"
                                   )
-                                  .map((item) => ({
-                                    value: item?.bedId,
-                                    label: item?.bedName,
-                                  }))
+                                  .map((item) => ({ value: item?.bedId, label: item?.bedName }))
                                 : []
                             }
                             onChange={handleBed}
                             ref={BedRef}
-                            // value={
-                            //   newBed
-                            //     ? {
-                            //       value: newBed,
-                            //       label:
-                            //         state.UsersList?.bednumberdetails?.bed_details?.find(
-                            //           (bed) => bed.id === newBed
-                            //         )?.bed_no || "Selected Bed",
-                            //     }
-                            //     : null
-                            // }
-
                             value={
                               availableBed
                                 ? (() => {
-                                  const selected = availableBed?.find(
-                                    (option) => option?.bedId === newBed
-                                  );
-                                  return selected
-                                    ? { value: selected.bedId, label: selected.bedName }
-                                    : null;
+                                  const selected = availableBed?.find((option) => option?.bedId === newBed);
+                                  return selected ? { value: selected.bedId, label: selected.bedName } : null;
                                 })()
                                 : null
                             }
                             placeholder="Select Bed"
                             isDisabled={!newRoom}
+                            classNamePrefix="custom"
                             styles={{
                               control: (base) => ({
                                 ...base,
                                 height: "50px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
+                                borderRadius: "0.5rem",
                                 fontSize: "16px",
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
                                 fontWeight: newBed ? 600 : 500,
                                 boxShadow: "none",
                               }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
+                              menu: (base) => ({ ...base, backgroundColor: "#f8f9fa" }),
                               menuList: (base) => ({
                                 ...base,
                                 backgroundColor: "#f8f9fa",
                                 maxHeight: "120px",
                                 padding: 0,
-                                scrollbarWidth: "thin",
                                 overflowY: "auto",
-                                fontFamily: "Gilroy",
                               }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer"
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
+                              placeholder: (base) => ({ ...base, color: "#555" }),
+                              dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                              indicatorSeparator: () => ({ display: "none" }),
                               option: (base, state) => ({
                                 ...base,
                                 cursor: "pointer",
@@ -1286,53 +1083,23 @@ console.log("hostelInfo",hostelInfo)
                                 color: "#000",
                               }),
                             }}
-
                           />
-
-
-
-                          {bedError && (
-                            <ErrorMessage message={bedError} type="error" />
-                          )}
+                          {bedError && <ErrorMessage message={bedError} type="error" />}
                         </Form.Group>
                       </div>
 
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              display: "flex",
-                              alignItems: "center",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            New Rent Amount {" "}  <span style={{ color: "red", fontSize: "20px", marginLeft: 5 }}>
-                              *
-                            </span>
+                      <div>
+                        <Form.Group className="">
+                          <Form.Label className="flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
+                            New Rent Amount <span className="text-red-500 text-[20px] ml-1">*</span>
                             <Form.Check
-                              style={{ cursor: "pointer" }}
                               type="checkbox"
                               label={
-                                <span
-                                  style={{
-                                    color: "#1E45E1",
-                                    fontWeight: 500,
-                                    whiteSpace: "nowrap",
-                                    fontSize: 11,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+                                <span className="text-[#1E45E1] font-medium text-[11px] font-gilroy whitespace-nowrap">
                                   Same as Current
                                 </span>
                               }
-                              className="ms-3 "
+                              className="ms-3 cursor-pointer"
                               ref={rentRef}
                               onChange={(e) => {
                                 if (e.target.checked) {
@@ -1349,26 +1116,11 @@ console.log("hostelInfo",hostelInfo)
                             onChange={(e) => handleNewRoomRent(e)}
                             value={newRoomRent}
                             type="text"
-                            id="form-controls"
                             placeholder="Enter Amount"
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                              marginTop: 8,
-                            }}
+                            className="mt-2 h-[50px] rounded-lg border border-[#D9D9D9] text-[16px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
                           />
-                          {rentError && (
-                            <ErrorMessage message={rentError} type="error" />
-                          )}
+                          {rentError && <ErrorMessage message={rentError} type="error" />}
                         </Form.Group>
-
-
                       </div>
                     </div>
                   </div>
@@ -1383,46 +1135,17 @@ console.log("hostelInfo",hostelInfo)
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
             </div>}
 
+            {formLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
 
 
-            {formLoading && <div
-              style={{
-                position: 'absolute',
-                top: 100,
-                right: 0,
-                bottom: 0,
-                left: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>}
 
-            <Modal.Footer className="pt-1" style={{ border: "none" }}>
+            <Modal.Footer className="-mt-6 border-top-0">
               <Button disabled={formLoading}
-                className="w-100"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  height: 50,
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontFamily: "Montserrat",
-                }}
+                 className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
                 onClick={handleSaveReassignBed}
               >
                 Change Bed

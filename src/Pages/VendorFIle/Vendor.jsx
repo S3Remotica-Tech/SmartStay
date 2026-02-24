@@ -472,7 +472,7 @@ useEffect(() => {
                               }
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
-                              className={`flex items-center gap-4 p-[10px] text-[14px] font-[Gilroy] font-medium border-b border-[#dcdcdc] cursor-pointer ${hoveredIndex === index
+                              className={`flex items-center gap-4 p-[10px] text-[14px] font-gilroy font-medium border-b border-[#dcdcdc] cursor-pointer ${hoveredIndex === index
                                 ? "bg-[#1E45E1] text-white"
                                 : "bg-transparent text-black"
                                 }`}
@@ -527,7 +527,7 @@ useEffect(() => {
         )} */}
 
         {searchQuery && (
-          <div className="container mb-4 mt-5 text-[16px] font-semibold font-[Gilroy]">
+          <div className="container mb-4 mt-5 text-[16px] font-semibold font-gilroy">
             {filteredData.length > 0 ? (
               <span className="text-[rgba(100,100,100,1)]">
                 {filteredData.length} result{filteredData.length > 1 ? "s" : ""} found for{" "}

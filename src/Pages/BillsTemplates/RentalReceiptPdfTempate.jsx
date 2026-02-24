@@ -816,7 +816,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, templateReceiptThemes }) 
  
   <div>
     <h6
-      className="text-[10px] font-semibold font-[Gilroy]"
+      className="text-[10px] font-semibold font-gilroy"
       style={{
         color: useGradient
           ? defaultGradient
@@ -826,7 +826,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, templateReceiptThemes }) 
       Terms and Conditions
     </h6>
 
-    <p className="text-[9px] text-[#555] font-[Gilroy]">
+    <p className="text-[9px] text-[#555] font-gilroy">
       {terms}
     </p>
   </div>
@@ -842,7 +842,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, templateReceiptThemes }) 
         />
       )}
 
-      <p className="text-[11px] font-[Gilroy] text-[#2C2C2C] pt-1">
+      <p className="text-[11px] font-gilroy text-[#2C2C2C] pt-1">
         Authorized Signature
       </p>
     </div>

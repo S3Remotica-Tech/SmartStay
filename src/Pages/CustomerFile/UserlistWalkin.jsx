@@ -141,9 +141,9 @@ function UserlistWalkin() {
     }
   }, [state.UsersList?.UserListStatusCode]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setWalkingLoader(false)
+      setWalkingLoader(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -230,7 +230,7 @@ useEffect(() => {
     setSelectedCustomer(null);
   };
 
- const handleCheckIn = (data) => {
+  const handleCheckIn = (data) => {
     setShowFormCheckIn(true)
     setTenantDetails(data)
     // setCheckInNew(false)
@@ -300,8 +300,8 @@ useEffect(() => {
   // };
 
   const sortedData = React.useMemo(() => {
-      return Array.isArray(walkInCustomer) ? walkInCustomer : [];
-    }, [walkInCustomer]);
+    return Array.isArray(walkInCustomer) ? walkInCustomer : [];
+  }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
     setDeleteShow(true);
@@ -405,477 +405,146 @@ useEffect(() => {
     <>
       {!canReadWalkin ? (
         <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 90
-            }}
-          >
+
+          <div className="flex flex-col items-center justify-center mt-24">
             <img
               src={Emptystate}
               alt="Empty State"
-
             />
 
-
-            <ErrorMessage message={['You do not have access to view Walk In ']} type="warning" />
-
+            <ErrorMessage
+              message={['You do not have access to view Walk In']}
+              type="warning"
+            />
           </div>
         </>
       ) : (
         <>
-          <div >
+          <div>
             {walkinLoader ? (
-              <div
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: "200px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "transparent",
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: "4px solid #1E45E1",
-                    borderRight: "4px solid transparent",
-                    borderRadius: "50%",
-                    width: "40px",
-                    height: "40px",
-                    animation: "spin 1s linear infinite",
-                  }}
-                ></div>
+
+              <div className="font-gilroy fixed inset-y-0 right-0 left-48 flex items-center justify-center bg-transparent opacity-75 z-10">
+                <div className="h-10 w-10 rounded-full border-4 border-r-transparent border-t-blue-700 animate-spin"></div>
               </div>
             ) : (
-              <div className='show-scrolls' style={{
-                overflow: "auto",
-                marginBottom: 20,
-                marginTop: "0px",
-                paddingRight: 0,
-                paddingLeft: 0,
-
-              }}>
+              <div className="show-scrolls overflow-auto mb-5 mt-3 px-0">
 
                 {sortedData.length > 0 && (
-                  <div
-                    className="me-2"
-                    style={{ marginLeft: "0px" }}
-                  >
+                  <div>
                     <div
-                      className="show-scrolls"
-                      style={{
-                        marginTop: "20px",
-                      }}
+                      className="show-scrolls relative p-2"
                     >
-                      <Table responsive="md">
-                        <thead
-                          style={{
-                            fontFamily: "Gilroy",
-                            backgroundColor: "rgba(231, 241, 255, 1)",
-                            color: "rgba(34, 34, 34, 1)",
-                            fontSize: 14,
-                            fontStyle: "normal",
-                            fontWeight: 500,
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                            borderRadius: 0
-                          }}
-                        >
+                      <Table responsive="md"
+                        className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
+                        <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
                           <tr>
-                            <th
-                              style={{
-                                verticalAlign: "middle",
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,width:"25%"
-                                // padding: 10, 
-                              }}
-                            >
-                              {" "}
-                              <div className="d-flex gap-1 align-items-center justify-content-start">
-                                {" "}
-                                {/* <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() =>
-                                    handleSort("first_name", "asc")
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() =>
-                                    handleSort("first_name", "desc")
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div>{" "} */}
-                                Name
-                              </div>{" "}
-                            </th>
-
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                whiteSpace: "nowrap",width:"25%"
-                              }}
-                            >
-                              <div className="d-flex gap-1 align-items-center justify-content-start">
-
-                                Email ID{" "}
-                              </div>
-                            </th>
-
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                whiteSpace: "nowrap",width:"25%"
-                              }}
-                            >
-                              <div className="d-flex gap-1 align-items-center justify-content-start">
-
-                                Mobile No{" "}
-                              </div>
-                            </th>
-
-
-
-                            <th
-                              style={{
-                                textAlign: "center",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,width:"25%"
-                                // paddingBottom: 10
-                              }}
-                            >
-                              Action
-                            </th>
+                            <th>Name</th>
+                            <th>Email ID </th>
+                            <th>Mobile No</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
 
-
-
-                        <tbody>
+                        <tbody className="text-start">
                           <PaginationList>
                             {sortedData && sortedData.length > 0 && (
                               sortedData.map((v) => (
-                                <tr key={v.customerId}>
-                                  <td className="ps-2 pt-0 pe-0 pb-0"
-                                    style={{
-                                      border: "none",
-                                      // padding: "10px",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      paddingLeft: "23px",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
+                                <tr key={v.customerId} className="font-gilroy border-b border-[#E8E8E8]">
 
-                                  >
-
-                                    <span
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
+                                  <td className="align-middle">
+                                    <span className="text-sm font-medium font-gilroy">
                                       {v.fullName}
                                     </span>
                                   </td>
 
-                                  <td className="ps-2"
-                                    style={{
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                       textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-
-                                  >
+                                  <td className="pl-2 text-start align-middle text-sm font-medium font-gilroy border-b border-gray-200">
                                     {v.emailId || "N/A"}
                                   </td>
 
-                                  <td
-                                    style={{
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-2"
-                                  >
+                                  <td className="pl-2 text-start align-middle text-sm font-medium font-gilroy border-b border-gray-200">
                                     +
-                                    {v &&
-                                      v.countryCode}
-                                    {" "}
+                                    {v && v.countryCode}{" "}
                                     {v.mobile}
                                   </td>
 
-
-
-                                  <td style={{ borderBottom: "1px solid #E8E8E8" }} >
+                                  <td className="border-b border-gray-200">
                                     <div
-                                      style={{
-                                        cursor: "pointer",
-                                        // height: 40,
-                                        // width: 40,
-                                        // borderRadius: "50%",
-                                        // border: "1px solid #EFEFEF",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        position: "relative",
-                                        // borderBottom: "1px solid #E8E8E8",
-                                        // backgroundColor:
-                                        //   dotsButton === v.customerId ? "#E7F1FF" : "white",
-                                      }}
+                                      className="relative flex justify-start items-center cursor-pointer"
                                       onClick={(e) => handleDotsClick(v.customerId, e)}
                                     >
                                       <PiDotsThreeOutlineVerticalFill
-                                        style={{
-                                          height: 20, width: 20,
-                                          transform: "rotate(90deg)",
-                                          color:
-                                            dotsButton === v.customerId
-                                              ? "#1E45E1"
-                                              : "#6B7280",
-                                        }}
+                                        className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId ? "text-blue-700" : "text-gray-500"
+                                          }`}
                                       />
+
                                       {dotsButton === v.customerId && (
                                         <div
                                           ref={popupRef}
+                                          className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
                                           style={{
-                                            cursor: "pointer",
-                                            backgroundColor: "#F9F9F9",
-                                            position: "fixed",
                                             top: popupPosition.top - 15,
                                             left: popupPosition.left - 10,
-                                            width: 140,
-                                            border: "1px solid #EBEBEB",
-                                            borderRadius: 10,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            justifyContent: "center",
-                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                            zIndex: 10,
                                           }}
                                         >
-                                          {/* Edit Option */}
+
                                           <div
-                                            className="d-flex align-items-center gap-2"
-                                            onClick={() => {
-                                              if (canWriteWalkin) {
-                                                handleCheckIn(v);
-                                              }
-                                            }}
-                                            style={{
-                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              opacity: !canWriteWalkin ? 0.5 : 1,
-                                              padding: "6px 8px",
-                                              borderRadius: 6,
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}
+                                            onClick={() => canWriteWalkin && handleCheckIn(v)}
+                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteWalkin
+                                              ? "cursor-pointer hover:bg-blue-50"
+                                              : "cursor-not-allowed opacity-50"
+                                              }`}
                                           >
                                             <img
                                               src={addcircle}
                                               alt="Assign Bed"
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: !canWriteWalkin ? "grayscale(100%)" : "none",
-                                              }}
+                                              className={`w-4 h-4 ${!canWriteWalkin && "grayscale"}`}
                                             />
-
                                             <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: !canWriteWalkin ? "#A9A9A9" : "#222222",
-                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              }}
+                                              className={`text-sm font-medium ${canWriteWalkin ? "text-gray-900" : "text-gray-400"
+                                                }`}
                                             >
                                               Check-In
                                             </label>
                                           </div>
 
- {/* <div
-                                            className="d-flex align-items-center gap-2"
-                                            onClick={() => {
-                                              if (canWriteWalkin) {
-                                                // handleCheckInNew(v);
-                                              }
-                                            }}
-                                            style={{
-                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              opacity: !canWriteWalkin ? 0.5 : 1,
-                                              padding: "6px 8px",
-                                              borderRadius: 6,
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}
-                                          >
-                                            <img
-                                              src={addcircle}
-                                              alt="Assign Bed"
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: !canWriteWalkin ? "grayscale(100%)" : "none",
-                                              }}
-                                            />
-
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: !canWriteWalkin ? "#A9A9A9" : "#222222",
-                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Check-In-new
-                                            </label>
-                                          </div> */}
-
                                           <div
-                                            className="d-flex align-items-center gap-2"
-                                            onClick={() => {
-                                              if (canWriteWalkin) {
-                                                handleBooking(v);
-                                              }
-                                            }}
-                                            style={{
-                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              opacity: !canWriteWalkin ? 0.5 : 1,
-                                              padding: "6px 8px",
-                                              borderRadius: 6,
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}
+                                            onClick={() => canWriteWalkin && handleBooking(v)}
+                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteWalkin
+                                              ? "cursor-pointer hover:bg-red-50"
+                                              : "cursor-not-allowed opacity-50"
+                                              }`}
                                           >
-
                                             <img
                                               src={Addbook}
-                                              alt="Addbook"
-                                              style={{
-                                                width: 16,
-                                                height: 16,
-                                                filter: !canWriteWalkin ? "grayscale(100%)" : "none",
-                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              }}
+                                              alt="Add Book"
+                                              className={`w-4 h-4 ${!canWriteWalkin && "grayscale"}`}
                                             />
                                             <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: !canWriteWalkin ? "#A9A9A9" : "#1E45E1",
-                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                              }}
+                                              className={`text-sm font-medium ${canWriteWalkin ? "text-blue-700" : "text-gray-400"
+                                                }`}
                                             >
-                                              Add booking
+                                              Add Booking
                                             </label>
                                           </div>
 
                                           <div
-
-                                            className="d-flex align-items-center gap-2"
-                                            style={{
-                                              backgroundColor: "#F9F9F9",
-                                              cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                              opacity: !canDeleteWalkin ? 0.6 : 1,
-                                              padding: "8px 12px",
-                                              borderRadius: 6,
-                                              transition: "background 0.2s ease-in-out",
-                                            }}
-                                            onClick={() => {
-                                              if (canDeleteWalkin) {
-                                                handleDeleteShow(v);
-                                              }
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
-
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                            }}
+                                            onClick={() => canDeleteWalkin && handleDeleteShow(v)}
+                                            className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${canDeleteWalkin
+                                              ? "cursor-pointer hover:bg-red-50"
+                                              : "cursor-not-allowed opacity-60"
+                                              } bg-gray-50`}
                                           >
-
                                             <Trash
-                                              size="16"
+                                              size={16}
                                               color={!canDeleteWalkin ? "#A9A9A9" : "red"}
                                             />
                                             <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: !canDeleteWalkin ? "#888888" : "#FF0000",
-                                                cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                                margin: 0,
-                                              }}
+                                              className={`text-sm font-medium ${canDeleteWalkin ? "text-red-600" : "text-gray-400"
+                                                }`}
                                             >
                                               Delete
                                             </label>
                                           </div>
-
-
-
                                         </div>
                                       )}
                                     </div>
@@ -885,8 +554,6 @@ useEffect(() => {
                             )}
                           </PaginationList>
                         </tbody>
-
-
                       </Table>
                     </div>
                   </div>
@@ -895,39 +562,21 @@ useEffect(() => {
             )}
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
-              <div style={{ marginTop: 30, }} className="animated-text d-flex justify-content-center">
-               <div>
-                <div style={{ textAlign: "center" }}>
-                  <img src={Emptystate} alt="emptystate" />
+              <div className="animated-text flex justify-center mt-24">
+                <div className="text-center">
+                  <img src={Emptystate} alt="emptystate" className="mx-auto" />
+
+                  <div className="pb-1 font-semibold text-gray-700 text-lg font-sans">
+                    No Walk-in available
+                  </div>
+
+                  <div className="pb-1 font-medium text-gray-700 text-sm font-sans">
+                    There are no Walk-in added.
+                  </div>
                 </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Walk-in available
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no Walk-in added.
-                </div>
-                 </div>
               </div>
             )}
-            
+
           </div>
 
         </>

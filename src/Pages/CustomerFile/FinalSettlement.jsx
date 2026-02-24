@@ -55,7 +55,7 @@ function FinalSettlement() {
     const [selectedRowDetails, setSelectedRowDetails] = useState('')
     const { data, pgDetails, isPGWay } = location.state || {};
 
-   
+
     const handleRoomReading = (item) => {
         setShowRoomReading(true)
         setSelectedRowDetails(item)
@@ -66,7 +66,7 @@ function FinalSettlement() {
         setShowRoomReading(false)
     }
 
-    console.log("data",data)
+    console.log("data", data)
 
     useEffect(() => {
         if (!data?.customerId && !data?.tenetId) return;
@@ -397,7 +397,7 @@ function FinalSettlement() {
 
 
 
- const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === data?.customerId || data?.tenetId);
+    const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === data?.customerId || data?.tenetId);
 
 
 
@@ -543,10 +543,10 @@ function FinalSettlement() {
                     />
 
                     <div>
-                        <label className="block text-[20px] font-semibold text-[#222222] font-[Gilroy]">
+                        <label className="block text-[20px] font-semibold text-[#222222] font-gilroy">
                             Final Settlement
                         </label>
-                        <p className="text-sm font-semibold text-[#4A5565] font-[Gilroy]">
+                        <p className="text-sm font-semibold text-[#4A5565] font-gilroy">
                             Tenants / Final Settlement
                         </p>
                     </div>
@@ -561,7 +561,7 @@ function FinalSettlement() {
 
 
                 >
-                    <div className="flex items-center gap-3 mb-1 font-[Gilroy]">
+                    <div className="flex items-center gap-3 mb-1 font-gilroy">
                         {finalSettlementList?.customerInfo?.profilePic ? (
                             <img
                                 src={
@@ -595,7 +595,7 @@ function FinalSettlement() {
                     </div>
 
 
-                    <div className="flex justify-between mb-2 w-full gap-2 font-[Gilroy]">
+                    <div className="flex justify-between mb-2 w-full gap-2 font-gilroy">
                         <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
                             {pgDetails?.floorName || data?.floorName || data?.hostelInfo?.floorName || selectedUser?.floorName}
                         </span>
@@ -609,7 +609,7 @@ function FinalSettlement() {
                     <hr className="border-t border-[#DFDFDF] my-2" />
 
 
-                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                    <div className="flex justify-between mb-3 font-gilroy">
                         <span className="text-sm font-normal text-gray-700">
                             Joined Date
                         </span>
@@ -618,7 +618,7 @@ function FinalSettlement() {
                         </span>
                     </div>
 
-                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                    <div className="flex justify-between mb-3 font-gilroy">
                         <span className="text-sm font-normal text-gray-700">
                             Req Checkout Date
                         </span>
@@ -627,7 +627,7 @@ function FinalSettlement() {
                         </span>
                     </div>
 
-                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                    <div className="flex justify-between mb-3 font-gilroy">
                         <span className="text-sm font-normal text-gray-700">
                             Advance Amount
                         </span>
@@ -636,7 +636,7 @@ function FinalSettlement() {
                         </span>
                     </div>
 
-                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                    <div className="flex justify-between mb-3 font-gilroy">
                         <span className="text-sm font-normal text-gray-700">
                             Booking Amount
                         </span>
@@ -645,7 +645,7 @@ function FinalSettlement() {
                         </span>
                     </div>
 
-                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                    <div className="flex justify-between mb-3 font-gilroy">
                         <span className="text-sm font-normal text-gray-700">
                             Advance Paid
                         </span>
@@ -654,7 +654,7 @@ function FinalSettlement() {
                         </span>
                     </div>
 
-                    <div className="flex justify-between mb-3 font-[Gilroy]">
+                    <div className="flex justify-between mb-3 font-gilroy">
                         <span className="text-sm font-normal text-gray-700">
                             Monthly Rent
                         </span>
@@ -667,7 +667,7 @@ function FinalSettlement() {
 
 
 
-                    <div className="flex justify-between items-center mb-3 font-[Gilroy]">
+                    <div className="flex justify-between items-center mb-3 font-gilroy">
                         <span className="text-sm font-normal">
                             Actual Checkout Date
                         </span>
@@ -696,7 +696,7 @@ function FinalSettlement() {
                             <DatePicker
                                 value={checkoutDate}
                                 allowClear={false}
-                                className="w-full h-12 cursor-pointer font-[Gilroy]"
+                                className="w-full h-12 cursor-pointer font-gilroy"
                                 format="DD/MM/YYYY"
                                 placeholder="DD/MM/YYYY"
                                 disabledDate={(current) =>
@@ -724,7 +724,7 @@ function FinalSettlement() {
                             }`}
                     >
                         <span
-                            className={`text-sm font-normal font-[Gilroy] ${ReturnAmount > 0 ? "text-red-600" : "text-[#038C3D]"
+                            className={`text-sm font-normal font-gilroy ${ReturnAmount > 0 ? "text-red-600" : "text-[#038C3D]"
                                 }`}
                         >
                             {ReturnAmount > 0 ? "Pending" : "Refund"}
@@ -1125,8 +1125,8 @@ function FinalSettlement() {
 
 
                                         {
-                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount > 0 && 
-<>
+                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount > 0 &&
+                                            <>
 
 
                                                 <div className="d-flex justify-content-between align-items-start mt-2">
@@ -1446,7 +1446,7 @@ function FinalSettlement() {
 
                             </div>
 
-                            <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-[Gilroy]">
+                            <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
 
                                 <div className="flex items-center justify-between px-3 py-2.5">
 
@@ -1800,7 +1800,7 @@ function FinalSettlement() {
 
 
                             <div className="mx-3 my-3 flex items-center justify-between">
-                                <p className="text-sm font-medium font-[Gilroy] text-slate-600">
+                                <p className="text-sm font-medium font-gilroy text-slate-600">
                                     {ReturnAmount > 0
                                         ? "Outstanding Amount Payable"
                                         : "Refund Payable to Tenant"}
@@ -1810,7 +1810,7 @@ function FinalSettlement() {
                                     className="
       flex items-center gap-1.5
       text-[#1E45E1] cursor-pointer
-      text-sm font-normal font-[Gilroy]
+      text-sm font-normal font-gilroy
       whitespace-nowrap
     "
                                     onClick={() => setShowBreakdown(!showBreakdown)}
@@ -1826,7 +1826,7 @@ function FinalSettlement() {
 
 
                             {showBreakdown && (<>
-                                <div className="rounded px-3 pt-1 font-[Gilroy] space-y-1">
+                                <div className="rounded px-3 pt-1 font-gilroy space-y-1">
 
 
                                     <div className="flex justify-between">
@@ -1910,7 +1910,7 @@ function FinalSettlement() {
                                         placeholder="Amount"
                                         required
                                         className={`mt-1 h-[50px] w-full rounded-[8px] border border-[#D9D9D9]
-    px-3 text-[16px] font-semibold font-[Gilroy] shadow-none outline-none
+    px-3 text-[16px] font-semibold font-gilroy shadow-none outline-none
     focus:border-[#1E45E1] focus:ring-0
     ${ReturnAmount > 0
                                                 ? "text-green-600"
@@ -1947,7 +1947,7 @@ function FinalSettlement() {
     flex justify-between items-center
     bg-white
     shadow-[0px_-4px_12px_rgba(0,0,0,0.08)]
-    font-[Gilroy] h-fit
+    font-gilroy h-fit
   "
                     >
 
@@ -1976,7 +1976,7 @@ function FinalSettlement() {
                             <Button
                                 variant=""
                                 onClick={handleClose}
-                                className="text-base font-normal font-[Gilroy]"
+                                className="text-base font-normal font-gilroy"
                             >
                                 Cancel
                             </Button>
@@ -1986,7 +1986,7 @@ function FinalSettlement() {
                                 onClick={handleClickGenerate}
                                 className="
         bg-[#1E45E1] text-white
-        text-base font-normal font-[Gilroy]
+        text-base font-normal font-gilroy
        
         
       "
