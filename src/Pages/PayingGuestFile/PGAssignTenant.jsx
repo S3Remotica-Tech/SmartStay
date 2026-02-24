@@ -1210,11 +1210,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               }}
                             />
 
-
+                            {stay_typenameErrmsg.trim() !== "" && (
+                              <ErrorMessage message={stay_typenameErrmsg} type="error" />
+                            )}
                           </div>
-                          {stay_typenameErrmsg.trim() !== "" && (
-                            <ErrorMessage message={stay_typenameErrmsg} type="error" />
-                          )}
+
 
                           <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
                             <Form.Group>
@@ -1498,13 +1498,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                       <div className="flex justify-end">
                         <Button className="!bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-600 !border !border-white"
-                        onClick={handleClose}
+                          onClick={handleClose}
                         >
                           Cancel
                         </Button>
 
                         <Button disabled={formLoading}
-                         className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
+                          className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
                           onClick={handleSaveCheckin}
                         >
                           Check-In
