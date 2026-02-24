@@ -1718,7 +1718,7 @@ const statusClasses = {
 
 
                             <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              CASH
+                           {item.paymentMode}
                             </td>
 
 
