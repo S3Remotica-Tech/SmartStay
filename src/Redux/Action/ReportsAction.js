@@ -80,7 +80,7 @@ export async function getReceiptRegister(hostelId, filters = {}) {
       collectedBy: filters.collectedBy,
       period: filters.period,
       paymentMode: filters.paymentMode,
-      period: filters?.period,
+      // period: filters?.period,
       page: filters.page,
       size: filters.size,
 

@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function InvoiceRegisterFilter({ show, handleClose, size, page, startDate, endDate }) {
+function InvoiceRegisterFilter({ show, handleClose, size,  startDate, endDate }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billStatus, setBillStatus] = useState([]);

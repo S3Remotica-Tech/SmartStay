@@ -10,8 +10,8 @@ import {
 
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+// import { DatePicker } from 'antd';
+// import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { 
   // useDispatch, 
@@ -34,19 +34,19 @@ function AnalyticalCollectedOutstanding() {
 
   const navigate = useNavigate();
   const state = useSelector(state => state)
-  const { MonthPicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const { MonthPicker } = DatePicker;
+  // const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
   // const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false)
   const [selected, setSelected] = useState("This Month");
   const [open, setOpen] = useState(false)
-  const [compareMonthRevenue, setCompareMonthRevenue] = useState(() =>
-    dayjs("2026-01", "YYYY-MM")
-  );
-  const [withMonthRevenue, setWithMonthRevenue] = useState(() =>
-    dayjs("2025-12", "YYYY-MM")
-  );
+  // const [compareMonthRevenue, setCompareMonthRevenue] = useState(() =>
+  //   dayjs("2026-01", "YYYY-MM")
+  // );
+  // const [withMonthRevenue, setWithMonthRevenue] = useState(() =>
+  //   dayjs("2025-12", "YYYY-MM")
+  // );
 
 
 
@@ -140,9 +140,9 @@ function AnalyticalCollectedOutstanding() {
     }
   }
 
-  const handleClickFilter = () => {
-    setInvoiceFilter(true)
-  }
+  // const handleClickFilter = () => {
+  //   setInvoiceFilter(true)
+  // }
 
   // const handleCloseFilterBills = () => {
   //   setInvoiceFilter(false)

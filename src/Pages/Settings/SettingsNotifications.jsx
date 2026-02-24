@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Form } from 'react-bootstrap';
+import { Card,  Form } from 'react-bootstrap';
 import { BsWhatsapp } from 'react-icons/bs';
 import { Message } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';

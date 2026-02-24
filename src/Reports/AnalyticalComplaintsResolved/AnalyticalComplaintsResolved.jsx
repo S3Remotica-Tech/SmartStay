@@ -22,7 +22,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
+  // Legend,
 } from "recharts";
 
 function AnalyticalComplaintsResolved() {
@@ -32,7 +32,7 @@ function AnalyticalComplaintsResolved() {
   const navigate = useNavigate();
   const state = useSelector(state => state)
   const { RangePicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const [invoiceFilter, setInvoiceFilter] = useState(false)
 
   const dropdownRef = useRef(null);
   const [selectedRange, setSelectedRange] = useState(null);
@@ -129,7 +129,7 @@ function AnalyticalComplaintsResolved() {
   }
 
   const handleClickFilter = () => {
-    setInvoiceFilter(true)
+    // setInvoiceFilter(true)
   }
 
   // const handleCloseFilterBills = () => {

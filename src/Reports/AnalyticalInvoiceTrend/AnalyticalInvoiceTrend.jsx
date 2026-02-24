@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
-  Filter,
-  Export, ArrowLeft,
+  // Filter,
+  // Export,
+   ArrowLeft,
   ArrowDown2, Calendar, ArrowUp2
 
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+// import { DatePicker } from 'antd';
+// import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { 
   // useDispatch, 
@@ -20,8 +21,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  BarChart,
-  Bar,
+  // BarChart,
+  // Bar,
   AreaChart,
   Area,
 
@@ -35,25 +36,25 @@ function AnalyticalInvoiceTrend() {
 
   const navigate = useNavigate();
   const state = useSelector(state => state)
-  const { MonthPicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const { MonthPicker } = DatePicker;
+  // const [invoiceFilter, setInvoiceFilter] = useState(false)
   const dropdownRef = useRef(null);
-  const [selectedRange, setSelectedRange] = useState(null);
+  // const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false)
   const [selected, setSelected] = useState("This Month");
   const [open, setOpen] = useState(false)
-  const [compareMonthRevenue, setCompareMonthRevenue] = useState(() =>
-    dayjs("2026-01", "YYYY-MM")
-  );
-  const [withMonthRevenue, setWithMonthRevenue] = useState(() =>
-    dayjs("2025-12", "YYYY-MM")
-  );
-  useEffect(() => {
-    setSelectedRange({
-      from: dayjs().startOf("month").toDate(),
-      to: dayjs().endOf("month").toDate(),
-    });
-  }, []);
+  // const [compareMonthRevenue, setCompareMonthRevenue] = useState(() =>
+  //   dayjs("2026-01", "YYYY-MM")
+  // );
+  // const [withMonthRevenue, setWithMonthRevenue] = useState(() =>
+  //   dayjs("2025-12", "YYYY-MM")
+  // );
+  // useEffect(() => {
+  //   setSelectedRange({
+  //     from: dayjs().startOf("month").toDate(),
+  //     to: dayjs().endOf("month").toDate(),
+  //   });
+  // }, []);
 
 
   useEffect(() => {
@@ -145,9 +146,9 @@ function AnalyticalInvoiceTrend() {
     }
   }
 
-  const handleClickFilter = () => {
-    setInvoiceFilter(true)
-  }
+  // const handleClickFilter = () => {
+  //   // setInvoiceFilter(true)
+  // }
 
   // const handleCloseFilterBills = () => {
   //   setInvoiceFilter(false)

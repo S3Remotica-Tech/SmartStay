@@ -12,7 +12,7 @@ import { Filter } from 'iconsax-react'
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
-function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
+function ExpenseFilter({ show, handleClose, size,  startDate, endDate }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [period, setPeriod] = useState(null);

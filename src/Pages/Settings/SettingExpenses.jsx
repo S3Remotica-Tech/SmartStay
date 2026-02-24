@@ -298,14 +298,14 @@ useEffect(() => {
 
 
 
-  const [expandedCategoryId, setExpandedCategoryId] = useState(null);
-  const handleToggleDropdown = (categoryId) => {
-    if (expandedCategoryId === categoryId) {
-      setExpandedCategoryId(null);
-    } else {
-      setExpandedCategoryId(categoryId);
-    }
-  };
+  // const [expandedCategoryId, setExpandedCategoryId] = useState(null);
+  // const handleToggleDropdown = (categoryId) => {
+  //   if (expandedCategoryId === categoryId) {
+  //     setExpandedCategoryId(null);
+  //   } else {
+  //     setExpandedCategoryId(categoryId);
+  //   }
+  // };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -317,7 +317,7 @@ useEffect(() => {
         return;
       }
 
-      setExpandedCategoryId(null);
+      // setExpandedCategoryId(null);
     };
 
     document.addEventListener("click", handleClickOutside);
@@ -537,7 +537,7 @@ useEffect(() => {
                                     setOpenMenuId(null);
                                   }}
                                 >
-                                  <img src={Editbtn} className="h-[14px] w-[14px]" />
+                                  <img src={Editbtn} className="h-[14px] w-[14px]" alt="image" />
                                   <span>Edit</span>
                                 </div>
 
@@ -551,7 +551,7 @@ useEffect(() => {
                                     setOpenMenuId(null);
                                   }}
                                 >
-                                  <img src={Closebtn} className="h-[14px] w-[14px]" />
+                                  <img src={Closebtn} className="h-[14px] w-[14px]"  alt="image"/>
                                   <span>Delete</span>
                                 </div>
 
