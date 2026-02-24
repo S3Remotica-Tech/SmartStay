@@ -206,14 +206,7 @@ const Receipt = (props) => {
         <td className="table-cells " style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
 
-            {/* <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",
-            }}
-              onClick={() => handleNavigateTenantProfile(props.item)}
-
-            >{props.item?.fullName}</div> */}
-            <br />
+                      <br />
             <div
               className="font-gilroy text-[13px] ml-[17px] text-[#1E45E1] font-semibold cursor-pointer text-start truncate max-w-[150px]"
               title={props.item?.fullName}

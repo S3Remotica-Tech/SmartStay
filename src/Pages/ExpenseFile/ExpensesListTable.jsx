@@ -188,12 +188,12 @@ function ExpensesListTable(props) {
       <tr className="font-gilroy border-b border-gray-300 h-10 font-medium text-sm whitespace-normal" key={props.item.expenseId}>
 
         <td>{props.item.transactionDate}</td>
-        <td>{props.item.categoryName}</td>
-        <td>{props.item.description || "-"}</td>
+        <td className='min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.categoryName}>{props.item.categoryName}</td>
+        <td className='min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.description}>{props.item.description || "-"}</td>
         <td>{props.item.itemsCount}</td>
         <td>{props.item.unitPrice}</td>
         <td> {props.item.totalAmount}  </td>
-        <td>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
+        <td className='min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.accountHolderName}>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
         <td className="relative cursor-pointer">
           <div onClick={(e) => handleShowDots(e, props.item.expenseId)}>
             <PiDotsThreeOutlineVerticalFill
