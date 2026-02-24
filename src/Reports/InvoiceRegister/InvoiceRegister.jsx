@@ -96,21 +96,21 @@ function InvoiceRegister() {
     const stats = [
         { title: "Total Invoices", value: state?.reports?.getInvoiceRegister?.totalInvoices },
         {
-            title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount,
+            title: "Total Amount", value: state?.reports?.getInvoiceRegister?.totalAmount, isCurrency: true
             //  up: "12%"
         },
         {
-            title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount,
+            title: "Paid Amount", value: state?.reports?.getInvoiceRegister?.paidAmount, isCurrency: true,
             //  up: "8%",
             link: true
         },
         {
-            title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount,
+            title: "Outstanding", value: state?.reports?.getInvoiceRegister?.outStandingAmount, isCurrency: true,
             // down: "5%",
             link: true
         },
-        { title: "Refunded Booking Amount", value: state?.reports?.getInvoiceRegister?.refundAmount },
-        { title: "Cancelled Amount", value: state?.reports?.getInvoiceRegister?.cancelledAmount },
+        { title: "Refunded Booking Amount", value: state?.reports?.getInvoiceRegister?.refundAmount, isCurrency: true },
+        { title: "Cancelled Amount", value: state?.reports?.getInvoiceRegister?.cancelledAmount, isCurrency: true },
     ];
 
 
@@ -797,7 +797,9 @@ function InvoiceRegister() {
 
                                 <div className="flex items-center gap-2 mt-2">
                                     <h2 className="text-2xl font-semibold text-[#101828]">
-                                        {item.value || 0}
+                                        {item.isCurrency
+                                            ? `₹ ${item.value ?? 0}`
+                                            : item.value ?? 0}
                                     </h2>
 
 

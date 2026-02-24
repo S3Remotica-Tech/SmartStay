@@ -827,7 +827,7 @@ function TenantsRegister() {
  */}
 
                                         <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px]">
-                                            <div className="flex items-center gap-2 max-w-[200px] overflow-hidden">
+                                            <div className="flex items-center gap-2 max-w-[200px] overflow-hidden text-ellipsis ">
                                                 {/* <img
                                                     src={}
                                                     alt={row.name}

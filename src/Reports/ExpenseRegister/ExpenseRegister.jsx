@@ -145,7 +145,7 @@ function ExpenseRegister() {
       title: "Total Expenses", value: state?.reports?.getExpenseRegister?.summary?.totalExpenses,
       // up: "12%" 
     },
-    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.summary?.totalAmount },
+    { title: "Total Expense Amount", value: state?.reports?.getExpenseRegister?.summary?.totalAmount, isCurrency: true },
 
   ];
 
@@ -658,7 +658,9 @@ function ExpenseRegister() {
 
               <div className="flex items-center gap-2 mt-2">
                 <h2 className="text-2xl font-semibold text-[#101828]">
-                  {item.value}
+                  {item.isCurrency
+                    ? `₹ ${item.value ?? 0}`
+                    : item.value ?? 0}
                 </h2>
 
 
@@ -706,15 +708,20 @@ function ExpenseRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px]">
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] whitespace-nowrap">
                     <div className="flex justify-center items-center gap-1">
                       unit count
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] ">
+                    <div className="flex justify-center items-center gap-1">
+                      Amount
+                      <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    </div>
+                  </th>
 
-
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px]">
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] whitespace-nowrap">
                     <div className="flex justify-center items-center gap-1">
                       Assigned Asset
 
@@ -730,7 +737,7 @@ function ExpenseRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] rounded-tr-xl">
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] rounded-tr-xl whitespace-nowrap">
                     Debited from
                   </th>
 
@@ -754,7 +761,7 @@ function ExpenseRegister() {
                     </td>
 
 
-                    <td className="px-4 py-2.5 sticky left-[150px] z-20 bg-white w-[200px]">
+                    <td className="px-4 py-2.5 sticky left-[150px] z-20 bg-white min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
                       <div className="flex items-center gap-2">
 
                         <span
@@ -770,8 +777,10 @@ function ExpenseRegister() {
 
 
 
-                    <td
-                      className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                    <td title={row.description}
+                      className={`px-4 py-2.5 text-center text-[#6B7280]
+    min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
+    transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
@@ -779,15 +788,21 @@ function ExpenseRegister() {
                     </td>
 
                     <td
-                      className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors
+                      className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
                       {row.counts || 0}
                     </td>
-
                     <td
-                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                      className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                    >
+                      ₹{row.amount || 0}
+                    </td>
+                    <td
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
@@ -795,15 +810,15 @@ function ExpenseRegister() {
                     </td>
 
                     <td
-                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
                       {row.vendorName || "-"}
                     </td>
 
-                    <td
-                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors
+                    <td title={row.account}
+                      className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >

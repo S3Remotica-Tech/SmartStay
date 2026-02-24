@@ -770,7 +770,7 @@ function ReceiptRegister() {
                     </td>
 
                     <td
-                      className={`px-4 py-2.5 text-center font-semibold truncate max-w-[150px]
+                      className={`px-4 py-2.5 text-center font-semibold  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                       title={row.customerName}
@@ -806,8 +806,8 @@ function ReceiptRegister() {
 
                  
 
-                    <td
-                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors
+                    <td title={row.collectedBy}
+                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
