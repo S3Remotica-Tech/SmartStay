@@ -174,7 +174,9 @@ function ReceiptRegister() {
 
   const stats = [
     { title: "Total Receipts", value: state?.reports?.getReceiptRegister?.pagination?.totalRecords },
+    { title: "Total Amount", value: state?.reports?.getReceiptRegister?.summary?.totalInvoiceAmount, },
     { title: "Collected Amount", value: state?.reports?.getReceiptRegister?.summary?.receivedAmount, },
+    { title: "Refunded Amount", value: state?.reports?.getReceiptRegister?.summary?.returnedAmount, },
 
   ];
 
@@ -631,11 +633,11 @@ function ReceiptRegister() {
             </span>
           </div>
         )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
+      <div className="flex overflow-x-auto gap-4 mt-3 ms-1 me-1 scrollbar-hide">
           {stats?.map((item, i) => (
             <div
               key={i}
-              className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[110px]"
+              className="min-w-[230px] bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[110px]"
             >
               <div className='flex justify-between '>
 
@@ -656,7 +658,7 @@ function ReceiptRegister() {
 
               <div className="flex items-center gap-2 mt-2">
                 <h2 className="text-2xl font-semibold text-[#101828]">
-                  {item.value}
+                {item.title !== "Total Receipts" ? `₹ ${item.value ?? 0}` : item.value ?? 0}
                 </h2>
 
 
@@ -709,7 +711,12 @@ function ReceiptRegister() {
                   <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase whitespace-nowrap">
                     Invoice No
                   </th>
-
+<th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    <div className="flex justify-center items-center gap-1">
+                     Type
+                      <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    </div>
+                  </th>
 
 
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
@@ -718,12 +725,7 @@ function ReceiptRegister() {
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
-                    <div className="flex justify-center items-center gap-1">
-                      Payment Made
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                  
 
                   <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl whitespace-nowrap" >
                     <div className="flex justify-center items-center gap-1">
@@ -784,21 +786,25 @@ function ReceiptRegister() {
                       {row.invoiceNumber}
                     </td>
 
+   <td
+                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#6B7280] transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                    >
+                       {row.type}
+                    </td>
+
+
+
                     <td
-                      className={`px-4 py-2.5 text-center text-[#6B7280] truncate font-medium transition-colors
+                      className={`px-4 py-2.5 text-center    text-[#222222] truncate font-semibold transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
                       ₹ {row.amount}
                     </td>
 
-                    <td
-                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
-                    >
-                      ₹ {row.paymentMade}
-                    </td>
+                 
 
                     <td
                       className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors
