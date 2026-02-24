@@ -1345,7 +1345,7 @@ const handleClear = () => {
                     className="cursor-pointer mt-[2px] shrink-0"
                   />
 
-                  <p className="font-[Gilroy] text-[16px] font-semibold leading-[22px] m-0">
+                  <p className="font-gilroy text-[16px] font-semibold leading-[22px] m-0">
                     Global Bill Settings
                   </p>
                 </div>
@@ -3174,7 +3174,7 @@ const handleClear = () => {
                       Bill Template Manager
                     </label>
                   </div>
-                  <h5 className="flex items-start gap-2 font-[Gilroy] text-[17px] font-semibold text-[rgba(34,34,34,1)]">
+                  <h5 className="flex items-start gap-2 font-gilroy text-[17px] font-semibold text-[rgba(34,34,34,1)]">
                     <img
                       src={leftarrow}
                       alt="leftarrow"

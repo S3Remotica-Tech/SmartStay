@@ -752,28 +752,13 @@ setBed('');
         centered
         dialogClassName="custom-modals-style"
       >
-        <Modal.Dialog
-          style={{
-            maxWidth: 950,
-            paddingRight: "10px",
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
-        >
-          <Modal.Body >
+        <Modal.Dialog className="m-0 p-0 max-w-[950px] pr-2.5 rounded-2xl">
+          <Modal.Body>
             <div>
 
-              <div >
-                <Modal.Header className="pt-0"
-                  style={{ position: "relative", marginTop: "", border: "none" }}
-                >
-                  <div
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+              <div>
+                <Modal.Header className="pt-0 relative border-0">
+                  <div className="text-xl font-semibold font-gilroy">
                     Tenant Check-In
                   </div>
 
@@ -781,10 +766,11 @@ setBed('');
                     size="24"
                     color="#000"
                     onClick={handleCloseAssign}
-                    style={{ cursor: "pointer" }}
+                    className="cursor-pointer"
                   />
                 </Modal.Header>
-                <div className="d-flex align-items-center gap-3 mb-3 ms-3">
+                
+                <div className="flex items-center gap-3 mb-3 ml-3">
 
                   {file &&
                     file !== "0" ? (

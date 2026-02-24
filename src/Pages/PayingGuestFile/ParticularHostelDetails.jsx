@@ -467,7 +467,7 @@ function ParticularHostelDetails(props) {
               )}
             </>
           ) : (
-            <div className="flex items-center justify-center text-center w-full font-[Gilroy] px-3 fade-in bg-white overflow-hidden" style={{ height: 'calc(100vh - 120px)' }}>
+            <div className="flex items-center justify-center text-center w-full font-gilroy px-3 fade-in bg-white overflow-hidden" style={{ height: 'calc(100vh - 120px)' }}>
               <div className="flex flex-col items-center">
                 <img
                   src={EmptyState}

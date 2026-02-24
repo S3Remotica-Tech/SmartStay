@@ -398,7 +398,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                         Cancel
                     </Button>
                     <Button disabled={formLoading} onClick={handleConfirmCheckout} 
-                     className="text-base !font-gilroy !font-normal !bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                     className="text-base !font-gilroy !font-normal !bg-[#1E45E1] text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                      >Check-out</Button>
                 </Modal.Footer>
 
