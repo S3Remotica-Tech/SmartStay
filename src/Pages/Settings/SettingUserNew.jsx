@@ -58,9 +58,9 @@ function SettingNewUser() {
   }, [canReadUser]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -218,7 +218,7 @@ useEffect(() => {
     }
   }, [state.Settings?.errorUser]);
 
-  
+
 
   const sortedData = React.useMemo(() => {
     return Array.isArray(usersFilterddata) ? usersFilterddata : [];
@@ -253,49 +253,15 @@ useEffect(() => {
         </div>
       </div>
 
-
-
-
       {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: "48%",
-            left: "68%",
-            transform: "translate(-50%, -50%)",
-            width: "100vw",
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "transparent",
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: "4px solid #1E45E1",
-              borderRight: "4px solid transparent",
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              animation: "spin 1s linear infinite",
-            }}
-          ></div>
+        <div className="fixed top-1/2 left-2/3 -translate-x-1/2 -translate-y-1/2 w-screen h-screen flex items-center justify-center bg-transparent z-[1050]">
+          <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
         </div>
       )}
       {
         !canReadUser ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "80vh"
-            }}
-          >
-<img src={Emptystate} alt="Empty State"/>
+          <div className="flex flex-col items-center justify-center h-[80vh]">
+            <img src={Emptystate} alt="Empty State" />
             <ErrorMessage message={['You do not have access to view User']} type="warning" />
 
           </div>
@@ -304,53 +270,17 @@ useEffect(() => {
           (
             <div className="mt-2">
               {sortedData?.length > 0 ? (
-                <div
-                  className="me-2"
-                  style={{}}
+                <div className="ml-2"
                 >
-                  <div
-                    className="show-scrolls"
-                    style={{
-                      height:
-                        sortedData?.length >= 5 || sortedData?.length >= 5
-                          ? "450px"
-                          : "auto",
-                      overflow: "auto",
-                      overflowX: 'hidden',
-                      borderTop: "1px solid #E8E8E8",
-                      // marginBottom: 20,
-                      // marginTop: "20px",
-                      paddingRight: 0,
-                      paddingLeft: 0,
-                    }}
+                  <div className={`show-scrolls overflow-auto overflow-x-hidden border-t border-gray-200 pr-0 pl-0 ${sortedData?.length >= 5 ? "h-[450px]" : "h-auto"
+                    }`}
                   >
                     <Table
                       responsive="md"
-                      style={{
-                        fontFamily: "Gilroy",
-                        color: "rgba(34, 34, 34, 1)",
-                        fontSize: 14,
-                        fontStyle: "normal",
-                        fontWeight: 500,
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                        borderRadius: 0,
-                      }}
+                    className="font-gilroy text-[#222222] sticky top-0 z-1"
                     >
-                      <thead
-                        style={{
-                          fontFamily: "Gilroy",
-                          backgroundColor: "rgba(231, 241, 255, 1)",
-                          color: "rgba(34, 34, 34, 1)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          position: "sticky",
-                          top: 0,
-                          zIndex: 1,
-                        }}
-                      >
+                      <thead  className="font-gilroy bg-[#E7F1FF] text-[#222222] text-[14px] font-medium sticky top-0 z-1"
+                       >
                         <tr>
                           <th
                             style={{
@@ -364,28 +294,7 @@ useEffect(() => {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              {/* <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("first_name", "asc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("first_name", "desc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div> */}
+
                               Staff Name
                             </div>
                           </th>
@@ -400,28 +309,7 @@ useEffect(() => {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              {/* <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("email_Id", "asc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("email_Id", "desc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div> */}
+                            
                               Email
                             </div>
                           </th>
@@ -436,28 +324,7 @@ useEffect(() => {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              {/* <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("mobileNo", "asc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("mobileNo", "desc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div> */}
+
                               Mobile No
                             </div>
                           </th>
@@ -472,28 +339,7 @@ useEffect(() => {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              {/* <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("role_name", "asc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("role_name", "desc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div> */}
+
                               Roles
                             </div>
                           </th>
@@ -520,13 +366,10 @@ useEffect(() => {
                                   title={item.firstName}
                                   style={{
                                     border: "none",
-                                    // padding: "10px",
                                     textAlign: "start",
-                                    // paddingTop: 18,
                                     whiteSpace: "nowrap",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
-                                    // paddingLeft: "20px",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
                                   className=""
