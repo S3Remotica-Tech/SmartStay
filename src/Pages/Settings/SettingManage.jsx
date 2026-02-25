@@ -709,7 +709,7 @@ useEffect(() => {
               <button
                 onClick={handleShowAddPg}
                 disabled={!canWritePayingGuests}
-                className={`mt-[5px] h-[45px] w-[146px] rounded-lg text-sm font-semibold font-[Gilroy]
+                className={`mt-[5px] h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy
             ${canWritePayingGuests
                     ? "bg-[#1E45E1] text-white cursor-pointer"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
