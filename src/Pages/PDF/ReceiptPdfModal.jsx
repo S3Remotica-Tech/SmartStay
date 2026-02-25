@@ -806,7 +806,7 @@ useEffect(() => {
                             verticalAlign: "middle", width: "20%",
                           }}
                         >
-                          Rs. {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}
+                          Rs. {pdfDetails?.invoiceAmount?.toLocaleString("en-IN")}
                         </td>
                       </tr>
 
@@ -838,7 +838,7 @@ useEffect(() => {
                             color: "#000",
                           }}
                         >
-                          ₹ {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}
+                          ₹ {pdfDetails?.invoiceAmount?.toLocaleString("en-IN")}
                         </td>
                       </tr>
                     </tbody>
@@ -1111,7 +1111,7 @@ useEffect(() => {
                               color: "#000",
                             }}
                           >
-                            ₹ {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}
+                            ₹ {pdfDetails?.invoiceAmount?.toLocaleString("en-IN")}
                           </td>
                         </tr>
                       </tbody>

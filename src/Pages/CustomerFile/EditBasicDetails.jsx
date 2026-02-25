@@ -131,7 +131,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
 
 
-
+console.log("basicDetails",basicDetails)
 
     const handleSubmit = () => {
         dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
@@ -217,6 +217,14 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                     lastName: capitalizedLastname || "",
                     mailId: email || "",
                     mobile: phone,
+                    houseNo: basicDetails?.address?.houseNo || "",
+                    street: basicDetails?.address?.streetName || "",
+                    landmark: basicDetails?.address?.landmark || "",
+                    pincode: basicDetails?.address?.pincode || "",
+                    city: basicDetails?.address?.city || "",
+                    state: basicDetails?.address?.state || "",
+
+
                 },
                 profilePic: basicDetails?.profilePic || "",
             },

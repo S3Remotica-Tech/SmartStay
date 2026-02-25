@@ -174,7 +174,7 @@ function ReceiptRegister() {
 
   const stats = [
     { title: "Total Receipts", value: state?.reports?.getReceiptRegister?.pagination?.totalRecords },
-    { title: "Total Amount", value: state?.reports?.getReceiptRegister?.summary?.totalInvoiceAmount, },
+    { title: "Total Amount", value: state?.reports?.getReceiptRegister?.summary?.totalTransactionAmount, },
     { title: "Collected Amount", value: state?.reports?.getReceiptRegister?.summary?.receivedAmount, },
     { title: "Refunded Amount", value: state?.reports?.getReceiptRegister?.summary?.returnedAmount, },
 
@@ -725,7 +725,12 @@ function ReceiptRegister() {
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
-                  
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                    <div className="flex justify-center items-center gap-1">
+                    Payment Mode
+                      <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    </div>
+                  </th>
 
                   <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl whitespace-nowrap" >
                     <div className="flex justify-center items-center gap-1">
@@ -801,10 +806,16 @@ function ReceiptRegister() {
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
-                      ₹ {row.amount}
+                      ₹ {row.paymentMade}
                     </td>
 
-                 
+                  <td title={row.paymentMode}
+                      className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                    >
+                      {row.paymentMode}
+                    </td>
 
                     <td title={row.collectedBy}
                       className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
