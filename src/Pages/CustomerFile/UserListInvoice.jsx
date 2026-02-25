@@ -240,9 +240,9 @@ function UserListInvoice(props) {
                 }`}
 
               >
-                <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10 font-[Gilroy]">
+                <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10 font-gilroy">
 
-                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10 font-[Gilroy]">
+                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10 font-gilroy">
                     <tr className="h-7">
                       <th className="text-start pl-5 whitespace-nowrap">
                         <div className="flex gap-1 items-center justify-start">Invoice Number</div>
@@ -274,7 +274,7 @@ function UserListInvoice(props) {
                     </tr>
                   </thead>
 
-                  <tbody className="text-xs align-middle font-[Gilroy]">
+                  <tbody className="text-xs align-middle font-gilroy">
                     <PaginationList>
                       {sortedData?.map((view) => (
                         // let dueDated = new Date(view.DueDate);

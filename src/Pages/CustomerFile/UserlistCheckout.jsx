@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 function CheckOut() {
 
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ function CheckOut() {
   // }, [state.login.selectedHostel_Id]);
   // const [activeDotsId, setActiveDotsId] = useState(null);
   // const [modalType, setModalType] = useState(null);
-  
+
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
   // const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
@@ -52,31 +52,31 @@ function CheckOut() {
   const [checkoutLoader, setCheckOutLoader] = useState(false)
   const [CheckoutProfile, setCheckoutProfile] = useState(false)
   const [checkouttableshow, setcheckoutTableShow] = useState(true);
-  const [checkoutWithoutPay,setCheckoutWithoutPay] =useState("")
+  const [checkoutWithoutPay, setCheckoutWithoutPay] = useState("")
 
 
 
-// const canReadCheckout = useHasPermission("Checkout", "canRead")
-// const canWriteCheckout = useHasPermission("Checkout", "canWrite")
-//  const canUpdateCheckout = useHasPermission("Checkout", "canUpdate")
-//   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
+  // const canReadCheckout = useHasPermission("Checkout", "canRead")
+  // const canWriteCheckout = useHasPermission("Checkout", "canWrite")
+  //  const canUpdateCheckout = useHasPermission("Checkout", "canUpdate")
+  //   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
 
-const {
-        // canWriteModule: canWriteCheckout,
-        canReadModule: canReadCheckout,
-        // canUpdateModule: canUpdateCheckout,
-        // canDeleteModule: canDeleteCheckout,
-      } = useHasPermission("Checkout");
+  const {
+    // canWriteModule: canWriteCheckout,
+    canReadModule: canReadCheckout,
+    // canUpdateModule: canUpdateCheckout,
+    // canDeleteModule: canDeleteCheckout,
+  } = useHasPermission("Checkout");
 
- useEffect(() => {
-     if (!canReadCheckout) {
-         setCheckOutLoader(false)
-     } 
-   }, [canReadCheckout]);
+  useEffect(() => {
+    if (!canReadCheckout) {
+      setCheckOutLoader(false)
+    }
+  }, [canReadCheckout]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setCheckOutLoader(false)
+      setCheckOutLoader(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -85,12 +85,12 @@ useEffect(() => {
   }, [state.UsersList?.accessRestrictionError])
 
   const handleCustomerProfilePage = (checkout) => {
-            setCheckoutWithoutPay(checkout)
+    setCheckoutWithoutPay(checkout)
     navigate(`/tenant/checkout/details/${checkout.customerId}`)
     setcheckoutTableShow(false)
     dispatch(checkoutCustomerProfile(false))
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkout.customerId } });
- 
+    dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkout.customerId } });
+
   }
 
 
@@ -103,8 +103,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-          dispatch({ type: "CHECKOUTCUSTOMERLIST",payload: { hostelId: state.login.selectedHostel_Id } });
-            setCheckOutLoader(true)
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
+      setCheckOutLoader(true)
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -129,9 +129,9 @@ useEffect(() => {
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
 
-useEffect(()=>{
-setCheckOutLoader(false)
-},[state.UsersList.CheckOutCustomerList])
+  useEffect(() => {
+    setCheckOutLoader(false)
+  }, [state.UsersList.CheckOutCustomerList])
 
 
   useEffect(() => {
@@ -269,8 +269,8 @@ setCheckOutLoader(false)
 
   // ]);
 
-  
- const sortedData = React.useMemo(() => {
+
+  const sortedData = React.useMemo(() => {
     return Array.isArray(checkOutCustomer) ? checkOutCustomer : [];
   }, [checkOutCustomer]);
 
@@ -370,7 +370,7 @@ setCheckOutLoader(false)
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodegetConfirmCheckout ) {
+    if (state.UsersList.statusCodegetConfirmCheckout) {
       setDueCustomerShow(true);
 
     }
@@ -499,456 +499,156 @@ setCheckOutLoader(false)
       {checkouttableshow &&
         <>
           <div>
-            {checkoutLoader &&
-              <div
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: '200px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                ></div>
+
+            {checkoutLoader && (
+              <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
               </div>
-            }
+            )}
             {!canReadCheckout ? (
               <>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: 90
-
-                  }}
-                >
+                <div className="flex flex-col items-center justify-center mt-24">
 
                   <img
                     src={Emptystate}
                     alt="Empty State"
 
                   />
+                  <ErrorMessage message={['You do not have access to view Checkout']} type="warning" />
 
-
-                  
-                    <ErrorMessage message={['You do not have access to view Checkout']} type="warning" />
-                 
                 </div>
               </>
             ) :
 
-              <div  >
+              <div>
                 <div>
                   {sortedData?.length > 0 ? (
-                    <div
-                      className='show-scrolls'
-                     style={{
-                  overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "0px",
-                  paddingRight: 0,
-                  paddingLeft: 0,
-
-                }}
-                    >
-                      <div
-
-                        className='show-scrolls me-2'
-                        style={{
-                          borderTop: "1px solid #E8E8E8",
-                          marginTop: "20px",
-                          paddingRight: 0,
-                          paddingLeft: 0
-
-                        }}
-                      >
+                    <div>
+                      <div className="show-scrolls relative p-2 font-gilroy">
                         <Table
                           responsive="md"
+                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
 
-                          style={{
-                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                            borderRadius: 0
-                          }}
-                        >
-                          <thead
-                            style={{
-                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                              top: 0,
-                              zIndex: 1
-                            }}
-                          >
+                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
                             <tr>
-
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                                                   color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Name</div>
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Name
+                                </div>
                               </th>
 
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                 
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Mobile No</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                 
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Floor</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Room</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                 
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Bed</div>
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Mobile No
+                                </div>
                               </th>
 
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                 
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Check-Out Date</div>
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Floor
+                                </div>
                               </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> */}
-                                  Status</div>
+
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Room
+                                </div>
                               </th>
-                             
+
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Bed
+                                </div>
+                              </th>
+
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Check-Out Date
+                                </div>
+                              </th>
+
+                              <th>
+                                <div className="flex items-center justify-start gap-1">
+                                  Status
+                                </div>
+                              </th>
                             </tr>
                           </thead>
-          
+
                           <tbody>
                             <PaginationList>
                               {sortedData && sortedData.length > 0 &&
                                 sortedData.map((checkout) => (
-                                  <tr key={checkout.customerId} className="customer-row">
+                                  <tr key={checkout.customerId} className="font-gilroy border-b border-[#E8E8E8]">
                                     <td
                                       onClick={() => handleCustomerProfilePage(checkout)}
-                                      style={{
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
+                                      className="align-middle border-b border-[#E8E8E8]"
                                     >
-                                      <div className="d-flex align-items-center">
+
+                                      <div className="flex items-center">
                                         <span
-                                          style={{
-                                            fontSize: "13px",
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            color: "#1E45E1",
-                                           
-                                            textAlign: "start",
-                                            verticalAlign: "middle",
-                                            cursor: "pointer",
-                                          }}
-                                          className="customer-name "
+                                          className="text-sm font-semibold font-gilroy text-[#1E45E1] text-start align-middle cursor-pointer customer-name"
                                         >
                                           {checkout.firstName}
                                         </span>
                                       </div>
                                     </td>
 
-                                    <td
-                                      style={{
-                                        fontSize: "13px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        color: "#000000",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className="p-0"
-                                    >
-                                      +
-                                      {checkout &&
-                                        checkout.countryCode}
-                                      {" "}
-                                      {checkout.mobile}
+                                    <td className="p-0 text-sm font-medium font-gilroy text-black text-start align-middle border-b border-gray-300">
+                                      +{checkout?.countryCode} {checkout.mobile}
                                     </td>
 
-                                    <td
-                                      style={{
-                                      
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className="p-0"
-                                    >
-                                     
-                                        {checkout.floorName || "_"}
-                                     
+                                    <td className="p-0 text-sm font-semibold font-gilroy text-start align-middle whitespace-nowrap border-b border-gray-300">
+                                      {checkout.floorName || "_"}
                                     </td>
 
-                                    <td
-                                      style={{
-                                       
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className="p-0"
-                                    >
-                                     
-                                        {checkout.roomName || "_"}
-                                     
+                                    <td className="pl-4 text-start text-sm font-semibold font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                      {checkout.roomName || "_"}
                                     </td>
 
-                                    <td
-                                      style={{
-                                       
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className="p-0"
-                                    >
-                                    
-                                        {checkout.bedName || "_"}
-                                     
+                                    <td className="pl-4 text-start text-sm font-semibold font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                      {checkout.bedName || "_"}
                                     </td>
 
-                                    <td className="p-0"
-                                      style={{
-                                        // padding: "10px",
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      
-                                    >
-                                      <span
-                                        style={{
-                                          padding: "3px 10px",
-                                          borderRadius: "60px",
-                                          backgroundColor: "#EBEBEB",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          display: "inline-block",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          whiteSpace: "nowrap",
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
+                                    <td className="p-0 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                      <span className="inline-block px-2.5 py-1.5 rounded-full bg-gray-200 overflow-hidden text-ellipsis whitespace-nowrap align-middle">
                                         {checkout.checkoutDate || "N/A"}
                                       </span>
                                     </td>
 
-                                    <td
-                                      style={{
-                                        // padding: "10px",
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: "13px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                      }}
-                                      className="p-0"
-                                    >
-                                      <span
-                                        style={{
-                                          backgroundColor: "pink",
-                                          padding: 6,
-                                          borderRadius: 10,
-                                        }}
-                                      >
-                                        {checkout.currentStatus || '-'}
+                                    <td className="p-0 text-start text-sm font-semibold font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                      <span className="inline-block px-2 py-1 rounded bg-pink-300">
+                                        {checkout.currentStatus || "-"}
                                       </span>
                                     </td>
 
-                                  
+
                                   </tr>
                                 ))
                               }
                             </PaginationList>
                           </tbody>
-
-
                         </Table>
                       </div>
-                    
+
                     </div>
 
                   ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
-                    <div style={{ minHeight: "85vh",  }} className="animated-text d-flex justify-content-center align-items-center">
-               <div>
-                      <div style={{ textAlign: "center" }}>
-                        {" "}
-                        <img src={Emptystate} alt="emptystate" />
+
+                    <div className="min-h-[85vh] flex justify-center items-center animated-text">
+                      <div>
+                        <div className="text-center">
+                          <img src={Emptystate} alt="emptystate" />
+                        </div>
+
+                        <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-[rgba(75,75,75,1)]">
+                          No Checkout Tenant available
+                        </div>
+
+                        <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[rgba(75,75,75,1)]">
+                          There are no checkout tenant added
+                        </div>
                       </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Checkout Tenant available{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no checkout tenant added{" "}
-                      </div>
-   </div>
                     </div>
                   ))}
                 </div>
@@ -960,24 +660,20 @@ setCheckOutLoader(false)
                 show={checkoutForm}
                 item={checkOutCustomer}
                 handleClose={checkoutcloseModal}
-                
+
               />
             )}
-
-
-            
-
           </div>
         </>
       }
 
       {
-        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow}  handleClose={handleCloseDuePopup} />
+        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} handleClose={handleCloseDuePopup} />
       }
 
- {
-          CheckoutProfile && <CustomerProfile CheckoutProfile ={CheckoutProfile} setcheckoutTableShow= {setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile} checkoutWithoutPay={checkoutWithoutPay}/>
-        }
+      {
+        CheckoutProfile && <CustomerProfile CheckoutProfile={CheckoutProfile} setcheckoutTableShow={setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile} checkoutWithoutPay={checkoutWithoutPay} />
+      }
 
 
     </>

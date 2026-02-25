@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Modal,
   Form,
-  Row,
-  Col,
   Button,
   FormControl,
 } from "react-bootstrap";
@@ -95,6 +93,7 @@ function BookingModal(props) {
   //   }
   // }, []);
 
+  
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -210,38 +209,38 @@ function BookingModal(props) {
   }, [state?.PgList?.getAllRoomSuccessStatus])
 
 
-const roomOptions =
-  state.PgList?.roomsList?.map((item) => ({
-    value: item.id,
-    label: (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <span style={{ fontWeight: 600 }}>
-          {item.name}
-        </span>
-
-        <span
+  const roomOptions =
+    state.PgList?.roomsList?.map((item) => ({
+      value: item.id,
+      label: (
+        <div
           style={{
-            backgroundColor: "#E9F2FF",
-            color: "#2563EB",
-            padding: "2px 8px",
-            borderRadius: "12px",
-            fontSize: "12px",
-            fontWeight: 600,
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
-          {item?.space || 0} sharing
-        </span>
-      </div>
-    ),
-  })) || [];
+          <span style={{ fontWeight: 600 }}>
+            {item.name}
+          </span>
+
+          <span
+            style={{
+              backgroundColor: "#E9F2FF",
+              color: "#2563EB",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontSize: "12px",
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.space || 0} sharing
+          </span>
+        </div>
+      ),
+    })) || [];
 
 
 
@@ -268,7 +267,7 @@ const roomOptions =
 
   }, [room, joiningDate, state.UsersList?.availableBedList?.listBeds])
 
-//  view.floorId === Floor &&
+  //  view.floorId === Floor &&
 
 
   const handleCloseBooking = () => {
@@ -518,13 +517,11 @@ const roomOptions =
       <Modal
         show={props.add_bookingshow}
         onHide={handleCloseBooking}
-        centered
-        backdrop="static" dialogClassName="custom-modals-style"
+        backdrop="static"
+         dialogClassName="custom-modals-style"
       >
-        <Modal.Header className="d-flex justify-content-between">
-          <Modal.Title
-            style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}
-          >
+        <Modal.Header className="flex justify-between">
+          <Modal.Title>
             Tenant Booking
           </Modal.Title>
 
@@ -532,106 +529,58 @@ const roomOptions =
             size="24"
             color="#222222"
             onClick={handleCloseBooking}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
         </Modal.Header>
-
-
-
-
-
-
-
 
         {state.Booking?.ErrorAssignBookingMobile && (
           <ErrorMessage message={state.Booking?.ErrorAssignBookingMobile} type="error" />
         )}
 
-        <Modal.Body className="pt-2 show-scroll" style={{ maxHeight: 440, overflowY: 'auto' }} >
+        <Modal.Body className="pt-2" >
 
-          <div className="d-flex align-items-center">
-            <div
-              className=""
-              style={{
-                height: 60,
-                width: 60,
-                position: "relative",
-              }}
-            >
-              {props.userDetail?.profilePic &&
-                props.userDetail?.profilePic !== "0" ? (
+          <div className="flex items-center mb-2">
+            <div className="h-16 w-16 relative flex-shrink-0">
+              {props.userDetail?.profilePic && props.userDetail?.profilePic !== "0" ? (
                 <Image
                   src={props.userDetail?.profilePic}
                   roundedCircle
-                  style={{ height: 50, width: 50 }}
+                  className="h-16 w-16"
                   alt="image"
                 />
               ) : (
                 <div
-                  style={{
-                    height: 50,
-                    width: 50,
-                    borderRadius: "50%",
-                    backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: 20,
-                    fontWeight: "600",
-                    fontFamily: "Gilroy"
-                  }}
+                  className="h-16 w-16 rounded-full bg-[#E2E8F0] text-[#44536A] flex justify-center items-center text-xl font-semibold font-gilroy truncate"
+                  title={props.userDetail?.initials || "-"}
                 >
                   {props.userDetail?.initials || "-"}
                 </div>
               )}
-
-
-
-
-
-
-
             </div>
-            <div className="ps-3">
-              <div>
-                <label
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {props?.userDetail?.fullName}{" "}
-                </label>
-              </div>
 
+            <div className="pl-3 max-w-xs">
+              <label
+                className="pt-2 text-lg font-medium text-gray-900 font-gilroy truncate"
+                title={props?.userDetail?.fullName}
+              >
+                {props?.userDetail?.fullName || "-"}
+              </label>
             </div>
           </div>
 
-          <Row>
-            <Col md={6}>
+           <div className="max-h-[340px] overflow-y-auto show-scroll pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+
+            <div>
               <Form.Group controlId="bookingDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Booking Date {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Booking Date <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%", marginTop: 1 }}
-                >
+                <div className="datepicker-wrapper relative w-full mt-px">
 
                   <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                    className="w-full h-12 cursor-pointer font-gilroy"
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={bookingDate ? dayjs(bookingDate) : null}
@@ -652,22 +601,14 @@ const roomOptions =
                 <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
               )}
 
+            </div>
 
-
-            </Col>
-
-            <Col md={6}>
-              <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Booking Amount {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+            <div>
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy">
+                  Booking Amount <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
+
                 <FormControl
                   type="text"
                   id="form-controls"
@@ -679,16 +620,7 @@ const roomOptions =
                       e.preventDefault();
                     }
                   }}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="text-base font-medium text-[#4B4B4B] font-gilroy border border-gray-300 h-[50px] rounded-lg focus:outline-none focus:ring-0"
                 />
               </Form.Group>
 
@@ -696,35 +628,20 @@ const roomOptions =
                 <ErrorMessage message={amountError} type="error" />
               )}
 
-            </Col>
+            </div>
 
-            <Col md={6}>
+            <div>
               <Form.Group controlId="joiningDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
+                <Form.Label className="text-sm font-medium font-gilroy">
                   Joining Date (Tentative) {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%", marginTop: 6 }}
-                >
+                <div className="datepicker-wrapper relative w-full mt-1">
 
-                  <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+                  <div className="datepicker-wrapper relative w-full">
                     <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 48,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                      }}
+                      className="w-full h-12 cursor-pointer font-gilroy"
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={joiningDate ? dayjs(joiningDate) : null}
@@ -742,9 +659,6 @@ const roomOptions =
 
                     />
                   </div>
-
-
-
                 </div>
               </Form.Group>
 
@@ -755,36 +669,16 @@ const roomOptions =
               {state.Booking?.ErrorAssignBookingDate && (
                 <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
               )}
+            </div>
 
-
-
-            </Col>
-            <Col md={6} >
+            <div>
               <Form.Group
 
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    marginTop: "5px",
-                  }}
-                >
-                  Mode Of Transaction {" "}
-                  <span
-                    style={{
-                      color: "#FF0000",
-                      fontSize: "20px",
-                    }}
-                  >
-                    *
-                  </span>
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy mt-1">
+                  Mode Of Transaction <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
-
-
 
                 <Select
                   options={paymentOptions}
@@ -854,19 +748,11 @@ const roomOptions =
                 <ErrorMessage message={paymentError} type="error" />
 
               )}
-            </Col>
+            </div>
 
-
-
-            <Col md={6} style={{ marginTop: 10 }}>
+            <div className="mt-1">
               <Form.Group >
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
+                <Form.Label className="text-sm font-medium font-gilroy">
                   Transaction ID{" "}
                 </Form.Label>
                 <FormControl
@@ -875,51 +761,19 @@ const roomOptions =
                   placeholder="Enter Transaction ID"
                   value={transactionId}
                   onChange={(e) => handleTransactionId(e)}
-
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="w-full h-12 rounded-lg border border-gray-300 text-base font-medium text-[#4B4B4B] font-gilroy focus:outline-none focus:ring-0"
                 />
               </Form.Group>
 
 
 
-            </Col>
+            </div>
 
-
-
-
-
-            <Col md={6}>
+            <div>
               <Form.Group controlId="formFloor">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Floor {" "}
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "20px",
-                    }}
-                  >
-                    {" "}
-                    *{" "}
-                  </span>
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Floor <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
-
-
 
                 <Select
                   isDisabled={!joiningDate}
@@ -948,7 +802,7 @@ const roomOptions =
                   styles={{
                     control: (base) => ({
                       ...base,
-                      height: "50px",
+                      height: "48px",
                       border: "1px solid #D9D9D9",
                       borderRadius: "8px",
                       fontSize: "16px",
@@ -1003,37 +857,17 @@ const roomOptions =
               {floorError && (
                 <ErrorMessage message={floorError} type="error" />
               )}
-            </Col>
-          </Row>
+            </div>
 
-          <Row className="">
-
-
-            <Col md={6}>
+            <div>
               <Form.Group controlId="formRoom">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Room {" "}
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "20px",
-                    }}
-                  >
-                    {" "}
-                    *{" "}
-                  </span>
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Room{" "} <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
                 <Select
                   isDisabled={!joiningDate || !Floor}
-                   options={roomOptions}
+                  options={roomOptions}
                   onChange={(selectedOption) =>
                     handleRooms(selectedOption?.value)
                   }
@@ -1108,18 +942,13 @@ const roomOptions =
               {roomError && (
                 <ErrorMessage message={roomError} type="error" />
               )}
-            </Col>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Bed  {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
+            </div>
 
+            <div>
+              <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                Bed{" "}
+                <span className="text-red-500 text-xl">*</span>
+              </Form.Label>
 
               <Select
                 isDisabled={!joiningDate}
@@ -1220,8 +1049,9 @@ const roomOptions =
                 <ErrorMessage message={bedError} type="error" />
               )}
             </div>
+          </div>
+          </div>
 
-          </Row>
 
           {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
@@ -1230,72 +1060,30 @@ const roomOptions =
 
         </Modal.Body>
 
-
-        {formLoading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
+        {formLoading && (
+          <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
+            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
           </div>
-        }
+        )}
 
 
-
-        <Modal.Footer style={{ borderTop: "none" }}>
-
-          <div className="d-flex justify-content-end">
+        <Modal.Footer className="!border-t-0">
+          <div className="flex justify-end">
             <Button
-              style={{
-                backgroundColor: "white",
-                fontWeight: 400,
-                padding: '5px 40px',
-                borderRadius: 10,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                color: 'rgba(75, 75, 75, 1)',
-                border: '1px solid white'
-              }}
               onClick={handleCloseBooking}
+              className="bg-white !px-10 !py-1 !text-base font-normal !font-gilroy !text-[#4B4B4B] !border !border-white !rounded-lg"
             >
               Cancel
             </Button>
 
-            <Button disabled={formLoading}
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 500,
-                // height: 40,
-                borderRadius: 10,
-                fontSize: 16,
-                padding: '5px 40px',
-                fontFamily: "Gilroy",
-              }}
+            <Button
+              disabled={formLoading}
               onClick={handleBookingSubmit}
+              className="!bg-[#1E45E1] !px-10 !py-1 !text-base !font-medium !font-gilroy !text-white !rounded-lg !disabled:opacity-60"
             >
               Book
             </Button>
           </div>
-
         </Modal.Footer>
       </Modal>
     </>
@@ -1328,14 +1116,10 @@ BookingModal.propTypes = {
     customerId: PropTypes.string,
     profilePic: PropTypes.string,
     firstName: PropTypes.string,
-    initials:PropTypes.string,
-    fullName:PropTypes.string,
+    initials: PropTypes.string,
+    fullName: PropTypes.string,
 
   }).isRequired
 };
 
 export default BookingModal;
-
-
-
-
