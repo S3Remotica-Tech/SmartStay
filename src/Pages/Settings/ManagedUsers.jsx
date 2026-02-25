@@ -225,65 +225,66 @@ function ManagedUsers() {
                                             {user.description}
                                         </td>
 
-                                        <td className="text-center relative">
-                                            <PiDotsThreeOutlineVerticalFill
-                                                className="cursor-pointer"
+
+                                        <td className="text-center">
+                                            <PiDotsThreeOutlineVerticalFill className="cursor-pointer"
                                                 size={20}
                                                 onClick={(e) => handleDotsClick(index, e)}
                                             />
 
+
                                             {showDots === index && (
                                                 <div
                                                     ref={popupRef}
-                                                    className="absolute z-50 bg-white border border-gray-300 rounded-lg shadow-lg w-[140px]"
+                                                    className="bg-white border border-gray-300 rounded-[10px] shadow-md w-[140px] z-[1000] fixed"
                                                     style={{
                                                         top: showAbove
                                                             ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                                                            : popupPosition.top - 35,
-                                                        left: popupPosition.left,
+                                                            : popupPosition.top - 5,
+                                                        left: popupPosition.left + 44,
                                                     }}
                                                 >
-                                                    <div
-                                                        className={`flex gap-2 items-center px-3 py-2 w-full transition-colors rounded-t-lg ${canUpdateUser ? "hover:bg-blue-100 cursor-pointer" : "opacity-50 cursor-not-allowed"
-                                                            }`}
-                                                        onClick={() => canUpdateUser && handleEditForm(user)}
-                                                    >
-                                                        <img
-                                                            src={Edit}
-                                                            width={16}
-                                                            height={16}
-                                                            alt="Edit"
-                                                            className={canUpdateUser ? "" : "filter grayscale"}
-                                                        />
-                                                        <span
-                                                            className={`text-[14px] font-medium ${canUpdateUser ? "text-blue-600" : "text-gray-400"}`}
-                                                        >
-                                                            Edit
-                                                        </span>
-                                                    </div>
+                                                    <div>
 
-                                                    <div className="h-px bg-gray-200 my-0" />
-                                                    <div
-                                                        className={`flex gap-2 items-center px-3 py-2 w-full transition-colors rounded-b-lg ${canDeleteUser ? "hover:bg-red-100 cursor-pointer" : "opacity-50 cursor-not-allowed"
-                                                            }`}
-                                                        onClick={() => canDeleteUser && handleDeleteForm(user)}
-                                                    >
-                                                        <img
-                                                            src={Delete}
-                                                            width={16}
-                                                            height={16}
-                                                            alt="Delete"
-                                                            className={canDeleteUser ? "" : "filter grayscale"}
-                                                        />
-                                                        <span
-                                                            className={`text-[14px] font-medium ${canDeleteUser ? "text-red-600" : "text-gray-400"}`}
+                                                        <div
+                                                        onClick={() => canUpdateUser && handleEditForm(user)}
+                                                            className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ease-in-out rounded-t-[10px] ${canUpdateUser ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'}`}
+                                                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
+                                                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                                                         >
-                                                            Delete
-                                                        </span>
+                                                            <img src={Edit} width={16} height={16} alt="Edit"
+                                                             style={{ filter: canUpdateUser ? "none" : "grayscale(100%)" }} />
+                                                            <span
+                                                              className={`text-[14px] font-medium font-gilroy ${canUpdateUser ? 'cursor-pointer text-[#1E45E1]' : 'cursor-not-allowed text-[#A0A0A0]'}`}>
+                                                                Edit
+                                                            </span>
+                                                        </div>
+
+                                                       <div className="h-px bg-gray-200 m-0" />
+                                                        <div
+                                                            onClick={() => canDeleteUser && handleDeleteForm(user)}
+                                                            className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ease-in-out rounded-b-[10px] ${canDeleteUser ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'}`}
+                                                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
+                                                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                                                        >
+                                                            <img src={Delete} width={16} height={16} alt="Delete" style={{ filter: canDeleteUser ? "none" : "grayscale(100%)" }} />
+                                                            <span
+                                                                className={`text-[14px] font-medium font-gilroy ${canDeleteUser ? 'text-red-500 cursor-pointer' : 'text-gray-400 cursor-not-allowed'}`}
+                                                            >
+                                                                Delete
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             )}
+
+
                                         </td>
+
+
+
+
                                     </tr>
                                 ))}
                         </tbody>
