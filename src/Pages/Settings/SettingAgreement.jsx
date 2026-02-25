@@ -80,7 +80,7 @@ const {
 //   );
 
   return (
-    <div  className="font-[Gilroy]">
+    <div  className="font-gilroy">
 
      <div className="sticky top-0 bg-white z-50">
   <div className="flex flex-wrap justify-between items-center py-3 px-4">

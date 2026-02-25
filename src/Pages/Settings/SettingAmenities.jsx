@@ -404,7 +404,7 @@ useEffect(() => {
 
  
   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-    <label className="font-[Gilroy] text-[18px] font-semibold text-[#222] whitespace-nowrap">
+    <label className="font-gilroy text-[18px] font-semibold text-[#222] whitespace-nowrap">
       Amenities
     </label>
   </div>

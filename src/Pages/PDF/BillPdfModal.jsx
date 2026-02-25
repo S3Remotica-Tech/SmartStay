@@ -415,7 +415,7 @@ const statusClasses = {
 
     return (
       <span
-        className={`inline-block px-3 py-1 rounded-full text-xs font-medium  font-[Gilroy] ${
+        className={`inline-block px-3 py-1 rounded-full text-xs font-medium  font-gilroy ${
           statusClasses[status] || "bg-gray-100 text-gray-700"
         }`}
       >
@@ -517,7 +517,7 @@ const statusClasses = {
                         />
 
                         <span
-                          className={`text-[13px] font-normal font-[Gilroy] ${hoveredItem === item.key
+                          className={`text-[13px] font-normal font-gilroy ${hoveredItem === item.key
                             ? "text-white"
                             : "text-[#212529]"
                             }`}
