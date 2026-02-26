@@ -41,13 +41,13 @@ function RecentActivity() {
     );
   }
   StepItem.propTypes = {
-  children: PropTypes.node.isRequired,
-  isLast: PropTypes.bool,
-};
+    children: PropTypes.node.isRequired,
+    isLast: PropTypes.bool,
+  };
 
-StepItem.defaultProps = {
-  isLast: false,
-};
+  StepItem.defaultProps = {
+    isLast: false,
+  };
 
   const recentActivities = [
     {
@@ -79,91 +79,62 @@ StepItem.defaultProps = {
   ];
 
   return (
-    <div style={{ marginTop: 10, width:"100%" , overflowX:"hidden", overflowY: "auto",
-                        maxHeight: 400,}}>
+    <div class="mt-2 w-full overflow-x-hidden overflow-y-auto max-h-[400px]">
       {recentActivities.map((item, index) => (
         <StepItem
           key={index}
           isLast={index === recentActivities.length - 1}
         >
-          <div style={{ fontWeight: 600, fontSize: 15 }}>
+
+          <div class="font-semibold text-base">
             {item.update}
           </div>
 
-          <div style={{ fontSize: 14, marginTop: 4 }}>
+          <div class="text-sm mt-1">
             {item.description}
           </div>
 
-          <div style={{ fontSize: 12, marginTop: 4 }}>
+          <div class="text-xs mt-1">
             Added at {item.updatedAt}, {item.updatedTime}
           </div>
 
           {Array.isArray(item.comments) && item?.comments?.length > 0 && (
-                                <>
-                                    {item?.comments.map((comment, i) => (
-                                        <div key={i} style={{
-                                            marginBottom: 14,
-                                            paddingBottom: 10,
-                                            borderBottom:
-                                                i !== item.comments.length - 1
-                                                    ? "1px dashed #E5E7EB"
-                                                    : "none",
-                                        }}>
-                                            <Row className="mt-2 align-items-center g-1">
-                                                <Col xs="auto" className="p-0">
-                                                    {comment.profilePic ? (
-                                                        <Image
-                                                            src={comment.profilePic}
-                                                            roundedCircle
-                                                            width={37}
-                                                            height={37}
-                                                        />
-                                                    ) : (
-                                                        <div
-                                                            style={{
-                                                                width: 37,
-                                                                height: 37,
-                                                                borderRadius: "50%",
-                                                                backgroundColor: "#E2E8F0",
-                                                                color: "#44536A",
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                justifyContent: "center",
-                                                                fontSize: 13,
-                                                                fontWeight: 600,
-                                                            }}
-                                                        >
-                                                            {comment.initials || "-"}
-                                                        </div>
-                                                    )}
-                                                </Col>
+            <>
+              {item?.comments.map((comment, i) => (
+                <div key={i} className={`mb-3 pb-2.5 ${i !== item.comments.length - 1 ? "border-b border-dashed border-gray-200" : ""
+                  }`}
+                >
 
-                                                <Col className="ps-2 d-flex gap-2">
-                                                    <div style={{ fontSize: 12, fontWeight: 600 }}>
-                                                        {comment.commentedBy}
-                                                    </div>
+                  <div className="flex items-center gap-1 mt-2">
+                    {comment.profilePic ? (
+                      <img
+                        src={comment.profilePic}
+                        alt="profile"
+                        className="w-9 h-9 rounded-full"
+                      />
+                    ) : (
+                      <div className="w-9 h-9 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center text-[13px] font-semibold">
+                        {comment.initials || "-"}
+                      </div>
+                    )}
 
-                                                    <div style={{ fontSize: 12, color: "#3E3E3E", fontWeight: 400 }}>added a Comment</div>
+                    <div className="flex gap-2 pl-2">
+                      <div className="text-[12px] font-semibold">
+                        {comment.commentedBy}
+                      </div>
+                      <div className="text-[12px] text-[#3E3E3E] font-normal">
+                        added a Comment
+                      </div>
+                    </div>
+                  </div>
 
-                                                </Col>
-                                            </Row>
-
-                                            <div
-                                                style={{
-                                                    border: "1px solid #D1D5DB",
-                                                    borderRadius: 8,
-                                                    padding: 14,
-                                                    marginTop: 8,
-                                                    background: "#FFF",
-                                                    fontSize: 12,
-                                                }}
-                                            >
-                                                {comment.comment}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </>
-                            )}
+                  <div className="border border-gray-300 rounded-md p-3 mt-2 bg-white text-xs">
+                    {comment.comment}
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </StepItem>
       ))}
     </div>

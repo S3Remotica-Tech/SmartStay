@@ -53,8 +53,8 @@ function SettingGeneral() {
   const [changeLoading, setChangeLoading] = useState(false)
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
-   const [showOpenAdminProfile, setShowOpenAdminProfile] = useState(false);
-    const [showOpenAdminProfileEdit, setShowOpenAdminProfileEdit] = useState(false);
+  const [showOpenAdminProfile, setShowOpenAdminProfile] = useState(false);
+  const [showOpenAdminProfileEdit, setShowOpenAdminProfileEdit] = useState(false);
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState("masters");
 
@@ -133,9 +133,9 @@ function SettingGeneral() {
   }, [canReadProfile]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -958,7 +958,7 @@ useEffect(() => {
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-            setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_GENERAL_ADD" });
       }, 200);
     }
@@ -969,7 +969,7 @@ useEffect(() => {
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-            setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_EDIT_GENERAL" });
       }, 200);
     }
@@ -990,7 +990,7 @@ useEffect(() => {
   }, [state.Settings?.statusCodeForGeneralDelete]);
 
 
- 
+
 
 
   useEffect(() => {
@@ -1123,21 +1123,21 @@ useEffect(() => {
     setLogoutformshow(false);
   };
 
-const handleOpenAdminProfile = () =>{
-setShowOpenAdminProfile(true)
-}
+  const handleOpenAdminProfile = () => {
+    setShowOpenAdminProfile(true)
+  }
 
-const handleCloseAdminProfile = () =>{
-setShowOpenAdminProfile(false)
-}
+  const handleCloseAdminProfile = () => {
+    setShowOpenAdminProfile(false)
+  }
 
-const handleAdminEdit  = () =>{
-  setShowOpenAdminProfileEdit(true)
-}
+  const handleAdminEdit = () => {
+    setShowOpenAdminProfileEdit(true)
+  }
 
-const handleCloseAdminEdit  = () =>{
-  setShowOpenAdminProfileEdit(false)
-}
+  const handleCloseAdminEdit = () => {
+    setShowOpenAdminProfileEdit(false)
+  }
 
   return (
     <>
@@ -1146,92 +1146,50 @@ const handleCloseAdminEdit  = () =>{
       }
 
 
-{
-  showOpenAdminProfile && <AdminChangePassword  show={showOpenAdminProfile} handleClose={handleCloseAdminProfile} />
-}
-
-{
-  showOpenAdminProfileEdit && <AdminProfileEdit  show={showOpenAdminProfileEdit} handleClose={handleCloseAdminEdit}/>
-}
-
-      {loading &&
-        <div
-          style={{
-            position: 'fixed',
-            top: '48%',
-            left: '68%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>
+      {
+        showOpenAdminProfile && <AdminChangePassword show={showOpenAdminProfile} handleClose={handleCloseAdminProfile} />
       }
-    
+
+      {
+        showOpenAdminProfileEdit && <AdminProfileEdit show={showOpenAdminProfileEdit} handleClose={handleCloseAdminEdit} />
+      }
+
+      {loading && (
+        <div className="fixed inset-0 w-screen h-screen flex items-center justify-center z-[1050] bg-transparent">
+          <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div>
-       
-      
-      
-     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-  <div className="w-full flex justify-center md:justify-start mt-0">
-    <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
-      General Settings
-    </label>
-  </div>
+        <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
 
- 
-  <div className="w-full flex justify-center md:justify-end mt-0">
-    <button
-      disabled={!canWriteProfile}
-      onClick={handleShowFormGreneral}
-      className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${
-        canWriteProfile
-          ? "hover:bg-blue-800"
-          : "cursor-not-allowed opacity-50"
-      }`}
-    >
-      + Create Master
-    </button>
-  </div>
-</div>
-
-        {/* card & tabs */}
-        <div className="mt-0 p-0" style={{
-          position: "relative",
-          height: "calc(100vh - 50px)",
-          overflowY: "auto",
-          fontFamily: "Gilroy"
-        }}>
+          <div className="w-full flex justify-center md:justify-start mt-0">
+            <label className="text-black font-semibold text-lg font-gilroy whitespace-nowrap">
+              General Settings
+            </label>
+          </div>
 
 
+          <div className="w-full flex justify-center md:justify-end mt-0">
+            <button
+              disabled={!canWriteProfile}
+              onClick={handleShowFormGreneral}
+              className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${canWriteProfile
+                ? "hover:bg-blue-800"
+                : "cursor-not-allowed opacity-50"
+                }`}
+            >
+              + Create Master
+            </button>
+          </div>
+        </div>
+
+        <div className="relative overflow-y-auto mt-0 p-0 font-gilroy" style={{ height: "calc(100vh - 70px)" }}>
 
           {
             !canReadProfile ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: 100
-                }}
-              >
+              <div className="flex flex-col items-center justify-center mt-24">
 
                 <img
                   src={Emptystate}
@@ -1243,130 +1201,55 @@ const handleCloseAdminEdit  = () =>{
               </div>
             )
               : (
-                <div className="mt-2" style={{
-                }}>
+                <div className="mt-2">
                   {account.roleName === "Admin" && (
-                    <Card
-                      style={{
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 900,
-                        borderRadius: 12,
-                        border: "1px solid #DCDCDC",
-                        padding: 16,
-                        fontFamily: "Gilroy, sans-serif"
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          gap: 15
-                        }}
-                      >
-                        {/* LEFT */}
+                    <div class="bg-white rounded-lg border border-gray-300 p-4 sticky top-0 z-[900] font-gilroy">
+                      <div className="flex w-full gap-4">
                         <div >
                           {
                             account?.profilePic ? (
                               <img
                                 src={account.profilePic}
                                 alt="profile"
-                                style={{
-                                  width: 56,
-                                  height: 56,
-                                  borderRadius: "50%",
-                                  objectFit: "cover"
-                                }}
+                                className="w-14 h-14 rounded-full object-cover"
                               />
                             ) : (
-                              <div
-                                style={{
-                                  width: 56,
-                                  height: 56,
-                                  borderRadius: "50%",
-                                  backgroundColor: "#E2E8F0",
-                                  color: "#44536A",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  fontWeight: 600,
-                                  fontSize: 18,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  textTransform: "uppercase"
-                                }}
+                              <div className="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-lg font-gilroy uppercase"
                               >
                                 {account?.initial}
                               </div>
                             )
                           }
                         </div>
-                        <div style={{ width: "100%" }}>
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div
+                        <div className="w-full">
+                          <div className="flex justify-between items-center">
 
-                            >
+                            <div className="w-full">
                               <span
-                                style={{
-                                  fontSize: 20,
-                                  fontWeight: 600,
-                                  color: "#222222", textTransform: "capitalize"
-                                }}
+                                className="text-lg font-semibold text-gray-900 capitalize block truncate"
+                                title={`${account.firstName} ${account.lastName}`}
                               >
-                                {account.firstName}  {account.lastName}
+                                {account.firstName} {account.lastName}
                               </span>
-
-
                             </div>
-                            <div style={{ position: "relative" }}>
+
+                            <div class="relative">
                               <div
                                 onClick={() => setOpenMenu(!openMenu)}
-                                style={{
-                                  cursor: "pointer",
-                                  height: 40,
-                                  width: 40,
-                                  borderRadius: "50%",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  backgroundColor: openMenu ? "#E7F1FF" : "transparent"
-                                }}
+                                className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
+                                  }`}
                               >
-                                <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20, cursor: "pointer" }}
-                                />
+                                <PiDotsThreeOutlineVerticalFill className="h-5 w-5 cursor-pointer" />
                                 {openMenu && (
                                   <div
                                     ref={menuRef}
-                                    style={{
-                                      position: "absolute",
-                                      top: 45,
-                                      right: 0,
-                                      width: 180,
-                                      backgroundColor: "#FFFFFF",
-                                      border: "1px solid #EBEBEB",
-                                      borderRadius: 10,
-                                      boxShadow: "0px 8px 20px rgba(0,0,0,0.08)",
-                                      zIndex: 1000
-                                    }}
+                                    className="absolute top-11 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-md z-50"
                                   >
 
                                     <div
-                                      onClick={() => {
-                                        handleAdminEdit();
-
-                                      }}
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "10px",
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        borderTopLeftRadius: 10,
-                                        borderTopRightRadius: 10,
-                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                        opacity: canUpdateProfile ? 1 : 0.5,
-                                      }}
+                                      onClick={() => { handleAdminEdit() }}
+                                      className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+              ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                       onMouseEnter={(e) =>
                                         (e.currentTarget.style.backgroundColor = "#EDF2FF")
                                       }
@@ -1377,31 +1260,17 @@ const handleCloseAdminEdit  = () =>{
                                       <Edit
                                         size="16"
                                         color="#1E45E1"
-                                      />  <label style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy, sans-serif",
-                                        color: canUpdateProfile ? "#000000" : "#999999",
-                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                      }}>Edit</label>
+                                      />
+                                      <label className={`text-sm font-medium font-gilroy ${canUpdateProfile ? "text-black cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                        }`}>Edit</label>
                                     </div>
 
                                     <div
                                       onClick={() => {
                                         handleOpenAdminProfile(account)
                                       }}
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "10px",
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                        opacity: canUpdateProfile ? 1 : 0.5,
-                                      }}
+                                      className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+              ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                       onMouseEnter={(e) =>
                                         (e.currentTarget.style.backgroundColor = "#EDF2FF")
                                       }
@@ -1412,13 +1281,9 @@ const handleCloseAdminEdit  = () =>{
                                       <PasswordCheck
                                         size="16"
                                         color="#FF9500"
-                                      />  <label style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy, sans-serif",
-                                        color: canUpdateProfile ? "#000000" : "#999999",
-                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                      }}>Change Password</label>
+                                      />
+                                      <label className={`text-sm font-medium font-gilroy ${canUpdateProfile ? "text-black cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                        }`}>Change Password</label>
                                     </div>
                                   </div>
                                 )}
@@ -1429,149 +1294,75 @@ const handleCloseAdminEdit  = () =>{
 
 
 
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 4,
-                                fontSize: 12,
-                                color: "#FF9900",
-                                backgroundColor: "#FFFAF1",
-                                padding: "2px 8px",
-                                borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
-                              }}
-                            >
 
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-1.5 text-xs text-yellow-500 bg-yellow-50 px-2 py-0.5 rounded-full font-gilroy w-max">
                               {account.roleName} <Crown1 size={14} color="#FF9900" />
                             </div>
+
                             <div>
-                              <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400 }}>Profile last updated - 20/11/25</label>
+                              <label className="text-gray-400 text-sm font-normal font-gilroy">
+                                Profile last updated - 20/11/25
+                              </label>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
-                      <div className="d-flex justify-content-between">
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: 16,
-                            marginTop: 8
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 6,
-                              fontSize: 13,
-                              color: "#555"
-                            }}
-                          >
+                      <hr className="my-2 border border-gray-200" />
+
+                      <div className="flex justify-between mt-2">
+                        <div className="flex gap-4 mt-2">
+                          <div className="flex items-center gap-1.5 text-sm text-gray-600">
                             <Call size={14} color="#1E45E1" />
                             + {account.countryCode} {account.mobileNo}
                           </div>
-                          <div
-                            style={{
-                              width: 1,
-                              height: 28,
-                              border: "1px solid #D9D9D9"
-                            }}
-                          />
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 6,
-                              fontSize: 13,
-                              color: "#1E45E1"
-                            }}
-                          >
+
+                          <div className="w-px h-7 bg-gray-300" />
+                          <div className="flex items-center gap-1.5 text-sm text-blue-600">
                             <Sms size={14} color="#1E45E1" />
                             {account.mailId}
                             <span>
-                              <CardSend
-                                size="16"
-                                color="#292D32"
-                              /></span>
+                              <CardSend size={16} color="#292D32" />
+                            </span>
                           </div>
                         </div>
 
                         <button
-                          style={{
-                            marginTop: 8,
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 6,
-                            fontSize: 13,
-                            color: "#FF0000",
-                            background: "#FFF7F7",
-                            border: "1px solid #FFDADA",
-                            borderRadius: 8,
-                            padding: "6px 12px",
-                            cursor: "pointer"
-                          }}
                           onClick={handleShowLogout}
+                          className="mt-2 inline-flex items-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
                         >
                           <LogoutCurve size={16} color="#FF0000" />
                           Logout
                         </button>
-
                       </div>
 
-                    </Card>
+                    </div>
 
                   )}
 
                   <div
-                    style={{
-                      display: "flex",
-                      borderBottom: "1px solid #E5E7EB",
-                      gap: 32,
-                      fontFamily: "Gilroy, sans-serif",
-                      position: "sticky",
-                      top: account.roleName !== "Admin" ? 160 : 0,
-                    }}
+                    className={`flex border-b border-gray-200 gap-8 font-gilroy sticky ${account.roleName !== "Admin" ? "top-40" : "top-0"
+                      }`}
                   >
-                    {tabs.map(tab => (
+                    {tabs.map((tab) => (
                       <div
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
-                        style={{
-                          padding: "14px 4px",
-                          fontSize: 15,
-                          fontWeight: activeTab === tab.key ? 600 : 500,
-                          color: activeTab === tab.key ? "#1E45E1" : "#6B7280",
-                          cursor: "pointer",
-                          position: "relative"
-                        }}
+                        className={`relative px-1 py-3 text-sm cursor-pointer ${activeTab === tab.key ? "font-semibold text-[#1E45E1" : "font-medium text-gray-500"
+                          }`}
                       >
                         {tab.label}
 
                         {activeTab === tab.key && (
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: -1,
-                              left: 0,
-                              width: "100%",
-                              height: 2,
-                              backgroundColor: "#1E45E1",
-                              borderRadius: 2
-                            }}
-                          />
+                          <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#1E45E1] rounded"></div>
                         )}
                       </div>
                     ))}
                   </div>
                   {
                     activeTab === "masters" && (
-                      <div className="show-scrolls" style={{
-                        overflowY: "auto",
-                        maxHeight: 400,
-                      }}>
+                      <div className="overflow-y-auto flex-1 max-h-[calc(100vh-200px)] p-2">
                         {generalFilterddata && generalFilterddata.length > 0 ? (
                           generalFilterddata.map((item) => {
                             const imageUrl = item.profilePic;
@@ -1579,201 +1370,109 @@ const handleCloseAdminEdit  = () =>{
 
 
                               <div
-                                className="card p-3  mt-2 "
-                                style={{
-                                  borderRadius: 16,
-
-                                  // overflow: 'hidden'
-                                }}
+                                className="bg-white rounded-xl p-3 mt-2 border border-gray-200"
                                 key={item.userId}
                               >
-                                <div
-
-                                  className="d-flex flex-wrap justify-content-between align-items-center w-100"
-                                >
-                                  <div className="d-flex align-items-center w-100">
+                                <div className="flex flex-wrap justify-between items-center w-full">
+                                  <div className="flex items-center w-100">
                                     {
-                                      imageUrl ?
-
-                                        <Image
+                                      imageUrl ? (
+                                        <img
                                           src={imageUrl}
                                           alt={item.firstName || "Default Profile"}
-                                          roundedCircle
-                                          style={{
-                                            height: "50px",
-                                            width: "50px",
-                                          }}
-
+                                          className="h-12 w-12 rounded-full object-cover"
                                         />
-                                        :
-
-                                        <div
-                                          style={{
-                                            height: 40,
-                                            width: 40,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#E2E8F0",
-                                            color: "#44536A",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            fontWeight: 600,
-                                            fontSize: 14,
-                                            textTransform: "uppercase",
-                                          }}
-                                        >
+                                      ) : (
+                                        <div className="h-12 w-12 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-base uppercase">
                                           {item.initials}
                                         </div>
-
+                                      )
                                     }
-                                    <div className="ms-2 w-100">
-                                      <div className="d-flex justify-content-between align-items-center w-100" >
+                                    <div className="ml-2 w-100">
+                                      <div className="flex justify-between items-center w-full">
+
                                         <div
-                                          className="mb-0 text-break"
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            height: "fit-content"
-                                          }}
+                                          className="mb-0 text-base font-semibold font-gilroy h-fit truncate ml-1"
+                                          title={`${item.firstName} ${item.lastName}`}
                                         >
                                           {item.firstName} {item.lastName}
                                         </div>
 
-
-                                        <div className="ms-2 me-2 mt-0" style={{
-                                          cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                                          // border: "1px solid #EFEFEF",
-                                          display: "flex", justifyContent: "center", alignItems: "center",
-                                          position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                                          ,
-                                          // backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
-
-
-                                        }} onClick={() => handlegeneralform(item.userId)} >
-                                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                                        <div
+                                          className={`ms-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${generalEdit === item.userId ? 'z-[1000]' : ''
+                                            }`}
+                                          onClick={() => handlegeneralform(item.userId)}
+                                        >
+                                          <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
 
                                           {generalEdit === item.userId && (
                                             <div
                                               ref={popupRef}
-                                              style={{
-                                                cursor: "pointer",
-                                                backgroundColor: "#F9F9F9",
-                                                position: "absolute",
-                                                right: window.innerWidth <= 404 ? "auto" : 40,
-                                                top: 40,
-                                                width: window.innerWidth <= 404 ? 100 : 120,
-                                                height: "auto",
-                                                border: "1px solid #EBEBEB",
-                                                borderRadius: 10,
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                padding: 0,
-                                                alignItems: "flex-start",
-                                                zIndex: 1050,
-                                                fontSize: window.innerWidth <= 404 ? 13 : 14,
-                                              }}
+                                              className={`absolute top-10 ${window.innerWidth <= 404 ? 'right-auto w-24 text-[13px]' : 'right-10 w-32 text-[14px]'
+                                                } flex flex-col items-start bg-[#F9F9F9] border border-[#EBEBEB] rounded-lg p-0 z-[1050]`}
                                             >
-                                              <div
-                                                style={{
-                                                  width: "100%",
-                                                  backgroundColor: "#F9F9F9",
-                                                  borderRadius: 10,
-                                                }}
-                                              >
+
+                                              <div className="w-full rounded-lg bg-[#F9F9F9]">
 
                                                 <div
                                                   onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
-                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                                                  style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "10px",
-                                                    padding: "8px 12px",
-                                                    width: "100%",
-                                                    backgroundColor: "#F9F9F9",
-                                                    borderTopLeftRadius: 10,
-                                                    borderTopRightRadius: 10,
-                                                    cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                                    opacity: canUpdateProfile ? 1 : 0.5,
-                                                  }}
+                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#EDF2FF')}
+                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#F9F9F9')}
+                                                  className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-t-lg ${canUpdateProfile ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'
+                                                    }`}
                                                 >
                                                   <Edit
-                                                    size="16"
+                                                    size={16}
                                                     color="#1E45E1"
-                                                    style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                    className={canUpdateProfile ? '' : 'filter grayscale brightness-[70%]'}
+                                                  />
                                                   <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: canUpdateProfile ? "#000000" : "#999999",
-                                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                                    }}
+                                                    className={`text-[14px] font-medium font-gilroy ${canUpdateProfile ? 'text-black cursor-pointer' : 'text-gray-400 cursor-not-allowed'
+                                                      }`}
                                                   >
                                                     Edit
                                                   </label>
                                                 </div>
 
-                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
-
+                                                <div className="h-px bg-[#F0F0F0] m-0" />
 
                                                 <div
                                                   onClick={() => canDeleteProfile && handleDelete(item)}
-                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                                                  style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "10px",
-                                                    padding: "8px 12px",
-                                                    width: "100%",
-                                                    backgroundColor: "#F9F9F9",
-                                                    borderBottomLeftRadius: 10,
-                                                    borderBottomRightRadius: 10,
-                                                    cursor: canDeleteProfile ? "pointer" : "not-allowed",
-                                                    opacity: canDeleteProfile ? 1 : 0.5,
-                                                  }}
+                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#FFF0F0')}
+                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#F9F9F9')}
+                                                  className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-b-lg ${canDeleteProfile ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'
+                                                    }`}
                                                 >
-                                                  <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                  <img
+                                                    src={Delete}
+                                                    alt="Delete"
+                                                    className={canDeleteProfile ? '' : 'filter grayscale brightness-[70%]'}
+                                                    style={{ height: 16, width: 16 }}
+                                                  />
                                                   <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: canDeleteProfile ? "#FF0000" : "#999999",
-                                                      cursor: canDeleteProfile ? "pointer" : "not-allowed",
-                                                    }}
+                                                    className={`text-[14px] font-medium font-gilroy ${canDeleteProfile ? 'text-red-600 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
+                                                      }`}
                                                   >
                                                     Delete
                                                   </label>
                                                 </div>
                                               </div>
                                             </div>
-
                                           )}
                                         </div>
                                       </div>
 
-                                      <div className="d-flex justify-content-between align-items-center">
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 4,
-                                            fontSize: 12,
-                                            color: "#3A90E5",
-                                            backgroundColor: "#F0F7FF",
-                                            padding: "2px 8px",
-                                            borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
-                                          }}
-                                        >
 
+                                      <div className="flex justify-between items-center w-full">
+
+                                        <div className="flex items-center gap-1 text-sm text-[#3A90E5] bg-[#F0F7FF] px-2 py-1 rounded-full font-gilroy w-fit">
                                           {item.roleName} <Shield size={14} color="#3A90E5" />
                                         </div>
+
                                         <div>
-                                          <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400, fontFamily: "Gilroy" }}>Profile last updated - 20/11/25</label>
+                                          <label className="text-gray-400 text-sm font-normal font-gilroy">
+                                            Profile last updated - 20/11/25
+                                          </label>
                                         </div>
                                       </div>
                                     </div>
@@ -1783,158 +1482,41 @@ const handleCloseAdminEdit  = () =>{
 
                                 </div>
 
+                                <hr className="my-2 border border-gray-200" />
 
-                                {/* <div className="row">
-                          <div className="col-md-6">
-                            <p
-                              className="mb-0"
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                color: "#939393",
-                              }}
-                            >
-                              Email ID
-                            </p>
-                            <p
-                              style={{
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {item.mailId}
-                            </p>
-                          </div>
-                          <div className="col-md-6">
-                            <p
-                              className="mb-0"
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                color: "#939393",
-                              }}
-                            >
-                              Contact Number
-                            </p>
-                            <p
-                              style={{
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                              }}
-                            >
-                              + {item?.countryCode}
-                              {item &&
-                                String(item.mobileNo).slice(
-                                  0,
-                                  String(item.mobileNo).length - 10
-                                )}{" "}
-                              {item && String(item.mobileNo).slice(-10)}
-                            </p>
-                          </div>
-
-                          <div className="col-12">
-                            <p
-                              className="mb-0"
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                color: "#939393",
-                              }}
-                            >
-                              Address
-                            </p>
-                            <p
-                              style={{
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {(item?.houseNo ? item?.houseNo : '') +
-                                (item.street ? ' ' + item.street : '') +
-                                (item.landmark ? ', ' + item.landmark : '')}
-                              <br />
-                              {(item.city ? item.city + ', ' : '') +
-                                (item.state ? item.state + ' ' : '-') +
-                                (item.pincode ? item.pincode : '')}
-                            </p>
-
-                          </div>
-
-                        </div> */}
-
-                                <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
-                                <div className="d-flex justify-content-between">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: 16,
-                                      marginTop: 8
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 6,
-                                        fontSize: 13,
-                                        color: "#555", fontFamily: "Gilroy"
-                                      }}
-                                    >
+                                <div className="flex justify-between w-full">
+                                  <div className="flex gap-4 mt-2">
+                                    <div className="flex items-center gap-1.5 text-sm text-gray-600 font-gilroy">
                                       <Call size={14} color="#1E45E1" />
-                                      + {item.countryCode} {item.mobileNo}
+                                      +{item.countryCode} {item.mobileNo}
                                     </div>
-                                    <div
-                                      style={{
-                                        width: 1,
-                                        height: 28,
-                                        border: "1px solid #D9D9D9"
-                                      }}
-                                    />
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 6,
-                                        fontSize: 13,
-                                        color: "#1E45E1", fontFamily: "Gilroy"
-                                      }}
-                                    >
+
+                                    <div className="w-px h-7 border border-gray-300" />
+
+                                    <div className="flex items-center gap-1.5 text-sm text-blue-700 font-gilroy">
                                       <Sms size={14} color="#1E45E1" />
                                       {item.mailId}
                                       <span>
-                                        <CardSend
-                                          size="16"
-                                          color="#292D32"
-                                        /></span>
+                                        <CardSend size={16} color="#292D32" />
+                                      </span>
                                     </div>
                                   </div>
-
-                                  <div className="d-flex align-items-center flex-wrap">
-                                    <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
+                                  <div className="flex items-center flex-wrap">
+                                    <img
+                                      src={img2}
+                                      width={20}
+                                      height={20}
+                                      alt="icon"
+                                      className={canWriteProfile ? '' : 'filter grayscale brightness-[70%]'}
+                                    />
                                     <p
                                       onClick={() => canWriteProfile && handleChangePassword(item)}
-                                      className="mb-0 mx-2 text-wrap"
-                                      style={{
-                                        fontFamily: "Montserrat",
-                                        fontWeight: 600,
-                                        fontSize: 14,
-                                        color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
-                                        cursor: canWriteProfile ? "pointer" : "not-allowed",
-                                      }}
+                                      className={`mb-0 mx-2 text-sm font-semibold font-montserrat ${canWriteProfile ? 'text-blue-700 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
+                                        }`}
                                     >
                                       Change Password
                                     </p>
-
-
-
                                   </div>
-
                                 </div>
                               </div>
 
@@ -1942,47 +1524,23 @@ const handleCloseAdminEdit  = () =>{
                           })
                         ) :
                           !loading && (
-                            <div
-                              style={{
-                                textAlign: "center",
-                                marginTop: 90,
-                                height: '40vh',
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center"
-                              }}
-                            >
+
+                            <div className="flex flex-col items-center text-center mt-24 h-[40vh]">
                               <img src={EmptyState} alt="emptystate" />
-                              <div
-                                className="pb-1"
-                                style={{
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  fontSize: 18,
-                                  color: "rgba(75, 75, 75, 1)",
-                                }}
-                              >
+
+                              <div className="pb-1 font-gilroy font-semibold text-lg text-gray-600">
                                 No Profile
                               </div>
-                              <div
-                                className="pb-1"
-                                style={{
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  fontSize: 14,
-                                  color: "rgba(75, 75, 75, 1)",
-                                }}
-                              >
+
+                              <div className="pb-1 font-gilroy font-medium text-sm text-gray-600">
                                 There are no Profile available.
                               </div>
                             </div>
                           )
                         }
 
-                      </div>)}
-
-
-
+                      </div>
+                    )}
 
                   {
                     activeTab === "recent" && <RecentActivity />
@@ -1992,9 +1550,6 @@ const handleCloseAdminEdit  = () =>{
                   {
                     activeTab === "users" && <ManagedUsers />
                   }
-
-
-
 
                 </div>
               )}
@@ -2012,82 +1567,37 @@ const handleCloseAdminEdit  = () =>{
 
 
       >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            className="w-100 text-center mt-1"
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
 
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
-            }}
+        <Modal.Header className="!border-b-0">
+          <Modal.Title
+            className="!w-full !text-center mt-1 !text-[18px] !font-semibold !text-[#222222] !font-gilroy"
           >
             Delete General?
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body
-          className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-27px",
-          }}
-        >
+
+        <Modal.Body className="!text-center !text-sm !font-medium !font-gilroy !text-gray-500 !-mt-7">
           Are you sure you want to delete this General?
         </Modal.Body>
+
         {generalDeleteError && (
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="flex justify-center items-center">
             <ErrorMessage message={generalDeleteError} type="error" />
           </div>
         )}
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            className="me-2"
-            style={{
 
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
+        <Modal.Footer className="!flex !justify-center !border-t-0 !-mt-2">
+          <Button
             onClick={handleCloseDeleteFormShow}
+            className="!mr-2 !w-full !max-w-40 !h-13 !rounded-lg !py-3 !px-5 !bg-white !text-blue-700 !border !border-blue-700 !font-semibold !font-gilroy !text-sm"
           >
             Cancel
           </Button>
+
           <Button
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
             onClick={handleConformDelete}
+            className="!w-full !max-w-40 !h-13 !rounded-lg !py-3 !px-5 !bg-blue-700 !text-white !font-semibold !font-gilroy !text-sm"
           >
             Delete
           </Button>
@@ -2102,40 +1612,27 @@ const handleCloseAdminEdit  = () =>{
       // dialogClassName="custom-modal"
 
       >
-        <Modal.Header style={{
 
-          position: "relative"
-        }}>
-          <div
-            style={{
-              fontSize: "1.25rem",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
+        <Modal.Header className="relative flex items-center justify-between">
+          <div className="text-xl font-semibold font-gilroy">
             Change Password
           </div>
 
-          <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword}
-            style={{ cursor: 'pointer' }} />
-
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleCloseChangepassword}
+            className="cursor-pointer"
+          />
         </Modal.Header>
-        <Modal.Body style={{ marginTop: '0px', paddingTop: 2 }}>
 
-          <Form.Group className="">
-            <Form.Label
-              style={{
-                fontSize: 14,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                marginTop: 0,
-                paddingTop: 0,
-              }}
-            >
-              New Password {" "}
-              <span style={{ color: "red", fontSize: "20px" }}> * </span>
+
+        <Modal.Body className="font-gilroy mt-0 pt-0">
+          <Form.Group>
+            <Form.Label className="text-sm font-medium font-gilroy text-gray-900 mt-0 pt-0">
+              New Password <span className="text-red-500 text-xl"> *</span>
             </Form.Label>
+
             <InputGroup>
               <FormControl
                 id="form-controls"
@@ -2143,89 +1640,36 @@ const handleCloseAdminEdit  = () =>{
                 type={showPassword ? "text" : "password"}
                 value={checkPassword}
                 onChange={(e) => handleCheckPassword(e)}
-                className="custom-input"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  borderRight: "none",
-                  height: "50px",
-                  borderRadius: "8px 0 0 8px",
-                }}
+                className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg pr-12"
               />
+
               <InputGroup.Text
-                className="border-start-0"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide Password" : "Show Password"}
-                style={{
-                  backgroundColor: "#fff",
-                  border: "1px solid #D9D9D9",
-                  borderLeft: "none",
-                  cursor: "pointer",
-                  borderRadius: "0 8px 8px 0",
-                }}
+                className="bg-transparent border-0 cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
               >
                 {showPassword ? (
                   <img src={eye} alt="Hide Password" width={20} height={20} />
                 ) : (
-                  <img
-                    src={eyeClosed}
-                    alt="Show Password"
-                    width={20}
-                    height={20}
-                  />
+                  <img src={eyeClosed} alt="Show Password" width={20} height={20} />
                 )}
               </InputGroup.Text>
             </InputGroup>
           </Form.Group>
-          {passError && (
-            <ErrorMessage message={passError} type="error" />
-          )}
 
-
+          {passError && <ErrorMessage message={passError} type="error" />}
         </Modal.Body>
-        {verifyLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
-        <Modal.Footer className="d-flex justify-content-center m-0 pt-1" style={{ border: "none" }}>
-          <Button
 
-            className="w-100 custom-button mt-2"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: "50px",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: "-5px",
-            }}
+        {verifyLoading && (
+          <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 border-4 border-r-transparent border-t-blue-700 rounded-full animate-spin"></div>
+          </div>
+        )}
+
+        <Modal.Footer className="flex justify-center m-0 pt-1 border-0">
+          <Button
             onClick={() => handleCheckPasswordChange()}
+            className="w-full mt-1 h-12 !rounded-xl !bg-[#1E45E1] text-sm !font-semibold font-gilroy"
           >
             Update
           </Button>
@@ -2450,27 +1894,22 @@ const handleCloseAdminEdit  = () =>{
       // dialogClassName="custom-modal"
       >
 
-
-        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
+        <Modal.Header className="relative mb-2 flex items-center justify-between">
+          <div className="text-xl font-semibold font-gilroy">
             {edit ? "Edit General" : "Add General"}
           </div>
 
-          <CloseCircle size="24" color="#000" onClick={handleClose}
-            style={{ cursor: 'pointer' }} />
-
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleClose}
+            className="cursor-pointer"
+          />
         </Modal.Header>
-        <div className="d-flex align-items-center" style={{ marginLeft: 10 }}>
-          <div
-            className=""
-            style={{ height: 80, width: 80, position: "relative" }}
-          >
+
+        <div className="font-gilroy flex items-center ml-2.5">
+
+          <div className="h-20 w-20 relative">
             <Image
               src={
                 file
@@ -2480,74 +1919,49 @@ const handleCloseAdminEdit  = () =>{
                   : Profile
               }
               roundedCircle
-              style={{ height: 80, width: 80 }}
+              className="h-20 w-20 object-cover"
             />
 
-            <label htmlFor="imageInput" className="">
+            <label htmlFor="imageInput" className="absolute bottom-0 right-1 cursor-pointer">
               <Image
                 src={Plus}
                 roundedCircle
-                style={{
-                  height: 20,
-                  width: 20,
-                  position: "absolute",
-                  top: 65,
-                  left: 70,
-                  transform: "translate(-50%, -50%)",
-                }}
+                className="h-5 w-5"
               />
+
               <input
                 type="file"
                 accept="image/*"
                 multiple
-                className="sr-only"
                 id="imageInput"
                 onChange={handleImageChange}
-                style={{ display: "none" }}
+                className="sr-only"
               />
             </label>
           </div>
-          <div className="ps-3">
+
+          <div className="pl-4">
             <div>
-              <label
-                style={{
-                  fontSize: 16,
-                  fontWeight: 500,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                }}
-              >
+              <label className="text-base font-medium font-gilroy text-gray-900">
                 Profile Photo
               </label>
             </div>
+
             <div>
-              <label
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                }}
-              >
+              <label className="text-sm font-medium font-gilroy text-gray-600">
                 Max size of image 10MB
               </label>
             </div>
           </div>
         </div>
-        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-0 me-3">
-          <div className="row">
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+
+        <Modal.Body className="font-gilroy show-scroll mt-0 mr-3 max-h-80 overflow-y-auto">
+
+          <div className="grid grid-cols-12 gap-x-4">
+            <div className="col-span-12 md:col-span-6">
               <Form.Group>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  First Name {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  First Name <span className="text-red-500 text-xl"> *</span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -2555,16 +1969,7 @@ const handleCloseAdminEdit  = () =>{
                   placeholder="Enter First Name"
                   value={firstName}
                   onChange={(e) => handleFirstName(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
                 />
               </Form.Group>
               {firstNameError && (
@@ -2572,18 +1977,10 @@ const handleCloseAdminEdit  = () =>{
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-span-12 md:col-span-6 mb-1">
               <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Last Name {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> </span>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Last Name 
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -2591,34 +1988,18 @@ const handleCloseAdminEdit  = () =>{
                   placeholder="Enter Last Name"
                   value={lastName}
                   onChange={(e) => handlelastName(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
                 />
               </Form.Group>
 
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
+            {/* <div className="col-span-12 md:col-span-6 mb-0">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Mobile Number {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Mobile Number <span className="text-red-500 text-xl"> *</span>
                 </Form.Label>
+
                 <InputGroup className="d-flex">
                   <Form.Select
                     value={countryCode}
@@ -2635,6 +2016,7 @@ const handleCloseAdminEdit  = () =>{
                       backgroundColor: "#fff",
                       maxWidth: 90,
                     }}
+                  
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>
@@ -2674,21 +2056,49 @@ const handleCloseAdminEdit  = () =>{
                 <ErrorMessage message={state.Settings?.generalMobileError} type="error" />
               )}
 
+            </div> */}
+
+            <div className="col-span-12 md:col-span-6 mb-0">
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Mobile Number <span className="text-red-500 text-xl"> *</span>
+                </Form.Label>
+
+                <InputGroup className="flex">
+                  <Form.Select
+                    value={countryCode}
+                    id="vendor-select-pg"
+                    className="max-w-[5.5rem] !h-12 text-base font-gilroy text-gray-600 font-semibold border border-gray-300 rounded-l-lg shadow-none bg-white"
+                  >
+                    <option>+{countryCode}</option>
+                  </Form.Select>
+
+                  <Form.Control
+                    value={Phone}
+                    onChange={handlePhone}
+                    type="text"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    placeholder="9876543210"
+                    maxLength={10}
+                    className="!h-12 text-sm font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 border-l-0 rounded-r-lg"
+                  />
+                </InputGroup>
+              </Form.Group>
+
+              {phoneError && <ErrorMessage message={phoneError} type="error" />}
+              {phoneErrorMessage && <ErrorMessage message={phoneErrorMessage} type="error" />}
+              {state.Settings?.generalMobileError && (
+                <ErrorMessage message={state.Settings?.generalMobileError} type="error" />
+              )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
-              <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Email ID {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+            <div className="col-span-12 md:col-span-6 mb-0">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Email ID <span className="text-red-500 text-xl"> *</span>
                 </Form.Label>
+
                 <FormControl
                   type="text"
                   id="form-controls"
@@ -2697,44 +2107,24 @@ const handleCloseAdminEdit  = () =>{
                   placeholder="Enter Email ID"
                   value={emilId}
                   onChange={(e) => handleEmailId(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
                 />
               </Form.Group>
-              {emailError && (
-                <ErrorMessage message={emailError} type="error" />
-              )}
+
+              {emailError && <ErrorMessage message={emailError} type="error" />}
               {state.Settings?.generalEmailError && (
                 <ErrorMessage message={state.Settings?.generalEmailError} type="error" />
               )}
-
               {emailErrorMessage && (
                 <ErrorMessage message={state.Settings?.generalEmailError} type="error" />
               )}
             </div>
 
-
             {!edit && (
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1 mt-0">
+              <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-1 mt-1">
                 <Form.Group className="">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Password {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    Password <span className="text-red-500 text-xl">*</span>
                   </Form.Label>
                   <InputGroup>
                     <FormControl
@@ -2745,31 +2135,15 @@ const handleCloseAdminEdit  = () =>{
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => handlePassword(e)}
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        borderRight: "none",
-                        height: "50px",
-                        borderRadius: "8px 0 0 8px",
-                      }}
+                      className="h-12 w-full rounded-lg border border-gray-300 pl-3 pr-10 text-base text-gray-600 font-gilroy font-medium shadow-none focus:outline-none focus:ring-0"
+
                     />
                     <InputGroup.Text
-                      className="border-start-0"
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={
                         showPassword ? "Hide Password" : "Show Password"
                       }
-                      style={{
-                        backgroundColor: "#fff",
-                        border: "1px solid #D9D9D9",
-                        borderLeft: "none",
-                        cursor: "pointer",
-                        borderRadius: "0 8px 8px 0",
-                      }}
+                      className="bg-white border border-gray-300 cursor-pointer rounded-lg"
                     >
                       {showPassword ? (
                         <img
@@ -2795,17 +2169,10 @@ const handleCloseAdminEdit  = () =>{
               </div>
             )}
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+            <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-2 mt-2">
               <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Flat , House no , Building , Company , Apartment {" "}
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Flat , House no , Building , Company , Apartment
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -2813,16 +2180,7 @@ const handleCloseAdminEdit  = () =>{
                   placeholder="Enter House No"
                   value={house_no}
                   onChange={(e) => handleHouseNo(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
                 />
               </Form.Group>
               {house_noError && (
@@ -2830,34 +2188,19 @@ const handleCloseAdminEdit  = () =>{
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-              <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Area , Street , Sector , Village {" "}
+            <div className="col-span-12 md:col-span-6 mb-1">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Area , Street , Sector , Village
                 </Form.Label>
+
                 <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="Enter Street"
                   value={street}
-                  onChange={(e) => handleStreetName(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  onChange={handleStreetName}
+                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
                 />
               </Form.Group>
               {streetError && (
@@ -2865,136 +2208,75 @@ const handleCloseAdminEdit  = () =>{
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-              <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Landmark {" "}
+            <div className="col-span-12 md:col-span-6 mb-1">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Landmark
                 </Form.Label>
+
                 <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="E.g , near appollo hospital"
                   value={landmark}
-                  onChange={(e) => handleLandmark(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  onChange={handleLandmark}
+                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
                 />
               </Form.Group>
+
               {landmarkError && (
                 <ErrorMessage message={landmarkError} type="error" />
               )}
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Pincode {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+            <div className="col-span-12 md:col-span-6">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Pincode <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
+
                 <Form.Control
                   value={pincode}
-                  onChange={(e) => handlePinCodeChange(e)}
+                  onChange={handlePinCodeChange}
                   type="tel"
                   maxLength={6}
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="Enter Pincode"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: pincode ? 600 : 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
                 />
+
                 {pincodeError && (
                   <ErrorMessage message={pincodeError} type="error" />
                 )}
-
-
               </Form.Group>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-              <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Town/City {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+            <div className="col-span-12 md:col-span-6 mb-1">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  Town / City <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
+
                 <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="Enter City"
                   value={city}
-                  onChange={(e) => handleCity(e)}
-
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  onChange={handleCity}
+                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
                 />
               </Form.Group>
+
               {cityError && (
                 <ErrorMessage message={cityError} type="error" />
               )}
             </div>
 
-
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="" controlId="exampleForm.ControlInput5">
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#222",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
-                >
-                  State {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+            <div className="col-span-12">
+              <Form.Group controlId="exampleForm.ControlInput5">
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                  State <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
                 <Select
@@ -3008,11 +2290,7 @@ const handleCloseAdminEdit  = () =>{
                   }
                   onInputChange={(inputValue, { action }) => {
                     if (action === "input-change") {
-                      const lettersOnly = inputValue.replace(
-                        /[^a-zA-Z\s]/g,
-                        ""
-                      );
-                      return lettersOnly;
+                      return inputValue.replace(/[^a-zA-Z\s]/g, "");
                     }
                     return inputValue;
                   }}
@@ -3043,7 +2321,6 @@ const handleCloseAdminEdit  = () =>{
                       backgroundColor: "#f8f9fa",
                       maxHeight: "120px",
                       padding: 0,
-                      scrollbarWidth: "thin",
                       overflowY: "auto",
                       fontFamily: "Gilroy",
                     }),
@@ -3062,7 +2339,7 @@ const handleCloseAdminEdit  = () =>{
                     option: (base, state) => ({
                       ...base,
                       cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
                       color: "#000",
                     }),
                   }}
@@ -3074,58 +2351,21 @@ const handleCloseAdminEdit  = () =>{
               )}
             </div>
 
-
-
-
           </div>
         </Modal.Body>
 
+        {formLoading && (
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
+            <div className="h-10 w-10 rounded-full border-4 border-t-blue-700 border-r-transparent animate-spin"></div>
+          </div>
+        )}
 
 
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
-
-
-
-        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
-          {formError && (
-            <ErrorMessage message={formError} type="error" />
-          )}
+        <Modal.Footer className="flex justify-center border-0">
+          {formError && <ErrorMessage message={formError} type="error" />}
 
           <Button
-            className="col-lg-12 col-md-12 col-sm-12 col-xs-12 w-sm-full"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 50,
-              borderRadius: 12,
-              fontSize: 14,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: 5,
-            }}
+            className="!w-full !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"
             onClick={handleSave}
           >
             {edit ? "Save changes" : "Add General"}

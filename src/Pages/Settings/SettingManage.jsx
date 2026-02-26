@@ -69,9 +69,9 @@ function SettingManage() {
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -698,8 +698,8 @@ useEffect(() => {
       {hidePgList && (
         <>
 
-<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">      
-        <div className="w-full flex justify-center md:justify-start md:mt-0">
+          <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+            <div className="w-full flex justify-center md:justify-start md:mt-0">
               <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
                 Manage PG
               </label>
@@ -723,112 +723,46 @@ useEffect(() => {
 
           {!canReadPayingGuests ? (
             <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100vh",
-                }}
-              >
-
-                <img
-                  src={EmptyState}
-                  alt="Empty State"
-
-                />
-
-
-
+              <div className="flex flex-col items-center justify-center mt-24">
+                <img src={EmptyState} alt="Empty State" className="mt-2" />
                 <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
-
               </div>
             </>
           ) :
-            <div className="show-scrolls-sidebar mt-4"
-              style={{
-                maxHeight: "530px",
-                overflowY: "auto",
-                overflowX: "hidden"
-              }}
-            >
-              <div className="row row-gap-3">
-                {filteredData?.length > 0 ?
-                  filteredData.map((hostel) => {
-                    return (
-                      <>
-                        <div
-                          key={hostel.id}
-                          className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12   settingmanage me-0" style={{ paddingRight: 30 }}
-                        >
-                          <PayingGuest
-                            hostel={hostel}
-                            key={hostel.id}
-                            OnSelectHostel={handleSelectedHostel}
-                            onRowVisiblity={handleDisplayPgList}
-                            OnEditHostel={handleEditHostel}
-                          // editPermissionError={editPermissionError}
-                          // deletePermissionError={deletePermissionError}
-                          />
-                        </div>
-                      </>
-                    );
-                  })
-                  :
-                  !loading && filteredData.length === 0 && (
-                    <div
-                      className="d-flex align-items-center justify-content-center"
-                      style={{
-                        width: "100%",
-                        margin: "0px auto",
-                        backgroundColor: "",
-                        marginTop: 90,
-                        justifyContent: "center", alignItems: "center"
-                      }}
-                    >
-                      <div>
-                        <div className="d-flex  justify-content-center">
-                          <img
-                            src={EmptyState}
-                            alt="Empty state"
-                          />
-                        </div>
-                        <div
-                          className="pb-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: 18,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          No Paying Guest available
-                        </div>
-                        <div
-                          className="pb-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            fontSize: 14,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          There are no Paying Guest added.
-                        </div>
-
-                      </div>
-                      <div></div>
+            
+            <div className="mt-4 max-h-[32rem] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
+              {filteredData?.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8">
+                  {filteredData.map((hostel) => (
+                    <div key={hostel.id} className="ml-0 pr-7">
+                      <PayingGuest
+                        hostel={hostel}
+                        key={hostel.id}
+                        OnSelectHostel={handleSelectedHostel}
+                        onRowVisiblity={handleDisplayPgList}
+                        OnEditHostel={handleEditHostel}
+                      // editPermissionError={editPermissionError}
+                      // deletePermissionError={deletePermissionError}
+                      />
                     </div>
-                  )}
-
-
-              </div>
+                  ))}
+                </div>
+              ) : (
+                !loading &&
+                filteredData.length === 0 && (
+                  <div className="flex-1 flex flex-col items-center justify-center w-full mt-24">
+                    <img src={EmptyState} alt="Empty state" className="mb-4" />
+                    <div className="pb-1 text-center font-gilroy font-semibold text-[17px] text-gray-700 mt-2">
+                      No Paying Guest available
+                    </div>
+                    <div className="pb-1 text-center font-gilroy font-medium text-[14px] text-gray-700">
+                      There are no Paying Guest added.
+                    </div>
+                  </div>
+                )
+              )}
             </div>
-
-          }
+         }
 
         </>
       )}
