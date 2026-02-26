@@ -3,25 +3,18 @@ import ComingSoon from "../../Utils/ComingSoon";
 
 function SettingIntergration() {
   return (
-    <div className="h-screen bg-white">
-    
-      
-<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
-      Integration
-    </label>
-  </div>
 
-  
- 
-</div>
-     
-      <div className="pt-[0px]">
-        <ComingSoon />
+    <div className="bg-white">
+      <div className="flex items-center px-2 bg-white">
+        <label className="font-gilroy text-lg text-[#222] font-semibold mt-1.5">
+          Integration
+        </label>
       </div>
 
+      <div className="h-[calc(100vh-50px)] flex justify-center items-start -translate-y-10 overflow-hidden">
+        <ComingSoon />
+      </div>
     </div>
   );
 }

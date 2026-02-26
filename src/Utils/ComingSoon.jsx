@@ -6,38 +6,38 @@ import BottomImage from "../Assets/v2Images/bottom_image.svg";
 
 
 function ComingSoon() {
-    return (
-        <div className="w-full col-span-full flex justify-center items-center" >
-       <div className="min-h-screen w-screen  px-4 relative overflow-hidden font-gilroy flex flex-col items-center justify-center text-center">
+  return (
+    <div className="w-full col-span-full flex justify-center items-center" >
+      <div className="h-screen w-screen px-4 relative overflow-hidden font-gilroy flex flex-col items-center justify-center text-center">
 
 
-  <img
-    src={ComingSoonImage}
-    alt="Coming Soon"
-    className="w-[280px] md:w-[340px]"
-  />
+        <img
+          src={ComingSoonImage}
+          alt="Coming Soon"
+          className="w-[280px] md:w-[340px]"
+        />
 
 
-  <h1 className="text-2xl font-semibold text-gray-900 -mt-6">
-    Coming Soon
-  </h1>
+        <h1 className="text-2xl font-semibold text-gray-900 -mt-6">
+          Coming Soon
+        </h1>
 
 
-  <p className="text-sm text-gray-500 max-w-md">
-    Our team is building something helpful for you.
-    <br />
-    Check back again shortly.
-  </p>
+        <p className="text-sm text-gray-500 max-w-md">
+          Our team is building something helpful for you.
+          <br />
+          Check back again shortly.
+        </p>
 
-  <img
-    src={BottomImage}
-    alt="City"
-    className="absolute bottom-0 left-0 w-full opacity-40 pointer-events-none"
-  />
+        <img
+          src={BottomImage}
+          alt="City"
+          className="absolute bottom-0 left-0 w-full opacity-40 pointer-events-none"
+        />
 
-</div>
-</div>
+      </div>
+    </div>
 
-    );
+  );
 }
-export default  ComingSoon
+export default ComingSoon
