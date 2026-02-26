@@ -11,8 +11,8 @@ import Mail_white from '../../Assets/Images/gmail_white.png'
 import Message_text from '../../Assets/Images/message-text.png'
 import Message_text_white from '../../Assets/Images/message-white.png'
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
@@ -366,7 +366,7 @@ const statusClasses = {
   "Pending Refund": "bg-orange-100 text-orange-700",
   Cancelled: "bg-orange-100 text-orange-900",
 };
-
+console.log("pdfDetails",pdfDetails)
 
   return (
     <div style={{
@@ -407,9 +407,9 @@ const statusClasses = {
 
            <div>
   {(() => {
-    const status = rowData?.isCancelled
+    const status = pdfDetails?.invoiceInfo?.paymentStatus === "Cancelled"
       ? "Cancelled"
-      : rowData?.paymentStatus;
+      : pdfDetails?.invoiceInfo?.paymentStatus;
 
     if (!status) return null;
 
@@ -838,7 +838,7 @@ const statusClasses = {
                                   ))
                                     :
                                     <tr>
-                                      <td colSpan="2" style={{ fontSize: 12, textAlign: "center", color: "#2D2D2D", fontWeight: 500, backgroundColor: "" }}>
+                                      <td colSpan="2" style={{ fontSize: 12, textAlign: "start", color: "#2D2D2D", fontWeight: 500, backgroundColor: "" }}>
                                         No Deductions
                                       </td>
 
