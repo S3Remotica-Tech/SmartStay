@@ -181,7 +181,12 @@ useEffect(() => {
 
 
 
+ useEffect(() => {
 
+        if (state.login.selectedHostel_Id) {
+                       dispatch({ type: "RECEIPTSLIST", payload: state.login.selectedHostel_Id });
+        }
+    }, [state.login.selectedHostel_Id]);
 
 
 
@@ -591,7 +596,7 @@ useEffect(() => {
                       {Number(pdfDetails?.invoiceAmount) > 0 ? "TOTAL PAID AMOUNT" : "Total Refunded Amount"}<br />
 
                       {
-                        pdfDetails?.configurations?.receiptType !== 'Rent' && <span style={{ fontFamily: "Gilroy", color: "#6D6D6D", fontSize: 11 }}>Security Deposit (Advance)</span>
+                        (pdfDetails?.configurations?.receiptType === 'Booking' || pdfDetails?.configurations?.receiptType === 'Advance'  )  && <span style={{ fontFamily: "Gilroy", color: "#6D6D6D", fontSize: 11 }}>Security Deposit (Advance)</span>
                       }
 
                     </div>

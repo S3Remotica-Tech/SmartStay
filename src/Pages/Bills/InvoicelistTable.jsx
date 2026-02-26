@@ -521,46 +521,46 @@ title={props.item?.fullName}
                     )}
                     {
                       props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" &&
+<></>
+                      // <div
+                      //   className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
 
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
-
-                        style={{
-                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          padding: "8px 12px",
-                          opacity: !canWriteInvoice ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          if (canWriteInvoice) handleWriteOffFrom(props.item);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Assign}
-                          alt="Record"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#222",
-                            cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Write_Off
-                        </label>
-                      </div>
+                      //   style={{
+                      //     cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                      //     padding: "8px 12px",
+                      //     opacity: !canWriteInvoice ? 0.5 : 1,
+                      //   }}
+                      //   // onClick={() => {
+                      //   //   if (canWriteInvoice) handleWriteOffFrom(props.item);
+                      //   // }}
+                      //   onMouseEnter={(e) => {
+                      //     e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      //   }}
+                      //   onMouseLeave={(e) => {
+                      //     e.currentTarget.style.backgroundColor = "#F9F9F9";
+                      //   }}
+                      // >
+                      //   <img
+                      //     src={Assign}
+                      //     alt="Record"
+                      //     style={{
+                      //       height: 16,
+                      //       width: 16,
+                      //       filter: !canWriteInvoice ? "grayscale(100%)" : "none",
+                      //     }}
+                      //   />
+                      //   <label
+                      //     style={{
+                      //       fontSize: 14,
+                      //       fontWeight: 500,
+                      //       fontFamily: "Gilroy, sans-serif",
+                      //       color: "#222",
+                      //       cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                      //     }}
+                      //   >
+                      //     Write_Off
+                      //   </label>
+                      // </div>
 
                     }
                     {

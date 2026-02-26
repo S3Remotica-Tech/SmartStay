@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import '../OthersComponent/BillPdfModal.css';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate , useParams } from "react-router-dom";
 
 function ReceiptPdfDetails() {
 
@@ -21,21 +21,36 @@ function ReceiptPdfDetails() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
+const { receiptId } = useParams();
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [rowDatas, setRowDatas] = useState('')
     const invoiceRefs = useRef({});
 
 
     const { rowData } = location.state || {};
-
+   
 
     useEffect(() => {
         if (rowData.transactionId) {
             setSelectedInvoiceId(rowData.transactionId)
+
         }
 
     }, [rowData])
+
+  useEffect(() => {
+    if (!receiptId || !state.login.selectedHostel_Id) return;
+
+    dispatch({
+        type: "RECEIPTPDF_NEWCHANGES",
+        payload: {
+            hostelId: state.login.selectedHostel_Id,
+            transactionId: receiptId
+        }
+    });
+
+}, [receiptId, state.login.selectedHostel_Id]);
+
 
     // console.log("rowData",rowData)
 
@@ -56,9 +71,18 @@ function ReceiptPdfDetails() {
 
     // console.log("state", state.InvoiceList)
 
+
+
+
+
+
+
     useEffect(() => {
         if (rowData?.transactionId) {
             setSelectedInvoiceId(rowData.transactionId);
+
+
+
 
             setTimeout(() => {
                 invoiceRefs.current[rowData.transactionId]?.scrollIntoView({
