@@ -92,14 +92,14 @@ function LongStayRecurringModal({ handleClose, show }) {
         if (!dueDate) {
             newErrors.dueDate = "Please select due days";
         }
-        if(!noticePeriod){
-             newErrors.notice = "Please select notice period";
+        if (!noticePeriod) {
+            newErrors.notice = "Please select notice period";
         }
 
 
-    //     if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
-    //     newErrors.dueDate = "Due date cannot be before billing date";
-    // }
+        //     if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
+        //     newErrors.dueDate = "Due date cannot be before billing date";
+        // }
 
         setErrors(newErrors);
 
@@ -112,7 +112,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                     dueDate: Number(dueDate?.value) || 0,
                     noticeDays: Number(noticePeriod?.value) || 0,
                 }
-                })
+            })
             setFormLoading(true)
         }
     };
@@ -138,7 +138,7 @@ function LongStayRecurringModal({ handleClose, show }) {
             setFormLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-                
+
             }, 3000)
         }
 
@@ -155,179 +155,136 @@ function LongStayRecurringModal({ handleClose, show }) {
                 show={show}
                 onHide={handleClose}
                 centered
-                style={{ fontFamily: "sans-serif" }}
                 backdrop="static"
 
             >
-                <Modal.Header style={{ border: "none" }}>
-                    <Modal.Title
-                        style={{
-                            fontSize: 18,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                        }}
-                    >
+
+
+                <Modal.Header className="border-0 flex justify-between items-center">
+                    <Modal.Title className="!text-lg !text-gray-900 !font-gilroy !font-semibold">
                         Long Stay Recurring
                     </Modal.Title>
 
                     <CloseCircle
-                        size="24"
+                        size={24}
                         color="#000"
                         onClick={handleClose}
-                        style={{ cursor: "pointer" }}
+                        className="cursor-pointer"
                     />
                 </Modal.Header>
 
-                <Modal.Body className="pt-0">
+                <Modal.Body className="pt-0 relative">
 
-                    <Form.Group controlId="billingDate" style={{ marginBottom: 16 }}>
-                        <Form.Label
-                            style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                            }}>Billing Date of Month {" "}
-                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
-                      *
-                    </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Billing Date"
+                    <div className="mb-3">
+                        <label
+                            htmlFor="billingDate"
+                            className="block text-sm text-gray-800 font-gilroy font-medium mb-1"
+                        >
+                            Billing Date of Month{" "}
+                            <span className="text-[#FF0000] text-xl">*</span>
+                        </label>
+
+                        <Select
+                            id="billingDate"
+                            options={dayOptions}
+                            styles={selectStyle}
+                            placeholder="Select Billing Date"
                             value={billingDate}
                             onChange={(selected) => {
                                 setBillingDate(selected);
                                 setErrors((prev) => ({ ...prev, billingDate: "" }));
-                                 dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
+                                dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
                             }}
-
-
                         />
 
                         {errors.billingDate && (
                             <ErrorMessage message={errors.billingDate} type="error" />
                         )}
+                    </div>
 
-                    </Form.Group>
+                    <div className="mb-3">
+                        <label
+                            htmlFor="dueDate"
+                            className="block text-sm text-gray-800 font-gilroy font-medium mb-1"
+                        >
+                            Due Days{" "}
+                            <span className="text-[#FF0000] text-xl">*</span>
+                        </label>
 
-                    <Form.Group controlId="dueDate" style={{ marginBottom: 16 }}>
-                        <Form.Label
-                            style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                            }}>Due Days {" "}
-                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
-                      *
-                    </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Days"
+                        <Select
+                            id="dueDate"
+                            options={dayOptions}
+                            styles={selectStyle}
+                            placeholder="Select Due Days"
                             value={dueDate}
                             onChange={(selected) => {
                                 setDueDate(selected);
                                 setErrors((prev) => ({ ...prev, dueDate: "" }));
-                                 dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
-                            }} />
+                                dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                            }}
+                        />
+
                         {errors.dueDate && (
                             <ErrorMessage message={errors.dueDate} type="error" />
                         )}
-                    </Form.Group>
-
-                    <Form.Group controlId="noticePeriod" style={{ marginBottom: 24 }}>
-                        <Form.Label
-                            style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                            }}>Notice Period {" "}
-                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
-                      *
-                    </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Notice Period"
-                            value={noticePeriod}
-                            onChange={(selected) => {
-                                setNoticePeriod(selected)
-                                setErrors((prev) => ({ ...prev, notice: "" }));
-                                 dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
-                            }}
-
-                        />
-                         {errors.notice && (
-                            <ErrorMessage message={errors.notice} type="error" />
-                        )}
-                    </Form.Group>
-                    {state.Settings.billingRuleError ?
-                                <ErrorMessage message={state.Settings.billingRuleError} type="error" />
-                                : null}
-
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "end",
-                            marginTop: 24,
-                            gap: 5,
-                            marginRight: 2
-                        }}
-                    >
-                        <Button
-                            onClick={handleClose}
-                            style={{
-                                backgroundColor: "#fff",
-                                border: "1px solid #4B4B4B",
-                                borderRadius: 12,
-                                padding: "8px 35px",
-                                fontWeight: 400,
-                                fontFamily: "Gilroy",
-                                color: '#4B4B4B'
-                            }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            onClick={handleSave}
-                            style={{
-                                backgroundColor: "#1E45E1",
-                                borderRadius: 12,
-                                padding: "8px 45px",
-                                fontWeight: 400,
-                                border: "none",
-                                fontFamily: "Gilroy",
-                                color: "#fff"
-                            }}
-                        >
-                            Save
-                        </Button>
                     </div>
 
-
-                    {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
+                    <div className="mb-6">
+                        <label
+                            htmlFor="noticePeriod"
+                            className="block text-sm text-gray-800 font-gilroy font-medium mb-1"
                         >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
+                            Notice Period{" "}
+                            <span className="text-[#FF0000] text-xl">*</span>
+                        </label>
 
+                        <Select
+                            id="noticePeriod"
+                            options={dayOptions}
+                            styles={selectStyle}
+                            placeholder="Select Notice Period"
+                            value={noticePeriod}
+                            onChange={(selected) => {
+                                setNoticePeriod(selected);
+                                setErrors((prev) => ({ ...prev, notice: "" }));
+                                dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                            }}
+                        />
+
+                        {errors.notice && (
+                            <ErrorMessage message={errors.notice} type="error" />
+                        )}
+                    </div>
+
+                    {state.Settings.billingRuleError && (
+                        <ErrorMessage
+                            message={state.Settings.billingRuleError}
+                            type="error"
+                        />
+                    )}
+
+                    <div className="flex justify-end gap-2 mt-6">
+                        <button
+                            onClick={handleClose}
+                            className="!border !border-[#4B4B4B] !rounded-xl px-9 py-2 !text-sm !font-gilroy 
+                            !text-[#4B4B4B] bg-white"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            onClick={handleSave}
+                            className="!bg-[#1E45E1] !rounded-xl px-11 py-2 !text-sm !font-gilroy !text-white"
+                        >
+                            Save
+                        </button>
+                    </div>
+
+                    {formLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                            <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+                        </div>
+                    )}
 
                 </Modal.Body>
             </Modal>

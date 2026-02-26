@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Card,  Form } from 'react-bootstrap';
 import { BsWhatsapp } from 'react-icons/bs';
 import { Message } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
@@ -12,7 +11,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 const SettingsNotifications = () => {
 
-  
+
 
     const dispatch = useDispatch();
     const toggleStatus = useSelector((state) => state.InvoiceList.whatsappSettings || []);
@@ -50,120 +49,96 @@ const SettingsNotifications = () => {
     };
 
     return (
-        <div className="">
+
+        <div className="w-full mx-aut0">
+
+            <div className="sticky top-0 z-50 flex h-12 items-center bg-white px-2">
+                <span className="font-gilroy text-lg font-semibold text-black whitespace-nowrap">
+                    Notifications
+                </span>
+            </div>
+
             {!showWhatsAppSettings ? (
                 <>
-                   <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-     <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
-         Notifications
-        </label>
-
-      </div>
-
-                    <Card
+                    <div
                         onClick={() => setShowWhatsAppSettings(true)}
-                        style={{ border: '1px solid #8080802E', borderRadius: '6px', cursor: 'pointer' }}
+                        className="mt-3 cursor-pointer rounded-md border border-gray-300 bg-white mr-2"
                     >
-                        <Card.Body className="d-flex align-items-center gap-2 py-2 px-3">
-                            <div
-                                className="d-flex align-items-center justify-content-center rounded-circle"
-                                style={{
-                                    backgroundColor: '#E8F5E9',
-                                    width: '30px',
-                                    height: '30px',
-                                    flexShrink: 0,
-                                }}
-                            >
-                                <BsWhatsapp color="#25D366" size={17} />
+                        <div className="flex items-center gap-2 px-3 py-2">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100">
+                                <BsWhatsapp className="text-lg text-green-500" />
                             </div>
-                            <div className="d-flex flex-column justify-content-center">
-                                <div
-                                    className="fw-semibold"
-                                    style={{ fontSize: '14px', lineHeight: '1.2', marginBottom: '4px', fontFamily: "Gilroy" }}
-                                >
+
+                            <div className="flex flex-col">
+                                <span className="font-gilroy text-base font-semibold">
                                     Whatsapp
-                                </div>
-                                <div className="text-muted" style={{ fontSize: '10px', lineHeight: '1.3', fontFamily: "Gilroy" }}>
+                                </span>
+                                <span className="font-gilroy text-sm text-gray-500">
                                     Manage and automate Whatsapp message alerts for key tenant activities.
-                                </div>
+                                </span>
                             </div>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
                 </>
             ) : (
                 <>
-                    <h3
-                        style={{
-                            fontFamily: 'Gilroy',
-                            fontSize: 15,
-                            color: '#222',
-                            fontWeight: 600,
-                            whiteSpace: 'nowrap',
-                            marginBottom: '20px',
-                        }}
-                    >
-                        Notifications
-                    </h3>
 
-                    <div className="d-flex align-items-center mb-4 mt-2">
-
-                        <ArrowLeft size="18" color="#1E45E1" className="me-2 mt-1"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => setShowWhatsAppSettings(false)} />
-                        <p className="mb-0 fw-semibold" >Whatsapp</p>
+                    <div className="mt-3 mb-4 flex items-center gap-2">
+                        <ArrowLeft
+                            size={18}
+                            className="cursor-pointer text-blue-700"
+                            onClick={() => setShowWhatsAppSettings(false)}
+                        />
+                        <span className="font-gilroy font-semibold">
+                            Whatsapp
+                        </span>
                     </div>
 
+
                     {notifications.map((item) => (
-                        <Card
+                        <div
                             key={item.id}
-                            className="mb-2"
-                            style={{ border: '1px solid #8080802E', borderRadius: '8px' }}
+                            className="mb-2 rounded-lg border border-gray-300/30 bg-white mr-2"
                         >
-                            <Card.Body className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center py-2 px-3 gap-3">
 
-                                <div> <Message size="18" color="#1E45E1" /> </div>
+                            <div className="flex flex-col gap-3 px-3 py-1.5 md:flex-row md:items-center md:justify-between">
 
-                                <div className="d-flex flex-column flex-grow-1 mb-1 mb-md-0">
-                                    <h5 className="mb-1" style={{ fontSize: '14px', fontFamily: "Gilroy" }}>{item.title}</h5>
+                                <div className="flex-shrink-0 flex items-center justify-center">
+                                    <Message size={18} color="#1E45E1" />
+                                </div>
 
-                                    <p
-                                        className="text-muted mb-0"
-                                        style={{
-                                            fontSize: '10px',
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            fontFamily: "Gilroy",
-                                        }}
-                                    >
+                                <div className="flex-1 flex flex-col justify-center">
+                                    <h5 className="font-gilroy text-sm font-medium text-gray-900 leading-tight mb-1 pt-2">
+                                        {item.title}
+                                    </h5>
+                                    <p className="font-gilroy text-xs text-gray-500 truncate leading-tight mb-0.5">
                                         {item.description}
                                     </p>
-
                                 </div>
 
-                                <div className="text-md-end w-100 w-md-auto d-flex justify-content-between justify-content-md-end align-items-center mt-2 mt-md-0">
-                                    <small className="text-muted me-2" style={{ fontSize: '12px' }}>Automation Status</small>
+                                <div className="flex items-center gap-2 md:justify-end">
+                                    <span className="text-xs text-gray-500">Automation Status</span>
 
-                                    <div className="d-flex align-items-center">
-                                        <span className="me-2" style={{ fontFamily: "Gilroy", fontSize: '12px', color: toggleStatus[item.id] ? 'blue' : 'text-muted' }}>
-                                            {toggleStatus[item.id] ? 'On' : 'Off'}
-                                        </span>
-                                        <Form.Check
-                                            type="switch"
-                                            id={`switch-${item.id}`}
+                                    <span
+                                        className={`font-gilroy text-xs ${toggleStatus[item.id] ? "text-blue-600" : "text-gray-400"
+                                            }`}
+                                    >
+                                        {toggleStatus[item.id] ? "On" : "Off"}
+                                    </span>
+
+                                    <label className="relative inline-flex cursor-pointer items-center">
+                                        <input
+                                            type="checkbox"
                                             checked={toggleStatus[item.id]}
                                             onChange={() => handleToggle(item.id)}
-                                            className="mb-0 custom-switch position-relative"
-                                            label=""
+                                            className="peer sr-only"
                                         />
-                                    </div>
+                                        <div className="h-4 w-8 rounded-full bg-gray-300 peer-checked:bg-blue-700"></div>
+                                        <div className="absolute left-0.5 top-0.5 h-3 w-3 rounded-full bg-white transition-transform peer-checked:translate-x-4"></div>
+                                    </label>
                                 </div>
-
-
-                            </Card.Body>
-                        </Card>
-
-
+                            </div>
+                        </div>
                     ))}
                 </>
             )}

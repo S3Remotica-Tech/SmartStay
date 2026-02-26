@@ -114,12 +114,9 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                 backdrop="static"
                 dialogClassName="custom-modal"
             >
-                <Modal.Dialog
-                    style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-                    className="m-0 p-0"
-                >
-                    <Modal.Header style={{ position: "relative" }}>
-                        <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>
+                <Modal.Dialog className="m-0 p-0 pr-2 max-w-[950px] rounded-[30px]">
+                    <Modal.Header className="relative flex items-center justify-between">
+                        <div className="text-xl font-gilroy font-semibold">
                             {editSubCategory ? "Edit Sub Category" : "Add Sub Category"}
                         </div>
 
@@ -127,95 +124,49 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                             size="24"
                             color="#000"
                             onClick={handleCloseForm}
-                            style={{ cursor: "pointer" }}
+                            className="cursor-pointer"
                         />
                     </Modal.Header>
 
-                    <Modal.Body className="pt-2">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <Form.Group className="mb-3">
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            color: "#222",
-                                            lineHeight: "normal",
-                                        }}
-                                    >
-                                        Sub Category{" "}
-                                        <span style={{ color: "red", fontSize: 20 }}> *</span>
-                                    </Form.Label>
 
-                                    <Form.Control
-                                        ref={inputRef}
-                                        style={{
-                                            padding: "10px",
-                                            marginTop: "3px",
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                        type="text"
-                                        placeholder="Enter Sub Category"
-                                        value={subCategory}
-                                        onChange={handleSubCategoryChange}
-                                    />
+                    <Modal.Body className="pt-2 mb-2">
+                        <div className="w-full">
+                            <label className="block font-gilroy text-[14px] font-medium text-[#222] leading-normal mb-1">
+                                Sub Category <span className="text-red-500 text-[20px]">*</span>
+                            </label>
 
-                                    {subCategoryError && (
-                                        <ErrorMessage message={subCategoryError} type="error" />
-                                    )}
-                                </Form.Group>
-                            </div>
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                placeholder="Enter Sub Category"
+                                value={subCategory}
+                                onChange={handleSubCategoryChange}
+                                className="w-full !p-[12px] text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E45E1]"
+                            />
+
+                             {subCategoryError && <ErrorMessage message={subCategoryError} type="error" />}
                         </div>
                     </Modal.Body>
 
                     {formLoading && (
-                        <div
-                            style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: "4px solid #1E45E1",
-                                    borderRight: "4px solid transparent",
-                                    borderRadius: "50%",
-                                    width: "40px",
-                                    height: "40px",
-                                    animation: "spin 1s linear infinite",
-                                }}
-                            ></div>
+                        <div className="absolute inset-0 flex items-center justify-center z-10 opacity-75">
+                            <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
                         </div>
                     )}
 
-                    <Modal.Footer style={{ border: "none" }}>
-                        <Button disabled={formLoading}
-                            className="w-100"
-                            style={{
-                                backgroundColor: "#1E45E1",
-                                fontWeight: 500,
-                                height: 50,
-                                borderRadius: 12,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                marginTop: "-15px",
-                            }}
+
+
+                    <Modal.Footer className="!border-none mb-0.5">
+                        <button
+                            disabled={formLoading}
                             onClick={handleSubmit}
+                            className="!w-full !bg-[#1E45E1] !font-medium !h-12 !rounded-xl !text-base !font-gilroy !mt-[-3.5] text-white"
                         >
                             {editSubCategory ? "Save Changes" : "+ Sub Category"}
-                        </Button>
+                        </button>
                     </Modal.Footer>
+
+
                 </Modal.Dialog>
             </Modal>
         </div>

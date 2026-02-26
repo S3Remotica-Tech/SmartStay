@@ -92,7 +92,7 @@ const SettingElectricity = () => {
         type: "EB-BILLING-UNIT-LIST",
         payload: state.login.selectedHostel_Id
       });
-     
+
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -421,7 +421,7 @@ const SettingElectricity = () => {
   return (
     <div
     >
-     
+
 
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
@@ -438,8 +438,8 @@ const SettingElectricity = () => {
               disabled={!canUpdateElectricity}
               onClick={() => handleEditElectricity(EbList)}
               className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${canUpdateElectricity
-                  ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
             >
               <img src={editpic} alt="Edit" className="w-4 h-4" />
@@ -450,8 +450,8 @@ const SettingElectricity = () => {
               onClick={handleShowFormElectricity}
               disabled={showPopup}
               className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${!showPopup
-                  ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
-                  : "bg-gray-300 text-white cursor-not-allowed"
+                ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+                : "bg-gray-300 text-white cursor-not-allowed"
                 }`}
             >
               + Electricity
@@ -459,7 +459,6 @@ const SettingElectricity = () => {
           )}
         </div>
 
-        {/* Popup message */}
         {showPopup && (
           <div className="flex flex-wrap mt-2 w-full">
             <p className="text-red-500 font-gilroy text-sm w-full md:w-auto">
@@ -469,47 +468,11 @@ const SettingElectricity = () => {
         )}
       </div>
 
-
-
-
-
-
-
- {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: "48%",
-            left: "68%",
-            transform: "translate(-50%, -50%)",
-            width: "100vw",
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "transparent",
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: "4px solid #1E45E1",
-              borderRight: "4px solid transparent",
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              animation: "spin 1s linear infinite",
-            }}
-          ></div>
+      {loading && (
+        <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-transparent">
+          <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
         </div>
       )}
-
-
-
-
-
-
-
 
 
       <div>
@@ -519,231 +482,122 @@ const SettingElectricity = () => {
 
           !canReadElectricity ?
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 100
-              }}
-            >
-
+            <div className="flex flex-col items-center justify-center h-full text-center mt-24">
               <img
                 src={Emptystate}
                 alt="Empty State"
-
               />
 
-
-
-              <ErrorMessage message={['You do not have access to view Electricity']} type="warning" />
-
+              <ErrorMessage
+                message={['You do not have access to view Electricity']}
+                type="warning"
+              />
             </div>
             :
             EbList ?
-
-              <Row className="scroll-issue mt-2">
-                <Col lg={10} md={8} sm={12} >
-                  <Card
-                    className="p-2 border mb-4 mb-md-0"
-                    style={{ borderRadius: 16 }}
-                  >
-                    <Card.Body>
-                      <div className="d-flex justify-content-between align-items-center flex-wrap">
+              <div>
 
 
-                        <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
-                          <div className="d-flex align-items-center">
-                            <span
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "#E7F1FF",
-                                borderRadius: "50%",
-                                width: 32,
-                                height: 32,
-                                justifyContent: "center",
-                                marginRight: 10,
-                              }}
-                            >
-                              <img
-                                src={electricity}
-                                alt="electricity"
-                                style={{ width: 18, height: 18 }}
-                              />
-                            </span>
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 16,
-                                color: "#222",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Electricity Information
-                            </span>
+                <div className="scroll-issue mt-2">
+                  <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-12 md:col-span-8 lg:col-span-10">
+                      <div className="border rounded-[16px] p-2 mb-4 md:mb-0 bg-white">
+                        <div className="p-3">
+
+                          <div className="flex justify-between items-center flex-wrap w-full">
+
+                            <div className="flex items-center">
+                              <span className="flex items-center justify-center w-9 h-9 rounded-full bg-[#E7F1FF] mr-2.5">
+                                <img
+                                  src={electricity}
+                                  alt="electricity"
+                                  className="w-[18px] h-[18px]"
+                                />
+                              </span>
+
+                              <span className="font-gilroy text-[16px] font-semibold text-[#222]">
+                                Electricity Information
+                              </span>
+                            </div>
+
+                            <div className="flex items-center">
+                              <span className="font-gilroy font-semibold text-[16px] text-[#222] leading-none">
+                                ₹ {EbList?.chargerPerUnit}rs
+                              </span>
+                              <span className="font-gilroy font-normal text-[13px] text-[#939393] ml-1 leading-none">
+                                /Unit
+                              </span>
+                            </div>
                           </div>
 
-                          {/* RIGHT SIDE */}
-                          <div>
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                fontSize: 16,
-                                color: "#222",
-                              }}
-                            >
-                              ₹ {EbList?.chargerPerUnit}rs
-                            </span>
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 400,
-                                fontSize: 13,
-                                color: "#939393",
-                                marginLeft: 4,
-                              }}
-                            >
-                              /Unit
-                            </span>
-                          </div>
+                          <hr className="my-4" />
+
+                          <form>
+                            <div className="grid grid-cols-12 gap-4 text-center">
+
+                              <div className="col-span-12 sm:col-span-6">
+                                <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
+                                  Room Based Calculation
+                                </label>
+
+                                <div className="flex justify-center">
+                                  <label className="relative inline-flex items-center cursor-pointer">
+                                    <input
+                                      type="checkbox"
+                                      disabled={!canUpdateElectricity}
+                                      checked={roomBasedCalculation}
+                                      onChange={() => handleRoomBased(EbList)}
+                                      className="sr-only peer"
+                                    />
+
+                                    <div
+                                      className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-700 peer-disabled:opacity-40 after:content-[''] after:absolute after:top-[1.5px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4"
+                                    />
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div className="col-span-12 sm:col-span-6">
+                                <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
+                                  Hostel Based Calculation
+                                </label>
+
+                                <div className="flex justify-center">
+                                  <label className="relative inline-flex items-center cursor-pointer">
+                                    <input
+                                      type="checkbox"
+                                      disabled={!canUpdateElectricity}
+                                      checked={hostelBasedCalculation}
+                                      onChange={() => handleHostelBased(EbList)}
+                                      className="sr-only peer"
+                                    />
+
+                                    <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-800 peer-disabled:opacity-40 after:content-[''] after:absolute after:top-[1.5px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4" />
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+
                         </div>
-
-
-
                       </div>
-                      <hr />
-
-
-
-                      <Form>
-
-                        <Row className="mb-3 text-center">
-                          <Col >
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                                display: "block",
-                              }}
-                            >
-                              Room Based Calculation
-                            </Form.Label>
-                            <Form.Check
-                              disabled={!canUpdateElectricity}
-                              type="switch"
-                              id="roomBased"
-                              checked={roomBasedCalculation}
-                              onChange={() => handleRoomBased(EbList)}
-                              className="custom-switch-pointer"
-                            />
-                          </Col>
-
-                          <Col >
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                                display: "block",
-                              }}
-                            >
-                              Hostel Based Calculation
-                            </Form.Label>
-                            <Form.Check
-                              disabled={!canUpdateElectricity}
-                              type="switch"
-                              id="hostelBased"
-                              checked={hostelBasedCalculation}
-                              onChange={() => handleHostelBased(EbList)}
-                              className="custom-switch-pointer"
-                            />
-                          </Col>
-
-                          {/* <Col>
-                        <Form.Label
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            color: "#4B4B4B",
-                            display: "block",
-                          }}
-                        >
-                          Pro-Wrate
-                        </Form.Label>
-                        <Form.Check
-                          style={{ marginLeft: "-17px" }}
-                          type="switch"
-                          id="proRate"
-                          checked={isProWrate}
-                          onChange={() => handleProRate()}
-                          className="custom-switch-pointer"
-                        />
-                      </Col> */}
-                        </Row>
-
-                        <style>
-                          {`
-      .custom-switch-pointer input[type="checkbox"],
-      .custom-switch-pointer label {
-        cursor: pointer !important;
-      }
-      .form-check {
-        display: flex;
-        justify-content: center;
-      }
-    `}
-                        </style>
-                      </Form>
-
-
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-              : !loading && (
-
-
-                <div
-                  className="d-flex align-items-center justify-content-center"
-                  style={{
-                    width: "100%",
-                    margin: "0px auto",
-                    backgroundColor: "",
-                    marginTop: 120,
-                    justifyContent: "center", alignItems: "center"
-                  }}
-                >
-                  <div>
-                    <div className="d-flex  justify-content-center">
-                      <img
-                        src={EmptyState}
-
-                        alt="Empty state"
-                      />
                     </div>
-                    <div
-                      className="pb-1 mt-3"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 18,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
+                  </div>
+                </div>
+              </div>
+
+
+              : !loading && (
+                <div className="d-flex justify-content-center align-items-center w-100 mt-5 font-gilroy">
+                  <div className="text-center">
+                    <div className="d-flex justify-content-center">
+                      <img src={EmptyState} alt="Empty state" />
+                    </div>
+
+                    <div className="pb-1 mt-3 fw-semibold text-secondary text-lg font-gilroy">
                       No Electricity available
                     </div>
-
-
                   </div>
-                  <div></div>
                 </div>
 
               )}
@@ -756,36 +610,24 @@ const SettingElectricity = () => {
         centered
         dialogClassName="custom-modal"
       >
-        <Modal.Header style={{ position: "relative" }}>
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
+
+        <Modal.Header className="d-flex justify-content-between align-items-center position-relative">
+          <div className="fw-semibold" style={{ fontSize: 20, fontFamily: "Gilroy" }}>
             {edit ? "Edit Electricity" : "Add Electricity"}
           </div>
 
           <CloseCircle
-            size="24"
+            size={24}
             color="#000"
             onClick={handleClose}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
         </Modal.Header>
-        <Modal.Body className="pt-1" style={{ marginBottom: "0px" }}>
-          <div className="col">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <Modal.Body className="pt-1 mb-0">
+          <div>
+            <div className="w-full">
               <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
+                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                   Unit{" "}
                 </Form.Label>
                 <FormControl
@@ -793,33 +635,15 @@ const SettingElectricity = () => {
                   id="form-controls"
                   placeholder="1 kW Unit"
                   readOnly
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                    backgroundColor: "#E7F1FF",
-                    width: "100%",
-                  }}
+                  className="w-full h-12 text-base text-gray-600 font-gilroy font-medium border border-gray-300 rounded-lg !bg-blue-50 shadow-none"
                 />
               </Form.Group>
             </div>
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="w-full">
               <Form.Group className="mb-1">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Amount/Unit {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                  Amount/Unit {" "}<span className="text-red-500 text-xl">*</span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -827,27 +651,18 @@ const SettingElectricity = () => {
                   placeholder="₹ 4,000"
                   value={amount}
                   onChange={(e) => handleChangeAmount(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  className="h-12 text-base text-gray-600 font-gilroy font-medium border border-gray-300 rounded-lg shadow-none"
                 />
               </Form.Group>
 
-              <div className=" d-flex align-items-center">
+              <div className="flex items-center">
                 {amountErr && (
                   <ErrorMessage message={amountErr} type="error" />
                 )}
               </div>
-              <div className="">
+              <div className="w-full">
                 {totalErr && (
-                  <div className=" d-flex align-items-center justify-content-center">
+                  <div className="flex items-center justify-center">
 
                     <ErrorMessage message={totalErr} type="error" />
                   </div>
@@ -858,51 +673,16 @@ const SettingElectricity = () => {
         </Modal.Body>
 
 
+        {formLoading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
+            <div className="h-10 w-10 rounded-full border-4 border-transparent border-t-blue-700 animate-spin"></div>
+          </div>
+        )}
 
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
-
-
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{ borderTop: "none", marginBottom: "" }}
-        >
+        <Modal.Footer className="flex justify-center border-0">
           <Button
-            className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 45,
-              borderRadius: 12,
-              fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: "-10px",
-              width: "100%",
-            }}
             onClick={handleAddElectricity}
+            className="w-full h-11 -mt-2 !bg-blue-700 !font-semibold !text-base font-gilroy !rounded-xl"
           >
             {edit ? "Update Electricity" : "Add Electricity"}
           </Button>
