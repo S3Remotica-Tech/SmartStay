@@ -45,9 +45,9 @@ function PayingGuestMap(props) {
   const handleEdit = (item) => {
     props.OnEditHostel(item);
   };
- 
+
   const handleDeletePG = (item) => {
-   
+
     if (item) {
       dispatch({ type: "DELETEHOSTEL", payload: { hostelId: item.hostelId } });
     }
@@ -149,7 +149,7 @@ function PayingGuestMap(props) {
   };
 
 
-  
+
 
 
 
@@ -220,7 +220,7 @@ function PayingGuestMap(props) {
                           height: 50,
                           width: 50,
                           borderRadius: "50%",
-                           backgroundColor: "#E2E8F0",
+                          backgroundColor: "#E2E8F0",
                           color: "#44536A",
                           display: "flex",
                           alignItems: "center",
@@ -241,18 +241,18 @@ function PayingGuestMap(props) {
                 <div>
                   <div
                     className="pb-2"
-                    // onClick={() =>
-                    //   canWritePayingGuests && props.hostel?.isSubscriptionValid 
-                    //     ? handleSelectedHostel(props.hostel.hostelId)
-                    //     : null
-                    // }
+                  // onClick={() =>
+                  //   canWritePayingGuests && props.hostel?.isSubscriptionValid 
+                  //     ? handleSelectedHostel(props.hostel.hostelId)
+                  //     : null
+                  // }
                   >
 
                     <label
                       // className={`${!props.hostel?.isSubscriptionValid ? "" : "hover-hostel-name"}`}
                       style={{
                         fontSize: 14,
-                        color: !props.hostel?.isSubscriptionValid   ? "grey" : "#1E45E1",
+                        color: !props.hostel?.isSubscriptionValid ? "grey" : "#1E45E1",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
                         // textDecoration: "underline",
@@ -371,7 +371,7 @@ function PayingGuestMap(props) {
                               fontSize: 14,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              color: !canUpdatePayingGuests  ? "#A0A0A0" : "#1E45E1",
+                              color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
                               cursor: "pointer",
                               marginBottom: 0,
                             }}
@@ -708,79 +708,36 @@ function PayingGuestMap(props) {
           dialogClassName="custom-delete-modal"
 
         >
-          <Modal.Header
-            style={{
-              borderBottom: "none",
-            }}
-          >
+          <Modal.Header className="!border-b-0">
             <Modal.Title
-              className="w-100 text-center mt-2"
-              style={{
-                fontSize: 18,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                color: "#222222",
-              }}
+              className="w-100 text-center mt-2 !text-lg !font-semibold !font-gilroy text-gray-800 mb-1"
             >
               Delete paying guest?
             </Modal.Title>
 
           </Modal.Header>
 
-          <Modal.Body
-            className="text-center"
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              marginTop: "-27px",
-            }}
-          >
+          <Modal.Body className="text-center text-sm font-medium font-gilroy -mt-7">
             Are you sure you want to delete this paying guest?
           </Modal.Body>
           {pgDeleteError && (
-            <div className="d-flex justify-content-center align-items-center gap-2 ">
+            <div className="flex justify-center items-center gap-2 ">
               <ErrorMessage message={pgDeleteError} type="error" />
             </div>
           )}
-          <Modal.Footer
-            className="d-flex justify-content-center"
-            style={{ border: "none" }}
-          >
+
+
+          <Modal.Footer className="!flex !justify-center !border-t-0 !gap-1">
             <Button
-              className="me-2"
               onClick={handleClose}
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                borderRadius: 8,
-                height: 52,
-                padding: "12px 20px",
-                border: "1px solid rgba(36, 0, 255, 1)",
-                backgroundColor: "#FFF",
-                color: "rgba(36, 0, 255, 1)",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
+              className="!px-14 !py-3.5 !rounded-md !border !border-[rgba(36,0,255,1)] !bg-[white] !text-[rgba(36,0,255,1)] !text-sm !font-semibold !font-gilroy"
             >
               Cancel
             </Button>
+
             <Button
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                border: "1px solid rgba(36, 0, 255, 1)",
-                backgroundColor: "rgba(36, 0, 255, 1)",
-                color: "#fff",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
               onClick={() => handleDeletePG(props.hostel)}
+              className="!px-14 !py-3.5 !rounded-md !border !border-[rgba(36,0,255,1)] !bg-[rgba(36,0,255,1)] !text-[white] !text-sm !font-semibold !font-gilroy"
             >
               Delete
             </Button>

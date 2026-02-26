@@ -1980,7 +1980,7 @@ function SettingGeneral() {
             <div className="col-span-12 md:col-span-6 mb-1">
               <Form.Group className="">
                 <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Last Name <span className="text-red-500 text-xl"> *</span>
+                  Last Name 
                 </Form.Label>
                 <FormControl
                   type="text"

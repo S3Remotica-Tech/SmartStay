@@ -99,9 +99,9 @@ function PgList() {
     }
   }, [canReadPayingGuests]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -813,7 +813,7 @@ useEffect(() => {
 
             {!canReadPayingGuests ? (
               <div className="flex flex-col items-center justify-center h-screen">
-                <img src={EmptyState} alt="Empty State"/>
+                <img src={EmptyState} alt="Empty State" className="-mt-28" />
                 <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
               </div>
             ) : floorList?.length > 0 ? (
@@ -899,93 +899,44 @@ useEffect(() => {
 
                         !state.login.isTrigger &&
                         <div
-                          style={{
-                            cursor: "pointer",
-                            height: 30,
-                            width: 30,
-                            borderRadius: 100,
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            zIndex: showDots ? 1000 : "auto",
-                            backgroundColor: showDots ? "#E7F1FF" : "#fff",
-                          }}
+                          className={`cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center relative ${showDots ? 'z-[1000] bg-[#E7F1FF]' : 'z-auto bg-white'}`}
                           onClick={handleShowDots}
                         >
-                          <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15 }} />
+                          <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
                           {showDots && (
                             <div
                               ref={popupRef}
-                              className="pg-card"
-                              style={{
-                                backgroundColor: "#fff",
-                                position: "absolute",
-                                right: 40,
-                                top: 10,
-                                border: "1px solid #E0E0E0",
-                                borderRadius: 10,
-                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                width: 140,
-                                zIndex: 1000,
-                              }}
+                              className="pg-card bg-white absolute right-10 top-4 border border-gray-300 rounded-lg shadow-md w-36 z-50"
                             >
                               <div>
                                 <div
-                                  className="d-flex gap-2 align-items-center"
                                   onClick={
                                     canUpdatePayingGuests
                                       ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
                                       : undefined
                                   }
-                                  style={{
-                                    padding: "8px 12px",
-                                    borderRadius: 6,
-                                    opacity: !canUpdatePayingGuests ? 0.5 : 1,
-                                    cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
-                                  }}
+                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
                                 >
                                   <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
-                                      cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
-                                    }}
+                                  <span className={`text-sm font-medium font-gilroy ${!canUpdatePayingGuests ? 'text-gray-400 cursor-not-allowed' : 'text-blue-700 cursor-pointer'}`}
                                   >
                                     Edit
                                   </span>
                                 </div>
-
-                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
+                                <div className="h-px bg-gray-200 my-1" />
 
                                 <div
-                                  className="d-flex gap-2 align-items-center"
                                   onClick={
                                     canDeletePayingGuests
                                       ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
                                       : undefined
                                   }
-                                  style={{
-                                    padding: "8px 12px",
-                                    borderRadius: 6,
-                                    pointerEvents: !canDeletePayingGuests ? "none" : "auto",
-                                    opacity: !canDeletePayingGuests ? 0.5 : 1,
-                                    cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                                  }}
+
+                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
                                 >
                                   <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
                                   <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
-                                      cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                                    }}
+                                    className={`text-sm font-medium font-gilroy ${!canDeletePayingGuests ? 'text-[#A0A0A0] cursor-not-allowed' : 'text-[#FF0000] cursor-pointer'}`}
                                   >
                                     Delete
                                   </span>
@@ -1010,56 +961,32 @@ useEffect(() => {
                 </div>
               </div>
             )
-          :
-         (!loading) && (
-                    <div
-                      className="d-flex align-items-center justify-content-center animated-text mt-5"
-                      style={{
-                        width: "100%",
-                        margin: "0px auto",
-                        backgroundColor: "",
-                      }}
-                    >
-                      <div>
-                        <div className="d-flex  justify-content-center">
-                          <img
-                            src={EmptyState}
-                            style={{ height: 240, width: 240 }}
-                            alt="Empty state"
-                          />
-                        </div>
-                        <div
-                          className="pb-1 mt-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: 20,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          No floors available
-                        </div>
-                        <div
-                          className="pb-1 mt-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          There is no floor added to this paying guest.
-                        </div>
-                        <div className="d-flex justify-content-center pb-1 mt-3">
-                          {" "}
-
-                        </div>
-                      </div>
-                      <div></div>
+              :
+              (!loading) && (
+                <div
+                  className="w-full flex flex-col items-center justify-center animated-text mt-24"
+                >
+                  <div>
+                    <div className="flex justify-center">
+                      <img
+                        src={EmptyState}
+                        className="h-[240px] w-[240px]"
+                        alt="Empty state"
+                      />
                     </div>
-                  )}
+                    <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-xl text-gray-700">
+                      No floors available
+                    </div>
+                    <div className="pb-1 mt-1 text-center font-gilroy font-medium text-base text-gray-700">
+                      There is no floor added to this paying guest.
+                    </div>
+                    <div className="flex justify-center pb-1 mt-3">
+                      {" "}
+
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
         )}
 
