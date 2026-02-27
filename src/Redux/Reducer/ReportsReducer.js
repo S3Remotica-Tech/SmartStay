@@ -13,6 +13,10 @@ export const initialState = {
     reportsTenantsPdfSuccess: 0,
     reportsReceiptPdf: '',
     reportsReceiptPdfSuccess: 0,
+    reportsInvoicePdf: '',
+    reportsInvoicePdfSuccess: 0,
+    reportsExpensePdf: '',
+    reportsExpensePdfSuccess: 0,
 
     invoiceRegisterFilters: {
         startDate: undefined,
@@ -120,6 +124,17 @@ const ReportsReducer = (state = initialState, action) => {
         case 'REMOVE_REPORTS_RECEIPT_REGISTER_PDF_REDUCER':
             return { ...state, reportsReceiptPdfSuccess: 0 };
 
+
+        case 'REPORTS_INVOICE_REGISTER_PDF_REDUCER':
+            return { ...state, reportsInvoicePdf: action.payload.response, reportsInvoicePdfSuccess: action.payload.statusCode };
+
+        case 'REMOVE_REPORTS_INVOICE_REGISTER_PDF_REDUCER':
+            return { ...state, reportsInvoicePdfSuccess: 0 };
+        case 'REPORTS_EXPENSE_REGISTER_PDF_REDUCER':
+            return { ...state, reportsExpensePdf: action.payload.response, reportsExpensePdfSuccess: action.payload.statusCode };
+
+        case 'REMOVE_REPORTS_EXPENSE_REGISTER_PDF_REDUCER':
+            return { ...state, reportsExpensePdfSuccess: 0 };
 
 
         case "SET_TENANT_REGISTER_FILTERS":
