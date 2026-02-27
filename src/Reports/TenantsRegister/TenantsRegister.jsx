@@ -397,7 +397,7 @@ function TenantsRegister() {
 if(state.login.selectedHostel_Id && startDate && endDate) {
      const savedFilters = state.reports?.tenantRegisterFilters;
         dispatch({
-            type: "REPORTSTENANTREGISTERPDFSAGA",
+            type: "REPORTS_TENANT_REGISTER_PDFSAGA",
             payload: {
                 hostelId: state.login.selectedHostel_Id,
                 startDate: startDate,
