@@ -112,3 +112,16 @@ sharingType: filters?.sharingType,
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
+
+
+export async function ReportsTenantRegisterPDF(tenant) {
+  return await AxiosConfigV2.get(
+    `/v2/reports/download/${tenant.hostelId}`,
+    {
+      params: {
+        startDate: tenant.startDate,
+        endDate: tenant.endDate,
+      },
+          }
+  );
+}

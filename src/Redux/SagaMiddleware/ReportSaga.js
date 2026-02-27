@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import { getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
+import { ReportsTenantRegisterPDF, getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -142,7 +142,67 @@ function* handleGetTenantRegister(action) {
 
 }
 
+function* handleReportsTenantRegisterPDF(action) {
+   try {
+      const response = yield call(ReportsTenantRegisterPDF, action.payload)
+
+      
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "red",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+      if (response?.status === 200) {
+         yield put({
+            type: 'REPORTS_TENANT_REGISTER_PDF_REDUCER', payload:
+             {
+               response: response.data, statusCode: response?.status
+            }
+         })
+      }
+         }
+   catch (error) {
+      yield* handleApiError(error);
+
+ if (error.status === 400) {
+         yield put({ type: 'REPORTSTENANTREGISTERPDFSAGA_ERROR', payload: { response: error.response.data } })
+          toast.error(error.response.data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+      }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
 function* ReportSaga() {
+   yield takeEvery('REPORTSTENANTREGISTERPDFSAGA',handleReportsTenantRegisterPDF)
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
    yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
