@@ -69,9 +69,9 @@ function SettingSubscription() {
   } = useHasPermission("Subscription");
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    // setFormLoading(false)
+      // setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -285,11 +285,7 @@ useEffect(() => {
   // };
 
 
-
-
-
-
-
+  
   // const gotoPayment = async () => {
   //   const token = cookies.get("v2-token");
 
@@ -341,7 +337,7 @@ useEffect(() => {
         "Rent Collection Tracking",
         "Reports & Insights"
       ],
-      bgcolor: "linear-gradient(to bottom, #6FA1FF, #4C5CFB)",
+      bgcolor: "linear-gradient(to bottom, #3B63FF, #1E45E1)",
       color: "#fff"
     },
     {
@@ -360,58 +356,39 @@ useEffect(() => {
         "Reports & Insights",
 
       ],
-      bgcolor: "linear-gradient(to bottom, #FFA726, #FB8C00)",
+      bgcolor: "linear-gradient(to bottom, #FF8F00, #EF6C00)",
       color: "#FFF4E8"
     }
   ];
 
 
-
-
-
-
-
-
-
-
-
   return (
-    <div >
-<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">      
+    <div>
+      <div className="h-screen flex flex-col bg-white">
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center px-1.5 whitespace-nowrap">
 
-  {/* Title and Subtitle */}
-  <div className="flex flex-col justify-center w-full md:w-auto">
-    <label className="block text-[18px] md:text-[18px] font-semibold font-gilroy text-[#222]">
-      Subscription
-    </label>
-    <p className="text-[12px] md:text-[14px] font-medium font-gilroy text-[#4B4B4B]">
-      Manage your subscription and billing
-    </p>
-  </div>
-</div>
-
-
-
-
+        <div className="flex flex-col justify-center w-full md:w-auto mt-1">
+          <label className="block text-lg font-semibold font-gilroy text-[#222]">
+            Subscription
+          </label>
+          <p className="text-sm font-medium font-gilroy text-[#4B4B4B]">
+            Manage your subscription and billing
+          </p>
+        </div>
+      </div>
 
       {!canReadSubscription ?
         (
 
-          <div className='h-full'
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-
-            }}
-          >
+          <div className="flex flex-col items-center justify-center mt-20">
             <img
               src={Emptystate}
               alt="Empty State"
-
             />
-            <ErrorMessage message={['You do not have access to view Subscription']} type="warning" />
+            <ErrorMessage
+              message={['You do not have access to view Subscription']}
+              type="warning"
+            />
           </div>
         )
         :
@@ -459,270 +436,176 @@ useEffect(() => {
             </Button> */}
 
 
+            <div className="container mt-2 p-0 mb-12 max-h-[510px] overflow-y-auto font-gilroy">
 
-            <div className="container mt-2 show-scroll p-0 " style={{
-              fontFamily: "Gilroy", maxHeight: "500px",
-              overflowY: "auto", marginBottom: 50
-            }}>
-
-              <Card className="p-4 mb-4 me-2" style={{
-                borderRadius: "14px", backgroundColor: "#F8F9FF",
-                border: "2px solid #1E45E1",
-                //  border: "2px solid #E8E8E8",
-              }}>
-
-                <div className='d-flex justify-content-between align-items-center'>
-                  <div>
+              <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
 
 
-                    <div
-                      style={{
-                        background: "#1E45E1",
-                        color: "white",
-                        padding: "3px 12px",
-                        borderRadius: "12px",
-                        fontSize: "12px",
-                        width: "fit-content",
-                        textAlign: "center", fontWeight: 500
-                      }}
-                    >
-                      <TbCheck /> {" "}Free Trial
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col items-start">
+
+                    <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1">
+                      <TbCheck /> Free Trial
                     </div>
 
-                    <h6 className="mt-1" style={{ fontWeight: 600, color: "#222222", fontSize: 16 }}>
+                    <h6 className="text-[16px] font-semibold text-[#222222]">
                       You are in Free Trial
                     </h6>
                   </div>
+
                   <div>
-                    <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 500 }}>18 days left</label>
+                    <span className="text-[16px] text-[#1E45E1] font-medium">
+                      18 days left
+                    </span>
                   </div>
-
-
                 </div>
 
-                <Row className="mt-2">
-                  <Col>
-                    <div className='d-flex gap-2 align-items-start'>
-                      <div>
-                        <Calendar size="16" color="#4B4B4B" />
-                      </div>
+                <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                      <div className=''>
-                        <div>
-                          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 13 }}>Start Date</label>
+                  <div className="flex gap-2 items-start">
+                    <Calendar size="16" color="#4B4B4B" />
 
-                        </div>
-                        <div>
-                          <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
-
-                        </div>
-                      </div>
+                    <div className="flex flex-col">
+                      <label className="text-[13px] font-normal text-[#4B4B4B]">
+                        Start Date
+                      </label>
+                      <label className="text-[16px] font-normal text-[#4B4B4B]">
+                        Oct 21, 2025
+                      </label>
                     </div>
+                  </div>
 
-                  </Col>
+                  <div className="flex gap-2 items-start">
+                    <Calendar size="16" color="#4B4B4B" />
 
-                  <Col>
-                    <div className='d-flex gap-2 align-items-start'>
-                      <div>
-                        <Calendar size="16" color="#4B4B4B" />
-                      </div>
-
-                      <div className=''>
-                        <div>
-                          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 13 }}>End Date</label>
-
-                        </div>
-                        <div>
-                          <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
-
-                        </div>
-                      </div>
+                    <div className="flex flex-col">
+                      <label className="text-[13px] font-normal text-[#4B4B4B]">
+                        End Date
+                      </label>
+                      <label className="text-[16px] font-normal text-[#4B4B4B]">
+                        Oct 21, 2025
+                      </label>
                     </div>
+                  </div>
+                </div>
 
-                  </Col>
-                </Row>
-
-                <Card className="mt-3 p-3" style={{ border: "1px solid #E0E0E0", backgroundColor: "#fff", borderRadius: "12px", color: "#4B4B4B", fontSize: 16, fontWeight: 400 }}>
+                <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
                   Upgrade to continue unlimited access once your trial ends.
-                </Card>
-                <div className='d-flex justify-content-end'>
-                  <Button
-                    className="mt-3"
-                    style={{
-                      background: "#1E45E1",
-                      borderRadius: "10px",
-                      padding: "10px 25px",
-                      border: "none",
-                      fontSize: 14, fontWeight: 400
-                    }}
-                  >
-                    Upgrade to Premium
-                  </Button>
                 </div>
 
-              </Card>
+                <div className="flex justify-end">
+                  <button className="mt-3 bg-[#1E45E1] text-white rounded-lg px-6 py-2.5 text-sm font-normal border-none">
+                    Upgrade to Premium
+                  </button>
+                </div>
 
-              <Card className="p-4 mb-4 me-2" style={{
-                borderRadius: "14px", backgroundColor: "#FFFAFA",
-                border: "2px solid #FFB5B8",
-                //  border: "2px solid #E8E8E8",
-              }}>
-                <Row className='g-1'>
+              </div>
+              <div className="p-4 mb-4 rounded-[14px] bg-[#FFFAFA] border-2 border-[#FFB5B8]">
 
-                  <Col md={3}>
-                    <Image src={Expire} alt="expire" className='img-fluid' />
-                  </Col>
-                  <Col
-                    md={9}
-                    className="d-flex flex-column justify-content-center align-items-start"
-                  >
-                    <div className="text-start">
-                      <label style={{ color: "#222222", fontSize: 20, fontWeight: 600 }}>
-                        Your Trial Expired
-                      </label>
-                    </div>
-                    <div className="">
-                      <label style={{ color: "#8E8E8E", fontSize: 14, fontWeight: 400 }}>
-                        Your free trial has ended. Subscribe now to continue accessing all features.
-                      </label>
-                    </div>
-                  </Col>
+                <div className="grid grid-cols-12 gap-3">
 
-                </Row>
-                <Card className="mt-3 p-3" style={{ border: "1px solid #FFC9C9", backgroundColor: "#fff", borderRadius: "12px", }}>
-
-
-                  <div>
-                    <label style={{ color: "#222222", fontSize: 14, fontWeight: 600 }}>Limited Access Mode</label>
+                  <div className="col-span-12 md:col-span-3 flex justify-center md:justify-start">
+                    <img src={Expire} alt="expire" className="w-full h-auto" />
                   </div>
 
+                  <div className="col-span-12 md:col-span-9 flex flex-col justify-center items-start">
+                    <div className="text-left">
+                      <span className="text-[#222222] text-xl font-semibold">
+                        Your Trial Expired
+                      </span>
+                    </div>
+                    <div className="mt-1">
+                      <span className="text-[#8E8E8E] text-sm font-normal">
+                        Your free trial has ended. Subscribe now to continue accessing all features.
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-                  <Row>
-                    <Col md={6}>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Dashboard & Property Management</div>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Asset and Expenses Management</div>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Complaint Management</div>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> EB Calculation</div>
-                    </Col>
-                    <Col md={6}>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Tenant & Room Management</div>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Auto Recurring Invoices</div>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Due Reminders (In-App & Email)</div>
-                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Rent Collection Tracking</div>
-                    </Col>
-                  </Row>
-                </Card>
+                <div className="mt-3 p-3 rounded-[12px] !border !border-[#FFC9C9] bg-white">
+                  <div>
+                    <span className="text-[#222222] text-sm font-semibold">Limited Access Mode</span>
+                  </div>
+                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="space-y-1">
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Dashboard & Property Management
+                      </div>
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Asset and Expenses Management
+                      </div>
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Complaint Management
+                      </div>
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> EB Calculation
+                      </div>
+                    </div>
 
-              </Card>
+                    <div className="space-y-1">
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Tenant & Room Management
+                      </div>
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Auto Recurring Invoices
+                      </div>
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Due Reminders (In-App & Email)
+                      </div>
+                      <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                        <IoClose /> Rent Collection Tracking
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-
-
-
-
-              <Row className='me-0 '>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {plans.map((plan, idx) => (
-                  <Col md={6} key={idx}>
-                    <Card
-                      className="p-3 mb-3"
+                  <div
+                    key={idx}
+                    className="relative p-3 mb-3 border-2 border-gray-200 rounded-lg"
+                  >
+                    <div
+                      className="absolute -top-4 right-4 z-10 px-2.5 py-3 rounded-lg font-semibold text-center flex flex-col items-center shadow"
                       style={{
-                        borderRadius: "14px",
-                        border: "2px solid #E8E8E8",
-                        position: "relative"
+                        background: plan.bgcolor,
+                        color: plan.color,
                       }}
                     >
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "-20px",
-                          right: "30px",
-                          background: plan.bgcolor,
-                          color: plan.color,
-                          padding: "5px 10px",
-                          borderRadius: "10px",
-                          fontWeight: 600
-                        }}
-                      >
-                        <div className='text-center'>
-                          <label style={{ fontSize: 12 }}>{plan.price} </label>
+                      <span className="text-xs font-bold">{plan.price}</span>
+                      <span className="text-xs">{plan.period}</span>
+                    </div>
+
+                    <h5 className="mt-6 text-lg font-bold text-[#222222]">{plan.title}</h5>
+                    <span className="text-gray-700 text-base block">
+                      Perfect for small PGs getting started
+                    </span>
+
+                    <hr className="my-2 border border-gray-200" />
+                    <span className="text-gray-700 text-xs">Which includes</span>
+
+                    <div className="mt-2 max-h-44 overflow-y-auto show-scroll pr-1">
+                      {plan.features.map((f, i) => (
+                        <div key={i} className="flex items-start mb-2 mt-1 text-sm">
+                          <FaSquareCheck className="text-[#1E45E1] mr-2 mt-0.5" />
+                          <span className="text-[#1D2127] font-normal">{f}</span>
                         </div>
+                      ))}
+                    </div>
 
-
-                        <div className='text-center'>
-                          <span style={{ fontSize: 12 }}>{plan.period}</span>
-                        </div>
-                      </div>
-
-                      <h5 className="mt-3" style={{ fontWeight: 700, color: "#222222", fontSize: 20 }}>
-                        {plan.title}
-                      </h5>
-
-                      <label style={{ color: "#666" }}>Perfect for small PGs getting started</label>
-
-
-                      <hr className="m-2" style={{ border: "1px solid #F0F0F0" }} />
-
-
-                      <label style={{ color: "#4B4B4B", fontSize: 12 }}>Which includes</label>
-
-                      <div className='show-scroll mt-2'
-                        style={{
-                          maxHeight: "170px",
-                          overflowY: "auto",
-                          paddingRight: "5px"
-                        }}
-                      >
-                        {plan.features.map((f, i) => (
-                          <div
-                            key={i}
-                            className="d-flex align-items-start mb-2 mt-1"
-                            style={{ fontSize: "14px" }}
-                          >
-                            <span
-                              style={{
-                                color: "#1E45E1",
-                                fontWeight: "bold",
-                                marginRight: "8px"
-                              }}
-                            >
-                              <FaSquareCheck style={{ color: "#1E45E1", fontSize: 15 }} />
-                            </span>
-                            <label style={{ color: "#1D2127", fontSize: 14, fontWeight: 400 }}>{f}</label>
-                          </div>
-                        ))}
-                      </div>
-
-                      <Button
-                        className="mt-3 w-100"
-                        style={{
-                          background: "#1E45E1",
-                          borderRadius: "10px",
-                          padding: "8px 16px",
-                          border: "none", fontSize: 14
-                        }}
-                      >
-                        Select Plan <MdArrowRightAlt style={{ color: "#FFF", fontSize: 14 }} />
-                      </Button>
-                    </Card>
-                  </Col>
+                    <button className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1">
+                      Select Plan <MdArrowRightAlt className="text-white text-sm" />
+                    </button>
+                  </div>
                 ))}
-              </Row>
+              </div>
 
             </div>
 
           </div>
-
-
-
         )
       }
-
-
-
-
-
-
-
-
 
       <Modal
         show={changePlan}
@@ -1222,6 +1105,9 @@ useEffect(() => {
         </Modal.Dialog>
       </Modal>
     </div>
+    </div>
+
+
 
   );
 }

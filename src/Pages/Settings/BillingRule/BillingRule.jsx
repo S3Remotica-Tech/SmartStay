@@ -88,9 +88,9 @@ function BillingRule() {
   }, [state.login.selectedHostel_Id]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setFormLoading(false)
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -135,274 +135,168 @@ useEffect(() => {
 
   return (
     <>
-     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-     <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
+        <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
           Bills
         </label>
 
       </div>
 
-      <div >
+      <div>
         {!canReadRecurring ? (
           <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 95
+            <div className="flex flex-col items-center justify-center mt-24">
+              <img src={Emptystate} alt="Empty State" />
 
-              }}
-            >
-
-              <img
-                src={Emptystate}
-                alt="Empty State"
-
+              <ErrorMessage
+                message={['You do not have access to view Billing Rule']}
+                type="warning"
               />
-
-
-
-              <ErrorMessage message={['You do not have access to view Billing Rule']} type="warning" />
-
             </div>
           </>
         ) : (
-          <Row className="g-3 overflow-hidden">
-            <Col xs={12} md={6}>
-              <Card
-                style={{
-                  height: "100%",
-                  borderRadius: "12px",
-                  border: "1px solid #E6E6E6",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                <Card.Body>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "start",
-                    }}
-                  >
-                    <div
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 8,
-                        padding: "8px",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                      }}
-                    >
+         
+          <div className="grid grid-cols-12 gap-3 overflow-hidden">
+
+            <div className="col-span-12 md:col-span-6">
+              <div className="h-full rounded-xl border border-gray-200 shadow-md bg-white">
+                <div className="p-4">
+
+                  <div className="flex justify-between items-start">
+                    <div className="bg-white rounded-lg p-2 shadow-md">
                       <BsShieldCheck size={24} color="#1E45E1" />
                     </div>
-                    {recurringBills.billStartDate ? "" :
-                      <div
-                        style={{
-                          color: "#D12929",
-                          backgroundColor: "#FFEFEF",
-                          borderRadius: 10,
-                          padding: "5px 10px",
-                          fontSize: 10,
-                          fontFamily: "Gilroy"
-                        }}
-                      >
+
+                    {!recurringBills.billStartDate && (
+                      <div className="text-red-600 bg-red-50 rounded-lg px-3 py-1 text-xs font-gilroy">
                         Not Configure Yet
                       </div>
-                    }
+                    )}
                   </div>
-                  <Card.Title style={{ marginTop: "20px", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "#222222" }}>
+
+                  <div className="mt-3 mb-1 font-gilroy font-semibold text-lg text-gray-900">
                     Long Stay Recurring
-                  </Card.Title>
-                  <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
+                  </div>
+
+                  <div className="text-gray-600 text-[15px] font-gilroy mb-1">
                     Configure recurring billing for tenants staying long-term
-                  </Card.Text>
+                  </div>
+
                   {recurringBills.billStartDate && (
-                    <div
-                      className="recurring-details"
-                      style={{
-                        backgroundColor: "#F8F9FF",
-                        borderRadius: 10,
-                        padding: "10px 15px",
-                        marginTop: 10,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <div
-                        className="d-flex justify-content-between mb-2"
-                        style={{ fontSize: 14, color: "#4B4B4B" }}
-                      >
+                    <div className="mt-3 bg-indigo-50 rounded-lg p-3 font-gilroy text-sm text-gray-600">
+
+                      <div className="flex justify-between mb-2">
                         <span>Bill Start Date:</span>
-                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                        <span className="font-semibold text-blue-700">
                           {recurringBills.billStartDate}
                         </span>
                       </div>
 
-                      <div
-                        className="d-flex justify-content-between mb-2"
-                        style={{ fontSize: 14, color: "#4B4B4B" }}
-                      >
+                      <div className="flex justify-between mb-2">
                         <span>Bill Due Days:</span>
-                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                        <span className="font-semibold text-blue-700">
                           {recurringBills.billDueDate}
                         </span>
                       </div>
 
-                      <div
-                        className="d-flex justify-content-between mb-2"
-                        style={{ fontSize: 14, color: "#4B4B4B" }}
-                      >
+                      <div className="flex justify-between mb-2">
                         <span>Notice Period:</span>
-                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                        <span className="font-semibold text-blue-700">
                           {recurringBills.noticePeriod} days
                         </span>
                       </div>
 
-                      <div
-                        className="d-flex justify-content-between"
-                        style={{ fontSize: 14, color: "#4B4B4B" }}
-                      >
+                      <div className="flex justify-between">
                         <span>Starts From:</span>
-                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                        <span className="font-semibold text-blue-700">
                           {recurringBills.startsFrom || "—"}
                         </span>
                       </div>
                     </div>
                   )}
 
-                  {
-                    recurringBills.billStartDate ?
+                  {recurringBills.billStartDate ? (
 
-                      <div className="d-flex justify-content-between p-0 align-items-center">
-                        <Button disabled={!canWriteBills}
-                          onClick={handleShowLongStay}
-                          style={{
-                            marginTop: "10px",
-                            fontSize: "14px",
-                            padding: "6px 12px",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "6px",
-                            backgroundColor: "#1E45E1",
-                            fontFamily: "Gilroy"
-                          }}
-                        >
-                          <ArrowSwapHorizontal size="20" color="#fff" /> Configure
-                        </Button>
-
-
-                        <Form.Check disabled
-                          type="switch"
-                          id="custom-switch"
-                          label={checked ? "On" : "Off"}
-                          checked={checked}
-                          onChange={(e) => setChecked(e.target.checked)}
-                        />
-
-
-
-
-                      </div>
-                      :
-                      <Button
+                    <div className="flex justify-between items-center mt-3">
+                      <button
                         disabled={!canWriteBills}
                         onClick={handleShowLongStay}
-                        style={{
-                          marginTop: "10px",
-                          fontSize: "14px",
-                          padding: "6px 12px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
-                          backgroundColor: "#1E45E1",
-                          fontFamily: "Gilroy"
-                        }}
+                        className="flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
                       >
-                        <FiSettings /> Setup Now
-                      </Button>
+                        <ArrowSwapHorizontal size={20} /> Configure
+                      </button>
 
+                      <div className="flex items-center">
 
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={(e) => setChecked(e.target.checked)}
+                            disabled
+                            className="sr-only peer"
+                          />
 
-                  }
+                          <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-700 after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4 peer-disabled:opacity-50"></div>
+                        </label>
 
+                        <span className="text-sm font-gilroy leading-none ml-2">
+                          {checked ? "On" : "Off"}
+                        </span>
+                      </div>
+                    </div>
 
-                </Card.Body>
-              </Card>
-            </Col>
-
-            <Col xs={12} md={6}>
-              <Card
-                style={{
-                  height: "100%",
-                  borderRadius: "12px",
-                  border: "1px solid #E6E6E6",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                <Card.Body>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "start",
-                    }}
-                  >
-                    <div
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 8,
-                        padding: "8px",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                      }}
+                  ) : (
+                    <button
+                      disabled={!canWriteBills}
+                      onClick={handleShowLongStay}
+                      className="mt-3 flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
                     >
+                      <FiSettings /> Setup Now
+                    </button>
+                  )}
+
+                </div>
+              </div>
+            </div>
+
+
+            <div className="col-span-12 md:col-span-6">
+              <div className="h-full rounded-xl border border-gray-200 shadow-md bg-white">
+                <div className="p-4">
+
+                  <div className="flex justify-between items-start">
+                    <div className="bg-white rounded-lg p-2 shadow-md">
                       <BsHourglassSplit size={24} color="#1E45E1" />
                     </div>
-                    <div
-                      style={{
-                        color: "#D12929",
-                        backgroundColor: "#FFEFEF",
-                        borderRadius: 10,
-                        padding: "5px 10px",
-                        fontSize: 10,
-                        fontFamily: "Gilroy"
-                      }}
-                    >
+
+                    <div className="text-red-600 bg-red-50 rounded-lg px-3 py-1 text-xs font-gilroy">
                       Not Configure Yet
                     </div>
                   </div>
-                  <Card.Title style={{ marginTop: "20px", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "#222222" }}>
+
+                  <div className="mt-3 font-gilroy font-semibold text-lg text-gray-900">
                     Short Stay Recurring
-                  </Card.Title>
-                  <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
+                  </div>
+
+                  <div className="text-gray-600 text-[15px] font-gilroy mb-1">
                     Set up one-time or daily billing for short-term tenants.
-                  </Card.Text>
-                  <Button
+                  </div>
+
+                  <button
                     disabled
-                    onClick={handleShowShortStay}
-                    style={{
-                      marginTop: "10px",
-                      fontSize: "14px",
-                      padding: "6px 12px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      backgroundColor: "#1E45E1",
-                      fontFamily: "Gilroy"
-                    }}
+                    className="mt-3 flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy opacity-60 cursor-not-allowed"
                   >
                     <FiSettings /> Coming Soon
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
         )
-
-
         }
-
-
 
       </div>
 
@@ -415,35 +309,11 @@ useEffect(() => {
         showShortStay && <ShortStayRecurringModal handleClose={handleCloseShortStay} show={handleShowShortStay} />
       }
 
-
-
-      {formLoading &&
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
+      {formLoading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
+          <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-blue-700 animate-spin"></div>
         </div>
-      }
+      )}
 
 
     </>

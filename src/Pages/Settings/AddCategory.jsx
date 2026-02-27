@@ -118,59 +118,40 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                 backdrop="static"
                 dialogClassName="custom-modal"
             >
-                <Modal.Dialog
-                    style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-                    className="m-0 p-0"
-                >
-                    <Modal.Header style={{ position: "relative" }}>
-                        <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>
+                <Modal.Dialog className="m-0 p-0 pr-2 max-w-[950px] rounded-[30px]">
+
+
+                    <Modal.Header className="relative flex items-center justify-between">
+                        <div className="text-xl font-gilroy font-semibold">
                             {editCategory ? "Edit Category" : "Add Category"}
                         </div>
 
                         <CloseCircle
-                            size="24"
+                            size={24}
                             color="#000"
                             onClick={handleCloseForm}
-                            style={{ cursor: "pointer" }}
+                            className="cursor-pointer"
                         />
                     </Modal.Header>
 
                     <Modal.Body className="pt-2">
-                        <div className="row">
+                        <div>
                             <div className="col-lg-12">
                                 <Form.Group className="mb-3">
-                                    <Form.Label
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            color: "#222",
-                                            lineHeight: "normal",
-                                        }}
-                                    >
-                                        Category{" "}
-                                        <span style={{ color: "red", fontSize: 20 }}> *</span>
+                                    <Form.Label className="font-gilroy text-[14px] font-medium text-[#222] leading-normal">
+                                        Category <span className="text-red-500 text-[20px]">*</span>
                                     </Form.Label>
 
                                     <Form.Control
                                         ref={inputRef}
-                                        style={{
-                                            padding: "10px",
-                                            marginTop: "3px",
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
                                         type="text"
                                         placeholder="Enter Category"
                                         value={category}
                                         onChange={handleCategoryAdd}
+                                        className="mt-1 !p-[12px] !text-base !text-[#4B4B4B] !font-gilroy !font-medium"
                                     />
 
-                                    {categoryError && (
-                                        <ErrorMessage message={categoryError} type="error" />
-                                    )}
+                                    {categoryError && <ErrorMessage message={categoryError} type="error" />}
                                 </Form.Group>
                             </div>
 
@@ -179,46 +160,17 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                     </Modal.Body>
 
                     {formLoading && (
-                        <div
-                            style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: "4px solid #1E45E1",
-                                    borderRight: "4px solid transparent",
-                                    borderRadius: "50%",
-                                    width: "40px",
-                                    height: "40px",
-                                    animation: "spin 1s linear infinite",
-                                }}
-                            ></div>
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
+                            <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
                         </div>
                     )}
 
-                    <Modal.Footer style={{ border: "none" }}>
-                        <Button disabled={formLoading}
-                            className="w-100"
-                            style={{
-                                backgroundColor: "#1E45E1",
-                                fontWeight: 500,
-                                height: 50,
-                                borderRadius: 12,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                marginTop: "-15px",
-                            }}
+
+                    <Modal.Footer className="!border-0 mb-0.5">
+                        <Button
+                            disabled={formLoading}
                             onClick={handleSubmit}
-                        >
+                            className="!w-full !bg-[#1E45E1] !font-medium !h-[50px] !rounded-[12px] !text-[16px] !font-gilroy !mt-[-3.5]">
                             {editCategory ? "Save Changes" : "+ Category"}
                         </Button>
                     </Modal.Footer>

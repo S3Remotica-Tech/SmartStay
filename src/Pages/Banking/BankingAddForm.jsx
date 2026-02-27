@@ -1428,14 +1428,13 @@ function BankingAddForm(props) {
                 </div>
               )}
 
+
               {state.bankingDetails.bankingCreateError && (
-                <div className="col-span-12 mb-1">
-                  <div className="w-full text-start">
-                    <ErrorMessage
-                      message={state.bankingDetails.bankingCreateError}
-                      type="error"
-                    />
-                  </div>
+                <div className="col-span-12 mb-1 flex justify-center">
+                  <ErrorMessage
+                    message={state.bankingDetails.bankingCreateError}
+                    type="error"
+                  />
                 </div>
               )}
 

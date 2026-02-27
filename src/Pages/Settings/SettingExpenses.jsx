@@ -58,9 +58,9 @@ function SettingExpenses() {
     }
   }, [canReadExpense]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -381,390 +381,269 @@ useEffect(() => {
   return (
     <>
 
-
       {loading && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '48%',
-            left: '68%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent z-50">
+          <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
 
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+
+        <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+          <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+            Expenses Category
+          </label>
+        </div>
 
 
-
-
-
-
-     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-
-  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
-      Expenses Category
-    </label>
-  </div>
-
-  
-  <div className="w-full flex justify-center md:justify-end">
-    <button
-      onClick={handleShow}
-      disabled={!canWriteExpense}
-      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        <div className="w-full flex justify-center md:justify-end">
+          <button
+            onClick={handleShow}
+            disabled={!canWriteExpense}
+            className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
         ${canWriteExpense
-          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
-    >
-      + Category
-    </button>
-  </div>
-</div>
-
-
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+          >
+            + Category
+          </button>
+        </div>
+      </div>
 
 
       {
         !canReadExpense ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
-            }}
-          >
- <img src={Emptystate} alt="Empty State"/>
+          <div className="flex flex-col items-center justify-center h-screen mt-24">
+            <img src={Emptystate} alt="Empty State" />
 
-            <ErrorMessage message={['You do not have access to view Expense Category']} type="warning" />
+            <ErrorMessage
+              message={['You do not have access to view Expense Category']}
+              type="warning"
+            />
+          </div>
+        ) : (
+
+          <div
+            className={`mt-2 show-scrolls overflow-y-auto ${expensesFilterddata.length === 0 ? "bg-[#FFFFFF] h-screen" : "bg-[#F9FAFB] h-fit"}  px-3 py-4 rounded-lg `} >
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
+
+
+              {expensesFilterddata && expensesFilterddata.length > 0 && (
+                expensesFilterddata.map((category) => (
+
+
+                  <div
+                    key={category.categoryId}
+                    className="border-0 shadow rounded-lg p-2 font-gilroy text-[16px] font-medium flex flex-col bg-white"
+                  >
+                    <div className="flex items-center gap-4 w-full  min-w-0 px-2 py-1">
+                      <div className="flex-1 min-w-0">
+                        <label
+                          className="block truncate capitalize"
+                          title={category.categoryName}
+                        >
+                          {category.categoryName}
+                        </label>
+                      </div>
+
+
+                      <div className="flex items-center gap-[10px] shrink-0">
+
+
+                        <div className='border-1  py-1 px-2 rounded border-dashed border-[#1E45E1] '>
+                          <AddCircle
+                            size="16"
+                            color="#1E45E1"
+                            className={canWriteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}
+                            onClick={() => {
+                              if (canWriteExpense) handleCreateSubCategory(category);
+                            }}
+                          />
+                        </div>
+                        <div className="relative">
+                          <PiDotsThreeOutlineVerticalFill
+                            className="cursor-pointer"
+                            onClick={() =>
+                              setOpenMenuId(
+                                openMenuId === category.categoryId ? null : category.categoryId
+                              )
+                            }
+                          />
+
+
+                          {openMenuId === category.categoryId && (
+                            <div ref={popupRef} className="absolute right-0 top-6 z-50 w-28 bg-white border rounded shadow-md">
+
+
+                              <div
+                                className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
+          ${canUpdateExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
+                                onClick={() => {
+                                  if (!canUpdateExpense) return;
+                                  handleEditCategory(category);
+                                  setOpenMenuId(null);
+                                }}
+                              >
+                                <img src={Editbtn} className="h-[14px] w-[14px]" alt="image" />
+                                <span>Edit</span>
+                              </div>
+
+
+                              <div
+                                className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
+          ${canDeleteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
+                                onClick={() => {
+                                  if (!canDeleteExpense) return;
+                                  handleDeleteExpensesCategory(category);
+                                  setOpenMenuId(null);
+                                }}
+                              >
+                                <img src={Closebtn} className="h-[14px] w-[14px]" alt="image" />
+                                <span>Delete</span>
+                              </div>
+
+                            </div>
+                          )}
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div >
+
+
+                      <ul className="p-2 m-0 overflow-y-auto h-[150px] bg-[#F9FAFB] mt-2 show-scrolls">
+                        {category.listSubcategories?.length > 0 ? (
+                          category.listSubcategories.map((sub) => (
+                            <li
+                              key={sub.subCategoryId}
+                              onMouseEnter={() => setHoveredSubId(sub.subCategoryId)}
+                              onMouseLeave={() => setHoveredSubId(null)}
+                              className="flex items-center justify-between rounded px-3 py-2 font-gilroy bg-white mb-3 hover:bg-[#F5F8FF] transition"
+                            >
+
+                              <div
+                                className="flex-1 min-w-0 truncate"
+                                title={sub.subCategoryName}
+                              >
+                                {sub.subCategoryName}
+                              </div>
+
+
+                              <div
+                                className={`flex items-center gap-2 shrink-0 transition-all duration-200
+            ${hoveredSubId === sub.subCategoryId
+                                    ? "opacity-100 translate-x-0"
+                                    : "opacity-0 translate-x-1 pointer-events-none"}`}
+                              >
+                                <img
+                                  src={Editbtn}
+                                  className={`h-[15px] w-[15px] ${canUpdateExpense
+                                    ? "cursor-pointer"
+                                    : "cursor-not-allowed opacity-40"
+                                    }`}
+                                  alt="edit"
+                                  onClick={() =>
+                                    canUpdateExpense && handleSubEditCategory(sub)
+                                  }
+                                />
+
+                                <img
+                                  src={Closebtn}
+                                  className={`h-[15px] w-[15px] ${canDeleteExpense
+                                    ? "cursor-pointer"
+                                    : "cursor-not-allowed opacity-40"
+                                    }`}
+                                  alt="delete"
+                                  onClick={() =>
+                                    canDeleteExpense && handleDeleteSubCategory(sub)
+                                  }
+                                />
+                              </div>
+                            </li>
+                          ))
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-center">
+                            <span className="text-gray-400 font-gilroy text-sm">
+                              No Subcategory Details are there!
+                            </span>
+                          </div>
+                        )}
+                      </ul>
+
+
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {!loading && expensesFilterddata.length === 0 && (
+
+              <div className="w-full flex justify-center items-center mt-24">
+                <div className="text-center">
+                  <img src={EmptyState} alt="emptystate" className="max-w-xs mx-auto" />
+                  <div className="font-gilroy font-semibold text-lg text-gray-700 mt-2">
+                    No Expense available
+                  </div>
+                </div>
+              </div>
+            )}
+
+
+
+            {showform && (
+              <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
+            )}
+
+            {
+              showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
+            }
+
+            <Modal
+              show={showModal} onHide={cancelDelete}
+              centered
+              backdrop="static"
+              dialogClassName="custom-delete-modal"
+
+            >
+
+              <Modal.Header className="!border-b-0">
+                <Modal.Title className="w-full text-center mt-2 !font-gilroy !font-semibold !text-lg !text-gray-900">
+                  {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
+                </Modal.Title>
+              </Modal.Header>
+
+
+              <Modal.Body className="text-center font-gilroy font-medium text-sm text-gray-600 -mt-7">
+                {deletesubcat
+                  ? "Are you sure you want to delete this Expenses-Sub-category?"
+                  : "Are you sure you want to delete this Expenses-Category?"}
+              </Modal.Body>
+
+              <Modal.Footer className="flex justify-center !border-t-0 -mt-2">
+                <button
+                  onClick={cancelDelete}
+                  className="w-full max-w-[160px] h-13 px-5 py-3 bg-white !text-blue-700 !border !border-blue-700 !font-gilroy !font-semibold !text-sm rounded-lg"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  disabled
+                  onClick={confirmDelete}
+                  className="w-full max-w-[160px] h-13 px-3 py-3 !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm rounded-lg !cursor-not-allowed !opacity-65"
+                >
+                  Coming Soon
+                </button>
+              </Modal.Footer>
+            </Modal>
 
 
           </div>
         )
-          :
-
-          (
-
-
-            <div
-              className={`mt-2 show-scrolls overflow-y-auto ${expensesFilterddata.length === 0 ? "bg-[#FFFFFF] h-screen" : "bg-[#F9FAFB] h-fit"}  px-3 py-4 rounded-lg `}
-              style={{}}
-            >
-
-
-
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
-
-
-                {expensesFilterddata && expensesFilterddata.length > 0 && (
-                  expensesFilterddata.map((category) => (
-
-
-                    <Card
-                      key={category.categoryId}
-                      className="border-0 shadow rounded-lg p-2 font-gilroy text-[16px] font-medium  flex flex-col bg-white"
-                    >
-
-
-
-                      <div className="flex items-center gap-4 w-full  min-w-0 px-2 py-1">
-                        <div className="flex-1 min-w-0">
-                          <label
-                            className="block truncate capitalize"
-                            title={category.categoryName}
-                          >
-                            {category.categoryName}
-                          </label>
-                        </div>
-
-
-                        <div className="flex items-center gap-[10px] shrink-0">
-
-
-                          <div className='border-1  py-1 px-2 rounded border-dashed border-[#1E45E1] '>
-                            <AddCircle
-                              size="16"
-                              color="#1E45E1"
-                              className={canWriteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}
-                              onClick={() => {
-                                if (canWriteExpense) handleCreateSubCategory(category);
-                              }}
-                            />
-                          </div>
-                          <div className="relative">
-                            <PiDotsThreeOutlineVerticalFill
-                              className="cursor-pointer"
-                              onClick={() =>
-                                setOpenMenuId(
-                                  openMenuId === category.categoryId ? null : category.categoryId
-                                )
-                              }
-                            />
-
-
-                            {openMenuId === category.categoryId && (
-                              <div ref={popupRef} className="absolute right-0 top-6 z-50 w-28 bg-white border rounded shadow-md">
-
-
-                                <div
-                                  className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
-          ${canUpdateExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
-                                  onClick={() => {
-                                    if (!canUpdateExpense) return;
-                                    handleEditCategory(category);
-                                    setOpenMenuId(null);
-                                  }}
-                                >
-                                  <img src={Editbtn} className="h-[14px] w-[14px]" alt="image" />
-                                  <span>Edit</span>
-                                </div>
-
-
-                                <div
-                                  className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
-          ${canDeleteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
-                                  onClick={() => {
-                                    if (!canDeleteExpense) return;
-                                    handleDeleteExpensesCategory(category);
-                                    setOpenMenuId(null);
-                                  }}
-                                >
-                                  <img src={Closebtn} className="h-[14px] w-[14px]"  alt="image"/>
-                                  <span>Delete</span>
-                                </div>
-
-                              </div>
-                            )}
-                          </div>
-
-                        </div>
-                      </div>
-
-                      <div >
-
-
-                        <ul className="p-2 m-0 overflow-y-auto h-[150px] bg-[#F9FAFB] mt-2 show-scrolls">
-                          {category.listSubcategories?.length > 0 ? (
-                            category.listSubcategories.map((sub) => (
-                              <li
-                                key={sub.subCategoryId}
-                                onMouseEnter={() => setHoveredSubId(sub.subCategoryId)}
-                                onMouseLeave={() => setHoveredSubId(null)}
-                                className="flex items-center justify-between rounded px-3 py-2 font-gilroy bg-white mb-3 hover:bg-[#F5F8FF] transition"
-                              >
-
-                                <div
-                                  className="flex-1 min-w-0 truncate"
-                                  title={sub.subCategoryName}
-                                >
-                                  {sub.subCategoryName}
-                                </div>
-
-
-                                <div
-                                  className={`flex items-center gap-2 shrink-0 transition-all duration-200
-            ${hoveredSubId === sub.subCategoryId
-                                      ? "opacity-100 translate-x-0"
-                                      : "opacity-0 translate-x-1 pointer-events-none"}`}
-                                >
-                                  <img
-                                    src={Editbtn}
-                                    className={`h-[15px] w-[15px] ${canUpdateExpense
-                                        ? "cursor-pointer"
-                                        : "cursor-not-allowed opacity-40"
-                                      }`}
-                                    alt="edit"
-                                    onClick={() =>
-                                      canUpdateExpense && handleSubEditCategory(sub)
-                                    }
-                                  />
-
-                                  <img
-                                    src={Closebtn}
-                                    className={`h-[15px] w-[15px] ${canDeleteExpense
-                                        ? "cursor-pointer"
-                                        : "cursor-not-allowed opacity-40"
-                                      }`}
-                                    alt="delete"
-                                    onClick={() =>
-                                      canDeleteExpense && handleDeleteSubCategory(sub)
-                                    }
-                                  />
-                                </div>
-                              </li>
-                            ))
-                          ) : (
-                            <div className="flex items-center justify-center h-full text-center">
-                              <span className="text-gray-400 font-gilroy text-sm">
-                                No Subcategory Details are there!
-                              </span>
-                            </div>
-                          )}
-                        </ul>
-
-
-                      </div>
-                    </Card>
-
-
-
-
-                  ))
-                )}
-              </div>
-
-              {!loading && expensesFilterddata.length === 0 && (
-
-
-                <div className='w-full'
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 90,
-
-                  }}
-                >
-                  <div style={{ textAlign: "center" }}>
-                    <img
-                      src={EmptyState}
-                      alt="emptystate"
-                      style={{ maxWidth: "250px" }}
-                    />
-                    <div
-                      style={{
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 18,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No Expense available
-                    </div>
-                  </div>
-                </div>
-
-
-
-              )}
-
-
-
-
-
-
-              {showform && (
-                <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
-              )}
-
-              {
-                showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
-              }
-
-              <Modal
-                show={showModal} onHide={cancelDelete}
-                centered
-                backdrop="static"
-                dialogClassName="custom-delete-modal"
-
-              >
-                <Modal.Header style={{ borderBottom: 'none' }}>
-                  <Modal.Title
-                    className="w-100 text-center mt-2"
-                    style={{
-                      fontSize: '18px',
-                      fontFamily: 'Gilroy',
-
-                      fontWeight: 600,
-                      color: '#222222',
-
-                    }}
-                  >
-                    {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
-                  </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body
-                  className="text-center"
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    fontFamily: 'Gilroy',
-                    color: '#646464',
-
-                    marginTop: '-27px'
-                  }}
-                >
-                  {deletesubcat ? "Are you sure you want to delete this Expences-Sub-category?" : "Are you sure you want to delete this Expences-Category?"}
-                </Modal.Body>
-
-                <Modal.Footer
-                  className="d-flex justify-content-center"
-                  style={{ borderTop: 'none', marginTop: '-10px' }}>
-                  <Button
-                    className="me-2"
-                    style={{
-                      width: "100%",
-                      maxWidth: 160,
-                      height: 52,
-                      borderRadius: 8,
-                      padding: "12px 20px",
-                      background: "#fff",
-                      color: "#1E45E1",
-                      border: "1px solid #1E45E1",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                    }}
-                    onClick={cancelDelete}
-                  >
-                    Cancel
-                  </Button>
-                  <Button disabled
-                    style={{
-                      width: "100%",
-                      maxWidth: 160,
-                      height: 52,
-                      borderRadius: 8,
-                      padding: "12px 20px",
-                      background: "#1E45E1",
-                      color: "#FFFFFF",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                    }}
-                    onClick={confirmDelete}
-                  >
-                    {/* Delete */} Coming Soon
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-
-
-            </div>
-          )
       }
 
     </>
