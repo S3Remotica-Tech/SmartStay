@@ -395,12 +395,15 @@ function TenantsRegister() {
 
     const handleDownload = () => {
 if(state.login.selectedHostel_Id && startDate && endDate) {
+     const savedFilters = state.reports?.tenantRegisterFilters;
         dispatch({
             type: "REPORTSTENANTREGISTERPDFSAGA",
             payload: {
                 hostelId: state.login.selectedHostel_Id,
                 startDate: startDate,
                 endDate: endDate,
+                  period: savedFilters?.period,
+
             },
         });
         setLoading(true)
@@ -415,13 +418,47 @@ if(state.login.selectedHostel_Id && startDate && endDate) {
         console.log("pdfUrl",pdfUrl)
         setLoading(false)
         if (pdfUrl) {
-            window.open(pdfUrl, "_blank");
+            // window.open(pdfUrl, "_blank");
+             window.location.href = pdfUrl; 
+            // const url = window.URL.createObjectURL(new Blob([pdfUrl]));
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.setAttribute('download', 'file.pdf'); 
+            // document.body.appendChild(link);
+            // link.click();
             dispatch({ type: 'REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER' })
         }
     }
     }, [state?.reports?.reportsTenantsPdf]);
 
 
+
+// useEffect(() => {
+//   if (state?.reports?.reportsTenantsPdfSuccess === 200) {
+
+//     const pdfUrl = state?.reports?.reportsTenantsPdf;
+//     setLoading(false);
+
+//     if (pdfUrl) {
+//       fetch(pdfUrl)
+//         .then(res => res.blob())
+//         .then(blob => {
+//           const url = window.URL.createObjectURL(blob);
+//           const link = document.createElement("a");
+//           link.href = url;
+//           link.download = "file.pdf";
+//           document.body.appendChild(link);
+//           link.click();
+//           document.body.removeChild(link);
+//           window.URL.revokeObjectURL(url);
+//         });
+
+//       dispatch({ type: 'REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER' });
+//     }
+//   }
+// }, [state?.reports?.reportsTenantsPdf]);
+
+ 
 
 
 

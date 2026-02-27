@@ -122,6 +122,6 @@ export async function ReportsTenantRegisterPDF(tenant) {
         startDate: tenant.startDate,
         endDate: tenant.endDate,
       },
-          }
+              }
   );
 }
