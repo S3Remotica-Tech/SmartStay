@@ -118,7 +118,7 @@ function TenantsRegister() {
             link: true
         },
         { title: "Booked Tenants", value: tenantRegister?.summary?.booked?.count },
-         //  up: `${tenantRegister?.summary?.noticePeriod?.trend} %`,
+        //  up: `${tenantRegister?.summary?.noticePeriod?.trend} %`,
     ];
 
 
@@ -148,9 +148,9 @@ function TenantsRegister() {
                 page: '',
                 floorId: [],
                 roomId: [],
-                 sharingType : "",
-                   sharingTypeLabel: '',
-                     tenantStatusLabel: []
+                sharingType: "",
+                sharingTypeLabel: '',
+                tenantStatusLabel: []
 
             },
         })
@@ -181,9 +181,9 @@ function TenantsRegister() {
                 page: '',
                 floorId: [],
                 roomId: [],
-                 sharingType : "",
-                   sharingTypeLabel: '',
-                     tenantStatusLabel: []
+                sharingType: "",
+                sharingTypeLabel: '',
+                tenantStatusLabel: []
 
             },
         })
@@ -192,6 +192,14 @@ function TenantsRegister() {
     const handleClickFilter = () => {
         setInvoiceFilter(true)
     }
+
+
+
+
+
+   
+
+
 
 
     const options = [
@@ -317,9 +325,9 @@ function TenantsRegister() {
                     page: '',
                     floorId: [],
                     roomId: [],
-                     sharingType : "",
-                       sharingTypeLabel: '',
-                         tenantStatusLabel: []
+                    sharingType: "",
+                    sharingTypeLabel: '',
+                    tenantStatusLabel: []
 
                 },
             })
@@ -368,7 +376,7 @@ function TenantsRegister() {
             floor: savedFilters?.floorId,
             room: savedFilters?.roomId,
             search: savedFilters?.search,
-             sharingType : savedFilters?.sharingType
+            sharingType: savedFilters?.sharingType
 
         };
 
@@ -384,7 +392,77 @@ function TenantsRegister() {
     }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
 
 
-  useEffect(() => {
+
+    const handleDownload = () => {
+if(state.login.selectedHostel_Id && startDate && endDate) {
+     const savedFilters = state.reports?.tenantRegisterFilters;
+        dispatch({
+            type: "REPORTS_TENANT_REGISTER_PDFSAGA",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                startDate: startDate,
+                endDate: endDate,
+                  period: savedFilters?.period,
+
+            },
+        });
+        setLoading(true)
+    }
+
+    };
+
+ useEffect(() => {
+    if(state?.reports?.reportsTenantsPdfSuccess === 200){
+   
+        const pdfUrl = state?.reports?.reportsTenantsPdf;
+        console.log("pdfUrl",pdfUrl)
+        setLoading(false)
+        if (pdfUrl) {
+            window.open(pdfUrl, "_blank");
+            //  window.location.href = pdfUrl; 
+            // const url = window.URL.createObjectURL(new Blob([pdfUrl]));
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.setAttribute('download', 'file.pdf'); 
+            // document.body.appendChild(link);
+            // link.click();
+            dispatch({ type: 'REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER' })
+        }
+    }
+    }, [state?.reports?.reportsTenantsPdf]);
+
+
+
+// useEffect(() => {
+//   if (state?.reports?.reportsTenantsPdfSuccess === 200) {
+
+//     const pdfUrl = state?.reports?.reportsTenantsPdf;
+//     setLoading(false);
+
+//     if (pdfUrl) {
+//       fetch(pdfUrl)
+//         .then(res => res.blob())
+//         .then(blob => {
+//           const url = window.URL.createObjectURL(blob);
+//           const link = document.createElement("a");
+//           link.href = url;
+//           link.download = "file.pdf";
+//           document.body.appendChild(link);
+//           link.click();
+//           document.body.removeChild(link);
+//           window.URL.revokeObjectURL(url);
+//         });
+
+//       dispatch({ type: 'REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER' });
+//     }
+//   }
+// }, [state?.reports?.reportsTenantsPdf]);
+
+ 
+
+
+
+    useEffect(() => {
         setPage(0);
     }, [state.reports?.tenantRegisterFilters]);
 
@@ -418,7 +496,7 @@ function TenantsRegister() {
                 value: filters.period,
             });
         }
-         if (filters?.sharingTypeLabel?.length) {
+        if (filters?.sharingTypeLabel?.length) {
             filterData.push({
                 key: "sharingType",
                 label: "Sharing Type",
@@ -517,9 +595,9 @@ function TenantsRegister() {
                 page: '',
                 floorId: [],
                 roomId: [],
-                 sharingType : "",
-                   sharingTypeLabel: '',
-                     tenantStatusLabel: []
+                sharingType: "",
+                sharingTypeLabel: '',
+                tenantStatusLabel: []
 
             },
         })
@@ -666,7 +744,7 @@ function TenantsRegister() {
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button
+                    <button onClick={handleDownload}
                         className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
                     >
                         <Export size="16" />

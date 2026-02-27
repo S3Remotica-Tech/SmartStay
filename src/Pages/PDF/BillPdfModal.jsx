@@ -744,7 +744,7 @@ console.log("pdfDetails",pdfDetails)
                               <Table responsive className="mb-0">
                                 <thead>
                                   <tr style={{ backgroundColor: "#FFF" }}>
-                                    <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform: "capitalize" }}>Refund</th>
+                                    <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform: "capitalize" }}>{pdfDetails?.invoiceInfo?.totalAmount > 0 ? "Payment" : "Refund"}</th>
                                     <th
                                       style={{
                                         fontSize: 12,

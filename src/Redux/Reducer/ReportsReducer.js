@@ -9,13 +9,17 @@ export const initialState = {
     getReceiptRegisterSuccess: 0,
     getTenantRegister: [],
     getTenantRegisterSuccess: 0,
+    reportsTenantsPdf: '',
+    reportsTenantsPdfSuccess: 0,
+    reportsReceiptPdf: '',
+    reportsReceiptPdfSuccess: 0,
 
     invoiceRegisterFilters: {
         startDate: undefined,
         endDate: undefined,
         invoiceTypes: [],
         createdBy: [],
-        createdByLabels:[],
+        createdByLabels: [],
         invoiceModes: [],
         paymentStatus: [],
         search: "",
@@ -53,19 +57,19 @@ export const initialState = {
     tenantRegisterFilters: {
         startDate: undefined,
         endDate: undefined,
-         period: [],
-         search: "",
-         tenantStatus: [],
-         floor: [],
-         room: [],
+        period: [],
+        search: "",
+        tenantStatus: [],
+        floor: [],
+        room: [],
         //  size:'',
         //  page: '',
-         floorId: [],
-         roomId: [],
-         sharingType : "",
-          sharingTypeLabel: '',
-          tenantStatusLabel: []
-         
+        floorId: [],
+        roomId: [],
+        sharingType: "",
+        sharingTypeLabel: '',
+        tenantStatusLabel: []
+
 
     }
 
@@ -105,6 +109,17 @@ const ReportsReducer = (state = initialState, action) => {
 
         case 'REMOVE_GET_REPORTS_TENANT_REGISTER_REDUCER':
             return { ...state, getTenantRegisterSuccess: 0 }
+        case 'REPORTS_TENANT_REGISTER_PDF_REDUCER':
+            return { ...state, reportsTenantsPdf: action.payload.response, reportsTenantsPdfSuccess: action.payload.statusCode };
+        case 'REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER':
+            return { ...state, reportsTenantsPdfSuccess: 0 };
+
+        case 'REPORTS_RECEIPT_REGISTER_PDF_REDUCER':
+            return { ...state, reportsReceiptPdf: action.payload.response, reportsReceiptPdfSuccess: action.payload.statusCode };
+
+        case 'REMOVE_REPORTS_RECEIPT_REGISTER_PDF_REDUCER':
+            return { ...state, reportsReceiptPdfSuccess: 0 };
+
 
 
         case "SET_TENANT_REGISTER_FILTERS":
