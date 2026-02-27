@@ -418,8 +418,8 @@ if(state.login.selectedHostel_Id && startDate && endDate) {
         console.log("pdfUrl",pdfUrl)
         setLoading(false)
         if (pdfUrl) {
-            // window.open(pdfUrl, "_blank");
-             window.location.href = pdfUrl; 
+            window.open(pdfUrl, "_blank");
+            //  window.location.href = pdfUrl; 
             // const url = window.URL.createObjectURL(new Blob([pdfUrl]));
             // const link = document.createElement('a');
             // link.href = url;
