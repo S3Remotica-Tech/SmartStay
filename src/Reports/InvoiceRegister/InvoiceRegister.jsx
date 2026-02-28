@@ -632,6 +632,46 @@ function InvoiceRegister() {
     }, [state.createAccount?.networkError])
 
 
+ const handleDownload = () => {
+    if (state.login.selectedHostel_Id ) {
+      const invoiceFilters = state.reports?.invoiceRegisterFilters;
+      dispatch({
+        type: "REPORTS_INVOICE_REGISTER_PDFSAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          startDate: startDate,
+          endDate: endDate,
+          period: invoiceFilters?.period,
+        },
+      });
+      setLoading(true)
+    }
+
+  };
+
+  useEffect(() => {
+    if (state?.reports?.reportsInvoicePdfSuccess === 200) {
+
+      const pdfUrl = state?.reports?.reportsInvoicePdf;
+      setLoading(false)
+      if (pdfUrl) {
+        window.open(pdfUrl, "_blank");
+
+        dispatch({ type: 'REMOVE_REPORTS_INVOICE_REGISTER_PDF_REDUCER' })
+      }
+    }
+  }, [state?.reports?.reportsInvoicePdfSuccess]);
+
+     useEffect(() => {
+            if (state?.reports?.reportsPdfExportError) {
+                setLoading(false)
+                dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
+            }
+    
+        }, [state?.reports?.reportsPdfExportError])
+    
+
+
     return (
         <div className="h-screen flex flex-col font-gilroy p-2">
             {loading && (
@@ -732,7 +772,7 @@ function InvoiceRegister() {
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button
+                    <button onClick={handleDownload}
                         className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
                     >
                         <Export size="16" />

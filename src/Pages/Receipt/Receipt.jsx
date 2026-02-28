@@ -132,7 +132,7 @@ function Receipt() {
         if (!state.InvoiceList.ReceiptPDF) return;
         if (pdfOpenedRef.current) return;
         pdfOpenedRef.current = true;
-        setShowLoader(false);
+     setPdfLoading(false);
         window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
         dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });

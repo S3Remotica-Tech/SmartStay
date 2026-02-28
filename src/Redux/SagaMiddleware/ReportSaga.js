@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
-import { ReportsTenantRegisterPDF, ReportsReceiptsPDF, getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
+import { ReportsExpensePDF, ReportsInvoicePDF, ReportsTenantRegisterPDF, ReportsReceiptsPDF, getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -175,7 +175,7 @@ function* handleReportsTenantRegisterPDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: 'REPORTSTENANTREGISTERPDFSAGA_ERROR', payload: { response: error.response.data } })
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
          toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
@@ -225,7 +225,106 @@ function* handleReportsReceiptsPDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: '', payload: { response: error.response.data } })
+          yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
+         toast.error(error.response.data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+      }
+   }
+}
+
+function* handleReportsInvoicePDF(action) {
+   try {
+      const response = yield call(ReportsInvoicePDF, action.payload)
+
+
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "red",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+      if (response?.status === 200) {
+         yield put({
+            type: 'REPORTS_INVOICE_REGISTER_PDF_REDUCER', payload:
+            {
+               response: response.data, statusCode: response?.status
+            }
+         })
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+
+      if (error.status === 400) {
+          yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
+         toast.error(error.response.data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+      }
+   }
+}
+
+
+function* handleReportsExpensePDF(action) {
+   try {
+      const response = yield call(ReportsExpensePDF, action.payload)
+
+
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "red",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+      if (response?.status === 200) {
+         yield put({
+            type: 'REPORTS_EXPENSE_REGISTER_PDF_REDUCER', payload:
+            {
+               response: response.data, statusCode: response?.status
+            }
+         })
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+
+      if (error.status === 400) {
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
          toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
@@ -244,10 +343,6 @@ function* handleReportsReceiptsPDF(action) {
 
 
 
-
-
-
-
 function* ReportSaga() {
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
@@ -256,6 +351,8 @@ function* ReportSaga() {
    yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
    yield takeEvery('REPORTS_TENANT_REGISTER_PDFSAGA', handleReportsTenantRegisterPDF)
    yield takeEvery('REPORTS_RECEIPT_REGISTER_PDFSAGA', handleReportsReceiptsPDF)
+    yield takeEvery('REPORTS_INVOICE_REGISTER_PDFSAGA',handleReportsInvoicePDF)
+    yield takeEvery('REPORTS_EXPENSE_REGISTER_PDFSAGA',handleReportsExpensePDF)
 
 }
 export default ReportSaga;

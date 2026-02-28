@@ -98,6 +98,8 @@ export const initialState = {
     sharePDF: '',
     sharePdfSuccess: 0,
     sharePdfError: '',
+    shareReceiptPDF: '',
+    shareReceiptPdfSuccess: 0,
 
 
     invoiceFilters: {
@@ -438,7 +440,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'RECEIPT_PDF':
             return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_RECEIPT_PDF_STATUS_CODE':
-            return { ...state, statusCodeForReceiptPDf: 0, ReceiptPDF: "" }
+            return { ...state, statusCodeForReceiptPDf: 0 }
 
 
         case 'GET-BILLS-PDF-DETAILS':
@@ -450,6 +452,10 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, sharePDF: action.payload.response, sharePdfSuccess: action.payload.statusCode };
         case 'REMOVE_GET_SHARE_PDF':
             return { ...state, sharePdfSuccess: 0 };
+        case 'WHATSAPP_SHARE_PDF_RECEIPT':
+            return { ...state, shareReceiptPDF: action.payload.response, shareReceiptPdfSuccess: action.payload.statusCode };
+        case 'REMOVE_WHATSAPP_SHARE_PDF_RECEIPT':
+            return { ...state, shareReceiptPdfSuccess: 0 };
 
         case 'SHARE_PDF_ERROR':
             return { ...state, sharePdfError: action.payload };

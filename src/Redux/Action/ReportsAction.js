@@ -130,12 +130,39 @@ export async function ReportsTenantRegisterPDF(tenant) {
 
 export async function ReportsReceiptsPDF(receipt) {
   return await AxiosConfigV2.get(
-    `/v2/reports/download/${receipt.hostelId}`,
+    `/v2/reports/download/receipts/${receipt.hostelId}`,
     {
       params: {
         startDate: receipt.startDate,
         endDate: receipt.endDate,
         period: receipt.period
+      },
+              }
+  );
+}
+
+
+export async function ReportsInvoicePDF(invoice) {
+  return await AxiosConfigV2.get(
+    `/v2/reports/download/${invoice.hostelId}`,
+    {
+      params: {
+        startDate: invoice.startDate,
+        endDate: invoice.endDate,
+        period: invoice.period
+      },
+              }
+  );
+}
+
+export async function ReportsExpensePDF(invoice) {
+  return await AxiosConfigV2.get(
+    `/v2/reports/download/${invoice.hostelId}`,
+    {
+      params: {
+        startDate: invoice.startDate,
+        endDate: invoice.endDate,
+        period: invoice.period
       },
               }
   );

@@ -86,6 +86,8 @@ function BedDetailsMap({ room, propsValue,
 
     }
 
+    // console.log("customer",customer)
+
     const handleClosefinalsettelment = () => {
         setFinalSettlePage(false)
     }
@@ -304,6 +306,12 @@ function BedDetailsMap({ room, propsValue,
     };
 
     const handleclickBedForChangeBed = (bed) => {
+ if (selectedBed?.bedId === bed.id) {
+        setSelectedBed(null);
+        setChangedBedClicked(null);
+        return;
+    }
+
         setSelectedBed({
             bedId: bed.id,
             roomId: bed.roomId
@@ -377,7 +385,7 @@ function BedDetailsMap({ room, propsValue,
 
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-            }, 2000)
+            }, 100)
         }
 
 
@@ -837,7 +845,7 @@ function BedDetailsMap({ room, propsValue,
                     </div>
                 )}
 
-                {state.login.isTrigger && changeBedClicked?.roomId && (
+                {state.login.isTrigger && changeBedClicked?.roomId && selectedBed?.bedId && (
                     <div className="fixed bottom-0 left-[19%] right-0 z-50 flex flex-wrap items-center justify-center border-t bg-white p-2">
 
                         <div>
