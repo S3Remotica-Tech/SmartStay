@@ -438,7 +438,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'RECEIPT_PDF':
             return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_RECEIPT_PDF_STATUS_CODE':
-            return { ...state, statusCodeForReceiptPDf: 0, ReceiptPDF: "" }
+            return { ...state, statusCodeForReceiptPDf: 0 }
 
 
         case 'GET-BILLS-PDF-DETAILS':

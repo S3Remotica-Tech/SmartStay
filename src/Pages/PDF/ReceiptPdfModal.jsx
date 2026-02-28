@@ -108,9 +108,7 @@ const [pdfLoading, setPdfLoading] = useState(false)
 
 
   const handleDownload = (item) => {
-    console.log("item", item)
-
-    if (item.transactionId) {
+       if (item.transactionId) {
 
       dispatch({
         type: "RECEIPTPDF",
