@@ -1201,7 +1201,7 @@ function AddPg({ show, handleClose, currentItem }) {
           </div>
 
           <div className="grid grid-cols-12 gap-x-3">
-            <Form.Label className="text-sm text-gray-900 font-medium font-sans col-span-12 mb-0" >
+            <Form.Label className="text-sm text-gray-900 font-medium font-gilroy col-span-12 mb-0" >
               Images{" "}
             </Form.Label>
 

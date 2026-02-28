@@ -30,7 +30,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const [formLoading, setFormLoading] = useState(false)
 
-   
+
 
     // const handleCheckboxChange = (rowName, index) => {
     //     setErrorIsChanged("")
@@ -43,31 +43,31 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     //     }));
     // };
 
-const handleCheckboxChange = (rowName, index) => {
-    setErrorIsChanged("");
-    setErrorPermission("");
+    const handleCheckboxChange = (rowName, index) => {
+        setErrorIsChanged("");
+        setErrorPermission("");
 
-    setCheckboxValues(prev => {
-        const row = prev[rowName];
-       
-        let newRow = row.map((val, i) => (i === index ? !val : val));
-      
-        if ((index === 2 || index === 3) && newRow[index]) {
-            newRow[1] = true; 
-        }
-      
-        if (index === 1 && !newRow[1]) {
-            newRow[2] = false; 
-            newRow[3] = false; 
-           
-        }
+        setCheckboxValues(prev => {
+            const row = prev[rowName];
 
-        return {
-            ...prev,
-            [rowName]: newRow
-        };
-    });
-};
+            let newRow = row.map((val, i) => (i === index ? !val : val));
+
+            if ((index === 2 || index === 3) && newRow[index]) {
+                newRow[1] = true;
+            }
+
+            if (index === 1 && !newRow[1]) {
+                newRow[2] = false;
+                newRow[3] = false;
+
+            }
+
+            return {
+                ...prev,
+                [rowName]: newRow
+            };
+        });
+    };
 
 
 
@@ -90,7 +90,7 @@ const handleCheckboxChange = (rowName, index) => {
 
 
 
- const [checkboxValues, setCheckboxValues] = useState(initialCheckboxValues);
+    const [checkboxValues, setCheckboxValues] = useState(initialCheckboxValues);
 
 
 
@@ -184,23 +184,23 @@ const handleCheckboxChange = (rowName, index) => {
         dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" })
     }
 
-   const handleRoleName = (e) => {
-    let value = e.target.value;
+    const handleRoleName = (e) => {
+        let value = e.target.value;
 
-    const valid = /^[A-Za-z0-9 ]*$/.test(value);
+        const valid = /^[A-Za-z0-9 ]*$/.test(value);
 
-    if (!valid) {
-        return;   
-    }
+        if (!valid) {
+            return;
+        }
 
-    setErrorForm('');
-    setRoleName(value);
-    setErrorIsChanged("");
-    setRoleError("");
-    setEditRoleError("");
-    dispatch({ type: "CLEAR_ROLE_ERROR" });
-    dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" });
-};
+        setErrorForm('');
+        setRoleName(value);
+        setErrorIsChanged("");
+        setRoleError("");
+        setEditRoleError("");
+        dispatch({ type: "CLEAR_ROLE_ERROR" });
+        dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" });
+    };
 
 
     useEffect(() => {
@@ -303,17 +303,17 @@ const handleCheckboxChange = (rowName, index) => {
         if (!isValid) return;
 
 
-     const formattedPermissionList = permissionRole.map(permission => ({
-    moduleId: permission.moduleId,
-    canRead: permission.canRead === 1 || permission.canRead === true,
-    canWrite: permission.canWrite === 1 || permission.canWrite === true,
-    canUpdate: permission.canUpdate === 1 || permission.canUpdate === true,
-    canDelete: permission.canDelete === 1 || permission.canDelete === true,
-}));
+        const formattedPermissionList = permissionRole.map(permission => ({
+            moduleId: permission.moduleId,
+            canRead: permission.canRead === 1 || permission.canRead === true,
+            canWrite: permission.canWrite === 1 || permission.canWrite === true,
+            canUpdate: permission.canUpdate === 1 || permission.canUpdate === true,
+            canDelete: permission.canDelete === 1 || permission.canDelete === true,
+        }));
 
 
         let payload;
-       
+
 
         if (editRoleDetails) {
 
@@ -334,7 +334,7 @@ const handleCheckboxChange = (rowName, index) => {
 
 
         if (isValid) {
-         
+
             if (editRoleDetails) {
 
                 dispatch({ type: "EDITSETTINGROLEPERMISSION", payload });
@@ -391,7 +391,7 @@ const handleCheckboxChange = (rowName, index) => {
                 bottom: 0,
                 zIndex: 1050,
                 overflow: "hidden",
-                
+
             }}
         >
             <Modal
@@ -401,158 +401,129 @@ const handleCheckboxChange = (rowName, index) => {
                 backdrop="static"
                 dialogClassName="custom-modal-no-scroll"
             >
-                <Modal.Dialog
-                    style={{
-                        maxWidth: 850,
-                        width: "100%",
-                        margin: 0,
-                    }}
-                    className="m-0 p-0"
-                >
-                    <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role' : 'Create Role'}</Modal.Title>
+                <Modal.Dialog className="w-full max-w-[850px] m-0 p-0">
+                    <Modal.Header className="border border-[#E7E7E7]">
+                        <Modal.Title className="!text-xl !text-gray-900 !font-gilroy !font-semibold mb-0">{editRoleDetails ? 'Edit Role' : 'Create Role'}</Modal.Title>
 
-                        <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
+                        <CloseCircle size="24" color="#000" onClick={handleClose} className='cursor-pointer' />
 
                     </Modal.Header>
 
-                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll pt-1 mt-1 me-3 pt-0">
+                    <Modal.Body className="max-h-96 show-scroll overflow-y-scroll pt-0 mt-1 mr-3">
 
-
-
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <Form.Group className="">
-                                <Form.Label
-                                    style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                    }}
-                                >
-                                    Role Name {" "}
-                                    <span style={{ color: "red", fontSize: "20px" }}>
-                                        {" "}
-                                        *{" "}
-                                    </span>
-                                </Form.Label>
-                                <FormControl
+                        <div className="w-full">
+                            <div className="mb-4">
+                                <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
+                                    Role Name{" "}
+                                    <span className="text-red-500 text-[20px]">*</span>
+                                </label>
+                                <input
                                     id="form-controls"
-                                    placeholder="Enter Role"
                                     type="text"
+                                    placeholder="Enter Role"
                                     value={roleName}
                                     onChange={(e) => handleRoleName(e)}
-                                    style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-                                    }}
+                                    className="w-full h-[50px] px-3 text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                 />
-                            </Form.Group>
+                            </div>
 
-                            {roleError && (
-                                  <ErrorMessage message={roleError} type="error"/>
-                            )}
-                            {editRoleError && (
-                                 <ErrorMessage message={editRoleError} type="error"/>
-                            )}
-
-
-
-                            {errorForm && (
-                                 <ErrorMessage message={errorForm} type="error"/>
-                            )}
+                            {roleError && <ErrorMessage message={roleError} type="error" />}
+                            {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
+                            {errorForm && <ErrorMessage message={errorForm} type="error" />}
                         </div>
 
-
-
-
-
-                        <div className="mt-3 " style={{ border: "1px solid #DCDCDC", borderRadius: "16px", maxHeight: "280px", overflowY: "auto", }}>
-                            <table className="table mb-0">
-                                <thead style={{
-                                    backgroundColor: "#E7F1FF",
-                                    position: "sticky",
-                                    top: 0,
-                                    zIndex: 1,
-                                }}>
-                                    <tr >
-                                        <th style={{ paddingLeft: '16px', fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B", borderTopLeftRadius: 16, }}>Permission</th>
-                                        <th style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Add</th>
-                                        <th style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Read</th>
-                                        <th style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Edit</th>
-                                        <th style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B", borderTopRightRadius: 16 }}>Delete</th>
+                        <div className="border border-gray-300 rounded-2xl max-h-[272px] overflow-y-auto">
+                            <table className="min-w-full border-collapse mb-0">
+                                <thead className="bg-[#E7F1FF] sticky top-0 z-10">
+                                    <tr>
+                                        <th className="text-[#4B4B4B] font-gilroy font-medium text-sm pl-4 py-2 rounded-tl-2xl">
+                                            Permission
+                                        </th>
+                                        <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2">Add</th>
+                                        <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2">Read</th>
+                                        <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2">Edit</th>
+                                        <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2 rounded-tr-2xl">
+                                            Delete
+                                        </th>
                                     </tr>
                                 </thead>
 
-                                <tbody style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, color: "#4B4B4B" }}>
+                                <tbody className="text-[#4B4B4B] font-gilroy font-semibold text-base">
+                                    <tr className="h-2"></tr>
 
-                                    {modules.map(module => {
+                                    {modules.map((module, index) => {
                                         const formattedName = module.moduleName.replace(/\s+/g, '');
-                                        return renderRow(formattedName, module.moduleName);
+                                        return (
+                                            <React.Fragment key={formattedName}>
+                                                <tr className="bg-white rounded-lg">
+
+                                                    <td className="pl-4">{module.moduleName}</td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full"></div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full"></div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full "></div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                {index !== modules.length - 1 && <tr className="h-2"></tr>}
+                                            </React.Fragment>
+                                        );
                                     })}
 
-                                  
+                                    <tr className="h-2"></tr>
                                 </tbody>
-
                             </table>
                         </div>
-
-
-
                     </Modal.Body>
 
-                   
-                    {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
+
+                    {formLoading && (
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+                            <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
                         </div>
-                    }
+                    )}
                     {errorIsChanged && (
-                        <div className="d-flex justify-content-center" style={{ textAlign: "center" }}>
-                           <ErrorMessage message={errorIsChanged} type="error"/>
+                        <div className="flex justify-center" style={{ textAlign: "center" }}>
+                            <ErrorMessage message={errorIsChanged} type="error" />
                         </div>
                     )}
 
 
 
                     {errorPermission && (
-                        <div className="d-flex justify-content-start ms-3" >
-                        <ErrorMessage message={errorPermission} type="error"/>
+                        <div className="flex justify-start ms-3" >
+                            <ErrorMessage message={errorPermission} type="error" />
                         </div>
                     )}
-                    <Modal.Footer style={{ border: "none" }}>
 
+                    <Modal.Footer className="border-0">
                         <Button
                             onClick={handleSubmit}
-                            className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
+                            className="w-full !cursor-pointer !bg-[#1E45E1] !font-semibold !py-3 !rounded-lg !text-[16px] !font-gilroy"
+                        >
                             {editRoleDetails ? 'Save Changes' : 'Create Role'}
                         </Button>
                     </Modal.Footer>

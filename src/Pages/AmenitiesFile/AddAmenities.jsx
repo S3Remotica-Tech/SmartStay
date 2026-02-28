@@ -42,7 +42,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   }, [editDetails]);
 
 
-  
+
   // const handleAmenityChange = (e) => {
   //   const value = e.target.value;
   //   const pattern = /^[a-zA-Z\s]*$/;
@@ -57,22 +57,22 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   // };
 
   const handleAmenityChange = (e) => {
-  let value = e.target.value;
- 
-  value = value.trimStart();
+    let value = e.target.value;
+
+    value = value.trimStart();
     value = value.replace(/\s+/g, " ");
 
     const pattern = /^[a-zA-Z\s]*$/;
-  if (!pattern.test(value)) {
-    return;
-  }
+    if (!pattern.test(value)) {
+      return;
+    }
 
-  setAmenity(value);
-  setErrorAmenity("");
-  setIsChangedError("");
-  // setAmnitiesError("");
-  dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' });
-};
+    setAmenity(value);
+    setErrorAmenity("");
+    setIsChangedError("");
+    // setAmnitiesError("");
+    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' });
+  };
 
 
 
@@ -102,7 +102,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   }, [state.InvoiceList.amnitiessAddError])
 
 
-  
+
 
   const handleSubmit = () => {
     dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
@@ -126,15 +126,15 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     // }
 
     if (!amount) {
-    setErrorAmount("Please Enter Amount");
-    isValid = false;
-  } else if (isNaN(amount)) {
-    setErrorAmount("Amount Must Be a Number");
-    isValid = false;
-  } else if (Number(amount) <= 0) { 
-    setErrorAmount("Amount Must Be Greater Than 0");
-    isValid = false;
-  }
+      setErrorAmount("Please Enter Amount");
+      isValid = false;
+    } else if (isNaN(amount)) {
+      setErrorAmount("Amount Must Be a Number");
+      isValid = false;
+    } else if (Number(amount) <= 0) {
+      setErrorAmount("Amount Must Be Greater Than 0");
+      isValid = false;
+    }
 
     // if (initialState) {
     //   const isChanged =
@@ -148,48 +148,48 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     //   }
     // }
 
-      if (initialState) {
-    const oldAmount = Number(initialState.amount);
-    const newAmount = Number(amount);
+    if (initialState) {
+      const oldAmount = Number(initialState.amount);
+      const newAmount = Number(amount);
 
-    const isChanged =
-      initialState.amenity !== amenity ||
-      oldAmount !== newAmount ||
-      initialState.isChecked !== isChecked;
+      const isChanged =
+        initialState.amenity !== amenity ||
+        oldAmount !== newAmount ||
+        initialState.isChecked !== isChecked;
 
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
-      isValid = false;
+      if (!isChanged) {
+        setIsChangedError("No Changes Detected");
+        isValid = false;
+      }
     }
-  }
 
     if (isValid) {
       if (editDetails) {
         dispatch({
           type: "AMENITIESUPDATE",
           payload: {
-          hostelId: state.login.selectedHostel_Id,
-          amenityId: editDetails.amenityId,
-          data: {
-            amenityName: amenity.trim(),
-            amount: amount,   
-            proRate: isChecked,
-          }
-        },
-        
+            hostelId: state.login.selectedHostel_Id,
+            amenityId: editDetails.amenityId,
+            data: {
+              amenityName: amenity.trim(),
+              amount: amount,
+              proRate: isChecked,
+            }
+          },
+
         });
         setFormLoading(true)
       } else {
         dispatch({
           type: "ADD_AMENITIY",
           payload: {
-          hostelId: state.login.selectedHostel_Id,
-          data: {
-            amenityName:amenity.trim(), 
-            amount: amount,   
-            proRate: isChecked,
+            hostelId: state.login.selectedHostel_Id,
+            data: {
+              amenityName: amenity.trim(),
+              amount: amount,
+              proRate: isChecked,
+            }
           }
-        }
         });
         setFormLoading(true)
       }
@@ -209,185 +209,96 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   return (
     <>
 
-      <div
-        className="modal show"
-        style={{
-          display: "block",
-          position: "initial",
-        }}
-      >
+      <div className="modal show block relative">
         <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
-          <Modal.Dialog
-            style={{ maxWidth: 850, width: "100%" }}
-            className="m-0 p-0"
-          >
-            <Modal.Header style={{ border: "1px solid #E7E7E7", marginBottom: "-15px" }}>
-              <Modal.Title
-                style={{
-                  fontSize: 18,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                }}
-              >
+          <Modal.Dialog className="m-0 p-0 w-full max-w-3xl">
+
+            <Modal.Header className="border border-gray-200 mb-[-4]">
+              <Modal.Title className="!text-lg !font-gilroy !font-semibold !text-gray-900">
                 {editDetails ? "Edit Amenities" : "Add Amenities"}
               </Modal.Title>
 
-              <CloseCircle size="24" color="#000" onClick={handleCloseForm} style={{ cursor: "pointer" }} />
+              <CloseCircle
+                size={24}
+                color="#000"
+                onClick={handleCloseForm}
+                className="cursor-pointer"
+              />
             </Modal.Header>
 
             <Modal.Body className="pt-2">
-
-
               {hostelError && (
                 <ErrorMessage message={hostelError} type="error" />
               )}
 
+              <div className="grid gap-4 mt-2">
 
-  
-
-
-              <div className="row mt-2">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Amenity {" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-                    <Form.Control
-                      value={amenity}
-                      onChange={handleAmenityChange}
-                      type="text"
-                      placeholder="Enter Amenity"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                    />
-                  </Form.Group>
+                <div className="w-full">
+                  <label className="block text-sm text-gray-900 font-gilroy font-medium mb-1">
+                    Amenity <span className="text-red-500 text-xl">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Amenity"
+                    value={amenity}
+                    onChange={handleAmenityChange}
+                    className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                   {errorAmenity && (
-                   <ErrorMessage message={errorAmenity} type="error" />
+                    <ErrorMessage message={errorAmenity} type="error" />
                   )}
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Amount {" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-                    <Form.Control
-                      value={amount}
-                      onChange={handleAmountChange}
-                      type="text"
-                      placeholder="Enter amount"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                    />
-                  </Form.Group>
 
+                <div className="w-full">
+                  <label className="block text-sm text-gray-900 font-gilroy font-medium mb-1">
+                    Amount <span className="text-red-500 text-xl">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Amount"
+                    value={amount}
+                    onChange={handleAmountChange}
+                    className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                   {errorAmount && (
-                   <ErrorMessage message={errorAmount} type="error" />
+                    <ErrorMessage message={errorAmount} type="error" />
                   )}
                 </div>
-
-
               </div>
             </Modal.Body>
-  {/* {state.createAccount?.networkError ?
+
+            {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
-           
-            {formLoading &&
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                ></div>
+
+            {formLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
+                <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
               </div>
-            }
+            )}
 
             {state.InvoiceList.amnitiessAddError && (
-              <div className="d-flex justify-content-center align-items-center">
+              <div className="flex justify-center items-center">
                 <ErrorMessage message={state.InvoiceList.amnitiessAddError} type="error" />
-              
+
               </div>
             )}
             {isChangedError && (
-              <div className="d-flex justify-content-center align-items-center mt-1 mb-2">
-                 <ErrorMessage message={isChangedError} type="error" />
+              <div className="flex justify-center items-center mt-1 mb-2">
+                <ErrorMessage message={isChangedError} type="error" />
               </div>
             )}
 
-            <Modal.Footer style={{ border: "none", paddingTop:2 }}>
-              <Button
+            <Modal.Footer className="!border-none !pt-1">
+              <button
                 onClick={handleSubmit}
-                className="w-100"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  padding: 12,
-                  borderRadius: 8,
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                }}
+                className="!w-full !bg-[#1E45E1] !font-gilroy !font-semibold !text-base !rounded-lg !py-3 text-white"
               >
                 {editDetails ? "Save Changes" : "Add Amenities"}
-              </Button>
+              </button>
             </Modal.Footer>
+
           </Modal.Dialog>
         </Modal>
       </div>

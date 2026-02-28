@@ -991,10 +991,10 @@ const RoomReadingTable = () => {
                       </div>
                     ) : (
                      
-                      <div className="overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800"
+                      <div className="show-scrolls overflow-y-auto max-h-[360px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800"
                       >
                         <Table bordered={false} className="mb-0 table-auto w-full">
-                          <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-sm"
+                          <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs"
                           >
                             <tr>
 
@@ -1012,7 +1012,7 @@ const RoomReadingTable = () => {
                               </th>
 
                               <th>OCCUPANTS</th>
-                              <th className="font-gilroy text-gray-500 font-semibold whitespace-nowrap">BILLING MONTH</th>
+                              <th>BILLING MONTH</th>
                               <th>FROM</th>
                               <th>TO</th>
                               <th>TOTAL UNITS</th>

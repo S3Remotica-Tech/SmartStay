@@ -260,7 +260,7 @@ function SettingNewUser() {
       )}
       {
         !canReadUser ? (
-          <div className="flex flex-col items-center justify-center h-[80vh]">
+          <div className="flex flex-col items-center justify-center h-[80vh] mt-24">
             <img src={Emptystate} alt="Empty State" />
             <ErrorMessage message={['You do not have access to view User']} type="warning" />
 
@@ -272,305 +272,122 @@ function SettingNewUser() {
               {sortedData?.length > 0 ? (
                 <div className="ml-2"
                 >
-                  <div className={`show-scrolls overflow-auto overflow-x-hidden border-t border-gray-200 pr-0 pl-0 ${sortedData?.length >= 5 ? "h-[450px]" : "h-auto"
+                  <div className={`show-scrolls overflow-auto overflow-x-hidden border-t border-gray-200 mx-2 font-gilroy ${sortedData?.length >= 5 ? "h-[450px]" : "h-auto"
                     }`}
                   >
                     <Table
                       responsive="md"
-                    className="font-gilroy text-[#222222] sticky top-0 z-1"
+                      className="font-gilroy text-[#222222] sticky top-0 z-1"
                     >
-                      <thead  className="font-gilroy bg-[#E7F1FF] text-[#222222] text-[14px] font-medium sticky top-0 z-1"
-                       >
+                      <thead className="font-gilroy bg-blue-100 sticky top-0 z-10 font-medium text-sm text-black sticky top-0 z-1"
+                      >
                         <tr>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              textAlign: "start",
-                              padding: "10px",
-                              paddingLeft: "25px",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-
-                              Staff Name
-                            </div>
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              padding: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-                            
-                              Email
-                            </div>
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              padding: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-
-                              Mobile No
-                            </div>
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              padding: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-
-                              Roles
-                            </div>
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              padding: "10px",
-                              textAlign: "center",
-                            }}
-                          >
-                            Action
-                          </th>
+                          <th>Staff Name</th>
+                          <th>Email</th>
+                          <th>Mobile No</th>
+                          <th>Roles</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className="text-[13px] text-black font-gilroy">
                         <PaginationList display={true}>
                           {sortedData?.map((item, index) => {
                             return (
-                              <tr key={index} style={{ overflowX: "auto" }}>
+                              <tr className="border-b border-gray-200">
+
                                 <td
-                                  title={item.firstName}
-                                  style={{
-                                    border: "none",
-                                    textAlign: "start",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className=""
+                                  title={`${item?.firstName} ${item?.lastName}`}
+                                  className="text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
                                 >
-                                  <span
-                                    className="Customer_Name_Hover ps-3"
-                                    style={{
-                                      fontSize: "13px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      cursor: "pointer",
-                                      marginTop: 10,
-                                    }}
-                                  >
-                                    {item?.firstName} {""} {item?.lastName}
-                                  </span>
+                                  {item?.firstName} {item?.lastName}
                                 </td>
+
                                 <td
                                   title={item?.mailId}
-                                  style={{
-                                    fontWeight: 500,
-                                    fontSize: "13px",
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    // paddingTop: 17,
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className=""
+                                  className="text-sm text-gray-700 max-w-[220px] truncate whitespace-nowrap overflow-hidden"
                                 >
-                                  <div className="">
-                                    {item?.mailId}
-                                  </div>
-
+                                  {item?.mailId}
                                 </td>
 
-                                <td
-                                  title={item?.mobileNo}
-                                  style={{
-                                    // paddingTop: 17,
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    marginTop: 10,
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className=""
-                                >
-                                  + {item?.countryCode}
-                                  {item &&
-                                    String(item?.mobileNo)?.slice(
-                                      0,
-                                      String(item?.mobileNo).length - 10
-                                    )}{" "}
-                                  {item && String(item?.mobileNo)?.slice(-10)}
+                                <td className="text-sm text-gray-700 truncate">
+                                  +{item?.countryCode} {item?.mobileNo}
                                 </td>
 
-                                <td
-                                  title={item?.role_name}
-                                  style={{
-                                    fontWeight: 500,
-                                    fontSize: "13px",
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    // paddingTop: 17,
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className=""
-                                >
+                                <td className=" text-sm text-gray-700 truncate">
                                   {item?.roleName}
                                 </td>
-                                <td
-                                  style={{
-                                    // textAlign: "center",
-                                    // display: "flex",
-                                    // // paddingTop: 17,
-                                    // justifyContent: "center",
-                                    // alignItems: "center",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                >
+
+                                <td className="border-b border-gray-200 p-0 text-left align-middle">
                                   <div
-                                    style={{
-                                      // height: "35px",
-                                      // width: "35px",
-                                      // borderRadius: "50%",
-                                      // border: "1px solid #EFEFEF",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
-                                      cursor: "pointer",
-                                      // backgroundColor:
-                                      //   showDots === index ? "#E7F1FF" : "white",
-                                    }}
+                                    className="relative flex items-center cursor-pointer pl-2"
                                     onClick={(e) => handleDotsClick(index, e)}
                                   >
                                     <PiDotsThreeOutlineVerticalFill
-                                      style={{
-                                        height: "18px",
-                                        width: "18px",
-                                        cursor: "pointer",
-                                        transform: "rotate(90deg)",
-                                        color: showDots === index ? "#1E45E1" : "#6B7280"
-
-                                      }}
+                                      className={`h-[20px] w-[20px] rotate-90 cursor-pointer ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"
+                                        }`}
                                     />
 
                                     {showDots === index && (
                                       <div
                                         ref={popupRef}
-                                        className="pg-card"
+                                        className="fixed z-[1000] w-[140px] rounded-lg border border-gray-200 bg-white "
                                         style={{
-                                          backgroundColor: "#fff",
-                                          position: "fixed",
                                           top: showAbove
-                                            ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                            ? popupPosition.top -
+                                            (popupRef.current?.offsetHeight || 100) -
+                                            20
                                             : popupPosition.top - 35,
-                                          left: popupPosition.left - 0,
-                                          border: "1px solid #E0E0E0",
-                                          borderRadius: 10,
-                                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                          width: 140,
-                                          zIndex: 1000,
+                                          left: popupPosition.left,
                                         }}
                                       >
                                         <div>
-
                                           <div
-                                            className="d-flex gap-2 align-items-center"
                                             onClick={() => canUpdateUser && handleEditForm(item)}
-                                            style={{
-                                              padding: "8px 12px",
-                                              width: "100%",
-                                              cursor: canUpdateUser ? "pointer" : "not-allowed",
-                                              transition: "background 0.2s ease-in-out",
-                                              opacity: canUpdateUser ? 1 : 0.5, borderTopLeftRadius: 10,
-                                              borderTopRightRadius: 10,
-                                            }}
-                                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
-                                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                                            className={`flex items-center gap-2 px-3 py-2 rounded-t-lg transition ${canUpdateUser
+                                              ? "cursor-pointer hover:bg-[#F0F4FF]"
+                                              : "cursor-not-allowed opacity-50"
+                                              }`}
                                           >
-                                            <img src={Edit} width={16} height={16} alt="Edit" style={{ filter: canUpdateUser ? "none" : "grayscale(100%)" }} />
+                                            <img
+                                              src={Edit}
+                                              width={16}
+                                              height={16}
+                                              alt="Edit"
+                                              className={canUpdateUser ? "" : "grayscale"}
+                                            />
                                             <span
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                cursor: canUpdateUser ? "pointer" : "not-allowed",
-                                                color: canUpdateUser ? "#1E45E1" : "#A0A0A0",
-                                              }}
+                                              className={`text-sm font-medium font-gilroy ${canUpdateUser ? "text-[#1E45E1]" : "text-gray-400"
+                                                }`}
                                             >
                                               Edit
                                             </span>
                                           </div>
 
-
-                                          <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
+                                          <div className="h-px bg-gray-100" />
 
                                           <div
-                                            className="d-flex gap-2 align-items-center"
                                             onClick={() => canDeleteUser && handleDeleteForm(item)}
-                                            style={{
-                                              padding: "8px 12px",
-                                              width: "100%",
-                                              cursor: canDeleteUser ? "pointer" : "not-allowed",
-                                              transition: "background 0.2s ease-in-out",
-                                              opacity: canDeleteUser ? 1 : 0.5
-                                              , borderBottomLeftRadius: 10,
-                                              borderBottomRightRadius: 10,
-                                            }}
-                                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
-                                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                                            className={`flex items-center gap-2 px-3 py-2 rounded-b-lg transition ${canDeleteUser
+                                              ? "cursor-pointer hover:bg-[#FFF3F3]"
+                                              : "cursor-not-allowed opacity-50"
+                                              }`}
                                           >
-                                            <img src={Delete} width={16} height={16} alt="Delete" style={{ filter: canDeleteUser ? "none" : "grayscale(100%)" }} />
+                                            <img
+                                              src={Delete}
+                                              width={16}
+                                              height={16}
+                                              alt="Delete"
+                                              className={canDeleteUser ? "" : "grayscale"}
+                                            />
                                             <span
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: canDeleteUser ? "#FF0000" : "A0A0A0",
-                                                cursor: canDeleteUser ? "pointer" : "not-allowed",
-                                              }}
+                                              className={`text-sm font-medium font-gilroy ${canDeleteUser ? "text-red-500" : "text-gray-400"
+                                                }`}
                                             >
                                               Delete
                                             </span>
                                           </div>
                                         </div>
                                       </div>
-
                                     )}
                                   </div>
                                 </td>
@@ -584,62 +401,26 @@ function SettingNewUser() {
                 </div>
               ) : (
                 !loading && (
-
-
-                  <div
-                    className="d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "100%",
-                      margin: "0px auto",
-                      backgroundColor: "",
-                      marginTop: 110,
-                      justifyContent: "center", alignItems: "center"
-                    }}
-                  >
-                    <div>
-                      <div className="d-flex  justify-content-center">
-                        <img
-                          src={emptyimg}
-
-                          alt="Empty state"
-                        />
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Staff{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        {"There are no staff's available"} {" "}
+                  <div className="flex items-center justify-center w-full mt-24">
+                    <div className="text-center">
+                      <div className="flex justify-center mb-2">
+                        <img src={emptyimg} alt="Empty state" />
                       </div>
 
+                      <div className="pb-1 text-[18px] font-semibold font-gilroy text-[#4B4B4B]">
+                        No Staff
+                      </div>
+
+                      <div className="pb-1 text-[14px] font-medium font-gilroy text-[#4B4B4B]">
+                        There are no staff's available
+                      </div>
                     </div>
-                    <div></div>
                   </div>
                 )
               )}
             </div>
           )
       }
-
-
-
 
 
       {isConfirmDelete && (

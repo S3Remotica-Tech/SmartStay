@@ -66,18 +66,18 @@ function SettingAmenities() {
     useEffect(() => {
         if (!canReadAmenities) {
             setLoading(false);
-        } 
+        }
     }, [canReadAmenities]);
 
-useEffect(() => {
-    if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
-    }
+    useEffect(() => {
+        if (state.UsersList?.accessRestrictionError) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+            }, 1000)
+        }
 
-  }, [state.UsersList?.accessRestrictionError])
+    }, [state.UsersList?.accessRestrictionError])
     useEffect(() => {
         if (amenitiesFilterddata?.length === 0) {
             setLoading(false);
@@ -400,567 +400,177 @@ useEffect(() => {
     return (
         <>
 
-     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-
- 
-  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-    <label className="font-gilroy text-[18px] font-semibold text-[#222] whitespace-nowrap">
-      Amenities
-    </label>
-  </div>
-
- 
-  <div className="w-full flex justify-center md:justify-end  md:mt-0">
-    <button
-      onClick={handleOpenAmenities}
-      disabled={showPopup || !canWriteAmenities}
-      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
-        ${canWriteAmenities
-          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
-    >
-      + Amenities
-    </button>
-  </div>
-
-</div>
+            <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
 
-            {showPopup && (
-                <div className="d-flex flex-wrap">
-                    <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy" }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-                        Please add a hostel before adding Amentities information.
-                    </p>
-
-
-
+                <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+                    <label className="font-gilroy text-[18px] font-semibold text-[#222] whitespace-nowrap">
+                        Amenities
+                    </label>
                 </div>
 
 
-            )}
+                <div className="w-full flex justify-center md:justify-end  md:mt-0">
+                    <button
+                        onClick={handleOpenAmenities}
+                        disabled={showPopup || !canWriteAmenities}
+                        className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteAmenities
+                                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            }`}
+                    >
+                        + Amenities
+                    </button>
+                </div>
 
+            </div>
+
+            {showPopup && (
+                <div className="flex flex-wrap">
+                    <p className="text-red-500 text-sm font-gilroy w-full sm:w-1/2 md:w-1/2 lg:w-3/4">
+                        Please add a hostel before adding Amenities information.
+                    </p>
+                </div>
+            )}
 
             {
                 !canReadAmenities ? (
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            height: "100vh"
-                        }}
-                    >
-
-<img src={Emptystate} alt="Empty State"/>
-                        <ErrorMessage message={['You do not have access to view Settings Amenities']} type="warning" />
-
+                    <div className="flex flex-col items-center justify-center h-screen">
+                        <img src={Emptystate} alt="Empty State" />
+                        <ErrorMessage
+                            message={['You do not have access to view Settings Amenities']}
+                            type="warning"
+                        />
                     </div>
+                ) : (
 
+                    <div className="relative mt-2 mb-3 max-h-[460px] overflow-y-auto">
+                        <div className="flex flex-wrap  gap-y-3">
+                            {amenitiesFilterddata && amenitiesFilterddata.length > 0 ? (
+                                amenitiesFilterddata.map((amenity, index) => (
+                                    <div key={index} className="w-full sm:w-1/2 p-2.5">
+                                        <div className="border border-gray-300 rounded-2xl">
+                                            <div className="p-3">
+                                                <div className="flex justify-between items-center">
+                                                    <div className="flex items-center">
+                                                        <img src={directRight} alt="directRight" className="mr-1.5" />
+                                                        <span className="font-gilroy font-semibold text-gray-900 text-base">
+                                                            {amenity?.amenityName}
+                                                        </span>
+                                                    </div>
 
+                                                    <div className="flex items-center gap-1">
+                                                        <img
+                                                            src={link2}
+                                                            alt="link2"
+                                                            onClick={() => canWriteAmenities && handleDisplayAssignAmenities(amenity)}
+                                                            className={`w-4.5 h-4.5 ${canWriteAmenities ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                                                }`}
+                                                        />
 
-                )
-                    : (
-                        <div className='container mt-2 mb-3 show-scrolls' style={{
-                            position: "relative", maxHeight: "460px",
-                            overflowY: "auto", backgroundColor: ""
-                        }}>
+                                                        <div
+                                                            onClick={() => handleDotsClick(index)}
+                                                            className={`relative flex items-center justify-center w-10 h-10 rounded-full ${showDots === index ? "bg-blue-100" : "bg-white"
+                                                                } cursor-pointer`}
+                                                        >
+                                                            <PiDotsThreeOutlineVerticalFill className="w-4.5 h-4.5" />
 
-
-                            <div className='row row-gap-3'>
-
-
-
-                                {amenitiesFilterddata && amenitiesFilterddata.length > 0 ? (
-                                    amenitiesFilterddata.map((amenity, index) => (
-
-                                        <div key={index} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 p-2' >
-                                            <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
-                                                <Card.Body>
-
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                        <div className="d-flex align-items-center">
-                                                            <img src={directRight} alt="directRight" style={{ marginRight: 6 }} />
-                                                            <label
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: 16,
-                                                                    color: "#222",
-                                                                    fontWeight: 600,
-                                                                    margin: 0,
-                                                                }}
-                                                            >
-                                                                {amenity?.amenityName}
-                                                            </label>
-                                                        </div>
-
-
-                                                        <div className="d-flex align-items-center gap-1">
-                                                            <img
-                                                                src={link2}
-                                                                alt="link2"
-                                                                onClick={() => {
-                                                                    if (canWriteAmenities) {
-                                                                        handleDisplayAssignAmenities(amenity);
-                                                                    }
-                                                                }}
-                                                                style={{
-                                                                    width: 18,
-                                                                    height: 18,
-                                                                    cursor: (canWriteAmenities) ? "pointer" : "not-allowed",
-                                                                    opacity: (canWriteAmenities) ? 1 : 0.5,
-                                                                }}
-                                                            />
-
-
-                                                            <div
-                                                                style={{
-                                                                    cursor: "pointer",
-                                                                    height: 40,
-                                                                    width: 40,
-                                                                    display: "flex",
-                                                                    justifyContent: "center",
-                                                                    alignItems: "center",
-                                                                    position: "relative",
-                                                                    zIndex: showDots ? 1000 : "auto",
-                                                                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
-                                                                    borderRadius: "50%",
-                                                                }}
-                                                                onClick={() => handleDotsClick(index)}
-                                                            >
-                                                                <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
-
-                                                                {showDots === index && <>
-
+                                                            {showDots === index && (
+                                                                <div
+                                                                    ref={popupRef}
+                                                                    className="absolute top-5 right-10 w-44 sm:w-40 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col z-50 text-sm"
+                                                                >
                                                                     <div
-                                                                        ref={popupRef}
-                                                                        style={{
-                                                                            cursor: "pointer",
-                                                                            backgroundColor: "#F9F9F9",
-                                                                            position: "absolute",
-                                                                            right: window.innerWidth <= 335 ? 0 : 40,
-                                                                            top: 20,
-                                                                            width: window.innerWidth <= 335 ? 120 : 180,
-                                                                            border: "1px solid #EBEBEB",
-                                                                            borderRadius: 10,
-                                                                            display: "flex",
-                                                                            flexDirection: "column",
-                                                                            alignItems: "start",
-                                                                            zIndex: 1050,
-                                                                            fontSize: window.innerWidth <= 335 ? 13 : 14,
-                                                                            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                                                                        }}
+                                                                        onClick={() => canUpdateAmenities && handleEditAmenities(amenity)}
+                                                                        className={`flex items-center gap-2 px-3 py-2 transition-colors ${canUpdateAmenities
+                                                                            ? "cursor-pointer hover:bg-blue-50 opacity-100"
+                                                                            : "cursor-not-allowed opacity-50"
+                                                                            }`}
                                                                     >
-                                                                        <div style={{ width: "100%" }}>
-
-
-
-
-                                                                            <div
-                                                                                onClick={() => canUpdateAmenities && handleEditAmenities(amenity)}
-                                                                                className="d-flex gap-2 align-items-center w-100"
-                                                                                style={{
-                                                                                    cursor: canUpdateAmenities ? "pointer" : "not-allowed",
-                                                                                    padding: "8px 12px",
-                                                                                    transition: "background 0.2s ease",
-                                                                                    opacity: canUpdateAmenities ? 1 : 0.5,
-
-                                                                                }}
-                                                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                                                                                onMouseLeave={(e) =>
-                                                                                    (e.currentTarget.style.backgroundColor = "transparent")
-                                                                                }
-                                                                            >
-                                                                                <Edit size="16" color={canUpdateAmenities ? "#1E45E1" : "#A0A0A0"} />
-                                                                                <label
-                                                                                    style={{
-                                                                                        fontSize: 14,
-                                                                                        fontWeight: 600,
-                                                                                        fontFamily: "Gilroy",
-                                                                                        cursor: canUpdateAmenities ? "pointer" : "not-allowed",
-                                                                                        color: canUpdateAmenities ? "#222222" : "#A0A0A0",
-                                                                                    }}
-                                                                                >
-                                                                                    Edit
-                                                                                </label>
-                                                                            </div>
-                                                                            <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                                                                            <div
-                                                                                onClick={() => canDeleteAmenities && handleDeleteAmenities(amenity)}
-                                                                                className="d-flex gap-2  align-items-center w-100"
-                                                                                style={{
-                                                                                    cursor: canDeleteAmenities ? "pointer" : "not-allowed",
-                                                                                    padding: "8px 12px",
-                                                                                    opacity: canDeleteAmenities ? 1 : 0.5,
-                                                                                    borderBottomLeftRadius: 10,
-                                                                                    borderBottomRightRadius: 10,
-                                                                                    transition: "background 0.2s ease",
-                                                                                }}
-                                                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                                                                                onMouseLeave={(e) =>
-                                                                                    (e.currentTarget.style.backgroundColor = "transparent")
-                                                                                }
-                                                                            >
-                                                                                <Trash size="16" color={canDeleteAmenities ? "red" : "#A0A0A0"} />
-                                                                                <label
-                                                                                    style={{
-                                                                                        fontSize: 14,
-                                                                                        fontWeight: 600,
-                                                                                        fontFamily: "Gilroy",
-                                                                                        cursor: canDeleteAmenities ? "pointer" : "not-allowed",
-                                                                                        color: canDeleteAmenities ? "#FF0000" : "#A0A0A0",
-                                                                                    }}
-                                                                                >
-                                                                                    Delete
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
+                                                                        <Edit size={16} color={canUpdateAmenities ? "#1E45E1" : "#A0A0A0"} />
+                                                                        <span
+                                                                            className={`font-gilroy font-semibold ${canUpdateAmenities ? "text-gray-900" : "text-gray-400"
+                                                                                }`}
+                                                                        >
+                                                                            Edit
+                                                                        </span>
                                                                     </div>
 
+                                                                    <div className="h-px bg-gray-200" />
 
-                                                                </>}
-                                                            </div>
+                                                                    <div
+                                                                        onClick={() => canDeleteAmenities && handleDeleteAmenities(amenity)}
+                                                                        className={`flex items-center gap-2 px-3 py-2 transition-colors ${canDeleteAmenities
+                                                                            ? "cursor-pointer hover:bg-red-50 opacity-100"
+                                                                            : "cursor-not-allowed opacity-50"
+                                                                            }`}
+                                                                    >
+                                                                        <Trash size={16} color={canDeleteAmenities ? "red" : "#A0A0A0"} />
+                                                                        <span
+                                                                            className={`font-gilroy font-semibold ${canDeleteAmenities ? "text-red-600" : "text-gray-400"
+                                                                                }`}
+                                                                        >
+                                                                            Delete
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </div>
+                                                </div>
 
+                                                <hr className="my-2 border-gray-200" />
 
-                                                    <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
-                                                    <div className="row row-gap-2">
-                                                        <div className="col-lg-12 col-md-12 col-12">
-                                                            <div className="d-flex justify-content-between">
-                                                                <p
-                                                                    className="mb-1"
-                                                                    style={{
-                                                                        fontSize: 13,
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 400,
-                                                                        color: "#4B4B4B",
-                                                                    }}
-                                                                >
-                                                                    Price
-                                                                </p>
-                                                                <p
-                                                                    style={{
-                                                                        fontSize: 16,
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 600,
-                                                                        paddingRight: 10
-                                                                    }}
-                                                                >
-                                                                    ₹{amenity?.amenityAmount}<span style={{
-                                                                        fontSize: 16,
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 400,
-                                                                    }}>/Month</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-lg-12 col-md-12 col-12">
-                                                            <div className="d-flex justify-content-between align-items-center">
-                                                                <p
-                                                                    className="mb-1"
-                                                                    style={{
-                                                                        fontSize: 13,
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 400,
-                                                                        color: "#4B4B4B",
-                                                                    }}
-                                                                >
-                                                                    Pro-Rate
-                                                                </p>
-
-
-
-                                                                <Form.Check
-                                                                    disabled={!canWriteAmenities}
-                                                                    type="switch"
-                                                                    checked={switchStates[amenity.amenityId] || false}
-                                                                    id={`custom-switch-${amenity.amenityId}`}
-                                                                    className={`custom-switch-pointer ${!canWriteAmenities ? "no-permission" : ""}`}
-                                                                    style={{ boxShadow: "none", cursor: canWriteAmenities ? "pointer" : "not-allowed" }}
-                                                                    onChange={() => canWriteAmenities && handleToggle(amenity)}
-                                                                />
-
-
-                                                            </div>
-
-                                                            <style>
-                                                                {`
-    .custom-switch-pointer {
-      cursor: pointer !important;
-    }
-
-    .custom-switch-pointer * {
-      cursor: pointer !important;
-    }
-
-    /* Disable cursor fully when no permission */
-    .custom-switch-pointer.no-permission,
-    .custom-switch-pointer.no-permission * {
-      cursor: not-allowed !important;
-      opacity: 0.6;
-    }
-  `}
-                                                            </style>
-
-                                                        </div>
-
-
-
-
-
-
-
+                                                <div className="flex flex-col gap-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <p className="font-gilroy text-gray-700 text-xs font-normal">Price</p>
+                                                        <p className="font-gilroy text-gray-900 font-semibold text-base pr-2">
+                                                            ₹{amenity?.amenityAmount}
+                                                            <span className="font-normal text-base">/Month</span>
+                                                        </p>
                                                     </div>
 
-                                                </Card.Body>
-                                            </Card>
+                                                    <div className="flex justify-between items-center">
+                                                        <p className="font-gilroy text-gray-700 text-xs font-normal">Pro-Rate</p>
+                                                        <Form.Check
+                                                            disabled={!canWriteAmenities}
+                                                            type="switch"
+                                                            checked={switchStates[amenity.amenityId] || false}
+                                                            id={`custom-switch-${amenity.amenityId}`}
+                                                            className={`custom-switch-pointer ${!canWriteAmenities ? "no-permission" : ""}`}
+                                                            style={{ boxShadow: "none" }}
+                                                            onChange={() => canWriteAmenities && handleToggle(amenity)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    ))
+                                    </div>
+                                ))
+                            ) : !loading && (
 
-                                ) : !loading &&
-
-
-
-
-
-
-
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        marginTop: 90,
-                                        paddingLeft: "0px",
-                                    }}
-                                >
-                                    <div style={{ textAlign: "center" }}>
-                                        <img
-                                            src={EmptyState}
-                                            alt="emptystate"
-                                            style={{ maxWidth: "250px" }}
-                                        />
-                                        <div
-                                            style={{
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                                fontSize: 18,
-                                                color: "rgba(75, 75, 75, 1)",
-                                            }}
-                                        >
+                                <div className="flex justify-center items-center min-h-screen w-full">
+                                    <div className="flex flex-col items-center">
+                                        <img src={EmptyState} alt="Empty State" className="max-w-xs -mt-24" />
+                                        <div className="mt-2 font-gilroy font-semibold text-lg text-gray-700 text-center">
                                             No Amenities available
                                         </div>
                                     </div>
                                 </div>
-
-                                }
-                            </div>
-
-
-
-
-                            {loading &&
-                                <div
-                                    style={{
-                                        position: 'fixed',
-                                        right: "30%",
-                                        display: 'flex',
-                                        height: "50vh",
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: 'transparent',
-                                        opacity: 0.75,
-                                        zIndex: 10,
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            borderTop: '4px solid #1E45E1',
-                                            borderRight: '4px solid transparent',
-                                            borderRadius: '50%',
-                                            width: '40px',
-                                            height: '40px',
-                                            animation: 'spin 1s linear infinite',
-                                        }}
-                                    ></div>
-                                </div>
-                            }
-
-
-
-
-
-
+                            )}
                         </div>
 
-                    )
-            }
 
-
-
-            {/* {amenitiesFilterddata.length > 2 && (
-                <nav
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "0px",
-                        right: "0px",
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        zIndex: 1000,
-                    }}
-
-                >
-
-                    <div>
-                        <Select
-                            value={amenitiesOptions.find(opt => opt.value === amenitiesrowsPerPage)}
-                            onChange={handleItemsPerPageChange}
-                            options={amenitiesOptions}
-                            placeholder="Items per page"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No options"}
-                            styles={{
-                                control: (base) => ({
-                                    ...base,
-                                    height: "40px",
-                                    borderRadius: "6px",
-                                    fontSize: "14px",
-                                    color: "#1E45E1",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    border: "1px solid #1E45E1",
-                                    boxShadow: "0 0 0 1px #1E45E1",
-                                    cursor: "pointer",
-                                    width: 90,
-                                }),
-                                menu: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    border: "1px solid #ced4da",
-                                    fontFamily: "Gilroy",
-                                }),
-                                menuList: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    maxHeight: "200px",
-                                    padding: 0,
-                                    scrollbarWidth: "thin",
-                                    overflowY: "auto",
-                                    fontFamily: "Gilroy",
-                                }),
-                                placeholder: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                    ...base,
-                                    color: "#1E45E1",
-                                    cursor: "pointer",
-                                }),
-                                indicatorSeparator: () => ({
-                                    display: "none",
-                                }),
-                                option: (base, state) => ({
-                                    ...base,
-                                    cursor: "pointer",
-                                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                                    color: state.isFocused ? "#fff" : "#000",
-                                }),
-                            }}
-                        />
+                        {loading && (
+                            <div className="fixed right-1/3 flex items-center justify-center h-[50vh] bg-transparent opacity-75 z-10">
+                                <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
+                            </div>
+                        )}
                     </div>
 
-                    <ul
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            listStyleType: "none",
-                            margin: 0,
-                            padding: 0,
-                        }}
-                    >
-
-                        <li style={{ margin: "0 10px" }}>
-                            <button
-                                style={{
-                                    padding: "5px",
-                                    textDecoration: "none",
-                                    color: amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
-                                    cursor: amenitiescurrentPage === 1 ? "not-allowed" : "pointer",
-                                    borderRadius: "50%",
-                                    display: "inline-block",
-                                    minWidth: "30px",
-                                    textAlign: "center",
-                                    backgroundColor: "transparent",
-                                    border: "none",
-                                }}
-                                onClick={() => handlePageChange(amenitiescurrentPage - 1)}
-                                disabled={amenitiescurrentPage === 1}
-                            >
-                                <ArrowLeft2
-                                    size="16"
-                                    color={amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                                />
-                            </button>
-                        </li>
-
-
-                        <li
-                            style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-                        >
-                            {amenitiescurrentPage} of {totalPagesGeneral}
-                        </li>
-
-
-                        <li style={{ margin: "0 10px" }}>
-                            <button
-                                style={{
-                                    padding: "5px",
-                                    textDecoration: "none",
-                                    color:
-                                        amenitiescurrentPage === totalPagesGeneral
-                                            ? "#ccc"
-                                            : "#1E45E1",
-                                    cursor:
-                                        amenitiescurrentPage === totalPagesGeneral
-                                            ? "not-allowed"
-                                            : "pointer",
-                                    borderRadius: "50%",
-                                    display: "inline-block",
-                                    minWidth: "30px",
-                                    textAlign: "center",
-                                    backgroundColor: "transparent",
-                                    border: "none",
-                                }}
-                                onClick={() => handlePageChange(amenitiescurrentPage + 1)}
-                                disabled={amenitiescurrentPage === totalPagesGeneral}
-                            >
-                                <ArrowRight2
-                                    size="16"
-                                    color={
-                                        amenitiescurrentPage === totalPagesGeneral
-                                            ? "#ccc"
-                                            : "#1E45E1"
-                                    }
-                                />
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            )} */}
-
-
-
-
+                )
+            }
 
             {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={state.login.selectedHostel_Id} editDetails={editDetails} />
@@ -987,80 +597,35 @@ useEffect(() => {
                     backdrop="static"
                     dialogClassName="custom-delete-modal"
                 >
-                    <Modal.Header style={{ borderBottom: "none" }}>
-                        <Modal.Title
-                            className="w-100 text-center mt-2"
-                            style={{
-                                fontSize: "18px",
-                                fontFamily: "Gilroy",
+                    <Modal.Header className='!border-0'>
 
-                                fontWeight: 600,
-                                color: "#222222",
-
-                            }}
-                        >
+                        <Modal.Title className="!w-full !text-center mt-2 !font-gilroy !font-semibold !text-gray-800 !text-lg">
                             Delete Amenities?
                         </Modal.Title>
                     </Modal.Header>
 
-                    <Modal.Body
-                        className="text-center"
-                        style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "#646464",
 
-                            marginTop: "-27px",
-                        }}
-                    >
+                    <Modal.Body className="text-center -mt-5 font-gilroy font-medium text-gray-500 text-sm">
                         Are you sure you want to delete this Amenities?
                     </Modal.Body>
 
-                    <Modal.Footer
-                        className="d-flex justify-content-center"
-                        style={{
 
-                            borderTop: "none",
-                            marginTop: "-10px",
-                        }}
-                    >
-                        <Button
-                            className="me-2"
-                            style={{
-                                width: "100%",
-                                maxWidth: 160,
-                                height: 52,
-                                borderRadius: 8,
-                                padding: "12px 20px",
-                                background: "#fff",
-                                color: "#1E45E1",
-                                border: "1px solid #1E45E1",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: "14px",
-                            }}
-                            onClick={handleCloseDeleteFormAmenities}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            style={{
-                                width: "100%",
-                                maxWidth: 160,
-                                height: 52,
-                                borderRadius: 8,
-                                padding: "12px 20px",
-                                background: "#1E45E1",
-                                color: "#FFFFFF",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: "14px",
-                            }}
-                            onClick={handleDeleteAmenitiesConfirm}
-                        >
-                            Delete
-                        </Button>
+
+                    <Modal.Footer className="!flex !justify-center !gap-4 !border-t-0 !mt-2">
+                        <div className="!flex !gap-4 w-full max-w-md">
+                            <button
+                                onClick={handleCloseDeleteFormAmenities}
+                                className="!flex-1 !h-14 !rounded-lg !bg-white !text-blue-700 !border !border-blue-700 !font-gilroy !font-semibold !text-sm"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDeleteAmenitiesConfirm}
+                                className="!flex-1 !h-14 !rounded-lg !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm"
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </Modal.Footer>
                 </Modal>
             }
