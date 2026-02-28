@@ -157,7 +157,7 @@ export async function ReportsInvoicePDF(invoice) {
 
 export async function ReportsExpensePDF(invoice) {
   return await AxiosConfigV2.get(
-    `/v2/reports/download/${invoice.hostelId}`,
+    `/v2/reports/download/expense/${invoice.hostelId}`,
     {
       params: {
         startDate: invoice.startDate,
