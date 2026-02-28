@@ -181,16 +181,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   };
 
 
-
-
   useEffect(() => {
+    if (state.InvoiceList?.statusCodeForPDf === 200) {
     const pdfUrl = state?.InvoiceList?.invoicePDF;
     if (pdfUrl) {
       window.open(pdfUrl, "_blank");
       setPdfLoading(false)
       dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' })
     }
-  }, [state?.InvoiceList?.invoicePDF]);
+  }
+  }, [state.InvoiceList?.statusCodeForPDf]);
 
 
   useEffect(() => {
