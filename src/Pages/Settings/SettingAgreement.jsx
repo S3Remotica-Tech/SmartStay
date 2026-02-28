@@ -7,7 +7,7 @@ import arrowleft from "../../Assets/Images/New_images/arrow-leftbluenew.png";
 import jsPDF from "jspdf";
 import {CloseCircle} from "iconsax-react";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
-
+import ComingSoon from '../../Utils/ComingSoon';
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -171,7 +171,7 @@ const {
     
               </div>
   )
-  :
+  : import.meta.env.MODE === "development" ?
 (
  <div className=" p-3" style={{backgroundColor:"#F8FAFC"}}>
 
@@ -429,6 +429,12 @@ const {
       </div>
       </div>
 )
+:
+<ComingSoon />
+
+
+
+
 }
      
     </div>
