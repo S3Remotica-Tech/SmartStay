@@ -17,6 +17,7 @@ export const initialState = {
     reportsInvoicePdfSuccess: 0,
     reportsExpensePdf: '',
     reportsExpensePdfSuccess: 0,
+    reportsPdfExportError:'',
 
     invoiceRegisterFilters: {
         startDate: undefined,
@@ -135,7 +136,10 @@ const ReportsReducer = (state = initialState, action) => {
 
         case 'REMOVE_REPORTS_EXPENSE_REGISTER_PDF_REDUCER':
             return { ...state, reportsExpensePdfSuccess: 0 };
-
+case 'REPORTS_PDF_EXPORT_ERROR':
+       return { ...state, reportsPdfExportError: action.payload };
+       case 'REMOVE_REPORTS_PDF_EXPORT_ERROR':
+       return { ...state, reportsPdfExportError: '' };
 
         case "SET_TENANT_REGISTER_FILTERS":
             return {

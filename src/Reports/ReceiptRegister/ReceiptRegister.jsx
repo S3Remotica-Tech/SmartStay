@@ -492,7 +492,48 @@ function ReceiptRegister() {
   }, [state.createAccount?.networkError])
 
 
+  const handleDownload = () => {
+    if (state.login.selectedHostel_Id ) {
+      const receiptFilters = state.reports?.receiptRegisterFilters;
+      dispatch({
+        type: "REPORTS_RECEIPT_REGISTER_PDFSAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          startDate: startDate,
+          endDate: endDate,
+          period: receiptFilters?.period,
 
+        },
+      });
+      setLoading(true)
+    }
+
+  };
+
+  useEffect(() => {
+    if (state?.reports?.reportsReceiptPdfSuccess === 200) {
+
+      const pdfUrl = state?.reports?.reportsReceiptPdf;
+      setLoading(false)
+      if (pdfUrl) {
+        window.open(pdfUrl, "_blank");
+
+        dispatch({ type: 'REMOVE_REPORTS_RECEIPT_REGISTER_PDF_REDUCER' })
+      }
+    }
+  }, [state?.reports?.reportsReceiptPdfSuccess]);
+
+
+
+
+  
+  useEffect(() => {
+    if (state?.reports?.reportsPdfExportError) {
+      setLoading(false)
+      dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
+    }
+
+  }, [state?.reports?.reportsPdfExportError])
 
 
 
@@ -597,7 +638,7 @@ function ReceiptRegister() {
             <Filter size="16" />
             Filter
           </button>
-          <button
+          <button onClick={handleDownload}
             className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
           >
             <Export size="16" />
@@ -633,7 +674,7 @@ function ReceiptRegister() {
             </span>
           </div>
         )}
-      <div className="flex overflow-x-auto gap-4 mt-3 ms-1 me-1 scrollbar-hide">
+        <div className="flex overflow-x-auto gap-4 mt-3 ms-1 me-1 scrollbar-hide">
           {stats?.map((item, i) => (
             <div
               key={i}
@@ -658,7 +699,7 @@ function ReceiptRegister() {
 
               <div className="flex items-center gap-2 mt-2">
                 <h2 className="text-2xl font-semibold text-[#101828]">
-                {item.title !== "Total Receipts" ? `₹ ${item.value ?? 0}` : item.value ?? 0}
+                  {item.title !== "Total Receipts" ? `₹ ${item.value ?? 0}` : item.value ?? 0}
                 </h2>
 
 
@@ -711,9 +752,9 @@ function ReceiptRegister() {
                   <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase whitespace-nowrap">
                     Invoice No
                   </th>
-<th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
                     <div className="flex justify-center items-center gap-1">
-                     Type
+                      Type
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
@@ -727,7 +768,7 @@ function ReceiptRegister() {
                   </th>
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     <div className="flex justify-center items-center gap-1">
-                    Payment Mode
+                      Payment Mode
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
@@ -791,12 +832,12 @@ function ReceiptRegister() {
                       {row.invoiceNumber}
                     </td>
 
-   <td
+                    <td
                       className={`px-4 py-2.5 text-center font-semibold truncate text-[#6B7280] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
-                       {row.type}
+                      {row.type}
                     </td>
 
 
@@ -809,7 +850,7 @@ function ReceiptRegister() {
                       ₹ {row.paymentMade}
                     </td>
 
-                  <td title={row.paymentMode}
+                    <td title={row.paymentMode}
                       className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}

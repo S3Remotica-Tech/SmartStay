@@ -175,7 +175,7 @@ function* handleReportsTenantRegisterPDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: 'REPORTSTENANTREGISTERPDFSAGA_ERROR', payload: { response: error.response.data } })
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
          toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
@@ -225,7 +225,7 @@ function* handleReportsReceiptsPDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: '', payload: { response: error.response.data } })
+          yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
          toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
@@ -274,7 +274,7 @@ function* handleReportsInvoicePDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: '', payload: { response: error.response.data } })
+          yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
          toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
@@ -324,7 +324,7 @@ function* handleReportsExpensePDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: '', payload: { response: error.response.data } })
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
          toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,

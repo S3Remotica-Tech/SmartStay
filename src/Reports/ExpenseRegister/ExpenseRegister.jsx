@@ -492,6 +492,14 @@ function ExpenseRegister() {
     }
 
   }, [state.createAccount?.networkError])
+   useEffect(() => {
+          if (state?.reports?.reportsPdfExportError) {
+              setLoading(false)
+              dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
+          }
+  
+      }, [state?.reports?.reportsPdfExportError])
+  
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">

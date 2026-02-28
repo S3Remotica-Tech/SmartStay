@@ -130,7 +130,7 @@ export async function ReportsTenantRegisterPDF(tenant) {
 
 export async function ReportsReceiptsPDF(receipt) {
   return await AxiosConfigV2.get(
-    `/v2/reports/download/${receipt.hostelId}`,
+    `/v2/reports/download/receipts/${receipt.hostelId}`,
     {
       params: {
         startDate: receipt.startDate,
