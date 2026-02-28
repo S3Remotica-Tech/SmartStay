@@ -492,6 +492,45 @@ function ExpenseRegister() {
     }
 
   }, [state.createAccount?.networkError])
+
+
+
+const handleDownload = () => {
+    if (state.login.selectedHostel_Id ) {
+      const expenseFilters = state.reports?.expenseRegisterFilters;
+      dispatch({
+        type: "REPORTS_EXPENSE_REGISTER_PDFSAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          startDate: startDate,
+          endDate: endDate,
+          period: expenseFilters?.period,
+        },
+      });
+      setLoading(true)
+    }
+
+  };
+
+  useEffect(() => {
+    if (state?.reports?.reportsExpensePdfSuccess === 200) {
+
+      const pdfUrl = state?.reports?.reportsExpensePdf;
+      setLoading(false)
+      if (pdfUrl) {
+        window.open(pdfUrl, "_blank");
+
+        dispatch({ type: 'REMOVE_REPORTS_EXPENSE_REGISTER_PDF_REDUCER' })
+      }
+    }
+  }, [state?.reports?.reportsExpensePdfSuccess]);
+
+
+
+
+
+
+
    useEffect(() => {
           if (state?.reports?.reportsPdfExportError) {
               setLoading(false)
@@ -603,7 +642,7 @@ function ExpenseRegister() {
             <Filter size="16" />
             Filter
           </button>
-          <button
+          <button onClick={handleDownload}
             className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
           >
             <Export size="16" />
