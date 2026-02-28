@@ -134,15 +134,18 @@ setPdfLoading(false)
 
 
 
-useEffect(() => {
-    if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError) {
-     setPdfLoading(false)
+ useEffect(() => {
+    if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError || state.InvoiceList?.sharePdfError) {
+      setPdfLoading(false)
       setTimeout(() => {
         dispatch({ type: "REMOVE_PDF_ERROR" });
-         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        dispatch({ type: 'REMOVE_SHARE_PDF_ERROR' })
+
       }, 100);
     }
-  }, [state.InvoiceList.pdfErrorMessage , state.createAccount?.networkError]);
+  }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError,state.InvoiceList?.sharePdfError]);
+
 
 
 
@@ -155,23 +158,36 @@ useEffect(() => {
     setIsOpen(false);
 
     if (key === "whatsapp") {
-      try {
-        dispatch({
-          type: "SET_TRIGGER_SOURCE",
-          payload: "whatsapp",
-        });
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            id: idforwhats,
-          },
-        });
-
-      } catch (error) {
-        console.error("Error sending WhatsApp with PDF:", error);
-      }
+       dispatch({
+             type: 'WHATSAPPSHAREPDFRECEIPT',
+             payload: {
+               hostelId: pdfDetails?.hostelId,
+               invoiceId: pdfDetails?.invoiceId,
+             },
+           })
+     
+           setPdfLoading(true)
     }
   };
+
+
+
+
+  useEffect(() => {
+    if (state.InvoiceList.shareReceiptPdfSuccess) {
+      setPdfLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_SHARE_PDF' })
+      }, 100);
+
+    }
+
+  }, [state.InvoiceList.shareReceiptPdfSuccess])
+
+
+
+
+
 
 
 

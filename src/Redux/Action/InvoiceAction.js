@@ -222,6 +222,17 @@ export async  function shareWhatsappPDF(bill) {
   })
 }
 
+
+export async  function shareWhatsappPDFReceipt(receipt) {
+  return await AxiosConfigV2.get(`/${receipt.hostelId}/${receipt.invoiceId}`)
+}
+
+
+
+
+
+
+
 export async function ReceiptPDf(bill) {
   return await AxiosConfigV2.get(`/v2/transaction/download/${bill.hostelId}/${bill.transactionId}`, {
     headers: {
@@ -239,6 +250,7 @@ export async function InvoicePDf(bill) {
     },
   })
 }
+
 
 
 // v1 
