@@ -29,89 +29,45 @@ function DeleteStaff({ show, handleClose, deleteId }) {
             backdrop="static"
             dialogClassName="custom-delete-modal"
         >
-            <Modal.Header style={{ borderBottom: "none" }}>
-                <Modal.Title
-                    className="w-100 text-center mt-2"
-                    style={{
-                        fontSize: "18px",
-                        fontFamily: "Gilroy",
 
-                        fontWeight: 600,
-                        color: "#222222",
-                    }}
-                >
+            <Modal.Header className="!border-b-0 mb-2">
+                <Modal.Title className="!w-full !text-center !mt-2 !text-lg !font-semibold !font-gilroy !text-gray-900">
                     Delete Staff ?
                 </Modal.Title>
             </Modal.Header>
 
-            <Modal.Body
-                className="text-center"
-                style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    color: "#646464",
-
-                    marginTop: "-27px",
-                }}
-            >
-                Are you sure you want to delete the Staff ?{" "}
+            <Modal.Body className="!text-center !text-sm !font-medium !font-gilroy !text-gray-500 !mt-[-27px]">
+                Are you sure you want to delete the Staff ?
             </Modal.Body>
-            <Modal.Footer
-                className="d-flex justify-content-center"
-                style={{
-                    borderTop: "none",
-                    marginTop: "-10px",
-                }}
-            >
-                <Button
-                    className="me-2"
-                    style={{
-                        width: "100%",
-                        maxWidth: 160,
-                        height: 52,
-                        borderRadius: 8,
-                        padding: "12px 20px",
-                        background: "#fff",
-                        color: "#1E45E1",
-                        border: "1px solid #1E45E1",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                    }}
+
+            <Modal.Footer className="!flex !justify-center !items-center !gap-2 !border-t-0 !mt-[-10px]">
+                <button
                     onClick={handleClose}
+                    className="!flex-1 !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 !bg-white !text-blue-700 !border !border-blue-700 !font-semibold !font-gilroy !text-sm"
                 >
                     Cancel
-                </Button>
+                </button>
 
-                <Button
-                    style={{
-                        width: "100%",
-                        maxWidth: 160,
-                        height: 52,
-                        borderRadius: 8,
-                        padding: "12px 20px",
-                        background: "#1E45E1",
-                        color: "#FFFFFF",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                    }}
+                <button
                     onClick={handleDelete}
+                    className="!flex-1 !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 !bg-blue-700 !text-white !font-semibold !font-gilroy !text-sm"
                 >
                     Delete
-                </Button>
+                </button>
             </Modal.Footer>
+
+
+
         </Modal>
     )
 }
 DeleteStaff.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  deleteId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    deleteId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
 };
 
 export default DeleteStaff

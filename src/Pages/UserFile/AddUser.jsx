@@ -394,27 +394,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
 
   return (
-    <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-      }}
-    >
+    <div className="modal show block relative">
       <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
-        <Modal.Dialog
-          style={{ maxWidth: 850, width: "100%" }}
-          className="m-0 p-0"
-        >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title
-              style={{
-                fontSize: 18,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-              }}
-            >
+        <Modal.Dialog className="w-full max-w-[850px] m-0 p-0">
+
+          <Modal.Header className="border border-[#E7E7E7] px-4 py-2.5 flex items-center justify-between">
+
+            <Modal.Title className="!text-xl !font-gilroy !font-semibold text-[#222222]">
               {edit ? "Edit Staff" : "Add Staff"}
             </Modal.Title>
 
@@ -422,43 +408,27 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               size="24"
               color="#000"
               onClick={handleCloseForm}
-              style={{ cursor: "pointer" }}
+              className="cursor-pointer"
             />
+
           </Modal.Header>
 
           <Modal.Body className="pt-0">
-            <div className="row mt-2">
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
-                <Form.Group
-                  className="mb-1"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+            <div className="grid grid-cols-12 gap-x-6 mt-2">
+
+              <div className="col-span-6">
+                <Form.Group controlId="exampleForm.ControlInput1" >
+                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]"
                   >
                     Name {' '}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-lg text-red-500">*</span>
                   </Form.Label>
                   <Form.Control
                     value={name}
                     onChange={(e) => handleNameChange(e)}
                     type="text"
                     placeholder="Enter Name"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
                   />
                 </Form.Group>
                 {nameError && (
@@ -466,21 +436,12 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                <Form.Group
-                  className="mb-1"
-                  controlId="exampleForm.ControlInput1"
+              <div className="col-span-6 mb-1">
+                <Form.Group controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
                     Email ID {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-lg text-red-500">*</span>
                   </Form.Label>
                   <Form.Control
                     value={email}
@@ -489,16 +450,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     autoComplete="off"
                     autoCorrect="off"
                     placeholder="Enter Email ID"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
+                    className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
                   />
                 </Form.Group>
 
@@ -511,43 +463,24 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-6 mb-1">
+
                 <Form.Group>
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Mobile No {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                    Mobile No <span className="text-lg text-red-500">*</span>
                   </Form.Label>
 
-                  <InputGroup>
+                  <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-[52px]">
                     <Form.Select
                       value={countryCode}
                       autoComplete="off"
                       autoCorrect="off"
-
-                      id="vendor-select-pg"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px 0 0 8px",
-                        height: 50,
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: countryCode ? 600 : 500,
-                        boxShadow: "none",
-                        backgroundColor: "#fff",
-                        maxWidth: 90,
-                        paddingRight: 10,
-                      }}
+                      className={`border-0 bg-white text-[16px] text-[#4B4B4B] font-gilroy max-w-[90px] px-3 shadow-none focus:outline-none ${countryCode ? "font-semibold" : "font-medium"
+                        }`}
                     >
                       <option>+{countryCode}</option>
                     </Form.Select>
+
                     <Form.Control
                       value={mobile}
                       onChange={handleMobileChange}
@@ -556,22 +489,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       autoCorrect="off"
                       placeholder="9876543210"
                       maxLength={10}
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: mobile ? 600 : 500,
-                        boxShadow: "none",
-                        borderLeft: "unset",
-                        borderRight: "1px solid #D9D9D9",
-                        borderTop: "1px solid #D9D9D9",
-                        borderBottom: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: "0 8px 8px 0",
-                      }}
+                      className={`border-0 text-[16px] text-[#4B4B4B] font-gilroy px-3 shadow-none focus:outline-none ${mobile ? "font-semibold" : "font-medium"
+                        }`}
                     />
                   </InputGroup>
-
                 </Form.Group>
 
                 {mobileError && (
@@ -587,23 +508,16 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 )}
               </div>
               {!edit && (
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div className="col-span-6 mb-2">
                   <Form.Group className="">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
                       Password {" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>
+                      <span className="text-lg text-red-500">
                         {" "}
                         *{" "}
                       </span>
                     </Form.Label>
-                    <InputGroup>
+                    <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-12">
                       <FormControl
                         id="form-controls"
                         autoComplete="new-password"
@@ -612,47 +526,20 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => handlePassword(e)}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          borderRight: "none",
-                          height: "50px",
-                          borderRadius: "8px 0 0 8px",
-                        }}
+                        className="border-0 text-[16px] text-[#4B4B4B] font-gilroy focus:outline-none shadow-none"
                       />
+
                       <InputGroup.Text
-                        className="border-start-0"
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label={
-                          showPassword ? "Hide Password" : "Show Password"
-                        }
-                        style={{
-                          backgroundColor: "#fff",
-                          border: "1px solid #D9D9D9",
-                          borderLeft: "none",
-                          cursor: "pointer",
-                          borderRadius: "0 8px 8px 0",
-                        }}
+                        aria-label={showPassword ? "Hide Password" : "Show Password"}
+                        className="bg-white border-0 cursor-pointer px-3"
                       >
-                        {showPassword ? (
-                          <img
-                            src={eye}
-                            alt="Hide Password"
-                            width={20}
-                            height={20}
-                          />
-                        ) : (
-                          <img
-                            src={eyeClosed}
-                            alt="Show Password"
-                            width={20}
-                            height={20}
-                          />
-                        )}
+                        <img
+                          src={showPassword ? eye : eyeClosed}
+                          alt="toggle password"
+                          width={20}
+                          height={20}
+                        />
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
@@ -668,21 +555,14 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 </div>
               )}
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-span-6 ">
                 <Form.Group
                   className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
                     Role {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    <span className="text-lg text-red-500">*</span>
                   </Form.Label>
 
                   <Select
@@ -767,19 +647,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   <ErrorMessage message={roleError} type="error" />
                 )}
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+              <div className="col-span-6">
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
+                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
                     Description {" "}
                   </Form.Label>
                   <Form.Control
@@ -803,10 +677,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               </div>
 
               {error && (
-                <div
-                  className="d-flex align-items-center justify-content-center"
-
-                >
+                <div className="flex justify-center">
                   <ErrorMessage message={error} type="error" />
                 </div>
               )}
@@ -814,60 +685,19 @@ function User({ show, editDetails, setAddUserForm, edit }) {
           </Modal.Body>
 
 
-
-
-
-
-
-          {formLoading &&
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
+          {formLoading && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-transparent border-t-blue-600"></div>
             </div>
-          }
+          )}
 
-          <Modal.Footer
-            style={{ border: "none", marginTop: "-10px" }}
-          >
-
-
-
-            <Button
+          <Modal.Footer className="!mt-[-10px] !border-0 !px-3">
+            <button
               onClick={handleSubmit}
-              className="w-100"
-              style={{
-                cursor: "pointer",
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                padding: 12,
-                borderRadius: 8,
-                fontSize: 14,
-                fontFamily: "Gilroy",
-              }}
+              className="!w-full !cursor-pointer !bg-[#1E45E1] !font-semibold !p-3 !rounded-lg !text-sm !font-gilroy !text-white"
             >
               {edit ? "Save Changes" : " + Staff"}
-            </Button>
+            </button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>

@@ -566,11 +566,11 @@ function UserlistWalkin() {
                 <div className="text-center">
                   <img src={Emptystate} alt="emptystate" className="mx-auto" />
 
-                  <div className="pb-1 font-semibold text-gray-700 text-lg font-sans">
+                  <div className="pb-1 font-semibold text-gray-700 text-lg font-gilroy">
                     No Walk-in available
                   </div>
 
-                  <div className="pb-1 font-medium text-gray-700 text-sm font-sans">
+                  <div className="pb-1 font-medium text-gray-700 text-sm font-gilroy">
                     There are no Walk-in added.
                   </div>
                 </div>

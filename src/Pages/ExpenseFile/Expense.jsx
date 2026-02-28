@@ -700,7 +700,7 @@ function Expenses({ allPageHostel_Id }) {
                   <SearchNormal1
                     color="#222"
                     className={`
-    h-6 w-6  font-sans transition-opacity duration-300 ease-in-out
+    h-6 w-6  font-gilroy transition-opacity duration-300 ease-in-out
     ${canReadExpense
                         ? "cursor-pointer opacity-100 pointer-events-auto"
                         : "cursor-not-allowed opacity-40 pointer-events-none"}

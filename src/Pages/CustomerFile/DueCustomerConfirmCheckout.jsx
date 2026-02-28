@@ -323,7 +323,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
                             />
                         ) : (
-                            <div className="w-16 h-16 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-base font-sans cursor-pointer">
+                            <div className="w-16 h-16 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-base font-gilroy cursor-pointer">
                                 {data?.initials || data?.tenantInitials || "--"}
                             </div>
                         )}

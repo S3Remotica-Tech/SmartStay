@@ -1349,7 +1349,7 @@ const Compliance = () => {
 
                   <div className='col-span-12'>
                     <Form.Group controlId="exampleForm.ControlInput1">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal"
+                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal"
                       >
                         Customer {" "} <span className="text-red-600 text-xl">*</span>
                       </Form.Label>
@@ -1452,7 +1452,7 @@ const Compliance = () => {
 
                   <div className="col-span-12 ">
 
-                    <label className="block text-sm text-gray-900 font-medium font-sans mb-1">
+                    <label className="block text-sm text-gray-900 font-medium font-gilroy mb-1">
                       Complaint Type {" "}   <span className='text-red-600 text-xl'>*</span>
                     </label>
                     <Select
@@ -1559,14 +1559,14 @@ const Compliance = () => {
 
 
                   {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length === 0 && <>
-                    <label className="pb-1 text-sm text-red-600 font-medium font-sans">*
+                    <label className="pb-1 text-sm text-red-600 font-medium font-gilroy">*
                       Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label>
                   </>}
 
                   <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
                     <Form.Group controlId="exampleForm.ControlInput1">
                       <Form.Label
-                        className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal"
+                        className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal"
                       >
                         Floor {" "} <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
@@ -1575,7 +1575,7 @@ const Compliance = () => {
                         placeholder="Floor"
                         value={floorname}
                         readOnly
-                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 !rounded-lg"
+                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
 
                       />
                     </Form.Group>
@@ -1584,7 +1584,7 @@ const Compliance = () => {
                   <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
                     <Form.Group controlId="exampleForm.ControlInput3">
                       <Form.Label
-                        className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal"
+                        className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal"
                       >
                         Room {" "}  <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
@@ -1593,14 +1593,14 @@ const Compliance = () => {
                         placeholder="Rooms"
                         value={room_name}
                         readOnly
-                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 !rounded-lg"
+                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
                       />
                     </Form.Group>
                   </div>
 
                   <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
                     <Form.Group className="" controlId="exampleForm.ControlInput1">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal">
+                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
                         Bed {" "} <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
                       <Form.Control
@@ -1608,20 +1608,20 @@ const Compliance = () => {
                         placeholder="Beds"
                         value={bed_name}
                         readOnly
-                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 !rounded-lg"
+                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
                       />
                     </Form.Group>
                   </div>
 
                   <div className='col-span-12 md:col-span-6 lg:col-span-6 -mt-2'>
                     <Form.Group controlId="purchaseDate">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal">
+                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
                         Complaint Date {" "}  <span className='text-red-600 text-xl'>*</span>
                       </Form.Label>
 
                       <div className="datepicker-wrapper w-full relative">
                         <DatePicker
-                          className="w-full h-12 cursor-pointer font-sans"
+                          className="w-full h-12 cursor-pointer font-gilroy"
 
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -1680,7 +1680,7 @@ const Compliance = () => {
                   <div className="col-span-12 ">
                     <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
 
-                      <Form.Label className="text-sm text-gray-900 font-medium font-sans not-italic leading-normal">
+                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
                         Description
                       </Form.Label>
 
@@ -1689,7 +1689,7 @@ const Compliance = () => {
                         onChange={(e) => setDescription(e.target.value)}
                         type="text"
                         placeholder="Enter description"
-                        className="text-base text-gray-700 font-medium font-sans shadow-none border border-gray-300 h-12 rounded-lg"
+                        className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                       />
 
                     </Form.Group>
@@ -1727,7 +1727,7 @@ const Compliance = () => {
               <Modal.Footer className="!border-none pt-0">
                 <Button
                   disabled={formLoading}
-                  className="w-full !bg-blue-700 !font-gilroy text-white font-medium font-sans text-base h-12 rounded-xl"
+                  className="w-full !bg-blue-700 !font-gilroy text-white font-medium font-gilroy text-base h-12 rounded-xl"
                   onClick={handleAddcomplaint}
                 >
                   {edit ? "Save complaint" : "Add complaint"}

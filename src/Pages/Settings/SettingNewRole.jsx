@@ -20,7 +20,7 @@ import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 
 function SettingNewRole() {
 
- 
+
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -43,41 +43,41 @@ function SettingNewRole() {
   // const canUpdateRole = useHasPermission("Role", "canUpdate");
   // const canDeleteRole = useHasPermission("Role", "canDelete");
 
-const {
-      canWriteModule: canWriteRole,
-      canReadModule: canReadRole,
-      canUpdateModule: canUpdateRole,
-      canDeleteModule: canDeleteRole,
-    } = useHasPermission("Role");
+  const {
+    canWriteModule: canWriteRole,
+    canReadModule: canReadRole,
+    canUpdateModule: canUpdateRole,
+    canDeleteModule: canDeleteRole,
+  } = useHasPermission("Role");
 
 
 
 
-useEffect(() => {
-      if (!canReadRole) {
-        setLoading(false);
-      }
-    }, [canReadRole]);
+  useEffect(() => {
+    if (!canReadRole) {
+      setLoading(false);
+    }
+  }, [canReadRole]);
 
   useEffect(() => {
     dispatch({ type: 'GETMODULES' })
   }, [])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
     }
 
   }, [state.UsersList?.accessRestrictionError])
-   useEffect(() => {
-          if (roleList.length === 0) {
-            setLoading(false);
-          }
-      
-        }, [roleList])
+  useEffect(() => {
+    if (roleList.length === 0) {
+      setLoading(false);
+    }
+
+  }, [roleList])
 
   const handleAddRole = () => {
 
@@ -143,15 +143,15 @@ useEffect(() => {
 
 
 
- useEffect(() => {
-  const hostelId = state?.login?.selectedHostel_Id;
+  useEffect(() => {
+    const hostelId = state?.login?.selectedHostel_Id;
 
-  if (!hostelId || hostelId === "null" || hostelId === "undefined" || hostelId === "") return;
+    if (!hostelId || hostelId === "null" || hostelId === "undefined" || hostelId === "") return;
 
-  dispatch({ type: 'SETTING_ROLE_LIST', payload: hostelId });
-  setLoading(true);
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: hostelId });
+    setLoading(true);
 
-}, [state?.login?.selectedHostel_Id]);
+  }, [state?.login?.selectedHostel_Id]);
 
 
 
@@ -241,285 +241,142 @@ useEffect(() => {
 
   return (
     <div>
-    
 
-<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
-      Role
-    </label>
-  </div>
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
-  
-  <div className="w-full flex justify-center md:justify-end">
-    <button
-     onClick={handleAddRole}
-      disabled={!canWriteRole}
-      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+          <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+            Role
+          </label>
+        </div>
+
+
+        <div className="w-full flex justify-center md:justify-end">
+          <button
+            onClick={handleAddRole}
+            disabled={!canWriteRole}
+            className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
         ${canWriteRole
-          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
-    >
-      +  Role
-    </button>
-  </div>
-</div>
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+          >
+            +  Role
+          </button>
+        </div>
+      </div>
 
       {
         !canReadRole ? (
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "80vh"
-            }}
-          >
-<img src={Emptystate} alt="Empty State"/>
+          <div className="flex flex-col items-center justify-center h-[80vh] mt-24">
+            <img src={Emptystate} alt="Empty State" />
             <ErrorMessage message={['You do not have access to view Role']} type="warning" />
-
           </div>
-
-
-        )
-          : (
-
-            <div
-              className="row mt-2 mb-3 overflow-auto  show-scrolls"
-              style={{ maxHeight: 475, overflowY: "auto" }}
-            >
-              {roleList.length > 0 ? (
-                roleList.map((view, index) => (
-                  <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
-                    <div
-                      className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
-                      style={{ height: 64, width: "100%" }}
-                    >
-                      <div className="d-flex align-items-center">
-                        <img src={role} width={24} height={24} alt="Role Icon" />
-                        <span
-                          title={view.role_name}
-                          className="ms-3  text-truncate d-inline-block"
-                          style={{ fontSize: 16, maxWidth: 100, fontWeight: 500, fontFamily: "Gilroy" }}
-                        >
-                          {view.name}
-                        </span>
-                      </div>
-
-                      <div
-                        className="d-flex justify-content-center align-items-center border rounded-circle"
-                        style={{
-                          height: "35px",
-                          width: "35px",
-                          cursor: "pointer",
-                          // backgroundColor: showDots === index ? "#E7F1FF" : "white",
-                          position: "relative",
-                        }}
-                        onClick={(e) => handleShowDots(e, index)}
-                      >
-                        <PiDotsThreeOutlineVerticalFill
-                          style={{ height: "20px", width: "20px" }}
-                        />
-                        {showDots === index && view.editable && (
-                          <div
-                            ref={popupRef}
-                            className="pg-card"
-                            style={{
-                              backgroundColor: "#fff",
-                              position: "fixed",
-                              top: popupPosition.top,
-                              left: popupPosition.left,
-                              border: "1px solid #E0E0E0",
-                              borderRadius: 10,
-                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                              width: 140,
-                              zIndex: 1000,
-                            }}
-                          >
-                            <div>
-
-                              <div
-                                className="d-flex gap-2 align-items-center"
-                                onClick={() => {
-                                  if (view.editable && canUpdateRole) handleEditForm(view);
-                                }}
-                                style={{
-                                  padding: "8px 12px",
-                                  width: "100%",
-                                  cursor: view.editable && canUpdateRole ? "pointer" : "not-allowed",
-                                  transition: "background 0.2s ease-in-out",
-                                  opacity: view.editable && canUpdateRole ? 1 : 0.5,
-                                }}
-                                onMouseEnter={(e) =>
-                                  view.editable &&
-                                  (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                                }
-                                onMouseLeave={(e) =>
-                                  view.editable &&
-                                  (e.currentTarget.style.backgroundColor = "transparent")
-                                }
-                              >
-                                <img src={Edit} width={16} height={16} alt="Edit" style={{ filter: view.editable && canUpdateRole ? "none" : "grayscale(100%)" }} />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    cursor: view.editable && canUpdateRole ? "pointer" : "not-allowed",
-                                    color: view.editable && canUpdateRole ? "#1E45E1" : "#A0A0A0",
-                                  }}
-                                >
-                                  Edit
-                                </span>
-                              </div>
-
-                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-                              <div
-                                className="d-flex gap-2 align-items-center"
-                                onClick={() => view.editable && canDeleteRole && handleDeleteForm(view)}
-                                style={{
-                                  padding: "8px 12px",
-                                  width: "100%",
-                                  cursor: view.editable && canDeleteRole ? "pointer" : "not-allowed",
-                                  opacity: view.editable && canDeleteRole ? 1 : 0.5,
-                                  transition: "background 0.2s ease-in-out",
-                                }}
-                                onMouseEnter={(e) =>
-                                  view.editable &&
-                                  (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                                }
-                                onMouseLeave={(e) =>
-                                  view.editable &&
-                                  (e.currentTarget.style.backgroundColor = "transparent")
-                                }
-                              >
-                                <img src={Delete} width={16} height={16} alt="Delete" style={{ filter: view.editable && canDeleteRole ? "none" : "grayscale(100%)" }} />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    color: view.editable && canDeleteRole ? "#FF0000" : "A0A0A0",
-                                    cursor: view.editable && canDeleteRole ? "pointer" : "not-allowed",
-                                  }}
-                                >
-                                  Delete
-                                </span>
-                              </div>
-
-                            </div>
-                          </div>
-
-                        )}
-                      </div>
-                    </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mx-2 mt-2 mb-3 !max-h-[475px] overflow-auto">
+            {roleList.length > 0 ? (
+              roleList.map((view, index) => (
+                <div key={index} className="border rounded flex items-center justify-between p-3 h-16 w-full bg-white">
+                  <div className="flex items-center">
+                    <img src={role} width={24} height={24} alt="Role Icon" />
+                    <span className="ml-3 !text-base !font-medium !font-gilroy text-gray-900 truncate">
+                      {view.name}
+                    </span>
                   </div>
-                ))
-              ) : (
-                !loading && (
-
-
-
-
 
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: 90,
-                      paddingLeft: "0px",
-                    }}
+                    className="flex items-center justify-center border rounded-full !h-[35px] !w-[35px] cursor-pointer relative"
+                    onClick={(e) => handleShowDots(e, index)}
                   >
-                    <div style={{ textAlign: "center" }}>
-                      <img
-                        src={EmptyState}
-                        alt="emptystate"
-                        style={{ maxWidth: "250px" }}
-                      />
+                    <PiDotsThreeOutlineVerticalFill className="!h-5 !w-5 rotate-90 text-gray-500" />
+                    {showDots === index && view.editable && (
                       <div
-                        className="pb-1"
+                        ref={popupRef}
+                        className="pg-card !bg-white !fixed !border !border-gray-200 !rounded-lg !shadow-md !w-[140px] !z-[1000]"
                         style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
+                          top: popupPosition.top,
+                          left: popupPosition.left,
                         }}
                       >
-                        No Roles{" "}
+                        <div
+                          className={`flex items-center gap-2 px-3 py-2 w-full transition-colors ${view.editable && canUpdateRole
+                            ? 'cursor-pointer hover:bg-blue-50 opacity-100'
+                            : 'cursor-not-allowed opacity-50'
+                            }`}
+                          onClick={() => {
+                            if (view.editable && canUpdateRole) handleEditForm(view);
+                          }}
+                        >
+                          <img
+                            src={Edit}
+                            width={16}
+                            height={16}
+                            alt="Edit"
+                            className={view.editable && canUpdateRole ? '' : 'filter grayscale'}
+                          />
+                          <span
+                            className={`!text-sm !font-medium !font-gilroy ${view.editable && canUpdateRole ? 'text-blue-700' : 'text-gray-400'
+                              }`}
+                          >
+                            Edit
+                          </span>
+                        </div>
+
+                        <div className="h-px !bg-gray-200 m-0" />
+
+                        <div
+                          className={`flex items-center gap-2 px-3 py-2 w-full transition-colors ${view.editable && canDeleteRole
+                            ? 'cursor-pointer hover:bg-blue-50 opacity-100'
+                            : 'cursor-not-allowed opacity-50'
+                            }`}
+                          onClick={() =>
+                            view.editable && canDeleteRole && handleDeleteForm(view)
+                          }
+                        >
+                          <img
+                            src={Delete}
+                            width={16}
+                            height={16}
+                            alt="Delete"
+                            className={view.editable && canDeleteRole ? '' : 'filter grayscale'}
+                          />
+                          <span
+                            className={`!text-sm !font-medium !font-gilroy ${view.editable && canDeleteRole ? 'text-red-600' : 'text-gray-400'
+                              }`}
+                          >
+                            Delete
+                          </span>
+                        </div>
                       </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no Roles available.{" "}
-                      </div>
-                    </div>
+                    )}
                   </div>
-                )
-              )}
-            </div>
-          )
+                </div>
+              ))
+            ) : (
+              !loading && (
+              
+                <div className="flex flex-col items-center justify-center w-full min-h-screen">
+                  <img src={EmptyState} alt="emptystate" className="max-w-xs ml-96" />
+                  <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
+                    No Roles
+                  </div>
+                  <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
+                    There are no Roles available.
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        )
       }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      {loading &&
-        <div
-          style={{
-            position: "fixed",
-            top: "48%",
-            left: "68%",
-            transform: "translate(-50%, -50%)",
-            width: "100vw",
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "transparent",
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-transparent">
+          <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
-      }
-
+      )}
 
       {
         showRole && <AddRole showRole={showRole} addRole={addRole} hostelid={state.login.selectedHostel_Id} editRoleDetails={editRoleDetails} setShowRole={setShowRole} />
@@ -534,77 +391,26 @@ useEffect(() => {
           backdrop="static"
           dialogClassName="custom-delete-modal"
         >
-          <Modal.Header style={{ borderBottom: "none" }}>
-            <Modal.Title
-              className="w-100 text-center mt-2"
-              style={{
-                fontSize: "18px",
-                fontFamily: "Gilroy",
 
-                fontWeight: 600,
-                color: "#222222",
-
-              }}
-            >
+          <Modal.Header className="border-0">
+            <Modal.Title className="w-full text-center mt-2 !text-lg font-gilroy !font-semibold text-[#222222]">
               Delete Role?
             </Modal.Title>
           </Modal.Header>
 
-          <Modal.Body
-            className="text-center  "
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              color: "#646464",
-
-              marginTop: "-27px",
-            }}
-          >
+          <Modal.Body className="text-center text-[14px] font-gilroy font-medium text-[#646464] -mt-7">
             Are you sure you want to delete this Role?
           </Modal.Body>
 
-          <Modal.Footer
-            className="d-flex justify-content-center"
-            style={{
-
-              borderTop: "none",
-              marginTop: "-10px",
-            }}
-          >
+          <Modal.Footer className="flex justify-center border-0 -mt-2 gap-1">
             <Button
-              className="me-2"
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+              className="!w-full !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
               onClick={handleCloseDeleteForm}
             >
               Cancel
             </Button>
             <Button
-
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+              className="!w-full !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold! text-[14px]"
               onClick={handleDeleteRole}
             >
               Delete
@@ -612,13 +418,6 @@ useEffect(() => {
           </Modal.Footer>
         </Modal>
       }
-
-
-
-
-
-
-
 
     </div>
   )
