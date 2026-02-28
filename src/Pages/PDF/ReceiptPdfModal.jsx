@@ -169,15 +169,15 @@ useEffect(() => {
     setIsOpen(false);
 
     if (key === "whatsapp") {
-       dispatch({
-             type: 'WHATSAPPSHAREPDFRECEIPT',
-             payload: {
-               hostelId: pdfDetails?.hostelId,
-               invoiceId: pdfDetails?.invoiceId,
-             },
-           })
+      //  dispatch({
+      //        type: 'WHATSAPPSHAREPDFRECEIPT',
+      //        payload: {
+      //          hostelId: pdfDetails?.hostelId,
+      //          invoiceId: pdfDetails?.invoiceId,
+      //        },
+      //      })
      
-           setPdfLoading(true)
+      //      setPdfLoading(true)
     }
   };
 
