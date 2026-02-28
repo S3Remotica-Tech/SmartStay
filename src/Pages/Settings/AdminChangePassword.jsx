@@ -165,11 +165,11 @@ function AdminChangePassword({ show, handleClose }) {
                         Cancel
                     </button>
 
-                    <button
+                    <button disabled
                         onClick={handleSubmit}
                         className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition"
                     >
-                        Continue
+                        Coming Soon
                     </button>
                 </div>
             </div>

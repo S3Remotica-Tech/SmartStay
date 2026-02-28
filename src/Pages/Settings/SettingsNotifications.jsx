@@ -6,6 +6,7 @@ import { Message } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
 import "../../Pages/Settings/SettingsNotifications.css";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import ComingSoon from '../../Utils/ComingSoon';
 
 
 
@@ -49,6 +50,7 @@ const SettingsNotifications = () => {
     };
 
     return (
+        <>
 
         <div className="w-full mx-aut0">
 
@@ -57,8 +59,10 @@ const SettingsNotifications = () => {
                     Notifications
                 </span>
             </div>
+{
+    import.meta.env.MODE === "development" ? 
 
-            {!showWhatsAppSettings ? (
+            !showWhatsAppSettings ?   (
                 <>
                     <div
                         onClick={() => setShowWhatsAppSettings(true)}
@@ -141,8 +145,17 @@ const SettingsNotifications = () => {
                         </div>
                     ))}
                 </>
-            )}
+            )
+             :
+<ComingSoon />
+
+
+
+            
+            }
         </div>
+       
+</>
     );
 };
 

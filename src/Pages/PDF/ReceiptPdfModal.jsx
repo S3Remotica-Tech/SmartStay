@@ -124,13 +124,24 @@ const [pdfLoading, setPdfLoading] = useState(false)
   };
 
 
-  useEffect(() => {
-    if (!state.InvoiceList.ReceiptPDF) return;
+//   useEffect(() => {
+//     if (!state.InvoiceList.ReceiptPDF) return;
 
-    window.open(state.InvoiceList.ReceiptPDF, "_blank");
-setPdfLoading(false)
-    dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-  }, [state.InvoiceList.ReceiptPDF]);
+//     window.open(state.InvoiceList.ReceiptPDF, "_blank");
+// setPdfLoading(false)
+//     dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+//   }, [state.InvoiceList.ReceiptPDF]);
+
+useEffect(() => {
+        if(state.InvoiceList.statusCodeForReceiptPDf === 200){       
+               setPdfLoading(false);
+        window.open(state.InvoiceList.ReceiptPDF, "_blank");
+
+        dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+        }
+    }, [state.InvoiceList.statusCodeForReceiptPDf]);
+
+
 
 
 
@@ -158,15 +169,15 @@ setPdfLoading(false)
     setIsOpen(false);
 
     if (key === "whatsapp") {
-       dispatch({
-             type: 'WHATSAPPSHAREPDFRECEIPT',
-             payload: {
-               hostelId: pdfDetails?.hostelId,
-               invoiceId: pdfDetails?.invoiceId,
-             },
-           })
+      //  dispatch({
+      //        type: 'WHATSAPPSHAREPDFRECEIPT',
+      //        payload: {
+      //          hostelId: pdfDetails?.hostelId,
+      //          invoiceId: pdfDetails?.invoiceId,
+      //        },
+      //      })
      
-           setPdfLoading(true)
+      //      setPdfLoading(true)
     }
   };
 
