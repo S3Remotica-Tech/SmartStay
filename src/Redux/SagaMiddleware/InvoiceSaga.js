@@ -83,7 +83,7 @@ function* handleGetshareWhatsappPDF(action) {
 
          };
 
-         toast.success("Share Successfully", {
+         toast.success("PDF sent to WhatsApp successfully", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -125,6 +125,9 @@ function* handleGetshareWhatsappPDFReceipt(action) {
             backgroundColor: "#E6F6E6",
             color: "black",
             width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
             fontWeight: 600,
             fontSize: 14,
             textAlign: "start",
@@ -134,7 +137,7 @@ function* handleGetshareWhatsappPDFReceipt(action) {
 
          };
 
-         toast.success("Share Successfully", {
+         toast.success("PDF sent to WhatsApp successfully", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
