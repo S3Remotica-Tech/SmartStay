@@ -15,7 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 function InvoiceRegister() {
     const navigate = useNavigate();
@@ -34,6 +35,9 @@ function InvoiceRegister() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [size, setSize] = useState('');
     const [page, setPage] = useState(0);
+    const [hovered, setHovered] = useState(null);
+    const [position, setPosition] = useState({ top: 0, left: 0 });
+
 
     const handleCloseFilterBills = () => {
         setInvoiceFilter(false)
@@ -632,44 +636,44 @@ function InvoiceRegister() {
     }, [state.createAccount?.networkError])
 
 
- const handleDownload = () => {
-    if (state.login.selectedHostel_Id ) {
-      const invoiceFilters = state.reports?.invoiceRegisterFilters;
-      dispatch({
-        type: "REPORTS_INVOICE_REGISTER_PDFSAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          startDate: startDate,
-          endDate: endDate,
-          period: invoiceFilters?.period,
-        },
-      });
-      setLoading(true)
-    }
+    const handleDownload = () => {
+        if (state.login.selectedHostel_Id) {
+            const invoiceFilters = state.reports?.invoiceRegisterFilters;
+            dispatch({
+                type: "REPORTS_INVOICE_REGISTER_PDFSAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    startDate: startDate,
+                    endDate: endDate,
+                    period: invoiceFilters?.period,
+                },
+            });
+            setLoading(true)
+        }
 
-  };
+    };
 
-  useEffect(() => {
-    if (state?.reports?.reportsInvoicePdfSuccess === 200) {
+    useEffect(() => {
+        if (state?.reports?.reportsInvoicePdfSuccess === 200) {
 
-      const pdfUrl = state?.reports?.reportsInvoicePdf;
-      setLoading(false)
-      if (pdfUrl) {
-        window.open(pdfUrl, "_blank");
+            const pdfUrl = state?.reports?.reportsInvoicePdf;
+            setLoading(false)
+            if (pdfUrl) {
+                window.open(pdfUrl, "_blank");
 
-        dispatch({ type: 'REMOVE_REPORTS_INVOICE_REGISTER_PDF_REDUCER' })
-      }
-    }
-  }, [state?.reports?.reportsInvoicePdfSuccess]);
-
-     useEffect(() => {
-            if (state?.reports?.reportsPdfExportError) {
-                setLoading(false)
-                dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
+                dispatch({ type: 'REMOVE_REPORTS_INVOICE_REGISTER_PDF_REDUCER' })
             }
-    
-        }, [state?.reports?.reportsPdfExportError])
-    
+        }
+    }, [state?.reports?.reportsInvoicePdfSuccess]);
+
+    useEffect(() => {
+        if (state?.reports?.reportsPdfExportError) {
+            setLoading(false)
+            dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
+        }
+
+    }, [state?.reports?.reportsPdfExportError])
+
 
 
     return (
@@ -947,30 +951,48 @@ function InvoiceRegister() {
 
 
                                             <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white max-w-[200px]">
-                                                <div className="flex items-center gap-2 max-w-[200px] overflow-hidden">
+                                                <div className="flex items-center gap-2 max-w-[200px] relative">
+
                                                     {row.profilePic ? (
                                                         <img
                                                             src={row.profilePic}
                                                             alt={row.fullName}
                                                             className="w-7 h-7 rounded-full object-cover flex-shrink-0"
-
                                                         />
                                                     ) : (
-                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A]  flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
                                                             {row.initials}
                                                         </div>
                                                     )}
 
+
                                                     <span
-                                                        className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928]"
-                                                        title={row.fullName}
+                                                        onMouseEnter={(e) => {
+                                                            const rect = e.target.getBoundingClientRect();
+                                                            setPosition({
+                                                                top: rect.top + rect.height / 2,
+                                                                left: rect.right-20,
+                                                            });
+                                                            setHovered(i);
+                                                        }}
+                                                        onMouseLeave={() => setHovered(null)}
+                                                        className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
                                                     >
                                                         {row.fullName}
                                                     </span>
+
+
+                                                    {hovered === i && (
+                                                        <div
+                                                            style={{ top: position.top, left: position.left }}
+                                                            className="fixed -translate-y-1/2 z-[9999] bg-gray-700 text-white text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
+                                                        >
+                                                            {row.fullName}
+                                                        </div>
+                                                    )}
+
                                                 </div>
-
                                             </td>
-
 
                                             <td className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                                                 title={row.invoiceType}>

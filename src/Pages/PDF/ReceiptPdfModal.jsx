@@ -29,7 +29,7 @@ const InvoiceCard = ({ rowData, }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pdfOpenedRef = useRef(false);
   const [hoveredItem, setHoveredItem] = useState(null);
-
+  const pdfDetails = state.InvoiceList?.newReceiptchanges
   const menuItems = [
     {
       label: "Send Mail",
@@ -99,7 +99,7 @@ const InvoiceCard = ({ rowData, }) => {
 
   const innerScrollRef = useRef(null);
 
-const [pdfLoading, setPdfLoading] = useState(false)
+  const [pdfLoading, setPdfLoading] = useState(false)
 
 
   const handleBackInvoice = () => {
@@ -108,7 +108,7 @@ const [pdfLoading, setPdfLoading] = useState(false)
 
 
   const handleDownload = (item) => {
-       if (item.transactionId) {
+    if (item.transactionId) {
 
       dispatch({
         type: "RECEIPTPDF",
@@ -124,28 +124,28 @@ const [pdfLoading, setPdfLoading] = useState(false)
   };
 
 
-//   useEffect(() => {
-//     if (!state.InvoiceList.ReceiptPDF) return;
+  //   useEffect(() => {
+  //     if (!state.InvoiceList.ReceiptPDF) return;
 
-//     window.open(state.InvoiceList.ReceiptPDF, "_blank");
-// setPdfLoading(false)
-//     dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-//   }, [state.InvoiceList.ReceiptPDF]);
+  //     window.open(state.InvoiceList.ReceiptPDF, "_blank");
+  // setPdfLoading(false)
+  //     dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+  //   }, [state.InvoiceList.ReceiptPDF]);
 
-useEffect(() => {
-        if(state.InvoiceList.statusCodeForReceiptPDf === 200){       
-               setPdfLoading(false);
-        window.open(state.InvoiceList.ReceiptPDF, "_blank");
+  useEffect(() => {
+    if (state.InvoiceList.statusCodeForReceiptPDf === 200) {
+      setPdfLoading(false);
+      window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
-        dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-        }
-    }, [state.InvoiceList.statusCodeForReceiptPDf]);
-
-
+      dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+    }
+  }, [state.InvoiceList.statusCodeForReceiptPDf]);
 
 
 
- useEffect(() => {
+
+
+  useEffect(() => {
     if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError || state.InvoiceList?.sharePdfError) {
       setPdfLoading(false)
       setTimeout(() => {
@@ -155,7 +155,7 @@ useEffect(() => {
 
       }, 100);
     }
-  }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError,state.InvoiceList?.sharePdfError]);
+  }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError, state.InvoiceList?.sharePdfError]);
 
 
 
@@ -165,19 +165,21 @@ useEffect(() => {
     setIsOpen(!isOpen);
   };
 
+
   const handleMenuClick = async (key) => {
     setIsOpen(false);
 
     if (key === "whatsapp") {
-      //  dispatch({
-      //        type: 'WHATSAPPSHAREPDFRECEIPT',
-      //        payload: {
-      //          hostelId: pdfDetails?.hostelId,
-      //          invoiceId: pdfDetails?.invoiceId,
-      //        },
-      //      })
-     
-      //      setPdfLoading(true)
+      dispatch({
+        type: 'WHATSAPPSHAREPDFRECEIPT',
+        payload: {
+          hostelId: pdfDetails?.hostelId,
+          transactionId: pdfDetails?.receiptInfo?.receiptId
+
+        },
+      })
+
+      setPdfLoading(true)
     }
   };
 
@@ -185,11 +187,9 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (state.InvoiceList.shareReceiptPdfSuccess) {
+    if (state.InvoiceList.shareReceiptPdfSuccess === 200) {
       setPdfLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_GET_SHARE_PDF' })
-      }, 100);
+      dispatch({ type: 'REMOVE_WHATSAPP_SHARE_PDF_RECEIPT' })
 
     }
 
@@ -197,21 +197,21 @@ useEffect(() => {
 
 
 
+console.log("state.InvoiceList.shareReceiptPdfSuccess",state.InvoiceList.shareReceiptPdfSuccess)
 
 
 
 
 
-  const pdfDetails = state.InvoiceList?.newReceiptchanges
 
 
 
- useEffect(() => {
+  useEffect(() => {
 
-        if (state.login.selectedHostel_Id) {
-                       dispatch({ type: "RECEIPTSLIST", payload: state.login.selectedHostel_Id });
-        }
-    }, [state.login.selectedHostel_Id]);
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "RECEIPTSLIST", payload: state.login.selectedHostel_Id });
+    }
+  }, [state.login.selectedHostel_Id]);
 
 
 
@@ -256,11 +256,11 @@ useEffect(() => {
     <>
       <div className="sticky-top bg-white p-0 m-0 d-flex justify-content-between align-items-center" style={{ borderLeft: "1px solid #E5E7EB" }}>
 
-  {pdfLoading && (
-                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-                </div>
-            )}
+        {pdfLoading && (
+          <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
         <div
           className="d-flex justify-content-between align-items-center "
           style={{
@@ -351,24 +351,14 @@ useEffect(() => {
                     Share
                   </span>
                 </div>
-
-
-
-
                 {isOpen && (
                   <div
-                    className="position-absolute  start-0 mt-2 p-2 shadow"
-                    style={{
-                      borderRadius: "8px",
-                      backgroundColor: "#fff",
-                      width: 160,
-                      zIndex: 10,
-                    }}
-                  >
+                   className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
+                                      >
                     {menuItems.map((item) => (
                       <div
                         key={item.key}
-                        className="d-flex align-items-center mb-2 hover-item p-1 rounded"
+                        className="d-flex align-items-center mb-2 hover-item p-1 rounded cursor-pointer z-[9999]"
                         style={{
                           backgroundColor:
                             hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
@@ -621,7 +611,7 @@ useEffect(() => {
                       {Number(pdfDetails?.invoiceAmount) > 0 ? "TOTAL PAID AMOUNT" : "Total Refunded Amount"}<br />
 
                       {
-                        (pdfDetails?.configurations?.receiptType === 'Booking' || pdfDetails?.configurations?.receiptType === 'Advance'  )  && <span style={{ fontFamily: "Gilroy", color: "#6D6D6D", fontSize: 11 }}>Security Deposit (Advance)</span>
+                        (pdfDetails?.configurations?.receiptType === 'Booking' || pdfDetails?.configurations?.receiptType === 'Advance') && <span style={{ fontFamily: "Gilroy", color: "#6D6D6D", fontSize: 11 }}>Security Deposit (Advance)</span>
                       }
 
                     </div>
@@ -1148,7 +1138,7 @@ useEffect(() => {
                     </table>
                   </div>
 
-             }
+              }
 
 
 
