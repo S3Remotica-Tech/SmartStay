@@ -985,7 +985,7 @@ function InvoiceRegister() {
                                                     {hovered === i && (
                                                         <div
                                                             style={{ top: position.top, left: position.left }}
-                                                            className="fixed -translate-y-1/2 z-[9999] bg-gray-700 text-white text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
+                                                            className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
                                                         >
                                                             {row.fullName}
                                                         </div>
