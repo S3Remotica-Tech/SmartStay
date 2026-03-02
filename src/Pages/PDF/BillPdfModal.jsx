@@ -40,7 +40,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const [payapleform, setPayableForm] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
-
+const modalRef = useRef(null);
 
 
   const menuItems = [
@@ -84,6 +84,19 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }, [rowData])
 
 
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
 
   const handleCloseForm = () => {
@@ -499,7 +512,7 @@ console.log("pdfDetails",pdfDetails)
                     className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
                   >
                     {menuItems.map((item) => (
-                      <div
+                      <div ref={modalRef}
                         key={item.key}
                         className={`flex items-center mb-2 p-1 rounded z-[9999] cursor-pointer transition-colors duration-200
       ${hoveredItem === item.key

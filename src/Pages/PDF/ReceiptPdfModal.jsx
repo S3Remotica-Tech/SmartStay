@@ -27,7 +27,9 @@ const InvoiceCard = ({ rowData, }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const pdfOpenedRef = useRef(false);
+  // const pdfOpenedRef = useRef(false);
+const modalRef = useRef(null);
+
   const [hoveredItem, setHoveredItem] = useState(null);
   const pdfDetails = state.InvoiceList?.newReceiptchanges
   const menuItems = [
@@ -61,7 +63,19 @@ const InvoiceCard = ({ rowData, }) => {
   }, [rowData])
 
 
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
 
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
   function convertNumberToWords(num) {
     const a = [
@@ -196,8 +210,6 @@ const InvoiceCard = ({ rowData, }) => {
   }, [state.InvoiceList.shareReceiptPdfSuccess])
 
 
-
-console.log("state.InvoiceList.shareReceiptPdfSuccess",state.InvoiceList.shareReceiptPdfSuccess)
 
 
 
@@ -352,11 +364,11 @@ console.log("state.InvoiceList.shareReceiptPdfSuccess",state.InvoiceList.shareRe
                   </span>
                 </div>
                 {isOpen && (
-                  <div
+                  <div 
                    className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
                                       >
                     {menuItems.map((item) => (
-                      <div
+                      <div ref={modalRef}
                         key={item.key}
                         className="d-flex align-items-center mb-2 hover-item p-1 rounded cursor-pointer z-[9999]"
                         style={{
