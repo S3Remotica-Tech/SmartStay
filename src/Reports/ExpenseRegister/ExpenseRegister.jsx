@@ -41,7 +41,11 @@ function ExpenseRegister() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [size, setSize] = useState('');
   const [page, setPage] = useState(0);
+  const [categoryTooltip, setCategoryTooltip] = useState(null);
+  const [descriptionTooltip, setDescriptionTooltip] = useState(null);
+  const [collectedTooltip, setCollectedTooltip] = useState(null);
 
+  const [position, setPosition] = useState({ top: 0, left: 0 });
 
 
   useEffect(() => {
@@ -495,8 +499,8 @@ function ExpenseRegister() {
 
 
 
-const handleDownload = () => {
-    if (state.login.selectedHostel_Id ) {
+  const handleDownload = () => {
+    if (state.login.selectedHostel_Id) {
       const expenseFilters = state.reports?.expenseRegisterFilters;
       dispatch({
         type: "REPORTS_EXPENSE_REGISTER_PDFSAGA",
@@ -531,14 +535,14 @@ const handleDownload = () => {
 
 
 
-   useEffect(() => {
-          if (state?.reports?.reportsPdfExportError) {
-              setLoading(false)
-              dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
-          }
-  
-      }, [state?.reports?.reportsPdfExportError])
-  
+  useEffect(() => {
+    if (state?.reports?.reportsPdfExportError) {
+      setLoading(false)
+      dispatch({ type: 'REMOVE_REPORTS_PDF_EXPORT_ERROR' })
+    }
+
+  }, [state?.reports?.reportsPdfExportError])
+
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -812,10 +816,36 @@ const handleDownload = () => {
                       <div className="flex items-center gap-2">
 
                         <span
+                          onMouseEnter={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setPosition({
+                              top: rect.top + rect.height / 2,
+                              left: rect.right + 10,
+                            });
+                            setCategoryTooltip(i);
+                          }}
+                          onMouseLeave={() => setCategoryTooltip(null)}
                           className="truncate whitespace-nowrap font-semibold text-[#111928]"
-                          title={row.expenseCategory}
+
                         >
                           {row.expenseCategory}
+
+
+                          {categoryTooltip === i && (
+                            <div
+                              style={{ top: position.top, left: position.left }}
+                              className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md max-w-[220px] whitespace-normal break-words pointer-events-none"
+                            >
+                              {row.expenseCategory}
+                            </div>
+                          )}
+
+
+
+
+
+
+
                         </span>
                       </div>
                     </td>
@@ -824,14 +854,37 @@ const handleDownload = () => {
 
 
 
-                    <td title={row.description}
+                    <td
+                      onMouseEnter={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setPosition({
+                          top: rect.top + rect.height / 2,
+                          left: rect.right,
+                        });
+                        setDescriptionTooltip(i);
+                      }}
+                      onMouseLeave={() => setDescriptionTooltip(null)}
                       className={`px-4 py-2.5 text-center text-[#6B7280]
     min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
-                      {row.description || "-"}
+                      <span
+
+                        className="cursor-pointer"
+                      >
+                        {row.description || "-"}
+
+                        {descriptionTooltip === i && (
+                          <div
+                            style={{ top: position.top, left: position.left }}
+                            className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md max-w-[220px] whitespace-normal break-words pointer-events-none"
+                          >
+                            {row.description || "-"}
+                          </div>
+                        )}
+                      </span>
                     </td>
 
                     <td
@@ -864,12 +917,41 @@ const handleDownload = () => {
                       {row.vendorName || "-"}
                     </td>
 
-                    <td title={row.account}
+                    <td
+
+
+
+                      onMouseEnter={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setPosition({
+                          top: rect.top + rect.height / 2,
+                          left: rect.right ,
+                        });
+                        setCollectedTooltip(i);
+                      }}
+                      onMouseLeave={() => setCollectedTooltip(null)}
                       className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
                       {row.account || "-"}
+
+                      {collectedTooltip === i && (
+                        <div
+                          style={{ top: position.top-30, left: position-100 }}
+                          className="fixed -translate-y-1/2 z-[9999] 
+     bg-gray-200 text-gray-800  border-gray-200
+      text-xs px-3 py-1.5 rounded-md 
+          whitespace-normal break-words pointer-events-none max-w-[220px]"
+                        >
+                          {row.account}
+                        </div>
+                      )}
+
+
+
+
+
                     </td>
 
 

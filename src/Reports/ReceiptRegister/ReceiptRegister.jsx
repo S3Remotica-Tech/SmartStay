@@ -34,6 +34,11 @@ function ReceiptRegister() {
   const [size, setSize] = useState('');
   const [page, setPage] = useState(0);
   // const skipApiRef = useRef(false);
+  const [customerTooltip, setCustomerTooltip] = useState(null);
+  const [bankTooltip, setBankTooltip] = useState(null);
+  const [collectedTooltip, setCollectedTooltip] = useState(null);
+
+  const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const isInitialLoad = useRef(true);
   const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
@@ -493,7 +498,7 @@ function ReceiptRegister() {
 
 
   const handleDownload = () => {
-    if (state.login.selectedHostel_Id ) {
+    if (state.login.selectedHostel_Id) {
       const receiptFilters = state.reports?.receiptRegisterFilters;
       dispatch({
         type: "REPORTS_RECEIPT_REGISTER_PDFSAGA",
@@ -526,7 +531,7 @@ function ReceiptRegister() {
 
 
 
-  
+
   useEffect(() => {
     if (state?.reports?.reportsPdfExportError) {
       setLoading(false)
@@ -816,12 +821,32 @@ function ReceiptRegister() {
                     </td>
 
                     <td
+                      onMouseEnter={(e) => {
+                        const rect = e.target.getBoundingClientRect();
+                        setPosition({
+                          top: rect.top + rect.height / 2,
+                          left: rect.right - 20,
+                        });
+                        setCustomerTooltip(i);
+                      }}
+                      onMouseLeave={() => setCustomerTooltip(null)}
+
+
                       className={`px-4 py-2.5 text-center font-semibold  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      title={row.customerName}
+
                     >
                       {row.customerName}
+                      {customerTooltip === i && (
+                        <div
+                          style={{ top: position.top, left: position.left }}
+                          className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
+                        >
+                          {row.customerName}
+                        </div>
+                      )}
+
                     </td>
 
                     <td
@@ -850,20 +875,66 @@ function ReceiptRegister() {
                       ₹ {row.paymentMade}
                     </td>
 
-                    <td title={row.paymentMode}
+                    <td
+                      onMouseEnter={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setPosition({
+                          top: rect.top + rect.height / 2,
+                          left: rect.right - 20,
+                        });
+                        setBankTooltip(i);
+                      }}
+                      onMouseLeave={() => setBankTooltip(null)}
+
                       className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
-                      {row.paymentMode}
+                      {row.bankAccount}
+                      {bankTooltip === i && (
+                        <div
+                          style={{ top: position.top, left: position.left }}
+                          className="fixed -translate-y-1/2 z-[9999] 
+      bg-gray-200 text-gray-800  border-gray-200
+      text-xs px-3 py-1.5 rounded-md 
+      whitespace-normal break-words pointer-events-none max-w-[220px]"
+                        >
+                          {row.bankAccount}
+                        </div>
+                      )}
                     </td>
 
-                    <td title={row.collectedBy}
+                    <td
+                      onMouseEnter={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setPosition({
+                          top: rect.top + rect.height / 2,
+                          left: rect.right - 20,
+                        });
+                        setCollectedTooltip(i);
+                      }}
+                      onMouseLeave={() => setCollectedTooltip(null)}
+
+
                       className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                     >
                       {row.collectedBy}
+
+                      {collectedTooltip === i && (
+                        <div
+                          style={{ top: position.top, left: position.left }}
+                          className="fixed -translate-y-1/2 z-[9999] 
+     bg-gray-200 text-gray-800  border-gray-200
+      text-xs px-3 py-1.5 rounded-md 
+          whitespace-normal break-words pointer-events-none max-w-[220px]"
+                        >
+                          {row.collectedBy}
+                        </div>
+                      )}
+
+
                     </td>
 
 

@@ -35,8 +35,8 @@ function TenantsRegister() {
     const [page, setPage] = useState(0);
     const tableRef = useRef(null);
     const [isScrolled, setIsScrolled] = useState(false);
-
-
+    const [customerTooltip, setCustomerTooltip] = useState(null);
+    const [position, setPosition] = useState({ top: 0, left: 0 });
 
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {
@@ -835,7 +835,7 @@ function TenantsRegister() {
                                 <tr className="border-b border-[#E8E8E8]">
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
+                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-30 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
                                         <Setting3
                                             // onClick={() => setOpen(!open)}
                                             className="cursor-pointer"
@@ -855,10 +855,7 @@ function TenantsRegister() {
                                     </th>
 
 
-
-
-
-                                    <th className="px-4 py-2.5 text-center font-semibold uppercase sticky left-[170px] z-30 bg-[#F9FAFB] whitespace-nowrap">
+                                    <th className="px-4 py-2.5 text-center font-semibold uppercase  bg-[#F9FAFB] whitespace-nowrap">
                                         Mobile No
                                     </th>
 
@@ -896,42 +893,50 @@ function TenantsRegister() {
 
 
                             <tbody>
-                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row) => (
+                                {tenantRegister?.tenants?.length > 0 ? tenantRegister?.tenants?.map((row, i) => (
                                     <tr
                                         key={row.tenantId}
                                         className="border-b last:border-none  transition"
                                     >
                                         <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
-                                        {/* <td
-                                            className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
-                                            title={row.no}
-                                        >
-                                            {row.no || '-'}
-                                        </td>
- */}
 
-                                        <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px]">
-                                            <div className="flex items-center gap-2 max-w-[200px] overflow-hidden text-ellipsis ">
-                                                {/* <img
-                                                    src={}
-                                                    alt={row.name}
-                                                    className="w-7 h-7 rounded-full object-cover"
-                                                /> */}
+
+
+
+                                        <td
+                                            className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px] ">
+                                            <div className="flex items-center gap-2 max-w-[200px]">
+
                                                 <ProfileCircle size="28" color="#9ca098" variant='Bold' />
                                                 <span
-                                                    className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928]"
-                                                    title={row.name}
+
+                                                    onMouseEnter={(e) => {
+                                                        const rect = e.target.getBoundingClientRect();
+                                                        setPosition({
+                                                            top: rect.top + rect.height / 2,
+                                                            left: rect.right,
+                                                        });
+                                                        setCustomerTooltip(i);
+                                                    }}
+                                                    onMouseLeave={() => setCustomerTooltip(null)}
+                                                    className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
+
                                                 >
                                                     {row.name}
+                                                    {customerTooltip === i && (
+                                                        <div
+                                                            style={{ top: position.top, left: position.left }}
+                                                            className="fixed -translate-y-1/2 z-[9999]  bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  max-w-[220px] whitespace-normal break-words pointer-events-none"                                                        >
+                                                            {row.name}
+                                                        </div>
+                                                    )}
                                                 </span>
                                             </div>
                                         </td>
 
-
-
-
-
-                                        <td className="px-4 py-2.5 text-center text-[#6B7280] bg-white  sticky left-[170px] z-20 whitespace-nowrap">
+                                        <td className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+    ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+    >
                                             {row.mobileNo}
                                         </td>
 
