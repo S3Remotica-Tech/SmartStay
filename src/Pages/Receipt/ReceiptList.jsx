@@ -28,7 +28,8 @@ const Receipt = (props) => {
 
 
   const {
-    canReadModule: canReadReceipt,
+    canWriteModule: canWriteReceipt,
+    // canReadModule: canReadReceipt,
     canDeleteModule: canDeleteReceipt,
     canUpdateModule: canUpdateReceipt,
   } = useHasPermission("Receipt");
@@ -365,16 +366,16 @@ const Receipt = (props) => {
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      opacity: !canReadReceipt ? 0.5 : 1,
-                      cursor: !canReadReceipt ? "not-allowed" : "pointer",
+                      opacity: !canWriteReceipt ? 0.5 : 1,
+                      cursor: !canWriteReceipt ? "not-allowed" : "pointer",
                       padding: "8px 12px",
                       width: "100%"
                     }}
                     onClick={() => {
-                      if (canReadReceipt) { handleInvoicepdf(props.item) }
+                      if (canWriteReceipt) { handleInvoicepdf(props.item) }
                     }}
                     onMouseEnter={(e) => {
-                      if (canReadReceipt) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      if (canWriteReceipt) e.currentTarget.style.backgroundColor = "#EDF2FF";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = "transparent";
@@ -387,7 +388,7 @@ const Receipt = (props) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: "#222222",
-                        cursor: !canReadReceipt ? "not-allowed" : "pointer",
+                        cursor: !canWriteReceipt ? "not-allowed" : "pointer",
                       }}
                     >
                       Download

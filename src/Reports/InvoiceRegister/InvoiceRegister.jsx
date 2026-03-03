@@ -43,13 +43,14 @@ function InvoiceRegister() {
     }
 
 
-const {
-    canWriteModule: canWriteReports,
-    // canReadModule: canReadReports,
-    // canUpdateModule: canUpdateReports,
-    // canDeleteModule: canDeleteReports,
-  } = useHasPermission("Reports");
+    const {
+        canWriteModule: canWriteReports,
+        // canReadModule: canReadReports,
+        // canUpdateModule: canUpdateReports,
+        // canDeleteModule: canDeleteReports,
+    } = useHasPermission("Reports");
 
+    console.log("canWriteReports",canWriteReports)
 
 
     useEffect(() => {
@@ -780,8 +781,14 @@ const {
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button onClick={handleDownload} disabled={canWriteReports}
-                        className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
+                    <button
+                       onClick={() => canWriteReports && handleDownload()}
+                        disabled={!canWriteReports}
+                        className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+    ${!canWriteReports
+                                ? "bg-gray-400 cursor-not-allowed text-white"
+                                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+                            }`}
                     >
                         <Export size="16" />
                         Export
@@ -975,7 +982,7 @@ const {
                                                             const rect = e.target.getBoundingClientRect();
                                                             setPosition({
                                                                 top: rect.top + rect.height / 2,
-                                                                left: rect.right-20,
+                                                                left: rect.right - 20,
                                                             });
                                                             setHovered(i);
                                                         }}

@@ -60,7 +60,8 @@ const InvoiceCard = ({ rowData, }) => {
 
 
   const {
-         canReadModule: canReadReceipt,
+     canWriteModule: canWriteReceipt,
+        //  canReadModule: canReadReceipt,
   } = useHasPermission("Receipt");
 
 
@@ -334,14 +335,14 @@ const InvoiceCard = ({ rowData, }) => {
               <div
                 className="d-flex justify-content-center align-items-center border"
                 style={{
-                  borderRadius: '8px', cursor: canReadReceipt ? "pointer" : "not-allowed", height: 30, width: 30,
-                  opacity: canReadReceipt ? 1 : 0.5
+                  borderRadius: '8px', cursor: canWriteReceipt ? "pointer" : "not-allowed", height: 30, width: 30,
+                  opacity: canWriteReceipt ? 1 : 0.5
                 }}
-                onClick={() => { if (canReadReceipt) handleDownload(rowData) }}
+                onClick={() => { if (canWriteReceipt) handleDownload(rowData) }}
               >
                 <DocumentDownload
                   size="18"
-                  color={canReadReceipt ? "#222222" : "#BDBDBD"}
+                  color={canWriteReceipt ? "#222222" : "#BDBDBD"}
                 />
 
               </div>
@@ -386,7 +387,7 @@ const InvoiceCard = ({ rowData, }) => {
                     className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
                   >
                    {menuItems.map((item) => {
-  const isDisabled = !canReadReceipt;
+  const isDisabled = !canWriteReceipt;
 
   return (
     <div

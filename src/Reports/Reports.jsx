@@ -190,22 +190,22 @@ function Reports() {
   const summaryData = [
     {
       label: "Total Revenue (MTD)",
-      value: `₹${reportsList?.totalRevenue}`,
+      value: `₹${reportsList?.totalRevenue || 0}`,
       valueColor: "#00A63E",
     },
     {
       label: "Outstanding Amount",
-      value: `₹${reportsList?.outStandingAmount}`,
+      value: `₹${reportsList?.outStandingAmount || 0}`,
       valueColor: "#222222",
     },
     {
       label: "Active Tenants",
-      value: `${reportsList?.tenantInfo?.totalTenants}`,
+      value: `${reportsList?.tenantInfo?.totalTenants || 0}`,
       valueColor: "#222222",
     },
     {
       label: "Occupancy Rate",
-      value: `${reportsList?.tenantInfo?.occupancyRate} %`,
+      value: `${reportsList?.tenantInfo?.occupancyRate || ''} %`,
       valueColor: "#222222",
     },
   ];
