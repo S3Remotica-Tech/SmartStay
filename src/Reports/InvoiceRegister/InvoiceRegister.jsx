@@ -53,6 +53,8 @@ function InvoiceRegister() {
 
     const isExportAllow = isValidSubscription && canReadReports
 
+    console.log("canReadReports",canReadReports)
+    console.log("isValidSubscription",isValidSubscription)
 
     useEffect(() => {
         if (state.reports.getInvoiceRegisterSuccess === 200) {
