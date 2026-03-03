@@ -44,13 +44,14 @@ function InvoiceRegister() {
 
 
     const {
-        canWriteModule: canWriteReports,
-        // canReadModule: canReadReports,
-        // canUpdateModule: canUpdateReports,
-        // canDeleteModule: canDeleteReports,
+        canReadModule: canReadReports,
     } = useHasPermission("Reports");
 
-    console.log("canWriteReports",canWriteReports)
+
+
+    const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+
+    const isExportAllow = isValidSubscription && canReadReports
 
 
     useEffect(() => {
@@ -782,14 +783,15 @@ function InvoiceRegister() {
                         Filter
                     </button>
                     <button
-                       onClick={() => canWriteReports && handleDownload()}
-                        disabled={!canWriteReports}
+                        onClick={() => isExportAllow && handleDownload()}
+                        disabled={!isExportAllow}
                         className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
-    ${!canWriteReports
+    ${!isExportAllow
                                 ? "bg-gray-400 cursor-not-allowed text-white"
                                 : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
                             }`}
                     >
+
                         <Export size="16" />
                         Export
                     </button>

@@ -15,6 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import ReceiptFilter from './ReceiptFilter';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useHasPermission } from '../../Utils/Permission';
+
+
 function ReceiptRegister() {
 
   const navigate = useNavigate();
@@ -44,7 +47,13 @@ function ReceiptRegister() {
   const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
   const apiEnd = state?.reports?.getReceiptRegister?.summary?.endDate;
 
+  const {
+    canReadModule: canReadReports,
+  } = useHasPermission("Reports");
 
+ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+
+    const isExportAllow = isValidSubscription && canReadReports
 
   useEffect(() => {
     if (state.reports.getReceiptRegisterSuccess === 200) {
@@ -643,8 +652,14 @@ function ReceiptRegister() {
             <Filter size="16" />
             Filter
           </button>
-          <button onClick={handleDownload}
-            className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
+          <button
+            onClick={() => isExportAllow && handleDownload()}
+            disabled={!isExportAllow}
+            className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+                                ${!isExportAllow
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+              }`}
           >
             <Export size="16" />
             Export

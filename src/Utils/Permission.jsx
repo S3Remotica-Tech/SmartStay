@@ -16,17 +16,17 @@ export const useHasPermission = (moduleName) => {
   const isValidSubscription = useSelector((state) => state.UsersList?.hotelDetailsinPg.isSubscriptionActive);
 
 
- 
+
 
   const canWriteModule =
-   isValidSubscription && checkPermission(roleData, moduleName, "canWrite");
-const canReadModule = checkPermission(roleData, moduleName, "canRead");
+    isValidSubscription && checkPermission(roleData, moduleName, "canWrite");
+  const canReadModule = checkPermission(roleData, moduleName, "canRead");
   // const canReadModule =
   //   isValidSubscription && checkPermission(roleData, moduleName, "canRead");
   const canUpdateModule =
-   isValidSubscription && checkPermission(roleData, moduleName, "canUpdate");
+    isValidSubscription && checkPermission(roleData, moduleName, "canUpdate");
   const canDeleteModule =
-   isValidSubscription && checkPermission(roleData, moduleName, "canDelete");
+    isValidSubscription && checkPermission(roleData, moduleName, "canDelete");
 
   return {
     canWriteModule,

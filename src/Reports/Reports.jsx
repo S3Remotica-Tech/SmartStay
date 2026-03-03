@@ -3,8 +3,8 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
-   ArrowRight, DocumentText, ReceiptText,  UserOctagon, 
-  Wallet, 
+  ArrowRight, DocumentText, ReceiptText, UserOctagon,
+  Wallet,
   TrendUp,
   DollarCircle, Buildings,
   ReceiptItem,
@@ -477,7 +477,7 @@ function Reports() {
           className="datepicker-wrapper"
           style={{ position: "relative", }}
         >
-          <RangePicker
+          <RangePicker disabled={!canReadReports}
             style={{
               width: "100%",
               height: "100%",
@@ -569,7 +569,7 @@ function Reports() {
                   ];
 
                   const isClickable =
-                    (isDev && allowedRegisters.includes(item.title) )|| (isProd && allowedRegisters.includes(item.title));
+                    (isDev && allowedRegisters.includes(item.title)) || (isProd && allowedRegisters.includes(item.title));
 
                   return (
                     <div
