@@ -521,7 +521,7 @@ function BookingModal(props) {
          dialogClassName="custom-modals-style"
       >
         <Modal.Header className="flex justify-between">
-          <Modal.Title>
+          <Modal.Title className="text-lg font-medium text-gray-900 font-gilroy">
             Tenant Booking
           </Modal.Title>
 

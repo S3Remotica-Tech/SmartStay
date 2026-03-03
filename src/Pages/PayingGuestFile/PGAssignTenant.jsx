@@ -546,10 +546,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
       setAdvanceAmountError("Please Enter Advance Amount");
       return;
     }
-    if (Number(AdvanceAmount) <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
+    // if (Number(AdvanceAmount) <= 0) {
+    //   setAdvanceAmountError("Please Enter Valid Advance Amount");
+    //   return;
+    // }
 
 
 
@@ -628,7 +628,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
       currentItem?.floorId &&
       currentItem?.roomId && currentItem?.bedId &&
       checkin_joiningDate &&
-      AdvanceAmount > 0 &&
+      AdvanceAmount &&
       RoomRent > 0
     ) {
 

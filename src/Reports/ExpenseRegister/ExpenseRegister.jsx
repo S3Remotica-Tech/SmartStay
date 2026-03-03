@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ExpenseFilter from './ExpenseFilter';
 import ApiPagination from "../../Components/ApiPagination";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useHasPermission } from '../../Utils/Permission';
 
 
 
@@ -46,6 +47,14 @@ function ExpenseRegister() {
   const [collectedTooltip, setCollectedTooltip] = useState(null);
 
   const [position, setPosition] = useState({ top: 0, left: 0 });
+
+  const {
+    canReadModule: canReadReports,
+  } = useHasPermission("Reports");
+
+  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+
+  const isExportAllow = isValidSubscription && canReadReports
 
 
   useEffect(() => {
@@ -646,8 +655,14 @@ function ExpenseRegister() {
             <Filter size="16" />
             Filter
           </button>
-          <button onClick={handleDownload}
-            className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
+          <button
+            onClick={() => isExportAllow && handleDownload()}
+            disabled={!isExportAllow}
+            className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+                                ${!isExportAllow
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+              }`}
           >
             <Export size="16" />
             Export
@@ -925,7 +940,7 @@ function ExpenseRegister() {
                         const rect = e.currentTarget.getBoundingClientRect();
                         setPosition({
                           top: rect.top + rect.height / 2,
-                          left: rect.right ,
+                          left: rect.right,
                         });
                         setCollectedTooltip(i);
                       }}
@@ -938,7 +953,7 @@ function ExpenseRegister() {
 
                       {collectedTooltip === i && (
                         <div
-                          style={{ top: position.top-30, left: position-100 }}
+                          style={{ top: position.top - 30, left: position - 100 }}
                           className="fixed -translate-y-1/2 z-[9999] 
      bg-gray-200 text-gray-800  border-gray-200
       text-xs px-3 py-1.5 rounded-md 
