@@ -241,7 +241,7 @@ function UserlistForm(props) {
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
 
-    if (value === "" || /^[1-9]\d*$/.test(value)) {
+    if (value === "" || /^(0|[1-9]\d*)$/.test(value)) {
       setAdvanceAmount(value);
       setAdvanceAmountError("");
     }

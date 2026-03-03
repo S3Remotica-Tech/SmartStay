@@ -238,10 +238,10 @@ function CheckIn({
             setAdvanceAmountError("Please Enter Advance Amount");
             hasError = true;
         }
-        if (Number(AdvanceAmount) <= 0) {
-            setAdvanceAmountError("Please Enter Valid Advance Amount");
-            hasError = true;
-        }
+        // if (Number(AdvanceAmount) <= 0) {
+        //     setAdvanceAmountError("Please Enter Valid Advance Amount");
+        //     hasError = true;
+        // }
 
         setErrors(newErrors)
 
@@ -592,7 +592,7 @@ function CheckIn({
 
                             <div className="bg-[#F7F9FF] pb-4 rounded-lg mt-3 mb-2 p-2">
                                 <div className="flex justify-between items-center pt-3">
-                                    <label className="text-sm font-medium text-gray-700">Non Refundable Amount</label>
+                                    <label className="text-sm font-medium text-gray-700 font-gilroy">Non Refundable Amount</label>
                                     <button
                                         onClick={handleAddField}
                                         className="flex items-center gap-1 bg-blue-700 text-white px-4 py-1.5 rounded-lg text-sm font-semibold"
