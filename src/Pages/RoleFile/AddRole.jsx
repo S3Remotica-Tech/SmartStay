@@ -92,7 +92,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const [checkboxValues, setCheckboxValues] = useState(initialCheckboxValues);
 
-console.log("checkboxValues",checkboxValues)
+
 
 
     useEffect(() => {
@@ -229,9 +229,9 @@ console.log("checkboxValues",checkboxValues)
 
     const renderRow = (rowName, label) => (
         <tr key={rowName}>
-            <td  className="px-4 py-1">{label}</td>
+            <td style={{ paddingLeft: '16px' }}>{label}</td>
             {checkboxValues[rowName]?.map((checked, index) => (
-                <td className='text-center' key={index}>
+                <td key={index}>
                     <input
                         type="checkbox"
                         checked={checked}
@@ -266,8 +266,6 @@ console.log("checkboxValues",checkboxValues)
             Boolean(permission.canRead || permission.canWrite || permission.canUpdate || permission.canDelete)
         );
 
-        console.log("hasPermissionSelected",hasPermissionSelected)
-        console.log("permissionRole",permissionRole)
 
         if (!hasPermissionSelected) {
             setErrorPermission("At Least One Permission Must Be Selected");
@@ -383,19 +381,7 @@ console.log("checkboxValues",checkboxValues)
 
     return (
         <div
-            className="modal show"
-            style={{
-                display: "block",
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 1050,
-                overflow: "hidden",
-
-            }}
-        >
+            className="modal show  block fixed inset-0 z-[1050] overflow-hidden">
             <Modal
                 show={showRole}
                 onHide={handleClose}
@@ -427,15 +413,16 @@ console.log("checkboxValues",checkboxValues)
                                     onChange={(e) => handleRoleName(e)}
                                     className="w-full h-[50px] px-3 text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                 />
+                                {roleError && <ErrorMessage message={roleError} type="error" />}
+                                {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
+                                {errorForm && <ErrorMessage message={errorForm} type="error" />}
                             </div>
 
-                            {roleError && <ErrorMessage message={roleError} type="error" />}
-                            {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
-                            {errorForm && <ErrorMessage message={errorForm} type="error" />}
+
                         </div>
 
                         <div className="border border-gray-300 rounded-2xl max-h-[272px] overflow-y-auto">
-                            <table className="min-w-full border-collapse mb-0 ">
+                            <table className="min-w-full border-collapse mb-0">
                                 <thead className="bg-[#E7F1FF] sticky top-0 z-10">
                                     <tr>
                                         <th className="text-[#4B4B4B] font-gilroy font-medium text-sm pl-4 py-2 rounded-tl-2xl">
@@ -450,12 +437,52 @@ console.log("checkboxValues",checkboxValues)
                                     </tr>
                                 </thead>
 
-                                <tbody className="text-[#4B4B4B] font-gilroy font-semibold text-base ">
-                                    {modules.map(module => {
+                                <tbody className="text-[#4B4B4B] font-gilroy font-semibold text-base">
+                                    <tr className="h-2"></tr>
+
+                                    {modules.map((module, index) => {
                                         const formattedName = module.moduleName.replace(/\s+/g, '');
-                                        return renderRow(formattedName, module.moduleName);
+                                        return (
+                                            <React.Fragment key={formattedName}>
+                                                <tr className="bg-white rounded-lg">
+
+                                                    <td className="pl-4">{module.moduleName}</td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full"></div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full"></div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full "></div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="py-1">
+                                                        <div className="flex flex-col items-center">
+                                                            <input type="checkbox" className='mr-3' />
+                                                            <div className="w-full"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                {index !== modules.length - 1 && <tr className="h-2"></tr>}
+                                            </React.Fragment>
+                                        );
                                     })}
 
+                                    <tr className="h-2"></tr>
                                 </tbody>
                             </table>
                         </div>

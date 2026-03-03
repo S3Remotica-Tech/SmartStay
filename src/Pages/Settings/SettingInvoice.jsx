@@ -470,7 +470,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const fileInputRef = useRef(null);
   const [sign, setSign] = useState(null);
   const [signPreview, setSignPreview] = useState(null);
-const [isHoveringSign, setIsHoveringSign] = useState(false);
+  const [isHoveringSign, setIsHoveringSign] = useState(false);
 
 
 
@@ -525,41 +525,41 @@ const [isHoveringSign, setIsHoveringSign] = useState(false);
 
 
 
-  
-const handleClear = () => {
-  if (!signPreview) return;
 
-  const isLocalImage =
-    signPreview.startsWith("blob:") ||
-    signPreview.startsWith("data:");
+  const handleClear = () => {
+    if (!signPreview) return;
 
-  if (isLocalImage) {
-       setSign("");
-    setSignPreview("");
-  } else {
+    const isLocalImage =
+      signPreview.startsWith("blob:") ||
+      signPreview.startsWith("data:");
+
+    if (isLocalImage) {
+      setSign("");
+      setSignPreview("");
+    } else {
       // dispatch({
-    //   type: "DELETETEMPLATESIMAGES",
-    //   payload: {
-    //     hostelId: BillsTemplateList?.hostelId,
-    //     templateId: BillsTemplateList?.templateId,
-    //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-    //     type: "SIGNATURE", 
-    //   },
-    // });
+      //   type: "DELETETEMPLATESIMAGES",
+      //   payload: {
+      //     hostelId: BillsTemplateList?.hostelId,
+      //     templateId: BillsTemplateList?.templateId,
+      //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+      //     type: "SIGNATURE", 
+      //   },
+      // });
 
-    setSign("");
-    setSignPreview("");
-  }
+      setSign("");
+      setSignPreview("");
+    }
 
-  setSignatureErrMsg("");
+    setSignatureErrMsg("");
 
-  if (fileInputRef.current) {
-    fileInputRef.current.value = "";
-  }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
 
-  setNoChangesDetectedMsg("");
-  setSavebuttonshow(true);
-};
+    setNoChangesDetectedMsg("");
+    setSavebuttonshow(true);
+  };
 
 
 
@@ -714,11 +714,6 @@ const handleClear = () => {
       }, 1000);
     }
   }, [state.InvoiceList]);
-
-
-
-
-
 
 
   const handleShow = () => {
@@ -1143,32 +1138,32 @@ const handleClear = () => {
 
 
 
-//   const handleDeleteImage = () => {
-//   if (!previewURL) return;
+  //   const handleDeleteImage = () => {
+  //   if (!previewURL) return;
 
-//   const isLocalImage =
-//     previewURL.startsWith("blob:") ||
-//     previewURL.startsWith("data:");
+  //   const isLocalImage =
+  //     previewURL.startsWith("blob:") ||
+  //     previewURL.startsWith("data:");
 
-//   if (isLocalImage) {
-    
-//     setPreviewURL(null);
-//   } else {
-//        if (BillsTemplateList?.hostelId) {
-//       // dispatch({
-//       //   type: "DELETETEMPLATESIMAGES",
-//       //   payload: {
-//       //     hostelId: BillsTemplateList?.hostelId,
-//       //     templateId: BillsTemplateList?.templateId,
-//       //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-//       //     type: "QRCODE",
-//       //   },
-//       // });
-//     }
+  //   if (isLocalImage) {
 
-//        setPreviewURL(null);
-//   }
-// };
+  //     setPreviewURL(null);
+  //   } else {
+  //        if (BillsTemplateList?.hostelId) {
+  //       // dispatch({
+  //       //   type: "DELETETEMPLATESIMAGES",
+  //       //   payload: {
+  //       //     hostelId: BillsTemplateList?.hostelId,
+  //       //     templateId: BillsTemplateList?.templateId,
+  //       //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
+  //       //     type: "QRCODE",
+  //       //   },
+  //       // });
+  //     }
+
+  //        setPreviewURL(null);
+  //   }
+  // };
 
 
   const handleRemoveQr = () => {
@@ -1245,96 +1240,29 @@ const handleClear = () => {
   return (
     <div >
 
-
-      {loading &&
-        <div
-          style={{
-            position: 'fixed',
-            top: '48%',
-            left: '68%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[1050] top-1/2 left-2/3 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-600 border-r-transparent animate-spin"></div>
         </div>
-      }
+      )}
 
-      {formLoading &&
-        <div
-          style={{
-            position: 'fixed',
-            top: '48%',
-            left: '68%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
+      {formLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[1050] top-1/2 left-2/3 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-600 border-r-transparent animate-spin"></div>
         </div>
-      }
+      )}
 
 
       {showform &&
 
         <>
-          <Row className="ps-1 " style={{ backgroundColor: "", height: "100vh" }}  >
-            <Col md={4}
-              className=""
-            >
-              <div
-                className="bg-white"
-                style={{
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 10,
-                  paddingBottom: "10px",
-                  backgroundColor: "white",
-                  height: 75
-                }}
-              >
-                <h4
-                  className="mb-2 pt-2"
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 22,
-                    color: "rgba(34, 34, 34, 1)",
-                    fontWeight: 600,
-                    whiteSpace: "nowrap",
-                  }}
-                >
+          <div className="grid grid-cols-12 h-screen">
+            <div className="col-span-12 md:col-span-4">
+              <div className="bg-white sticky top-0 z-10 pb-2 h-[75px]">
+                <h4 className="mb-2 pt-2 font-gilroy text-[22px] text-[#222222] font-semibold whitespace-nowrap">
                   Customize Bill Templates
                 </h4>
+
                 <div className="flex items-start gap-2 my-2">
                   <img
                     src={leftarrow}
@@ -1350,41 +1278,43 @@ const handleClear = () => {
                   </p>
                 </div>
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: `repeat(${PdfOptions.length}, 1fr)`,
-                    gap: "1rem",
-                    marginBottom: "1rem",
-                  }}
-                >
+                {/* <div className="bg-white grid grid-cols-3 gap-3 mb-4">
                   {PdfOptions.map((option) => (
                     <button
                       key={option.value}
-                      style={{
-                        borderRadius: "50rem",
-                        padding: "6px 8px",
-                        fontFamily: "Gilroy",
-                        fontSize: 12,
-                        fontWeight: 600,
-                        verticalAlign: "middle",
-                        letterSpacing: "0%",
-                        lineHeight: "100%",
-                        backgroundColor:
-                          selectedTab === option.value
-                            ? "rgba(30, 69, 225, 1)"
-                            : "transparent",
-                        color: selectedTab === option.value ? "#fff" : "#6c757d",
-                        border: "1px solid",
-                        borderColor:
-                          selectedTab === option.value ? "#0d6efd" : "#6c757d",
-                        whiteSpace: "nowrap",
-                        textAlign: "center",
-                      }}
                       onClick={() => {
                         setSelectedTab(option.value);
                         setEditFormErrMessage("");
                       }}
+                      className={`
+        rounded-full py-[6px] font-gilroy text-[12px] font-semibold leading-[100%] tracking-[0%] 
+        text-center w-full
+        border
+        ${selectedTab === option.value
+                          ? "bg-[#1E45E1] border-[#0d6efd] text-white"
+                          : "bg-transparent border-[#6c757d] text-[#6c757d]"}
+      `}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div> */}
+                <div className="bg-white flex justify-center gap-3 mb-4">
+                  {PdfOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => {
+                        setSelectedTab(option.value);
+                        setEditFormErrMessage("");
+                      }}
+                      className={`
+        rounded-full py-1.5 px-4 font-gilroy text-[12px] font-semibold leading-[100%] tracking-[0%] 
+        text-center
+        border
+        ${selectedTab === option.value
+                          ? "bg-[#1E45E1] border-[#0d6efd] text-white"
+                          : "bg-transparent border-[#6c757d] text-[#6c757d]"}
+      `}
                     >
                       {option.label}
                     </button>
@@ -1393,26 +1323,10 @@ const handleClear = () => {
 
               </div>
 
-
-
-
-
-
-              <div
-                className="" style={{
-                  maxHeight: "calc(95vh - 130px)",
-                  overflowY: "auto", marginTop: 50,
-                }}
-              >
-
-
+              <div className="mt-[50px] max-h-[calc(95vh-130px)] overflow-y-auto">
                 {selectedTab === "rental_invoice" && <>
-                  <div className="d-flex row g-0">
-                    <div className="col-lg-12 show-scrolls" style={{
-                      maxHeight: 650,
-                      overflowY: "auto",
-                      overflowX: 'hidden',
-                    }}>
+                  <div className="flex">
+                    <div className="col-lg-12 max-h-[650px] overflow-y-auto overflow-x-hidden show-scrolls">
                       {(
                         BillsTemplateList?.isLogoCustomized ||
                         BillsTemplateList?.isMobileCustomized ||
@@ -1422,27 +1336,27 @@ const handleClear = () => {
 
                         (
                           <>
-                            <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Inherited Global Details</p>
+                            <p className="font-gilroy text-[17px] font-semibold">
+                              Inherited Global Details
+                            </p>
 
-                            <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                              <div className="d-flex justify-content-end">
-                                <img src={EditICon} onClick={handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+                            <div className="border rounded-[10px] p-2.5 pb-3 mb-3 col-span-12 overflow-y-auto">
+                              <div className="flex justify-end">
+                                <img src={EditICon} onClick={handleShowContactNumberForm} alt="editicon" className="cursor-pointer" />
 
                               </div>
                               {BillsTemplateList?.isLogoCustomized &&
                                 <div>
-                                  <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    marginBottom: '6px'
-                                  }}>
-                                    <label style={{ fontWeight: 600, fontFamily: "Gilroy" }}>Hostel/PG Logo</label>
+
+                                  <div className="flex justify-between items-center mb-[6px]">
+                                    <label className="font-gilroy font-semibold">
+                                      Hostel/PG Logo
+                                    </label>
                                   </div>
-                                  <div className=" p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
-                                    <div
-                                      className="flex justify-center"
-                                    >
+
+                                  <div className="p-3 border rounded bg-[#F0F3FF] text-center">
+
+                                    <div className="flex justify-center">
                                       <div
                                         className="relative inline-block"
                                         onMouseEnter={(e) => {
@@ -1460,7 +1374,6 @@ const handleClear = () => {
                                           if (overlay) overlay.style.display = "none";
                                         }}
                                       >
-
                                         {logoPreview ? (
                                           <img
                                             src={logoPreview}
@@ -1475,34 +1388,12 @@ const handleClear = () => {
                                           />
                                         )}
 
-
-
-
-
                                         {logoPreview && (
                                           <>
-                                            <div
-                                              className="
-        qr-overlay h-[60px]
-        absolute inset-0
-        hidden
-        bg-black/40
-        rounded-md
-      "
-                                            />
-
+                                            <div className="qr-overlay absolute inset-0 hidden h-[60px] bg-black/40 rounded-md" />
 
                                             <div
-                                              className="
-        qr-trash
-        absolute -top-1 -right-1
-        hidden
-        flex items-center justify-center 
-        rounded-full
-        bg-gray-100
-        p-1
-        cursor-pointer
-      "
+                                              className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
                                               onClick={() => {
                                                 if (logoPreview?.startsWith("data:") || logoPreview?.startsWith("blob:")) {
                                                   handleLocalDeleteLogo();
@@ -1517,47 +1408,30 @@ const handleClear = () => {
                                             </div>
                                           </>
                                         )}
-
                                       </div>
-
                                     </div>
-
 
                                     <div>
                                       <label
-                                        style={{
-                                          cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
-                                          color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
-                                          fontFamily: 'Gilroy',
-                                          fontSize: 12,
-                                          fontWeight: 400
-                                        }}
+                                        className={`${allowEditFields.hostelLogo ? "cursor-pointer text-[#1E45E1]" : "cursor-not-allowed text-[#999]"
+                                          } font-gilroy text-[12px] font-normal`}
                                       >
                                         Choose file
                                         <input
                                           type="file"
                                           accept="image/*"
-                                          className="d-none"
+                                          className="hidden"
                                           ref={fileInputRef}
                                           onChange={handleFileUploadHostel}
                                           disabled={!allowEditFields.hostelLogo}
                                         />
                                       </label>
-                                      <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+                                      <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
                                         to Upload
                                       </span>
                                     </div>
 
-                                    <small
-                                      style={{
-                                        fontFamily: "Gilroy",
-                                        fontSize: 9,
-                                        color: "rgba(75, 75, 75, 1)",
-                                        fontWeight: 400,
-                                        display: "block",
-                                        marginTop: "5px"
-                                      }}
-                                    >
+                                    <small className="block mt-[5px] font-gilroy text-[9px] font-normal text-[#4B4B4B]">
                                       Must be in PNG Format (600px × 300px)
                                     </small>
                                   </div>
@@ -1565,175 +1439,111 @@ const handleClear = () => {
                               }
 
                               {BillsTemplateList?.isMobileCustomized &&
-                                <div className=" p-3  col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                                  <div className='d-flex row '>
-                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                                      <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                                        <div style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px'
-                                        }}>
-                                          <label style={{ fontWeight: 600 }}>Contact Number</label>
+                                <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto mb-0">
+                                  <div className="flex flex-col w-full">
+                                    <div className="col-span-12">
+                                      <div className="w-full font-gilroy text-[14px] font-medium">
+                                        <div className="flex justify-between items-center mb-[6px]">
+                                          <label className="font-semibold">Contact Number</label>
                                         </div>
-
-                                        <div style={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          backgroundColor: '#F0F3FF',
-                                          borderRadius: '8px',
-                                          padding: '8px 12px',
-                                          border: '1px solid #E0E0E0',
-                                        }}>
-                                          <select style={{
-                                            border: 'none',
-                                            backgroundColor: 'transparent',
-                                            fontFamily: 'inherit',
-                                            fontSize: 'inherit',
-                                            fontWeight: 'inherit',
-                                            appearance: 'none',
-                                            paddingRight: '16px',
-                                            cursor: 'pointer',
-                                            outline: 'none',
-                                            backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
-                                            backgroundRepeat: 'no-repeat',
-                                            backgroundPosition: 'right center',
-                                            backgroundSize: '10px'
-                                          }}
+                                        <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
+                                          <select
+                                            className={`appearance-none bg-transparent border-none pr-4 cursor-pointer outline-none`}
                                             disabled={!allowEditFields.contact}
+                                            style={{
+                                              fontFamily: 'inherit',
+                                              fontSize: 'inherit',
+                                              fontWeight: 'inherit',
+                                              backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
+                                              backgroundRepeat: 'no-repeat',
+                                              backgroundPosition: 'right center',
+                                              backgroundSize: '10px',
+                                            }}
                                           >
                                             <option value="+91">+91</option>
                                             <option value="+1">+1</option>
                                             <option value="+44">+44</option>
                                             <option value="+971">+971</option>
-
                                           </select>
 
                                           <input
                                             type="tel"
                                             placeholder="9876543210"
-                                            style={{
-                                              border: 'none',
-                                              backgroundColor: 'transparent',
-                                              outline: 'none',
-                                              marginLeft: '8px',
-                                              fontFamily: 'inherit',
-                                              fontSize: 'inherit',
-                                              fontWeight: 'inherit',
-                                            }}
                                             value={paymentmobilenum}
                                             onChange={handlePaymentInvoiceMobile}
                                             maxLength={10}
                                             disabled={!allowEditFields.contact}
-                                          />
-
-                                        </div>
-                                        {paymentMobileError && (
-                                          <ErrorMessage message={paymentMobileError} type="error" />
-                                        )}
-                                      </div>
-
-
-
-                                    </div>
-
-
-                                  </div>
-                                </div>}
-
-
-                              {BillsTemplateList?.isMailIdCustomized &&
-                                <div className=" p-3  col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                                  <div className='d-flex row '>
-                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                                      <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                                        <div style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px'
-                                        }}>
-                                          <label style={{ fontWeight: 600 }}>E-Mail Address</label>
-                                        </div>
-
-                                        <div style={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          backgroundColor: '#F0F3FF',
-                                          borderRadius: '8px',
-                                          padding: '8px 12px',
-                                          border: '1px solid #E0E0E0',
-                                        }}>
-
-
-                                          <input
-                                            type="tel"
-                                            placeholder="abc@gmail.com"
+                                            className="ml-2 bg-transparent border-none outline-none w-full"
                                             style={{
-                                              border: 'none',
-                                              backgroundColor: 'transparent',
-                                              outline: 'none',
-                                              marginLeft: '8px',
                                               fontFamily: 'inherit',
                                               fontSize: 'inherit',
                                               fontWeight: 'inherit',
                                             }}
+                                          />
+                                        </div>
+
+                                        {paymentMobileError && (
+                                          <ErrorMessage message={paymentMobileError} type="error" />
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+
+
+                              {BillsTemplateList?.isMailIdCustomized &&
+                                <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto">
+                                  <div className="flex flex-col w-full">
+                                    <div className="col-span-12">
+                                      <div className="w-full font-gilroy text-[14px] font-medium">
+                                        <div className="flex justify-between items-center mb-[6px]">
+                                          <label className="font-semibold">E-Mail Address</label>
+                                        </div>
+                                        <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
+                                          <input
+                                            type="email"
+                                            placeholder="abc@gmail.com"
+                                            className="ml-2 bg-transparent border-none outline-none w-full"
                                             disabled={!allowEditFields.email}
                                             value={paymentinvoiceemail}
                                             onChange={handlePaymentinvoiceEmail}
+                                            style={{
+                                              fontFamily: 'inherit',
+                                              fontSize: 'inherit',
+                                              fontWeight: 'inherit',
+                                            }}
                                           />
-
                                         </div>
                                         {paymentinvoiceemailError !== "" && (
                                           <ErrorMessage message={paymentinvoiceemailError} type="error" />
                                         )}
                                       </div>
-
-
-
                                     </div>
-
-
                                   </div>
-
                                 </div>
                               }
                               {BillsTemplateList?.isSignatureCustomized &&
-                                <div className=" p-3  col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                                  <div className='d-flex row '>
-                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                                      <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                                        <div style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px'
-                                        }}>
-                                          <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
+                                <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto">
+                                  <div className="flex flex-col w-full">
+                                    <div className="col-span-12">
+                                      <div className="w-full font-gilroy text-[14px] font-medium">
+                                        <div className="flex justify-between items-center mb-[6px]">
+                                          <label className="font-semibold">Digital Signature Upload</label>
                                         </div>
 
-                                        <div className="col-12">
+                                        <div className="col-span-12">
                                           <div
-                                            className="
-    relative mt-2
-    flex items-center justify-center
-    h-[120px]
-    rounded
-    border-[3px] border-dotted border-[#ced4da]
-    group
-  "
+                                            className="relative mt-2 flex items-center justify-center h-[120px] rounded border-[3px] border-dotted border-[#ced4da] group"
                                             onMouseEnter={(e) => {
                                               const trash = e.currentTarget.querySelector(".qr-trash");
                                               const overlay = e.currentTarget.querySelector(".qr-overlay");
-
                                               if (trash) trash.style.display = "flex";
                                               if (overlay) overlay.style.display = "block";
                                             }}
                                             onMouseLeave={(e) => {
                                               const trash = e.currentTarget.querySelector(".qr-trash");
                                               const overlay = e.currentTarget.querySelector(".qr-overlay");
-
                                               if (trash) trash.style.display = "none";
                                               if (overlay) overlay.style.display = "none";
                                             }}
@@ -1746,101 +1556,58 @@ const handleClear = () => {
                                                 className="max-h-full max-w-full"
                                               />
                                             ) : (
-                                              <span
-                                                className="
-        text-[14px]
-        font-normal
-        text-[rgba(34,34,34,1)]
-      "
-                                                style={{ fontFamily: 'Gilroy' }}
-                                              >
+                                              <span className="text-[14px] font-normal text-[rgba(34,34,34,1)] font-gilroy">
                                                 No signature uploaded
                                               </span>
                                             )}
+                                            {rentalSignaturePreview && (
+                                              <>
+                                                <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
 
+                                                <div
+                                                  className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer hidden"
 
-                                            {
-                                              rentalSignaturePreview && <>
+                                                  onClick={() => {
+                                                    const isLocal =
+                                                      rentalSignaturePreview?.startsWith("data:") ||
+                                                      rentalSignaturePreview?.startsWith("blob:");
 
-
-
-
-                                                {rentalSignaturePreview && (
-                                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                                )}
-
-
-
-
-                                                {rentalSignaturePreview && (
-                                                  <div
-                                                    className="qr-trash
-        absolute -top-1 -right-1
-        hidden
-        items-center justify-center 
-        rounded-full
-        bg-gray-100 text-white
-        p-1
-        cursor-pointer"
-                                                    style={{
-                                                      display: 'none',
-                                                      cursor: 'pointer',
-                                                    }}
-                                                    onClick={() => {
-                                                      const isLocal =
-                                                        rentalSignaturePreview?.startsWith("data:") ||
-                                                        rentalSignaturePreview?.startsWith("blob:");
-
-                                                      if (isLocal) {
-                                                        handleLocalDeleteRentalSignature();
-                                                      } else {
-                                                        handleDeleteRentalSignature();
-                                                      }
-                                                    }}
-                                                  >
-                                                    <div
-                                                      className="bg-black/70 text-white p-2 rounded-full">
-                                                      <Trash size={12} />
-                                                    </div>
+                                                    if (isLocal) {
+                                                      handleLocalDeleteRentalSignature();
+                                                    } else {
+                                                      handleDeleteRentalSignature();
+                                                    }
+                                                  }}
+                                                >
+                                                  <div className="bg-black/70 text-white p-2 rounded-full">
+                                                    <Trash size={12} />
                                                   </div>
-                                                )}
+                                                </div>
                                               </>
-                                            }
+                                            )}
                                           </div>
-
-
-
-                                          <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
-                                            <div className="d-flex flex-row">
-                                              <label style={{
-                                                cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
-                                                color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400
-                                              }}>
+                                          <div className="flex flex-col justify-between items-center mt-2">
+                                            <div className="flex flex-row items-center">
+                                              <label
+                                                className={`font-gilroy text-[12px] font-normal ${allowEditFields.digitalSignature
+                                                  ? "cursor-pointer text-[#1E45E1]"
+                                                  : "cursor-not-allowed text-[#999]"
+                                                  }`}
+                                              >
                                                 Choose file
                                                 <input
                                                   type="file"
                                                   accept="image/*"
-                                                  className="d-none"
+                                                  className="hidden"
                                                   ref={fileInputRef}
                                                   onChange={handleRentalSignatureChange}
                                                   disabled={!allowEditFields.digitalSignature}
                                                 />
                                               </label>
-                                              <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
+                                              <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
+                                                to Upload Image
+                                              </span>
                                             </div>
-                                            <div className="d-flex justify-content-end">
-                                              {/* <button
-                                                className="btn btn-link text-decoration-none "
-                                                onClick={handleRentalSignatureClear}
-                                                disabled={!rentalSignaturePreview}
-                                                style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}
-                                              >
-                                                Clear
-                                              </button> */}
-
-                                            </div>
-
-
                                           </div>
                                           {rentalSignatureError.trim() !== "" && (
                                             <ErrorMessage message={rentalSignatureError} type="error" />
@@ -1857,78 +1624,29 @@ const handleClear = () => {
                                 onHide={handleCloseContactNumberForm}
                                 centered
                                 backdrop="static"
-                                className="logout-card d-flex justify-content-center align-items-center"
+                                className="logout-card flex justify-center items-center"
                                 dialogClassName="custom-modal-width"
                               >
-                                <Modal.Header style={{ borderBottom: "none" }}>
-                                  <Modal.Title
-                                    style={{
-                                      fontSize: "18px",
-                                      fontFamily: "Gilroy",
-                                      textAlign: "center",
-                                      fontWeight: 600,
-                                      color: "#222222",
-                                      flex: 1,
-                                      paddingTop: '20px'
-                                    }}
-                                  >
-
+                                <Modal.Header className="!border-0">
+                                  <Modal.Title className="text-[18px] font-gilroy font-semibold text-center text-[#222222] flex-1 pt-5">
                                     Override Global Value?
                                   </Modal.Title>
                                 </Modal.Header>
 
-                                <Modal.Body
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    color: "#646464",
-                                    textAlign: "center",
-                                    paddingLeft: "20px",
-                                    paddingRight: "20px",
-                                  }}
-                                >
+                                <Modal.Body className="text-[14px] font-gilroy font-medium text-[#646464] text-center px-5" >
                                   You’re changing this field only for this bill.
                                   It won’t affect the main settings.
                                 </Modal.Body>
 
-                                <Modal.Footer
-                                  style={{
-                                    justifyContent: "center",
-                                    borderTop: "none",
-                                    paddingBottom: '20px'
-                                  }}
+                                <Modal.Footer className="!justify-center !border-t-0 !pb-5"
                                 >
-                                  <Button
-                                    style={{
-                                      width: 160,
-                                      height: 52,
-                                      borderRadius: 10,
-                                      padding: "12px 20px",
-                                      background: "#fff",
-                                      color: "rgba(111, 108, 143, 1)",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      fontSize: "14px",
-                                      marginRight: 10,
-                                    }}
-                                    className="border"
+                                  <Button className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[rgba(111,108,143,1)] !font-gilroy !font-semibold !border !border-gray-500 !mr-2.5"
+
                                     onClick={handleCloseContactNumberForm}
                                   >
                                     Cancel
                                   </Button>
-                                  <Button
-                                    style={{
-                                      width: 160,
-                                      height: 52,
-                                      borderRadius: 10,
-                                      padding: "12px 20px",
-                                      background: "#1E45E1",
-                                      color: "#FFFFFF",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      fontSize: "14px",
-                                    }}
+                                  <Button className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold"
                                     onClick={handleEditAnyway}
 
                                   >
@@ -1945,205 +1663,156 @@ const handleClear = () => {
                       }
 
 
+
                       <div>
-                        <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal', color: 'rgba(34, 34, 34, 1)' }}>Form Specific Details</p>
-                        <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal', color: 'rgba(34, 34, 34, 1)' }}>
-                          {`Fill the form with details you'd like to customize.`}</p>
+                        <p className="font-gilroy text-xl font-semibold text-[#222222]">
+                          Form Specific Details
+                        </p>
+                        <p className="-mt-3 font-gilroy text-[14px] font-normal text-[#8f6019]">
+                          {`Fill the form with details you'd like to customize.`}
+                        </p>
                       </div>
 
 
-                      <div className="border p-3 mb-3 col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-
+                      <div className="border p-3 mb-3 rounded-lg overflow-y-auto">
                         <div>
                           <p
                             // onClick={handleEditClose} 
-                            style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                            Invoice No</p>
-                          <hr></hr>
+                            className="font-gilroy text-sm font-normal text-[#222222]"
+                          >
+                            Invoice No
+                          </p>
+                          <hr className="border-t border-gray-700" />
                         </div>
 
-                        <div className='d-flex row '>
-                          <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                              <Form.Label
-                                style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal', color: 'rgba(34, 34, 34, 1)' }}
-                              >
+                        <div className="flex flex-wrap -mx-2">
+
+                          <div className="w-full sm:w-11/12 md:w-1/2 px-2 mb-3">
+                            <div className="mb-3">
+                              <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                                 Prefix
-                              </Form.Label>
-                              <Form.Control
-                                style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
+                              </label>
+                              <input
                                 type="text"
                                 placeholder="prefix"
                                 value={prefix}
                                 onChange={hanldePrefix}
+                                className="w-full p-2.5 mt-2 text-base font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded"
                               />
                               {prefix_errmsg.trim() !== "" && (
                                 <ErrorMessage message={prefix_errmsg} type="error" />
                               )}
-
-                            </Form.Group>
+                            </div>
                           </div>
 
-                          <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                              >
+                          <div className="w-full sm:w-11/12 md:w-1/2 px-2 mb-3">
+                            <div className="mb-3">
+                              <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                                 Suffix
-                              </Form.Label>
-                              <Form.Control
-                                style={{ padding: '10px', marginTop: '10px', fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
+                              </label>
+                              <input
                                 type="text"
                                 placeholder="suffix"
                                 value={suffix}
                                 onChange={hanldeSuffix}
+                                className="w-full p-2.5 mt-2 text-sm font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded"
                               />
-
                               {suffix_errmsg.trim() !== "" && (
                                 <ErrorMessage message={suffix_errmsg} type="error" />
                               )}
-                            </Form.Group>
+                            </div>
                           </div>
+
                         </div>
 
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                            >
+                        <div className="w-full sm:w-11/12 px-2 mb-3">
+                          <div className="mb-3">
+                            <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                               Preview
-                            </Form.Label>
-                            <Form.Control
-                              style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
+                            </label>
+                            <input
                               type="text"
                               placeholder="preview"
                               value={`${prefix}-${suffix}`}
                               readOnly
-
+                              className="w-full p-2.5 mt-2 text-base font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded bg-gray-100 cursor-not-allowed"
                             />
-
-
-                          </Form.Group>
+                          </div>
                         </div>
+
                       </div>
 
-                      <div className="border p-3 mb-3 col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-
+                      <div className="border p-3 mb-3 rounded-lg overflow-y-auto">
                         <div>
-                          <p style={{ fontFamily: 'Gilroy', color: 'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal' }}>
-                            PG Tax Payable</p>
-                          <hr></hr>
+                          <p className="font-gilroy text-sm font-normal text-[#222222]">
+                            PG Tax Payable
+                          </p>
+                          <hr className="border-t border-gray-700" />
                         </div>
 
-                        <div className='d-flex row '>
-                          <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                              <Form.Label
-                                style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                              >
+                        <div className="flex flex-wrap -mx-2">
+                          <div className="w-full px-2 mb-3">
+                            <div>
+                              <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                                 Add the Tax payable GST in Percentage %
-                              </Form.Label>
-                              <Form.Control
-                                style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
+                              </label>
+                              <input
                                 type="text"
                                 placeholder="12%"
                                 value={tax}
                                 onChange={handleTaxChange}
+                                className="w-full p-2.5 mt-2 text-base font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded"
                               />
-
                               {tax_errmsg.trim() !== "" && (
                                 <ErrorMessage message={tax_errmsg} type="error" />
                               )}
-                            </Form.Group>
+                            </div>
                           </div>
-
-
                         </div>
-
-
 
                       </div>
 
-                      <div
-                        style={{
-                          border: '1px solid #ddd',
-                          padding: '16px',
-                          marginBottom: '24px',
-                          borderRadius: '10px',
-                          fontFamily: 'Gilroy',
-                        }}
-                        className="col-lg-12"
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '10px',
-                          }}
-                        >
-                          <p
-                            style={{
-                              fontSize: 18,
-                              color: 'rgba(34, 34, 34, 1)',
-                              fontWeight: 400,
-                              whiteSpace: 'nowrap',
-                              margin: 0,
-                            }}
-                          >
+                      <div className="col-lg-12 border p-4 mb-6 rounded-[10px] font-gilroy">
+
+                        <div className="flex justify-between items-center mb-2.5">
+                          <p className="text-[18px] text-[#222222] font-normal whitespace-nowrap m-0">
                             Account Details
                           </p>
+
                           {banking && banking.length > 0 && (
                             <button
                               onClick={handleAddBankAccount}
-                              style={{
-                                fontSize: 14,
-                                backgroundColor: '#1E45E1',
-                                color: 'white',
-                                fontWeight: 400,
-                                borderRadius: 12,
-                                width: 106,
-                                height: 35,
-                                border: '1px solid #1E45E1',
-                                fontFamily: 'Gilroy',
-                              }}
+                              className="text-[14px] font-normal text-white rounded-[12px] w-[106px] h-[35px] border border-[#1E45E1] bg-[#1E45E1]"
                             >
                               Add
                             </button>
                           )}
                         </div>
 
-                        <hr />
+                        <hr className="border-t border-gray-700" />
 
-                        <div style={{ maxHeight: 160, overflowY: 'auto' }} className="show-scrolls">
+                        <div className="max-h-[170px] overflow-y-auto show-scrolls mt-3">
                           {banking && banking.length > 0 ? (
                             banking.map((bank) => (
-                              <div key={bank.bankingId} style={{ marginBottom: 15, cursor: 'pointer' }} >
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <div
+                                key={bank.bankingId}
+                                className="mb-4 cursor-pointer"
+                              >
+                                <div className="flex items-center">
                                   <input
                                     type="radio"
                                     name="bank"
                                     checked={String(selectedBankId) === String(bank.bankingId)}
                                     onChange={() => handleBankClick(bank.bankingId)}
-                                    style={{ accentColor: '#1E45E1', marginRight: 10, height: 16, width: 16, cursor: "pointer" }}
+                                    className="accent-[#1E45E1] mr-2.5 w-4 h-4 cursor-pointer"
                                   />
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                    <div
-                                      style={{
-                                        backgroundColor: '#1E45E1',
-                                        color: 'white',
-                                        borderRadius: '50%',
-                                        width: 30,
-                                        height: 30,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                      }}
-                                    >
-                                      <img src={BankICon} alt="bankicon" height={17} width={17} className="mb-1" />
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex justify-center items-center w-[30px] h-[30px] rounded-full bg-[#1E45E1] text-white">
+                                      <img src={BankICon} alt="bankicon" className="w-[17px] h-[17px] mb-1" />
                                     </div>
                                     <div>
-                                      <div style={{ fontWeight: 600, fontSize: 14 }}>{bank.bankName || 'Bank Name'}</div>
-                                      <div style={{ fontSize: 13, color: 'grey' }}>
+                                      <div className="font-semibold text-[14px]">{bank.bankName || 'Bank Name'}</div>
+                                      <div className="text-[13px] text-gray-500">
                                         {bank.accountHolderName || 'Beneficiary'} / Savings A/C
                                       </div>
                                     </div>
@@ -2152,21 +1821,13 @@ const handleClear = () => {
                               </div>
                             ))
                           ) : (
-                            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                              <p style={{ fontSize: 14, fontWeight: 400, color: 'grey' }}>No Bank accounts are there!</p>
+                            <div className="flex flex-col justify-center items-center">
+                              <p className="text-[14px] font-normal text-gray-500 mb-2">
+                                No Bank accounts are there!
+                              </p>
                               <button
                                 onClick={handleAddBankAccount}
-                                style={{
-                                  fontSize: 14,
-                                  backgroundColor: '#1E45E1',
-                                  color: 'white',
-                                  fontWeight: 400,
-                                  borderRadius: 12,
-                                  width: 106,
-                                  height: 35,
-                                  border: '1px solid #1E45E1',
-                                  fontFamily: 'Gilroy',
-                                }}
+                                className="text-[14px] font-normal text-white rounded-[12px] w-[106px] h-[35px] border border-[#1E45E1] bg-[#1E45E1]"
                               >
                                 Add
                               </button>
@@ -2177,31 +1838,27 @@ const handleClear = () => {
                         {!selectedBankId && bankid_Error.trim() !== '' && (
                           <ErrorMessage message={bankid_Error} type="error" />
                         )}
+
                       </div>
 
-
-                      <div className="border p-3 mb-3 col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                      <div className="border p-3 mb-3 rounded-[10px] overflow-y-auto">
 
                         <div>
-                          <p style={{ fontFamily: 'Gilroy', color: 'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal' }}>
-                            Upload QR</p>
-                          <hr></hr>
+                          <p className="font-gilroy text-[14px] font-normal text-[#222222]">
+                            Upload QR
+                          </p>
+                          <hr className="border-t border-gray-700" />
                         </div>
 
-                        <p style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color: 'rgba(75, 75, 75, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                          Valid UPI QR Code for Payment Easy</p>
-                        <div className="col-12">
-                          <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
+                        <p className="font-gilroy text-[12px] font-normal text-[#4B4B4B] mb-2">
+                          Valid UPI QR Code for Payment Easy
+                        </p>
+
+                        <div className="w-full">
+                          <div className="flex items-center justify-center p-3 border rounded-lg bg-[#f9f9f9]">
 
                             <div
-                              className="
-    relative
-    w-full max-w-[100px]
-    aspect-square
-    bg-white
-    rounded-lg
-    flex items-center justify-center
-  "
+                              className="relative w-full max-w-[100px] aspect-square bg-white rounded-lg flex items-center justify-center"
                               onMouseEnter={(e) => {
                                 const trash = e.currentTarget.querySelector(".qr-trash");
                                 const overlay = e.currentTarget.querySelector(".qr-overlay");
@@ -2217,72 +1874,33 @@ const handleClear = () => {
                             >
                               {qrImage ? (
                                 <>
-
                                   <img
                                     src={qrImage}
                                     alt="QR Preview"
-                                    className="
-          w-full h-full
-          object-contain
-          rounded-lg
-          bg-white
-          mb-2
-          z-[1]
-        "
+                                    className="w-full h-full object-contain rounded-lg bg-white mb-2 z-[1]"
                                   />
 
-                                  {
-                                    qrImage && <>
+                                  {qrImage && (
+                                    <>
+                                      <div className="qr-overlay hidden absolute inset-0 bg-black/15 rounded-lg z-[2] pointer-events-none" />
 
                                       <div
-                                        className="
-          qr-overlay
-          hidden
-          absolute inset-0
-          bg-black/15
-          rounded-lg
-          z-[2]
-          pointer-events-none
-        "
-                                      />
-
-
-
-                                      <div
-                                        className="
-    qr-trash
-    absolute
-    hidden
-    flex items-center justify-center
-    rounded-full
-    bg-gray-100
-    p-1
-    cursor-pointer
-    z-[3]
-  "
+                                        className="qr-trash hidden absolute flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer z-[3]"
                                         onClick={() => {
                                           const isLocal =
                                             qrImage?.startsWith("data:") ||
                                             qrImage?.startsWith("blob:");
-
-                                          if (isLocal) {
-                                            handleLocalRemoveQr();
-                                          } else {
-                                            handleRemoveQr();
-                                          }
+                                          if (isLocal) handleLocalRemoveQr();
+                                          else handleRemoveQr();
                                         }}
                                       >
-
-                                        <div className="qr-trash" >
+                                        <div className="qr-trash">
                                           <Trash size={12} />
                                         </div>
-
                                       </div>
-
                                     </>
-                                  }
+                                  )}
                                 </>
-
                               ) : (
                                 <img
                                   src={uploadsett}
@@ -2292,143 +1910,145 @@ const handleClear = () => {
                               )}
                             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div className="d-flex flex-column ms-3">
+                            <div className="flex flex-col ml-3">
                               <div>
-                                <label style={{ cursor: 'pointer', color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>
+                                <label className="cursor-pointer text-[14px] font-normal font-gilroy text-[#1E45E1]">
                                   Choose file
                                   <input
                                     type="file"
                                     accept="image/*"
-                                    className="d-none"
+                                    className="hidden"
                                     ref={qrFileInputRef}
                                     onChange={handleQrImageChange}
                                   />
                                 </label>
-                                <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>to Upload </span>
+                                <span className="ms-1 text-[14px] font-normal font-gilroy text-[#16151C]">
+                                  to Upload
+                                </span>
                               </div>
-                              <small className=""
-                                style={{
-                                  fontFamily: "Gilroy",
-                                  fontSize: 12,
-                                  color: "rgba(75, 75, 75, 1)",
-                                  fontWeight: 400,
-                                  whiteSpace: "nowrap"
-                                }}
-                              >JPG SVG PNG(150px × 150px)</small>
+                              <small className="text-[12px] font-normal font-gilroy text-[#4B4B4B] whitespace-nowrap">
+                                JPG SVG PNG(150px × 150px)
+                              </small>
                             </div>
+
                           </div>
                         </div>
+
                       </div>
 
-
-                      <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
-                        <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
+                      <div className="p-3 mb-3 border rounded-[10px]">
+                        <h6 className="font-gilroy text-[14px] font-normal text-[#222222]">
                           Notes
                         </h6>
-                        <hr />
-                        <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
-                        <div className="position-relative">
+                        <hr className="border-t border-gray-700" />
+
+                        <label className="font-gilroy text-[14px] font-normal text-[#222222] block mb-2">
+                          Add Notes
+                        </label>
+
+                        <div className="relative">
                           <textarea
-                            style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                            className="form-control pe-5"
-                            rows="4"
-                            placeholder='Add any message...'
+                            className="w-full p-2.5 text-[14px] font-gilroy font-normal text-[#222222] border rounded resize-none pr-12"
+                            rows={4}
+                            placeholder="Add any message..."
                             value={notes}
                             onChange={handleNotesChange}
                           />
                           <img
                             src={TextAreaICon}
                             alt="textarea_icon"
-                            style={{
-                              position: "absolute",
-                              right: "12px",
-                              top: "12px",
-                              color: "#666",
-                              pointerEvents: "none",
-                            }}
+                            className="absolute right-3 top-3 pointer-events-none"
+                            style={{ color: "#666" }}
                           />
                         </div>
+
                         {notes_errmsg.trim() !== "" && (
                           <ErrorMessage message={notes_errmsg} type="error" />
                         )}
+
                       </div>
 
-                      <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
-                        <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                          Terms & Condition</h6>
-                        <hr />
-                        <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                        >Add T&C</label>
+                      <div className="p-3 mb-3 border rounded-[10px]">
 
-                        <div className="position-relative">
+                        <h6 className="font-gilroy text-[14px] font-normal text-[#222222]">
+                          Terms & Condition
+                        </h6>
+                        <hr className="border-t border-gray-700" />
+
+                        <label className="font-gilroy text-[14px] font-normal text-[#222222] block mb-2">
+                          Add T&C
+                        </label>
+
+                        <div className="relative">
                           <textarea
-                            className="form-control pe-5"
-                            rows="4"
-                            placeholder='Add any message...'
+                            rows={4}
+                            placeholder="Add any message..."
                             value={terms}
                             onChange={handleTermsChange}
-                            style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+                            className="w-full p-2.5 text-[14px] font-gilroy font-normal text-[#222222] border rounded resize-none pr-12"
                           />
                           <img
                             src={TextAreaICon}
                             alt="textarea-icon"
-                            style={{
-                              position: "absolute",
-                              right: "12px",
-                              top: "12px",
-                              color: "#666",
-                              pointerEvents: "none",
-                            }}
+                            className="absolute right-3 top-3 pointer-events-none"
+                            style={{ color: "#666" }}
                           />
                         </div>
+
                         {terms_errmsg.trim() !== "" && (
                           <ErrorMessage message={terms_errmsg} type="error" />
                         )}
 
                       </div>
 
+                      <div className="w-full border rounded-[12px] p-4 font-gilroy">
+                        <h6 className="font-gilroy mb-3 text-[14px] font-normal">Template Theme</h6>
 
-                      <div className="col-lg-12" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-                        <h6 style={{ marginBottom: 12, fontFamily: "Gilroy" }}>Template Theme</h6>
 
-                        <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
-
-                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
-                          <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
+                        <div className="w-full">
+                          <RgbaColorPicker
+                            color={color}
+                            onChange={handleColorChange}
+                            style={{ width: "100%" }}
+                          />
                         </div>
 
-                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#555", marginTop: 4, marginBottom: 12 }}>
-                          <span style={{ width: 80, textAlign: "center" }}>Hex</span>
-                          <span style={{ width: 40, textAlign: "center" }}>R</span>
-                          <span style={{ width: 40, textAlign: "center" }}>G</span>
-                          <span style={{ width: 40, textAlign: "center" }}>B</span>
-                          <span style={{ width: 40, textAlign: "center" }}>A</span>
+                        <div className="flex justify-between mt-3">
+                          <input
+                            value={hexValue}
+                            readOnly
+                            className="w-20 text-center border border-gray-300 rounded"
+                          />
+                          <input
+                            value={color.r}
+                            readOnly
+                            className="w-10 text-center border border-gray-300 rounded"
+                          />
+                          <input
+                            value={color.g}
+                            readOnly
+                            className="w-10 text-center border border-gray-300 rounded"
+                          />
+                          <input
+                            value={color.b}
+                            readOnly
+                            className="w-10 text-center border border-gray-300 rounded"
+                          />
+                          <input
+                            value={alphaValue}
+                            readOnly
+                            className="w-10 text-center border border-gray-300 rounded"
+                          />
+                        </div>
+                        <div className="flex justify-between text-[12px] text-gray-600 mt-1 mb-3">
+                          <span className="w-20 text-center">Hex</span>
+                          <span className="w-10 text-center">R</span>
+                          <span className="w-10 text-center">G</span>
+                          <span className="w-10 text-center">B</span>
+                          <span className="w-10 text-center">A</span>
                         </div>
 
-                        <div style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(9, 1fr)",
-                          gap: 8,
-                          justifyContent: "center"
-                        }}>
+                        <div className="grid grid-cols-9 gap-2 justify-center">
                           {presetColors.map((preset, index) => (
                             <div
                               key={index}
@@ -2438,57 +2058,36 @@ const handleClear = () => {
                                 const b = parseInt(preset.substr(5, 2), 16);
                                 setColor({ r, g, b, a: 1 });
                               }}
-                              style={{
-                                width: 24,
-                                height: 24,
-                                borderRadius: "20%",
-                                backgroundColor: preset,
-                                cursor: "pointer",
-                                border: preset.toLowerCase() === "#ffffff" ? "1px solid #ccc" : "none"
-                              }}
+                              className={`w-6 h-6 cursor-pointer rounded-[20%] ${preset.toLowerCase() === "#ffffff" ? "border border-gray-300" : ""}`}
+                              style={{ backgroundColor: preset }}
                             />
                           ))}
 
                           <div
-                            style={{
-                              width: 24,
-                              height: 24,
-                              borderRadius: "20%",
-                              backgroundColor: hexValue,
-                              cursor: "pointer",
-                              border: "2px solid #000"
-                            }}
+                            className="w-6 h-6 rounded-[20%] cursor-pointer border-2 border-black"
+                            style={{ backgroundColor: hexValue }}
                             title="Current selected color"
                           />
-
                         </div>
+
                       </div>
 
 
                       {editformErrmsg.trim() !== "" && (
-                        <div className="d-flex justify-content-center">
+                        <div className="flex justify-center">
                           <ErrorMessage message={editformErrmsg} type="error" />
                         </div>
                       )}
 
-                      <div className="d-flex justify-content-end mt-2 col-lg-10">
-                        <Button
+                      <div className="flex justify-end mt-4 lg:col-span-10">
+                        <button
                           disabled={!canUpdateInvoice}
-                          style={{
-                            width: 160,
-                            height: 42,
-                            borderRadius: 10,
-                            padding: "8px 16px",
-                            background: "#1E45E1",
-                            color: "#FFFFFF",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                          }}
                           onClick={handleSaveRentalTemplate}
+                          className={`w-[160px] h-[42px] rounded-[10px] px-4 py-2 font-gilroy text-[14px] font-semibold text-white ${!canUpdateInvoice ? "bg-gray-300 cursor-not-allowed" : "bg-[#1E45E1] hover:bg-blue-700"
+                            }`}
                         >
                           Save Template
-                        </Button>
+                        </button>
                       </div>
 
 
@@ -2520,114 +2119,103 @@ const handleClear = () => {
 
 
               </div>
-            </Col>
+            </div>
 
-            <Col md={8} className="p-0">
+            <div className="col-span-12 md:col-span-8">
               {
                 selectedTab === "rental_invoice" &&
 
-                <div className=" g-0 d-flex justify-content-center ps-5 pe-5 pt-1 " style={{ backgroundColor: '#F7F8FC' }}>
+                <div className="grid gap-0 flex justify-center px-3 pt-1 bg-[#F7F8FC]">
+                  <div
+                    ref={cardRef}
+                    className="max-h-[650px] overflow-y-auto overflow-x-hidden"
+                  >
 
-                  <div className="" ref={cardRef} style={{
-                    maxHeight: 650,
-                    overflowY: "auto",
-                    overflowX: 'hidden',
-                  }}>
+                    <div
+                      ref={innerScrollRef}
+                      className="col-lg-12 justify-center bg-white rounded-lg rounded-bl-[13px] rounded-br-[13px] mb-12 shadow-[0_2px_6px_rgba(0,0,0,0.08)] max-h-[650px] overflow-y-auto overflow-x-hidden"
+                    >
 
-
-
-                    <div ref={innerScrollRef}
-                      className=" col-lg-12  justify-content-center"
-                      style={{
-
-                        borderBottomLeftRadius: "13px",
-                        borderBottomRightRadius: "13px", borderRadius: "8px", backgroundColor: "#FFFFFF", marginBottom: 50, boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.08)",
-                      }}>
-
-                      <div className="p-3 position-relative"
-                        style={{
-                          backgroundColor: ""
-                        }}>
-                        <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
-                          <div className="col-6">
-
+                      <div className="p-3 position-relative">
+                        <div className="grid grid-cols-12 items-center justify-between px-3">
+                          <div className="col-span-6 flex items-center">
                             <img
-                              src={
-                                logoPreview
-                                  ? logoPreview
-                                  : Logo
-                              }
+                              src={logoPreview ? logoPreview : Logo}
                               alt="logo"
-                              style={{ height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }}
+                              className="h-[29px] max-w-[134px] rounded object-contain"
                             />
-
                           </div>
 
-                          <div className="mt-2 col-5 ps-4 pe-0">
-
-
-                            <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
-
-                            <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-                              {[
-                                [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
-                                  .filter(Boolean)
-                                  .join(", "),
-
-                                [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
-                                  .filter(Boolean)
-                                  .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
-                              ]
-                                .filter(line => line && line.trim() !== "")
-                                .map((line, idx) => (
-                                  <React.Fragment key={idx}>
-                                    {line}
-                                    <br />
-                                  </React.Fragment>
-                                ))}
+                          <div className="col-span-5 mt-2 pl-20 pr-0">
+                            <div className="text-[11px] font-semibold font-gilroy">
+                              {state.UsersList.hotelDetailsinPg?.name}
                             </div>
 
+                            <div className="text-[8px] font-semibold font-gilroy leading-tight whitespace-nowrap">
+                              {[
+                                [
+                                  state.UsersList.hotelDetailsinPg?.street,
+                                  state.UsersList.hotelDetailsinPg?.area,
+                                  state.UsersList.hotelDetailsinPg?.landmark,
+                                ]
+                                  .filter(Boolean)
+                                  .join(", "),
+                                [
+                                  state.UsersList.hotelDetailsinPg?.city,
+                                  state.UsersList.hotelDetailsinPg?.state,
+                                ]
+                                  .filter(Boolean)
+                                  .join(", ") +
+                                (state.UsersList.hotelDetailsinPg?.pinCode
+                                  ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
+                                  : ""),
+                              ]
+                                .filter((line) => line && line.trim() !== "")
+                                .map((line, idx) => (
+                                  <div key={idx}>{line}</div>
+                                ))}
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <hr className="m-0"
+                      <hr
+                        className="m-0 h-px border-0 rounded shadow-sm"
                         style={{
-                          border: "none",
-                          height: "1px",
-                          background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                          borderRadius: "2px",
+                          background: useGradient
+                            ? defaultGradient
+                            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                         }}
                       />
 
-                      <div className="container rounded-bottom  position-relative" style={{ width: "100%", }}>
-                        <div className="text-center pt-2 pb-1">
-                          <h5 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, }}>
+                      <div className=" relative w-full rounded-b">
+                        <div className="pt-2 pb-1 text-center">
+                          <h5
+                            className="text-[12px] font-semibold font-gilroy"
+                            style={{
+                              color: useGradient
+                                ? defaultGradient
+                                : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                            }}
+                          >
                             Payment Bills
                           </h5>
                         </div>
 
-
-                        <div className="row px-4 mt-1">
-                          <div className="col-md-6 mb-1">
+                        <div className="grid grid-cols-12 gap-4 px-4 mt-1">
+                          <div className="col-span-12 md:col-span-6 mb-1">
                             <p
-                              className="mb-1"
+                              className={`mb-1 text-[11px] font-medium italic font-gilroy`}
                               style={{
                                 color: useGradient
                                   ? defaultGradient
                                   : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                                fontSize: "11px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                fontStyle: "italic",
                               }}
                             >
                               Bill to:
                             </p>
 
-
-                            <div className="d-flex align-items-center mb-1">
+                            <div className="flex items-center mb-1">
                               <Profile
                                 size="16"
                                 variant="Bold"
@@ -2638,20 +2226,13 @@ const handleClear = () => {
                                 }
                               />
                               <span
-                                className="ms-1"
-                                style={{
-                                  fontSize: "9px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                  color: "#171717",
-                                }}
+                                className="ml-1 text-[9px] font-gilroy font-semibold text-[#171717]"
                               >
                                 Mr. Muthuraja M
                               </span>
                             </div>
 
-
-                            <div className="d-flex align-items-center mb-1">
+                            <div className="flex items-center mb-1">
                               <Call
                                 size="16"
                                 variant="Bold"
@@ -2662,20 +2243,13 @@ const handleClear = () => {
                                 }
                               />
                               <span
-                                className="ms-1"
-                                style={{
-                                  fontSize: "9px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#171717",
-                                }}
+                                className="ml-1 text-[9px] font-gilroy font-medium text-[#171717]"
                               >
                                 +91 9876543210
                               </span>
                             </div>
 
-
-                            <div className="d-flex align-items-center mb-1">
+                            <div className="flex items-center mb-1">
                               <IoBed
                                 size="16"
                                 color={
@@ -2685,20 +2259,13 @@ const handleClear = () => {
                                 }
                               />
                               <span
-                                className="ms-1"
-                                style={{
-                                  fontSize: "9px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#171717",
-                                }}
+                                className="ml-1 text-[9px] font-gilroy font-medium text-[#171717]"
                               >
                                 No 103 - 02
                               </span>
                             </div>
 
-                            {/* Address */}
-                            <div className="d-flex align-items-start">
+                            <div className="flex items-start">
                               <Location
                                 size="16"
                                 variant="Bold"
@@ -2709,379 +2276,257 @@ const handleClear = () => {
                                 }
                               />
                               <span
-                                className="ms-1"
-                                style={{
-                                  fontSize: "9px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 400,
-                                  color: "#171717",
-                                  lineHeight: 1.4,
-                                }}
+                                className="ml-1 text-[9px] font-gilroy font-normal text-[#171717] leading-[1.4]"
                               >
                                 9, 8th Main Rd, Someshwara Nagar, <br />
                                 Bengaluru, Karnataka 560011
                               </span>
                             </div>
+
                           </div>
-                          <div className="col-md-6 mb-1 ps-5 ">
-                            <div className="row">
-
-                              <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice :</div>
-                              <div className="col-6 text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>#{`${prefix}-${suffix}`}</div>
-
-                              <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice Date :</div>
-                              <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>31 March 2024</div>
-
-                              <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Due date :</div>
-                              <div className="col-6 text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>31 March 2024</div>
-
-                              <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Joining date :</div>
-                              <div className="col-6 text-muted  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>05 Jan 2024</div>
-
-                              <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Rent Period :</div>
-                              <div className="col-6  text-muted text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))', }}>Mar - June 2024</div>
 
 
+                          <div className="col-span-12 md:col-span-6 mb-1">
+                            <div className="grid grid-cols-12 gap-1 w-full">
+                              <div className="col-span-6 text-right mt-1 text-[9px] font-gilroy font-normal text-[rgba(65,65,65,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                Invoice :
+                              </div>
+                              <div className="col-span-6 text-left mt-1 text-[9px] font-gilroy font-semibold text-[rgba(23,23,23,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                #{`${prefix}-${suffix}`}
+                              </div>
+
+                              <div className="col-span-6 text-right mt-1 text-[9px] font-gilroy font-normal text-[rgba(65,65,65,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                Invoice Date :
+                              </div>
+                              <div className="col-span-6 text-left mt-1 text-[9px] font-gilroy font-semibold text-[rgba(188,188,188,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                31 March 2024
+                              </div>
+                              <div className="col-span-6 text-right mt-1 text-[9px] font-gilroy font-normal text-[rgba(65,65,65,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                Due date :
+                              </div>
+                              <div className="col-span-6 text-left mt-1 text-[9px] font-gilroy font-semibold text-[rgba(188,188,188,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                31 March 2024
+                              </div>
+                              <div className="col-span-6 text-right mt-1 text-[9px] font-gilroy font-normal text-[rgba(65,65,65,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                Joining date :
+                              </div>
+                              <div className="col-span-6 text-left mt-1 text-[9px] font-gilroy font-semibold text-[rgba(188,188,188,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                05 Jan 2024
+                              </div>
+                              <div className="col-span-6 text-right mt-1 text-[9px] font-gilroy font-normal text-[rgba(65,65,65,1)] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                                Rent Period :
+                              </div>
+                              <div className="col-span- text-left mt-1 text-[9px] font-gilroy font-semibold text-[rgba(188,188,188,1)] whitespace-nowrap overflow-hidden overflow-ellipsis hover:overflow-visible hover:whitespace-normal">
+                                Mar - June 2024
+                              </div>
                             </div>
                           </div>
                         </div>
 
 
-                        <div className="px-3 py-1 ">
+
+
+                        <div className="px-3 py-1">
                           <div className="mb-1">
-                            <label style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>Payment Summary</label>
-                          </div>
-                          <div className="" style={{ fontFamily: "Gilroy" }}>
-                            <Row
+                            <label
+                              className="text-[12px] font-gilroy font-semibold"
                               style={{
-                                border: "1px solid #DFDFDF",
-                                borderRadius: 8,
-                                margin: 0,
+                                color: useGradient
+                                  ? defaultGradient
+                                  : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                               }}
                             >
-                              <Col md={hasTax ? 6 : 12} className="p-2">
+                              Payment Summary
+                            </label>
+                          </div>
 
+                          <div className="font-gilroy w-full">
+                            <div className="grid grid-cols-12 gap-2 border border-[#DFDFDF] rounded-md m-0">
 
-
-                                <Table responsive bordered={false} className="mb-0">
+                              <div className={hasTax ? "col-span-12 md:col-span-6 p-2.5" : "col-span-12 p-2.5"}>
+                                <table className="min-w-full border-collapse mb-0">
                                   <thead>
-                                    <tr style={{ backgroundColor: "#FFF" }}>
-                                      <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>INV NO</th>
-                                      <th
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 600,
-                                          color: "#222222",
-                                          textAlign: "right", textTransform: "capitalize"
-                                        }}
-                                      >
-                                        DESCRIPTION
-                                      </th>
-                                      <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textAlign: "right" }}>AMOUNT / INR</th>
-
+                                    <tr className="bg-white border-b border-[#DFDFDF]">
+                                      <th className="text-[12px] font-semibold text-[#222222] text-left px-2 py-1">INV NO</th>
+                                      <th className="text-[12px] font-semibold text-[#222222] text-right px-2 py-1 capitalize">DESCRIPTION</th>
+                                      <th className="text-[12px] font-semibold text-[#222222] text-right px-2 py-1">AMOUNT / INR</th>
                                     </tr>
                                   </thead>
-
                                   <tbody>
                                     {items.map((item, index) => (
                                       <tr key={item.id}>
-                                        <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500 }}>
+                                        <td className="text-[12px] font-medium text-[#2D2D2D] px-2 py-1">
                                           INV-{500 + index + 1}
                                         </td>
-                                        <td
-                                          style={{
-                                            fontSize: 12,
-                                            color: "#2D2D2D",
-                                            fontWeight: 600,
-                                            textAlign: "right",
-                                          }}
-                                        >
+                                        <td className="text-[12px] font-semibold text-[#2D2D2D] text-right px-2 py-1">
                                           {item.name}
                                         </td>
-                                        <td
-                                          style={{
-                                            textAlign: "right",
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            color: "#2D2D2D",
-                                          }}
-                                        >
+                                        <td className="text-[14px] font-semibold text-[#2D2D2D] text-right px-2 py-1">
                                           ₹{item.amount.toLocaleString("en-IN")}
                                         </td>
                                       </tr>
                                     ))}
 
-
-                                    <tr
-                                      style={{
-                                        backgroundColor: "#FAFBFF",
-                                        fontWeight: 600,
-                                        borderTop: "1px solid #DFDFDF",
-                                      }}
-                                    >
-                                      <td
-                                        colSpan={2}
-                                        style={{
-                                          fontSize: 14,
-                                          color: "#2D2D2D",
-                                          fontWeight: 500,
-                                          textAlign: "start",
-                                        }}
-                                      >
-                                        Total
-                                      </td>
-                                      <td
-                                        style={{
-                                          textAlign: "right",
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          color: "#2D2D2D",
-                                        }}
-                                      >
-                                        ₹
-                                        {items
-                                          .reduce((total, item) => total + item.amount, 0)
-                                          .toLocaleString("en-IN")}
+                                    {/* Total row */}
+                                    <tr className="bg-[#FAFBFF] border-t border-[#DFDFDF] font-medium">
+                                      <td colSpan={2} className="text-[14px] font-medium text-[#2D2D2D] text-left px-2 py-1">Total</td>
+                                      <td className="text-[14px] font-semibold text-[#2D2D2D] text-right px-2 py-1">
+                                        ₹{items.reduce((total, item) => total + item.amount, 0).toLocaleString("en-IN")}
                                       </td>
                                     </tr>
                                   </tbody>
-                                </Table>
+                                </table>
+                              </div>
 
-                              </Col>
+                              {/* Right Table (Tax) */}
                               {hasTax && (
-                                <Col md={6} className="p-2">
-                                  <Table responsive bordered={false} className="mb-0">
+                                <div className="col-span-12 md:col-span-6 p-2">
+                                  <table className="min-w-full border-collapse mb-0">
                                     <thead>
-                                      <tr style={{ backgroundColor: "#FFF" }}>
-                                        <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>OTHERS</th>
-                                        <th
-                                          style={{
-                                            fontSize: 12,
-                                            fontWeight: 600,
-                                            color: "#222222",
-                                            textAlign: "right",
-                                          }}
-                                        >
-                                          AMOUNT / INR
-                                        </th>
+                                      <tr className="bg-white">
+                                        <th className="text-[12px] font-semibold text-[#222222] text-left px-2 py-1">OTHERS</th>
+                                        <th className="text-[12px] font-semibold text-[#222222] text-right px-2 py-1">AMOUNT / INR</th>
                                       </tr>
                                     </thead>
-
                                     <tbody>
                                       <tr>
-                                        <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500 }}>
-                                          GST ({tax}%)
-                                        </td>
-                                        <td
-                                          style={{
-                                            fontSize: 12,
-                                            color: "#2D2D2D",
-                                            fontWeight: 600,
-                                            textAlign: "right",
-                                          }}
-                                        >
-                                          ₹{" "}
-                                          {Number(tax)}
-                                        </td>
+                                        <td className="text-[12px] font-medium text-[#2D2D2D] px-2 py-1">GST ({tax}%)</td>
+                                        <td className="text-[12px] font-semibold text-[#2D2D2D] text-right px-2 py-1">₹{Number(tax)}</td>
                                       </tr>
 
-                                      <tr
-                                        style={{
-                                          backgroundColor: "#FAFBFF",
-                                          fontWeight: 600,
-                                          borderTop: "1px solid #DFDFDF",
-                                        }}
-                                      >
-                                        <td style={{ fontSize: 14, color: "#2D2D2D", fontWeight: 500 }}>Total</td>
-                                        <td
-                                          style={{
-                                            textAlign: "right",
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            color: "#2D2D2D",
-                                          }}
-                                        >
-                                          ₹{" "}
-                                          {tax}
-                                        </td>
+                                      {/* Tax Total */}
+                                      <tr className="bg-[#FAFBFF] border-t border-[#DFDFDF] font-medium">
+                                        <td className="text-[14px] font-medium text-[#2D2D2D] px-2 py-1">Total</td>
+                                        <td className="text-[14px] font-semibold text-[#2D2D2D] text-right px-2 py-1">₹{tax}</td>
                                       </tr>
                                     </tbody>
-                                  </Table>
-                                </Col>
+                                  </table>
+                                </div>
                               )}
-
-                            </Row>
+                            </div>
                           </div>
-
-
 
                           <div
-                            className="d-flex justify-content-between align-items-center mb-3 mt-3  px-3 py-2 border rounded"
+                            className="flex justify-between items-center mb-3 mt-3 px-3 py-2 border rounded bg-[#FAFBFF] text-[13px] font-semibold"
+                          >
+
+                            <div className="text-[#4B4B4B] text-[14px] font-semibold font-gilroy">
+                              Grand Total
+                            </div>
+
+                            <div className="text-[#1E1E1E] text-[14px] font-bold font-gilroy">
+                              ₹ {totalAmount}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="px-4">
+                        <div className="grid grid-cols-12 gap-0">
+
+                          <div className="col-span-12 md:col-span-6 mb-3">
+                            <h6
+                              className="text-[10px] font-gilroy font-bold tracking-wider"
+                              style={{ color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}
+                            >
+                              ACCOUNT DETAILS
+                            </h6>
+
+                            <p className="mb-1 text-[9px] font-gilroy font-medium text-[#171717]">
+                              Account No : {RentalinvoiceTemplate?.accountNumber || "N/A"}
+                            </p>
+                            <p className="mb-1 text-[9px] font-gilroy font-medium text-[#171717]">
+                              IFSC Code : {RentalinvoiceTemplate?.ifscCode || "N/A"}
+                            </p>
+                            <p className="mb-1 text-[9px] font-gilroy font-medium text-[#171717]">
+                              Bank Name: {RentalinvoiceTemplate?.bankName || "N/A"}
+                            </p>
+                            <p className="text-[9px] font-gilroy font-medium text-[#171717]">
+                              UPI Details : {RentalinvoiceTemplate?.upiId || "N/A"}
+                            </p>
+                          </div>
+                          <div className="col-span-12 md:col-span-2"></div>
+                          <div className="col-span-12 md:col-span-4 flex flex-col justify-between h-full -mt-6">
+                            <div className="flex justify-end mt-auto">
+                              {qrImage ? (
+                                <img
+                                  src={qrImage}
+                                  alt="QR Code"
+                                  className="h-[89px] w-[89px] rounded-sm"
+                                />
+                              ) : (
+                                <BsQrCode
+                                  className="h-[89px] w-[89px] rounded-sm"
+                                  style={{ color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-12 justify-between mt-2 mb-4 px-4 gap-0">
+                        <div className="col-span-12 md:col-span-8">
+                          <h4
+                            className="text-[10px] font-gilroy font-semibold"
                             style={{
-                              backgroundColor: "#FAFBFF",
-                              fontSize: 13,
-                              fontWeight: 600,
+                              color: useGradient
+                                ? defaultGradient
+                                : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                             }}
                           >
-                            <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: "#1E1E1E", fontFamily: "Gilroy" }}>₹{" "}
-                              {totalAmount}</div>
-                          </div>
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-                      </div>
-                      <div className="px-4" style={{ marginTop: 10 }}>
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-                            <h6 style={{
-                              fontSize: '10px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 700,
-                              color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                              letterSpacing: '1px'
-
-                            }}
-                            >ACCOUNT DETAILS</h6>
-                            <p className="mb-1"
-                              style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                              Account No :{RentalinvoiceTemplate?.accountNumber || "N/A"}</p>
-                            <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                              IFSC Code :  {RentalinvoiceTemplate?.ifscCode || "N/A"}</p>
-                            <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                              Bank Name: {RentalinvoiceTemplate?.bankName || "N/A"}</p>
-                            <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                              UPI Details : {RentalinvoiceTemplate?.upiId
-                                || "N/A"}</p>
-                          </div>
-
-                          <div className="col-md-2"></div>
-
-                          <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
-                            <div className="d-flex justify-content-end mt-auto">
-                              {
-                                qrImage ?
-                                  <img
-                                    src={qrImage}
-                                    alt="QR Code"
-                                    style={{ height: 89, width: 89, borderRadius: '2px' }}
-                                  />
-                                  :
-                                  <BsQrCode style={{ height: 89, width: 89, borderRadius: '2px', color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }} />
-                              }
-                            </div>
-                            {/* <div className="d-flex flex-row justify-content-end">
-                              <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
-                              <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
-                              <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
-                            </div> */}
-
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div className="row justify-content-between mt-2 mb-4 px-4">
-                        <div className="col-md-8">
-                          <h4 style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 600, color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>Terms and Conditions</h4>
-                          <p style={{ whiteSpace: "pre-line", fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(61, 61, 61, 1)' }}>
+                            Terms and Conditions
+                          </h4>
+                          <p
+                            className="text-[9px] font-gilroy font-medium text-[#3D3D3D] whitespace-pre-line"
+                          >
                             {terms}
                           </p>
                         </div>
 
-                        <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+                        <div className="col-span-12 md:col-span-4 flex flex-col justify-end items-end">
                           {rentalSignaturePreview && (
                             <img
                               src={rentalSignaturePreview}
-                              alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
-
+                              alt="Digital Signature"
+                              className="h-[60px] w-[100px] pl-7.5"
                             />
                           )}
-                          <p
-                            style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
-                          >Authorized Signature</p>
+                          <p className="text-[11px] font-gilroy font-medium text-[#2C2C2C]">
+                            Authorized Signature
+                          </p>
                         </div>
                       </div>
 
-
-                      <hr className="m-0"
+                      <hr
+                        className="m-0 h-[1px] rounded-sm shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
                         style={{
+                          background: useGradient
+                            ? defaultGradient
+                            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                           border: "none",
-                          height: "1px",
-                          background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                          borderRadius: "2px",
                         }}
                       />
 
-                      <div className="px-4 py-2 pb-2">
+                      <div className="px-4 py-2">
                         <div
-                          className="text-center rounded-bottom d-flex justify-content-between"
-                          style={{
-                            borderTopRightRadius: '38px',
-                            borderTopLeftRadius: '38px',
-                          }}
+                          className="flex justify-between text-center rounded-b-[38px]"
                         >
-
-                          <p
-                            className="mb-0"
-                            style={{
-                              fontSize: '13px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 500,
-                              color: '#4B4B4B',
-                            }}
-                          >
-                            Email: {" "}
-                            <span
-                              style={{
-                                fontSize: '13px',
-                                fontFamily: 'Gilroy',
-                                fontWeight: 600,
-                                color: '#222222',
-                              }}
-                            >
+                          <p className="mb-0 text-[13px] font-gilroy font-medium text-[#4B4B4B]">
+                            Email:{" "}
+                            <span className="font-semibold text-[#222222]">
                               {paymentinvoiceemail}
-
                             </span>
                           </p>
 
-
-                          <p
-                            className="mb-0"
-                            style={{
-                              fontSize: '13px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 500,
-                              color: '#4B4B4B',
-                            }}
-                          >
-                            Contact: {" "}
-                            <span
-                              style={{
-                                fontSize: '13px',
-                                fontFamily: 'Gilroy',
-                                fontWeight: 600,
-                                color: '#222222',
-                              }}
-                            >
+                          <p className="mb-0 text-[13px] font-gilroy font-medium text-[#4B4B4B]">
+                            Contact:{" "}
+                            <span className="font-semibold text-[#222222]">
                               {paymentmobilenum}
                             </span>
                           </p>
                         </div>
                       </div>
-
                     </div>
 
                   </div>
@@ -3096,17 +2541,9 @@ const handleClear = () => {
               }
 
 
+            </div>
 
-            </Col>
-
-
-
-
-
-
-
-
-          </Row>
+          </div>
         </>
       }
 
@@ -3123,30 +2560,18 @@ const handleClear = () => {
                   Bill Template Manager
                 </label>
               </div>
-
-
-
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 90
-              }}
-            >
 
+            <div className="flex flex-col items-center justify-center mt-24">
               <img
                 src={Emptystate}
                 alt="Empty State"
-
               />
 
-
-
-              <ErrorMessage message={['You do not have access to view Bill Templates']} type="warning" />
-
+              <ErrorMessage
+                message={['You do not have access to view Bill Templates']}
+                type="warning"
+              />
             </div>
           </>
         ) :
@@ -3156,24 +2581,16 @@ const handleClear = () => {
 
 
             {global ?
-              <div className=" py-2 col-md-12">
+              <div className="h-[600px] flex flex-col overflow-hidden py-2 w-full">
 
-                <div
-                  className="bg-white"
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 10,
-                    paddingBottom: "10px",
-                    backgroundColor: "white",
-                    height: 75
-                  }}
-                >
+                <div className="bg-white sticky top-0 z-10 pb-2 h-20">
+
                   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
                     <label className="font-gilroy text-[18px] text-[#222] font-semibold">
                       Bill Template Manager
                     </label>
                   </div>
+
                   <h5 className="flex items-start gap-2 font-gilroy text-[17px] font-semibold text-[rgba(34,34,34,1)]">
                     <img
                       src={leftarrow}
@@ -3181,9 +2598,8 @@ const handleClear = () => {
                       width={20}
                       height={20}
                       onClick={handleGlobalCloseForm}
-                      className="cursor-pointer mt-[2px] shrink-0"
+                      className="cursor-pointer mt-0.5 shrink-0"
                     />
-
                     <span className="leading-[22px]">
                       Global Bill Settings
                     </span>
@@ -3191,73 +2607,47 @@ const handleClear = () => {
 
                 </div>
 
+                <div className="flex-1 overflow-y-auto pr-2.5 pt-2 show-scroll">
 
-
-                <div
-                  style={{
-                    maxHeight: "calc(100vh - 130px)",
-                    overflowY: "auto",
-                    paddingRight: "10px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  <div className="col-lg-8">
-                    <p className="mb-5" style={{
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      color: "rgba(97, 97, 97, 1)",
-                      fontWeight: 400,
-                      lineHeight: "20px",
-                      letterSpacing: '0%',
-                      marginTop: "-10px"
-                    }}>
+                  <div className="w-full lg:w-2/3">
+                    <p className="mb-5 -mt-2.5 font-gilroy text-sm text-gray-600 font-normal leading-5">
                       Add your basic billing details here. These will appear on all invoices unless you choose to customize them in individual templates.
                     </p>
                   </div>
 
-                  <div className="mb-5" style={{ marginTop: "-25px" }}>
-                    <div className="row mb-5 align-items-center">
-                      <div className="col-md-4">
-                        <label className="form-label"
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 17,
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                          }}
-                        >Hostel/PG Logo</label>
-                        <div className=" small"
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 12,
-                            color: "rgba(75, 75, 75, 1)",
-                            fontWeight: 400,
-                            whiteSpace: "nowrap"
-                          }}
-                        >This will appear in Bill Template</div>
-                        <div className="form-check mt-2">
-                          <input className="form-check-input" type="checkbox" id="customizeLogo" style={{ cursor: "pointer" }} checked={isCheckedLogo} onChange={handleLogoCheckboxChange} />
-                          <label className="form-check-label small" htmlFor="customizeLogo"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              color: "rgba(30, 69, 225, 1)",
-                              fontStyle: 'italic',
-                              fontWeight: 400,
-                              whiteSpace: "nowrap",
-                              marginTop: "-30px"
+                  <div className="mb-5 -mt-7">
+                    <div className="mb-5 flex flex-col md:flex-row items-center gap-2">
 
-                            }}
-                          >Customize in Specific Templates</label>
+                      <div className="w-full md:w-1/3">
+                        <label className="block font-gilroy text-lg font-semibold text-gray-900">
+                          Hostel/PG Logo
+                        </label>
+
+                        <div className="mt-1 text-xs font-gilroy text-gray-600 whitespace-nowrap">
+                          This will appear in Bill Template
+                        </div>
+
+                        <div className="mt-2 flex items-start gap-2">
+                          <input
+                            type="checkbox"
+                            id="customizeLogo"
+                            checked={isCheckedLogo}
+                            onChange={handleLogoCheckboxChange}
+                            className="-mt-1 cursor-pointer accent-[rgba(30,69,225,1)] "
+                          />
+
+                          <label
+                            htmlFor="customizeLogo"
+                            className="text-xs font-gilroy italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap -mt-1"
+                          >
+                            Customize in Specific Templates
+                          </label>
                         </div>
                       </div>
 
-                      <div className="col-md-7">
+                      <div className="w-full md:w-7/12">
+                        <div className="flex items-center justify-center gap-4 p-3 border rounded bg-gray-50">
 
-                        <div
-                          className="d-flex align-items-center justify-content-center p-3 border rounded"
-                          style={{ backgroundColor: "#f9f9f9" }}
-                        >
                           <div
                             className="relative inline-block"
                             onMouseEnter={() => setIsHovering(true)}
@@ -3267,80 +2657,47 @@ const handleClear = () => {
                               <img
                                 src={previewURL}
                                 alt="logo-preview"
-                                className="h-[60px] w-[60px] rounded"
+                                className="h-16 w-16 rounded"
                               />
                             ) : (
                               <DocumentUpload color="#1E45E1" />
                             )}
 
-
                             {previewURL && isHovering && (
-                              <div className="absolute inset-0 bg-black/40 rounded flex items-center justify-center">
-
-
-                                <div
-                                  // onClick={handleDeleteImage}
-                                  className="bg-white rounded-full p-2 cursor-not-allowed shadow-md hover:scale-110 transition"
-                                >
+                              <div className="absolute inset-0 flex items-center justify-center rounded bg-black/40">
+                                <div className="bg-white rounded-full p-2 cursor-not-allowed shadow-md transition-transform hover:scale-110">
                                   <Trash size={12} />
                                 </div>
-
                               </div>
                             )}
                           </div>
 
-
-
-
-
-                          <div className="d-flex flex-column ms-3">
+                          <div className="flex flex-col">
                             <div>
-                              <label
-                                style={{
-                                  cursor: "pointer",
-                                  color: "rgba(30, 69, 225, 1)",
-                                  fontFamily: "Gilroy",
-                                  fontSize: 14,
-                                  fontWeight: 400,
-                                }}
-                              >
+                              <label className="cursor-pointer font-gilroy text-sm font-normal text-[rgba(30,69,225,1)]">
                                 Choose file
                                 <input
                                   type="file"
                                   accept="image/*"
-                                  className="d-none"
+                                  className="hidden"
                                   onChange={handleFileChange}
                                 />
                               </label>
-                              <span
-                                className="ms-1"
-                                style={{
-                                  color: "rgba(22, 21, 28, 1)",
-                                  fontFamily: "Gilroy",
-                                  fontSize: 14,
-                                  fontWeight: 400,
-                                }}
-                              >
+                              <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
                                 to Upload
                               </span>
                             </div>
-                            <small
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 12,
-                                color: "rgba(75, 75, 75, 1)",
-                                fontWeight: 400,
-                                whiteSpace: "nowrap",
-                              }}
-                            >
+
+                            <small className="mt-1 font-gilroy text-xs font-normal text-gray-600 whitespace-nowrap">
                               Must be in PNG Format (600px × 300px)
                             </small>
                           </div>
-                        </div>
 
+                        </div>
                       </div>
+
                       {fieldError && (
-                        <div className="d-flex mb-5 mt-0 justify-content-center">
+                        <div className="mt-0 mb-5 flex w-full justify-center">
                           <ErrorMessage message={fieldError} type="error" />
                         </div>
                       )}
@@ -3348,86 +2705,54 @@ const handleClear = () => {
                     </div>
 
 
-                    <div className="row mb-4 align-items-center" style={{ marginTop: "-20px" }}>
-                      <div className="col-md-4">
-                        <label className="form-label "
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 17,
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                          }}
-                        >Contact Number</label>
-                        <div className="form-check" style={{ marginTop: "-10px" }}>
-                          <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} checked={isCheckedmobile} onChange={handleMobileCheckboxChange} />
-                          <label className="form-check-label small" htmlFor="customizeContact"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              color: "rgba(30, 69, 225, 1)",
-                              fontStyle: 'italic',
-                              fontWeight: 400,
-                              whiteSpace: "nowrap",
+                    <div className="mb-4 -mt-5 flex flex-col md:flex-row items-center gap-2">
 
+                      <div className="w-full md:w-1/3">
+                        <label className="block font-gilroy text-base font-semibold text-gray-900 mb-1">
+                          Contact Number
+                        </label>
 
-                            }}
-                          >Customize in Specific Templates</label>
+                        <div className=" flex items-start gap-2">
+                          <input
+                            type="checkbox"
+                            id="customizeContact"
+                            checked={isCheckedmobile}
+                            onChange={handleMobileCheckboxChange}
+                            className="cursor-pointer accent-[rgba(30,69,225,1)] "
+                          />
+                          <label
+                            htmlFor="customizeContact"
+                            className=" font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
+                          >
+                            Customize in Specific Templates
+                          </label>
                         </div>
                       </div>
 
-                      <div className="col-md-7">
-                        <div
-                          className="input-group"
-                          style={{
-                            border: "1px solid #E5E5E5",
-                            borderRadius: 12,
-                            overflow: "hidden",
-                            height: 45
-                          }}
-                        >
+                      <div className="w-full md:w-7/12">
+                        <div className="flex items-center h-11 overflow-hidden rounded-xl border border-gray-200">
+
                           <select
-                            className="form-select"
-                            style={{
-                              maxWidth: 70,
-                              border: "none",
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              color: "#4B4B4B",
-                              fontWeight: 400,
-                              backgroundColor: "transparent",
-                              paddingLeft: 10,
-                              paddingRight: 5,
-                              appearance: "none",
-                              WebkitAppearance: "none",
-                            }}
                             defaultValue="+91"
+                            className="w-16 bg-transparent font-gilroy text-xs font-normal text-gray-600 appearance-none focus:outline-none px-2"
                           >
                             <option value="+91">+91</option>
                             <option value="+1">+1</option>
                             <option value="+44">+44</option>
-
                           </select>
 
                           <input
                             type="text"
                             value={mobilenum}
                             onChange={handleMobile}
-                            className="form-control"
-                            placeholder="9876543210"
                             maxLength={10}
-                            style={{
-                              border: "none",
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              color: mobilenum ? "#000" : "rgba(75, 75, 75, 1)",
-                              fontWeight: mobilenum ? 500 : 400,
-                              borderRadius: 8,
-                              outline: "none",
-                              boxShadow: "none",
-                            }}
+                            placeholder="9876543210"
+                            className={`flex-1 bg-transparent font-gilroy text-xs focus:outline-none ${mobilenum ? "text-black font-medium" : "text-gray-600 font-normal"
+                              }`}
                           />
 
                         </div>
+
                         {MobileError && (
                           <ErrorMessage message={MobileError} type="error" />
                         )}
@@ -3435,249 +2760,176 @@ const handleClear = () => {
 
                     </div>
 
-                    <div className="row mb-4 align-items-center">
-                      <div className="col-md-4">
-                        <label className="form-label "
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 17,
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                          }}
-                        >E-Mail Address</label>
-                        <div className="form-check " style={{ marginTop: "-10px" }}>
-                          <input className="form-check-input" type="checkbox" id="customizeEmail" style={{ cursor: "pointer" }} checked={isCheckedEmail} onChange={handleEmaiCheckboxChange} />
-                          <label className="form-check-label small" htmlFor="customizeEmail"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              color: "rgba(30, 69, 225, 1)",
-                              fontStyle: 'italic',
-                              fontWeight: 400,
-                              whiteSpace: "nowrap",
+                    <div className="mb-4 flex flex-col md:flex-row items-center gap-2">
 
-                            }}
-                          >Customize in Specific Templates</label>
+                      <div className="w-full md:w-1/3">
+                        <label className="mb-1 block font-gilroy text-base font-semibold text-gray-900">
+                          E-Mail Address
+                        </label>
+
+                        <div className="flex items-start gap-2">
+                          <input
+                            type="checkbox"
+                            id="customizeEmail"
+                            checked={isCheckedEmail}
+                            onChange={handleEmaiCheckboxChange}
+                            className="cursor-pointer accent-[rgba(30,69,225,1)] "
+                          />
+                          <label
+                            htmlFor="customizeEmail"
+                            className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
+                          >
+                            Customize in Specific Templates
+                          </label>
                         </div>
                       </div>
-                      <div className="col-md-7">
-                        <input type="email" className="form-control" placeholder="example@email.com"
+
+                      <div className="w-full md:w-7/12">
+                        <input
+                          type="email"
+                          placeholder="example@email.com"
                           value={email}
                           onChange={handleEmail}
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 12,
-                            color: email ? "#000" : "rgba(75, 75, 75, 1)",
-                            fontWeight: email ? 500 : 400,
-                            whiteSpace: "nowrap",
-                            height: 45
-                          }}
+                          className={`w-full h-11 rounded-md border border-gray-200 px-3 font-gilroy text-xs focus:outline-none ${email ? "text-black font-medium" : "text-gray-600 font-normal"
+                            }`}
                         />
+
                         {emailError && (
                           <ErrorMessage message={emailError} type="error" />
                         )}
                       </div>
 
-
-
                     </div>
 
-                    <div className="row mb-2 align-items-center">
-                      <div className="col-md-4 mb-5" style={{ marginTop: "-10px" }}>
-                        <label className="form-label "
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 17,
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                          }}
-                        >Digital Signature Upload</label>
-                        <div className=" small"
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 12,
-                            color: "rgba(75, 75, 75, 1)",
-                            fontWeight: 400,
-                            whiteSpace: "nowrap"
-                          }}
-                        >Add a respected person’s Signature</div>
-                        <div className="form-check mt-2">
-                          <input className="form-check-input" type="checkbox" id="customizeSignature" style={{ cursor: "pointer" }} checked={isCheckedSignature} onChange={handleSignatureCheckboxChange} />
-                          <label className="form-check-label small" htmlFor="customizeSignature"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              color: "rgba(30, 69, 225, 1)",
-                              fontStyle: 'italic',
-                              fontWeight: 400,
-                              whiteSpace: "nowrap",
-                              lineHeight: '13.76px'
-                            }}
-                          >Customize in Specific Templates</label>
+                    <div className="mb-2 flex flex-col md:flex-row items-center gap-2">
+
+                      <div className="w-full md:w-1/3 mb-5 -mt-2.5">
+                        <label className="block font-gilroy text-base font-semibold text-gray-900">
+                          Digital Signature Upload
+                        </label>
+
+                        <div className="mt-1 font-gilroy text-xs font-normal text-gray-600 whitespace-nowrap">
+                          Add a respected person’s Signature
+                        </div>
+
+                        <div className="mt-2 flex items-start gap-2">
+                          <input
+                            type="checkbox"
+                            id="customizeSignature"
+                            checked={isCheckedSignature}
+                            onChange={handleSignatureCheckboxChange}
+                            className="cursor-pointer accent-[rgba(30,69,225,1)] "
+                          />
+                          <label
+                            htmlFor="customizeSignature"
+                            className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap leading-3.5"
+                          >
+                            Customize in Specific Templates
+                          </label>
                         </div>
                       </div>
-                      <div className="col-md-7">
-                       <div
-  className="rounded mt-2 d-flex justify-content-center align-items-center position-relative"
-  style={{
-    height: "120px",
-    borderStyle: "dotted",
-    borderWidth: "3px",
-    borderColor: "#ced4da",
-  }}
-  onMouseEnter={() => setIsHoveringSign(true)}
-  onMouseLeave={() => setIsHoveringSign(false)}
->
-  {signPreview ? (
-    <>
-      <img
-        src={signPreview}
-        alt="uploaded-signature"
-        style={{ maxHeight: "100%", maxWidth: "100%" }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.style.display = "none";
-        }}
-      />
 
-     
-      {isHoveringSign && (
-        <div
-          className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-          style={{
-            backgroundColor: "rgba(0,0,0,0.4)",
-          }}
-        >
-          <div
-            // onClick={handleClear}
-            style={{
-              backgroundColor: "white",
-              borderRadius: "50%",
-              padding: "8px",
-              cursor: "not-allowed",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Trash size={16}  />
-          </div>
-        </div>
-      )}
-    </>
-  ) : (
-    <span
-      className="text-muted"
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: 14,
-        fontWeight: 400,
-        color: "rgba(34, 34, 34, 1)",
-      }}
-    >
-      No signature uploaded
-    </span>
-  )}
-</div>
+                      {/* Right column */}
+                      <div className="w-full md:w-7/12">
 
+                        {/* Upload box */}
+                        <div
+                          className="relative mt-2 flex items-center justify-center h-28 rounded border-2 border-dotted border-gray-300"
+                          onMouseEnter={() => setIsHoveringSign(true)}
+                          onMouseLeave={() => setIsHoveringSign(false)}
+                        >
+                          {signPreview ? (
+                            <>
+                              <img
+                                src={signPreview}
+                                alt="uploaded-signature"
+                                className="max-h-full max-w-full"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.style.display = "none";
+                                }}
+                              />
 
+                              {isHoveringSign && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                  <div className="flex items-center justify-center rounded-full bg-white p-2 cursor-not-allowed shadow-md">
+                                    <Trash size={16} />
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <span className="font-gilroy text-sm font-normal text-gray-900">
+                              No signature uploaded
+                            </span>
+                          )}
+                        </div>
 
-                        <div className="d-flex justify-content-between align-items-center mt-2">
+                        {/* Actions */}
+                        <div className="mt-2 flex items-center justify-between">
+
                           <div>
-                            <label style={{ cursor: 'pointer', color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>
+                            <label className="cursor-pointer font-gilroy text-sm font-normal text-[rgba(30,69,225,1)]">
                               Choose file
                               <input
                                 type="file"
                                 accept="image/*"
-                                className="d-none"
+                                className="hidden"
                                 ref={fileInputRef}
-
                                 onChange={handleFileSignatureChange}
                               />
                             </label>
-                            <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>to Upload Image</span>
+                            <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
+                              to Upload Image
+                            </span>
                           </div>
-                          <div>
+
+                          <div className="flex gap-4">
                             <button
-                              className="btn btn-link text-decoration-none "
                               onClick={handleClear}
-                              // disabled={signaturePreview}
-                              style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400 }}
+                              className="font-gilroy text-base font-normal text-gray-600"
                             >
                               Clear
                             </button>
                             <button
-                              className="btn btn-link text-decoration-none "
-                              // disabled={!signaturePreview}
                               onClick={handleSignatureDone}
-                              style={{ color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600 }}
+                              className="font-gilroy text-base font-semibold text-[rgba(30,69,225,1)]"
                             >
                               Done
                             </button>
                           </div>
 
-
-
                         </div>
+
                         {noChangesDetectedMsg && (
                           <ErrorMessage message={noChangesDetectedMsg} type="error" />
                         )}
+
                         {signature_errmsg.trim() !== "" && (
                           <ErrorMessage message={signature_errmsg} type="error" />
                         )}
                       </div>
+
                     </div>
                   </div>
 
                   {
                     savebuttonshow && (
-                      <div className="d-flex justify-content-end mt-1 me-5" style={{ paddingRight: 10 }}>
-                        <button disabled={!canUpdateInvoice} className="btn btn-outline-dark me-2" type="button" onClick={handleReset} style={{
-                          fontWeight: 600,
-                          borderRadius: 12,
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          padding: 12,
-                        }}
-                        >
-                          Reset
-                        </button>
+                      <div className="flex justify-end" >
+                        <button disabled={!canUpdateInvoice} type="button" onClick={handleReset} className="!border !border-black text-black !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-3 disabled:opacity-50 mr-8">Reset</button>
+
                         <button
                           disabled={!canUpdateInvoice}
-                          className="btn" onClick={handleSaveTemplate} style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            padding: 12,
-                            color: "#FFF",
-
-
-                          }} >
+                          type="button"
+                          onClick={handleSaveTemplate}
+                          className="bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-3 disabled:opacity-50"
+                        >
                           {BillsTemplateList.mobile ? "Update" : "Save"}
                         </button>
                       </div>
                     )
 
-                    // : BillsTemplateList?.mobile && (
-                    //   <div className="text-end me-5" style={{ paddingRight: 10 }}>
-                    //     <button className="" type="button" onClick={handleShow}
-                    //       style={{
-                    //         backgroundColor: "#1E45E1",
-                    //         fontWeight: 600,
-                    //         borderRadius: 12,
-                    //         fontSize: 16,
-                    //         fontFamily: "Gilroy",
-                    //         padding: 12,
-                    //         color: "#FFF",
-                    //         border: "1px solid #1E45E1"
 
-                    //       }}>
-                    //       Go to Templates →
-                    //     </button>
-                    //   </div>
-                    // )
                   }
 
 
@@ -3690,8 +2942,9 @@ const handleClear = () => {
                 </div>
               </div>
               :
-              <div >
-                <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+              <div>
+                {/* <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap"> */}
+                <div className="bg-white sticky top-0 z-10 pb-2 h-20 shrink-0">
                   <label className="text-[18px] font-semibold text-[#222] font-gilroy">
                     Bill Templates
                   </label>
@@ -3699,194 +2952,106 @@ const handleClear = () => {
 
 
                 <div
-                  style={{
-
-                    borderRadius: "10px",
-                    padding: "15px",
-                    backgroundColor: "#f9fbff",
-                  }}
+                  className="rounded-lg p-3 bg-blue-50"
                 >
 
-                  <Card className="mb-3 shadow-sm border-0">
-                    <Card.Body className="d-flex justify-content-between align-items-center">
+
+                  <div className="mb-3 bg-white rounded-lg shadow-sm border border-transparent">
+                    <div className="flex items-center justify-between p-4">
                       <div className="d-flex justify-content-between align-items-center gap-2">
-                        <div
-                          style={{
-                            padding: 10,
-                            borderRadius: "50%",
-                            backgroundColor: "#F0FDF4",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: 40,
-                            height: 40,
-                          }}
-                        >
-                          <RiPercentLine style={{ color: "#00A63E", fontSize: 20 }} />
+                        <div className="flex items-center justify-center w-10 h-10 p-2.5 rounded-full bg-emerald-50">
+                          <RiPercentLine className="text-[#00A63E] text-xl" />
                         </div>
 
                         <div>
 
-                          <h6 className=" mb-1"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 17,
-                              color: "rgba(34, 34, 34, 1)",
-                              fontWeight: 600,
-                              whiteSpace: "nowrap",
-                            }}>Global Bill Setting</h6>
-                          <p className="text-muted mb-0"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: 12,
-                              fontWeight: 600,
-                              whiteSpace: "nowrap",
-                            }} >Add your basic billing details here</p>
+                          <h6 className="mb-1 font-gilroy text-[17px] font-semibold text-[#222222] whitespace-nowrap">
+                            Global Bill Setting
+                          </h6>
+
+                          <p className="mb-0 font-gilroy text-xs font-semibold text-gray-500 whitespace-nowrap">
+                            Add your basic billing details here
+                          </p>
                         </div>
                       </div>
-                      <Button onClick={handleEditChange}
-                        variant=""
-                        className="d-flex align-items-center px-3"
-                        style={{
-                          backgroundColor: "#1E45E1",
-                          fontWeight: 600,
-                          borderRadius: 12,
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          padding: 8,
-                          color: "#FFF",
-                          border: "1px solid #1E45E1"
 
-                        }}
+                      <button
+                        onClick={handleEditChange}
+                        className="flex items-center px-3 p-2 font-gilroy text-base font-semibold text-white bg-[#1E45E1] border border-[#1E45E1] rounded-xl"
                       >
-                        Edit <Edit size="16" className="ms-1" />
-                      </Button>
-                    </Card.Body>
-                  </Card>
+                        Edit <Edit size={16} className="ml-1" />
+                      </button>
 
+                    </div>
+                  </div>
 
-                  <Card className="shadow-sm border-0">
-                    <Card.Body className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex justify-content-between align-items-center gap-2">
-                        <div
-                          style={{
-                            padding: 10,
-                            borderRadius: "50%",
-                            backgroundColor: "#FAF5FF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: 40,
-                            height: 40,
-                          }}
-                        >
-                          <FiCode style={{ color: "#9810FA", fontSize: 20 }} />
+                  <div className="bg-white rounded-lg shadow-sm border border-transparent">
+                    <div className="flex items-center justify-between p-2.5">
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FAF5FF] -mt-3">
+                          <FiCode className="text-[#9810FA] text-lg" />
                         </div>
-                        <div>
-                          <h6 className=" mb-1" style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 17,
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                            whiteSpace: "nowrap",
-                          }}>Templates</h6>
-                          <p className="text-muted mb-0" style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 12,
-                            fontWeight: 600,
-                            whiteSpace: "nowrap",
-                          }}>
+
+                        <div className="ml-1 pt-1">
+                          <h6 className="mb-1 text-[17px] font-semibold text-[#222] whitespace-nowrap">
+                            Templates
+                          </h6>
+                          <p className="text-xs font-semibold text-gray-500 whitespace-nowrap">
                             Fill the template form with details you like to customize.
                           </p>
                         </div>
                       </div>
+
                       {!BillsTemplateList?.mobile ? (
                         <OverlayTrigger
                           placement="bottom"
                           overlay={
-                            <Tooltip className="custom-tooltip"
-                              style={{
-                                backgroundColor: "white",
-                                color: "#222",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                border: "1px solid #E5E5E5",
-                                boxShadow: "0px 2px 8px rgba(0,0,0,0.1)",
-                              }}
-                            >
+                            <Tooltip className="bg-white text-[#222] font-medium border border-gray-200 shadow-md">
                               Set the Global bill settings before entering the Templates.
                             </Tooltip>
                           }
                         >
-                          <span className="d-inline-block">
-                            <Button
+                          <span className="inline-block">
+                            <button
                               onClick={handleShow}
-                              variant="primary"
                               disabled
-                              className="d-flex align-items-center px-3"
-                              style={{
-                                backgroundColor: "#1E45E1",
-                                fontWeight: 600,
-                                borderRadius: 12,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                padding: 8,
-                                color: "#FFF",
-                                border: "1px solid #1E45E1",
-                                pointerEvents: "none",
-                              }}
+                              className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] pointer-events-none"
                             >
-                              Go to Templates <FiArrowRight className="ms-2" />
-                            </Button>
+                              Go to Templates
+                              <FiArrowRight className="ml-2" />
+                            </button>
                           </span>
                         </OverlayTrigger>
                       ) : (
-                        <Button
+                        <button
                           onClick={handleShow}
-                          variant="primary"
-                          className="d-flex align-items-center px-3"
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            padding: 8,
-                            color: "#FFF",
-                            border: "1px solid #1E45E1",
-                          }}
+                          className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1]"
                         >
-                          Go to Templates <FiArrowRight className="ms-2" />
-                        </Button>
+                          Go to Templates
+                          <FiArrowRight className="ml-2" />
+                        </button>
                       )}
 
-
-                    </Card.Body>
-                  </Card>
+                    </div>
+                  </div>
                 </div>
               </div>}
           </>
       }
 
+      {
+        bankaccountform && (
 
 
+          <BankingAddForm showForm={bankaccountform}
+            setShowForm={handleCloseFormBank}
+            setEdit={() => { }}
+
+          />
 
 
-      {bankaccountform && (
-
-
-        <BankingAddForm showForm={bankaccountform}
-          setShowForm={handleCloseFormBank}
-          setEdit={() => { }}
-
-        />
-
-
-      )}
-
-
-
-
+        )
+      }
 
     </div>
   );
