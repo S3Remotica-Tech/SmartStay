@@ -15,10 +15,11 @@ import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import Payment from '../../Assets/Images/New_images/Mask-group.png'
 import Refund from '../../Assets/Images/New_images/Refund.png';
-import { Location, Call, Profile, } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
+import { useHasPermission } from '../../Utils/Permission';
 
 
 const InvoiceCard = ({ rowData, }) => {
@@ -28,7 +29,7 @@ const InvoiceCard = ({ rowData, }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   // const pdfOpenedRef = useRef(false);
-const modalRef = useRef(null);
+  const modalRef = useRef(null);
 
   const [hoveredItem, setHoveredItem] = useState(null);
   const pdfDetails = state.InvoiceList?.newReceiptchanges
@@ -54,28 +55,40 @@ const modalRef = useRef(null);
   ];
 
   const [isVisible, setIsVisible] = useState(true);
-  const [idforwhats, setIdForWhats] = useState("");
+  // const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
 
+
+  const {
+         canReadModule: canReadReceipt,
+  } = useHasPermission("Receipt");
+
+
+
+
+
+
+
+
   useEffect(() => {
-    setIdForWhats(rowData?.id);
+    // setIdForWhats(rowData?.id);
     setIsVisible(true)
   }, [rowData])
 
 
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function convertNumberToWords(num) {
     const a = [
@@ -320,15 +333,20 @@ useEffect(() => {
             <div className="gap-2 d-flex me-3">
               <div
                 className="d-flex justify-content-center align-items-center border"
-                style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
-                onClick={() => handleDownload(rowData)}
+                style={{
+                  borderRadius: '8px', cursor: canReadReceipt ? "pointer" : "not-allowed", height: 30, width: 30,
+                  opacity: canReadReceipt ? 1 : 0.5
+                }}
+                onClick={() => { if (canReadReceipt) handleDownload(rowData) }}
               >
-                <img
-                  src={DownLoad}
-                  alt="Download Invoice"
-                  style={{ height: 15, width: 15 }}
+                <DocumentDownload
+                  size="18"
+                  color={canReadReceipt ? "#222222" : "#BDBDBD"}
                 />
+
               </div>
+
+            
 
               <div className="position-relative d-inline-block">
                 <div
@@ -364,41 +382,54 @@ useEffect(() => {
                   </span>
                 </div>
                 {isOpen && (
-                  <div 
-                   className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
-                                      >
-                    {menuItems.map((item) => (
-                      <div ref={modalRef}
-                        key={item.key}
-                        className="d-flex align-items-center mb-2 hover-item p-1 rounded cursor-pointer z-[9999]"
-                        style={{
-                          backgroundColor:
-                            hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
-                        }}
-                        onMouseEnter={() => setHoveredItem(item.key)}
-                        onMouseLeave={() => setHoveredItem(null)}
-                        onClick={() => handleMenuClick(item.key)}
-                      >
-                        <img
-                          src={hoveredItem === item.key ? item.iconWhite : item.icon}
-                          className="me-2"
-                          alt={item.label}
-                        />
-                        <span
-                          style={{
-                            fontSize: 13,
-                            fontWeight: 400,
-                            fontFamily: "Gilroy",
-                            color:
-                              hoveredItem === item.key
-                                ? "rgba(255, 255, 255, 1)"
-                                : "rgba(33, 37, 41, 1)",
-                          }}
-                        >
-                          {item.label}
-                        </span>
-                      </div>
-                    ))}
+                  <div
+                    className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
+                  >
+                   {menuItems.map((item) => {
+  const isDisabled = !canReadReceipt;
+
+  return (
+    <div
+      key={item.key}
+      className={`d-flex align-items-center mb-2 hover-item p-1 rounded z-[9999]
+        ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+      style={{
+        backgroundColor:
+          hoveredItem === item.key && !isDisabled
+            ? "rgba(30, 69, 225, 1)"
+            : "#fff",
+      }}
+      onMouseEnter={() => !isDisabled && setHoveredItem(item.key)}
+      onMouseLeave={() => setHoveredItem(null)}
+      onClick={() => {
+        if (!isDisabled) handleMenuClick(item.key);
+      }}
+    >
+      <img
+        src={
+          hoveredItem === item.key && !isDisabled
+            ? item.iconWhite
+            : item.icon
+        }
+        className="me-2"
+        alt={item.label}
+      />
+      <span
+        style={{
+          fontSize: 13,
+          fontWeight: 400,
+          fontFamily: "Gilroy",
+          color:
+            hoveredItem === item.key && !isDisabled
+              ? "#fff"
+              : "rgba(33, 37, 41, 1)",
+        }}
+      >
+        {item.label}
+      </span>
+    </div>
+  );
+})}
                   </div>
                 )
                 }

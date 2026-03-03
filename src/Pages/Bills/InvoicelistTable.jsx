@@ -29,7 +29,7 @@ const InvoiceTable = (props) => {
 
   const {
     canWriteModule: canWriteInvoice,
-    // canReadModule: canReadReceipt,
+     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
@@ -413,11 +413,11 @@ title={props.item?.fullName}
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
-                      onClick={() => { if (canWriteInvoice) { handleInvoicepdf(props.item) } }}
+                      onClick={() => { if (canReadInvoice) { handleInvoicepdf(props.item) } }}
                       style={{
-                        cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                        cursor: !canReadInvoice ? "not-allowed" : "pointer",
                         padding: "8px 12px",
-                        opacity: !canWriteInvoice ? 0.5 : 1,
+                        opacity: !canReadInvoice ? 0.5 : 1,
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = "#EDF2FF"
@@ -431,7 +431,7 @@ title={props.item?.fullName}
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color: "#222",
-                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                          cursor: !canReadInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Download

@@ -163,6 +163,7 @@ function UserList(props) {
 
   const {
     canReadModule: canReadCheckout,
+    canWriteModule: canWriteCheckout
 
   } = useHasPermission("Checkout");
 
@@ -2993,11 +2994,11 @@ function UserList(props) {
                                                   </div>
 
                                                   <div
-                                                    onClick={() => canWriteTenant && handleCheckoutGenrateNew(user)}
+                                                    onClick={() => canWriteCheckout && handleCheckoutGenrateNew(user)}
                                                     className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img src={logout} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
                                                     <span className="text-sm font-medium font-gilroy">Generate</span>
                                                   </div>
                                                 </>
@@ -3005,11 +3006,11 @@ function UserList(props) {
 
                                               {user.bedId && user.currentStatus === "Settlement Generated" && (
                                                 <div
-                                                  onClick={() => canWriteTenant && handleConformCheckout(user)}
+                                                  onClick={() => canWriteCheckout && handleConformCheckout(user)}
                                                   className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                 >
-                                                  <img src={logout} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                  <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
                                                   <span className="text-sm font-medium font-gilroy">Check-Out</span>
                                                 </div>
                                               )}

@@ -15,8 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { useHasPermission } from '../../Utils/Permission';
 
 function InvoiceRegister() {
     const navigate = useNavigate();
@@ -44,7 +43,12 @@ function InvoiceRegister() {
     }
 
 
-
+const {
+    canWriteModule: canWriteReports,
+    // canReadModule: canReadReports,
+    // canUpdateModule: canUpdateReports,
+    // canDeleteModule: canDeleteReports,
+  } = useHasPermission("Reports");
 
 
 
@@ -776,7 +780,7 @@ function InvoiceRegister() {
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button onClick={handleDownload}
+                    <button onClick={handleDownload} disabled={canWriteReports}
                         className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
                     >
                         <Export size="16" />
