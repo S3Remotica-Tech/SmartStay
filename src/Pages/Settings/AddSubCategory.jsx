@@ -129,7 +129,7 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                     </Modal.Header>
 
 
-                    <Modal.Body className="pt-2 mb-2">
+                    <Modal.Body className="pt-2 mb-1">
                         <div className="w-full">
                             <label className="block font-gilroy text-[14px] font-medium text-[#222] leading-normal mb-1">
                                 Sub Category <span className="text-red-500 text-[20px]">*</span>
@@ -143,8 +143,11 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                                 onChange={handleSubCategoryChange}
                                 className="w-full !p-[12px] text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E45E1]"
                             />
-
-                             {subCategoryError && <ErrorMessage message={subCategoryError} type="error" />}
+                                {subCategoryError && (
+                                <div className="flex justify-center mt-2">
+                                    <ErrorMessage message={subCategoryError} type="error" />
+                                </div>
+                            )}
                         </div>
                     </Modal.Body>
 
@@ -153,8 +156,6 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                             <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
                         </div>
                     )}
-
-
 
                     <Modal.Footer className="!border-none mb-0.5">
                         <button
@@ -165,7 +166,6 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                             {editSubCategory ? "Save Changes" : "+ Sub Category"}
                         </button>
                     </Modal.Footer>
-
 
                 </Modal.Dialog>
             </Modal>

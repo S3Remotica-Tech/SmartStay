@@ -631,10 +631,12 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       option: (base, state) => ({
                         ...base,
                         cursor: "pointer",
-                        backgroundColor: state.isFocused
-                          ? "lightblue"
-                          : "white",
-                        color: "#000",
+                        backgroundColor: state.isSelected
+                          ? "#1E45E1"
+                          : state.isFocused
+                            ? "#E8EEFF"
+                            : "white",
+                        color: state.isSelected ? "#fff" : "#000",
                       }),
                       indicatorSeparator: () => ({
                         display: "none",
@@ -676,12 +678,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 </Form.Group>
               </div>
 
-              {error && (
-                <div className="flex justify-center">
+             
+            </div>
+             {error && (
+                <div className="flex items-center justify-center w-full">
                   <ErrorMessage message={error} type="error" />
                 </div>
               )}
-            </div>
           </Modal.Body>
 
 
@@ -692,6 +695,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
           )}
 
           <Modal.Footer className="!mt-[-10px] !border-0 !px-3">
+            
             <button
               onClick={handleSubmit}
               className="!w-full !cursor-pointer !bg-[#1E45E1] !font-semibold !p-3 !rounded-lg !text-sm !font-gilroy !text-white"

@@ -794,7 +794,7 @@ useEffect(() => {
             </>
           ) :
 
-            <div className="overflow-auto mt-5 mb-5 pr-0 pl-0 show-scrolls mx-3">
+            <div className="overflow-auto mt-5 mb-5 pr-0 pl-0 show-scrolls mx-1">
               {sortedData && sortedData.length > 0 && (
 
                 <div

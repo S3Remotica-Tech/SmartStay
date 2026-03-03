@@ -306,7 +306,7 @@ function CustomerCheckout(props) {
                           calculateDateDifference(selectedDate, date);
                         }}
                          getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000,top:'10px',left:'680px' }}
+                        popupStyle={{ zIndex: 2000,top:'10px',left:'640px' }}
                         placement="topLeft"
                         disabledDate={(current) => {
                           if (!current) return false;
@@ -344,7 +344,7 @@ function CustomerCheckout(props) {
                           return current && current.isBefore(dayjs(requestDate), "day");
                         }}
                          getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000,top:'10px',left:'430px' }}
+                        popupStyle={{ zIndex: 2000,top:'10px',left:'435px' }}
                         placement="topLeft"
                       />
                     </div>
