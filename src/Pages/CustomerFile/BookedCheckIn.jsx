@@ -187,10 +187,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         if (!AdvanceAmount) {
             setAdvanceAmountError("Please Enter Advance Amount");
             hasError = true;
-        } else if (Number(AdvanceAmount) <= 0) {
-            setAdvanceAmountError("Please Enter Valid Advance Amount");
-            hasError = true;
-        }
+        } 
 
 
 
@@ -250,7 +247,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
         if (
 
-            Number(AdvanceAmount) > 0 &&
+            AdvanceAmount &&
             Number(RoomRent) > 0 && state.UsersList?.bookedDetails?.canCheckIn
         ) {
 
@@ -532,137 +529,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-                                    {/* <div className="mb-3 rounded-lg bg-blue-50 pb-1">
 
-                                        <div className="flex items-center justify-between p-3">
-                                            <label className="text-sm font-medium font-gilroy text-gray-900">
-                                                Non Refundable Amount
-                                            </label>
-
-                                            <button
-                                                onClick={handleAddField}
-                                                className="flex items-center gap-2 rounded-lg bg-[#1E45E1] px-3 py-1.5 text-sm font-semibold text-white font-gilroy hover:bg-blue-700"
-                                            >
-                                                <img
-                                                    src={addcircle}
-                                                    alt="Add"
-                                                    className="h-4 w-4 brightness-0 invert"
-                                                />
-                                                Add
-                                            </button>
-                                        </div>
-
-                                        {fields.map((item, index) => {
-                                            const isMaintenanceSelected = fields.some(
-                                                (field) => field.reason === "maintenance"
-                                            );
-
-                                            const filteredOptions = reasonOptions.map((opt) =>
-                                                opt.value === "maintenance"
-                                                    ? {
-                                                        ...opt,
-                                                        isDisabled:
-                                                            isMaintenanceSelected && item.reason !== "maintenance",
-                                                    }
-                                                    : opt
-                                            );
-
-                                            return (
-                                                <div
-                                                    key={index}
-                                                    className="flex items-center gap-3 px-4 mb-3"
-                                                >
-                                                    <div className="flex-1">
-                                                        {!item.showInput ? (
-                                                            <Select
-                                                                options={filteredOptions}
-                                                                value={
-                                                                    filteredOptions.find(
-                                                                        (opt) => opt.value === item.reason_name
-                                                                    ) || null
-                                                                }
-                                                                onChange={(selectedOption) => {
-                                                                    const val = selectedOption.value;
-                                                                    handleInputChange(
-                                                                        index,
-                                                                        "reason",
-                                                                        val === "others" ? "others" : val
-                                                                    );
-                                                                }}
-                                                                isDisabled={item.reason === "maintenance"}
-                                                                menuPlacement="auto"
-                                                                styles={{
-                                                                    control: (base) => ({
-                                                                        ...base,
-                                                                        height: "50px",
-                                                                        border: "1px solid #D9D9D9",
-                                                                        borderRadius: "8px",
-                                                                        fontSize: "16px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                        boxShadow: "none",
-                                                                    }),
-                                                                    indicatorSeparator: () => ({ display: "none" }),
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <input
-                                                                type="text"
-                                                                placeholder="Enter custom reason"
-                                                                value={item.customReason}
-                                                                onChange={(e) =>
-                                                                    handleInputChange(
-                                                                        index,
-                                                                        "customReason",
-                                                                        e.target.value
-                                                                    )
-                                                                }
-                                                                className="h-12 w-full rounded-lg border border-gray-300 px-3 text-base font-medium font-gilroy text-gray-700 shadow-none"
-                                                            />
-                                                        )}
-
-                                                        {errors[index]?.reason && (
-                                                            <ErrorMessage
-                                                                message={errors[index]?.reason}
-                                                                type="error"
-                                                            />
-                                                        )}
-                                                    </div>
-
-                                                    <div className="flex-1">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Enter amount"
-                                                            value={item.amount}
-                                                            onChange={(e) =>
-                                                                handleInputChange(index, "amount", e.target.value)
-                                                            }
-                                                            className="h-12 w-full rounded-lg border border-gray-300 px-3 text-base font-medium font-gilroy text-gray-700 shadow-none"
-                                                        />
-
-                                                        {errors[index]?.amount && (
-                                                            <ErrorMessage
-                                                                message={errors[index]?.amount}
-                                                                type="error"
-                                                            />
-                                                        )}
-                                                    </div>
-
-                                                    <div className="flex items-center justify-center">
-                                                        <Trash
-                                                            size="20"
-                                                            color="red"
-                                                            variant="Bold"
-                                                            className="cursor-pointer"
-                                                            onClick={() => handleRemoveField(index)}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div> */}
-
-                                    {/* <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3"> */}
+                                  
                                     <div className="mt-3 mb-3 bg-[#F7F9FF] rounded-lg pb-1.5">
 
                                         <div className="flex justify-between items-center p-4">

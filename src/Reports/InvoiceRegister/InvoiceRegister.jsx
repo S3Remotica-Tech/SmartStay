@@ -15,8 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from './InvoiceRegisterFilter';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { useHasPermission } from '../../Utils/Permission';
 
 function InvoiceRegister() {
     const navigate = useNavigate();
@@ -44,9 +43,18 @@ function InvoiceRegister() {
     }
 
 
+    const {
+        canReadModule: canReadReports,
+    } = useHasPermission("Reports");
 
 
 
+    const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+
+    const isExportAllow = isValidSubscription && canReadReports
+
+    // console.log("canReadReports",canReadReports)
+    // console.log("isValidSubscription",isValidSubscription)
 
     useEffect(() => {
         if (state.reports.getInvoiceRegisterSuccess === 200) {
@@ -776,9 +784,16 @@ function InvoiceRegister() {
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button onClick={handleDownload}
-                        className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
+                    <button
+                        onClick={() => isExportAllow && handleDownload()}
+                        disabled={!isExportAllow}
+                        className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+    ${!isExportAllow
+                                ? "bg-gray-400 cursor-not-allowed text-white"
+                                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+                            }`}
                     >
+
                         <Export size="16" />
                         Export
                     </button>
@@ -971,7 +986,7 @@ function InvoiceRegister() {
                                                             const rect = e.target.getBoundingClientRect();
                                                             setPosition({
                                                                 top: rect.top + rect.height / 2,
-                                                                left: rect.right-20,
+                                                                left: rect.right - 20,
                                                             });
                                                             setHovered(i);
                                                         }}

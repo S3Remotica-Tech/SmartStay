@@ -3,8 +3,8 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import {
-   ArrowRight, DocumentText, ReceiptText,  UserOctagon, 
-  Wallet, 
+  ArrowRight, DocumentText, ReceiptText, UserOctagon,
+  Wallet,
   TrendUp,
   DollarCircle, Buildings,
   ReceiptItem,
@@ -190,22 +190,22 @@ function Reports() {
   const summaryData = [
     {
       label: "Total Revenue (MTD)",
-      value: `₹${reportsList?.totalRevenue}`,
+      value: `₹${reportsList?.totalRevenue || 0}`,
       valueColor: "#00A63E",
     },
     {
       label: "Outstanding Amount",
-      value: `₹${reportsList?.outStandingAmount}`,
+      value: `₹${reportsList?.outStandingAmount || 0}`,
       valueColor: "#222222",
     },
     {
       label: "Active Tenants",
-      value: `${reportsList?.tenantInfo?.totalTenants}`,
+      value: `${reportsList?.tenantInfo?.totalTenants || 0}`,
       valueColor: "#222222",
     },
     {
       label: "Occupancy Rate",
-      value: `${reportsList?.tenantInfo?.occupancyRate} %`,
+      value: `${reportsList?.tenantInfo?.occupancyRate || ''} %`,
       valueColor: "#222222",
     },
   ];
@@ -477,7 +477,7 @@ function Reports() {
           className="datepicker-wrapper"
           style={{ position: "relative", }}
         >
-          <RangePicker
+          <RangePicker disabled={!canReadReports}
             style={{
               width: "100%",
               height: "100%",
@@ -569,7 +569,7 @@ function Reports() {
                   ];
 
                   const isClickable =
-                    (isDev && allowedRegisters.includes(item.title) )|| (isProd && allowedRegisters.includes(item.title));
+                    (isDev && allowedRegisters.includes(item.title)) || (isProd && allowedRegisters.includes(item.title));
 
                   return (
                     <div

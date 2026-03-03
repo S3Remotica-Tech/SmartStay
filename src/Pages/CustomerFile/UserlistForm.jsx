@@ -241,7 +241,7 @@ function UserlistForm(props) {
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
 
-    if (value === "" || /^[1-9]\d*$/.test(value)) {
+    if (value === "" || /^(0|[1-9]\d*)$/.test(value)) {
       setAdvanceAmount(value);
       setAdvanceAmountError("");
     }
@@ -358,10 +358,10 @@ function UserlistForm(props) {
       setAdvanceAmountError("Please Enter Advance Amount");
       isHasError = true;
     }
-    if (Number(AdvanceAmount) <= 0) {
-      setAdvanceAmountError("Please Enter  Advance Amount");
-      isHasError = true;
-    }
+    // if (Number(AdvanceAmount) <= 0) {
+    //   setAdvanceAmountError("Please Enter  Advance Amount");
+    //   isHasError = true;
+    // }
     const formattedReasons = fields.map((item) => {
       let reason_name = "";
 
@@ -422,7 +422,7 @@ function UserlistForm(props) {
     if (
       Floor && Rooms && Bed &&
       selectedDate &&
-      Number(AdvanceAmount) > 0 &&
+      AdvanceAmount &&
       Number(RoomRent) > 0
     ) {
       dispatch({
@@ -1168,13 +1168,7 @@ function UserlistForm(props) {
                         )}
                       </div>
 
-
-                      {/* {
-  props.checkinNew  && <label className="mt-2" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" , color:"red"}}>Booking amount reduce from advance </label>
-} */}
-
-
-                    </div>
+                                          </div>
 
 
 

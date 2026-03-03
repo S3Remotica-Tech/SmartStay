@@ -16,7 +16,7 @@ import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const [payapleform, setPayableForm] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
-const modalRef = useRef(null);
+  const modalRef = useRef(null);
+
+
+
+
+
+
+
 
 
   const menuItems = [
@@ -84,19 +91,19 @@ const modalRef = useRef(null);
   }, [rowData])
 
 
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
   const handleCloseForm = () => {
@@ -196,13 +203,13 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
-    const pdfUrl = state?.InvoiceList?.invoicePDF;
-    if (pdfUrl) {
-      window.open(pdfUrl, "_blank");
-      setPdfLoading(false)
-      dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' })
+      const pdfUrl = state?.InvoiceList?.invoicePDF;
+      if (pdfUrl) {
+        window.open(pdfUrl, "_blank");
+        setPdfLoading(false)
+        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' })
+      }
     }
-  }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
@@ -216,7 +223,7 @@ useEffect(() => {
 
       }, 100);
     }
-  }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError,state.InvoiceList?.sharePdfError]);
+  }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError, state.InvoiceList?.sharePdfError]);
 
   useEffect(() => {
     if (state.InvoiceList.sharePdfSuccess) {
@@ -276,9 +283,11 @@ useEffect(() => {
 
   const {
     canWriteModule: canWriteInvoice,
-
+ canReadModule: canReadInvoice,
   } = useHasPermission("Bills");
 
+const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isExportAllow = isValidSubscription && canReadInvoice
 
 
 
@@ -370,16 +379,16 @@ useEffect(() => {
   }, [state.InvoiceList.createRefundStatusCode])
 
 
-const statusClasses = {
-  Pending: "bg-red-100 text-red-800",
-  "Partial Payment": "bg-red-100 text-red-800",
-  Paid: "bg-green-100 text-green-800",
-  Refunded: "bg-yellow-100 text-yellow-700",
-  "Partially Refunded": "bg-yellow-100 text-yellow-700",
-  "Pending Refund": "bg-orange-100 text-orange-700",
-  Cancelled: "bg-orange-100 text-orange-900",
-};
-console.log("pdfDetails",pdfDetails)
+  const statusClasses = {
+    Pending: "bg-red-100 text-red-800",
+    "Partial Payment": "bg-red-100 text-red-800",
+    Paid: "bg-green-100 text-green-800",
+    Refunded: "bg-yellow-100 text-yellow-700",
+    "Partially Refunded": "bg-yellow-100 text-yellow-700",
+    "Pending Refund": "bg-orange-100 text-orange-700",
+    Cancelled: "bg-orange-100 text-orange-900",
+  };
+
 
   return (
     <div style={{
@@ -418,25 +427,24 @@ console.log("pdfDetails",pdfDetails)
               </label>
             </div>
 
-           <div>
-  {(() => {
-    const status = pdfDetails?.invoiceInfo?.paymentStatus === "Cancelled"
-      ? "Cancelled"
-      : pdfDetails?.invoiceInfo?.paymentStatus;
+            <div>
+              {(() => {
+                const status = pdfDetails?.invoiceInfo?.paymentStatus === "Cancelled"
+                  ? "Cancelled"
+                  : pdfDetails?.invoiceInfo?.paymentStatus;
 
-    if (!status) return null;
+                if (!status) return null;
 
-    return (
-      <span
-        className={`inline-block px-3 py-1 rounded-full text-xs font-medium  font-gilroy ${
-          statusClasses[status] || "bg-gray-100 text-gray-700"
-        }`}
-      >
-        {status}
-      </span>
-    );
-  })()}
-</div>
+                return (
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium  font-gilroy ${statusClasses[status] || "bg-gray-100 text-gray-700"
+                      }`}
+                  >
+                    {status}
+                  </span>
+                );
+              })()}
+            </div>
 
 
 
@@ -460,14 +468,15 @@ console.log("pdfDetails",pdfDetails)
             <div className="gap-2 d-flex ">
               <div
                 className="d-flex justify-content-center align-items-center border"
-                style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
-                onClick={() => handleDownload(rowData)}
+                style={{ borderRadius: '8px', cursor: isExportAllow ? "pointer" : "not-allowed", height: 30, width: 30,
+                   opacity: isExportAllow ? 1 : 0.5 }}
+                onClick={() => { if (isExportAllow) handleDownload(rowData) }}
               >
-                <img
-                  src={DownLoad}
-                  alt="Download Invoice"
-                  style={{ height: 15, width: 15 }}
+                <DocumentDownload
+                  size="18"
+                  color={isExportAllow ? "#222222" : "#BDBDBD"}
                 />
+
               </div>
 
               <div className="position-relative d-inline-block">
@@ -511,34 +520,47 @@ console.log("pdfDetails",pdfDetails)
                   <div
                     className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
                   >
-                    {menuItems.map((item) => (
-                      <div ref={modalRef}
-                        key={item.key}
-                        className={`flex items-center mb-2 p-1 rounded z-[9999] cursor-pointer transition-colors duration-200
-      ${hoveredItem === item.key
-                            ? "bg-[#1E45E1]"
-                            : "bg-white"
-                          }`}
-                        onMouseEnter={() => setHoveredItem(item.key)}
-                        onMouseLeave={() => setHoveredItem(null)}
-                        onClick={() => handleMenuClick(item.key)}
-                      >
-                        <img
-                          src={hoveredItem === item.key ? item.iconWhite : item.icon}
-                          className="me-2"
-                          alt={item.label}
-                        />
+                    {menuItems.map((item) => {
+                      const isDisabled = !isExportAllow;
 
-                        <span
-                          className={`text-[13px] font-normal font-gilroy ${hoveredItem === item.key
-                            ? "text-white"
-                            : "text-[#212529]"
+                      return (
+                        <div
+                          ref={modalRef}
+                          key={item.key}
+                          className={`flex items-center mb-2 p-1 rounded z-[9999] transition-colors duration-200
+        ${isDisabled
+                              ? "bg-gray-100 cursor-not-allowed opacity-60"
+                              : hoveredItem === item.key
+                                ? "bg-[#1E45E1] cursor-pointer"
+                                : "bg-white cursor-pointer"
                             }`}
+                          onMouseEnter={() => !isDisabled && setHoveredItem(item.key)}
+                          onMouseLeave={() => !isDisabled && setHoveredItem(null)}
+                          onClick={() => !isDisabled && handleMenuClick(item.key)}
                         >
-                          {item.label}
-                        </span>
-                      </div>
-                    ))}
+                          <img
+                            src={
+                              !isDisabled && hoveredItem === item.key
+                                ? item.iconWhite
+                                : item.icon
+                            }
+                            className="me-2"
+                            alt={item.label}
+                          />
+
+                          <span
+                            className={`text-[13px] font-normal font-gilroy ${isDisabled
+                                ? "text-gray-400"
+                                : hoveredItem === item.key
+                                  ? "text-white"
+                                  : "text-[#212529]"
+                              }`}
+                          >
+                            {item.label}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 )
                 }
@@ -1731,7 +1753,7 @@ console.log("pdfDetails",pdfDetails)
 
 
                             <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                           {item.paymentMode}
+                              {item.paymentMode}
                             </td>
 
 

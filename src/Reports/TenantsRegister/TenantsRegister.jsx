@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TenantsFilter from './TenantsFilter';
 import ApiPagination from "../../Components/ApiPagination";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import { useHasPermission } from '../../Utils/Permission';
 function TenantsRegister() {
 
 
@@ -37,6 +37,17 @@ function TenantsRegister() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [customerTooltip, setCustomerTooltip] = useState(null);
     const [position, setPosition] = useState({ top: 0, left: 0 });
+
+
+    const {
+       canReadModule: canReadReports,
+    } = useHasPermission("Reports");
+
+    const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+
+    const isExportAllow = isValidSubscription && canReadReports
+
+
 
     useEffect(() => {
         if (state.reports.getTenantRegisterSuccess === 200) {
@@ -750,8 +761,14 @@ function TenantsRegister() {
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button onClick={handleDownload}
-                        className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
+                    <button
+                        onClick={() => isExportAllow && handleDownload()}
+                        disabled={!isExportAllow}
+                        className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+                       ${!isExportAllow
+                                ? "bg-gray-400 cursor-not-allowed text-white"
+                                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+                            }`}
                     >
                         <Export size="16" />
                         Export
@@ -936,7 +953,7 @@ function TenantsRegister() {
 
                                         <td className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-    >
+                                        >
                                             {row.mobileNo}
                                         </td>
 
