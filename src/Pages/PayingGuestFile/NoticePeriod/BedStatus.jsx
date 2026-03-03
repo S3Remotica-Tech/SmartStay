@@ -52,8 +52,14 @@ function NoticeBedStatusDetails({
     // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Customers");
 
+ const {
+       canWriteModule: canWriteCheckout
+  } = useHasPermission("Checkout");
 
+const {
+    canWriteModule: canWriteBooking,
 
+  } = useHasPermission("Booking");
   const {
     canUpdateModule: canUpdatePayingGuests,
     // canDeleteModule: canDeletePayingGuests,
@@ -374,14 +380,14 @@ function NoticeBedStatusDetails({
                                 ) &&
                                 <>
                                   <div
-                                    onClick={canWriteCustomers ? () => handleNewBooking(tenant) : undefined}
-                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                    onClick={canWriteBooking ? () => handleNewBooking(tenant) : undefined}
+                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteBooking ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
                                       }`}
                                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
-                                    <img src={TimerPause} alt="booking" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                    <label className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                    <img src={TimerPause} alt="booking" style={{ filter: canWriteBooking ? "none" : "grayscale(100%)" }} />
+                                    <label className={`text-sm font-medium font-gilroy mb-0 ${canWriteBooking ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
                                       }`}>
                                       New Booking
                                     </label>
@@ -434,17 +440,17 @@ function NoticeBedStatusDetails({
 
                                   <div className="h-px bg-gray-300" />
                                   <div
-                                    onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(tenant)}
-                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                    onClick={() => canWriteCheckout && handleFinalsettelmentGenerate(tenant)}
+                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCheckout ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
                                       }`}
 
                                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
-                                    <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                    <img src={logout} alt="Checkout" style={{ filter: canWriteCheckout ? "none" : "grayscale(100%)" }} />
 
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                      className={`text-sm font-medium font-gilroy mb-0 ${canWriteCheckout ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
                                         }`}
                                     >
                                       Generate
@@ -511,16 +517,16 @@ function NoticeBedStatusDetails({
                               {
                                 matchedData[0]?.currentStatus === "Settlement Generated" &&
                                 <div
-                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCheckout ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
                                     }`}
-                                  onClick={canWriteCustomers ? () => handleCheckout(tenant) : undefined}
+                                  onClick={canWriteCheckout ? () => handleCheckout(tenant) : undefined}
 
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCheckout ? "none" : "grayscale(100%)" }} />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canWriteCheckout ? "text-gray-900 cursor-pointer" : "text-gray-400 cursor-not-allowed"
                                       }`}
                                   >
                                     Check-out

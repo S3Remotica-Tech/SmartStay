@@ -147,7 +147,7 @@ function UserList(props) {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
     canDeleteModule: canDeleteTenant,
-    canUpdateModule: canUpdateTenant
+    // canUpdateModule: canUpdateTenant
   } = useHasPermission("Customers");
 
 
@@ -166,14 +166,6 @@ function UserList(props) {
     canWriteModule: canWriteCheckout
 
   } = useHasPermission("Checkout");
-
-
-
-
-
-
-
-
 
 
 
