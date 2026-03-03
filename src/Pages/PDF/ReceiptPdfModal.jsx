@@ -60,12 +60,13 @@ const InvoiceCard = ({ rowData, }) => {
 
 
   const {
-     canWriteModule: canWriteReceipt,
-        //  canReadModule: canReadReceipt,
+    canReadModule: canReadReceipt,
   } = useHasPermission("Receipt");
 
 
 
+  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isExportAllow = isValidSubscription && canReadReceipt
 
 
 
@@ -335,19 +336,19 @@ const InvoiceCard = ({ rowData, }) => {
               <div
                 className="d-flex justify-content-center align-items-center border"
                 style={{
-                  borderRadius: '8px', cursor: canWriteReceipt ? "pointer" : "not-allowed", height: 30, width: 30,
-                  opacity: canWriteReceipt ? 1 : 0.5
+                  borderRadius: '8px', cursor: isExportAllow ? "pointer" : "not-allowed", height: 30, width: 30,
+                  opacity: isExportAllow ? 1 : 0.5
                 }}
-                onClick={() => { if (canWriteReceipt) handleDownload(rowData) }}
+                onClick={() => { if (isExportAllow) handleDownload(rowData) }}
               >
                 <DocumentDownload
                   size="18"
-                  color={canWriteReceipt ? "#222222" : "#BDBDBD"}
+                  color={isExportAllow ? "#222222" : "#BDBDBD"}
                 />
 
               </div>
 
-            
+
 
               <div className="position-relative d-inline-block">
                 <div
@@ -386,51 +387,51 @@ const InvoiceCard = ({ rowData, }) => {
                   <div
                     className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
                   >
-                   {menuItems.map((item) => {
-  const isDisabled = !canWriteReceipt;
+                    {menuItems.map((item) => {
+                      const isDisabled = !isExportAllow;
 
-  return (
-    <div
-      key={item.key}
-      className={`d-flex align-items-center mb-2 hover-item p-1 rounded z-[9999]
+                      return (
+                        <div
+                          key={item.key}
+                          className={`d-flex align-items-center mb-2 hover-item p-1 rounded z-[9999]
         ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-      style={{
-        backgroundColor:
-          hoveredItem === item.key && !isDisabled
-            ? "rgba(30, 69, 225, 1)"
-            : "#fff",
-      }}
-      onMouseEnter={() => !isDisabled && setHoveredItem(item.key)}
-      onMouseLeave={() => setHoveredItem(null)}
-      onClick={() => {
-        if (!isDisabled) handleMenuClick(item.key);
-      }}
-    >
-      <img
-        src={
-          hoveredItem === item.key && !isDisabled
-            ? item.iconWhite
-            : item.icon
-        }
-        className="me-2"
-        alt={item.label}
-      />
-      <span
-        style={{
-          fontSize: 13,
-          fontWeight: 400,
-          fontFamily: "Gilroy",
-          color:
-            hoveredItem === item.key && !isDisabled
-              ? "#fff"
-              : "rgba(33, 37, 41, 1)",
-        }}
-      >
-        {item.label}
-      </span>
-    </div>
-  );
-})}
+                          style={{
+                            backgroundColor:
+                              hoveredItem === item.key && !isDisabled
+                                ? "rgba(30, 69, 225, 1)"
+                                : "#fff",
+                          }}
+                          onMouseEnter={() => !isDisabled && setHoveredItem(item.key)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                          onClick={() => {
+                            if (!isDisabled) handleMenuClick(item.key);
+                          }}
+                        >
+                          <img
+                            src={
+                              hoveredItem === item.key && !isDisabled
+                                ? item.iconWhite
+                                : item.icon
+                            }
+                            className="me-2"
+                            alt={item.label}
+                          />
+                          <span
+                            style={{
+                              fontSize: 13,
+                              fontWeight: 400,
+                              fontFamily: "Gilroy",
+                              color:
+                                hoveredItem === item.key && !isDisabled
+                                  ? "#fff"
+                                  : "rgba(33, 37, 41, 1)",
+                            }}
+                          >
+                            {item.label}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 )
                 }

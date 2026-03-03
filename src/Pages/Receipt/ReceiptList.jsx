@@ -28,13 +28,15 @@ const Receipt = (props) => {
 
 
   const {
-    canWriteModule: canWriteReceipt,
-    // canReadModule: canReadReceipt,
+    // canWriteModule: canWriteReceipt,
+    canReadModule: canReadReceipt,
     canDeleteModule: canDeleteReceipt,
     canUpdateModule: canUpdateReceipt,
   } = useHasPermission("Receipt");
 
+  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
 
+  const isExportAllow = isValidSubscription && canReadReceipt
 
 
   const handleDeleteForm = (item) => {
@@ -207,7 +209,7 @@ const Receipt = (props) => {
         <td className="table-cells " style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
 
-                      <br />
+            <br />
             <div
               className="font-gilroy text-[13px] ml-[17px] text-[#1E45E1] font-semibold cursor-pointer text-start truncate max-w-[150px]"
               title={props.item?.fullName}
@@ -366,16 +368,16 @@ const Receipt = (props) => {
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      opacity: !canWriteReceipt ? 0.5 : 1,
-                      cursor: !canWriteReceipt ? "not-allowed" : "pointer",
+                      opacity: !isExportAllow ? 0.5 : 1,
+                      cursor: !isExportAllow ? "not-allowed" : "pointer",
                       padding: "8px 12px",
                       width: "100%"
                     }}
                     onClick={() => {
-                      if (canWriteReceipt) { handleInvoicepdf(props.item) }
+                      if (isExportAllow) { handleInvoicepdf(props.item) }
                     }}
                     onMouseEnter={(e) => {
-                      if (canWriteReceipt) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      if (isExportAllow) e.currentTarget.style.backgroundColor = "#EDF2FF";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = "transparent";
@@ -388,7 +390,7 @@ const Receipt = (props) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: "#222222",
-                        cursor: !canWriteReceipt ? "not-allowed" : "pointer",
+                        cursor: !isExportAllow ? "not-allowed" : "pointer",
                       }}
                     >
                       Download

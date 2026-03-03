@@ -35,6 +35,8 @@ const InvoiceTable = (props) => {
   } = useHasPermission("Bills");
 
 
+const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isExportAllow = isValidSubscription && canReadInvoice
 
   useEffect(() => {
     if (popupRef.current) {
@@ -413,11 +415,11 @@ title={props.item?.fullName}
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
-                      onClick={() => { if (canWriteInvoice) { handleInvoicepdf(props.item) } }}
+                      onClick={() => { if (isExportAllow) { handleInvoicepdf(props.item) } }}
                       style={{
-                        cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                        cursor: !isExportAllow ? "not-allowed" : "pointer",
                         padding: "8px 12px",
-                        opacity: !canWriteInvoice ? 0.5 : 1,
+                        opacity: !isExportAllow ? 0.5 : 1,
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = "#EDF2FF"
@@ -431,7 +433,7 @@ title={props.item?.fullName}
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color: "#222",
-                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                          cursor: !isExportAllow ? "not-allowed" : "pointer",
                         }}
                       >
                         Download

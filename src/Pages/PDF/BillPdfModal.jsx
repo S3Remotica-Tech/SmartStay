@@ -286,6 +286,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
  canReadModule: canReadInvoice,
   } = useHasPermission("Bills");
 
+const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isExportAllow = isValidSubscription && canReadInvoice
 
 
 
@@ -386,7 +388,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     "Pending Refund": "bg-orange-100 text-orange-700",
     Cancelled: "bg-orange-100 text-orange-900",
   };
-  console.log("pdfDetails", pdfDetails)
+
 
   return (
     <div style={{
@@ -466,13 +468,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
             <div className="gap-2 d-flex ">
               <div
                 className="d-flex justify-content-center align-items-center border"
-                style={{ borderRadius: '8px', cursor: canWriteInvoice ? "pointer" : "not-allowed", height: 30, width: 30,
-                   opacity: canWriteInvoice ? 1 : 0.5 }}
-                onClick={() => { if (canWriteInvoice) handleDownload(rowData) }}
+                style={{ borderRadius: '8px', cursor: isExportAllow ? "pointer" : "not-allowed", height: 30, width: 30,
+                   opacity: isExportAllow ? 1 : 0.5 }}
+                onClick={() => { if (isExportAllow) handleDownload(rowData) }}
               >
                 <DocumentDownload
                   size="18"
-                  color={canWriteInvoice ? "#222222" : "#BDBDBD"}
+                  color={isExportAllow ? "#222222" : "#BDBDBD"}
                 />
 
               </div>
@@ -519,7 +521,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                     className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
                   >
                     {menuItems.map((item) => {
-                      const isDisabled = !canWriteInvoice;
+                      const isDisabled = !isExportAllow;
 
                       return (
                         <div
