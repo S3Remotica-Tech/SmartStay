@@ -434,7 +434,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
       })
     }
   }
-const handleLocalDeleteLogo = () => {
+  const handleLocalDeleteLogo = () => {
     setLogoPreview(null);
   };
   const handleDeleteRentalSignature = () => {
@@ -451,13 +451,13 @@ const handleLocalDeleteLogo = () => {
     }
   }
 
-const handleLocalDeleteRentalSignature = () => {
-  if (signaturePreview?.startsWith("blob:")) {
-    URL.revokeObjectURL(signaturePreview);
-  }
+  const handleLocalDeleteRentalSignature = () => {
+    if (signaturePreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(signaturePreview);
+    }
 
-  setSignaturePreview(null);
-};
+    setSignaturePreview(null);
+  };
 
 
 
@@ -480,45 +480,17 @@ const handleLocalDeleteRentalSignature = () => {
 
   return (
     <>
-      <div className="row  d-flex flex-row g-0">
 
-        {loading &&
+      {loading && (
+        <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-transparent z-[1050]">
           <div
-            style={{
-              position: 'fixed',
-              top: '48%',
-              left: '68%',
-              transform: 'translate(-50%, -50%)',
-              width: '100vw',
-              height: '100vh',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              zIndex: 1050,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
+            className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin">
           </div>
-        }
+        </div>
+      )}
 
-
-        <div className="col-lg-12 show-scrolls" style={{
-          maxHeight: 500,
-          overflowY: "auto",
-          overflowX: 'hidden',
-        }}>
-
-
+      <div className="grid grid-cols-1 gap-0">
+        <div className="show-scrolls overflow-y-auto overflow-x-hidden max-h-[650px]">
           {(
             BillsTemplateList?.isSignatureCustomized ||
             BillsTemplateList?.isMobileCustomized ||
@@ -528,673 +500,434 @@ const handleLocalDeleteRentalSignature = () => {
 
             (
               <>
-                <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Inherited Global Details</p>
-
-                <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                  <div className="d-flex justify-content-end">
-                    <img src={EditICon} onClick={handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
-
+                <p className="font-gilroy text-base font-semibold">
+                  Inherited Global Details
+                </p>
+                <div className="border rounded-lg p-2.5 pb-3 mb-3 col-span-12 overflow-y-auto">
+                  <div className="flex justify-end">
+                    <img
+                      src={EditICon}
+                      onClick={handleShowContactNumberForm}
+                      className="cursor-pointer"
+                      alt="editicon"
+                    />
                   </div>
                   {BillsTemplateList?.isLogoCustomized &&
                     <div>
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: '6px'
-                      }}>
-                        <label style={{ fontWeight: 600, fontFamily: "Gilroy" }}>Hostel/PG Logo</label>
+                      <div className="flex justify-between items-center mb-1.5">
+                        <label className="font-gilroy font-semibold">Hostel/PG Logo</label>
                       </div>
-                      <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+                      <div className="p-3 border rounded bg-[#F0F3FF] text-center">
 
-                        <div
-                          className="flex justify-center"
-                        >
+                        <div className="flex justify-center">
                           <div
                             className="relative inline-block"
                             onMouseEnter={(e) => {
                               const trash = e.currentTarget.querySelector(".qr-trash");
                               const overlay = e.currentTarget.querySelector(".qr-overlay");
-
                               if (trash) trash.style.display = "flex";
                               if (overlay) overlay.style.display = "block";
                             }}
                             onMouseLeave={(e) => {
                               const trash = e.currentTarget.querySelector(".qr-trash");
                               const overlay = e.currentTarget.querySelector(".qr-overlay");
-
                               if (trash) trash.style.display = "none";
                               if (overlay) overlay.style.display = "none";
                             }}
                           >
-
                             {logoPreview ? (
                               <img
                                 src={logoPreview}
                                 alt="Preview"
-                                className="h-[60px] rounded-md mb-2"
+                                className="h-15 rounded-md mb-2"
                               />
                             ) : (
                               <img
                                 src={uploadsett}
                                 alt="upload"
-                                className="h-[30px] mb-2"
+                                className="h-7.5 mb-2"
                               />
                             )}
 
-                            {logoPreview && <>
-
-
-                              {logoPreview && (
+                            {logoPreview && (
+                              <>
+                                <div className="qr-overlay absolute inset-0 hidden bg-black/40 rounded-md" />
                                 <div
-                                  className="
-                                                      qr-overlay
-                                                      absolute inset-0
-                                                      hidden
-                                                      bg-black/40
-                                                      rounded-md
-                                                    "
-                                />
-                              )}
-
-
-                              {logoPreview && (
-                                <div
-                                  className="
-                                                     qr-trash
-                                                      absolute -top-1 -right-1
-                                                      hidden
-                                                      items-center justify-center 
-                                                      rounded-full
-                                                      bg-gray-100 text-white
-                                                      p-1
-                                                      cursor-pointer
-                                                    "
-                                    onClick={() => {
-                                                if (logoPreview?.startsWith("data:") || logoPreview?.startsWith("blob:")) {
-                                                  handleLocalDeleteLogo();
-                                                } else {
-                                                  handleDeleteLogo();
-                                                }
-                                              }}
+                                  className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
+                                  onClick={() => {
+                                    if (logoPreview?.startsWith("data:") || logoPreview?.startsWith("blob:")) {
+                                      handleLocalDeleteLogo();
+                                    } else {
+                                      handleDeleteLogo();
+                                    }
+                                  }}
                                 >
-                                  <div
-                                    className="bg-black/70 text-white p-2 rounded-full">
+                                  <div className="bg-black/70 text-white p-2 rounded-full">
                                     <Trash size={12} />
                                   </div>
                                 </div>
-                              )}
-
-                            </>
-                            }
+                              </>
+                            )}
                           </div>
-
                         </div>
 
-                        <div>
+                        <div className="mt-1">
                           <label
-                            style={{
-                              cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
-                              color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
-                              fontFamily: 'Gilroy',
-                              fontSize: 12,
-                              fontWeight: 400
-                            }}
+                            className={`${allowEditFields.hostelLogo ? "cursor-pointer text-[#1E45E1]" : "cursor-not-allowed text-gray-400"
+                              } font-gilroy text-[12px] font-normal`}
                           >
                             Choose file
                             <input
                               type="file"
                               accept="image/png"
-                              className="d-none"
+                              className="hidden"
                               ref={fileInputRef}
                               onChange={handleFileUploadHostel}
                               disabled={!allowEditFields.hostelLogo}
                             />
                           </label>
-                          <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+                          <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
                             to Upload
                           </span>
                         </div>
 
-                        <small
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 9,
-                            color: "rgba(75, 75, 75, 1)",
-                            fontWeight: 400,
-                            display: "block",
-                            marginTop: "5px"
-                          }}
-                        >
+                        <small className="block mt-1.5 font-gilroy text-[9px] font-normal text-[#4B4B4B]">
                           Must be in PNG Format (600px × 300px)
                         </small>
+
                       </div>
                     </div>
                   }
 
                   {BillsTemplateList?.isMobileCustomized &&
-                    <div className=" p-3  col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                      <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                          <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                            <div style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              marginBottom: '6px'
-                            }}>
-                              <label style={{ fontWeight: 600, fontFamily: 'Gilroy' }}>Contact Number</label>
-                            </div>
+                    <div className="p-3 col-span-12 rounded-lg overflow-y-auto">
 
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              backgroundColor: '#F0F3FF',
-                              borderRadius: '8px',
-                              padding: '8px 12px',
-                              border: '1px solid #E0E0E0',
-                            }}>
-                              <select style={{
-                                border: 'none',
-                                backgroundColor: 'transparent',
-                                fontFamily: 'inherit',
-                                fontSize: 'inherit',
-                                fontWeight: 'inherit',
-                                appearance: 'none',
-                                paddingRight: '16px',
-                                cursor: 'pointer',
-                                outline: 'none',
-                                backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'right center',
-                                backgroundSize: '10px'
-                              }}
-                                disabled={!allowEditFields.contact}
-                              >
-                                <option value="+91">+91</option>
-                                <option value="+1">+1</option>
-                                <option value="+44">+44</option>
-                                <option value="+971">+971</option>
-
-                              </select>
-
-                              <input
-                                type="tel"
-                                placeholder="9876543210"
-                                style={{
-                                  border: 'none',
-                                  backgroundColor: 'transparent',
-                                  outline: 'none',
-                                  marginLeft: '8px',
-                                  fontFamily: 'inherit',
-                                  fontSize: 'inherit',
-                                  fontWeight: 'inherit',
-                                }}
-                                value={mobilenum}
-                                onChange={handleMobile}
-                                maxLength={10}
-                                disabled={!allowEditFields.contact}
-                              />
-
-                            </div>
-                            {MobileError && (
-                              <ErrorMessage message={MobileError} type="error" />
-                            )}
+                      <div className="flex flex-col">
+                        <div className="w-full font-gilroy text-sm font-medium">
+                          <div className="flex justify-between items-center mb-1.5">
+                            <label className="font-gilroy font-semibold">Contact Number</label>
                           </div>
+                          <div className="flex items-center bg-[#F0F3FF] rounded-md px-3 py-2 border border-gray-300">
+                            <select
+                              className={`border-none bg-transparent font-inherit text-inherit font-inherit pr-4 appearance-none outline-none cursor-pointer 
+            bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%23666" stroke-width="2"/%3E%3C/svg%3E')] 
+            bg-no-repeat bg-right bg-[length:10px]`}
+                              disabled={!allowEditFields.contact}
+                            >
+                              <option value="+91">+91</option>
+                              <option value="+1">+1</option>
+                              <option value="+44">+44</option>
+                              <option value="+971">+971</option>
+                            </select>
 
+                            <input
+                              type="tel"
+                              placeholder="9876543210"
+                              className="border-none bg-transparent outline-none ml-2 font-inherit text-inherit font-inherit"
+                              value={mobilenum}
+                              onChange={handleMobile}
+                              maxLength={10}
+                              disabled={!allowEditFields.contact}
+                            />
 
+                          </div>
+                          {MobileError && (
+                            <ErrorMessage message={MobileError} type="error" />
+                          )}
 
                         </div>
-
-
                       </div>
-                    </div>}
+
+                    </div>
+                  }
 
 
                   {BillsTemplateList?.isMailIdCustomized &&
-                    <div className=" p-3  col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                      <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                          <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                            <div style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              marginBottom: '6px'
-                            }}>
-                              <label style={{ fontWeight: 600 }}>E-Mail Address</label>
-                            </div>
+                    <div className="p-3 col-span-12 rounded-lg overflow-y-auto">
 
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              backgroundColor: '#F0F3FF',
-                              borderRadius: '8px',
-                              padding: '8px 12px',
-                              border: '1px solid #E0E0E0',
-                            }}>
-
-
-                              <input
-                                type="tel"
-                                placeholder="abc@gmail.com"
-                                style={{
-                                  border: 'none',
-                                  backgroundColor: 'transparent',
-                                  outline: 'none',
-                                  marginLeft: '8px',
-                                  fontFamily: 'inherit',
-                                  fontSize: 'inherit',
-                                  fontWeight: 'inherit',
-                                }}
-                                disabled={!allowEditFields.email}
-                                value={email}
-                                onChange={handleEmail}
-                              />
-
-                            </div>
-                            {emailError && (
-                              <ErrorMessage message={emailError} type="error" />
-                            )}
+                      <div className="flex flex-col">
+                        <div className="w-full font-gilroy text-sm font-medium">
+                          <div className="flex justify-between items-center mb-1.5">
+                            <label className="font-semibold">E-Mail Address</label>
                           </div>
 
+                          <div className="flex items-center bg-[#F0F3FF] rounded-md px-3 py-2 border border-gray-300">
 
+                            <input
+                              type="email"
+                              placeholder="abc@gmail.com"
+                              className="border-none bg-transparent outline-none ml-2 font-inherit text-inherit font-inherit w-full"
+                              disabled={!allowEditFields.email}
+                              value={email}
+                              onChange={handleEmail}
+                            />
+
+                          </div>
+
+                          {emailError && (
+                            <ErrorMessage message={emailError} type="error" />
+                          )}
 
                         </div>
-
-
                       </div>
 
                     </div>
                   }
-                  {BillsTemplateList?.isSignatureCustomized &&
-                    <div className=" p-3  col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                      <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                          <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                            <div style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              marginBottom: '6px'
-                            }}>
-                              <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
-                            </div>
 
-                            <div className="col-12">
-                              <div
-                                className="
-                                                                relative mt-2
-                                                                flex items-center justify-center
-                                                                h-[120px]
-                                                                rounded
-                                                                border-[3px] border-dotted border-[#ced4da]
-                                                                group
-                                                              "
-                                onMouseEnter={(e) => {
-                                  const trash = e.currentTarget.querySelector(".qr-trash");
-                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+                  {BillsTemplateList?.isSignatureCustomized && (
+                    <div className="p-3 col-span-12 rounded-lg overflow-y-auto">
 
-                                  if (trash) trash.style.display = "flex";
-                                  if (overlay) overlay.style.display = "block";
-                                }}
-                                onMouseLeave={(e) => {
-                                  const trash = e.currentTarget.querySelector(".qr-trash");
-                                  const overlay = e.currentTarget.querySelector(".qr-overlay");
+                      <div className="flex flex-col">
+                        <div className="w-full font-gilroy text-sm font-medium">
+                          <div className="flex justify-between items-center mb-1.5">
+                            <label className="font-semibold">Digital Signature Upload</label>
+                          </div>
 
-                                  if (trash) trash.style.display = "none";
-                                  if (overlay) overlay.style.display = "none";
-                                }}
-                              >
+                          <div className="col-span-12">
+                            <div
+                              className="relative mt-2 flex items-center justify-center w-full rounded border-3 border-dotted border-[#CED4DA] h-40"
+                              onMouseEnter={(e) => {
+                                const trash = e.currentTarget.querySelector(".qr-trash");
+                                const overlay = e.currentTarget.querySelector(".qr-overlay");
+                                if (trash) trash.style.display = "flex";
+                                if (overlay) overlay.style.display = "block";
+                              }}
+                              onMouseLeave={(e) => {
+                                const trash = e.currentTarget.querySelector(".qr-trash");
+                                const overlay = e.currentTarget.querySelector(".qr-overlay");
+                                if (trash) trash.style.display = "none";
+                                if (overlay) overlay.style.display = "none";
+                              }}
+                            >
 
-                                {signaturePreview ? (
-                                  <img
-                                    src={signaturePreview}
-                                    alt="signature"
-                                    className="max-h-full max-w-full"
-                                  />
-                                ) : (
-                                  <span
-                                    className="
-                                                                    text-[14px]
-                                                                    font-normal
-                                                                    text-[rgba(34,34,34,1)]
-                                                                  "
-                                    style={{ fontFamily: 'Gilroy' }}
+                              {signaturePreview ? (
+                                <img
+                                  src={signaturePreview}
+                                  alt="signature"
+                                  className="max-h-full max-w-full"
+                                />
+                              ) : (
+                                <span className="text-[14px] font-normal text-[#222222] font-gilroy">
+                                  No signature uploaded
+                                </span>
+                              )}
+
+                              {signaturePreview && (
+                                <>
+                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
+                                  <div
+                                    className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
+                                    onClick={() => {
+                                      const isLocal =
+                                        signaturePreview?.startsWith("data:") ||
+                                        signaturePreview?.startsWith("blob:");
+                                      if (isLocal) handleLocalDeleteRentalSignature();
+                                      else handleDeleteRentalSignature();
+                                    }}
                                   >
-                                    No signature uploaded
-                                  </span>
-                                )}
-
-                                {signaturePreview && <>
-
-
-
-                                  {signaturePreview && (
-                                    <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                  )}
-
-                                  {signaturePreview && (
-                                    <div
-                                      className="qr-trash
-                                                                    absolute -top-1 -right-1
-                                                                    hidden
-                                                                    items-center justify-center 
-                                                                    rounded-full
-                                                                    bg-gray-100 text-white
-                                                                    p-1
-                                                                    cursor-pointer"
-                                      style={{
-                                        display: 'none',
-                                        cursor: 'pointer',
-                                      }}
-                                       onClick={() => {
-        const isLocal =
-          signaturePreview?.startsWith("data:") ||
-          signaturePreview?.startsWith("blob:");
-
-        if (isLocal) {
-          handleLocalDeleteRentalSignature();
-        } else {
-          handleDeleteRentalSignature();
-        }
-      }}
-                                    >
-                                      <div
-                                        className="bg-black/70 text-white p-2 rounded-full">
-                                        <Trash size={12} />
-                                      </div>
+                                    <div className="bg-black/70 text-white p-2 rounded-full">
+                                      <Trash size={12} />
                                     </div>
-                                  )}
+                                  </div>
                                 </>
-                                }
-                              </div>
-
-                              <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
-                                <div className="d-flex flex-row">
-                                  <label style={{
-                                    cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
-                                    color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400
-                                  }}>
-                                    Choose file
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      className="d-none"
-                                      ref={fileInputRef}
-                                      onChange={handleFileSignatureChange}
-                                      disabled={!allowEditFields.digitalSignature}
-                                    />
-                                  </label>
-                                  <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
-                                </div>
-                                {/* <div className="d-flex justify-content-end">
-                                  <button
-                                    className="btn btn-link text-decoration-none "
-                                    onClick={handleClear}
-                                    disabled={!signaturePreview}
-                                    style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}
-                                  >
-                                    Clear
-                                  </button>
-                                  <button
-                                    className="btn btn-link text-decoration-none "
-                                    disabled={!signaturePreview}
-                                    onClick={handleSignatureDone}
-                                    style={{ color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600 }}
-                                  >
-                                    Done
-                                  </button>
-                                </div> */}
-
-
-                              </div>
-                              {signature_errmsg.trim() !== "" && (
-                                <ErrorMessage message={signature_errmsg} type="error" />
                               )}
                             </div>
+
+                            <div className="flex justify-center mt-2">
+                              <label
+                                className={`${allowEditFields.digitalSignature
+                                  ? "cursor-pointer text-[#1E45E1]"
+                                  : "cursor-not-allowed text-gray-400"
+                                  } font-gilroy text-[12px] font-normal flex items-center`}
+                              >
+                                Choose file
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  ref={fileInputRef}
+                                  onChange={handleFileSignatureChange}
+                                  disabled={!allowEditFields.digitalSignature}
+                                />
+                                <span className="ml-1 text-[#16151C]">to Upload Image</span>
+                              </label>
+                            </div>
+
+                            {signature_errmsg.trim() !== "" && (
+                              <ErrorMessage message={signature_errmsg} type="error" />
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
-                  }
+                  )}
 
                   <Modal
                     show={contactnumberform}
                     onHide={handleCloseContactNumberForm}
                     centered
                     backdrop="static"
-                    className="logout-card d-flex justify-content-center align-items-center"
+                    className="logout-card flex justify-center items-center"
                     dialogClassName="custom-modal-width"
                   >
-                    <Modal.Header style={{ borderBottom: "none" }}>
-                      <Modal.Title
-                        style={{
-                          fontSize: "18px",
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          fontWeight: 600,
-                          color: "#222222",
-                          flex: 1,
-                          paddingTop: '20px'
-                        }}
-                      >
-
+                    <Modal.Header className="border-0">
+                      <Modal.Title className="text-[18px] font-gilroy font-semibold text-center text-[#222222] flex-1 pt-5">
                         Override Global Value?
                       </Modal.Title>
                     </Modal.Header>
 
-                    <Modal.Body
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#646464",
-                        textAlign: "center",
-                        paddingLeft: "20px",
-                        paddingRight: "20px",
-                      }}
-                    >
+                    <Modal.Body className="text-[14px] font-medium font-gilroy text-[#646464] text-center px-5">
                       You’re changing this field only for this bill.
                       It won’t affect the main settings.
                     </Modal.Body>
 
-                    <Modal.Footer
-                      style={{
-                        justifyContent: "center",
-                        borderTop: "none",
-                        paddingBottom: '20px'
-                      }}
-                    >
-                      <Button
-                        style={{
-                          width: 160,
-                          height: 52,
-                          borderRadius: 10,
-                          padding: "12px 20px",
-                          background: "#fff",
-                          color: "rgba(111, 108, 143, 1)",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: "14px",
-                          marginRight: 10,
-                        }}
-                        className="border"
+                    <Modal.Footer className="!flex !justify-center !border-0 !pb-5">
+
+                      <button
+                        className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[#6F6C8F] !font-gilroy !font-semibold !text-[14px] !border !mr-2.5"
                         onClick={handleCloseContactNumberForm}
                       >
                         Cancel
-                      </Button>
-                      <Button
-                        style={{
-                          width: 160,
-                          height: 52,
-                          borderRadius: 10,
-                          padding: "12px 20px",
-                          background: "#1E45E1",
-                          color: "#FFFFFF",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: "14px",
-                        }}
+                      </button>
+                      <button
+                        className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold !text-[14px]"
                         onClick={handleEditAnyway}
-
                       >
                         Edit Anyway
-                      </Button>
+                      </button>
+
                     </Modal.Footer>
                   </Modal>
                 </div>
 
               </>
-            )
+            )}
 
+          <p className="font-gilroy text-xl font-semibold mb-0">
+            Form Specific Details
+          </p>
+          <p className="font-gilroy text-sm font-normal text-[#9700a3]">
+            Fill the form with details you'd like to customize.
+          </p>
 
-          }
-
-
-
-          <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, }}>Form Specific Details</p>
-          <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(99, 109, 148, 1)' }}>{`Fill the form with details you'd like to customize.`}</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
-            <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
+          <div className="p-3 mb-3 border border-gray-300 col-span-12 rounded-lg">
+            <h6 className="font-gilroy text-[14px] font-normal text-[#222222] mb-2">
               Notes
             </h6>
-            <hr />
-            <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
-            <div className="position-relative">
+            <hr className="border-gray-700 mb-2" />
+
+            <label className="form-label font-gilroy text-[14px] font-normal text-[#222222]">
+              Add Notes
+            </label>
+            <div className="relative">
               <textarea
-                style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                className="form-control pe-5"
-                rows="4"
-                placeholder='Add any message...'
+                className="form-control pe-5 w-full h-24 resize-none font-gilroy !text-sm font-normal text-[#222222] placeholder:text-gray-400"
+                placeholder="Add any message..."
                 value={notes}
                 onChange={handleNotesChange}
               />
               <img
                 src={TextAreaICon}
                 alt="textarea_icon"
-                style={{
-                  position: "absolute",
-                  right: "12px",
-                  top: "12px",
-                  color: "#666",
-                  pointerEvents: "none",
-                }}
+                className="absolute top-3 right-3 pointer-events-none"
               />
             </div>
-            {notes_errmsg.trim() !== "" && (
-              <ErrorMessage message={notes_errmsg} type="error" />
-            )}
+            {notes_errmsg.trim() !== "" && <ErrorMessage message={notes_errmsg} type="error" />}
           </div>
 
-          <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
-            <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-              Terms & Condition</h6>
-            <hr />
-            <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-            >Add T&C</label>
+          <div className="p-3 mb-3 border border-gray-300 col-span-12 rounded-lg">
+            <h6 className="font-gilroy text-[14px] font-normal text-[#222222] mb-2">
+              Terms & Condition
+            </h6>
+            <hr className="border-gray-300 mb-2" />
 
-            <div className="position-relative">
+            <label className="form-label font-gilroy text-[14px] font-normal text-[#222222]">
+              Add T&C
+            </label>
+            <div className="relative">
               <textarea
-                className="form-control pe-5"
-                rows="4"
-                placeholder='Add any message...'
+                className="form-control pe-5 w-full h-24 resize-none font-gilroy !text-sm font-normal text-[#222222] placeholder:text-gray-400"
+                placeholder="Add any message..."
                 value={terms}
                 onChange={handleTermsChange}
-                style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
               />
               <img
                 src={TextAreaICon}
                 alt="textarea-icon"
-                style={{
-                  position: "absolute",
-                  right: "12px",
-                  top: "12px",
-                  color: "#666",
-                  pointerEvents: "none",
-                }}
+                className="absolute top-3 right-3 pointer-events-none"
               />
             </div>
-            {terms_errmsg.trim() !== "" && (
-              <ErrorMessage message={terms_errmsg} type="error" />
-            )}
-
+            {terms_errmsg.trim() !== "" && <ErrorMessage message={terms_errmsg} type="error" />}
           </div>
 
 
-          <div className="col-lg-12" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-            <h6 style={{ marginBottom: 12, fontFamily: "Gilroy" }}>Template Theme</h6>
+          <div className="col-span-12 border border-gray-300 p-4 font-sans rounded-lg">
+            <h6 className="font-gilroy text-[14px] font-normal mb-3">Template Theme</h6>
 
-            <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
-
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
-              <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-              <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-              <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-              <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-              <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
+            <div className=" w-full">
+              <RgbaColorPicker
+                color={color}
+                onChange={handleColorChange}
+                style={{ width: "100%" }}
+              />
+            </div>
+            <div className="flex justify-between mt-3">
+              <input
+                value={hexValue}
+                readOnly
+                className="w-20 text-center border border-gray-300 rounded"
+              />
+              <input
+                value={color.r}
+                readOnly
+                className="w-10 text-center border border-gray-300 rounded"
+              />
+              <input
+                value={color.g}
+                readOnly
+                className="w-10 text-center border border-gray-300 rounded"
+              />
+              <input
+                value={color.b}
+                readOnly
+                className="w-10 text-center border border-gray-300 rounded"
+              />
+              <input
+                value={alphaValue}
+                readOnly
+                className="w-10 text-center border border-gray-300 rounded"
+              />
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#555", marginTop: 4, marginBottom: 12 }}>
-              <span style={{ width: 80, textAlign: "center" }}>Hex</span>
-              <span style={{ width: 40, textAlign: "center" }}>R</span>
-              <span style={{ width: 40, textAlign: "center" }}>G</span>
-              <span style={{ width: 40, textAlign: "center" }}>B</span>
-              <span style={{ width: 40, textAlign: "center" }}>A</span>
+            <div className="flex justify-between text-[12px] text-gray-600 mt-1 mb-3">
+              <span className="w-20 text-center">Hex</span>
+              <span className="w-10 text-center">R</span>
+              <span className="w-10 text-center">G</span>
+              <span className="w-10 text-center">B</span>
+              <span className="w-10 text-center">A</span>
             </div>
 
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(9, 1fr)",
-              gap: 8,
-              justifyContent: "center"
-            }}>
-              {presetColors.map((preset, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    const r = parseInt(preset.substr(1, 2), 16);
-                    const g = parseInt(preset.substr(3, 2), 16);
-                    const b = parseInt(preset.substr(5, 2), 16);
-                    setColor({ r, g, b, a: 1 });
-                  }}
-                  style={{
-                    width: 24,
-                    height: 24,
-                    borderRadius: "20%",
-                    backgroundColor: preset,
-                    cursor: "pointer",
-                    border: preset.toLowerCase() === "#ffffff" ? "1px solid #ccc" : "none"
-                  }}
-                />
-              ))}
+            <div className="grid grid-cols-9 gap-2 justify-center">
+              {presetColors.map((preset, index) => {
+                const r = parseInt(preset.substr(1, 2), 16);
+                const g = parseInt(preset.substr(3, 2), 16);
+                const b = parseInt(preset.substr(5, 2), 16);
+                return (
+                  <div
+                    key={index}
+                    onClick={() => setColor({ r, g, b, a: 1 })}
+                    className={`w-6 h-6 rounded-[20%] cursor-pointer ${preset.toLowerCase() === "#ffffff" ? "border border-gray-300" : ""
+                      }`}
+                    style={{ backgroundColor: preset }}
+                  />
+                );
+              })}
 
               <div
-                style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: "20%",
-                  backgroundColor: hexValue,
-                  cursor: "pointer",
-                  border: "2px solid #000"
-                }}
+                className="w-6 h-6 rounded-[20%] cursor-pointer border-2 border-black"
+                style={{ backgroundColor: hexValue }}
                 title="Current selected color"
               />
-
             </div>
           </div>
 
@@ -1203,31 +936,23 @@ const handleLocalDeleteRentalSignature = () => {
               <ErrorMessage message={editErrmsg} type="error" />
             </div>
           )}
-          <div className="d-flex justify-content-end mt-2 col-lg-10">
-            <Button
+
+          <div className="flex justify-end mt-2 col-span-10">
+            <button
               disabled={!canUpdateInvoice}
-              style={{
-                width: 160,
-                height: 42,
-                borderRadius: 10,
-                padding: "8px 16px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
               onClick={handleSaveTemplate}
+              className={`w-40 h-10 rounded-lg px-4 bg-[#1E45E1] text-white font-gilroy font-semibold text-sm ${!canUpdateInvoice ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                }`}
             >
               Save Template
-            </Button>
+            </button>
           </div>
 
         </div>
 
 
 
-      </div>
+      </div >
     </>
   )
 

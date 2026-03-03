@@ -381,19 +381,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     return (
         <div
-            className="modal show"
-            style={{
-                display: "block",
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 1050,
-                overflow: "hidden",
-
-            }}
-        >
+            className="modal show block fixed inset-0 z-[1050] overflow-hidden">
             <Modal
                 show={showRole}
                 onHide={handleClose}
@@ -425,11 +413,13 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                                     onChange={(e) => handleRoleName(e)}
                                     className="w-full h-[50px] px-3 text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                 />
+                                {errorForm && <ErrorMessage message={errorForm} type="error" />}
+                                {roleError && <ErrorMessage message={roleError} type="error" />}
+                                {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
                             </div>
 
-                            {roleError && <ErrorMessage message={roleError} type="error" />}
-                            {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
-                            {errorForm && <ErrorMessage message={errorForm} type="error" />}
+
+
                         </div>
 
                         <div className="border border-gray-300 rounded-2xl max-h-[272px] overflow-y-auto">
@@ -510,8 +500,6 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                             <ErrorMessage message={errorIsChanged} type="error" />
                         </div>
                     )}
-
-
 
                     {errorPermission && (
                         <div className="flex justify-start ms-3" >
