@@ -30,85 +30,32 @@ function UserlistWalkin() {
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
-  // const [checkinNew, setCheckInNew] = useState("");
-  // const [walkInEditPermissionError, setWalkInEditPermissionError] =    useState("");
-  // const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
 
-  //   const canReadWalkin = useHasPermission("Walk in", "canRead")
-  // const canWriteWalkin = useHasPermission("Walk in", "canWrite")
-  //   const canUpdateWalkin = useHasPermission("Walk in", "canUpdate")
-  //   const canDeleteWalkin = useHasPermission("Walk in", "canDelete")
 
 
 
   const {
-    canWriteModule: canWriteWalkin,
+    // canWriteModule: canWriteWalkin,
     canReadModule: canReadWalkin,
     // canUpdateModule: canUpdateWalkin,
     canDeleteModule: canDeleteWalkin,
   } = useHasPermission("Walk in");
 
+  const {
+    canWriteModule: canWriteTenant,
+  } = useHasPermission("Customers");
 
 
+  const {
+    canWriteModule: canWriteBooking,
 
-  // useEffect(() => {
-  //   const userType = props.customerrolePermission[0]?.user_details?.user_type;
-  //   const isAdmin = userType === "admin" || userType === "agent";
-  //   if (isAdmin) {
-  //     if (state?.login?.planStatus === 0) {
-  //       setWalkInPermissionError("");
-  //       setWalkInEditPermissionError("Permission Denied");
-  //       setWalkInDeletePermissionError("Permission Denied");
-
-  //     } else if (state?.login?.planStatus === 1) {
-  //       setWalkInPermissionError("");
-  //       setWalkInEditPermissionError("");
-  //       setWalkInDeletePermissionError("");
-  //     }
-  //   }
-
-  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
-
-  // useEffect(() => {
-  //   const WalkinPermission = props.customerrolePermission[0]?.role_permissions?.find(
-  //     (perm) => perm.permission_name === "Walk In"
-  //   );
-
-  //   const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
-  //   const planActive = state?.login?.planStatus === 1;
-
-  //   if (!WalkinPermission || !isOwner) return;
+  } = useHasPermission("Booking");
 
 
-  //   if (WalkinPermission.per_view === 1 && planActive) {
-  //     setWalkInPermissionError("");
-  //   } else {
-  //     setWalkInPermissionError("Permission Denied");
-  //   }
-
-
-
-
-
-  //   if (WalkinPermission.per_edit === 1 && planActive) {
-  //     setWalkInEditPermissionError("");
-  //   } else {
-  //     setWalkInEditPermissionError("Permission Denied");
-  //   }
-
-  //   if (WalkinPermission.per_delete === 1 && planActive) {
-  //     setWalkInDeletePermissionError("");
-  //   } else {
-  //     setWalkInDeletePermissionError("Permission Denied");
-  //   }
-  // }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
   const popupRef = useRef(null);
-
-  // const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // const [customerToDelete, setCustomerToDelete] = useState(null);
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
   const [walkinLoader, setWalkingLoader] = useState(false);
@@ -488,8 +435,8 @@ function UserlistWalkin() {
                                         >
 
                                           <div
-                                            onClick={() => canWriteWalkin && handleCheckIn(v)}
-                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteWalkin
+                                            onClick={() => canWriteTenant && handleCheckIn(v)}
+                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteTenant
                                               ? "cursor-pointer hover:bg-blue-50"
                                               : "cursor-not-allowed opacity-50"
                                               }`}
@@ -497,10 +444,10 @@ function UserlistWalkin() {
                                             <img
                                               src={addcircle}
                                               alt="Assign Bed"
-                                              className={`w-4 h-4 ${!canWriteWalkin && "grayscale"}`}
+                                              className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
                                             />
                                             <label
-                                              className={`text-sm font-medium ${canWriteWalkin ? "text-gray-900" : "text-gray-400"
+                                              className={`text-sm font-medium ${canWriteTenant ? "text-gray-900" : "text-gray-400"
                                                 }`}
                                             >
                                               Check-In
@@ -508,8 +455,8 @@ function UserlistWalkin() {
                                           </div>
 
                                           <div
-                                            onClick={() => canWriteWalkin && handleBooking(v)}
-                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteWalkin
+                                            onClick={() => canWriteBooking && handleBooking(v)}
+                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteBooking
                                               ? "cursor-pointer hover:bg-red-50"
                                               : "cursor-not-allowed opacity-50"
                                               }`}
@@ -517,10 +464,10 @@ function UserlistWalkin() {
                                             <img
                                               src={Addbook}
                                               alt="Add Book"
-                                              className={`w-4 h-4 ${!canWriteWalkin && "grayscale"}`}
+                                              className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
                                             />
                                             <label
-                                              className={`text-sm font-medium ${canWriteWalkin ? "text-blue-700" : "text-gray-400"
+                                              className={`text-sm font-medium ${canWriteBooking ? "text-blue-700" : "text-gray-400"
                                                 }`}
                                             >
                                               Add Booking

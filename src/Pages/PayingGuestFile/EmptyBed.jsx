@@ -19,7 +19,10 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
   const dispatch = useDispatch
 
 
-
+const {
+    canWriteModule: canWriteWalkin,
+  
+  } = useHasPermission("Walk in");
 
   const {
     canWriteModule: canWriteCustomers,
@@ -116,11 +119,11 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
           <Modal.Body className="px-4 pb-4 font-gilroy">
             <div className="flex flex-col gap-3">
               <div
-                className={`flex justify-between items-center ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
+                className={`flex justify-between items-center ${canWriteWalkin ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
                   }`}
-                onClick={canWriteCustomers ? handleShowAddCustomer : undefined}
+                onClick={canWriteWalkin ? handleShowAddCustomer : undefined}
               >
-                <span className={`text-[14px] font-medium  ${canWriteCustomers ? "text-gray-900" : "text-gray-400"
+                <span className={`text-[14px] font-medium  ${canWriteWalkin ? "text-gray-900" : "text-gray-400"
                   }`}>
                   Add Tenant
                 </span>
@@ -129,7 +132,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
                   height={20}
                   width={20}
                   alt="addcustomer"
-                  className={`${canWriteCustomers ? "" : "grayscale"}`}
+                  className={`${canWriteWalkin ? "" : "grayscale"}`}
                 />
               </div>
 
