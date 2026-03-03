@@ -258,10 +258,10 @@ function CheckIn({
             hasError = true;
         }
 
-        if (AdvanceAmount <= 0) {
-            setAdvanceAmountError("Please Enter  Advance Amount");
-            hasError = true;
-        }
+        // if (AdvanceAmount <= 0) {
+        //     setAdvanceAmountError("Please Enter  Advance Amount");
+        //     hasError = true;
+        // }
 
         if (hasError) {
             return;
@@ -329,7 +329,7 @@ function CheckIn({
 
         if (
             formattedDate && stay_typename &&
-            Number(AdvanceAmount) > 0 &&
+            AdvanceAmount &&
             Number(RoomRent) > 0 && state.UsersList?.bookedDetails?.canCheckIn
         ) {
             dispatch({

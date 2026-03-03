@@ -3446,14 +3446,17 @@ function UserListRoomDetail(props) {
                             <div className="flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount
-                                {canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
-                                  <img
-                                    onClick={handleUpdateAdvanceChange}
-                                    src={EditImage}
-                                    alt="EditImage"
-                                    className="h-3.5 w-3.5 cursor-pointer"
-                                  />
-                                )}
+                                {canUpdateTenant &&
+                                  advanceList?.advanceAmount !== null &&
+                                  advanceList?.advanceAmount !== undefined &&
+                                  CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
+                                    <img
+                                      onClick={handleUpdateAdvanceChange}
+                                      src={EditImage}
+                                      alt="EditImage"
+                                      className="h-3.5 w-3.5 cursor-pointer"
+                                    />
+                                  )}
                               </div>
                               <p className="text-sm font-semibold font-gilroy pt-2">
                                 ₹{advanceList?.advanceAmount ?? 0}
