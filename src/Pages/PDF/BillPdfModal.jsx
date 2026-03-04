@@ -1736,7 +1736,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
                         pdfDetails.paymentHistory.map((item, index) => (
                           <tr key={index}>
                             <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                              {item.paidDate || "-"}
+                              {item.date || "-"}
                             </td>
 
 
@@ -1821,7 +1821,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
 
                             <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              {item.returnedFrom}
+                              {item.paymentMode}
                             </td>
 
 
