@@ -16,7 +16,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
     const [category, setCategory] = useState("");
     const [categoryError, setCategoryError] = useState("");
     const [formLoading, setFormLoading] = useState(false);
-    //   const [formError, setFormError] = useState("");
+    const [formError, setFormError] = useState("");
 
     const inputRef = useRef(null);
 
@@ -36,11 +36,10 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
     };
 
 
-    console.log("editCategory", editCategory)
 
     const handleCategoryAdd = (e) => {
         const value = e.target.value;
-
+        setFormError('')
         setCategory(value);
 
         if (!value.trim()) {
@@ -66,7 +65,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
             editCategory &&
             trimmedCategory === editCategory.categoryName?.trim()
         ) {
-            setCategoryError("No changes detected");
+            setFormError("No changes detected");
             focusInput();
             return;
         }
@@ -152,14 +151,17 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                                     />
 
                                     {categoryError && (
-                                        <div className="flex justify-center mt-2">
+                                        <div className="flex justify-start mt-2">
                                             <ErrorMessage message={categoryError} type="error" />
                                         </div>
                                     )}
                                 </Form.Group>
                             </div>
 
-                            {/* {formError && <ErrorMessage message={formError} type="error" />} */}
+                            {formError && <div className="flex justify-center mt-2">
+                                <ErrorMessage message={formError} type="error" />
+                            </div>
+                            }
                         </div>
                     </Modal.Body>
 
