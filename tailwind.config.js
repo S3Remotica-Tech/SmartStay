@@ -6,16 +6,26 @@ export default {
   ],
   theme: {
     extend: {
-     
-     zIndex: {
+      animation: {
+        scroll: "scroll 20s linear infinite",
+      },
+      keyframes: {
+        scroll: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+      zIndex: {
         70: "70",
         80: "80",
         90: "90",
-        9999:"9999"
-        },
+        9999: "9999"
+      },
       fontFamily: {
         gilroy: ["Gilroy", "sans-serif"],
         montserrat: ['Montserrat', 'sans-serif'],
+        dmsans: ['"DM Sans"', 'sans-serif'],
+        tasa: ['"TASA Orbiter"', 'sans-serif'],
       },
     },
   },
