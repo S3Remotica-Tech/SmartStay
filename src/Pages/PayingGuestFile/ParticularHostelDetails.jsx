@@ -23,7 +23,7 @@ function ParticularHostelDetails(props) {
   const [roomList, setRoomList] = useState([])
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [loader, setLoader] = useState(false)
-  const [loaderTrigger, setLoaderTrigger] = useState(true);
+  // const [loaderTrigger, setLoaderTrigger] = useState(true);
   const [showRoom, setShowRoom] = useState(false)
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
   const [showDeleteRoom, setShowDeleteRoom] = useState(false)
@@ -79,7 +79,7 @@ function ParticularHostelDetails(props) {
     setShowDeleteRoom(false)
   }
 
-console.log("roomList",roomList)
+  console.log("roomList", roomList)
 
 
 
@@ -110,7 +110,7 @@ console.log("roomList",roomList)
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setLoaderTrigger(false)
+      // setLoaderTrigger(false)
       setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
@@ -121,10 +121,10 @@ console.log("roomList",roomList)
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setRoomList(state.PgList?.roomsList);
-      setLoaderTrigger(false)
+      // setLoaderTrigger(false)
       setLoader(false)
-              dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
-     
+      dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
+
     }
 
   }, [state?.PgList?.getAllRoomSuccessStatus])
@@ -137,7 +137,7 @@ console.log("roomList",roomList)
 
 
   useEffect(() => {
-    setLoaderTrigger(false)
+    // setLoaderTrigger(false)
     setLoader(false)
   }, [state.PgList?.roomsList])
 
@@ -172,13 +172,15 @@ console.log("roomList",roomList)
   }, [state.PgList.statusCodeForDeleteRoom]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-    if (props.floorID) {
+      dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
+      if (props.floorID) {
+
         dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
 
-dispatch({ type: "CLEAR_DELETE_FLOOR" });
+      dispatch({ type: "CLEAR_DELETE_FLOOR" });
 
     }
   }, [state.UsersList.deleteFloorSuccessStatusCode]);
@@ -189,7 +191,7 @@ dispatch({ type: "CLEAR_DELETE_FLOOR" });
 
 
 
-console.log("state", state.PgList?.roomsList)
+  console.log("state", state.PgList?.roomsList)
 
 
   useEffect(() => {
