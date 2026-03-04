@@ -93,7 +93,7 @@ function BookingModal(props) {
   //   }
   // }, []);
 
-  
+
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -518,7 +518,7 @@ function BookingModal(props) {
         show={props.add_bookingshow}
         onHide={handleCloseBooking}
         backdrop="static"
-         dialogClassName="custom-modals-style"
+        dialogClassName="custom-modals-style"
       >
         <Modal.Header className="flex justify-between">
           <Modal.Title className="!text-[20px] !font-semibold text-gray-900 font-gilroy">
@@ -568,322 +568,419 @@ function BookingModal(props) {
             </div>
           </div>
 
-           <div className="max-h-[340px] overflow-y-auto show-scroll pr-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+          <div className="max-h-[340px] overflow-y-auto show-scroll pr-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
 
-            <div>
-              <Form.Group controlId="bookingDate">
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                  Booking Date <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
+              <div>
+                <Form.Group controlId="bookingDate">
+                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                    Booking Date <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
 
-                <div className="datepicker-wrapper relative w-full mt-px">
+                  <div className="datepicker-wrapper relative w-full mt-px">
 
-                  <DatePicker
-                    className="w-full h-12 cursor-pointer font-gilroy"
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={bookingDate ? dayjs(bookingDate) : null}
-                    onChange={handleBookingDateChange}
-                    disabledDate={(current) => current && current > dayjs().endOf("day")}
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                  />
-
-                </div>
-              </Form.Group>
-              {dateError && (
-                <ErrorMessage message={dateError} type="error" />
-              )}
-
-              {state.Booking?.ErrorAssignBookingDate && (
-                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
-              )}
-
-            </div>
-
-            <div>
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy">
-                  Booking Amount <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
-
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter Booking Amount"
-                  value={bookingAmount}
-                  onChange={(e) => handleBookingAmountChange(e)}
-                  onKeyPress={(e) => {
-                    if (!/[0-9]/.test(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                  className="text-base font-medium text-[#4B4B4B] font-gilroy border border-gray-300 h-[50px] rounded-lg focus:outline-none focus:ring-0"
-                />
-              </Form.Group>
-
-              {amountError && (
-                <ErrorMessage message={amountError} type="error" />
-              )}
-
-            </div>
-
-            <div>
-              <Form.Group controlId="joiningDate">
-                <Form.Label className="text-sm font-medium font-gilroy">
-                  Joining Date (Tentative) {" "}
-                  <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
-
-                <div className="datepicker-wrapper relative w-full mt-1">
-
-                  <div className="datepicker-wrapper relative w-full">
                     <DatePicker
                       className="w-full h-12 cursor-pointer font-gilroy"
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
-                      value={joiningDate ? dayjs(joiningDate) : null}
-                      onChange={handleJoiningDateChange}
-                      // disabledDate={(current) =>
-                      //   bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
-                      // }
-                      disabledDate={(current) => {
-                        if (!bookingDate) {
-                          return true;
-                        }
-                        return current && current.isBefore(dayjs(bookingDate), "day");
-                      }}
+                      value={bookingDate ? dayjs(bookingDate) : null}
+                      onChange={handleBookingDateChange}
+                      disabledDate={(current) => current && current > dayjs().endOf("day")}
                       getPopupContainer={() => document.body}
-
+                      popupStyle={{ zIndex: 2000, top: '10px', left: '435px' }}
+                      placement="topLeft"
                     />
+
                   </div>
-                </div>
-              </Form.Group>
+                </Form.Group>
+                {dateError && (
+                  <ErrorMessage message={dateError} type="error" />
+                )}
 
-              {joiningDateError && (
-                <ErrorMessage message={joiningDateError} type="error" />
-              )}
+                {state.Booking?.ErrorAssignBookingDate && (
+                  <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
+                )}
 
-              {state.Booking?.ErrorAssignBookingDate && (
-                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
-              )}
-            </div>
+              </div>
 
-            <div>
-              <Form.Group
+              <div>
+                <Form.Group>
+                  <Form.Label className="text-sm font-medium font-gilroy">
+                    Booking Amount <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
 
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy mt-1">
-                  Mode Of Transaction <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter Booking Amount"
+                    value={bookingAmount}
+                    onChange={(e) => handleBookingAmountChange(e)}
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    className="text-base font-medium text-[#4B4B4B] font-gilroy border border-gray-300 h-[50px] rounded-lg focus:outline-none focus:ring-0"
+                  />
+                </Form.Group>
 
-                <Select
-                  options={paymentOptions}
-                  onChange={(selectedOption) =>
-                    handleModeOfPaymentChange(selectedOption?.value)
-                  }
-                  value={
-                    modeOfPayment
-                      ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-                      : null
-                  }
-                  placeholder="Select Payment"
-                  // isDisabled={currentItem}
-                  noOptionsMessage={() => "No mode available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: modeOfPayment ? 600 : 500,
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      boxShadow: "none",
-                      height: 48,
-                      cursor: "pointer",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "lightblue" : "white",
-                      color: "#000",
-                      fontFamily: "Gilroy",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                  }}
-                />
+                {amountError && (
+                  <ErrorMessage message={amountError} type="error" />
+                )}
 
-              </Form.Group>
-              {paymentError && (
-                <ErrorMessage message={paymentError} type="error" />
+              </div>
 
-              )}
-            </div>
+              <div>
+                <Form.Group controlId="joiningDate">
+                  <Form.Label className="text-sm font-medium font-gilroy">
+                    Joining Date (Tentative) {" "}
+                    <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
 
-            <div className="mt-1">
-              <Form.Group >
-                <Form.Label className="text-sm font-medium font-gilroy">
-                  Transaction ID{" "}
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter Transaction ID"
-                  value={transactionId}
-                  onChange={(e) => handleTransactionId(e)}
-                  className="w-full h-12 rounded-lg border border-gray-300 text-base font-medium text-[#4B4B4B] font-gilroy focus:outline-none focus:ring-0"
-                />
-              </Form.Group>
+                  <div className="datepicker-wrapper relative w-full mt-1">
+
+                    <div className="datepicker-wrapper relative w-full">
+                      <DatePicker
+                        className="w-full h-12 cursor-pointer font-gilroy"
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                        value={joiningDate ? dayjs(joiningDate) : null}
+                        onChange={handleJoiningDateChange}
+                        disabledDate={(current) => {
+                          if (!bookingDate) {
+                            return true;
+                          }
+                          return current && current.isBefore(dayjs(bookingDate), "day");
+                        }}
+                        getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000, top: '10px', left: '435px' }}
+                        placement="top"
+
+                      />
+                    </div>
+                  </div>
+                </Form.Group>
+
+                {joiningDateError && (
+                  <ErrorMessage message={joiningDateError} type="error" />
+                )}
+
+                {state.Booking?.ErrorAssignBookingDate && (
+                  <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
+                )}
+              </div>
+
+              <div>
+                <Form.Group
+
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy mt-1">
+                    Mode Of Transaction <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
+
+                  <Select
+                    options={paymentOptions}
+                    onChange={(selectedOption) =>
+                      handleModeOfPaymentChange(selectedOption?.value)
+                    }
+                    value={
+                      modeOfPayment
+                        ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                        : null
+                    }
+                    placeholder="Select Payment"
+                    // isDisabled={currentItem}
+                    noOptionsMessage={() => "No mode available"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        fontSize: 16,
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: modeOfPayment ? 600 : 500,
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        boxShadow: "none",
+                        height: 48,
+                        cursor: "pointer",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        color: "#000",
+                        fontFamily: "Gilroy",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                    }}
+                  />
+
+                </Form.Group>
+                {paymentError && (
+                  <ErrorMessage message={paymentError} type="error" />
+
+                )}
+              </div>
+
+              <div className="mt-1">
+                <Form.Group >
+                  <Form.Label className="text-sm font-medium font-gilroy">
+                    Transaction ID{" "}
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter Transaction ID"
+                    value={transactionId}
+                    onChange={(e) => handleTransactionId(e)}
+                    className="w-full h-12 rounded-lg border border-gray-300 text-base font-medium text-[#4B4B4B] font-gilroy focus:outline-none focus:ring-0"
+                  />
+                </Form.Group>
 
 
 
-            </div>
+              </div>
 
-            <div>
-              <Form.Group controlId="formFloor">
+              <div>
+                <Form.Group controlId="formFloor">
+                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                    Floor <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
+
+                  <Select
+                    isDisabled={!joiningDate}
+                    options={
+                      state.UsersList.floorList?.map((u) => ({
+                        value: u.id,
+                        label: u.name,
+                      })) || []
+                    }
+                    onChange={handleFloor}
+                    value={
+                      state.UsersList.floorList?.find(
+                        (option) => option.id === Floor
+                      )
+                        ? {
+                          value: Floor,
+                          label: state.UsersList.floorList.find(
+                            (option) => option.id === Floor
+                          )?.name,
+                        }
+                        : null
+                    }
+                    placeholder="Select a Floor"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "48px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        display: "inline-block",
+                        fill: "currentColor",
+                        lineHeight: 1,
+                        stroke: "currentColor",
+                        strokeWidth: 0,
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
+                    }}
+                  />
+
+                </Form.Group>
+
+                {floorError && (
+                  <ErrorMessage message={floorError} type="error" />
+                )}
+              </div>
+
+              <div>
+                <Form.Group controlId="formRoom">
+                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                    Room{" "} <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
+
+                  <Select
+                    isDisabled={!joiningDate || !Floor}
+                    options={roomOptions}
+                    onChange={(selectedOption) =>
+                      handleRooms(selectedOption?.value)
+                    }
+                    value={
+                      state.PgList?.roomsList?.find(
+                        (option) => option.id === room
+                      )
+                        ? {
+                          value: room,
+                          label: state.PgList?.roomsList.find(
+                            (option) => option.id === room
+                          )?.name,
+                        }
+                        : null
+                    }
+                    placeholder="Select a Room"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "50px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        display: "inline-block",
+                        fill: "currentColor",
+                        lineHeight: 1,
+                        stroke: "currentColor",
+                        strokeWidth: 0,
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
+                    }}
+                  />
+                </Form.Group>
+                {roomError && (
+                  <ErrorMessage message={roomError} type="error" />
+                )}
+              </div>
+
+              <div>
                 <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                  Floor <span className="text-red-500 text-xl">*</span>
+                  Bed{" "}
+                  <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
 
                 <Select
                   isDisabled={!joiningDate}
                   options={
-                    state.UsersList.floorList?.map((u) => ({
-                      value: u.id,
-                      label: u.name,
-                    })) || []
+                    availableBed
+                      ? availableBed
+                        .filter(
+                          (item) => item &&
+                            item?.bedName !== "0" &&
+                            item?.bedName !== "undefined" &&
+                            item?.bedName !== "" &&
+                            item?.bedName !== "null"
+                        )
+                        .map((item) => ({
+                          value: item?.bedId,
+                          label: item?.bedName,
+                        }))
+                      : []
                   }
-                  onChange={handleFloor}
+                  onChange={handleBed}
                   value={
-                    state.UsersList.floorList?.find(
-                      (option) => option.id === Floor
-                    )
-                      ? {
-                        value: Floor,
-                        label: state.UsersList.floorList.find(
-                          (option) => option.id === Floor
-                        )?.name,
-                      }
+                    availableBed
+                      ? (() => {
+                        const selected = availableBed?.find(
+                          (option) => option?.bedId === bed
+                        );
+                        return selected
+                          ? { value: selected.bedId, label: selected.bedName }
+                          : null;
+                      })()
                       : null
                   }
-                  placeholder="Select a Floor"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "48px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      display: "inline-block",
-                      fill: "currentColor",
-                      lineHeight: 1,
-                      stroke: "currentColor",
-                      strokeWidth: 0,
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
-                />
-
-              </Form.Group>
-
-              {floorError && (
-                <ErrorMessage message={floorError} type="error" />
-              )}
-            </div>
-
-            <div>
-              <Form.Group controlId="formRoom">
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                  Room{" "} <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
-
-                <Select
-                  isDisabled={!joiningDate || !Floor}
-                  options={roomOptions}
-                  onChange={(selectedOption) =>
-                    handleRooms(selectedOption?.value)
-                  }
-                  value={
-                    state.PgList?.roomsList?.find(
-                      (option) => option.id === room
-                    )
-                      ? {
-                        value: room,
-                        label: state.PgList?.roomsList.find(
-                          (option) => option.id === room
-                        )?.name,
-                      }
-                      : null
-                  }
-                  placeholder="Select a Room"
+                  placeholder="Select a Bed"
                   classNamePrefix="custom"
                   menuPlacement="auto"
                   styles={{
@@ -938,118 +1035,20 @@ function BookingModal(props) {
                     }),
                   }}
                 />
-              </Form.Group>
-              {roomError && (
-                <ErrorMessage message={roomError} type="error" />
-              )}
+
+                {bedWarning ?
+                  <ErrorMessage message={bedWarning} type="error" />
+                  : null}
+
+                {state.Booking?.bookingBedError ?
+                  <ErrorMessage message={state.Booking?.bookingBedError} type="error" />
+                  : null}
+
+                {bedError && (
+                  <ErrorMessage message={bedError} type="error" />
+                )}
+              </div>
             </div>
-
-            <div>
-              <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                Bed{" "}
-                <span className="text-red-500 text-xl">*</span>
-              </Form.Label>
-
-              <Select
-                isDisabled={!joiningDate}
-                options={
-                  availableBed
-                    ? availableBed
-                      .filter(
-                        (item) => item &&
-                          item?.bedName !== "0" &&
-                          item?.bedName !== "undefined" &&
-                          item?.bedName !== "" &&
-                          item?.bedName !== "null"
-                      )
-                      .map((item) => ({
-                        value: item?.bedId,
-                        label: item?.bedName,
-                      }))
-                    : []
-                }
-                onChange={handleBed}
-                value={
-                  availableBed
-                    ? (() => {
-                      const selected = availableBed?.find(
-                        (option) => option?.bedId === bed
-                      );
-                      return selected
-                        ? { value: selected.bedId, label: selected.bedName }
-                        : null;
-                    })()
-                    : null
-                }
-                placeholder="Select a Bed"
-                classNamePrefix="custom"
-                menuPlacement="auto"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "50px",
-                    border: "1px solid #D9D9D9",
-                    borderRadius: "8px",
-                    fontSize: "16px",
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    border: "1px solid #ced4da",
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    maxHeight: "120px",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#555",
-                    display: "inline-block",
-                    fill: "currentColor",
-                    lineHeight: 1,
-                    stroke: "currentColor",
-                    strokeWidth: 0,
-                    cursor: "pointer",
-                  }),
-                  indicatorSeparator: () => ({
-                    display: "none",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                    color: "#000",
-                  }),
-                }}
-              />
-
-              {bedWarning ?
-                <ErrorMessage message={bedWarning} type="error" />
-                : null}
-
-              {state.Booking?.bookingBedError ?
-                <ErrorMessage message={state.Booking?.bookingBedError} type="error" />
-                : null}
-
-              {bedError && (
-                <ErrorMessage message={bedError} type="error" />
-              )}
-            </div>
-          </div>
           </div>
 
 

@@ -137,7 +137,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                     <Modal.Body className="pt-2">
                         <div>
                             <div className="col-lg-12">
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-">
                                     <Form.Label className="font-gilroy text-[14px] font-medium text-[#222] leading-normal">
                                         Category <span className="text-red-500 text-[20px]">*</span>
                                     </Form.Label>
@@ -151,7 +151,11 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                                         className="mt-1 !p-[12px] !text-base !text-[#4B4B4B] !font-gilroy !font-medium"
                                     />
 
-                                    {categoryError && <ErrorMessage message={categoryError} type="error" />}
+                                    {categoryError && (
+                                        <div className="flex justify-center mt-2">
+                                            <ErrorMessage message={categoryError} type="error" />
+                                        </div>
+                                    )}
                                 </Form.Group>
                             </div>
 

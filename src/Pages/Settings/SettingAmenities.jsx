@@ -549,15 +549,18 @@ function SettingAmenities() {
                                     </div>
                                 ))
                             ) : !loading && (
+                                <div className="flex items-center justify-center w-full mt-24">
+                                    <div className="text-center">
+                                        <div className="flex justify-center mb-2">
+                                            <img src={EmptyState} alt="Empty state" />
+                                        </div>
 
-                                <div className="flex justify-center items-center min-h-screen w-full">
-                                    <div className="flex flex-col items-center">
-                                        <img src={EmptyState} alt="Empty State" className="max-w-xs -mt-24" />
-                                        <div className="mt-2 font-gilroy font-semibold text-lg text-gray-700 text-center">
+                                        <div className="pb-1 text-[15px] font-medium font-gilroy text-[#4B4B4B]">
                                             No Amenities available
                                         </div>
                                     </div>
                                 </div>
+
                             )}
                         </div>
 

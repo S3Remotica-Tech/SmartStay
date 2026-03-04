@@ -2943,8 +2943,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
               </div>
               :
               <div>
-                {/* <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap"> */}
-                <div className="bg-white sticky top-0 z-10 pb-2 h-20 shrink-0">
+              
+                <div className="bg-white sticky top-0 z-10 pb-2 h-20 shrink-0 mt-2">
                   <label className="text-[18px] font-semibold text-[#222] font-gilroy">
                     Bill Templates
                   </label>
@@ -2977,7 +2977,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                       <button
                         onClick={handleEditChange}
-                        className="flex items-center px-3 p-2 font-gilroy text-base font-semibold text-white bg-[#1E45E1] border border-[#1E45E1] rounded-xl"
+                        className="flex items-center px-3 p-2 font-gilroy text-base font-semibold text-white bg-[#1E45E1] border border-[#1E45E1] rounded-xl font-gilroy"
                       >
                         Edit <Edit size={16} className="ml-1" />
                       </button>
@@ -2993,10 +2993,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
 
                         <div className="ml-1 pt-1">
-                          <h6 className="mb-1 text-[17px] font-semibold text-[#222] whitespace-nowrap">
+                          <h6 className="mb-1 text-[17px] font-semibold text-[#222] whitespace-nowrap font-gilroy">
                             Templates
                           </h6>
-                          <p className="text-xs font-semibold text-gray-500 whitespace-nowrap">
+                          <p className="text-xs font-semibold text-gray-500 whitespace-nowrap font-gilroy">
                             Fill the template form with details you like to customize.
                           </p>
                         </div>
@@ -3015,7 +3015,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             <button
                               onClick={handleShow}
                               disabled
-                              className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] pointer-events-none"
+                              className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] pointer-events-none font-gilroy"
                             >
                               Go to Templates
                               <FiArrowRight className="ml-2" />
@@ -3025,7 +3025,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                       ) : (
                         <button
                           onClick={handleShow}
-                          className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1]"
+                          className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] font-gilroy"
                         >
                           Go to Templates
                           <FiArrowRight className="ml-2" />

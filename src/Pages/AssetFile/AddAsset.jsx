@@ -659,8 +659,12 @@ function StaticExample({ show, setShow, currentItem }) {
                         option: (base, state) => ({
                           ...base,
                           cursor: "pointer",
-                          backgroundColor: state.isFocused ? "lightblue" : "white",
-                          color: "#000",
+                          backgroundColor: state.isSelected
+                        ? "#1E45E1"
+                        : state.isFocused
+                          ? "#E8EEFF"
+                          : "white",
+                          color: state.isSelected ? "#fff" : "#000",
                         }),
                         indicatorSeparator: () => ({
                           display: "none",
@@ -789,7 +793,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 {
                   !currentItem &&
 
-                  <div className="col-span-12 lg:col-span-6 mt-1">
+                  <div className="col-span-12 lg:col-span-6">
                     <Form.Group
 
                       controlId="exampleForm.ControlInput1"

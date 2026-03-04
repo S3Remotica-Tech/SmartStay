@@ -1088,8 +1088,8 @@ function CustomerReAssign(props) {
                         </Form.Group>
                       </div>
 
-                      <div>
-                        <Form.Group className="">
+                      {/* <div>
+                        <Form.Group>
                           <Form.Label className="flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
                             New Rent Amount <span className="text-red-500 text-[20px] ml-1">*</span>
                             <Form.Check
@@ -1121,7 +1121,50 @@ function CustomerReAssign(props) {
                           />
                           {rentError && <ErrorMessage message={rentError} type="error" />}
                         </Form.Group>
-                      </div>
+                      </div> */}
+                      <div>
+  <Form.Group>
+    
+    {/* Label + Checkbox in One Line */}
+    <div className="flex items-center">
+      <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
+        New Rent Amount 
+        <span className="text-red-500 text-[20px] ml-1">*</span>
+      </Form.Label>
+
+      <Form.Check
+        type="checkbox"
+        label={
+          <span className="text-[#1E45E1] font-medium text-[12px] font-gilroy whitespace-nowrap">
+            Same as Current
+          </span>
+        }
+        className="ms-3 mb-0 cursor-pointer flex items-center"
+        ref={rentRef}
+        onChange={(e) => {
+          if (e.target.checked) {
+            setNewRoomRent(currentRoomRent);
+            setRentError("");
+          } else {
+            setNewRoomRent("");
+            setRentError("");
+          }
+        }}
+      />
+    </div>
+
+    <FormControl
+      onChange={(e) => handleNewRoomRent(e)}
+      value={newRoomRent}
+      type="text"
+      placeholder="Enter Amount"
+      className="mt-2 h-[50px] rounded-lg border border-[#D9D9D9] text-[16px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
+    />
+
+    {rentError && <ErrorMessage message={rentError} type="error" />}
+
+  </Form.Group>
+</div>
                     </div>
                   </div>
 

@@ -431,10 +431,11 @@ function StaticExample({ show, handleClose, currentItem }) {
                   }
                   placeholder="Select a Room"
                   classNamePrefix="custom"
-                  menuPlacement="auto"
+                  menuPlacement="top"
                   styles={{
                     control: (base) => ({
                       ...base,
+                      minHeight: "50px",
                       height: "50px",
                       border: "1px solid #D9D9D9",
                       borderRadius: "8px",
@@ -444,8 +445,34 @@ function StaticExample({ show, handleClose, currentItem }) {
                       fontWeight: 500,
                       boxShadow: "none",
                     }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: "8px",
+                      overflow: "hidden",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      maxHeight: "130px",
+                      overflowY: "auto",
+                      scrollBehavior: "smooth",
+                                        
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      fontSize: "16px",
+                      backgroundColor: state.isSelected
+                        ? "#1E45E1"
+                        : state.isFocused
+                          ? "#E8EEFF"
+                          : "white",
+                      cursor: "pointer",
+                      color: state.isSelected ? "#fff" : "#000",
+                    }),
                     indicatorSeparator: () => ({ display: "none" }),
                   }}
+
                 />
 
                 {roomError && <ErrorMessage message={roomError} type="error" />}

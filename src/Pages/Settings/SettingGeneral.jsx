@@ -1525,7 +1525,7 @@ function SettingGeneral() {
                         ) :
                           !loading && (
 
-                            <div className="flex flex-col items-center text-center mt-24 h-[40vh]">
+                            <div className="flex flex-col items-center text-center animated-text">
                               <img src={EmptyState} alt="emptystate" />
 
                               <div className="pb-1 font-gilroy font-semibold text-lg text-gray-600">
@@ -1977,10 +1977,10 @@ function SettingGeneral() {
               )}
             </div>
 
-            <div className="col-span-12 md:col-span-6 mb-1">
-              <Form.Group className="">
+            <div className="col-span-12 md:col-span-6">
+              <Form.Group>
                 <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Last Name 
+                  Last Name <span className="invisible text-xl"> *</span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1993,70 +1993,6 @@ function SettingGeneral() {
               </Form.Group>
 
             </div>
-
-            {/* <div className="col-span-12 md:col-span-6 mb-0">
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Mobile Number <span className="text-red-500 text-xl"> *</span>
-                </Form.Label>
-
-                <InputGroup className="d-flex">
-                  <Form.Select
-                    value={countryCode}
-                    id="vendor-select-pg"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px 0 0 8px",
-                      height: 50,
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: countryCode ? 600 : 500,
-                      boxShadow: "none",
-                      backgroundColor: "#fff",
-                      maxWidth: 90,
-                    }}
-                  
-                  >
-                    <option>+{countryCode}</option>
-                  </Form.Select>
-                  <Form.Control
-                    value={Phone}
-                    onChange={handlePhone}
-                    type="text"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    placeholder="9876543210"
-                    maxLength={10}
-                    style={{
-                      fontSize: 14,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: Phone ? 500 : 500,
-                      boxShadow: "none",
-                      borderLeft: "unset",
-                      borderRight: "1px solid #D9D9D9",
-                      borderTop: "1px solid #D9D9D9",
-                      borderBottom: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: "0 8px 8px 0",
-                    }}
-                  />
-                </InputGroup>
-
-
-              </Form.Group>
-              {phoneError && (
-                <ErrorMessage message={phoneError} type="error" />
-              )}
-              {phoneErrorMessage && (
-                <ErrorMessage message={phoneErrorMessage} type="error" />
-              )}
-              {state.Settings?.generalMobileError && (
-                <ErrorMessage message={state.Settings?.generalMobileError} type="error" />
-              )}
-
-            </div> */}
 
             <div className="col-span-12 md:col-span-6 mb-0">
               <Form.Group controlId="exampleForm.ControlInput1">
@@ -2350,8 +2286,13 @@ function SettingGeneral() {
                 <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
-
+ 
           </div>
+          {formError && (
+            <div className="flex justify-center mt-1">
+              <ErrorMessage message={formError} type="error" />
+            </div>
+          )}
         </Modal.Body>
 
         {formLoading && (
@@ -2362,7 +2303,6 @@ function SettingGeneral() {
 
 
         <Modal.Footer className="flex justify-center border-0">
-          {formError && <ErrorMessage message={formError} type="error" />}
 
           <Button
             className="!w-full !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"

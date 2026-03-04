@@ -340,12 +340,10 @@ function BankingAddForm(props) {
       }
     }
 
-
     if (!accountName.trim()) {
       setError("Please Enter Beneficiary Name");
       isHas = true;
     }
-
 
     if (!accountNo) {
       setaccountNumberError("Please Enter Account No");
@@ -704,16 +702,6 @@ function BankingAddForm(props) {
   }, [state.bankingDetails.statusCodeForEditBanking]);
 
 
-  const tabStyle = {
-    fontFamily: "Gilroy",
-    fontWeight: 600,
-    fontSize: 14,
-    color: "#1E45E1",
-    borderRadius: "8px",
-    padding: "8px 16px",
-    border: "none"
-  };
-
   useEffect(() => {
     if (state.createAccount?.networkError || state.bankingDetails.bankingCreateError) {
       setFormLoading(false)
@@ -723,9 +711,6 @@ function BankingAddForm(props) {
     }
 
   }, [state.createAccount?.networkError, state.bankingDetails.bankingCreateError])
-
-
-
 
 
 
@@ -1428,16 +1413,14 @@ function BankingAddForm(props) {
                 </div>
               )}
 
-
               {state.bankingDetails.bankingCreateError && (
-                <div className="col-span-12 mb-1 flex justify-center">
+                <div className="col-span-12 -mt-3 mb-1 flex justify-start">
                   <ErrorMessage
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />
                 </div>
               )}
-
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button
