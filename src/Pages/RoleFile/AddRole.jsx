@@ -227,11 +227,11 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     }, [state.Settings.roleEditError])
 
 
-    const renderRow = (rowName, label) => (
+   const renderRow = (rowName, label) => (
         <tr key={rowName}>
-            <td style={{ paddingLeft: '16px' }}>{label}</td>
+            <td  className="px-4 py-1">{label}</td>
             {checkboxValues[rowName]?.map((checked, index) => (
-                <td key={index}>
+                <td className='text-center' key={index}>
                     <input
                         type="checkbox"
                         checked={checked}
@@ -438,52 +438,14 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                                 </thead>
 
                                 <tbody className="text-[#4B4B4B] font-gilroy font-semibold text-base">
-                                    <tr className="h-2"></tr>
+                                  
 
-                                    {modules.map((module, index) => {
+                                    {modules.map(module => {
                                         const formattedName = module.moduleName.replace(/\s+/g, '');
-                                        return (
-                                            <React.Fragment key={formattedName}>
-                                                <tr className="bg-white rounded-lg">
-
-                                                    <td className="pl-4">{module.moduleName}</td>
-
-                                                    <td className="py-1">
-                                                        <div className="flex flex-col items-center">
-                                                            <input type="checkbox" className='mr-3' />
-                                                            <div className="w-full"></div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="py-1">
-                                                        <div className="flex flex-col items-center">
-                                                            <input type="checkbox" className='mr-3' />
-                                                            <div className="w-full"></div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="py-1">
-                                                        <div className="flex flex-col items-center">
-                                                            <input type="checkbox" className='mr-3' />
-                                                            <div className="w-full "></div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="py-1">
-                                                        <div className="flex flex-col items-center">
-                                                            <input type="checkbox" className='mr-3' />
-                                                            <div className="w-full"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                {index !== modules.length - 1 && <tr className="h-2"></tr>}
-                                            </React.Fragment>
-                                        );
+                                        return renderRow(formattedName, module.moduleName);
                                     })}
 
-                                    <tr className="h-2"></tr>
-                                </tbody>
+                                                                    </tbody>
                             </table>
                         </div>
                     </Modal.Body>

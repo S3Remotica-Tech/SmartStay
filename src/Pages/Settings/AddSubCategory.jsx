@@ -17,7 +17,7 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
     const [subCategory, setSubCategory] = useState("");
     const [subCategoryError, setSubCategoryError] = useState("");
     const [formLoading, setFormLoading] = useState(false);
-
+ const [formError, setFormError] = useState("");
     const inputRef = useRef(null);
 
 
@@ -35,6 +35,7 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
     };
 
     const handleSubCategoryChange = (e) => {
+        setFormError('')
         const value = e.target.value;
         setSubCategory(value);
 
@@ -57,7 +58,7 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
             editSubCategory &&
             trimmedSubCategory === editSubCategory.subCategoryName?.trim()
         ) {
-            setSubCategoryError("No changes detected");
+            setFormError("No changes detected");
             focusInput();
             return;
         }
@@ -144,13 +145,17 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                                 className="w-full !p-[12px] text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E45E1]"
                             />
                                 {subCategoryError && (
-                                <div className="flex justify-center mt-2">
+                                <div className="flex justify-start mt-2">
                                     <ErrorMessage message={subCategoryError} type="error" />
                                 </div>
                             )}
                         </div>
                     </Modal.Body>
 
+                            {formError &&  <div className="flex justify-center mt-2">
+                                <ErrorMessage message={formError} type="error" />
+                                 </div>
+                                }
                     {formLoading && (
                         <div className="absolute inset-0 flex items-center justify-center z-10 opacity-75">
                             <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>

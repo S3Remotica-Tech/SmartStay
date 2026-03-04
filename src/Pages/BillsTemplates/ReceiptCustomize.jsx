@@ -5,13 +5,13 @@ import "../../Pages/Settings/Settings.css";
 // import { MdError } from "react-icons/md";
 import TextAreaICon from '../../Assets/Images/textarea.png'
 import "react-datepicker/dist/react-datepicker.css";
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import uploadsett from "../../Assets/Images/New_images/upload setting.png";
 import Modal from 'react-bootstrap/Modal';
-import Questionimage from '../../Assets/Images/question.png';
+// import Questionimage from '../../Assets/Images/question.png';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import PropTypes from "prop-types";
