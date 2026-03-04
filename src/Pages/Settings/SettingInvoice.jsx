@@ -2537,7 +2537,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 <><SecurityDepositInvoiceTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateThemes={templateThemes} /> </>}
 
               {selectedTab === "rental_receipt" &&
-                <> <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateReceiptThemes={templateReceiptThemes} /> </>
+                <> 
+                <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateReceiptThemes={templateReceiptThemes} /> 
+                </>
               }
 
 

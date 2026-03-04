@@ -168,7 +168,11 @@ function UserList(props) {
   } = useHasPermission("Checkout");
 
 
+ const {
+    canWriteModule: canWriteBooking,
+      canReadModule: canReadBooking,
 
+  } = useHasPermission("Booking");
 
   const handleInvoiceNumber = (e) => {
     setInvoiceNumber(e.target.value)
@@ -188,10 +192,7 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
-  const {
-    canWriteModule: canWriteBooking,
-
-  } = useHasPermission("Booking");
+ 
 
 
   useEffect(() => {
@@ -2955,11 +2956,11 @@ function UserList(props) {
                                               {user.bedId && user.currentStatus === "Checked In" && (
                                                 <>
                                                   <div
-                                                    onClick={() => canWriteTenant && handleCustomerCheckout(user)}
+                                                    onClick={() => canWriteCheckout && handleCustomerCheckout(user)}
                                                     className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img src={addcircle} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <img src={addcircle} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
                                                     <span className="text-sm font-medium font-gilroy">Move to Notice Period</span>
                                                   </div>
 
@@ -3019,11 +3020,11 @@ function UserList(props) {
                                                   </div>
 
                                                   <div
-                                                    onClick={() => canWriteTenant && handleInActive(user)}
+                                                    onClick={() => canReadBooking && handleInActive(user)}
                                                     className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                  ${canReadBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
+                                                    <img src={Addbook} className={`h-4 w-4 ${!canReadBooking && "grayscale"}`} />
                                                     <span className="text-sm font-medium font-gilroy">Make as Inactive</span>
                                                   </div>
                                                 </>

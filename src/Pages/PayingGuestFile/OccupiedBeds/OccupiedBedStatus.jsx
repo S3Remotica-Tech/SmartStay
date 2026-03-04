@@ -53,6 +53,26 @@ function OccupiedBedStatus({
 
     } = useHasPermission("Paying Guests");
 
+  const {
+        canWriteModule: canWriteCheckout
+
+  } = useHasPermission("Checkout");
+
+ const {
+        canReadModule: canReadBooking,
+
+    } = useHasPermission("Booking");
+
+
+
+
+
+
+
+
+
+
+
 
 
     const handleEditBed = () => {
@@ -238,23 +258,31 @@ function OccupiedBedStatus({
                                                             </div>
 
                                                             <div className="h-[1px] bg-[#E0E0E0]" />
+
+
                                                             <div
-                                                                onClick={() => canWriteCustomers && handleMoveToNoticePeriod(tenant)}
+                                                                onClick={() => canWriteCheckout && handleMoveToNoticePeriod(tenant)}
                                                                 className={`flex gap-2 items-center p-2 -ml-[3px]
-            ${canWriteCustomers ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}
+            ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}
           `}
                                                             >
                                                                 <LogoutCurve
                                                                     size="18"
-                                                                    color={canWriteCustomers ? "#FF9500" : "#A9A9A9"}
+                                                                    color={canWriteCheckout ? "#FF9500" : "#A9A9A9"}
                                                                     className="ml-1"
                                                                 />
                                                                 <label className={`text-[13px] font-medium font-gilroy mb-0
-            ${canWriteCustomers ? "text-[#222222]" : "text-[#A9A9A9]"}
+            ${canWriteCheckout ? "text-[#222222]" : "text-[#A9A9A9]"}
           `}>
                                                                     Move To Notice Period
                                                                 </label>
                                                             </div>
+
+
+
+
+
+
 
                                                             <div className="h-[1px] bg-[#E0E0E0]" />
                                                             <div
@@ -398,13 +426,13 @@ function OccupiedBedStatus({
                                                         <div className="h-px bg-gray-300" />
 
                                                         <div
-                                                            className={`flex gap-2 items-center p-2 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-50"
+                                                            className={`flex gap-2 items-center p-2 rounded-b-lg ${canReadBooking ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-50"
                                                                 }`}
-                                                            onClick={() => handleMakeInActive(tenant)}
+                                                            onClick={() => canReadBooking && handleMakeInActive(tenant)}
                                                         >
-                                                            <LogoutCurve size={18} color={canWriteCustomers ? "#FF9500" : "#A0A0A0"}
+                                                            <LogoutCurve size={18} color={canReadBooking ? "#FF9500" : "#A0A0A0"}
                                                                 className="ml-1" />
-                                                            <label className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-[#222222]" : "text-gray-300"}`}>
+                                                            <label className={`text-[14px] font-gilroy font-medium mb-0 ${canReadBooking ? "text-[#222222]" : "text-gray-300"}`}>
                                                                 Make as Inactive
                                                             </label>
                                                         </div>

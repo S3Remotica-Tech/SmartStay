@@ -38,6 +38,14 @@ function BedDetails({
     } = useHasPermission("Customers");
 
 
+    const {
+        canReadModule: canReadBooking,
+
+    } = useHasPermission("Booking");
+
+
+
+
 
     const {
         canUpdateModule: canUpdatePayingGuests,
@@ -248,19 +256,28 @@ function BedDetails({
 
                                                             <div className="h-px bg-gray-200" />
 
+
+
                                                             <div
-                                                                onClick={() => handleMakeInActive(tenant)}
+                                                                onClick={() => canReadBooking && handleMakeInActive(tenant)}
                                                                 className={`flex items-center gap-2 px-2.5 py-2 rounded-b-lg 
-                    ${canWriteCustomers ? "cursor-pointer opacity-100 hover:bg-red-50" : "cursor-not-allowed opacity-50"}`}
+    ${canReadBooking
+                                                                        ? "cursor-pointer opacity-100 hover:bg-red-50"
+                                                                        : "cursor-not-allowed opacity-50"}`}
                                                             >
                                                                 <LogoutCurve
                                                                     size={18}
-                                                                    color={canWriteCustomers ? "#FF9500" : "#A0A0A0"}
+                                                                    color={canReadBooking ? "#FF9500" : "#A0A0A0"}
                                                                 />
-                                                                <label className={`text-sm font-medium font-gilroy ${canWriteCustomers ? "text-gray-800" : "text-gray-300"}`}>
+                                                                <label
+                                                                    className={`text-sm font-medium font-gilroy 
+      ${canReadBooking ? "text-gray-800" : "text-gray-300"}`}
+                                                                >
                                                                     Make as Inactive
                                                                 </label>
                                                             </div>
+
+
 
                                                             <div className="h-px bg-gray-200" />
 

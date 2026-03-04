@@ -190,7 +190,15 @@ function CustomerCheckout(props) {
   }, [state.UsersList.addCheckoutCustomerStatusCode])
 
 
+  useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
+      }, 1000)
+    }
 
+  }, [state.UsersList?.accessRestrictionError])
 
   return (
     <>
@@ -305,8 +313,8 @@ function CustomerCheckout(props) {
                           setRequestDate(date ? date.toDate() : null);
                           calculateDateDifference(selectedDate, date);
                         }}
-                         getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000,top:'10px',left:'640px' }}
+                        getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000, top: '10px', left: '640px' }}
                         placement="topLeft"
                         disabledDate={(current) => {
                           if (!current) return false;
@@ -343,8 +351,8 @@ function CustomerCheckout(props) {
                           if (!requestDate) return true;
                           return current && current.isBefore(dayjs(requestDate), "day");
                         }}
-                         getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000,top:'10px',left:'435px' }}
+                        getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000, top: '10px', left: '435px' }}
                         placement="topLeft"
                       />
                     </div>
