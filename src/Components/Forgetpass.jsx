@@ -312,103 +312,128 @@ function ForgetPasswordPage() {
 
   return (
 
-    <div style={{ width: "100%", height: "100vh", fontFamily: "Gilroy", backgroundColor: "" }}>
+    <div className="w-full h-screen font-gilroy">
 
       {
         showEmailSend && <>
-          <div className="ms-5 mb-5">
+          <div className="ml-5 mb-5">
+            <div className="grid grid-cols-2 gap-x-1 gap-y-4">
+              <div className="p-20 relative">
+                <div
+                  className="flex items-center gap-1 mb-1 cursor-pointer"
+                  onClick={hanldeBackToLogin}>
+                  <img src={Logo} alt="logo" className="w-[25px] h-[25px]" />
 
-            <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
-              <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80, position: "relative" }}>
-                <div className="d-flex gap-1 mb-1" style={{ curser: "pointer" }} onClick={hanldeBackToLogin}>
-
-                  <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} />
-                  <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor: "pointer" }}>Smartstay</label></div>
+                  <span className="text-[#1E45E1] font-extrabold font-gilroy">
+                    Smartstay
+                  </span>
                 </div>
 
-                <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Forgot Password?</label></div>
-                <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Enter your email address to recover your account.</label></div>
+                <div className="mt-3 mb-1">
+                  <h1 className="text-[32px] font-semibold text-[#222222] font-gilroy">
+                    Forgot Password?
+                  </h1>
+                </div>
 
-                <div className="row ">
-
-                  <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 " >
-                    <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                      <Form.Control size="lg"
-
-                        data-testid='input-email'
-                        value={email} onChange={(e) => handleEmailid(e)}
-                        type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                <div className="mt-1 mb-1">
+                  <p className="text-[16px] font-normal text-[#4B4B4B] font-montserrat">
+                    Enter your email address to recover your account.
+                  </p>
+                </div>
 
 
+                <div className="grid">
 
+                  <div className="w-full lg:w-[91.666667%] md:w-full">
+                    <div className="mt-4 mb-3">
 
+                      <label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                        Email ID <span className="text-red-500 text-[20px]">*</span>
+                      </label>
 
-                      {generalError &&
-                        <ErrorMessage message={generalError} type="error" />}
+                      <input
+                        data-testid="input-email"
+                        value={email}
+                        onChange={(e) => handleEmailid(e)}
+                        type="email"
+                        placeholder="Enter Email ID"
+                        className={`w-full  mt-1 h-[48px] px-3 
+  !border !border-[#E0ECFF] 
+  rounded-lg
+  text-[16px] text-[#222222] font-gilroy
+  ${email ? "font-semibold" : "font-medium"}
+  focus:outline-none focus:ring-0 focus:border-[#1E45E1]`}
+                      />
 
+                      {generalError && (
+                        <ErrorMessage message={generalError} type="error" />
+                      )}
 
-                      <div className="mb-1 p-1"> {emailError ?
-                        <ErrorMessage message={emailError} type="error" />
-
-                        : null}
+                      <div className="mb-1 p-1">
+                        {emailError ? (
+                          <ErrorMessage message={emailError} type="error" />
+                        ) : null}
                       </div>
 
-
-                      <div className="mb-1 p-1"> {sendEmailError ?
-                        <ErrorMessage message={sendEmailError} type="error" />
-
-                        : null}</div>
-                    </Form.Group>
-
-                  </div>
-
-
-
-
-                  <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mb-1 d-flex gap-5" >
-                    <Button
-                      onClick={handleAccountVerification}
-
-                      className="w-100" style={{ border: "rgba(30, 69, 225, 1)", backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
-                    <div>
-                      {showLoader && <LoaderComponent />}
-
+                      <div className="mb-1 p-1">
+                        {sendEmailError ? (
+                          <ErrorMessage message={sendEmailError} type="error" />
+                        ) : null}
+                      </div>
 
                     </div>
                   </div>
 
+                  <div className="w-full lg:w-[91.666667%] md:w-full mb-1 flex gap-5 items-center">
+
+                    <button
+                      onClick={handleAccountVerification}
+                      className="w-full h-[50px] rounded-[12px] px-4 py-[10px] 
+      bg-[#1E45E1] text-white font-montserrat 
+      font-semibold text-[16px]"
+                    >
+                      Continue
+                    </button>
+
+                    <div>
+                      {showLoader && <LoaderComponent />}
+                    </div>
+
+                  </div>
+
                 </div>
-                <div className="mt-3 mb-2">
-                  <label style={{ fontSize: 14, fontWeight: 400, fontFamily: "Montserrat" }}>Return to your account?<span
-                    onClick={() => handleLogin()}
-                    className="ms-2 create-account-hover" style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
+
+                <div className="mt-3 mb-2 text-[14px] font-normal font-montserrat">
+                  <label>
+                    Return to your account?
+                    <span
+                      onClick={() => handleLogin()}
+                      className="ms-2 text-[16px] font-semibold font-gilroy text-[#1E45E1] cursor-pointer hover:underline"
+                    >
+                      Sign in
+                    </span>
+                  </label>
                 </div>
 
               </div>
 
-              <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "", padding: "60px 80px" }}>
-                <div>
-                  <img src={Forgot} alt='forget' style={{ height: 460, width: 460 }} />
+              <div className="w-full flex justify-center mt-24">
+                <div className="w-[80%] max-w-[480px]">
+                  <img
+                    src={Forgot}
+                    alt="forget"
+                    className="w-full max-h-[440px] h-auto object-contain"
+                  />
                 </div>
-
               </div>
-
-
             </div>
-
-
           </div>
         </>
       }
 
-
-
-
       {showOtpVerification && <>
         <ForgotOtp show={showOtpVerification} handleModalClose={handleCloseModal} Email_Id={email} />
       </>}
-
 
 
       {newPassword && <>
@@ -507,16 +532,16 @@ function ForgetPasswordPage() {
 
 
                     {isLowerCaseEnough ? (
-                        <ErrorMessage message={["One uppercase and lowercase"]} type="success" />
+                      <ErrorMessage message={["One uppercase and lowercase"]} type="success" />
                     ) : (
-                    <ErrorMessage message={["One uppercase and lowercase"]} type="error" />
+                      <ErrorMessage message={["One uppercase and lowercase"]} type="error" />
                     )}
 
 
                     {isNumericEnough ? (
 
                       <ErrorMessage message={["Numeric and Special symbols"]} type="success" />
-                     
+
                     ) : (
                       <ErrorMessage message={["Numeric and Special symbols"]} type="error" />
                     )}
@@ -560,11 +585,11 @@ function ForgetPasswordPage() {
 
                 {allError && (
                   <ErrorMessage message={allError} type="error" />
-                 
+
                 )}
 
-                {confirmationError ? 
-                 <ErrorMessage message={confirmationError} type="error" />
+                {confirmationError ?
+                  <ErrorMessage message={confirmationError} type="error" />
                   : null}
 
                 <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-2 mb-1" >
