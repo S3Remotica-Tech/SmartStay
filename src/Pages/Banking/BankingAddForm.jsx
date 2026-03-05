@@ -139,18 +139,22 @@ function BankingAddForm(props) {
   const [upiId, setUpiId] = useState("")
   const [upiIdError, setUpiIdError] = useState("")
 
-  const handleUpiId = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z0-9@._-]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
+ const handleUpiId = (e) => {
+  const value = e.target.value;
+  const pattern = /^[a-zA-Z0-9@._-]*$/;
 
-    setUpiId(value);
-    setUpiIdError("");
-    setIsChangedError("");
-  };
+  if (!pattern.test(value)) return;
 
+  
+  if (/^0+$/.test(value)) {
+    setUpiIdError("Please Enter Valid UPI ID");
+    return;
+  }
+
+  setUpiId(value);
+  setUpiIdError("");
+  setIsChangedError("");
+};
 
 
 
@@ -182,13 +186,7 @@ function BankingAddForm(props) {
     setBankAccount(selectedOption.value);
   };
 
-  // const labelMap = {
-  //   bank: "Bank",
-  //   upi: "UPI",
-  //   card: "Card",
-  //   cash: "Cash",
-  // };
-
+  
 
 
 
@@ -234,7 +232,7 @@ function BankingAddForm(props) {
   };
 
 
-
+console.log("props.editAddBank",props.editAddBank)
 
   useEffect(() => {
     if (props.editAddBank && props.editAddBank.bankingId) {
@@ -257,8 +255,9 @@ function BankingAddForm(props) {
       setAccountNo(props.editAddBank.accountNumber);
       setBankName(props.editAddBank.bankName);
       setIfscCode(props.editAddBank.ifscCode);
-      setDescription(props.editAddBank?.description);
+      setDescription(props.editAddBank?.description || "");
       setBankId(props.editAddBank.bankingId);
+      setBankAccount(props.editAddBank.bankingId)
       setCardType(props.editAddBank?.cardType)
       setCardNo(props.editAddBank?.creditCardNumber || props.editAddBank?.debitCardNumber)
       setUpiId(props.editAddBank.upiId)
@@ -495,15 +494,22 @@ function BankingAddForm(props) {
   }
   const [cardNo, setCardNo] = useState("")
 
-  const handleCardNo = (e) => {
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) {
-      return;
-    }
-    setCardNo(value)
-    setError("")
-    setIsChangedError("")
+ const handleCardNo = (e) => {
+  const value = e.target.value;
+
+ 
+  if (!/^\d*$/.test(value)) return;
+
+  
+  if (/^0+$/.test(value)) {
+    setError("Please Enter Valid Card Number");
+    return;
   }
+
+  setCardNo(value);
+  setError("");
+  setIsChangedError("");
+};
 
   const [cardType, setCardType] = useState("")
   const [cardTypeError, setCardTypeError] = useState("")
@@ -607,6 +613,9 @@ function BankingAddForm(props) {
       setError("Please Enter Benificiary Name");
       return;
     }
+
+console.log("accountName",accountName, "description",description)
+console.log("initialStateAssign",initialStateAssign)
     if (props.edit) {
       const isChanged =
         accountName !== initialStateAssign.accountName ||
@@ -713,7 +722,7 @@ function BankingAddForm(props) {
   }, [state.createAccount?.networkError, state.bankingDetails.bankingCreateError])
 
 
-
+const tabs = props.edit ? ["BANK", "UPI", "CARD","CASH"] : ["BANK", "UPI", "CARD"];
 
   return (
     <div>
@@ -736,61 +745,10 @@ function BankingAddForm(props) {
           <CloseCircle size="24" color="#000" onClick={handleClose}
             className="cursor pointer" />
         </Modal.Header>
-        {/* <Nav
-          variant="tabs"
-          activeKey={activeTab}
-
-          onSelect={(selectedKey) => {
-            setActiveTab(selectedKey);
-            setError("");
-            setUpiIdError("")
-            setBankAccountError("")
-            setCardTypeError("")
-            setIsChangedError("")
-            setaccountNumberError("")
-            dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
-          }}
-
-          className="justify-content-start ms-2 me-2"
-        >
-          {["BANK", "UPI", "CARD", "CASH"].map((tab) => (
-            <Nav.Item key={tab}>
-              <Nav.Link className="px-4 py-4"
-                eventKey={tab}
-                disabled={
-                  props.editAddBank?.bankingId && props.editAddBank.accountType !== tab
-                }
-                style={{
-                  ...tabStyle,
-                  backgroundColor: activeTab === tab ? "#1E45E1" : "",
-                  color: activeTab === tab ? "#fff" : tabStyle.color,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  borderBottomLeftRadius: 0,
-                  borderBottomRightRadius: 0,
-                  opacity:
-                    props.editAddBank?.bankingId && props.editAddBank?.accountType !== tab ? 0.6 : 1,
-                  cursor:
-                    props.editAddBank?.bankingId && props.editAddBank?.accountType !== tab
-                      ? "not-allowed"
-                      : "pointer",
-                  width: 120,
-                  textAlign: "center",
-                  
-                }}
-
-              >
-                {tab === "BANK"
-                  ? "Bank Name"
-                  : tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </Nav.Link>
-            </Nav.Item>
-          ))}
-        </Nav> */}
-
+       
 
         <div className="flex gap-2 mx-2 border-b-0">
-          {["BANK", "UPI", "CARD", "CASH"].map((tab) => {
+           {tabs.map((tab) => {
             const isActive = activeTab === tab;
             const isDisabled =
               props.editAddBank?.bankingId &&
@@ -1109,16 +1067,16 @@ function BankingAddForm(props) {
                     className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
                   />
                 </Form.Group>
-
-              </div>
-
-              {isChangedError && (
+  {isChangedError && (
                 <div className="flex justify-center">
                   <ErrorMessage message={isChangedError} type="error" />
                 </div>
               )}
 
+              </div>
 
+            
+  
               {
                 state.bankingDetails.bankingCreateError && <div className="flex justify-center mt-1 mb-1">
 
@@ -1336,18 +1294,21 @@ function BankingAddForm(props) {
                 </Form.Group>
 
               </div>
-              {isChangedError && (
-                <div className="flex justify-center">
-                  <ErrorMessage message={isChangedError} type="error" />
-                </div>
-              )}
+              
+            
               {
                 state.bankingDetails.bankingCreateError && <div className="flex justify-center mt-1 mb-1">
 
                   <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
                 </div>
               }
-
+  {isChangedError && (
+                <div className="col-span-12 mt-1">
+                  <div className="mx-auto w-fit text-center">
+                  <ErrorMessage message={isChangedError} type="error" />
+                  </div>
+                </div>
+              )}
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button disabled={formLoading}
@@ -1408,8 +1369,10 @@ function BankingAddForm(props) {
 
               </div>
               {isChangedError && (
-                <div className="flex justify-center">
+               <div className="col-span-12 mt-1">
+                  <div className="mx-auto w-fit text-center">
                   <ErrorMessage message={isChangedError} type="error" />
+                </div>
                 </div>
               )}
 

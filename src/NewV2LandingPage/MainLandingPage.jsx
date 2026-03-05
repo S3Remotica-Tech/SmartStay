@@ -22,6 +22,7 @@ import Refundpolicy from '../NewV2LandingPage/Refundpolicy'
 import BusinessChallenges from "./BusinessChallenges";
 import WhyChoose from "./WhyChoose";
 import LifeCycleMethod from "./LifeCycleMethod";
+import RecurringInvoice from "./RecurringInvoice";
 
 function FrontPage() {
   useEffect(() => {
@@ -209,6 +210,7 @@ function FrontPage() {
                    <BusinessChallenges />
                    <WhyChoose />
                    <LifeCycleMethod />
+                   <RecurringInvoice />
           {/* <Startup />
           <StatsSection />
           <RoomManagement />
