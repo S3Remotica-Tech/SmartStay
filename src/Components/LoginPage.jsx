@@ -5,7 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import './LoginPage.css';
+// import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -101,7 +101,7 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
-      
+
       dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
       // dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
       setLoading(true)
@@ -213,24 +213,36 @@ const MyComponent = () => {
 
   return (
 
-    <div className='container login_page1 h-100'>
-      <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100 fade-in'>
-        <div className='col-lg-6 col-md-6 col-sm-12' style={{ position: "relative" }}>
-          <div className="d-flex gap-1 mb-1" >
+    <div className="container mx-auto h-full">
+      <div className="flex flex-wrap h-full items-center p-3 md:mt-4 md:pt-4 w-full fade-in">
+        <div className="w-full md:w-1/2 relative">
+          <div className="flex gap-1 mb-1 mt-6 items-center">
+            <img
+              src={Logo}
+              alt="logo"
+              className="h-6 w-6 cursor-pointer"
+              onClick={handleLogoClicks}
+            />
 
-            <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClicks} />
-            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor: "pointer" }} onClick={handleLogoClicks} >
-              Smartstay</label></div>
+            <label
+              className="#1E45E1 font-extrabold font-gilroy cursor-pointer pt-1"
+              onClick={handleLogoClicks}
+            >
+              Smartstay
+            </label>
           </div>
-          <div className='mb-3 mt-2' >
-            <h1 style={{ fontFamily: "Gilroy", fontWeight: 600, color: 'rgba(34, 34, 34, 1)', fontSize: '32px' }}>Welcome back!</h1>
+          <div className="mb-3 mt-2">
+            <h1 className="font-gilroy font-semibold text-gray-800 text-[32px]">
+              Welcome back!
+            </h1>
           </div>
           <div>
-            <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
+            <p className="font-montserrat font-normal text-base text-gray-900 leading-5 text-left">
+              Enter your details below to get onto your SmartStay account.
+            </p>
           </div>
 
           {/* {state.createAccount?.networkError ?
-
             <ErrorMessage message={state.createAccount?.networkError} type="error" />
             : null} */}
 
@@ -239,141 +251,108 @@ const MyComponent = () => {
             : null}
 
           <div className='mt-4'>
-            <Form className="Form p-0">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
-              <Form.Control
-                placeholder="Enter Email ID"
-                aria-label="Recipient's username"
-                className='mb-1'
-                aria-describedby="basic-addon2"
-                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: email_Id ? 600 : 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
-                autoFocus
-                size="lg"
-                disabled={showOtpVerification}
-                value={email_Id} onChange={(e) => handleEmailChange(e)}
+            <div className="p-0 font-gilroy">
 
+              <label className="text-[14px] font-medium text-[#222222]">
+                Email ID
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter Email ID"
+                autoFocus
+                disabled={showOtpVerification}
+                value={email_Id}
+                onChange={(e) => handleEmailChange(e)}
+                className={`w-full h-[50px] mt-1 mb-1 px-3 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-0 text-[16px] text-[#4B4B4B] ${email_Id ? "font-semibold" : "font-medium"}`}
               />
 
-              {emailError &&
+              {emailError && (
                 <ErrorMessage message={emailError} type="error" />
-              }
+              )}
 
+              {state.login.errorEmail && (
+                <div className="mb-1 p-1">
+                  <ErrorMessage message={state.login.errorEmail} type="error" />
+                </div>
+              )}
 
-              <div className="mb-1 p-1" >{state.login.errorEmail ?
+              <label className="text-[14px] font-medium text-[#222222] mt-2 block mb-1">
+                Password
+              </label>
 
-                <ErrorMessage message={state.login.errorEmail} type="error" />
-
-
-                : null}
-              </div>
-
-
-
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  size="lg"
-                  className='mb-1'
-                  value={password} onChange={(e) => handlePasswordChange(e)}
+              <div className="flex items-center mb-1">
+                <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter Password"
                   disabled={showOtpVerification}
-                  style={{
-                    position: "relative",
-                    boxShadow: "none",
-                    border: "1px solid rgba(217, 217, 217, 1)",
-                    fontSize: 16,
-                    fontWeight: password ? 600 : 500,
-                    color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy",
-                    borderRight: "none"
-                  }}
+                  value={password}
+                  onChange={(e) => handlePasswordChange(e)}
+                  className={`w-full h-[50px] px-3 rounded-l-lg border border-[#D9D9D9] border-r-0 focus:outline-none focus:ring-0 text-[16px] text-[#222222] ${password ? "font-semibold" : "font-medium"}`}
                 />
-                <InputGroup.Text className='mb-1' onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
+
+                <div
+                  onClick={togglePasswordVisibility}
+                  className="h-[50px] px-3 flex items-center justify-center
+      border border-[#D9D9D9] border-l-0
+      rounded-r-lg cursor-pointer bg-transparent"
+                >
                   {showPassword ? (
-                    <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                    <Eye size={20} color="rgba(30, 69, 225, 1)" />
                   ) : (
-
-                    <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                    <EyeSlash size={20} color="rgba(30, 69, 225, 1)" />
                   )}
-                </InputGroup.Text>
-
-              </InputGroup>
-
-
+                </div>
+              </div>
 
               {passwordError && (
                 <ErrorMessage message={passwordError} type="error" />
               )}
 
-              {state.login.errorPassword ?
+              {state.login.errorPassword && (
                 <ErrorMessage message={state.login.errorPassword} type="error" />
-                : null}
+              )}
 
-
-              <div className="mb-3 d-flex justify-content-between mt-3" >
-                <Form.Group controlId="formBasicCheckbox">
-                  <Form.Check type="checkbox" label="Stay signed in"
-                    value={checked}
+              <div className="flex justify-between items-center mt-3 mb-3">
+                <label className="flex items-center gap-2 text-[14px] font-medium mt-0.5">
+                  <input
+                    type="checkbox"
+                    checked={checked}
                     onChange={(e) => handleCheckboxChange(e)}
-                    style={{ fontSize: "14px", fontWeight: 500, fontFamily: 'Gilroy' }} />
-                </Form.Group>
-                <Form.Label className='forgot_button create-account-hover' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
+                    className="w-4 h-4 shadow-2xl align-middle"
+                  />
+                  <span className="leading-none">Stay signed in</span>
+                </label>
+               
+                <span
+                  onClick={() => handleForgetPassword()}
+                  className="font-montserrat text-[14px] font-semibold leading-[17.07px] text-left text-[#1E45E1] cursor-pointer hover:underline"> Forgot Password?
+                </span>
               </div>
-            </Form>
 
-            <div className="d-flex justify-content-center pt-2">
-              <Button className="btn w-100" style={{
-                cursor: "pointer",
-                height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat"
-              }} onClick={() => handleLogin()}>
+            </div>
+
+            <div className="flex justify-center pt-2">
+              <button
+                onClick={() => handleLogin()}
+                className="w-full h-[42px] rounded-[10px] bg-[#1E45E1] text-white text-[16px] font-semibold font-montserrat cursor-pointer">
                 Sign in
-              </Button>
+              </button>
             </div>
           </div>
 
-
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: 120,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              height: "50vh",
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
-
-
+          {loading && <div className="absolute top-[120px] inset-x-0 bottom-0 flex items-center justify-center h-[50vh] opacity-75 z-10"><div className="w-10 h-10 border-4 border-[#1E45E1] border-t-transparent rounded-full animate-spin"></div></div>}
         </div>
-        <div className='col-lg-6 col-md-6 col-sm-12 mt-md-3'>
-          <div className='image_div mt-5'>
-            <img src={Loginimage} className='responsive-image' alt='Hai' />
+
+        <div className="w-full md:w-1/2 mt-0 md:mt-3">
+          <div className='w-[450px] h-[200px] ml-[120px]'>
+            <img src={Loginimage} alt='LoginImg' />
           </div>
         </div>
-        <div className='d-flex mt-3 gap-1'>
-          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>
+        <div className='flex mt-3 gap-1'>
+          <p className="font-montserrat font-normal text-[16px]">
             Don&apos;t have an account?
-          </p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
+          </p><span className="font-montserrat font-semibold text-[16px] text-[#1E45E1] cursor-pointer hover:underline" onClick={handleCreateAccount}>Create an account</span>
         </div>
 
       </div>
