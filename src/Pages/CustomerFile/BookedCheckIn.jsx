@@ -283,17 +283,27 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     useEffect(() => {
         if (bookingDetails?.customerId) {
             dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: bookingDetails?.customerId } })
+             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: bookingDetails?.customerId } });
         }
 
     }, [bookingDetails])
 
+
+
     useEffect(() => {
-        if (state.UsersList?.bookedDetails || bookingDetails) {
-            setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
-            setPlaceHolderRoomRent(state.UsersList.bookedDetails?.rent)
+        if (state.UsersList?.customerdetails?.bookingInfo || state.UsersList.bookedDetails?.rent) {
+            setBookingAmount(state.UsersList?.customerdetails?.bookingInfo?.bookingAmount)
+            // setPlaceHolderRoomRent(state.UsersList.bookedDetails?.rent || 0)
         }
 
-    }, [state.UsersList?.bookedDetails, bookingDetails])
+    }, [state.UsersList?.customerdetails?.bookingInfo,state.UsersList.bookedDetails?.rent])
+
+
+   
+
+
+
+
 
     useEffect(() => {
         if (state.UsersList?.bookingToCheckinStatusCode === 200) {
@@ -309,6 +319,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     useEffect(() => {
         if (state.UsersList?.bedError) {
             setFormLoading(false)
+            // setPlaceHolderRoomRent(0)
             // setTimeout(() => {
             //     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
             // }, 3000)
@@ -415,7 +426,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             Booking Date
                                         </label>
                                         <label className="text-sm font-semibold text-gray-900 font-gilroy">
-                                            {state.UsersList.bookedDetails?.bookedDate}
+                                            {state.UsersList?.customerdetails?.bookingInfo?.bookingDate}
                                         </label>
                                     </div>
 
@@ -509,8 +520,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                     <FormControl
                                                         type="text"
                                                         placeholder={
-                                                            placeHolderRoomRent
-                                                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                                           state.UsersList.bookedDetails?.rent 
+                                                                ? `Selected Bed Rent is ${state.UsersList.bookedDetails?.rent}`
                                                                 : "Enter Amount"
                                                         }
                                                         value={RoomRent}
@@ -672,11 +683,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                     </div>
                                 </div>
 
-                                {state.UsersList.bedError &&
-                                    <div className="flex justify-center">
-                                        <ErrorMessage message={state.UsersList.bedError} type="error" />
-                                    </div>
-                                }
+                               
                                 {state.UsersList.bedError &&
                                     <div className="d-flex justify-center">
                                         <ErrorMessage message={state.UsersList.bedError} type="error" />

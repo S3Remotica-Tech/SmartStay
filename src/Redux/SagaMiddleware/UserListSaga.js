@@ -896,23 +896,19 @@ function* handleBookedDetails(action) {
          // const cookies = new Cookies()
          // cookies.set('selected_hostelId', hostelId, { path: '/' });
       }
-
-
-
       if (response?.status === 200) {
          yield put({ type: 'BOOKED_DETAILS', payload: { response: response.data, statusCode: response?.status } })
       }
-
-      if (response) {
-         refreshToken(response)
-      }
+    
    }
    catch (error) {
       yield* handleApiError(error);
 
       if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.status === 400) {
+         if (error?.status === 400 || error?.response?.status === 400) {
             yield put({ type: 'BED_AVAILABLE_ERROR_BOOKED', payload: error.response.data });
+                     yield put({ type: 'BOOKED_DETAILS', payload: { response: '', statusCode: 0 } })
+
          }
       }
    }

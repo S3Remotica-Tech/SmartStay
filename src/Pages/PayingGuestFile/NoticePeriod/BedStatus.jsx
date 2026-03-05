@@ -52,11 +52,11 @@ function NoticeBedStatusDetails({
     // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Customers");
 
- const {
-       canWriteModule: canWriteCheckout
+  const {
+    canWriteModule: canWriteCheckout
   } = useHasPermission("Checkout");
 
-const {
+  const {
     canWriteModule: canWriteBooking,
 
   } = useHasPermission("Booking");
@@ -142,7 +142,7 @@ const {
     (user) => user.customerId === selectedTenant?.tenetId
   );
 
- 
+
 
   const handleFinalsettelmentGenerate = (tenant) => {
     showfinalsettelemnet(tenant)
@@ -289,7 +289,7 @@ const {
               <div className="flex justify-between w-full pr-2.5 pb-2 pl-1">
                 <div>
                   <div>
-                    <Modal.Title className="!text-lg !text-gray-900 !font-semibold">
+                    <Modal.Title className="!text-lg !text-gray-900 !font-semibold font-gilroy">
                       Bed Status
                     </Modal.Title>
                   </div>
@@ -672,6 +672,27 @@ const {
                               >
 
                                 <div
+                                  onMouseEnter={(e) => {
+                                    if (!currentItem.isOccupied) {
+                                      e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                    } else {
+                                      const tooltip = e.currentTarget.querySelector(".tooltip-msg");
+                                      const rect = e.currentTarget.getBoundingClientRect();
+
+                                      tooltip.style.display = "block";
+                                      tooltip.style.top = `${rect.bottom - 150}px`;
+                                      tooltip.style.left = `${rect.left - 100}px`;
+                                    }
+                                  }}
+
+                                  onMouseLeave={(e) => {
+                                    if (!currentItem.isOccupied) {
+                                      e.currentTarget.style.backgroundColor = "transparent";
+                                    } else {
+                                      const tooltip = e.currentTarget.querySelector(".tooltip-msg");
+                                      tooltip.style.display = "none";
+                                    }
+                                  }}
                                   // onClick={
                                   //   canWriteCustomers && !currentItem.isOccupied
                                   //     ? () => handleCheckIn(currentItem)
@@ -681,20 +702,7 @@ const {
                                     ? "cursor-pointer opacity-100"
                                     : "cursor-not-allowed opacity-60"
                                     }`}
-                                  onMouseEnter={(e) => {
-                                    if (!currentItem.isOccupied) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                    else {
-                                      const tooltip = e.currentTarget.querySelector(".tooltip-msg");
-                                      tooltip.style.display = "block";
-                                    }
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    if (!currentItem.isOccupied) e.currentTarget.style.backgroundColor = "transparent";
-                                    else {
-                                      const tooltip = e.currentTarget.querySelector(".tooltip-msg");
-                                      tooltip.style.display = "none";
-                                    }
-                                  }}
+
                                 >
                                   <img src={AddPlus} alt="booking"
                                     style={{
@@ -718,30 +726,28 @@ const {
 
                                   <div>
 
-                                    <div
-                                      className="hidden absolute -top-24 left-0 bg-gray-100 px-2.5 py-1.5 rounded-md text-gray-900 text-xs font-medium font-gilroy shadow-sm z-50 tooltip-msg"
-                                    >
-                                      <div>
-                                        <img src={Settings} alt="alt" /> Complete the Checkout Process for the Occupied tenant, then the button will appear
+                                    <div className="hidden fixed bg-amber-100 border border-amber-300 text-amber-900 px-3 py-2 rounded-md text-xs font-medium font-gilroy shadow-md z-[9999] tooltip-msg w-[250px]">
+                                      <div className="flex items-center gap-1">
+                                        <img src={Settings} alt="alt" />
+                                        Complete the Checkout Process for the Occupied tenant, then the button will appear
                                       </div>
                                     </div>
                                   </div>
                                 </div>
 
                                 <div
-                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCustomers ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
-                                    }`}
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg cursor-not-allowed opacity-50`}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
                                   <img src={Exchange} alt="Checkout"
                                     style={{
-                                      filter: canWriteCustomers ? "none" : "grayscale(100%) brightness(60%)",
-                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                      filter: canWriteCustomers && "grayscale(100%) brightness(60%)",
+                                      cursor: canWriteCustomers && "not-allowed",
                                     }} />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0 ${canWriteCustomers ? "text-gray-900 cursor-pointer" : "text-gray-300 cursor-not-allowed"
-                                      }`}
+                                    className={`text-sm font-medium font-gilroy mb-0  text-gray-300 cursor-not-allowed
+                                      `}
                                   >
                                     Change Bed
                                   </label>
