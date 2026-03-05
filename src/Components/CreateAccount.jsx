@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './CreateAccount.css';
+// import './CreateAccount.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Logo from '../Assets/Images/New_images/Group.png'
 import CreateAccount from '../Assets/Images/New_images/createAccount.png'
@@ -34,9 +34,6 @@ function CreateAccountPage() {
   const [passwordError, setPasswordError] = useState([]);
 
   const countryCode = '91';
-
-
-
 
 
 
@@ -237,7 +234,7 @@ function CreateAccountPage() {
     navigates("/All_Landing_pages");
   };
   const handleCreateAccount = async () => {
-          const cookies = new Cookies()
+    const cookies = new Cookies()
     cookies.remove('v2-token', { path: '/' });
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
@@ -273,18 +270,18 @@ function CreateAccountPage() {
       hasError = true;
     }
 
-   if (!phoneNo) {
-  setPhoneError("Please Enter Mobile No");
-  hasError = true;
-} else {
-  const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
-  if (!phonePattern.test(phoneNo)) {
-    setPhoneError("Please Enter Valid Mobile Number");
-    hasError = true;
-  } else {
-    setPhoneError(""); 
-  }
-}
+    if (!phoneNo) {
+      setPhoneError("Please Enter Mobile No");
+      hasError = true;
+    } else {
+      const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
+      if (!phonePattern.test(phoneNo)) {
+        setPhoneError("Please Enter Valid Mobile Number");
+        hasError = true;
+      } else {
+        setPhoneError("");
+      }
+    }
 
 
 
@@ -340,148 +337,131 @@ function CreateAccountPage() {
 
   }, [state.createAccount?.networkError])
 
-  
+
 
 
 
   return (
     <>
-
-      <div data-testid='create-account' style={{ width: "100%", fontFamily: "Gilroy", backgroundColor: "" }}>
-
-        <div className=" ms-5">
-
-          <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
-            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4 " style={{ position: "relative" }}>
-
-
+     <div data-testid='create-account' className="w-full font-gilroy">
+        <div className="ml-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1 fade-in">
+            <div className="mt-4 relative">
 
               {loading && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: "50%",
-                    left: "50%",
-                    transform: 'translate(-50%, -50%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
+                <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                  <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
                 </div>
               )}
 
+              <div className="flex gap-1 mb-1 cursor-pointer">
+                <img
+                  src={Logo}
+                  alt="Company Logo"
+                  onClick={handleLogoClick}
+                  className="h-6 w-6 cursor-pointer"
+                />
 
-
-
-
-
-              <div className="d-flex gap-1 mb-1" style={{ curser: "pointer" }}>
-
-                <img src={Logo} alt="Company Logo" style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClick} />
-
-                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }} onClick={handleLogoClick}>
-                  Smartstay</label></div>
+                <div>
+                  <label
+                    onClick={handleLogoClick}
+                    className="text-blue-700 font-extrabold font-gilroy cursor-pointer"
+                  >
+                    Smartstay
+                  </label>
+                </div>
               </div>
 
-              <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Create your free account</label></div>
-              <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Enter your details below to find your stay smartly</label></div>
+              <div className="mt-3 mb-1">
+                <label className="text-3xl font-semibold text-[#222222] font-gilroy">
+                  Create your free account
+                </label>
+              </div>
 
-              <div className="row row-gap-3 mt-5 me-2">
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" data-testid='fname-container'>
+              <div className="mt-1 mb-1">
+                <label className="text-base font-normal text-[#4B4B4B] font-montserrat">
+                  Enter your details below to find your stay smartly
+                </label>
+              </div>
+
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 max-w-[650px]">
+                <div className="w-full" data-testid="fname-container">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>First Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                      First Name <span className="text-red-500 text-lg">*</span>
+                    </Form.Label>
                     <Form.Control
                       value={firstName}
                       data-testid='first-name'
                       onChange={(e) => { handleFirstName(e) }}
-                      size="lg" type="text" placeholder="Enter First Name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: firstName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      size="lg" type="text"
+                      placeholder="Enter First Name"
+                      className={`shadow-none !border !border-[#E0ECFF] !text-base ${firstName ? "font-semibold" : "font-medium"} text-[#222222] font-gilroy`}
+                    />
                   </Form.Group>
 
                   {firstNameError && (
-                   <ErrorMessage message={firstNameError}  type="error"/>
+                    <ErrorMessage message={firstNameError} type="error" />
                   )}
-
-
-
-
                 </div>
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+                <div className="w-full">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Last Name <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">Last Name <span className="invisible text-lg">*</span></Form.Label>
                     <Form.Control
                       data-testid='last-name'
                       value={lastName}
                       onChange={(e) => { handleLastName(e) }}
-                      size="lg" type="text" placeholder="Enter Last Name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: lastName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      size="lg"
+                      type="text"
+                      placeholder="Enter Last Name"
+                      className={`shadow-none !border !border-[#E0ECFF] !text-base ${lastName ? "font-semibold" : "font-medium"} text-[#222222] font-gilroy`}
+                    />
                   </Form.Group>
                 </div>
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+                <div className="w-full">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                      Email ID {" "}<span className="text-red-500 text-lg">*</span>
+                    </Form.Label>
                     <Form.Control size="lg"
                       data-testid='emailid'
                       autoComplete="new-mail"
                       autoCorrect="off"
-                      value={emailID} onChange={(e) => { handleEmailID(e) }}
-                      type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      value={emailID}
+                      onChange={(e) => { handleEmailID(e) }}
+                      type="email"
+                      placeholder="Enter Email ID"
+                      className={`shadow-none !border !border-[#E0ECFF] !text-base ${emailID ? "font-semibold" : "font-medium"} text-[#222222] font-gilroy`}
+                    />
 
                   </Form.Group>
 
                   {emailError && (
-                   <ErrorMessage message={emailError}  type="error"/>
+                    <ErrorMessage message={emailError} type="error" />
                   )}
 
 
-                  {state.createAccount?.emailError ? 
-                   <ErrorMessage message={state.createAccount?.emailError} type="error" />
+                  {state.createAccount?.emailError ?
+                    <ErrorMessage message={state.createAccount?.emailError} type="error" />
                     : null}
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                <div className="w-full">
                   <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500
-                    }}>
-                      Mobile Number <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                      Mobile Number {" "}<span className="text-red-500 text-lg">*</span>
                     </Form.Label>
 
                     <InputGroup >
                       <Form.Select
                         value={countryCode}
                         id="vendor-select-create_account"
-                        style={{
-                          border: "1px solid rgba(224, 236, 255, 1)",
-                          borderRadius: "8px 0 0 8px",
-                          height: 43,
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: countryCode ? 600 : 500,
-                          boxShadow: "none",
-                          backgroundColor: "#fff",
-                          maxWidth: 90
-                        }}
+                        className={`!border !border-[#E0ECFF] !rounded-l-lg !h-[43px] !text-[16px] !text-[#4B4B4B] !font-gilroy ${countryCode ? "!font-semibold" : "!font-medium"} !shadow-none !bg-white !max-w-[90px] !rounded-none`}
+
                       >
                         <option>+{countryCode}</option>
-
-
                       </Form.Select>
                       <Form.Control
                         data-testid='mobile'
@@ -490,44 +470,29 @@ function CreateAccountPage() {
                         type="text"
                         placeholder="9876543210"
                         maxLength={10}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: phoneNo ? 600 : 500,
-                          boxShadow: "none",
-                          borderLeft: "unset",
-                          borderRight: "1px solid rgba(224, 236, 255, 1)",
-                          borderTop: "1px solid rgba(224, 236, 255, 1)",
-                          borderBottom: "1px solid rgba(224, 236, 255, 1)",
-                          borderRadius: "0 8px 8px 0",
-                        }}
+                        className={`!text-[16px] !text-[#4B4B4B] !font-gilroy ${phoneNo ? "!font-semibold" : "!font-medium"} !shadow-none !border-l-0 !border-r !border-t !border-b !border-[#E0ECFF] !rounded-r-lg`}
                       />
                     </InputGroup>
                   </Form.Group>
 
                   {phoneError && (
-                     <ErrorMessage message={phoneError}  type="error"/>
+                    <ErrorMessage message={phoneError} type="error" />
                   )}
-
-
 
                   {countryCodeError && (
-                     <ErrorMessage message={countryCodeError} type="error" />
-                    
+                    <ErrorMessage message={countryCodeError} type="error" />
+
                   )}
 
-
-                  {state.createAccount?.mobileError && 
-                   <ErrorMessage message={state.createAccount?.mobileError}  type="error"/>
-                   }
-
-
-
-
+                  {state.createAccount?.mobileError &&
+                    <ErrorMessage message={state.createAccount?.mobileError} type="error" />
+                  }
                 </div>
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+
+                <div className="w-full">
+                  <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                    Password {" "}<span className="text-red-500 text-lg">*</span>
+                  </Form.Label>
                   <InputGroup >
                     <Form.Control
                       data-testid='password'
@@ -538,18 +503,12 @@ function CreateAccountPage() {
                       onChange={handlePassword}
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"
-                      style={{
-                        position: "relative",
-                        boxShadow: "none",
-                        border: "1px solid rgba(224, 236, 255, 1)",
-                        fontSize: 16,
-                        fontWeight: password ? 600 : 500,
-                        color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy",
-                        borderRight: "none"
-                      }}
+
+                      className={`relative shadow-none !border !border-[#E0ECFF] !text-base text-[#222222] font-gilroy ${password ? "font-semibold" : "font-medium"} border-r-0`}
                     />
-                    <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                    <InputGroup.Text onClick={togglePasswordVisibility}
+                      className="bg-transparent !border !border-[#E0ECFF] cursor-pointer"
+                    >
                       {showPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                       ) : (
@@ -560,31 +519,21 @@ function CreateAccountPage() {
 
                   </InputGroup>
 
-
                   {passwordErrors && (
-                                       <ErrorMessage message={passwordErrors}  type="error"/>
+                    <ErrorMessage message={passwordErrors} type="error" />
 
                   )}
-
-
-
-
-
-
-
 
                   {passwordError && passwordError.length > 0 && (
-                     <ErrorMessage message={passwordError}  type="error"/>
+                    <ErrorMessage message={passwordError} type="error" />
 
                   )}
-
-
-
-
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                <div className="w-full">
+                  <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                    Confirm Password {" "}<span className="text-red-500 text-lg">*</span>
+                  </Form.Label>
                   <InputGroup>
                     <Form.Control
                       data-testid='confirm-password'
@@ -595,18 +544,10 @@ function CreateAccountPage() {
                       onChange={handleConfirmPassword}
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Password"
-                      style={{
-                        position: "relative",
-                        boxShadow: "none",
-                        border: "1px solid rgba(224, 236, 255, 1)",
-                        fontSize: 16,
-                        fontWeight: confirmpassword ? 600 : 500,
-                        color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy",
-                        borderRight: "none"
-                      }}
+                      className={`relative shadow-none !border !border-[#E0ECFF] !text-base text-[#222222] font-gilroy ${confirmpassword ? "font-semibold" : "font-medium"} border-r-0`}
                     />
-                    <InputGroup.Text onClick={toggleConfirmPasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                    <InputGroup.Text onClick={toggleConfirmPasswordVisibility}
+                      className="bg-transparent border border-[#E0ECFF] cursor-pointer" >
                       {showConfirmPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                       ) : (
@@ -618,90 +559,69 @@ function CreateAccountPage() {
                   </InputGroup>
 
                   {confirmPasswordError && (
-                     <ErrorMessage message={confirmPasswordError}  type="error"/>
+                    <ErrorMessage message={confirmPasswordError} type="error" />
                   )}
 
                 </div>
-
-
-
-
                 {allError && (
-                  <ErrorMessage message={allError}  type="error"/>
+                  <ErrorMessage message={allError} type="error" />
                 )}
-
-
 
                 {bothPasswordError && (
-                 <ErrorMessage message={bothPasswordError}  type="error"/>
+                  <ErrorMessage message={bothPasswordError} type="error" />
                 )}
 
-
-
-
-
-
-                {state.createAccount?.passwordDoesnotMatchError ? 
-                <ErrorMessage message={state.createAccount?.passwordDoesnotMatchError}  type="error"/>
+                {state.createAccount?.passwordDoesnotMatchError ?
+                  <ErrorMessage message={state.createAccount?.passwordDoesnotMatchError} type="error" />
                   : null}
 
 
-                {state.createAccount?.email_mobile_Error ? 
-                                  <ErrorMessage message={state.createAccount?.email_mobile_Error}  type="error"/>
+                {state.createAccount?.email_mobile_Error ?
+                  <ErrorMessage message={state.createAccount?.email_mobile_Error} type="error" />
                   : null}
-
-
 
                 {/* {state.createAccount?.networkError ? 
                   <ErrorMessage message={state.createAccount?.networkError}  type="error"/>
                   : null} */}
-
-
-                <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1" >
-                  <Button data-testid='create-account-btn' disabled={loading}
-                  onClick={handleCreateAccount} className="w-100" 
-                  style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600 }}>Create account</Button>
-                </div>
-
               </div>
+
+              <div className="mt-4 mb-1 mr-5">
+                <Button
+                  data-testid="create-account-btn"
+                  disabled={loading}
+                  onClick={handleCreateAccount}
+                  className="!w-full !bg-[#1E45E1] !rounded-[12px] !h-[50px] !font-semibold !font-montserrat"
+                >
+                  Create account
+                </Button>
+              </div>
+
               <div className="mt-3 mb-2">
-                <label style={{ fontSize: 14, fontWeight: 400, fontFamily: "Montserrat" }}>Already have an account?<span onClick={() => handleLoginPage()} className="ms-2 create-account-hover" style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
+                <label className="text-[14px] font-normal font-montserrat">
+                  Already have an account?
+                  <span
+                    onClick={handleLoginPage}
+                    className="ml-2 text-[16px] font-semibold font-gilroy text-[#1E45E1] cursor-pointer create-account-hover"
+                  >
+                    Sign in
+                  </span>
+                </label>
               </div>
 
             </div>
 
-
-            <div className='col-lg-6 col-md-6 col-sm-12 '>
-              <div className='image_div mt-5'>
-                <img src={CreateAccount} alt="create" className='responsive-image' />
+            <div className="w-full md:w-1/2">
+              <div className="mt-5 flex justify-center ml-[100px] w-[450px]">
+                <img
+                  src={CreateAccount}
+                  alt="create"
+                  className="w-full max-w-[480px] h-auto"
+                />
               </div>
-
             </div>
-
-
-
           </div>
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
       </div>
-
-
-
 
     </>
   )

@@ -384,7 +384,7 @@ function ForgetPasswordPage() {
                     </div>
                   </div>
 
-                  <div className="w-full lg:w-[91.666667%] md:w-full mb-1 flex gap-5 items-center">
+                  <div className="w-full px-0 md:w-full mb-1 flex gap-5 items-center">
 
                     <button
                       onClick={handleAccountVerification}
@@ -438,24 +438,43 @@ function ForgetPasswordPage() {
 
       {newPassword && <>
 
+        <div className="ml-5 mb-5 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1">
+            <div className="p-6 md:p-12 lg:p-[80px]">
 
-        <div className="ms-5 mb-5" style={{ position: "relative" }}>
+              <div className="flex items-center gap-1 mb-1 cursor-pointer" onClick={hanldeBackToLoginPassword}>
 
-          <div className="row g-0 coumn-gap-1 row-gap-4">
-            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
-              <div className="d-flex gap-1 mb-1" onClick={hanldeBackToLoginPassword}>
+                <img
+                  src={Logo}
+                  alt="logo"
+                  className="h-[25px] w-[25px]"
+                />
 
-                <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} />
-                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor: "pointer" }}>Smartstay</label></div>
+                <label className="text-[#1E45E1] font-extrabold font-gilroy">
+                  Smartstay
+                </label>
+
               </div>
 
-              <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Setup your password  </label></div>
-              <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Fill in the details below to create your publisher account</label></div>
 
-              <div className="row row-gap-3 mt-4" style={{ position: "relative" }}>
 
-                <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+              <div className="mt-3 mb-1">
+                <label className="text-[32px] font-semibold text-[#222222] font-gilroy">
+                  Setup your password
+                </label>
+              </div>
+
+              <div className="mt-1 mb-1">
+                <label className="text-[16px] font-normal text-[#4B4B4B] font-montserrat">
+                  Fill in the details below to create your publisher account
+                </label>
+              </div>
+
+              <div className="relative mt-4 grid gap-y-3">
+
+                <div className="w-full lg:w-[91.666667%]">
+                  <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">Password
+                    <span className="text-red-500 text-[22px]">*</span></Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -463,18 +482,17 @@ function ForgetPasswordPage() {
                       onChange={handlePassword}
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"
-                      style={{
-                        position: "relative",
-                        boxShadow: "none",
-                        border: "1px solid rgba(224, 236, 255, 1)",
-                        fontSize: 16,
-                        fontWeight: password ? 600 : 500,
-                        color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy",
-                        borderRight: "none"
-                      }}
+                      className={`relative shadow-none !border !border-[#E0ECFF]
+  text-[16px] text-[#222222] font-gilroy
+  ${password ? "font-semibold" : "font-medium"}
+  focus:outline-none`}
+
                     />
-                    <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+
+                    <InputGroup.Text
+                      className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
+                      onClick={togglePasswordVisibility} >
+
                       {showPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                       ) : (
@@ -486,8 +504,9 @@ function ForgetPasswordPage() {
                   </InputGroup>
                 </div>
 
-                <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                <div className="w-full lg:w-[91.666667%]">
+                  <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">Confirm Password
+                    <span className="text-red-500 text-[22px]">*</span></Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -495,18 +514,13 @@ function ForgetPasswordPage() {
                       onChange={handleConfirmPassword}
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Password"
-                      style={{
-                        position: "relative",
-                        boxShadow: "none",
-                        border: "1px solid rgba(224, 236, 255, 1)",
-                        fontSize: 16,
-                        fontWeight: confirmpassword ? 600 : 500,
-                        color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy",
-                        borderRight: "none"
-                      }}
+                      className={`relative shadow-none !border !border-[#E0ECFF]
+  text-[16px] text-[#222222] font-gilroy
+  ${password ? "font-semibold" : "font-medium"}
+  focus:outline-none`}
                     />
-                    <InputGroup.Text onClick={toggleConfirmPasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                    <InputGroup.Text className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
+                      onClick={toggleConfirmPasswordVisibility} >
                       {showConfirmPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                       ) : (
@@ -549,39 +563,11 @@ function ForgetPasswordPage() {
 
                 )}
 
-
-                {loading && <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    display: 'flex',
-                    height: "50vh",
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
-                </div>}
-
-
-
-
-
+                {loading && (
+                  <div className="absolute inset-0 flex items-center justify-center h-1/2 bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
 
                 {allError && (
                   <ErrorMessage message={allError} type="error" />
@@ -592,18 +578,23 @@ function ForgetPasswordPage() {
                   <ErrorMessage message={confirmationError} type="error" />
                   : null}
 
-                <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-2 mb-1" >
-                  <Button
+
+                <div className="w-full lg:w-[91.666667%] mt-2 mb-1">
+                  <button
                     onClick={handlePasswordReset}
-                    className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
+                    className="w-full bg-blue-700 rounded-xl py-2.5 h-12 font-montserrat font-semibold text-base text-white"
+                  >
+                    Continue
+                  </button>
                 </div>
 
               </div>
 
             </div>
-            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "", padding: "60px 80px" }}>
+
+            <div className="p-6 md:p-12 lg:p-[80px]">
               <div>
-                <img src={Forgot} alt='forget' style={{ height: 460, width: 460 }} />
+                <img src={Forgot} alt='forget' className='w-[460px] h-[460px]' />
               </div>
 
             </div>
