@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import FrontPage from './NewLandingPage/Topbar';
+import MainLandingPage from './NewV2LandingPage/MainLandingPage'
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
@@ -235,6 +236,8 @@ if(!token){
           <>
             <Routes>
               <Route path="/" element={<FrontPage />} />
+              {/* <Route path="/" element={<MainLandingPage />} /> */}
+
               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
