@@ -130,7 +130,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               whiteSpace: "nowrap",
             }}
           >
-            {item?.space || 0} sharing
+            {item?.sharingType || 0} 
           </span>
         </div>
       ),

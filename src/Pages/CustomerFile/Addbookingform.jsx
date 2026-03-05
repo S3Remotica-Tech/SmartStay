@@ -236,7 +236,7 @@ function BookingModal(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {item?.space || 0} sharing
+            {item?.sharingType || 0} 
           </span>
         </div>
       ),
