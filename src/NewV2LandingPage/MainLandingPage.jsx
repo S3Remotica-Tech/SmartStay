@@ -21,6 +21,7 @@ import CookiesPolicy from "../NewV2LandingPage/CookiesPolicy";
 import Refundpolicy from '../NewV2LandingPage/Refundpolicy'
 import BusinessChallenges from "./BusinessChallenges";
 import WhyChoose from "./WhyChoose";
+import LifeCycleMethod from "./LifeCycleMethod";
 
 function FrontPage() {
   useEffect(() => {
@@ -207,6 +208,7 @@ function FrontPage() {
                    <HomePage />
                    <BusinessChallenges />
                    <WhyChoose />
+                   <LifeCycleMethod />
           {/* <Startup />
           <StatsSection />
           <RoomManagement />

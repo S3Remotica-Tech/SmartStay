@@ -5,8 +5,8 @@ import Business from "../Assets/v2LandingImages/business.svg";
 
 function BusinessChallenges() {
   return (
-    <div className="w-full h-screen bg-[linear-gradient(to_bottom,#FDFDFD_0%,#0565FF1A_80%)] 
-    flex flex-col items-center justify-start py-2 relative overflow-hidden">
+    <div className="w-full h-fit bg-[linear-gradient(to_bottom,#FDFDFD_0%,#0565FF1A_80%)] 
+    flex flex-col items-center justify-start pt-4 relative overflow-hidden">
 
 
   <h2 className="text-[52px] md:text-4xl font-semibold text-[#000000] text-center font-gilroy">

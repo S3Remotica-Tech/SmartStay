@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 // import "./Homepage.css"
-import { ArrowRight } from "iconsax-react";
+import { ArrowRight, Send2 } from "iconsax-react";
 import BgImage from "../Assets/v2LandingImages/Landing_Background_Image.svg";
 import Dashboard from "../Assets/v2LandingImages/Dashboard.svg";
 import axn from "../Assets/v2LandingImages/AXN.svg";
@@ -75,155 +75,12 @@ const HomePage = () => {
         </script>
       </Helmet>
 
-      {/* <div
-          className="position-relative w-100 "
-          style={{
-            
-            backgroundImage: `url(${HomebgImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <img
-            src={TopLeftCurve}
-            alt="Top Left Curve"
-            className="position-absolute"
-            style={{ top: "0", left: "0", width: "150px", zIndex: "1" }}
-          />
-
-          <Container fluid className="py-5">
-            <Container fluid>
-              <Row className="align-items-center flex-column flex-md-row">
-                               <Col md={6} className="d-flex flex-column align-items-start justify-content-center text-start">
-                  <Col md={11} className="mt-5 ms-5 responsive-home-text">
-                    <h1 className="responsive-title"
-                      style={{
-                        color: "rgba(9, 15, 41, 1)",
-                        fontWeight: 700,
-                        fontFamily: "Montserrat",
-                        fontSize: "clamp(24px, 5vw, 40px)",
-                      }}
-                    >
-                      Simplify the managing of your Paying Guest accommodation and Homestay services with{" "}
-                      <span
-                        style={{
-                          color: "#2D5EFF",
-                          fontWeight: 900,
-                        }}
-                      >
-                        SmartStay
-                      </span>
-                    </h1>
-                    <p className="responsive-desc"
-                      style={{
-                        color: "#3A435C",
-                        fontWeight: 400,
-                        fontFamily: "Montserrat",
-                        fontSize: "clamp(14px, 2vw, 18px)",
-                        maxWidth: "600px",
-                      }}
-                    >
-                      Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.
-                    </p>
-                    <div className="mt-4 d-flex gap-3 responsive-buttons">
-                      <Button
-                        className="d-flex align-items-center gap-2 responsive-btn"
-                        onClick={handleSignUp}
-                        style={{
-                          backgroundColor: "#2D5EFF",
-                          color: "#fff",
-                          fontSize: "16px",
-                          fontFamily: "Montserrat",
-                          fontWeight: 600,
-                          padding: "12px 20px",
-                          borderRadius: "8px",
-                          border: "none",
-                        }}
-                      >
-                        Get Started →
-                      </Button>
-                      <Button className="responsive-btn"
-                        variant="outline-dark"
-                        onClick={handleSignIn}
-                        style={{
-                          fontSize: "16px",
-                          fontFamily: "Montserrat",
-                          fontWeight: 600,
-                          padding: "12px 20px",
-                          borderRadius: "8px",
-                        }}
-                      >
-                        Sign In →
-                      </Button>
-                    </div>
-                    <Row className="mt-5 w-100 responsive-stats">
-                      <Col xs={4}>
-                        <div>
-                          <h3 className="responsive-count"
-                            style={{
-                              color: "#090F29",
-                              fontSize: "clamp(24px, 4vw, 34px)",
-                              fontWeight: 700,
-                            }}
-                          >
-                            125K+
-                          </h3>
-                          <p className="responsive-label" style={{ color: "#3A435C", fontSize: "clamp(12px, 2vw, 15px)" }}>
-                            Total Active Hostels
-                          </p>
-                        </div>
-                      </Col>
-                      <Col xs={4}>
-                        <div>
-                          <h3 className="responsive-count"
-                            style={{
-                              color: "#090F29",
-                              fontSize: "clamp(24px, 4vw, 34px)",
-                              fontWeight: 700,
-                            }}
-                          >
-                            468K+
-                          </h3>
-                          <p className="responsive-label" style={{ color: "#3A435C", fontSize: "clamp(12px, 2vw, 15px)" }}>
-                            Total People Hostels
-                          </p>
-                        </div>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Col>
-
-
-
-
-
-                <Col md={6} className="text-center">
-                  <img
-                    src={dashboardImg}
-                    alt="SmartStay hostel booking dashboard showing room availability tracker and PG occupancy layout,
-                    Working professional managing hostel operations using SmartStay mobile app,
-                    Hostel resident profiles onboarded through SmartStay tenant portal app"
-                    className="img-fluid"
-                    style={{
-                      width: "100%",
-                      maxWidth: "700px",
-                      height: "auto"
-                    }}
-                  />
-                </Col>
-
-              </Row>
-            </Container>
-          </Container>
-        </div> */}
-      {/* bg-[center_bottom] */}
-
+      
       <div
-        className="w-screen h-fit bg-cover bg-[bottom] bg-no-repeat relative"
+        className="w-screen max-h-[800px] overflow-hidden bg-cover bg-[bottom] bg-no-repeat relative"
         style={{ backgroundImage: `url(${BgImage})` }}
       >
-        <div className="w-full  py-10">
+        <div className="w-full">
           <div className="max-w-5xl mx-auto text-center px-6">
 
 
@@ -257,18 +114,29 @@ const HomePage = () => {
 
             </div>
 
-            <div className="w-full flex items-center justify-center mt-4 rounded-2xl border-8 border-[#222222]">
+         <div className="w-[1000px] w-full mx-auto flex justify-center mt-4 rounded-2xl border-8 border-[#222222] relative">
               <img
                 src={Dashboard}
                 alt="Map"
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-cover"
               />
+
+              <div className="absolute right-[-70px] top-[350px] -translate-y-1/2 bg-[#1E45E1] p-3 rounded-full shadow-md">
+                <Send2 size="14" color="#FFFFFF" variant="Bold" />
+              </div>
             </div>
 
 
 
 
-            <div className="w-full bg-[#FDFDFD] py-8 px-[200px] absolute bottom-0 left-0 right-0 z-10">
+          
+
+
+
+          </div>
+        </div>
+      </div>
+        <div className="w-full bg-[#FDFDFD] py-8 px-[200px] z-10">
               <p className="text-center text-[#061C3D] text-lg mb-6 font-semibold font-gilroy">
                 Over <span className="text-blue-600 font-semibold font-gilroy italic">1,000+</span> actively paying customers
               </p>
@@ -290,12 +158,6 @@ const HomePage = () => {
 
             </div>
 
-
-
-
-          </div>
-        </div>
-      </div>
     </>
 
 
