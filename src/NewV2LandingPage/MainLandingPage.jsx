@@ -19,6 +19,10 @@ import Condition from "../NewV2LandingPage/Terms";
 import Policy from "../NewV2LandingPage/PrivacyPolicy";
 import CookiesPolicy from "../NewV2LandingPage/CookiesPolicy";
 import Refundpolicy from '../NewV2LandingPage/Refundpolicy'
+import BusinessChallenges from "./BusinessChallenges";
+import WhyChoose from "./WhyChoose";
+import LifeCycleMethod from "./LifeCycleMethod";
+import RecurringInvoice from "./RecurringInvoice";
 
 function FrontPage() {
   useEffect(() => {
@@ -203,6 +207,10 @@ function FrontPage() {
       {activeSection === "firstPage" && (
         <Element name="firstPage" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
                    <HomePage />
+                   <BusinessChallenges />
+                   <WhyChoose />
+                   <LifeCycleMethod />
+                   <RecurringInvoice />
           {/* <Startup />
           <StatsSection />
           <RoomManagement />
