@@ -5,7 +5,17 @@ import { Helmet } from "react-helmet-async";
 import { ArrowRight } from "iconsax-react";
 import BgImage from "../Assets/v2LandingImages/Landing_Background_Image.svg";
 import Dashboard from "../Assets/v2LandingImages/Dashboard.svg";
-import { Swiper, SwiperSlide } from "swiper/react";
+import axn from "../Assets/v2LandingImages/AXN.svg";
+import lenovo from "../Assets/v2LandingImages/Lenovo.svg";
+import slack from "../Assets/v2LandingImages/slack.svg";
+import youtube from "../Assets/v2LandingImages/youtube.svg";
+import amazon from "../Assets/v2LandingImages/amazon.svg";
+import google from "../Assets/v2LandingImages/Google.svg";
+import microsoft from "../Assets/v2LandingImages/Microsoft.svg";
+import Marquee from "react-fast-marquee";
+
+
+
 
 
 const HomePage = () => {
@@ -210,7 +220,7 @@ const HomePage = () => {
       {/* bg-[center_bottom] */}
 
       <div
-        className="w-screen h-fit bg-cover bg-[bottom] bg-no-repeat"
+        className="w-screen h-fit bg-cover bg-[bottom] bg-no-repeat relative"
         style={{ backgroundImage: `url(${BgImage})` }}
       >
         <div className="w-full  py-10">
@@ -255,60 +265,31 @@ const HomePage = () => {
               />
             </div>
 
- <div className="w-full bg-[#F5F7FA] py-10">
-      
-     
-      <p className="text-center text-gray-600 text-sm mb-6">
-        Over <span className="text-blue-600 font-semibold">1,000+</span> actively paying customers
-      </p>
 
-      
-      <Swiper
-        spaceBetween={40}
-        slidesPerView={2}
-        breakpoints={{
-          640: { slidesPerView: 3 },
-          768: { slidesPerView: 4 },
-          1024: { slidesPerView: 6 },
-        }}
-        loop={true}
-        autoplay={{
-          delay: 2000,
-          disableOnInteraction: false,
-        }}
-        speed={3000}
-      >
-        <SwiperSlide>
-          <img src="/logos/ayx.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
 
-        <SwiperSlide>
-          <img src="/logos/lenovo.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
 
-        <SwiperSlide>
-          <img src="/logos/slack.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
+            <div className="w-full bg-[#FDFDFD] py-8 px-[200px] absolute bottom-0 left-0 right-0 z-10">
+              <p className="text-center text-[#061C3D] text-lg mb-6 font-semibold font-gilroy">
+                Over <span className="text-blue-600 font-semibold font-gilroy italic">1,000+</span> actively paying customers
+              </p>
 
-        <SwiperSlide>
-          <img src="/logos/youtube.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
 
-        <SwiperSlide>
-          <img src="/logos/amazon.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
+              <Marquee
+                speed={100}
+                pauseOnHover={true}
+                gradient={false}
+              >
+                <img src={axn} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+                <img src={lenovo} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+                <img src={slack} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+                <img src={youtube} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+                <img src={amazon} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+                <img src={google} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+                <img src={microsoft} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+              </Marquee>
 
-        <SwiperSlide>
-          <img src="/logos/google.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
+            </div>
 
-        <SwiperSlide>
-          <img src="/logos/microsoft.png" className="h-8 mx-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-        </SwiperSlide>
-      </Swiper>
-
-    </div>
-  
 
 
 
