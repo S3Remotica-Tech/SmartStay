@@ -519,7 +519,6 @@ function BookingModal(props) {
         onHide={handleCloseBooking}
         backdrop="static"
         dialogClassName="custom-modals-style"
-        // className="mt-24"
         className="2xl:mt-24 mt-0 h-auto flex items-center justify-center"
       >
         <Modal.Header className="flex justify-between">
