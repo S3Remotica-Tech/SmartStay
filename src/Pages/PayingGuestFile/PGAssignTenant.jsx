@@ -120,6 +120,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
     setFields(updatedFields);
+    const updatedErrors = [...errors];
+    updatedErrors.splice(index, 1);
+    setErrors(updatedErrors);
   };
 
 

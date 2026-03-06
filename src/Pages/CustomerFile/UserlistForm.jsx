@@ -85,7 +85,7 @@ function UserlistForm(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {item?.sharingType || 0} 
+            {item?.sharingType || 0}
           </span>
         </div>
       ),
@@ -103,6 +103,10 @@ function UserlistForm(props) {
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
     setFields(updatedFields);
+    
+    const updatedErrors = [...errors];
+    updatedErrors.splice(index, 1);
+    setErrors(updatedErrors);
   };
 
 
@@ -1168,7 +1172,7 @@ function UserlistForm(props) {
                         )}
                       </div>
 
-                                          </div>
+                    </div>
 
 
 
