@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Edit2,  Camera } from "iconsax-react";
+import { Edit2, Camera } from "iconsax-react";
 import AdminProfile from '../../Assets/v2Images/adminprofile.png'
 import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
@@ -15,17 +15,17 @@ function AdminProfileEdit({ show, handleClose }) {
     const [email, setEmail] = useState("");
     const [profileImage, setProfileImage] = useState(null);
     const [formLoading, setFormLoading] = useState(false);
-
+    const [previewImage, setPreviewImage] = useState(null);
     const [errors, setErrors] = useState({});
     const [hoverImage, setHoverImage] = useState(false);
 
-   
+
 
 
     const account = state.createAccount?.accountList
 
 
-   
+
 
     const validate = () => {
         let newErrors = {};
@@ -86,8 +86,8 @@ function AdminProfileEdit({ show, handleClose }) {
             firstName?.trim() !== account?.firstName ||
             lastName?.trim() !== account?.lastName ||
             email?.trim() !== account?.mailId ||
-            mobile !== account?.mobileNo
-            // profileImage !== null 
+            mobile !== account?.mobileNo ||
+            profileImage !== account?.profilePic
         );
     };
 
@@ -111,7 +111,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
 
-       
+
         const payload = {
             profilePic: profileImage || null,
             payloads: {
@@ -132,12 +132,22 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
     const handleImageUpload = (e) => {
+        setErrors((prev) => ({ ...prev, noChange: "" }));
+
         const file = e.target.files[0];
+
         if (file) {
-            setProfileImage(URL.createObjectURL(file));
+            setProfileImage(file);
+            setPreviewImage(URL.createObjectURL(file));
         }
     };
-
+    useEffect(() => {
+        return () => {
+            if (previewImage) {
+                URL.revokeObjectURL(previewImage);
+            }
+        };
+    }, [previewImage]);
     useEffect(() => {
         if (state.createAccount?.statuscodeforUpdateprofile) {
             dispatch({ type: "ACCOUNTDETAILS" });
@@ -161,19 +171,19 @@ function AdminProfileEdit({ show, handleClose }) {
         }
 
     }, [state.createAccount?.profileUpdateError])
- useEffect(() => {
+    useEffect(() => {
         if (account) {
             setFirstName(account?.firstName)
             setLastName(account?.lastName)
             setMobile(account?.mobileNo)
             setEmail(account?.mailId)
-            // setProfileImage(account?.)
-
+            setProfileImage(account?.profilePic)
+            setPreviewImage(account?.profilePic)
         }
 
     }, [account])
 
-     if (!show) return null;
+    if (!show) return null;
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] font-['Gilroy']">
@@ -204,7 +214,7 @@ function AdminProfileEdit({ show, handleClose }) {
                         >
 
                             <img
-                                src={profileImage || AdminProfile}
+                                src={previewImage || AdminProfile}
                                 alt="profile"
                                 className="w-full h-full object-cover"
                             />
@@ -328,7 +338,7 @@ function AdminProfileEdit({ show, handleClose }) {
 AdminProfileEdit.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-   
+
 };
 
 

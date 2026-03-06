@@ -1,13 +1,13 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import React, { useState, useEffect } from "react";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-import Edit from '../../Assets/Images/Edit-blue.png';
-import Delete from '../../Assets/Images/Delete_red.png';
+// import Edit from '../../Assets/Images/Edit-blue.png';
+// import Delete from '../../Assets/Images/Delete_red.png';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 // import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
@@ -24,91 +24,27 @@ function UserListInvoice(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const popupRef = useRef(null);
+  // const popupRef = useRef(null);
   // const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
   // const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
   // const [tabletrue, setTableTrue] = useState(true)
   // const [billMode, setBillMode] = useState("New Bill");
   // const [showmanualinvoice, setShowManualInvoice] = useState(false);
-  const [activeId, setActiveId] = useState(null);
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  // const [activeId, setActiveId] = useState(null);
+  // const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  // const canReadInvoice = useHasPermission("Bills", "canRead")
-  // const canWriteInvoice = useHasPermission("Bills", "canWrite")
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-  // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
-
+ 
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
-    canUpdateModule: canUpdateInvoice,
-    canDeleteModule: canDeleteInvoice,
+    // canUpdateModule: canUpdateInvoice,
+    // canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
 
 
-  // const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-  // const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-  // const currentRowinvoice = invoiceFilterddata?.slice(
-  //   indexOfFirstRowinvoice,
-  //   indexOfLastRowinvoice
-  // );
-
-  // const handleInvoicePageChange = (InvoicepageNumber) => {
-  //   setinvoicecurrentPage(InvoicepageNumber);
-  // };
-
-  // const invoiceOptions = [
-  //   { value: 4, label: "4" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
-
-
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   if (selectedOption?.value) {
-  //     setInvoicerowsPerPage(selectedOption.value);
-  //     setinvoicecurrentPage(1);
-  //   }
-  // };
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return currentRowinvoice;
-
-  //   const sorted = [...currentRowinvoice].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA - valueB
-  //         : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [currentRowinvoice, sortConfig]);
-
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
-  // const totalPagesinvoice = Math.ceil(
-  //   invoiceFilterddata?.length / invoicerowsPerPage
-  // );
-
+  
   const sortedData = React.useMemo(() => {
     return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
   }, [invoiceFilterddata]);
@@ -122,64 +58,53 @@ function UserListInvoice(props) {
 
 
 
-  const handleShowDots = (item, event) => {
-    if (activeId === item.id) {
-      setActiveId(null);
-    } else {
-      setActiveId(item.id);
-    }
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 150;
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  };
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setActiveId(null);
-    }
-  };
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  // const handleShowDots = (item, event) => {
+  //   if (activeId === item.id) {
+  //     setActiveId(null);
+  //   } else {
+  //     setActiveId(item.id);
+  //   }
+  //   const { top, left, height } = event.target.getBoundingClientRect();
+  //   const popupTop = top + (height / 2);
+  //   const popupLeft = left - 150;
+  //   setPopupPosition({ top: popupTop, left: popupLeft });
+  // };
+  // const handleClickOutside = (event) => {
+  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //     setActiveId(null);
+  //   }
+  // };
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
   // const [BillsForm, setBillsForm] = useState(false)
 
-  const handleEditBill = (item) => {
+  // const handleEditBill = (item) => {
 
-    props.handleEditItem(item)
-    // setBillsForm(false)
+  //   props.handleEditItem(item)
+  //   // setBillsForm(false)
 
-    dispatch({ type: 'USERROOMAVAILABLETRUE' });
+  //   dispatch({ type: 'USERROOMAVAILABLETRUE' });
 
-  };
+  // };
 
   const handleAddBill = () => {
-    // setBillMode("New Bill");
-    // setTableTrue(false)
-    // setBillsForm(true)
-    navigate('/create-bill', { state: { id: props.id } });
+    
+    navigate('/create-bill', { state: { id: state?.UsersList?.customerdetails?.customerId  } });
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
   };
 
-  // useEffect(() => {
-  //   if (BillsForm) {
-  //     dispatch({
-  //       type: "MANUAL-INVOICE-NUMBER-GET",
-  //       payload: { user_id: props.id },
-  //     });
-  //   }
+ 
 
 
-  // }, [BillsForm])
+  // const handleDeleteBill = (user) => {
+  //   props.handleDeleteItem(user.id)
+  //   dispatch({ type: 'USERPROFILEBILLTRUE' });
 
-
-  const handleDeleteBill = (user) => {
-    props.handleDeleteItem(user.id)
-    dispatch({ type: 'USERPROFILEBILLTRUE' });
-
-  };
+  // };
 
   
 
@@ -200,25 +125,7 @@ function UserListInvoice(props) {
           </Button>
         }
       </div>
-    {/* <div className="relative w-full">
-  {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-    <div
-      className="
-        w-full flex justify-center
-        md:absolute md:right-0 md:top-[-115px]
-        md:w-auto md:justify-end
-      "
-    >
-      <Button
-        onClick={handleAddBill}
-        disabled={props.customerAdd || !canWriteInvoice}
-        className="!font-gilroy text-sm text-white !font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
-      >
-        + Create Bill
-      </Button>
-    </div>
-  )}
-</div> */}
+   
 
 
 
@@ -553,133 +460,7 @@ function UserListInvoice(props) {
       </div>
 
 
-      {/* {invoiceFilterddata?.length > 4 && (
-
-        <nav
-          className="position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-center"
-          style={{ backgroundColor: "white", zIndex: 1000 }}
-        >
-          <div>
-            <Select
-              value={invoiceOptions.find((opt) => opt.value === invoicerowsPerPage)}
-              onChange={handleItemsPerPageChange}
-              options={invoiceOptions}
-              placeholder="Items per page"
-              classNamePrefix="custom"
-              menuPlacement="auto"
-              noOptionsMessage={() => "No options"}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: "40px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#1E45E1",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  border: "1px solid #1E45E1",
-                  boxShadow: "0 0 0 1px #1E45E1",
-                  cursor: "pointer",
-                  width: 90,
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #ced4da",
-                  fontFamily: "Gilroy",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  maxHeight: "200px",
-                  padding: 0,
-                  scrollbarWidth: "thin",
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#555",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#1E45E1",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                  color: state.isFocused ? "#fff" : "#000",
-                }),
-              }}
-            />
-          </div>
-
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: invoicecurrentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor: invoicecurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                disabled={invoicecurrentPage === 1}
-              >
-                <ArrowLeft2 size="16" color={invoicecurrentPage === 1 ? "#ccc" : "#1E45E1"} />
-              </button>
-            </li>
-
-            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-              {invoicecurrentPage} of {totalPagesinvoice}
-            </li>
-
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: invoicecurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
-                  cursor: invoicecurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                disabled={invoicecurrentPage === totalPagesinvoice}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={invoicecurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      )} */}
-
+    
 
 
 
