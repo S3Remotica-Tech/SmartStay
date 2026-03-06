@@ -127,7 +127,7 @@ const Profile_Security = () => {
   return (
 
     <div>
-      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] whitespace-nowrap">
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center mt-2 whitespace-nowrap">
         <label className="text-black font-gilroy font-semibold text-lg whitespace-nowrap">
           Security
         </label>

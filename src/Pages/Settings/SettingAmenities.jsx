@@ -445,7 +445,7 @@ function SettingAmenities() {
                     </div>
                 ) : (
 
-                    <div className="relative mt-2 mb-3 max-h-[460px] overflow-y-auto">
+                    <div className="relative mt-2 mb-3 h-[520px] lg:h-[520px] xl:h-[520px] 2xl:h-[750px] overflow-y-auto">
                         <div className="flex flex-wrap  gap-y-3">
                             {amenitiesFilterddata && amenitiesFilterddata.length > 0 ? (
                                 amenitiesFilterddata.map((amenity, index) => (

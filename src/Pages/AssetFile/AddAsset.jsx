@@ -515,8 +515,9 @@ function StaticExample({ show, setShow, currentItem }) {
     <div>
       <div
         className="modal show block static">
-        <Modal show={show} onHide={handleClose} backdrop="static">
-          <Modal.Dialog className="m-0 p-0 w-full max-w-full"  >
+        <Modal show={show} onHide={handleClose} backdrop="static" 
+          className="2xl:mt-24 mt-0 h-auto flex items-center justify-center">
+          <Modal.Dialog className="m-0 p-0 w-full max-w-full">
             <Modal.Header>
               <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold" >
                 {currentItem ? "Edit an Asset" : "Add Assets"}
