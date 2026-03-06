@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { CloseCircle } from "iconsax-react";
+import { ArrowLeft, ArchiveBook, MinusCirlce } from "iconsax-react";
 import Select from "react-select";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from '../../../Components/ErrorMessage';
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
-function LongStayRecurringModal({ handleClose, show }) {
+function LongStayRecurringModal() {
 
-
+    const navigate = useNavigate();
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billingDate, setBillingDate] = useState(null);
@@ -18,12 +18,48 @@ function LongStayRecurringModal({ handleClose, show }) {
     const [noticePeriod, setNoticePeriod] = useState(null);
     const [errors, setErrors] = useState({});
     const [formLoading, setFormLoading] = useState(false)
+    const [gracePeriod, setGracePeriod] = useState(null);
+    const [dueDays, setDueDays] = useState("");
+    const [reminderDays, setReminderDays] = useState(null);
+    const [lateFeeEnabled, setLateFeeEnabled] = useState(false);
+    const [lateFeeType, setLateFeeType] = useState("flat");
+    const [flatFeeAmount, setFlatFeeAmount] = useState(300);
+
+    const [payments, setPayments] = useState([
+        { fromDay: '', toDay: '', amountPerDay: '' },
+    ]);
+
+    const handleInputChange = (index, e) => {
+        const { name, value } = e.target;
+        const updatedPayments = [...payments];
+        updatedPayments[index][name] = value;
+        setPayments(updatedPayments);
+    };
+
+
+    const handleAddRow = () => {
+        setPayments([
+            ...payments,
+            { fromDay: '', toDay: '', amountPerDay: '' }
+        ]);
+    };
+
+    const handleDeleteRow = (index) => {
+        const updatedPayments = payments.filter((_, i) => i !== index);
+        setPayments(updatedPayments);
+    };
 
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
         label: (i + 1).toString().padStart(2, '0'),
     }));
+    const [dailyFeeAmount, setDailyFeeAmount] = useState("");
+    const [maxLateFeeCap, setMaxLateFeeCap] = useState("");
+
+
+
+
 
     const selectStyle = {
         control: (base) => ({
@@ -31,7 +67,7 @@ function LongStayRecurringModal({ handleClose, show }) {
             height: 45,
             border: "1px solid #D9D9D9",
             borderRadius: "8px",
-            fontSize: "16px",
+            fontSize: "14px",
             color: "#4B4B4B",
             fontFamily: "Gilroy",
             fontWeight: 500,
@@ -80,8 +116,28 @@ function LongStayRecurringModal({ handleClose, show }) {
         }),
     };
 
+    const handleDailyFeeAmountChange = (e) => {
+        setDailyFeeAmount(e.target.value);
+    };
 
+    const handleMaxLateFeeCapChange = (e) => {
+        setMaxLateFeeCap(e.target.value);
+    };
+    const handleFlatFeeAmountChange = (e) => {
+        setFlatFeeAmount(e.target.value);
+    };
 
+    const handleGracePeriodChange = (selected) => {
+        setGracePeriod(selected);
+    };
+
+    const handleDueDaysChange = (e) => {
+        setDueDays(e.target.value);
+    };
+
+    const handleReminderDaysChange = (selected) => {
+        setReminderDays(selected);
+    };
 
     const handleSave = () => {
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
@@ -89,12 +145,12 @@ function LongStayRecurringModal({ handleClose, show }) {
         if (!billingDate) {
             newErrors.billingDate = "Please select billing date of month";
         }
-        if (!dueDate) {
-            newErrors.dueDate = "Please select due days";
-        }
-        if (!noticePeriod) {
-            newErrors.notice = "Please select notice period";
-        }
+        // if (!dueDate) {
+        //     newErrors.dueDate = "Please select due days";
+        // }
+        // if (!noticePeriod) {
+        //     newErrors.notice = "Please select notice period";
+        // }
 
 
         //     if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
@@ -124,7 +180,6 @@ function LongStayRecurringModal({ handleClose, show }) {
     useEffect(() => {
         if (state.Settings.SettingsRecurringAddSuccess === 200) {
             setFormLoading(false)
-            handleClose()
             dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
             setTimeout(() => {
                 dispatch({ type: "CLEAR_SETTINGSADDRECURRING_STATUS_CODE" });
@@ -145,157 +200,659 @@ function LongStayRecurringModal({ handleClose, show }) {
     }, [state.createAccount?.networkError, state.Settings.billingRuleError])
 
 
+    const handleNavigateBillingRule = (tabName) => {
+        dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
+        const hostelId = state.login?.selectedHostel_Id;
+        if (hostelId) {
+            navigate(`/settings/${hostelId}/${tabName}`);
+        } else {
+            navigate(`/settings/${tabName}`);
+        }
 
+    }
 
 
     return (
         <>
 
-            <Modal
-                show={show}
-                onHide={handleClose}
-                centered
-                backdrop="static"
+            <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
+                <div>
+                    <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap flex gap-2 items-center">
+                        <ArrowLeft size={24} color="#292D32" className="cursor-pointer"
+                            onClick={() => handleNavigateBillingRule("billing-rule")} /> Billing Rule
+                    </label>
+                    <div>
+                        <label className="text-[#7C7C7C] font-medium text-sm">Billing Rule / </label>
+                        <span className="text-[#4A4A4A] text-sm  font-semibold"> Long Stay Recurring </span>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-[#FAFAFA] h-fit p-3 font-gilroy">
+                <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
 
-            >
 
-
-                <Modal.Header className="border-0 flex justify-between items-center">
-                    <Modal.Title className="!text-lg !text-gray-900 !font-gilroy !font-semibold">
-                        Long Stay Recurring
-                    </Modal.Title>
-
-                    <CloseCircle
-                        size={24}
-                        color="#000"
-                        onClick={handleClose}
-                        className="cursor-pointer"
-                    />
-                </Modal.Header>
-
-                <Modal.Body className="pt-0 relative">
-
-                    <div className="mb-3">
-                        <label
-                            htmlFor="billingDate"
-                            className="block text-sm text-gray-800 font-gilroy font-medium mb-1"
-                        >
-                            Billing Date of Month{" "}
-                            <span className="text-[#FF0000] text-xl">*</span>
+                    <div className="mb-2">
+                        <h2 className="text-lg font-semibold text-gray-800 font-gilroy ">
+                            Basic Billing Configuration
+                        </h2>
+                        <label className="text-sm text-gray-500">
+                            Defines the monthly rent period.
                         </label>
-
-                        <Select
-                            id="billingDate"
-                            options={dayOptions}
-                            styles={selectStyle}
-                            placeholder="Select Billing Date"
-                            value={billingDate}
-                            onChange={(selected) => {
-                                setBillingDate(selected);
-                                setErrors((prev) => ({ ...prev, billingDate: "" }));
-                                dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
-                            }}
-                        />
-
-                        {errors.billingDate && (
-                            <ErrorMessage message={errors.billingDate} type="error" />
-                        )}
                     </div>
 
-                    <div className="mb-3">
-                        <label
-                            htmlFor="dueDate"
-                            className="block text-sm text-gray-800 font-gilroy font-medium mb-1"
-                        >
-                            Due Days{" "}
-                            <span className="text-[#FF0000] text-xl">*</span>
-                        </label>
+                    <div className="border-t border-[#E5E5E5] my-3"></div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm text-gray-700 font-gilroy font-medium mb-1">
+                                Billing Start Date (Day of Month)
+                            </label>
 
-                        <Select
-                            id="dueDate"
-                            options={dayOptions}
-                            styles={selectStyle}
-                            placeholder="Select Due Days"
-                            value={dueDate}
-                            onChange={(selected) => {
-                                setDueDate(selected);
-                                setErrors((prev) => ({ ...prev, dueDate: "" }));
-                                dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
-                            }}
-                        />
+                            <Select
+                                options={dayOptions}
+                                styles={selectStyle}
+                                placeholder="Select Date"
+                                value={billingDate}
+                                onChange={(selected) => {
+                                    setBillingDate(selected);
+                                    setErrors((prev) => ({ ...prev, billingDate: "" }));
+                                    dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                                }}
+                            />
 
-                        {errors.dueDate && (
-                            <ErrorMessage message={errors.dueDate} type="error" />
-                        )}
+                            <p className="text-xs text-gray-400 mt-1">
+                                Select a day between 1-30
+                            </p>
+
+                            {errors.billingDate && (
+                                <ErrorMessage message={errors.billingDate} type="error" />
+                            )}
+                        </div>
+
+
+                        <div>
+                            <label className="block text-sm text-gray-700 font-gilroy font-medium mb-1">
+                                Billing End Date (Auto-calculated)
+                            </label>
+
+                            <div className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-500">
+                                {billingDate ? `${billingDate.value} of next month` : "—"}
+                            </div>
+
+                            <p className="text-xs text-gray-400 mt-1">
+                                Automatically calculated based on start date
+                            </p>
+                        </div>
+
                     </div>
 
-                    <div className="mb-6">
-                        <label
-                            htmlFor="noticePeriod"
-                            className="block text-sm text-gray-800 font-gilroy font-medium mb-1"
-                        >
-                            Notice Period{" "}
-                            <span className="text-[#FF0000] text-xl">*</span>
-                        </label>
-
-                        <Select
-                            id="noticePeriod"
-                            options={dayOptions}
-                            styles={selectStyle}
-                            placeholder="Select Notice Period"
-                            value={noticePeriod}
-                            onChange={(selected) => {
-                                setNoticePeriod(selected);
-                                setErrors((prev) => ({ ...prev, notice: "" }));
-                                dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
-                            }}
-                        />
-
-                        {errors.notice && (
-                            <ErrorMessage message={errors.notice} type="error" />
-                        )}
-                    </div>
 
                     {state.Settings.billingRuleError && (
-                        <ErrorMessage
-                            message={state.Settings.billingRuleError}
-                            type="error"
-                        />
-                    )}
-
-                    <div className="flex justify-end gap-2 mt-6">
-                        <button
-                            onClick={handleClose}
-                            className="!border !border-[#4B4B4B] !rounded-xl px-9 py-2 !text-sm !font-gilroy 
-                            !text-[#4B4B4B] bg-white"
-                        >
-                            Cancel
-                        </button>
-
-                        <button
-                            onClick={handleSave}
-                            className="!bg-[#1E45E1] !rounded-xl px-11 py-2 !text-sm !font-gilroy !text-white"
-                        >
-                            Save
-                        </button>
-                    </div>
-
-                    {formLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
-                            <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+                        <div className="mt-4">
+                            <ErrorMessage message={state.Settings.billingRuleError} type="error" />
                         </div>
                     )}
 
-                </Modal.Body>
-            </Modal>
+                    {/* Save Button */}
+                    <div className="flex justify-end mt-6">
+                        <button
+                            onClick={handleSave}
+                            className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
+                        >
+                            <ArchiveBook
+                                size="16"
+                                color="#FFFFFF"
+                            />  Save Configuration
+                        </button>
+                    </div>
+
+                </div>
+                {formLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                        <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+                    </div>
+                )}
+
+
+
+                <div className="space-y-6 mt-4">
+
+
+                    <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
+
+                        <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
+                            Full Rent Grace Period
+                        </h2>
+
+                        <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
+                            Tenants joining within the first few days of the billing cycle will be
+                            charged the full month rent. After this period, rent will be calculated
+                            based on stay duration.
+                        </label>
+
+                        <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                            Grace Period (Days)
+                        </label>
+
+                        <Select
+                            options={dayOptions}
+                            value={gracePeriod}
+                            styles={selectStyle}
+                            placeholder="Select Grace Period"
+                            onChange={handleGracePeriodChange}
+                        />
+
+                        {/* Info Box */}
+                        <div className="mt-4 flex items-center gap-2 bg-[#D0DFFF] border border-[#D0DFFF] text-[#1E45E1] text-sm px-3 py-2 rounded-md">
+                            <span ><AiOutlineExclamationCircle color="#1E45E1" size="16" /></span>
+                            Full rent will apply if tenant joins from 4 to 11 of the month. Prorated rent applies from 12 onwards.
+                        </div>
+
+                    </div>
+
+
+
+                    <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
+
+                        <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
+                            Payment Timeline (Due days)
+                        </h2>
+
+                        <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
+                            Configure payment due dates and reminder settings
+                        </label>
+
+                        <div className="grid grid-cols-2 gap-6 items-start">
+
+
+                            <div>
+                                <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                                    Due Within (Days)
+                                </label>
+
+
+                                <Select
+                                    options={dayOptions}
+                                    styles={selectStyle}
+                                    placeholder="Select Due Days"
+                                    value={dueDays}
+                                    onChange={(selected) => {
+                                        setDueDays(selected);
+                                        setErrors((prev) => ({ ...prev, dueDate: "" }));
+                                        dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                                    }}
+                                />
+
+
+                                <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border-1 border-[#FFE0CC] text-[#C2410C] text-sm px-3 py-2 rounded-md">
+                                    <span ><AiOutlineExclamationCircle color="#C2410C" size="16" /></span>  Overdue starts from 10 of the month
+                                </div>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                                    Send Reminder (Days Before Due)
+                                </label>
+
+                                <Select isMulti
+                                    options={[
+                                        { value: 1, label: "01" },
+                                        { value: 3, label: "03" },
+                                        { value: 5, label: "05" }
+                                    ]}
+                                    value={reminderDays}
+                                    styles={selectStyle}
+                                    onChange={handleReminderDaysChange}
+                                />
+
+                                <label className="text-xs text-[#616161] mt-2 font-medium">
+                                    Automatic payment reminder will be sent before due date
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="bg-white  rounded-xl shadow-sm p-3 font-gilroy">
+
+                        <div className="flex justify-between items-center">
+
+                            <div>
+                                <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
+                                    Late Fee Configuration (Fine Amount)
+                                </h2>
+                                <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
+                                    Set up late payment penalties and charges
+                                </label>
+                            </div>
+
+                        </div>
+                        <div className="border-t border-[#E5E5E5] my-2"></div>
+
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <div className="">
+                                    <label className="text-sm text-[#1F1F1F] mt-2 font-semibold">
+                                        Enable Late Fees
+                                    </label>
+                                </div>
+                                <div>
+                                    <label className="text-sm text-gray-500 mt-2">
+                                        Automatically charge late fees on overdue payments
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+
+                                <span className="text-sm text-gray-500">
+                                    {lateFeeEnabled ? "On" : "Off"}
+                                </span>
+
+                                <button
+                                    onClick={() => setLateFeeEnabled(!lateFeeEnabled)}
+                                    className={`w-11 h-6 flex items-center rounded-full p-1 transition 
+        ${lateFeeEnabled ? "bg-[#1E45E1]" : "bg-gray-300"}`}
+                                >
+                                    <div
+                                        className={`bg-white w-4 h-4 rounded-full shadow-md transform transition
+          ${lateFeeEnabled ? "translate-x-5" : "translate-x-0"}`}
+                                    />
+                                </button>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        {lateFeeEnabled && (
+
+                            <div className="bg-white border-l-2 border-[#1E45E1] p-3 font-gilroy mt-2">
+
+                                <label className="text-sm font-medium text-[#1F1F1F] mb-3 block">
+                                    Late Fee Type
+                                </label>
+
+                                <div className="space-y-2">
+
+                                    <div
+                                        onClick={() => setLateFeeType("flat")}
+                                        className={`flex items-center gap-3 p-2 border  rounded-lg cursor-pointer
+      ${lateFeeType === "flat"
+                                                ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
+                                                : "border-gray-200"}`}
+                                    >
+                                        <input
+                                            type="radio"
+                                            checked={lateFeeType === "flat"}
+                                            readOnly
+                                        />
+
+                                        <div>
+                                            <div>
+                                                <label className="text-sm font-medium text-[#1F1F1F]">
+                                                    Flat Fee
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label className="text-xs text-gray-500">
+                                                    One-time charge when payment becomes overdue
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div
+                                        onClick={() => setLateFeeType("daily")}
+                                        className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer
+      ${lateFeeType === "daily"
+                                                ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
+                                                : "border-gray-200  border"}`}
+                                    >
+                                        <input
+                                            type="radio"
+                                            checked={lateFeeType === "daily"}
+                                            readOnly
+                                        />
+
+                                        <div>
+                                            <div>
+                                                <label className="text-sm font-medium text-[#1F1F1F]">
+                                                    Daily Fee
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label className="text-xs text-gray-500">
+                                                    Fixed amount charged per day after due date
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div
+                                        onClick={() => setLateFeeType("tiered")}
+                                        className={`flex items-center gap-3 p-2 border rounded-lg cursor-pointer
+      ${lateFeeType === "tiered"
+                                                ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
+                                                : "border-gray-200"}`}
+                                    >
+                                        <input
+                                            type="radio"
+                                            checked={lateFeeType === "tiered"}
+                                            readOnly
+                                        />
+
+                                        <div>
+                                            <div>
+                                                <label className="text-sm font-medium text-[#1F1F1F]">
+                                                    Tiered Daily Fee
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label className="text-xs text-gray-500">
+                                                    Variable daily charges based on overdue period
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                                {lateFeeType === "flat" && (
+
+                                    <div className="mt-4">
+
+                                        <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                                            Flat Fee Amount (₹)
+                                        </label>
+
+                                        <div className="relative w-[220px]">
+                                            <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                                                ₹
+                                            </span>
+
+                                            <input
+                                                type="number"
+                                                value={flatFeeAmount}
+                                                onChange={handleFlatFeeAmountChange}
+                                                className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                )}
+
+
+                                {
+                                    lateFeeType === "daily" && (
+
+                                        <div className="grid grid-cols-2 gap-6 mt-4">
+
+
+                                            <div>
+
+                                                <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                                                    Daily Fee Amount (₹)
+                                                </label>
+
+                                                <div className="relative">
+
+                                                    <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
+                                                        ₹
+                                                    </span>
+
+                                                    <input
+                                                        type="number"
+                                                        value={dailyFeeAmount}
+                                                        onChange={handleDailyFeeAmountChange}
+                                                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                    />
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <div>
+
+                                                <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                                                    Maximum Late Fee Cap (₹)
+                                                </label>
+
+                                                <div className="relative">
+
+                                                    <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
+                                                        ₹
+                                                    </span>
+
+                                                    <input
+                                                        type="number"
+                                                        value={maxLateFeeCap}
+                                                        onChange={handleMaxLateFeeCapChange}
+                                                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                    />
+
+                                                </div>
+
+                                                <p className="text-xs text-gray-400 mt-2">
+                                                    Late fees will not exceed this amount regardless of delay duration
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    )
+                                }
+
+                                {lateFeeType === "tiered" && (
+                                    <div>
+                                        <div className="border rounded-lg  mt-3">
+
+                                            <table className="w-full">
+                                                <thead className="bg-gray-100">
+                                                    <tr>
+                                                        <th className="px-4 py-1.5 rounded-tl-lg text-xs text-gray-500 whitespace-nowrap">FROM DAY</th>
+                                                        <th className="px-4 py-1.5  text-xs text-gray-500 whitespace-nowrap">TO DAY</th>
+                                                        <th className="px-4 py-1.5  text-xs text-gray-500 whitespace-nowrap">AMOUNT PER DAY (₹)</th>
+                                                        <th className="px-4 py-1.5 rounded-tr-lg text-xs text-gray-500 whitespace-nowrap">ACTION</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {payments.map((payment, index) => (
+                                                        <tr key={index} className="">
+
+                                                            <td className="px-4 py-2">
+                                                                <Select
+                                                                    options={dayOptions}
+                                                                    value={dayOptions.find(option => option.value === payment.fromDay)}
+                                                                    styles={selectStyle}
+                                                                    placeholder="Select"
+                                                                    menuPlacement="bottom"
+                                                                    onChange={(selected) =>
+                                                                        handleInputChange(index, {
+                                                                            target: { name: "fromDay", value: selected?.value }
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </td>
+
+                                                            <td className="px-4 py-2">
+                                                                <Select
+                                                                    options={dayOptions}
+                                                                    value={dayOptions.find(option => option.value === payment.toDay)}
+                                                                    styles={selectStyle}
+                                                                    menuPlacement="bottom"
+                                                                    placeholder="Select"
+                                                                    onChange={(selected) =>
+                                                                        handleInputChange(index, {
+                                                                            target: { name: "toDay", value: selected?.value }
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </td>
+
+                                                            <td className="px-4 py-2">
+                                                                <input
+                                                                    type="text"
+                                                                    name="amountPerDay"
+                                                                    value={payment.amountPerDay}
+                                                                    onChange={(e) => handleInputChange(index, e)}
+                                                                    className="w-full p-2 border-1 rounded border-gray-200 hover:border-gray-200"
+                                                                />
+                                                            </td>
+
+                                                            <td className="px-4 py-2 ">
+                                                                <button
+                                                                    onClick={() => handleDeleteRow(index)}
+                                                                    className="text-[#FF0000] px-3 py-1 flex gap-2 items-center rounded whitespace-nowrap"
+                                                                >
+                                                                    Remove
+                                                                    <MinusCirlce
+                                                                        size="16"
+                                                                        color="#FF0000"
+                                                                    />
+                                                                </button>
+                                                            </td>
+
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+
+
+
+                                        </div>
+                                        <div className="flex justify-between">
+
+                                            <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border-1 border-[#FFE0CC] text-[#C2410C] text-sm px-3 py-1 rounded-md leading-none">
+                                                <span ><AiOutlineExclamationCircle color="#C2410C" size="16" /></span>
+                                                Payment Amount will applies from 12 of the Month
+                                            </div>
+
+                                            <button
+                                                onClick={handleAddRow}
+                                                className="mt-4  text-[#1E45E1] px-4 py-1 rounded border-1 border-[#1E45E1]"
+                                            >
+                                                + Add Slab
+                                            </button>
+                                        </div>
+
+                                        <div className="mt-4">
+
+                                            <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                                                Maximum Late Fee Amount (₹)
+                                            </label>
+
+                                            <div className="relative w-[220px]">
+                                                <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                                                    ₹
+                                                </span>
+
+                                                <input
+                                                    type="number"
+
+                                                    className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                />
+
+                                                <label className="text-xs text-gray-500 whitespace-nowrap">
+                                                    Late fees will not exceed this amount regardless of delay duration
+                                                </label>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                )}
+
+
+
+                            </div>
+
+                        )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+                    <div className="flex justify-end gap-3 mt-6">
+
+                        <button
+
+                            className="flex items-center gap-2 bg-[#FFFFFF] hover:bg-gray-300 border-gray-50 border text-black text-sm font-gilroy px-5 py-2.5 rounded-lg shadow"
+                        >
+                             Discard
+                        </button>
+
+                        <button
+                            className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
+                        >
+                            <ArchiveBook
+                                size="16"
+                                color="#FFFFFF"
+                            />  Save Changes
+                        </button>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+            </div>
         </>
     );
 }
 
-LongStayRecurringModal.propTypes = {
-    handleClose: PropTypes.func.isRequired,
-    show: PropTypes.func.isRequired,
-
-
-};
 export default LongStayRecurringModal;

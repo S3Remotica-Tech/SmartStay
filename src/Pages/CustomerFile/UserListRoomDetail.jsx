@@ -2372,6 +2372,11 @@ function UserListRoomDetail(props) {
   //   state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
 
 
+ useEffect(() => {
+        if (state.InvoiceList.manualInvoiceAddStatusCode === 201 || state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+        }
+    }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);
 
 
   useEffect(() => {

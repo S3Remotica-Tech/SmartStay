@@ -842,12 +842,12 @@ function CreateBill() {
 
 
     useEffect(() => {
-        if (state.InvoiceList.recurringEditError) {
+        if (state.InvoiceList.recurringEditError || state.InvoiceList.unableAddInvoiceDetailsError) {
             setFormLoading(false)
 
         }
 
-    }, [state.InvoiceList.recurringEditError])
+    }, [state.InvoiceList.recurringEditError,state.InvoiceList.unableAddInvoiceDetailsError])
 
 
 
@@ -889,18 +889,17 @@ function CreateBill() {
                 navigate(`/invoice/${state.login.selectedHostel_Id}`)
             }
             setNewRows([]);
-            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+            // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
 
             if (id) {
                 dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
             }
-            // setLoading(false);
-
+           
             setTimeout(() => {
                 dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-                // setLoading(false);
-
+                dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT'})
+                
             }, 300);
         }
     }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);

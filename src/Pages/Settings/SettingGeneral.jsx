@@ -1297,12 +1297,12 @@ function SettingGeneral() {
 
                           <div className="flex justify-between items-center">
                             <div className="flex items-center gap-1.5 text-xs text-yellow-500 bg-yellow-50 px-2 py-0.5 rounded-full font-gilroy w-max">
-                              {account.roleName} <Crown1 size={14} color="#FF9900" />
+                              {account?.roleName} <Crown1 size={14} color="#FF9900" />
                             </div>
 
                             <div>
                               <label className="text-gray-400 text-sm font-normal font-gilroy">
-                                Profile last updated - 20/11/25
+                                {account?.lastUpdated}
                               </label>
                             </div>
                           </div>
@@ -2286,7 +2286,7 @@ function SettingGeneral() {
                 <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
- 
+
           </div>
           {formError && (
             <div className="flex justify-center mt-1">

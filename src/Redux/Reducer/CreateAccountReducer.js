@@ -20,7 +20,8 @@ export const initialState = {
    email_mobile_Error: '',
    passwordDoesnotMatchError: '',
    networkError: '',
-   profileUpdateError: ''
+   profileUpdateError: '',
+   statusCodeForPasswordUpdateSuccess: 0 
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -56,7 +57,9 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, profileUpdateError: '' }
 
       case 'PASSWORD-UPDATE':
-         return { ...state, message: action.payload.message }
+         return { ...state, statusCodeForPasswordUpdateSuccess: action.payload.statusCode }
+      case 'REMOVE-PASSWORD-UPDATE':
+         return { ...state, statusCodeForPasswordUpdateSuccess: 0 }
 
       case 'TWO_STEP_VERIFY':
          return { ...state, EmailId: action.payload.emailId, IsEnable: action.payload.isEnable, statusCodeTwo: action.payload.statusCode }
