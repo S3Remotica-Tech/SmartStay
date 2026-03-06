@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import blueArrow from "../../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../../Assets/Images/New_images/arrow-leftblack.png";
-import "../Settings/Settings.css";
-import '../Settings/SettingAll.css';
+// import "../Settings/Settings.css";
+// import '../Settings/SettingAll.css';
 import { useSelector } from 'react-redux';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 // import SettingsBills from "./SettingsBills";
@@ -118,7 +118,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                 </label>
               </div>
 
-              <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-2.5 mt-3 mb-2 shadow-md w-[201px] h-[226px]">
+              <div className="show-scrolls bg-[#E7F1FF] rounded-lg p-2.5 mt-3 mb-4 shadow-md w-[201px] h-[226px] lg:h-[226px] 2xl:h-[250px]">
                 {[
                   ["General", "general"],
                   ["Manage PG", "manage-pg"],
@@ -129,7 +129,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                   <div key={key}>
                     <p
                       onClick={() => handleSettingsNavigate(key, label)}
-                      className={`flex justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer mb-3
+                      className={`flex justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer mb-2.5 
                       ${activePage === label ? "text-[#1E45E1]" : "text-black"}`}
                     >
                       {label}
@@ -148,7 +148,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                 PG Based Setting
               </div>
 
-              <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-2.5 pt-4 shadow-md w-[201px] max-h-[270px]">
+              <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-2.5 pt-4 shadow-md w-[201px] h-[270px] lg:h-[270px] 2xl:h-[400px]">
                 {[
                   ["Electricity", "electricity"],
                   ["Billing Rule", "billing-rule", "Billing_Rule"],

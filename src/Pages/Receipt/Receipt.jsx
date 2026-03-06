@@ -334,7 +334,7 @@ function Receipt() {
 
                     }
 
-                    <Container className="w-full p-0">
+                    <div className="w-full p-0">
                         <div className="w-full">
                             <div className="sticky top-0 bg-white z-10 flex justify-between items-center flex-wrap h-auto border-b border-transparent shadow-none">
 
@@ -470,7 +470,7 @@ function Receipt() {
                                 />
                             )}
                         </div>
-                    </Container>
+                    </div>
 
                 </>
             )}

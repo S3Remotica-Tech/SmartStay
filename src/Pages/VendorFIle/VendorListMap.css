@@ -7,7 +7,7 @@
   /* Override for specific screen sizes */
   @media only screen and (width: 344px) and (height: 882px) {
     .vendor-card {
-      max-height: 600px;
+      /* max-height: 600px; */
       overflow-y: hidden;
       overflow-x: hidden;
     }
@@ -15,7 +15,7 @@
   
   @media only screen and (width: 360px) and (height: 740px) {
     .vendor-card {
-      max-height: none;
+      /* max-height: none; */
       overflow-y: hidden;
       overflow-x: hidden;
     }
@@ -23,15 +23,15 @@
   
   @media only screen and (width: 375px) and (height: 667px) {
     .vendor-card {
-      max-height: 400px; /* Specific height for this screen */
-      overflow-y: auto;  /* Enable scrolling for this screen */
+      /* max-height: 400px;  */
+      overflow-y: auto;  
       overflow-x: hidden;
     }
   }
   
   @media only screen and (width: 390px) and (height: 844px) {
     .vendor-card {
-      max-height: 600px;
+      /* max-height: 600px; */
       overflow-y: auto;
       overflow-x: hidden;
     }
@@ -39,7 +39,7 @@
 
   @media only screen and (width: 412px) and (height: 914px) {
     .vendor-card {
-      max-height: 200;
+      /* max-height: 200; */
       overflow-y: auto;
       overflow-x: hidden;
     }
@@ -47,7 +47,7 @@
   
   @media only screen and (width: 414px) and (height: 896px) {
     .vendor-card {
-      max-height: 650px;
+      /* max-height: 650px; */
       overflow-y: auto;
       overflow-x: hidden;
     }
@@ -55,7 +55,7 @@
   
   @media only screen and (width: 430px) and (height: 932px) {
     .vendor-card {
-      max-height: 600;
+      /* max-height: 600; */
       overflow-y: auto;
       overflow-x: hidden;
     }
@@ -64,7 +64,7 @@
 
   @media only screen and (width: 1024px) and (height: 660) {
     .vendor-card {
-      max-height: 300;
+      /* max-height: 300; */
       overflow-y: auto;
       overflow-x: hidden;
     }

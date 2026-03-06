@@ -4,8 +4,8 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from "react-bootstrap/Image";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
-import "./VendorListMap.css";
-import "./vendor.css";
+// import "./VendorListMap.css";
+// import "./vendor.css";
 import { useHasPermission } from '../../Utils/Permission';
 
 function VendorListMap(props) {
@@ -85,8 +85,8 @@ function VendorListMap(props) {
 
       <div
         key={props.vendor?.id}
-        className="h-full mt-1 rounded-[16px] border border-[#E6E6E6] bg-white animated-text
-                max-h-[300px] overflow-auto"
+        className="mt-1 rounded-[16px] border border-[#E6E6E6] bg-white animated-text
+                 overflow-auto"
       >
         <div className="p-4">
 

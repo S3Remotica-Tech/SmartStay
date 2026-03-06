@@ -491,7 +491,7 @@ const ComplianceList = (props) => {
 
       ) : (
         <div>
-          <div className="bg-white border border-gray-200 rounded-[16px] h-[330px] p-2 font-gilroy">
+            <div className="bg-wh border border-gray-200 rounded-[16px] h-[330px] md:h-[400px] lg:h-[400px] xl:h-[330px] 2xl:h-[330px] 3xl:h-full p-2 font-gilroy ">
             <div className="p-3">
               <div className="flex justify-between items-center flex-wrap">
                 <div className="flex flex-wrap gap-2 items-start">

@@ -414,7 +414,7 @@ function SettingExpenses() {
 
       {
         !canReadExpense ? (
-          <div className="flex flex-col items-center justify-center h-screen mt-24">
+          <div className="flex flex-col items-center justify-center mt-24">
             <img src={Emptystate} alt="Empty State" />
 
             <ErrorMessage
@@ -425,7 +425,13 @@ function SettingExpenses() {
         ) : (
 
           <div
-            className={`mt-2 show-scrolls overflow-y-auto ${expensesFilterddata.length === 0 ? "bg-[#FFFFFF] h-screen" : "bg-[#F9FAFB] h-fit"}  px-3 py-4 rounded-lg `} >
+            className={`mt-2 px-3 py-4 rounded-lg show-scrolls
+    ${expensesFilterddata.length === 0
+                ? "bg-[#FFFFFF] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
+                : "bg-[#F9FAFB] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
+              }
+  `}
+          >
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
 
@@ -438,7 +444,7 @@ function SettingExpenses() {
                     key={category.categoryId}
                     className="border-0 shadow rounded-lg p-2 font-gilroy text-[16px] font-medium flex flex-col bg-white"
                   >
-                    <div className="flex items-center gap-4 w-full  min-w-0 px-2 py-1">
+                    <div className="flex items-center gap-4 w-full min-w-0 px-2 py-1">
                       <div className="flex-1 min-w-0">
                         <label
                           className="block truncate capitalize"

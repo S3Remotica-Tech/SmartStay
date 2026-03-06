@@ -438,7 +438,7 @@ function SettingSubscription() {
             </Button> */}
 
               {import.meta.env.MODE === "development" ?
-                <div className="container mt-2 p-0 mb-12 max-h-[510px] overflow-y-auto font-gilroy">
+                <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scroll overflow-y-auto font-gilroy">
 
                   <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
 

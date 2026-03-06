@@ -13,8 +13,8 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { CloseCircle, SearchNormal1 } from 'iconsax-react';
 // import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
-import "./vendor.css";
-import './VendorListMap.css';
+// import "./vendor.css";
+// import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
@@ -248,166 +248,8 @@ useEffect(() => {
 
   return (
     <>
-
-      <div className="sticky top-0 bg-white" style={{}}>
-
-
-        {/* <div
-
-
-        >
-
-
-
-
-          <div className="p-2 d-flex justify-content-between align-items-center flex-wrap"
-            style={{
-              position: 'sticky',
-              backgroundColor: 'white',
-              zIndex: 10,
-
-            }}
-          >
-
-            <div >
-              <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendor</label>
-            </div>
-
-            <div className="d-flex justify-content-between align-items-center flex-wrap">
-
-
-
-              {
-                !showFilterData &&
-
-                <div onClick={() => canReadVendor && handleShowSearch()} style={{ paddingRight: 30, cursor: "pointer" }}>
-                  <SearchNormal1
-                    size="26"
-                    color="#222"
-                    style={{
-                      cursor: canReadVendor ? "pointer" : "not-allowed",
-                      opacity: canReadVendor ? 1 : 0.4,
-                      pointerEvents: canReadVendor ? "auto" : "none",
-                      transition: "opacity 0.3s ease"
-                    }}
-                  />
-                </div>
-              }
-              {
-                showFilterData &&
-                <div className=' me-3  flex flex-wrap'
-                  style={{ position: 'relative', marginTop: "-4px", width: isSmallScreen && showFilterData ? '150px' : '240px' }}
-                >
-
-                  <div className=''>
-                    <InputGroup
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                        width: '100%',
-                      }}>
-
-                      <FormControl size="lg"
-                        value={searchQuery}
-                        onChange={handleInputChange}
-                        style={{
-                          width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-
-                        }}
-                        placeholder="Search..."
-                      />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
-                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                      </InputGroup.Text>
-                    </InputGroup>
-                  </div>
-
-
-                  {
-                    filteredData.length > 0 && searchQuery !== '' && showDropDown && (
-
-                      <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                        <ul className='show-scroll' style={{
-
-                          width: 235,
-                          backgroundColor: '#fff',
-                          maxHeight: "174px",
-                          minHeight: filteredData?.length > 1 ? "100px" : "auto",
-                          overflowY: filteredData?.length > 2 ? "auto" : "hidden",
-                          padding: '5px 10px',
-                          margin: '0',
-                          listStyleType: 'none',
-                          borderRadius: 8,
-                          boxSizing: 'border-box'
-                        }}>
-                          {
-                            filteredData.map((user, index) => (
-                              <li
-                                key={index}
-                                onClick={() => {
-                                  handleDropDown(user.Vendor_Name);
-
-                                }}
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                                style={{
-                                  padding: '10px',
-                                  cursor: 'pointer',
-                                  borderBottom: '1px solid #dcdcdc',
-                                  fontSize: '14px',
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: 500,
-                                  backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
-                                  color: hoveredIndex === index ? 'white' : 'black',
-
-                                }}
-                              >
-                                <span>
-                                  <Image
-                                    src={user.Vendor_profile && user.Vendor_profile !== 'undefined' ? user.Vendor_profile : Profile2}
-                                    style={{ height: 20, width: 20 }}
-                                    roundedCircle
-                                  />
-                                </span>
-                                <span className='ps-4'>{user.Vendor_Name}</span>
-                              </li>
-
-
-                            ))
-                          }
-                        </ul>
-                      </div>
-                    )
-                  }
-                </div>
-              }
-
-
-
-
-
-              <div >
-                <Button disabled={!canWriteVendor} onClick={handleShow} className="vendor-button"
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "8px",
-                    // marginBottom: "10px",
-                    // maxHeight: 0,
-                    width: "146px",
-                    whiteSpace: "nowrap",
-                  }}
-                > + Vendor</Button>
-              </div>
-            </div>
-          </div>
-
-        </div> */}
-
+     
+      <div className="sticky top-0 bg-white">
         <div>
           <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap">
 
@@ -513,19 +355,6 @@ useEffect(() => {
           </div>
         </div>
 
-
-        {/* {searchQuery && (
-          <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-            {filteredData.length > 0 ? (
-              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                {filteredData.length} result{filteredData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span>
-              </span>
-            ) : (
-              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span></span>
-            )}
-          </div>
-        )} */}
-
         {searchQuery && (
           <div className="container mb-4 mt-5 text-[16px] font-semibold font-gilroy">
             {filteredData.length > 0 ? (
@@ -550,11 +379,11 @@ useEffect(() => {
         {
           !canReadVendor ? (
             <>
-              <div className="flex flex-col items-center justify-center h-screen">
+              <div className="flex flex-col items-center justify-center">
                 <img
                   src={EmptyState}
                   alt="Empty State"
-                  className="max-w-full h-auto"
+                  className="max-w-full"
                 />
 
                 <ErrorMessage message={['You do not have access to view Vendor']} type="warning" />
@@ -563,8 +392,7 @@ useEffect(() => {
             </>
           ) :
 
-            <div className="relative h-[500px] overflow-y-auto pr-5"
-            >
+            <div className="relative overflow-y-auto pr-5 show-scroll h-[calc(100vh-80px)]">
              
               {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
@@ -594,24 +422,8 @@ useEffect(() => {
                 ))
                 }
 
-                {/* {!loading && filteredData?.length === 0 && (
-                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
-                    <div>
-                      <div className='d-flex justify-content-center'>
-                        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-                      </div>
-                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                        No vendor available
-                      </div>
-                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                        There are no Vendors added.
-                      </div>
-                    </div>
-                  </div>
-                )} */}
-
                 {!loading && filteredData?.length === 0 && (
-                  <div className="flex flex-col items-center justify-center w-full h-[70vh] mx-auto animate-fade-in">
+                  <div className="flex flex-col items-center justify-center w-full mx-auto animate-fade-in">
                     <div className="flex justify-center mb-4">
                       <img
                         src={EmptyState}

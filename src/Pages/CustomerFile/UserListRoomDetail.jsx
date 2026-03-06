@@ -2492,7 +2492,7 @@ function UserListRoomDetail(props) {
           </span>
         </div>
 
-        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl mt-3 p-3 w-[95%] max-w-7xl mx-auto">
+        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl mt-3 p-3  mx-4">
           <div
             className="flex flex-col md:flex-row items-center justify-between"
           >

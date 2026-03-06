@@ -1130,7 +1130,10 @@ const Compliance = () => {
               </div>
             </>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 h-[600px] overflow-y-auto">
+             <div className="grid grid-cols-1 md:grid-cols-2 
+  h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[850px] 3xl:h-[850px] overflow-y-auto show-scroll">
+  
+
 
               {filteredUsers.length > 0 &&
                 filteredUsers.map((complaints) => (
