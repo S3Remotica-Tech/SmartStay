@@ -164,91 +164,189 @@ function BookingBed({
     }
   };
 
-  const handleSubmitBooking = () => {
-    let hasError = false;
-    const focusedRef = { current: false };
+  // const handleSubmitBooking = () => {
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
 
-    const isCustomerValid = validateAssignField(
-      booking_customername,
-      "bookingcustomername",
-      bookingcustomerRef,
-      setBookingCustomerErrmsg,
-      focusedRef
-    );
+  //   const isCustomerValid = validateAssignField(
+  //     booking_customername,
+  //     "bookingcustomername",
+  //     bookingcustomerRef,
+  //     setBookingCustomerErrmsg,
+  //     focusedRef
+  //   );
 
-    const isBookingDateValid = validateAssignField(
-      bookingDate,
-      "bookingDate",
-      bookingDateRef,
-      setBookingDateErrmsg,
-      focusedRef
-    );
-    const isAmountValid = validateAssignField(
-      amount,
-      "amount",
-      amountRef,
-      setamountError,
-      focusedRef
-    );
-    const isJoiningDateValid = validateAssignField(
-      joiningDate,
-      "joiningDate",
-      dateRef,
-      setJoingDateErrmsg,
-      focusedRef
-    );
+  //   const isBookingDateValid = validateAssignField(
+  //     bookingDate,
+  //     "bookingDate",
+  //     bookingDateRef,
+  //     setBookingDateErrmsg,
+  //     focusedRef
+  //   );
+  //   const isAmountValid = validateAssignField(
+  //     amount,
+  //     "amount",
+  //     amountRef,
+  //     setamountError,
+  //     focusedRef
+  //   );
+  //   const isJoiningDateValid = validateAssignField(
+  //     joiningDate,
+  //     "joiningDate",
+  //     dateRef,
+  //     setJoingDateErrmsg,
+  //     focusedRef
+  //   );
 
 
-    const isModeOfPaymentValid = validateAssignField(
-      modeOfPayment,
-      "modeOfPayment",
-      modeOfPaymentRef,
-      setPaymentError,
-      focusedRef
-    );
+  //   const isModeOfPaymentValid = validateAssignField(
+  //     modeOfPayment,
+  //     "modeOfPayment",
+  //     modeOfPaymentRef,
+  //     setPaymentError,
+  //     focusedRef
+  //   );
 
-    if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
-      hasError = true;
+  //   if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
+  //     hasError = true;
+  //   }
+  //   if (Number(amount) <= 0) {
+  //     setamountError("Please Enter Booking Amount");
+  //     amountRef.current?.focus();
+  //     hasError = true;
+  //   }
+  //   if (hasError) return;
+
+  //   const formatDate = (date) => {
+  //     if (!date) return "";
+  //     const d = new Date(date);
+  //     const day = String(d.getDate()).padStart(2, "0");
+  //     const month = String(d.getMonth() + 1).padStart(2, "0");
+  //     const year = d.getFullYear();
+  //     return `${day}-${month}-${year}`;
+  //   };
+
+  //   const joiningDateForFormatted = formatDate(joiningDate);
+  //   const bookingDateForFormatted = formatDate(bookingDate);
+
+  //   dispatch({
+  //     type: "ADD_BOOKING",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       joiningDate: joiningDateForFormatted,
+  //       bookingDate: bookingDateForFormatted,
+  //       bookingAmount: amount,
+  //       floorId: currentItem?.floorId,
+  //       roomId: currentItem?.roomId,
+  //       bedId: currentItem?.bedId,
+  //       customerId: booking_customername,
+  //       bankId: modeOfPayment,
+  //       referenceNumber: transactionId,
+  //     },
+  //   });
+
+  //   setFormLoading(true);
+  // };
+
+const handleSubmitBooking = () => {
+  let hasError = false;
+  const focusedRef = { current: false }; // Tracks first element to focus
+
+  // Validate Select Tenant
+  const isCustomerValid = validateAssignField(
+    booking_customername,
+    "bookingcustomername",
+    bookingcustomerRef,
+    setBookingCustomerErrmsg,
+    focusedRef
+  );
+
+  // Validate Booking Date
+  const isBookingDateValid = validateAssignField(
+    bookingDate,
+    "bookingDate",
+    bookingDateRef,
+    setBookingDateErrmsg,
+    focusedRef
+  );
+
+  // Validate Amount
+  const isAmountValid = validateAssignField(
+    amount,
+    "amount",
+    amountRef,
+    setamountError,
+    focusedRef
+  );
+
+  // Validate Joining Date
+  const isJoiningDateValid = validateAssignField(
+    joiningDate,
+    "joiningDate",
+    dateRef,
+    setJoingDateErrmsg,
+    focusedRef
+  );
+
+  // Validate Mode Of Payment
+  const isModeOfPaymentValid = validateAssignField(
+    modeOfPayment,
+    "modeOfPayment",
+    modeOfPaymentRef,
+    setPaymentError,
+    focusedRef
+  );
+
+  // If any field invalid, mark error
+  if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
+    hasError = true;
+  }
+
+  // Check amount separately for <= 0
+  if (Number(amount) <= 0) {
+    setamountError("Please Enter Booking Amount");
+    if (!focusedRef.current) {
+      bookingcustomerRef.current?.focus(); // Focus Select Tenant first
+      focusedRef.current = true;
     }
-    if (Number(amount) <= 0) {
-      setamountError("Please Enter Booking Amount");
-      amountRef.current?.focus();
-      hasError = true;
-    }
-    if (hasError) return;
+    hasError = true;
+  }
 
-    const formatDate = (date) => {
-      if (!date) return "";
-      const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, "0");
-      const month = String(d.getMonth() + 1).padStart(2, "0");
-      const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
+  // Stop submission if any error
+  if (hasError) return;
 
-    const joiningDateForFormatted = formatDate(joiningDate);
-    const bookingDateForFormatted = formatDate(bookingDate);
-
-    dispatch({
-      type: "ADD_BOOKING",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        joiningDate: joiningDateForFormatted,
-        bookingDate: bookingDateForFormatted,
-        bookingAmount: amount,
-        floorId: currentItem?.floorId,
-        roomId: currentItem?.roomId,
-        bedId: currentItem?.bedId,
-        customerId: booking_customername,
-        bankId: modeOfPayment,
-        referenceNumber: transactionId,
-      },
-    });
-
-    setFormLoading(true);
+  // Function to format date as DD-MM-YYYY
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
   };
 
+  const joiningDateForFormatted = formatDate(joiningDate);
+  const bookingDateForFormatted = formatDate(bookingDate);
 
+  // Dispatch booking action
+  dispatch({
+    type: "ADD_BOOKING",
+    payload: {
+      hostelId: state.login.selectedHostel_Id,
+      joiningDate: joiningDateForFormatted,
+      bookingDate: bookingDateForFormatted,
+      bookingAmount: amount,
+      floorId: currentItem?.floorId,
+      roomId: currentItem?.roomId,
+      bedId: currentItem?.bedId,
+      customerId: booking_customername,
+      bankId: modeOfPayment,
+      referenceNumber: transactionId,
+    },
+  });
+
+  setFormLoading(true);
+};
 
   console.log("currentItem", currentItem)
 
@@ -608,7 +706,7 @@ function BookingBed({
                   <Form.Group>
                     <Form.Label className="text-sm font-medium font-gilroy">
                       Transaction ID{" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className="invisible text-xl">*</span>
                     </Form.Label>
                     <FormControl
                       type="text"

@@ -603,9 +603,10 @@ function AddCustomer({ showMenu, handleClose }) {
         onHide={handleClose}
         backdrop="static"
         dialogClassName="custom-modal custom-modal-width"
+      className="2xl:mt-24 mt-0 h-auto flex items-center justify-center"
       >
         <Modal.Dialog
-          className="w-full !max-w-[800px] !w-[800px] pr-2 rounded-[30px] mb-24 m-0 p-0 font-gilroy"
+          className="w-full !max-w-[800px] !w-[800px] pr-2 rounded-[30px] m-0 p-0 font-gilroy"
         >
           <Modal.Body className="p-0">
             <div className="flex justify-center overflow-auto p-2">

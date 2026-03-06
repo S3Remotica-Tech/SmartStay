@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import "../../Pages/Dashboard/Dashboard.css";
+// import "../../Pages/Dashboard/Dashboard.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PayingGuest from "../../Pages/PayingGuestFile/PayingGuestMap";
 import AddPg from "../../Pages/PayingGuestFile/AddPg";
@@ -22,9 +22,9 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "../../Pages/PayingGuestFile/DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import "../../Pages/Settings/Settings.css";
+// import "../../Pages/Settings/Settings.css";
 import PropTypes from "prop-types";
-import '../../Pages/Settings/SettingManage.css';
+// import '../../Pages/Settings/SettingManage.css';
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
@@ -698,7 +698,7 @@ function SettingManage() {
       {hidePgList && (
         <>
 
-          <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+          <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center  px-1.5 whitespace-nowrap">
             <div className="w-full flex justify-center md:justify-start md:mt-0">
               <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
                 Manage PG
@@ -730,7 +730,7 @@ function SettingManage() {
             </>
           ) :
             
-            <div className="mt-4 max-h-[32rem] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
+            <div className="mt-4 h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
               {filteredData?.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8">
                   {filteredData.map((hostel) => (
