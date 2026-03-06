@@ -108,10 +108,6 @@ function AdminProfileEdit({ show, handleClose }) {
         }
 
 
-
-
-
-
         const payload = {
             profilePic: profileImage || null,
             payloads: {

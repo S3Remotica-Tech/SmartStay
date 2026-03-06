@@ -191,13 +191,13 @@ export async function UpdateProfile(params) {
 
 // Owner Update password
 
-export  function UpdatePassword () {
+export async function UpdatePassword (datum) {
   new Promise((resolve) => {
   resolve({status: 200});
-})
-  // return await AxiosConfig.post('/forget/select-list ',datum,{
-  //   data:datum
-  // })
+  })
+//  return await AxiosConfigV2.put(``,datum, {
+//     data: datum
+//   })
 }
 
 
