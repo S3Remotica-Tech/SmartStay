@@ -1,17 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs";
-import { FiSettings } from "react-icons/fi";
-import LongStayRecurringModal from "./LongStay";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowRight2, ArrowSwapHorizontal } from 'iconsax-react';
-// import { FaCheck } from "react-icons/fa";
+import { ArrowRight2,  } from 'iconsax-react';
 import { useHasPermission } from '../../../Utils/Permission';
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../../Components/ErrorMessage';
-// import "../../Pages/Settings/SettingsBills.css";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +22,7 @@ function BillingRule() {
   const [shortStayChecked, setShortStayChecked] = useState(false);
   const [formLoading, setFormLoading] = useState(false)
   const [showShortStay, setShowShortStay] = useState(false);
-  const [showLongStay, setShowLongStay] = useState(false);
+  // const [showLongStay, setShowLongStay] = useState(false);
 
   const handleShowLongStay = (tabName) => {
     // setShowLongStay(true)
@@ -40,10 +35,10 @@ const hostelId = state.login?.selectedHostel_Id;
 
 
   };
-  const handleCloseLongStay = () => {
-    dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
-    setShowLongStay(false)
-  }
+  // const handleCloseLongStay = () => {
+  //   dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
+  //   setShowLongStay(false)
+  // }
 
 
   const handleShowShortStay = () => setShowShortStay(true);
@@ -217,67 +212,11 @@ const hostelId = state.login?.selectedHostel_Id;
                           // variant="Bold"
                           className={`${!canWriteBills ? "opacity-40 cursor-not-allowed pointer-events-none" : "cursor-pointer"
                             }`}
-                          onClick={canWriteBills ? handleShowLongStay("long-stay-recurring") : undefined}
+                         onClick={canWriteBills ? () => handleShowLongStay("long-stay-recurring") : undefined}
                         />
                       </div>
                     </div>
-                    {/* {recurringBills.billStartDate && (
-                    <div className="mt-3 bg-indigo-50 rounded-lg p-3 font-gilroy text-sm text-gray-600">
-
-                      <div className="flex justify-between mb-2">
-                        <span>Bill Start Date:</span>
-                        <span className="font-semibold text-blue-700">
-                          {recurringBills.billStartDate}
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between mb-2">
-                        <span>Bill Due Days:</span>
-                        <span className="font-semibold text-blue-700">
-                          {recurringBills.billDueDate}
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between mb-2">
-                        <span>Notice Period:</span>
-                        <span className="font-semibold text-blue-700">
-                          {recurringBills.noticePeriod} days
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between">
-                        <span>Starts From:</span>
-                        <span className="font-semibold text-blue-700">
-                          {recurringBills.startsFrom || "—"}
-                        </span>
-                      </div>
-                    </div>
-                  )} */}
-
-                    {/* {recurringBills.billStartDate ? (
-
-                      <div className="flex justify-between items-center mt-3">
-                        <button
-                          disabled={!canWriteBills}
-                          onClick={handleShowLongStay}
-                          className="flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
-                        >
-                          <ArrowSwapHorizontal size={20} /> Configure
-                        </button>
-
-
-                      </div>
-
-                    ) : (
-                      <button
-                        disabled={!canWriteBills}
-                        onClick={handleShowLongStay}
-                        className="mt-3 flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
-                      >
-                        <FiSettings /> Setup Now
-                      </button>
-                    )} */}
-
+                   
                   </div>
                 </div>
               </div>
@@ -345,9 +284,9 @@ const hostelId = state.login?.selectedHostel_Id;
 
 
 
-      {
+      {/* {
         showLongStay && <LongStayRecurringModal handleClose={handleCloseLongStay} show={handleShowLongStay} />
-      }
+      } */}
       {
         showShortStay && <ShortStayRecurringModal handleClose={handleCloseShortStay} show={handleShowShortStay} />
       }

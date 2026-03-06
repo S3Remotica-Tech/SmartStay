@@ -86,7 +86,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
       <div className="px-1 py-1">
 
-        <div className="relative flex gap-0">
+        <div className="relative flex gap-0 h-[calc(100vh-20px)]">
           <div className="block md:hidden p-2.5">
             <button
               onClick={handleToggleSidebar}
@@ -108,7 +108,7 @@ function SettingAllPages({ isVisibleSidebar }) {
               transition-all duration-300
               sticky top-0 z-10
               ${isSidebarOpen ? "block w-[25%]" : "hidden md:block md:w-[25%]"}
-              bg-white
+              bg-white  h-full
             `}
             >
 
@@ -164,7 +164,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                   <div key={route}>
                     <p
                       onClick={() => handleSettingsNavigate(route, pageKey)}
-                      className={`flex justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer -mt-2.5
+                      className={`flex flex-shrink-0 justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer -mt-2.5
                       ${activePage === pageKey ? "text-[#1E45E1]" : "text-black"}`}
                     >
                       {label}
@@ -182,7 +182,9 @@ function SettingAllPages({ isVisibleSidebar }) {
 
           <main
             className={`
-            m-0 p-0 
+            m-0 p-0
+    overflow-y-auto
+    h-full
             ${isInvoiceAddMode ? "w-full" : "md:w-[75%]"}
             ${isSidebarOpen ? "hidden md:block" : ""}
           `}
