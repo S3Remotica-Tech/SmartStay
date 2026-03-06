@@ -6,29 +6,40 @@ import { FiSettings } from "react-icons/fi";
 import LongStayRecurringModal from "./LongStay";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowSwapHorizontal } from 'iconsax-react';
+import { ArrowRight2, ArrowSwapHorizontal } from 'iconsax-react';
 // import { FaCheck } from "react-icons/fa";
 import { useHasPermission } from '../../../Utils/Permission';
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../../Components/ErrorMessage';
 // import "../../Pages/Settings/SettingsBills.css";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
-import Form from 'react-bootstrap/Form';
-
+import { useNavigate } from "react-router-dom";
 
 function BillingRule() {
 
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+   const navigate = useNavigate();
+  
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
-
+  const [shortStayChecked, setShortStayChecked] = useState(false);
   const [formLoading, setFormLoading] = useState(false)
   const [showShortStay, setShowShortStay] = useState(false);
   const [showLongStay, setShowLongStay] = useState(false);
 
-  const handleShowLongStay = () => setShowLongStay(true);
+  const handleShowLongStay = (tabName) => {
+    // setShowLongStay(true)
+const hostelId = state.login?.selectedHostel_Id;
+    if (hostelId) {
+      navigate(`/settings/${hostelId}/${tabName}`);
+    } else {
+      navigate(`/settings/${tabName}`);
+    }
+
+
+  };
   const handleCloseLongStay = () => {
     dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
     setShowLongStay(false)
@@ -137,7 +148,7 @@ function BillingRule() {
     <>
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
         <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
-          Bills
+          Billing Rule
         </label>
 
       </div>
@@ -155,34 +166,62 @@ function BillingRule() {
             </div>
           </>
         ) : (
-         
-          <div className="grid grid-cols-12 gap-3 overflow-hidden">
+          <div className="bg-[#FAFAFA] h-fit p-3">
 
-            <div className="col-span-12 md:col-span-6">
-              <div className="h-full rounded-xl border border-gray-200 shadow-md bg-white">
-                <div className="p-4">
+            <div className="grid grid-cols-12 gap-3  ">
 
-                  <div className="flex justify-between items-start">
-                    <div className="bg-white rounded-lg p-2 shadow-md">
-                      <BsShieldCheck size={24} color="#1E45E1" />
+              <div className="col-span-12 md:col-span-12">
+                <div className="h-full rounded-lg  shadow-md bg-white">
+                  <div className="px-[10px] py-[10px] flex  items-center justify-between">
+
+                    <div className="flex gap-2 items-center">
+                      <div className="bg-white rounded-lg p-2 ">
+                        <BsShieldCheck size={24} color="#1E45E1" />
+                      </div>
+
+                      <div>
+                        <div className="mb-1 font-gilroy font-semibold text-base text-gray-900">
+                          Long Stay Recurring
+                        </div>
+
+                        <div className="text-gray-600 text-[13px] font-gilroy mb-1">
+                          Set your Monthly Recurring Bill Period
+                        </div>
+                      </div>
                     </div>
 
-                    {!recurringBills.billStartDate && (
-                      <div className="text-red-600 bg-red-50 rounded-lg px-3 py-1 text-xs font-gilroy">
-                        Not Configure Yet
+                    <div className="flex gap-4 items-center">
+                      <div className="flex items-center">
+
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={(e) => setChecked(e.target.checked)}
+                            // disabled
+                            className="sr-only peer"
+                          />
+
+                          <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-700 after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4 peer-disabled:opacity-50"></div>
+                        </label>
+
+                        <span className="text-sm font-gilroy leading-none ml-2">
+                          {checked ? "On" : "Off"}
+                        </span>
                       </div>
-                    )}
-                  </div>
 
-                  <div className="mt-3 mb-1 font-gilroy font-semibold text-lg text-gray-900">
-                    Long Stay Recurring
-                  </div>
-
-                  <div className="text-gray-600 text-[15px] font-gilroy mb-1">
-                    Configure recurring billing for tenants staying long-term
-                  </div>
-
-                  {recurringBills.billStartDate && (
+                      <div>
+                        <ArrowRight2
+                          color="#28303F"
+                          size="14"
+                          // variant="Bold"
+                          className={`${!canWriteBills ? "opacity-40 cursor-not-allowed pointer-events-none" : "cursor-pointer"
+                            }`}
+                          onClick={canWriteBills ? handleShowLongStay("long-stay-recurring") : undefined}
+                        />
+                      </div>
+                    </div>
+                    {/* {recurringBills.billStartDate && (
                     <div className="mt-3 bg-indigo-50 rounded-lg p-3 font-gilroy text-sm text-gray-600">
 
                       <div className="flex justify-between mb-2">
@@ -213,26 +252,65 @@ function BillingRule() {
                         </span>
                       </div>
                     </div>
-                  )}
+                  )} */}
 
-                  {recurringBills.billStartDate ? (
+                    {/* {recurringBills.billStartDate ? (
 
-                    <div className="flex justify-between items-center mt-3">
+                      <div className="flex justify-between items-center mt-3">
+                        <button
+                          disabled={!canWriteBills}
+                          onClick={handleShowLongStay}
+                          className="flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
+                        >
+                          <ArrowSwapHorizontal size={20} /> Configure
+                        </button>
+
+
+                      </div>
+
+                    ) : (
                       <button
                         disabled={!canWriteBills}
                         onClick={handleShowLongStay}
-                        className="flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
+                        className="mt-3 flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
                       >
-                        <ArrowSwapHorizontal size={20} /> Configure
+                        <FiSettings /> Setup Now
                       </button>
+                    )} */}
 
+                  </div>
+                </div>
+              </div>
+
+
+              <div className="col-span-12 md:col-span-12">
+                <div className="h-full rounded-lg  shadow-md bg-white">
+                  <div className="px-[10px] py-[10px] flex  items-center justify-between">
+
+                    <div className="flex gap-2 items-center">
+                      <div className="bg-white rounded-lg p-2 ">
+                        <BsHourglassSplit size={24} color="#1E45E1" />
+                      </div>
+
+                      <div>
+                        <div className="mb-1 font-gilroy font-semibold text-base text-gray-900">
+                          Short Stay Recurring
+                        </div>
+
+                        <div className="text-gray-600 text-[13px] font-gilroy mb-1">
+                          Fill the template form with details you'd like to customize.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 items-center">
                       <div className="flex items-center">
 
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={checked}
-                            onChange={(e) => setChecked(e.target.checked)}
+                            onChange={(e) => setShortStayChecked(e.target.checked)}
                             disabled
                             className="sr-only peer"
                           />
@@ -241,59 +319,24 @@ function BillingRule() {
                         </label>
 
                         <span className="text-sm font-gilroy leading-none ml-2">
-                          {checked ? "On" : "Off"}
+                          {shortStayChecked ? "On" : "Off"}
                         </span>
                       </div>
+
+                      {/* <div>
+                        <ArrowRight2 color="#28303F" size="14" varient="bold"
+                          disabled={!canWriteBills}
+                          onClick={handleShowLongStay} />
+                      </div> */}
+
                     </div>
 
-                  ) : (
-                    <button
-                      disabled={!canWriteBills}
-                      onClick={handleShowLongStay}
-                      className="mt-3 flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy"
-                    >
-                      <FiSettings /> Setup Now
-                    </button>
-                  )}
 
+                  </div>
                 </div>
               </div>
+
             </div>
-
-
-            <div className="col-span-12 md:col-span-6">
-              <div className="h-full rounded-xl border border-gray-200 shadow-md bg-white">
-                <div className="p-4">
-
-                  <div className="flex justify-between items-start">
-                    <div className="bg-white rounded-lg p-2 shadow-md">
-                      <BsHourglassSplit size={24} color="#1E45E1" />
-                    </div>
-
-                    <div className="text-red-600 bg-red-50 rounded-lg px-3 py-1 text-xs font-gilroy">
-                      Not Configure Yet
-                    </div>
-                  </div>
-
-                  <div className="mt-3 font-gilroy font-semibold text-lg text-gray-900">
-                    Short Stay Recurring
-                  </div>
-
-                  <div className="text-gray-600 text-[15px] font-gilroy mb-1">
-                    Set up one-time or daily billing for short-term tenants.
-                  </div>
-
-                  <button
-                    disabled
-                    className="mt-3 flex items-center gap-2 bg-blue-700 text-white text-sm px-3 py-1.5 rounded-lg font-gilroy opacity-60 cursor-not-allowed"
-                  >
-                    <FiSettings /> Coming Soon
-                  </button>
-
-                </div>
-              </div>
-            </div>
-
           </div>
         )
         }

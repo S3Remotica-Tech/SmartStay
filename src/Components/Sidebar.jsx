@@ -85,6 +85,7 @@ import AnalyticalExpenseTrend from "../Reports/AnalyticalExpenseTrend/Analytical
 import AnalyticalInvoiceTrend from "../Reports/AnalyticalInvoiceTrend/AnalyticalInvoiceTrend";
 import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolved/AnalyticalComplaintsResolved"
 import GraphQL from "../Pages/Dashboard/GraphQL";
+import LongStayRecurringModal from "../Pages/Settings/BillingRule/LongStay";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1667,6 +1668,7 @@ function Sidebar() {
                 <Route path="integration" element={<SettingIntergration />} />
                 <Route path="electricity" element={<SettingElectricity />} />
                 <Route path="billing-rule" element={<BillingRule />} />
+                <Route path="long-stay-recurring" element={<LongStayRecurringModal />} />
                 <Route path="notifications" element={<SettingsNotifications />} />
                 <Route
                   path="invoice"
