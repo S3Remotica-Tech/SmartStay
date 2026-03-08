@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
-import "./UserList.css";
+// import "./UserList.css";
 import { Table, Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -177,6 +177,23 @@ function UserList(props) {
   const handleInvoiceNumber = (e) => {
     setInvoiceNumber(e.target.value)
   }
+
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth >= 1536) {
+      setItemsPerPage(20); // monitor
+    } else {
+      setItemsPerPage(10); // normal screens
+    }
+  };
+
+  handleResize();
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
   useEffect(() => {
     if (state.AssetList.accessRestricted) {
@@ -2168,32 +2185,10 @@ function UserList(props) {
           type="text"
           value={props.value || "DD/MM/YYYY"}
           readOnly
-          // style={{
-          //   border: "1px solid #D9D9D9",
-          //   borderRadius: 8,
-          //   padding: 9,
-          //   fontSize: 14,
-          //   fontFamily: "Gilroy",
-          //   fontWeight: props.value ? 600 : 500,
-          //   width: "100%",
-          //   height: 50,
-          //   boxSizing: "border-box",
-          //   boxShadow: "none",
-          // }}
           className={`date_input w-full h-[50px] border border-[#D9D9D9] rounded-[8px] p-[9px] box-border text-[14px] font-gilroy shadow-none ${props.value ? "font-semibold" : "font-medium"}`}
         />
         <img
           src={Calendars}
-          // style={{
-          //   height: 24,
-          //   width: 24,
-          //   marginLeft: 10,
-          //   cursor: "pointer",
-          //   position: "absolute",
-          //   right: 10,
-          //   top: "50%",
-          //   transform: "translateY(-50%)",
-          // }}
           className="h-[24px] w-[24px] ml-[10px] cursor-pointer absolute right-[10px] top-1/2 -translate-y-1/2"
           alt="Calendar"
           onClick={props.onClick}
@@ -2201,38 +2196,7 @@ function UserList(props) {
       </div>
     );
   };
-  const buttonStyle = {
-    fontFamily: "Gilroy",
-    fontSize: "14px",
-    backgroundColor: "#1E45E1",
-    color: "white",
-    fontWeight: 600,
-    borderRadius: "8px",
-    padding: "8px",
-    width: "146px",
-    whiteSpace: "nowrap",
-  };
-
-
-  const headerStyle = {
-    textAlign: "center",
-    fontFamily: "Gilroy",
-    color: "rgb(147, 147, 147)",
-    fontSize: 14,
-    fontWeight: 500,
-    lineHeight: "1.4",
-    padding: 8,
-    verticalAlign: "middle",
-  };
-
-
-  const labelStyle = {
-    display: "flex",
-    alignItems: "center",
-    height: "100%",
-    lineHeight: "1",
-  };
-
+ 
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setBillLoading(false)
@@ -2795,16 +2759,15 @@ function UserList(props) {
                   </div>
                 ) : null}
 
-                <div classame='font-gilroy  overflow-auto mb-5 mt-3 px-0'
-                >
+                 <div className="font-gilroy mb-5 mt-3 px-0 h-[450px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px]">
                   {canReadTenant && sortedData && sortedData.length > 0 &&
-                    <div>
-                      <div ref={tableRef} className="relative p-2">
+                    <div className="relative h-full overflow-y-auto show-scroll">
+                      <div ref={tableRef} className="relative">
                         <Table
                           responsive="md"
-                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 "
+                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium "
                         >
-                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
+                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-20">
                             <tr>
                               <th>Name</th>
                               <th>Status</th>
@@ -2817,7 +2780,7 @@ function UserList(props) {
                             </tr>
                           </thead>
                           <tbody className="text-start">
-                            <PaginationList>
+                            <PaginationList itemsPerPage={itemsPerPage}>
                               {sortedData && sortedData.length > 0 && (
 
                                 sortedData.map((user) => (
@@ -3047,6 +3010,7 @@ function UserList(props) {
                     </div>
                   }
                 </div>
+         
 
                 {customerReassign === true ? (
                   <CustomerReAssign

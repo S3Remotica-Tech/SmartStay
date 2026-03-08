@@ -565,10 +565,8 @@ function RecurringBills() {
             >
 
               <div
-
-                className={`show-scrolls  overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 ${sortedDataRecure?.length >= 12 ? "h-[400px]" : "h-auto"
-                  }`}
-              >
+                className={`show-scroll overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 ${sortedDataRecure?.length >= 12 ? "h-[400px]" : "h-auto"
+                  }`} >
                 <Table
                 responsive="md"
                 className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
