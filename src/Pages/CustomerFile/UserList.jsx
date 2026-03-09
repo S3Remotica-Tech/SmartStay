@@ -178,23 +178,6 @@ function UserList(props) {
     setInvoiceNumber(e.target.value)
   }
 
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-
-useEffect(() => {
-  const handleResize = () => {
-    if (window.innerWidth >= 1536) {
-      setItemsPerPage(20); // monitor
-    } else {
-      setItemsPerPage(10); // normal screens
-    }
-  };
-
-  handleResize();
-  window.addEventListener("resize", handleResize);
-
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
-
   useEffect(() => {
     if (state.AssetList.accessRestricted) {
       setLoading(false);
@@ -2780,7 +2763,7 @@ useEffect(() => {
                             </tr>
                           </thead>
                           <tbody className="text-start">
-                            <PaginationList itemsPerPage={itemsPerPage}>
+                            <PaginationList>
                               {sortedData && sortedData.length > 0 && (
 
                                 sortedData.map((user) => (
