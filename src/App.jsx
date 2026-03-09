@@ -235,8 +235,8 @@ if(!token){
         ) : (
           <>
             <Routes>
-              <Route path="/" element={<FrontPage />} />
-              {/* <Route path="/" element={<MainLandingPage />} /> */}
+              {/* <Route path="/" element={<FrontPage />} /> */}
+              <Route path="/" element={<MainLandingPage />} />
               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
