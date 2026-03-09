@@ -23,6 +23,11 @@ import BusinessChallenges from "./BusinessChallenges";
 import WhyChoose from "./WhyChoose";
 import LifeCycleMethod from "./LifeCycleMethod";
 import RecurringInvoice from "./RecurringInvoice";
+import HostelProperties from "./HostelProperties";
+import OperationsSection from "./OperationsSection";
+import Pricing from "./Pricing";
+import MobileApp from "./MobileApp";
+import FAQSection from "./FAQSection";
 
 function FrontPage() {
   useEffect(() => {
@@ -211,6 +216,11 @@ function FrontPage() {
                    <WhyChoose />
                    <LifeCycleMethod />
                    <RecurringInvoice />
+                   <HostelProperties />
+                   <OperationsSection />
+                   <Pricing />
+                   <MobileApp />
+                   <FAQSection />
           {/* <Startup />
           <StatsSection />
           <RoomManagement />

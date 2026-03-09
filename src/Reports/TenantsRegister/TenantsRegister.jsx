@@ -924,7 +924,17 @@ function TenantsRegister() {
                                             className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px] ">
                                             <div className="flex items-center gap-2 max-w-[200px]">
 
-                                                <ProfileCircle size="28" color="#9ca098" variant='Bold' />
+                                                 {row.profilePic ? (
+                                                        <img
+                                                            src={row.profilePic}
+                                                            alt={row.fullName}
+                                                            className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                                            {row.initials}
+                                                        </div>
+                                                    )}
                                                 <span
 
                                                     onMouseEnter={(e) => {

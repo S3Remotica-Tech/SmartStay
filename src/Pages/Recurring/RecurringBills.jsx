@@ -341,7 +341,7 @@ function RecurringBills() {
       <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap h-auto"
       >
         <div className="mt-0">
-          <label className="text-lg text-gray-900 font-semibold">
+          <label className="text-lg text-gray-900 font-semibold font-gilroy">
             Recurring</label>
         </div>
 
@@ -595,7 +595,7 @@ function RecurringBills() {
                       <th>
                         Amount
                       </th>
-                      <th
+                      {/* <th
                       >
                         Recurring
                       </th>
