@@ -750,7 +750,7 @@ function SettingManage() {
               ) : (
                 !loading &&
                 filteredData.length === 0 && (
-                  <div className="flex-1 flex flex-col items-center justify-center w-full">
+                  <div className="flex-1 flex flex-col items-center justify-center w-full 2xl:mt-">
                     <img src={EmptyState} alt="Empty state" className="" />
                     <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700 mt-2">
                       No Paying Guest available

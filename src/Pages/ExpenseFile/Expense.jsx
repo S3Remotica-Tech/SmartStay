@@ -1028,7 +1028,7 @@ function Expenses({ allPageHostel_Id }) {
                   <div className="flex justify-center">
                     <img
                       src={EmptyState}
-                      className="mt-24"
+                      className="mt-24 2xl:mt-52"
                       alt="Empty state"
                     />
                   </div>

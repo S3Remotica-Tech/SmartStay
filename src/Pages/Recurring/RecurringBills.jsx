@@ -511,7 +511,7 @@ function RecurringBills() {
             activeStay === 'long_stay' ?
             (
               <div className="flex flex-col items-center justify-center w-full animate-fade-in">
-                <div className="mt-24 flex justify-center w-full">
+                <div className="mt-24 2xl:mt-52 flex justify-center w-full">
                   <div>
 
                     <div className="flex justify-center">

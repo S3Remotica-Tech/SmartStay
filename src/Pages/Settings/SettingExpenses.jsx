@@ -588,7 +588,7 @@ function SettingExpenses() {
 
             {!loading && expensesFilterddata.length === 0 && (
 
-              <div className="w-full flex justify-center items-center mt-24">
+              <div className="w-full flex justify-center items-center mt-24 2xl:mt-52">
                 <div className="text-center">
                   <img src={EmptyState} alt="emptystate" className="max-w-xs mx-auto" />
                   <div className="font-gilroy font-semibold text-lg text-gray-700 mt-2">

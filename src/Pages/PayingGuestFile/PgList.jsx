@@ -965,7 +965,7 @@ function PgList() {
               (!loading) && (
                 <div className="w-full flex flex-col items-center justify-center animated-text">
                   <div>
-                    <div className="flex justify-center mt-28">
+                    <div className="flex justify-center mt-28 2xl:mt-52">
                       <img
                         src={EmptyState}
                          alt="Empty state"

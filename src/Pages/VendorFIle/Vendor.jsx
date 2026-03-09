@@ -423,8 +423,8 @@ useEffect(() => {
                 }
 
                 {!loading && filteredData?.length === 0 && (
-                  <div className="flex flex-col items-center justify-center w-full mt-24 animate-fade-in">
-                    <div className="flex justify-center mt-28">
+                  <div className="flex flex-col items-center justify-center w-full  animate-fade-in">
+                    <div className="flex justify-center mt-24 2xl:mt-52">
                       <img
                         src={EmptyState}
                         alt="Empty state"

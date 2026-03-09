@@ -344,7 +344,7 @@ function CreateAccountPage() {
   return (
     <>
      <div data-testid='create-account' className="w-full font-gilroy">
-        <div className="ml-5">
+        <div className="ml-5 2xl:ml-52 2xl:mt-28">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1 fade-in">
             <div className="mt-4 relative">
 

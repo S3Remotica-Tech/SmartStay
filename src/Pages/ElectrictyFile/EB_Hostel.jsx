@@ -980,7 +980,7 @@ const RoomReadingTable = () => {
                     {roomReadingList?.length === 0 && !loading ? (
                       <div className="flex justify-center text-center">
                         <div>
-                          <img src={emptyimg} alt="emptystate" className="mt-24" />
+                          <img src={emptyimg} alt="emptystate" className="mt-24 2xl:mt-52" />
                           <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-600">
                             No Room Reading
                           </div>

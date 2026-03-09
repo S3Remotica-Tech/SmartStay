@@ -401,7 +401,7 @@ function SettingNewUser() {
                 </div>
               ) : (
                 !loading && (
-                  <div className="flex items-center justify-center w-full mt-24">
+                  <div className="flex items-center justify-center w-full mt-24 2xl:mt-52">
                     <div className="text-center">
                       <div className="flex justify-center mb-2">
                         <img src={emptyimg} alt="Empty state" />
@@ -411,7 +411,7 @@ function SettingNewUser() {
                         No Staff
                       </div>
 
-                      <div className="pb-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
+                      <div className="pb-1 text-base font-medium font-gilroy text-[#4B4B4B]">
                         There are no staff's available
                       </div>
                     </div>
