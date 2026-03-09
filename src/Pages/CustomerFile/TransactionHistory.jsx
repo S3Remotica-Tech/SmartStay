@@ -68,7 +68,7 @@ function TransactionHistory() {
                     {CustomerOverView?.length === 0 ? (
                         <div className="mt-2 flex justify-center">
                             <div>
-                                <img src={emptyimg} className="w-[240px] h-[240px]" alt="emptystate" />
+                                <img src={emptyimg} alt="emptystate" />
                                 <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
                                     No Transaction available
                                 </div>

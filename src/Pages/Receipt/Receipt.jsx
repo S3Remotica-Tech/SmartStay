@@ -446,9 +446,9 @@ function Receipt() {
                             )}
 
                             {!receiptLoader && sortedDataReceipt?.length === 0 && (
-                                <div className="mt-2 flex justify-center">
+                                <div className="flex justify-center">
                                     <div>
-                                        <div className="text-center">
+                                        <div className="text-center mt-24">
                                             <img src={Emptystate} alt="emptystate" />
                                         </div>
                                         <div className="pb-1 text-center text-[18px] font-gilroy font-semibold text-[#4B4B4B]">

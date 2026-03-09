@@ -687,7 +687,7 @@ const RoomReadingTable = () => {
                         indicatorSeparator: () => ({ display: "none" }),
                         dropdownIndicator: (base) => ({
                           ...base,
-                           color: "#000000",
+                          color: "#000000",
                           cursor: "pointer",
                         }),
                       }}
@@ -978,9 +978,9 @@ const RoomReadingTable = () => {
 
 
                     {roomReadingList?.length === 0 && !loading ? (
-                      <div className="flex justify-center text-center mt-10">
+                      <div className="flex justify-center text-center">
                         <div>
-                          <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                          <img src={emptyimg} alt="emptystate" className="mt-24" />
                           <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-600">
                             No Room Reading
                           </div>
@@ -990,7 +990,7 @@ const RoomReadingTable = () => {
                         </div>
                       </div>
                     ) : (
-                     
+
                       <div className="show-scrolls overflow-y-auto max-h-[360px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800"
                       >
                         <Table bordered={false} className="mb-0 table-auto w-full">
@@ -1188,14 +1188,16 @@ const RoomReadingTable = () => {
 
                 {activeTab === "customer" && (
                   customerReadingList?.length === 0 ? (
-                    <div className="flex justify-center text-center mt-10">
+                    <div className="flex justify-center text-center">
                       <div>
-                        <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                        <img src={emptyimg} alt="emptystate" className="mt-24 mx-auto" />
+
                         <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-gray-600">
                           No Tenant Reading
                         </div>
+
                         <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                          There are no  tenant reading available.
+                          There are no tenant reading available.
                         </div>
                       </div>
                     </div>

@@ -462,7 +462,7 @@ function Dashboard() {
                   src={Emptystate}
                   alt="Empty State"
                 />
-                <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
+                <ErrorMessage message={['You do not have access to view Dashboardss']} type="warning" />
 
               </div>
             ) : (

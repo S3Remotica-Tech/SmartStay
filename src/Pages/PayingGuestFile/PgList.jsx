@@ -963,29 +963,24 @@ function PgList() {
             )
               :
               (!loading) && (
-                <div
-                  className="w-full flex flex-col items-center justify-center animated-text mt-24"
-                >
+                <div className="w-full flex flex-col items-center justify-center animated-text">
                   <div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mt-28">
                       <img
                         src={EmptyState}
-                        className="h-[240px] w-[240px]"
-                        alt="Empty state"
+                         alt="Empty state"
                       />
                     </div>
-                    <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-xl text-gray-700">
+                    <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                       No floors available
                     </div>
-                    <div className="pb-1 mt-1 text-center font-gilroy font-medium text-base text-gray-700">
+                    <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                       There is no floor added to this paying guest.
                     </div>
-                    <div className="flex justify-center pb-1 mt-3">
-                      {" "}
-
-                    </div>
+                   
                   </div>
                 </div>
+              
               )}
           </div>
         )}

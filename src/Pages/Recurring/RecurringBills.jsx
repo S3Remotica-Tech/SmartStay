@@ -510,19 +510,22 @@ function RecurringBills() {
             (!recurringbills || recurringbills.length === 0) &&
             activeStay === 'long_stay' ?
             (
-              <div className="mt-2 flex justify-center">
-                <div>
-                  <div className="text-center">
-                    {" "}
-                    <img src={Emptystate} alt="emptystate" />
-                  </div>
-                  <div className="pb-1 text-center font-semibold text-[18px] text-[#4B4B4B] font-gilroy">
-                    No {activeStay} Recuring bills available{" "}
-                  </div>
-                  <div
-                    className="pb-1 text-center font-medium text-[14px] text-[#4B4B4B] font-gilroy"
-                  >
-                    There are no Recuring bills added{" "}
+              <div className="flex flex-col items-center justify-center w-full animate-fade-in">
+                <div className="mt-24 flex justify-center w-full">
+                  <div>
+
+                    <div className="flex justify-center">
+                      <img src={Emptystate} alt="emptystate" />
+                    </div>
+
+                    <div className="pb-1 text-center font-semibold text-[18px] text-[#4B4B4B] font-gilroy">
+                      No {activeStay} Recuring bills available
+                    </div>
+
+                    <div className="text-center font-medium text-[14px] text-[#4B4B4B] font-gilroy">
+                      There are no Recuring bills added
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -570,31 +573,31 @@ function RecurringBills() {
                   }`}
               >
                 <Table
-                responsive="md"
-                className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
+                  responsive="md"
+                  className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
 
                 >
                   <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"
->
+                  >
                     <tr>
                       <th>
-                       Name
+                        Name
                       </th>
-                      <th> 
+                      <th>
                         Last Invoice number
                       </th>
                       <th>
-                       Last Invoice Date
+                        Last Invoice Date
                       </th>
                       <th>
-                       Next Invoice Date
+                        Next Invoice Date
                       </th>
                       <th>
                         Amount
                       </th>
                       <th
                       >
-                       Recurring
+                        Recurring
                       </th>
                       <th>Action</th>
                     </tr>

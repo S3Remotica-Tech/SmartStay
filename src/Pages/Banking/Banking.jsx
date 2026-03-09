@@ -1041,13 +1041,11 @@ function Banking() {
 
               <div>
                 {!loader && sortedData.length === 0 && canReadBanking && (
-                  <div className="flex justify-center mt-3">
+                  <div className="flex justify-center mt-24">
                     <div>
-                      <div className="text-center">
+                      <div className="text-center mb-2">
                         <img
                           src={emptyimg}
-                          width={240}
-                          height={240}
                           alt="emptystate"
                         />
                       </div>

@@ -2774,7 +2774,7 @@ function UserList(props) {
                   </div>
                 ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
 
-                  <div className="animated-text mt-24 h-auto flex items-center justify-center">
+                  <div className="animated-text mt-24 flex items-center justify-center">
                     <div>
                       <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />

@@ -641,11 +641,11 @@ function CheckOut() {
                           <img src={Emptystate} alt="emptystate" />
                         </div>
 
-                        <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-[rgba(75,75,75,1)]">
+                        <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[rgba(75,75,75,1)]">
                           No Checkout Tenant available
                         </div>
 
-                        <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[rgba(75,75,75,1)]">
+                        <div className="pb-1 text-center font-medium font-gilroy text-sm text-[rgba(75,75,75,1)]">
                           There are no checkout tenant added
                         </div>
                       </div>
