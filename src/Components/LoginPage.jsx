@@ -5,7 +5,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-// import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,9 +13,8 @@ import Cookies from 'universal-cookie';
 import Loginimage from '../Assets/Images/new_login.png';
 import Logo from '../Assets/Images/New_images/Group.png';
 import { Eye, EyeSlash } from 'iconsax-react';
-// import { MdError } from "react-icons/md";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import CryptoJS from "crypto-js";
 const MyComponent = () => {
 
   const dispatch = useDispatch()
@@ -166,6 +164,17 @@ const MyComponent = () => {
 
         const cookies = new Cookies()
         cookies.set('v2-token', token, { path: '/' });
+
+        if (checked) {
+          const encryptData = CryptoJS.AES.encrypt(
+            JSON.stringify(true),
+            "abcd"
+          );
+          localStorage.setItem("login", encryptData.toString());
+        }
+
+
+
         if (token) {
           setTimeout(() => {
             dispatch({ type: 'CLEAR_STATUSCODE_VERSION_2' });
@@ -323,7 +332,7 @@ const MyComponent = () => {
                   />
                   <span className="leading-none">Stay signed in</span>
                 </label>
-               
+
                 <span
                   onClick={() => handleForgetPassword()}
                   className="font-montserrat text-[14px] font-semibold leading-[17.07px] text-left text-[#1E45E1] cursor-pointer hover:underline"> Forgot Password?

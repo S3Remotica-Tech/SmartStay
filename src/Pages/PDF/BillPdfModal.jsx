@@ -1718,7 +1718,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
           {isOpenPayment && (
             <div style={{ fontFamily: "Gilroy" }}>
               {
-                pdfDetails?.paymentHistory?.length > 0 ?
+                pdfDetails?.paymentHistory?.length > 0 &&
 
                   <Table responsive className="mb-0">
                     <thead style={{ background: "#F9FAFB" }}>
@@ -1736,7 +1736,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
                         pdfDetails.paymentHistory.map((item, index) => (
                           <tr key={index}>
                             <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                              {item.date || "-"}
+                             {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
                             </td>
 
 
@@ -1788,8 +1788,8 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
                     </tbody>
                   </Table>
-                  :
-
+}
+{pdfDetails?.refundHistory?.length > 0 && 
                   <Table responsive className="mb-0">
                     <thead style={{ background: "#F9FAFB" }}>
                       <tr>
@@ -1806,7 +1806,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
                         pdfDetails.refundHistory.map((item, index) => (
                           <tr key={index}>
                             <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                              {item.date || "-"}
+                             {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
                             </td>
 
                             <td

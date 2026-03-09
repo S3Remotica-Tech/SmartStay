@@ -109,7 +109,7 @@ const HomePage = () => {
 
               <button className="font-dmsans flex items-center gap-2 px-6 py-2.5 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
                 Signup for free Trial
-                <ArrowRight size="18" variant="Bold" />
+                <ArrowRight size="18" />
               </button>
 
             </div>
