@@ -136,7 +136,7 @@ const RecurringBillList = (props) => {
         <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
           ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
         </td>
-        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
+        {/* <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
           <Form.Check
             type="switch"
             id="recurring-switch"
@@ -144,7 +144,7 @@ const RecurringBillList = (props) => {
             disabled={!canUpdateRecurring}
             onChange={canUpdateRecurring ? props.onToggle : undefined}
           />
-        </td>
+        </td> */}
         <td className="text-left" style={{borderBottom: '1px solid #E8E8E8'}}>
           <div className="w-full flex justify-start">
             <div

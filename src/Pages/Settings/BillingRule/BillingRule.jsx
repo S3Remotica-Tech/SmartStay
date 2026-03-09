@@ -248,7 +248,7 @@ const hostelId = state.login?.selectedHostel_Id;
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
-                            checked={checked}
+                            checked={shortStayChecked}
                             onChange={(e) => setShortStayChecked(e.target.checked)}
                             disabled
                             className="sr-only peer"
