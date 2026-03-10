@@ -2742,9 +2742,9 @@ function UserList(props) {
                   </div>
                 ) : null}
 
-                 <div className="font-gilroy mb-5 mt-3 px-0 h-[450px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px] show-scroll">
+                 <div className="font-gilroy mb-5 mt-3 px-0 h-[450px] md:h-[350px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px] show-scroll">
                   {canReadTenant && sortedData && sortedData.length > 0 &&
-                    <div className="relative h-full overflow-y-auto show-scroll">
+                    <div className="relative h-full overflow-y-auto overflow-x-auto show-scroll">
                       <div ref={tableRef} className="relative">
                         <Table
                           responsive="md"
