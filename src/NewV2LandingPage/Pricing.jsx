@@ -109,7 +109,7 @@ function Pricing() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-10 gap-8 justify-center">
+            <div className="grid grid-cols-8 gap-8 justify-center">
 
 
                 {pricingPlans.map((plan, index) => (
@@ -121,21 +121,21 @@ function Pricing() {
 
       ${plan.highlight ? "bg-gradient-to-b from-[#FFF1D6] to-[#FFFFFF]" : "bg-white"}
       
-      ${index === 0 ? "col-span-4" : ""}
-      ${index === 1 ? "col-span-4" : ""}
+      ${index === 0 ? "col-span-3" : ""}
+      ${index === 1 ? "col-span-3" : ""}
       ${index === 2 ? "col-span-2" : ""}
       `}
                     >
 
                         <h3 className="text-center text-xl font-semibold text-[#676767]">{plan.name}</h3>
 
-                        <div className="text-center mt-4">
+                        <div className="text-center mt-2">
                             <span className="text-3xl font-bold text-[#222222]">₹ {plan.price}</span>
                             <p className="text-sm  text-[#222222] font-normal">{plan.duration}</p>
                         </div>
 
                         <button
-                            className={`w-full mt-4 py-2 rounded-lg font-medium ${plan.buttonStyle}`}
+                            className={`w-full mt-2 py-1.5 rounded-lg font-medium ${plan.buttonStyle}`}
                         >
                             {plan.button}
                         </button>
@@ -177,7 +177,7 @@ function Pricing() {
 
                             </div>
                         ) : (
-                            <p className="text-center flex justify-center items-center  max-h-[250px] text-sm text-gray-600">
+                            <p className="text-center flex justify-center items-center  h-[160px] md:h-[200px] lg:h-[250px] text-sm text-gray-600">
                                 {plan.description}
                             </p>
                         )}

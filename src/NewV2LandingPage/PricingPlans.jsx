@@ -31,10 +31,10 @@ function PricingPlans() {
       price: "0",
       duration: "for 30 Days",
       button: "Trial Now",
-      buttonStyle: "bg-[#FF9D00] text-white",
+     buttonStyle: "bg-[#1E45E1] text-white",
       highlight: true,
       description: "Experience Smartstay for Free",
-      bg: "bg-gradient-to-b from-[#CDD7FF57] via-[#FFF7E8] to-[#FFFFFF]",
+      bg: "bg-gradient-to-b from-[#CDD7FF57] via-[#FFFFFF] to-[#FFFFFF]",
       features: []
     },
     {
@@ -44,7 +44,7 @@ function PricingPlans() {
       button: "Try for Free",
       text: "Which includes : ",
       buttonStyle: "bg-[#1E45E1] text-white",
-       bg: "bg-gradient-to-b from-[#FFF1D6] via-[#FFF7E8] to-[#FFFFFF]",
+       bg: "bg-gradient-to-b from-[#FFFFFF] via-[#FFFFFF] to-[#FFFFFF]",
       disabledFeatures: [
         "WhatsApp Integration",
         "Digital KYC + Verification",
@@ -75,7 +75,7 @@ function PricingPlans() {
       button: "Try for Free",
       text: "Which includes : ",
       buttonStyle: "bg-[#1E45E1] text-white",
-       bg: "bg-gradient-to-b from-[#FFF1D6] via-[#FFF7E8] to-[#FFFFFF]",
+       bg: "bg-gradient-to-b from-[#FFFAEA] via-[#FFF7E8] to-[#FFFFFF]",
 
       features: [
         "Dashboard (Customizable)",
@@ -109,9 +109,9 @@ function PricingPlans() {
 
 
   return (
-    <div className='w-screen h-auto  bg-white'>
+    <div className='w-screen h-auto  bg-white font-tasa'>
 
-      <div className="max-w-5xl mx-auto text-center px-6 py-16">
+      <div className=" mx-auto text-center px-[120px] py-16 h-auto">
 
 
         <div className="inline-flex items-center gap-2 bg-[#F4F6FF] shadow-sm border border-blue-[#F4F6FF] 
@@ -141,17 +141,17 @@ function PricingPlans() {
 
 
 
-        <div className="grid grid-cols-10 gap-8 justify-center h-fit my-32">
+        <div className="grid grid-cols-10 gap-8  h-fit my-32">
 
 
           {pricingPlans.map((plan, index) => (
             <div
               key={index}
-              className={`rounded-xl border border-[#E5E5E5] p-4 
+              className={`rounded-xl border  border-[#E5E5E5] p-4 
       transition-all duration-300 ease-in-out transform
       hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02]
 
-      ${plan.highlight ? "bg-gradient-to-b from-[#FFF1D6] to-[#FFFFFF]" : "bg-white"}
+      ${plan.bg || "bg-white"}
       
       ${index === 0 ? "col-span-2" : ""}
       ${index === 1 ? "col-span-4" : ""}
@@ -159,7 +159,7 @@ function PricingPlans() {
       `}
             >
 
-              <h3 className="text-center text-xl font-semibold text-[#676767]">{plan.name}</h3>
+              <h3 className="text-center text-xl font-semibold text-[#222222] uppercase">{plan.name}</h3>
 
               <div className="text-center mt-4">
                 <span className="text-3xl font-bold text-[#222222]">₹ {plan.price}</span>
@@ -167,12 +167,12 @@ function PricingPlans() {
               </div>
 
               <button
-                className={`w-full mt-4 py-2 rounded-lg font-medium ${plan.buttonStyle}`}
+                className={`w-full mt-3 py-1.5 rounded-lg font-medium ${plan.buttonStyle}`}
               >
                 {plan.button}
               </button>
 
-              <div>
+              <div className='text-start'>
                 <label className='text-sm text-[#4B4B4B] text-medium mt-3'>{plan.text} </label>
               </div>
 
@@ -209,7 +209,7 @@ function PricingPlans() {
 
                 </div>
               ) : (
-                <p className="text-center flex justify-center items-center  max-h-[250px] text-sm text-gray-600">
+                <p className="text-center flex justify-center items-center  h-[160px] md:h-[200px] lg:h-[250px]  text-sm text-gray-600">
                   {plan.description}
                 </p>
               )}

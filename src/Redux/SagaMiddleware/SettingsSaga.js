@@ -1292,7 +1292,7 @@ const hostelId = GlobalHostelId(response);
     }
 
 
-      if (response?.status === 200) {
+      if (response?.status === 200 || response?.status === 204 ) {
          yield put({ type: 'GET_ALL_GENERAL', payload: { response: response.data || [], statusCode: response?.status } })
       }
       else {

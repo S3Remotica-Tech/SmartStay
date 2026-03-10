@@ -3,7 +3,7 @@ import { TickCircle } from 'iconsax-react'
 
 import Phone from "../Assets/v2LandingImages/whychoose.svg";
 
-function WhyChoose() {
+function WhyChoose({isBgColor}) {
 
     const features = [
         "Real-time occupancy view",
@@ -13,16 +13,16 @@ function WhyChoose() {
     ];
 
     return (
-        <div className="w-full bg-white py-10 px-[70px]">
+        <div className={`w-full  ${isBgColor ? "bg-[#1A1A1A] text-[#FFFFFF]" : "bg-white text-[#000000]" } py-10 px-[70px]`}>
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center">
 
                 <div>
 
-                    <h2 className="text-3xl md:text-4xl font-semibold text-[#000000] leading-1 font-tasa  ">
+                    <h2 className="text-3xl md:text-4xl font-semibold  leading-1 font-tasa  ">
                         Why Choose <span className="text-[#0033FF]">Smartstay</span> for Your Hostel?
                     </h2>
 
-                    <p className="text-[#2D2D2D] mt-4 max-w-md text-xl font-tasa font-normal">
+                    <p className={` ${isBgColor ? "text-[#FFFFFF]" : "text-[#2D2D2D]" } mt-4 max-w-md text-xl font-tasa font-normal`}>
                         It transforms manual hostel management into a structured, automated, and data-driven system. everything works seamlessly in one powerful platform.
                     </p>
 
@@ -32,7 +32,7 @@ function WhyChoose() {
                         {features.map((item, index) => (
                             <div key={index} className="flex items-center gap-3">
                                 <TickCircle size="32" variant="Bold" color="#00A32E" />
-                                <label className="text-[#090F29] text-sm font-semibold font-tasa">
+                                <label className={`${isBgColor ? "text-[#FFFFFF]" : " text-[#090F29]" } text-sm font-semibold font-tasa`}>
                                     {item}
                                 </label>
                             </div>

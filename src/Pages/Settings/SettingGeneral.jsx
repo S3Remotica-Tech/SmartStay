@@ -1002,10 +1002,9 @@ const stateRef = useRef(null);
 
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
+    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201 || state.Settings?.StatusCodeforGetGeneral === 204) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData || []);
       setLoading(false)
-
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_ALL_GENERAL' })
       }, 1000)

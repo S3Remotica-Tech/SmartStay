@@ -29,6 +29,8 @@ import Pricing from "./Pricing";
 import MobileApp from "./MobileApp";
 import FAQSection from "./FAQSection";
 import PricingPlans from "./PricingPlans";
+import ActiveCustomer from './ActiveCustomer';
+import HostelTrial from './HostelTrial';
 
 function FrontPage() {
   useEffect(() => {
@@ -48,7 +50,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-    
+
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
@@ -63,8 +65,8 @@ function FrontPage() {
       case "privacy_policy":
         navigate("/privacy-policy");
         break;
-        case "refund_policy":
-          navigate("/refund_policy");
+      case "refund_policy":
+        navigate("/refund_policy");
         break;
       case "firstPage":
         navigate("/");
@@ -118,7 +120,7 @@ function FrontPage() {
     scroll.scrollTo(0);
     setActiveSection("firstPage");
   };
-  
+
 
   return (
     <>
@@ -212,16 +214,18 @@ function FrontPage() {
 
       {activeSection === "firstPage" && (
         <Element name="firstPage" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-                   <HomePage />
-                   <BusinessChallenges />
-                   <WhyChoose />
-                   <LifeCycleMethod />
-                   <RecurringInvoice />
-                   <HostelProperties />
-                   <OperationsSection />
-                   <Pricing />
-                   <MobileApp />
-                   <FAQSection />
+          <HomePage />
+          <ActiveCustomer />
+          <BusinessChallenges />
+          <WhyChoose isBgColor={false}/>
+          <LifeCycleMethod />
+          <RecurringInvoice />
+          <HostelProperties />
+          <OperationsSection />
+          <Pricing />
+          <MobileApp />
+          <HostelTrial />
+          <FAQSection />
           {/* <Startup />
           <StatsSection />
           <RoomManagement />
@@ -242,9 +246,11 @@ function FrontPage() {
       {activeSection === "Pricing" && (
         <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
 
-<PricingPlans />
-
-
+          <PricingPlans />
+          <ActiveCustomer />
+          <WhyChoose  isBgColor={true}/>
+<FAQSection />
+<HostelTrial />
           {/* <SubscriptionPlan />
           <SmartStaySection />
           <Getanswer /> */}
@@ -254,7 +260,7 @@ function FrontPage() {
       {activeSection === "Contact_us" && (
         <Element name="Contact_us" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <Contact />
-                  </Element>
+        </Element>
       )}
 
       {activeSection === "terms_use" && (
@@ -277,8 +283,8 @@ function FrontPage() {
         </Element>
       )}
 
-      
-{activeSection === "refund_policy" && (
+
+      {activeSection === "refund_policy" && (
         <Element name="refund_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <Refundpolicy />
         </Element>

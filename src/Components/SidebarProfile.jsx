@@ -28,7 +28,7 @@ handleShowsettingsGenaral,
       show={showProfileCard}
       onHide={() => setShowProfileCard(false)}
       placement="end"
-      backdrop="static"
+      // backdrop="static"
       ref={profileCardRef}
       style={{
         width: 350,
