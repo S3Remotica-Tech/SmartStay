@@ -1210,7 +1210,7 @@ const stateRef = useRef(null);
             )
               : (
                 <div className="sticky top-0 bg-white z-[900] mt-2">
-                  {account.roleName === "Admin" && (
+                  {account.roleId === 1 && (
                    <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
                       <div className="flex w-full gap-4">
                         <div >

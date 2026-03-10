@@ -235,17 +235,17 @@ if(!token){
         ) : (
           <>
             <Routes>
-              {/* <Route path="/" element={<FrontPage />} /> */}
-              <Route path="/" element={<MainLandingPage />} />
+              <Route path="/" element={<FrontPage />} />
+              {/* <Route path="/" element={<MainLandingPage />} /> */}
               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />
-              <Route path="/hostel-management-features" element={<MainLandingPage />} />
-              <Route path="/hostel-software-pricing" element={<MainLandingPage />} />
-              <Route path="/pg-software-contact" element={<MainLandingPage />} />
-              <Route path="/privacy-policy" element={<MainLandingPage />} />
-              <Route path="/refund_policy" element={<MainLandingPage />} />
+              <Route path="/hostel-management-features" element={<FrontPage />} />
+              <Route path="/hostel-software-pricing" element={<FrontPage />} />
+              <Route path="/pg-software-contact" element={<FrontPage />} />
+              <Route path="/privacy-policy" element={<FrontPage />} />
+              <Route path="/refund_policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
 

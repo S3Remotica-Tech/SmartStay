@@ -13,7 +13,7 @@ import amazon from "../Assets/v2LandingImages/amazon.svg";
 import google from "../Assets/v2LandingImages/Google.svg";
 import microsoft from "../Assets/v2LandingImages/Microsoft.svg";
 import Marquee from "react-fast-marquee";
-
+import { BsStars } from "react-icons/bs";
 
 
 
@@ -86,7 +86,7 @@ const HomePage = () => {
 
             <div className="inline-flex items-center gap-2 bg-[#F4F6FF] shadow-sm border border-blue-[#F4F6FF] 
     text-[#0D30BA] text-base font-medium px-4 py-1.5 rounded-full mb-6 font-dmsans">
-              Make your Stay Smarter
+            <BsStars />  Make your Stay Smarter
             </div>
 
 
