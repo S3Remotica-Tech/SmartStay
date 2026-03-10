@@ -356,14 +356,19 @@ function SettingNewRole() {
               ))
             ) : (
               !loading && (
-              
-                <div className="flex flex-col items-center justify-center w-full min-h-screen">
-                  <img src={EmptyState} alt="emptystate" className="max-w-xs ml-96" />
-                  <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
-                    No Roles
-                  </div>
-                  <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
-                    There are no Roles available.
+                <div className="flex items-center justify-center w-full mt-24 2xl:mt-52 2xl:ml-80 ml-64">
+                  <div className="text-center">
+                    <div className="flex justify-center mb-2">
+                      <img src={EmptyState} alt="Empty state" />
+                    </div>
+
+                    <div className="pb-1 text-lg font-semibold font-gilroy text-[#4B4B4B]">
+                      No Roles
+                    </div>
+
+                    <div className="pb-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
+                      There are no Roles available
+                    </div>
                   </div>
                 </div>
               )

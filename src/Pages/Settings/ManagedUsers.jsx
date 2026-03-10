@@ -295,7 +295,7 @@ function ManagedUsers() {
                 state.Settings?.addSettingStaffList?.length === 0 &&
 
 
-                <div className="mt-[5px] flex justify-center items-center animated-text">
+                <div className="2xl:mt-24 flex justify-center items-center animated-text ">
                     <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
                         <div className="text-[18px] font-semibold text-[#4B4B4B]">

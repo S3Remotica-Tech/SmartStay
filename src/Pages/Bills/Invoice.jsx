@@ -1792,7 +1792,7 @@ const InvoicePage = () => {
                       !loading &&
                       sortedData &&
                       sortedData.length === 0 && (
-                        <div className="mt-2 flex justify-center">
+                        <div className="mt-24 2xl:mt-52 flex justify-center">
                           <div className="text-center">
                             <img src={Emptystate} alt="emptystate" className="mx-auto" />
                             <div className="text-gray-700 font-semibold text-lg">

@@ -1525,7 +1525,7 @@ function SettingGeneral() {
                         ) :
                           !loading && (
 
-                            <div className="flex flex-col items-center text-center animated-text">
+                            <div className="flex flex-col items-center text-center animated-text 2xl:mt-24">
                               <img src={EmptyState} alt="emptystate" />
 
                               <div className="pb-1 font-gilroy font-semibold text-lg text-gray-600">

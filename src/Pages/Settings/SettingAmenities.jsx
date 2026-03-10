@@ -549,7 +549,7 @@ function SettingAmenities() {
                                     </div>
                                 ))
                             ) : !loading && (
-                                <div className="flex items-center justify-center w-full mt-24">
+                                <div className="flex items-center justify-center w-full mt-24 2xl:mt-52">
                                     <div className="text-center">
                                         <div className="flex justify-center mb-2">
                                             <img src={EmptyState} alt="Empty state" />

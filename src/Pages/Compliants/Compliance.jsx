@@ -1154,13 +1154,12 @@ const Compliance = () => {
                 ))}
 
               {!loading && filteredUsers.length === 0 && (
-                <div className="col-span-1 md:col-span-2 h-full flex items-center justify-center fade-in">
-                  <div className="flex flex-col items-center justify-center text-center">
+                <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in">
+                  <div className="flex flex-col items-center justify-center text-center mb-8">
                     <img
                       src={Emptystate}
                       alt="emptystate"
-                      className="h-[240px] w-[240px]"
-                    />
+                        />
 
                     <div className="pb-1 font-semibold font-gilroy text-[18px] text-[rgba(75,75,75,1)]">
                       No Active complaint

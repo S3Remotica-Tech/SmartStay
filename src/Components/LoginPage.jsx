@@ -216,14 +216,10 @@ const MyComponent = () => {
 
 
 
-
-
-
-
   return (
 
     <div className="container mx-auto h-full">
-      <div className="flex flex-wrap h-full items-center p-3 md:mt-4 md:pt-4 w-full fade-in">
+      <div className="flex flex-wrap h-full items-center p-3 md:mt-4 2xl:mt-36 w-full fade-in">
         <div className="w-full md:w-1/2 relative">
           <div className="flex gap-1 mb-1 mt-6 items-center">
             <img
@@ -376,4 +372,3 @@ const MyComponent = () => {
 };
 
 export default MyComponent;
-

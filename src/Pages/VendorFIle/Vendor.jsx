@@ -423,18 +423,17 @@ useEffect(() => {
                 }
 
                 {!loading && filteredData?.length === 0 && (
-                  <div className="flex flex-col items-center justify-center w-full mx-auto animate-fade-in">
-                    <div className="flex justify-center mb-4">
+                  <div className="flex flex-col items-center justify-center w-full  animate-fade-in">
+                    <div className="flex justify-center mt-24 2xl:mt-52">
                       <img
                         src={EmptyState}
                         alt="Empty state"
-                        className="h-[240px] w-[240px]"
-                      />
+                          />
                     </div>
-                    <div className="text-center font-gilroy font-semibold text-[18px] text-[#4B4B4B] pb-1">
+                    <div className="text-center font-gilroy font-semibold text-lg text-[#4B4B4B] pb-1">
                       No vendor available
                     </div>
-                    <div className="text-center font-gilroy font-medium text-[14px] text-[#4B4B4B] pb-1">
+                    <div className="text-center font-gilroy font-medium text-base text-[#4B4B4B] pb-1">
                       There are no Vendors added.
                     </div>
                   </div>

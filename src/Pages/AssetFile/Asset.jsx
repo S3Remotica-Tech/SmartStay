@@ -884,17 +884,17 @@ useEffect(() => {
         {
           !loading && sortedData && sortedData.length === 0 &&
 
-          <div className="flex items-center justify-center animated-text mt-5 w-full h-[350px] mx-auto">
+          <div className="flex items-center justify-center animated-text mt-24 2xl:mt-52 w-full">
             <div>
-              <div className="flex justify-center">
-                <img src={EmptyState} className="h-[240px] w-[240px]" alt="Empty state" />
+              <div className="flex justify-center mb-2">
+                <img src={EmptyState} alt="Empty state"/>
               </div>
 
-              <div className="pb-1 text-center font-gilroy font-semibold text-[18px] text-[rgba(75,75,75,1)]">
+              <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[rgba(75,75,75,1)]">
                 No Assets available
               </div>
 
-              <div className="pb-1 text-center font-gilroy font-medium text-[14px] text-[rgba(75,75,75,1)]">
+              <div className="pb-1 text-center font-gilroy font-medium text-base text-[rgba(75,75,75,1)]">
                 There are no Assets added.
               </div>
             </div>

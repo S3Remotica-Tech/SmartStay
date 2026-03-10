@@ -957,7 +957,7 @@ function Banking() {
 
             {sortedData?.length > 0 ? (
 
-              <div className="overflow-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px] overflow-y-auto thin-scrollbar">
+              <div className="overflow-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px] md:h-[200px] overflow-y-auto thin-scrollbar">
 
                 <Table className="min-w-full border-collapse w-full font-medium font-gilroy sticky top-0 z-10]"
                   responsive="md" >
@@ -1041,13 +1041,11 @@ function Banking() {
 
               <div>
                 {!loader && sortedData.length === 0 && canReadBanking && (
-                  <div className="flex justify-center mt-3">
+                  <div className="flex justify-center mt-24 2xl:mt-52">
                     <div>
-                      <div className="text-center">
+                      <div className="text-center mb-2">
                         <img
                           src={emptyimg}
-                          width={240}
-                          height={240}
                           alt="emptystate"
                         />
                       </div>

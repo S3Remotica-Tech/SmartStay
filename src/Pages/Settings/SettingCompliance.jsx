@@ -550,7 +550,7 @@ function SettingCompliance() {
       {!loading && complianceFilterddata.length === 0 && canReadComplaints && (
         <div className="flex flex-col items-center text-center">
           <div className="flex justify-center">
-            <img src={EmptyState} alt="Empty state" className="mt-28" />
+            <img src={EmptyState} alt="Empty state" className="mt-28 2xl:mt-52" />
           </div>
           <div className="pb-1 text-gray-700 font-gilroy font-semibold text-lg">
             No ComplaintTypes
