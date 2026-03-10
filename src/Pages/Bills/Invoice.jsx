@@ -1754,7 +1754,7 @@ const InvoicePage = () => {
                   <div className="overflow-x-hidden">
                     {sortedData && sortedData.length > 0 ? (
                       <div className="p-2">
-                        <div className="overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0">
+                        <div className="overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0 show-scroll">
                           <Table responsive="md" className="mb-0 table-auto w-full text-sm text-gray-800">
                             <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
                               <tr>

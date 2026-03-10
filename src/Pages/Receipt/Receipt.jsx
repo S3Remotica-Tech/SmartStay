@@ -398,7 +398,7 @@ function Receipt() {
                             {sortedDataReceipt && sortedDataReceipt.length > 0 && (
                                 <div className="ms-2 me-4 pb-5">
                                     <div
-                                        className="show-scrolls overflow-auto mt-5"
+                                        className="show-scroll overflow-auto mt-5"
                                         style={{
                                             height:
                                                 sortedDataReceipt.length >= 5
