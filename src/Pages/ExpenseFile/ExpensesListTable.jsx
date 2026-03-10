@@ -181,6 +181,7 @@ function ExpensesListTable(props) {
   }));
 
 
+  console.log("props",props)
 
   return (
     <>
@@ -283,7 +284,7 @@ function ExpensesListTable(props) {
 
                   onClick={() => {
                     if (canDeleteExpense) {
-                      handleDelete(props.item.id);
+                      handleDelete(props.item.expenseId);
                     }
                   }}
                   onMouseEnter={(e) => {

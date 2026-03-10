@@ -23,8 +23,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const customContainerRef = useRef();
-  const [assetName, setAssetName] = useState("");
-  const [vendorName, setVendorName] = useState("");
+  // const [assetName, setAssetName] = useState("");
+  // const [vendorName, setVendorName] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
@@ -47,11 +47,10 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [subCategoryError, setSubCategoryError] = useState("");
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [initialState, setInitialState] = useState({
-    assetName: "",
-    vendorName: "",
     selectedDate: "",
     totalPrice: "",
     category: "",
+    subCategory:"",
     modeOfPayment: "",
     description: "",
     count: "",
@@ -85,32 +84,31 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   useEffect(() => {
     if (currentItem) {
-      setAssetName((currentItem && currentItem.asset_id) || "");
-      setVendorName((currentItem && currentItem.vendor_id) || "");
-      setSelectedDate(moment(currentItem.purchase_date).toDate());
-      setTotalPrice((currentItem && currentItem.unit_amount) || "");
-      setCategory((currentItem && currentItem.category_id) || "");
-      setModeOfPayment((currentItem && Number(currentItem.payment_mode)) || "");
-      setDescription((currentItem && currentItem.description) || "");
-      setCount((currentItem && currentItem.unit_count) || "");
-      setHostelName((currentItem && currentItem.hostel_id) || "");
+
+      const formattedDate = currentItem?.transactionDate
+        ? moment(currentItem.transactionDate, "DD/MM/YYYY", true).toDate()
+        : null;
+
+      setSelectedDate(formattedDate);
+      setTotalPrice(currentItem.totalAmount || "");
+      setCategory(currentItem.categoryId || "");
+      setSubCategory(currentItem.subCategoryId || "");
+      setModeOfPayment(Number(currentItem.bankId) || "");
+      setDescription(currentItem.description || "");
+      setCount(currentItem.itemsCount || "");
+
 
       setInitialState({
-        assetName: currentItem.asset_id || "",
-        vendorName: currentItem.vendor_id || "",
-        selectedDate: currentItem.purchase_date
-          ? moment(currentItem.purchase_date).toDate()
-          : null,
-        totalPrice: currentItem.unit_amount || "",
-        category: currentItem.category_id || "",
-        modeOfPayment: Number(currentItem.payment_mode) || "",
-        description: currentItem.description || "",
-        count: currentItem.unit_count || "",
-        hostelName: currentItem.hostel_id || "",
-      });
+      selectedDate: formattedDate,
+      totalPrice: currentItem.totalAmount || "",
+      category: currentItem.categoryId || "",
+      subCategory: currentItem.subCategoryId || "",
+      modeOfPayment: Number(currentItem.bankId) || "",
+      description: currentItem.description || "",
+      count: currentItem.itemsCount || "",
+    });
     }
   }, [currentItem]);
-
 
 
 
@@ -148,16 +146,17 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setGeneralError("");
     setCategoryError("");
     setIsChangedError("");
+    setSubCategory("");
   };
 
   useEffect(() => {
     if (category) {
-      const selectedCat = state.ExpenseList?.getInitializeExpenseList?.listExpenses.find(
+      const selectedCat = state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
         (cat) => cat.categoryId === category
       );
 
       setSubCategoryList(
-        selectedCat?.subCategories.map((sub) => ({
+        selectedCat?.subCategories?.map((sub) => ({
           value: sub.subCategoryId,
           label: sub.subCategoryName,
         })) || []
@@ -171,7 +170,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         setSubCategoryError("");
       }
 
-      setSubCategory("");
+      // setSubCategory("");
     }
 
   }, [category])
@@ -209,7 +208,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     }
   };
 
-
+  console.log("currentItem", currentItem)
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -229,7 +228,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   };
 
   const handleAddExpenses = () => {
-
+dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
     setCategoryError("");
     setDateError("");
     setCountError("");
@@ -244,7 +243,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    const selectedCategoryObj = state.ExpenseList?.getInitializeExpenseList?.listExpenses.find(
+    const selectedCategoryObj = state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
       (cat) => cat.categoryId === category
     );
 
@@ -261,25 +260,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    // if (selectedDate) {
-    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-    //   if (selectedHostel) {
-    //     const HostelCreateDate = new Date(selectedHostel.create_At);
-    //     const ExpenseDate = new Date(selectedDate);
-    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-    //     const ExpenseDateOnly = new Date(ExpenseDate.toDateString());
-    //     if (ExpenseDateOnly < HostelCreateDateOnly) {
-    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
-    //       hasError = true;
-
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
 
 
-    if (!modeOfPayment) {
+    if (!currentItem && !modeOfPayment) {
       setPaymentError("Please Select Mode Of Transaction");
       hasError = true;
     }
@@ -292,10 +275,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    // if (!count) {
-    //   setCountError("Please Enter Valid Unit Count");
-    //   hasError = true;
-    // } else 
+
 
     if (count !== "" && (isNaN(count) || Number(count) <= 0)) {
       setCountError("Unit Count Must be a Positive Number");
@@ -304,48 +284,72 @@ function StaticExample({ show, currentItem, setShowModal }) {
       setCountError("");
     }
 
-
-
-
-
-
-    const isChanged =
-      initialState.assetName !== assetName ||
-      initialState.vendorName !== vendorName ||
-      (initialState.selectedDate && selectedDate &&
-        moment(initialState.selectedDate).format("YYYY-MM-DD") !==
-        moment(selectedDate).format("YYYY-MM-DD")) ||
-      Number(initialState.totalPrice) !== Number(totalPrice) ||
-      initialState.category !== category ||
-      initialState.modeOfPayment !== modeOfPayment ||
-      initialState.description !== description ||
-      Number(initialState.count) !== Number(count) ||
-      initialState.hostelName !== hostelName;
-
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
-      hasError = true;
+    if (hasError) {
+      return;
     }
 
+
+
+    if (currentItem) {
+     const isChanged =
+  (initialState.selectedDate &&
+    selectedDate &&
+    moment(initialState.selectedDate).format("YYYY-MM-DD") !==
+      moment(selectedDate).format("YYYY-MM-DD")) ||
+  Number(initialState.totalPrice) !== Number(totalPrice) ||
+  initialState.category !== category ||
+  Number(initialState.subCategory || 0) !== Number(subCategory || 0) ||
+  Number(initialState.modeOfPayment) !== Number(modeOfPayment) ||
+  initialState.description !== description ||
+  Number(initialState.count) !== Number(count);
+
+      if (!isChanged) {
+        setIsChangedError("No Changes Detected");
+        hasError = true;
+      }
+    }
     if (hasError) {
       return;
     }
 
     const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
-    dispatch({
-      type: "ADDEXPENSE",
-      payload: {
-        categoryId: category,
-        subCategory: subCategory ? Number(subCategory) : null,
-        purchaseDate: formattedDate,
-        count: Number(count) || 1,
-        totalAmount: Number(totalPrice),
-        description: description,
-        bankId: modeOfPayment,
-        hostelId: state.login.selectedHostel_Id,
-      },
-    });
-    setFormLoading(true)
+    if (currentItem?.expenseId) {
+      dispatch({
+        type: "UPDATE_EXPENSE_SAGA",
+        payload: {
+          expenseId: currentItem?.expenseId,
+          categoryId: category,
+          ...(subCategory && { subCategoryId: Number(subCategory) }),
+          purchaseDate: formattedDate,
+          count: Number(count) || 1,
+          totalAmount: Number(totalPrice),
+          description: description,
+          // bankId: modeOfPayment,
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+      setFormLoading(true)
+    } else {
+      dispatch({
+        type: "ADDEXPENSE",
+        payload: {
+          categoryId: category,
+          subCategory: subCategory ? Number(subCategory) : null,
+          purchaseDate: formattedDate,
+          count: Number(count) || 1,
+          totalAmount: Number(totalPrice),
+          description: description,
+          bankId: modeOfPayment,
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+      setFormLoading(true)
+    }
+
+
+
+
+
   };
 
 
@@ -355,6 +359,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setSubCategoryError("");
     setGeneralError("");
     setIsChangedError("");
+    
   };
 
 
@@ -480,7 +485,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     onChange={handleCategoryChange}
                     value={
                       category
-                        ? expenseOptions.find((opt) => opt.value === category) || null
+                        ? expenseOptions?.find((opt) => opt.value === category) || null
                         : null
                     }
                     placeholder="Select a Category"
@@ -518,7 +523,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     onChange={handleSubCategoryChange}
                     value={
                       subCategory
-                        ? subCategoryList.find((opt) => opt.value === subCategory) || null
+                        ? subCategoryList?.find((opt) => opt.value === subCategory) || null
                         : null
                     }
                     placeholder="Select a Category"
@@ -683,88 +688,91 @@ function StaticExample({ show, currentItem, setShowModal }) {
                   />
                 </Form.Group>
               </div>
-              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
+              {
+                !currentItem &&
 
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                    Mode Of Transaction {" "}
-                    <span className="text-red-600 inline-block text-xl">*</span>
-                  </Form.Label>
+                <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
+
+                  <Form.Group
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                      Mode Of Transaction {" "}
+                      <span className="text-red-600 inline-block text-xl">*</span>
+                    </Form.Label>
 
 
-                  <Select
-                    options={paymentOptions}
-                    onChange={(selectedOption) =>
-                      handleModeOfPaymentChange(selectedOption?.value)
-                    }
+                    <Select
+                      options={paymentOptions}
+                      onChange={(selectedOption) =>
+                        handleModeOfPaymentChange(selectedOption?.value)
+                      }
 
-                    value={
-                      modeOfPayment
-                        ? paymentOptions.find((opt) => opt.value === modeOfPayment) || null
-                        : null
-                    }
-                    placeholder="Select Payment"
-                    classNamePrefix="custom"
-                    isDisabled={currentItem}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        fontSize: 16,
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: modeOfPayment ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        boxShadow: "none",
-                        height: 48,
-                        cursor: "pointer",
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
-                        fontFamily: "Gilroy",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                    }}
-                    noOptionsMessage={() => "No mode available"}
-                  />
+                      value={
+                        modeOfPayment
+                          ? paymentOptions?.find((opt) => opt.value === modeOfPayment) || null
+                          : null
+                      }
+                      placeholder="Select Payment"
+                      classNamePrefix="custom"
+                      isDisabled={currentItem}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          fontSize: 16,
+                          color: "rgba(75, 75, 75, 1)",
+                          fontFamily: "Gilroy",
+                          fontWeight: modeOfPayment ? 600 : 500,
+                          border: "1px solid #D9D9D9",
+                          borderRadius: "8px",
+                          boxShadow: "none",
+                          height: 48,
+                          cursor: "pointer",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "120px",
+                          padding: 0,
+                          scrollbarWidth: "thin",
+                          overflowY: "auto",
+                          fontFamily: "Gilroy",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused ? "lightblue" : "white",
+                          color: "#000",
+                          fontFamily: "Gilroy",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                      }}
+                      noOptionsMessage={() => "No mode available"}
+                    />
 
-                </Form.Group>
-                {paymentError && (
-                  <ErrorMessage message={paymentError} type="error" />
-                )}
-              </div>
-
+                  </Form.Group>
+                  {paymentError && (
+                    <ErrorMessage message={paymentError} type="error" />
+                  )}
+                </div>
+              }
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
 
@@ -817,11 +825,11 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
           <Modal.Footer className="!border-t-0 mt-1 pt-1">
             <Button
-              disabled={currentItem}
+              // disabled={currentItem}
               onClick={handleAddExpenses}
               className="w-100 !bg-blue-700 !font-gilroy !font-semibold rounded-xl !text-base h-12"
-             >
-              {currentItem ? "Coming Soon" : "Add Expense"}
+            >
+              {currentItem ? "Edit Expense" : "Add Expense"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

@@ -33,22 +33,21 @@ export async function AddExpense(datum) {
 
 
 export async function UpdateExpense(datum) {
-     return await AxiosConfigV2.put(`/v2/expense/${datum.hostelId} ${datum.expenseId}`,datum , {
-        data:datum
-        })
+  return AxiosConfigV2.put(
+    `/v2/expense/${datum.hostelId}/${datum.expenseId}`,
+    datum
+  );
+}
+
+
+
+
+
+
+  export async function DeleteExpense(expense) {
+    return await AxiosConfigV2.delete(`/v2/expense/${expense.hostelId}/${expense.expenseId}`)
   }
-
-
-
-
-
-
-
-  export function DeleteExpense() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  }
+  
 
 
   export function transactionHistory() {
