@@ -13,7 +13,7 @@ function ActiveCustomer() {
 
     
   return (
-    <div className="w-full bg-[#FDFDFD] py-8 px-[200px]">
+    <div className="w-full bg-[#FDFDFD] py-12 px-[200px]">
               <p className="text-center text-[#061C3D] text-lg mb-6 font-semibold font-gilroy">
                 Over <span className="text-blue-600 font-semibold font-gilroy italic">1,000+</span> actively paying customers
               </p>

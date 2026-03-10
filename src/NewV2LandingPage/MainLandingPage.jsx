@@ -31,6 +31,7 @@ import FAQSection from "./FAQSection";
 import PricingPlans from "./PricingPlans";
 import ActiveCustomer from './ActiveCustomer';
 import HostelTrial from './HostelTrial';
+import WhyChooseWithFAQ from './WhyChooseWithFAQ'
 
 function FrontPage() {
   useEffect(() => {
@@ -217,7 +218,7 @@ function FrontPage() {
           <HomePage />
           <ActiveCustomer />
           <BusinessChallenges />
-          <WhyChoose isBgColor={false} />
+          <WhyChoose  />
           <LifeCycleMethod />
           <RecurringInvoice />
           <HostelProperties />
@@ -248,9 +249,8 @@ function FrontPage() {
 
           <PricingPlans />
           <ActiveCustomer />
-          <WhyChoose isBgColor={true} />
-          <FAQSection />
-          <HostelTrial />
+          <WhyChooseWithFAQ  />
+         
           {/* <SubscriptionPlan />
           <SmartStaySection />
           <Getanswer /> */}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'
 import { BsStars } from "react-icons/bs";
 import { TickCircle, TickSquare } from 'iconsax-react';
 
@@ -31,7 +31,7 @@ function PricingPlans() {
       price: "0",
       duration: "for 30 Days",
       button: "Trial Now",
-     buttonStyle: "bg-[#1E45E1] text-white",
+      buttonStyle: "bg-[#1E45E1] text-white",
       highlight: true,
       description: "Experience Smartstay for Free",
       bg: "bg-gradient-to-b from-[#CDD7FF57] via-[#FFFFFF] to-[#FFFFFF]",
@@ -44,7 +44,7 @@ function PricingPlans() {
       button: "Try for Free",
       text: "Which includes : ",
       buttonStyle: "bg-[#1E45E1] text-white",
-       bg: "bg-gradient-to-b from-[#FFFFFF] via-[#FFFFFF] to-[#FFFFFF]",
+      bg: "bg-gradient-to-b from-[#FFFFFF] via-[#FFFFFF] to-[#FFFFFF]",
       disabledFeatures: [
         "WhatsApp Integration",
         "Digital KYC + Verification",
@@ -75,7 +75,8 @@ function PricingPlans() {
       button: "Try for Free",
       text: "Which includes : ",
       buttonStyle: "bg-[#1E45E1] text-white",
-       bg: "bg-gradient-to-b from-[#FFFAEA] via-[#FFF7E8] to-[#FFFFFF]",
+      bg: "bg-gradient-to-b from-[#FFFAEA] via-[#FFF7E8] to-[#FFFFFF]",
+      popular: "Most Popular",
 
       features: [
         "Dashboard (Customizable)",
@@ -97,7 +98,7 @@ function PricingPlans() {
   ];
 
 
-
+  const [billing, setBilling] = useState("yearly");
 
 
 
@@ -138,10 +139,36 @@ function PricingPlans() {
 
         </div>
 
+        <div className="flex justify-center items-center font-tasa mt-[100px] mb-4">
+          <div className="flex bg-white border border-[#A9A9A9] rounded-full p-1 w-fit">
+
+            <button
+              // onClick={() => setBilling("monthly")}
+              className={`px-5 py-1 font-tasa text-sm transition-all duration-200
+          ${billing === "monthly"
+                  ? "bg-[#E9EDFF] text-[#1E45E1]   rounded-full"
+                  : "text-[#222222] bg-white"
+                }`}
+            >
+              Monthly
+            </button>
+
+            <button
+              // onClick={() => setBilling("yearly")}
+              className={`px-5 py-1 font-tasa text-sm  transition-all duration-200
+          ${billing === "yearly"
+                  ? "bg-[#E9EDFF] text-[#1E45E1]  rounded-full"
+                  : "text-[#222222] bg-white"
+                }`}
+            >
+              Yearly
+            </button>
+
+          </div>
+        </div>
 
 
-
-        <div className="grid grid-cols-10 gap-8  h-fit my-32">
+        <div className="grid grid-cols-10 gap-8  h-fit mt-12">
 
 
           {pricingPlans.map((plan, index) => (
@@ -158,9 +185,16 @@ function PricingPlans() {
       ${index === 2 ? "col-span-4" : ""}
       `}
             >
+              <div className=' relative'>
 
-              <h3 className="text-center text-xl font-semibold text-[#222222] uppercase">{plan.name}</h3>
-
+                <h3 className="text-center text-xl font-semibold text-[#222222] uppercase ">{plan.name}</h3>
+                {
+                  plan.popular &&
+                  <span className="absolute right-0 top-0 bg-[#FF9500] text-[#FFFFFF] px-2 py-[2px] rounded-lg text-xs whitespace-nowrap">
+                    {plan.popular}
+                  </span>
+                }
+              </div>
               <div className="text-center mt-4">
                 <span className="text-3xl font-bold text-[#222222]">₹ {plan.price}</span>
                 <p className="text-sm  text-[#222222] font-normal">{plan.duration}</p>
