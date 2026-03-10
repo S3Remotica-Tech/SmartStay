@@ -113,9 +113,9 @@ const HomePage = () => {
                 className="w-full h-auto object-cover"
               />
 
-              <div className="absolute right-[-70px] top-[350px] -translate-y-1/2 bg-[#1E45E1] p-3 rounded-full shadow-md">
+              {/* <div className="absolute right-[-70px] top-[350px] -translate-y-1/2 bg-[#1E45E1] p-3 rounded-full shadow-md">
                 <Send2 size="14" color="#FFFFFF" variant="Bold" />
-              </div>
+              </div> */}
             </div>
 
 
