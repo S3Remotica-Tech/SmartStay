@@ -217,7 +217,7 @@ function FrontPage() {
           <HomePage />
           <ActiveCustomer />
           <BusinessChallenges />
-          <WhyChoose isBgColor={false}/>
+          <WhyChoose isBgColor={false} />
           <LifeCycleMethod />
           <RecurringInvoice />
           <HostelProperties />
@@ -248,9 +248,9 @@ function FrontPage() {
 
           <PricingPlans />
           <ActiveCustomer />
-          <WhyChoose  isBgColor={true}/>
-<FAQSection />
-<HostelTrial />
+          <WhyChoose isBgColor={true} />
+          <FAQSection />
+          <HostelTrial />
           {/* <SubscriptionPlan />
           <SmartStaySection />
           <Getanswer /> */}
