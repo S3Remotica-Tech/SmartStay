@@ -1,6 +1,4 @@
-
-
-/* eslint-disable react-hooks/exhaustive-deps */
+ /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -218,3 +216,4 @@ PaginationList.propTypes = {
 };
 
 export default PaginationList;
+
