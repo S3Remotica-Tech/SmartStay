@@ -1214,6 +1214,7 @@ function* handleAddGeneralPage(action) {
    }
    catch (error) {
       yield* handleApiError(error);
+  console.log("error General &&&", error)
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.response.data.emailStatus !== "") {
             yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
@@ -1266,7 +1267,8 @@ function* handleEditGeneralPage(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
+          console.log("error General edit", error.status)
+      if (error.status === 400) {
          if (error.response.data.emailStatus !== "") {
             yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
          } else if (error.response.data.mobileStatus !== "") {

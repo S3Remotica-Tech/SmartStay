@@ -123,7 +123,13 @@ function SettingGeneral() {
   } = useHasPermission("Profile");
 
 
-
+const firstNameRef = useRef(null);
+const emailRef = useRef(null);
+const phoneRef = useRef(null);
+const passwordRef = useRef(null);
+const cityRef = useRef(null);
+const pincodeRef = useRef(null);
+const stateRef = useRef(null);
 
 
   useEffect(() => {
@@ -146,6 +152,7 @@ function SettingGeneral() {
 
 
   const indianStates = [
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
     { value: "Assam", label: "Assam" },
@@ -168,7 +175,7 @@ function SettingGeneral() {
     { value: "Punjab", label: "Punjab" },
     { value: "Rajasthan", label: "Rajasthan" },
     { value: "Sikkim", label: "Sikkim" },
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
+    
     { value: "Telangana", label: "Telangana" },
     { value: "Tripura", label: "Tripura" },
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
@@ -883,8 +890,9 @@ function SettingGeneral() {
 
     if (!edit) {
       dispatch({ type: "ADDGENERALSETTING", payload: AddPayload });
+      setFormLoading(true)
     }
-    setFormLoading(true)
+    
   };
 
 
@@ -1201,9 +1209,9 @@ function SettingGeneral() {
               </div>
             )
               : (
-                <div className="mt-2">
+                <div className="sticky top-0 bg-white z-[900] mt-2">
                   {account.roleName === "Admin" && (
-                    <div class="bg-white rounded-lg border border-gray-300 p-4 sticky top-0 z-[900] font-gilroy">
+                   <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
                       <div className="flex w-full gap-4">
                         <div >
                           {
@@ -1341,10 +1349,7 @@ function SettingGeneral() {
 
                   )}
 
-                  <div
-                    className={`flex border-b border-gray-200 gap-8 font-gilroy sticky ${account.roleName !== "Admin" ? "top-40" : "top-0"
-                      }`}
-                  >
+                  <div className="flex border-b border-gray-200 h-fit gap-8 font-gilroy">
                     {tabs.map((tab) => (
                       <div
                         key={tab.key}

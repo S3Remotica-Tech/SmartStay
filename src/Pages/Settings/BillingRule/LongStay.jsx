@@ -50,6 +50,11 @@ function LongStayRecurringModal() {
     };
 
 
+    const dayOptionsStartDate = Array.from({ length: 28 }, (_, i) => ({
+        value: (i + 1).toString().padStart(2, '0'),
+        label: (i + 1).toString().padStart(2, '0'),
+    }));
+
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
         label: (i + 1).toString().padStart(2, '0'),
@@ -248,7 +253,7 @@ function LongStayRecurringModal() {
                             </label>
 
                             <Select
-                                options={dayOptions}
+                                options={dayOptionsStartDate}
                                 styles={selectStyle}
                                 placeholder="Select Date"
                                 value={billingDate}
