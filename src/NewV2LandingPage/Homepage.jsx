@@ -81,7 +81,7 @@ const HomePage = () => {
         style={{ backgroundImage: `url(${BgImage})` }}
       >
         <div className="w-full">
-          <div className="max-w-5xl mx-auto text-center px-6">
+          <div className="max-w-5xl mx-auto text-center px-6 py-16">
 
 
             <div className="inline-flex items-center gap-2 bg-[#F4F6FF] shadow-sm border border-blue-[#F4F6FF] 
@@ -107,7 +107,7 @@ const HomePage = () => {
                 <ArrowRight size="18" />
               </button>
 
-              <button className="font-dmsans flex items-center gap-2 px-6 py-2.5 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
+              <button  onClick={handleSignUp} className="font-dmsans flex items-center gap-2 px-6 py-2.5 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
                 Signup for free Trial
                 <ArrowRight size="18" />
               </button>

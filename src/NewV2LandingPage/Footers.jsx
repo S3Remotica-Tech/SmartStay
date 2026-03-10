@@ -5,8 +5,8 @@ import Instagram from '../Assets/Images/New_images/instagram.png';
 import { Link } from "react-scroll";
 import PropTypes from "prop-types";
 import GooglePlay from "../Assets/v2LandingImages/GooglePlay.svg";
-import { Mobile } from "iconsax-react";
-import { CiMail } from "react-icons/ci";
+import { Mobile ,Sms} from "iconsax-react";
+
 import FooterSmartstay from '../Assets/v2LandingImages/FooterSmartstay.png';
 
 const Footers = (props) => {
@@ -167,8 +167,8 @@ const Footers = (props) => {
 
                   <div className="flex items-start gap-3 mb-4">
 
-                    <div className="bg-[#EFF2FF1A] p-2 rounded flex items-center justify-center mt-1">
-                      <Mobile color="#FFFFFF" size="16" />
+                    <div className="bg-[#EFF2FF1A] p-2 rounded flex items-center justify-center">
+                      <Mobile color="#FFFFFF" size="16" variant="Bold"/>
                     </div>
 
                     <div className="font-tasa leading-tight">
@@ -193,8 +193,8 @@ const Footers = (props) => {
 
                   <div className="flex items-start gap-3 mb-2">
 
-                    <div className="bg-[#EFF2FF1A] p-2 rounded flex items-center justify-center mt-1">
-                      <CiMail color="#FFFFFF" size="16" />
+                    <div className="bg-[#EFF2FF1A] p-2 rounded flex items-center justify-center">
+                      <Sms color="#FFFFFF" size="16"  variant="Bold"/>
                     </div>
 
                     <div className="font-tasa leading-tight">
@@ -218,17 +218,17 @@ const Footers = (props) => {
 
           </div>
 
-          {/* Divider */}
+         
           <hr className="border-white/30 my-6" />
 
-          {/* Bottom */}
+          
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
 
             <h5 className="text-sm font-light">
               © 2025 S3 Remotica Technologies. All rights reserved
             </h5>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
 
               <a
                 href="https://www.facebook.com/profile.php?id=61583256096108"

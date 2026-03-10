@@ -28,6 +28,7 @@ import OperationsSection from "./OperationsSection";
 import Pricing from "./Pricing";
 import MobileApp from "./MobileApp";
 import FAQSection from "./FAQSection";
+import PricingPlans from "./PricingPlans";
 
 function FrontPage() {
   useEffect(() => {
@@ -240,6 +241,10 @@ function FrontPage() {
 
       {activeSection === "Pricing" && (
         <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+
+<PricingPlans />
+
+
           {/* <SubscriptionPlan />
           <SmartStaySection />
           <Getanswer /> */}

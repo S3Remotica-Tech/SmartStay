@@ -32,7 +32,23 @@ export default function OperationsSection() {
             title: "Smart Complaint Workflow",
             desc: "Streamline tenant issue resolution through structured complaint tracking, status monitoring, and accountability-driven resolution management.",
             image: Notify
-        }
+        },
+        {
+            title: "Real-Time Analytics & Reports",
+            desc: "",
+            image: ''
+        },
+         {
+            title: "Customization",
+            desc: "",
+            image: ''
+        },
+ {
+            title: "Integrations",
+            desc: "",
+            image: ''
+        },
+
     ];
 
     return (
@@ -55,7 +71,7 @@ export default function OperationsSection() {
 
 
 
-                <div className="grid sm:grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2  gap-6 max-h-screen overflow-y-auto">
 
                     {features.map((item, index) => (
                         <div

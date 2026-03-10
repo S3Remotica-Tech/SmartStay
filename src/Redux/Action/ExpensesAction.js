@@ -30,6 +30,20 @@ export async function AddExpense(datum) {
         })
   }
 
+
+
+export async function UpdateExpense(datum) {
+     return await AxiosConfigV2.put(`/v2/expense/${datum.hostelId} ${datum.expenseId}`,datum , {
+        data:datum
+        })
+  }
+
+
+
+
+
+
+
   export function DeleteExpense() {
   new Promise((resolve) => {
   resolve({status: 200});

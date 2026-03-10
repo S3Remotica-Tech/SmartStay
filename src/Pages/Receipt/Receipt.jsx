@@ -32,7 +32,7 @@ import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 function Receipt() {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const pdfOpenedRef = useRef(false);
+    // const pdfOpenedRef = useRef(false);
     const [receiptformShow, setReceiptFormShow] = useState(false);
     const [search, setSearch] = useState(false);
     const [receiptdata, setReceiptData] = useState([]);
@@ -131,8 +131,8 @@ function Receipt() {
     useEffect(() => {
         if(state.InvoiceList.statusCodeForReceiptPDf === 200){       
         if (!state.InvoiceList.ReceiptPDF) return;
-        if (pdfOpenedRef.current) return;
-        pdfOpenedRef.current = true;
+        // if (pdfOpenedRef.current) return;
+        // pdfOpenedRef.current = true;
         setPdfLoading(false);
         window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
