@@ -341,7 +341,7 @@ function RecurringBills() {
       <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap h-auto"
       >
         <div className="mt-0">
-          <label className="text-lg text-gray-900 font-semibold">
+          <label className="text-lg text-gray-900 font-semibold font-gilroy">
             Recurring</label>
         </div>
 
@@ -565,8 +565,10 @@ function RecurringBills() {
             >
 
               <div
-                className={`show-scroll overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 ${sortedDataRecure?.length >= 12 ? "h-[400px]" : "h-auto"
-                  }`} >
+
+                className={`show-scrolls  overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 ${sortedDataRecure?.length >= 12 ? "h-[400px]" : "h-auto"
+                  }`}
+              >
                 <Table
                 responsive="md"
                 className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
@@ -590,10 +592,10 @@ function RecurringBills() {
                       <th>
                         Amount
                       </th>
-                      <th
+                      {/* <th
                       >
                        Recurring
-                      </th>
+                      </th> */}
                       <th>Action</th>
                     </tr>
                   </thead>
