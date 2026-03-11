@@ -2311,7 +2311,7 @@ function UserListRoomDetail(props) {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  console.log("CustomerOverView", CustomerOverView)
+  // console.log("CustomerOverView", CustomerOverView)
 
   const imageUrl = kycPic
     ? kycPic.startsWith("data:image")
@@ -3454,7 +3454,9 @@ function UserListRoomDetail(props) {
                                 {canUpdateTenant &&
                                   advanceList?.advanceAmount !== null &&
                                   advanceList?.advanceAmount !== undefined &&
-                                  CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
+                                  CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && 
+                                  CustomerOverView.advanceInfo?.canEditAdvance && 
+                                   (
                                     <img
                                       onClick={handleUpdateAdvanceChange}
                                       src={EditImage}

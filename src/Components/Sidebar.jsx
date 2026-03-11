@@ -86,6 +86,7 @@ import AnalyticalInvoiceTrend from "../Reports/AnalyticalInvoiceTrend/Analytical
 import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolved/AnalyticalComplaintsResolved"
 import GraphQL from "../Pages/Dashboard/GraphQL";
 import LongStayRecurringModal from "../Pages/Settings/BillingRule/LongStay";
+import BillingRuleOld from "../Pages/Settings/BillingRule/BillingRuleOld";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -110,26 +111,6 @@ function Sidebar() {
   const profileCardRef = useRef(null);
   const profileAreaRef = useRef(null);
   const cookies = new Cookies();
-
-
-  // const pageMap = {
-  //   "/dashboard/:hostelId": "dashboard",
-  //   "/dashboard-new/:hostelId": "dashboard-new",
-  //   "/paying-guest/:hostelId": "pg-list",
-  //   "/tenant/:hostelId": "user-list",
-  //   "/tenant/details/:hostelId": "user-details",
-  //   "/invoice/:hostelId": "invoice",
-  //   "/invoice/new/:hostelId": "invoice",
-  //   "/vendor/:hostelId": "vendor",
-  //   "/compliance/:hostelId": "compliance",
-  //   "/asset/:hostelId": "asset",
-  //   "/reports/:hostelId": "reports",
-  //   "/electricity/:hostelId": "eb",
-  //   "/expense/:hostelId": "expenses",
-  //   "/banking/:hostelId": "banking",
-  //   "/settings/:hostelId": "settingNewDesign",
-  //   "/booking/:hostelId": "booking",
-  // };
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
@@ -1667,6 +1648,7 @@ function Sidebar() {
                 <Route path="subscription" element={<SettingSubscription />} />
                 <Route path="integration" element={<SettingIntergration />} />
                 <Route path="electricity" element={<SettingElectricity />} />
+                 <Route path="billing-rule-old" element={<BillingRuleOld />} />
                 <Route path="billing-rule" element={<BillingRule />} />
                 <Route path="long-stay-recurring" element={<LongStayRecurringModal />} />
                 <Route path="notifications" element={<SettingsNotifications />} />

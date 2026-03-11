@@ -176,18 +176,14 @@ function* handlepasswordUpdate(action) {
         progress: undefined,
         style: toastStyle
       })
-
-
-
-
     }
-    if (response) {
-      refreshToken(response)
-    }
+   
   }
   catch (error) {
     yield* handleApiError(error);
-
+ if (error.status === 400 || error.status === 403) {
+      yield put({ type: 'UPDATE_CHANGEPASSWORD_ERROR', payload: error.response.data });
+    }
   }
 }
 

@@ -10,10 +10,15 @@ function AdminChangePassword({ show, handleClose }) {
     const dispatch = useDispatch();
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
-
+    const [formLoading, setFormLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showConfirm, setShowConfirm] = useState(false);
+
+
+
     const account = state.createAccount?.accountList
     if (!show) return null;
 
@@ -34,29 +39,80 @@ function AdminChangePassword({ show, handleClose }) {
                 "Password must be 8+ characters, include upper, lower, number & special symbol";
         }
 
+        if (!confirmPassword) {
+            newErrors.confirmPassword = "Please Enter Confirm Password";
+        } else if (newPassword !== confirmPassword) {
+            newErrors.confirmPassword = "Passwords do not match";
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = () => {
+        dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
         if (!validate()) return;
 
-        // console.log("Current:", currentPassword);
-        // console.log("New:", newPassword);
+        if (currentPassword && newPassword) {
 
-        if (currentPassword & newPassword) {
+
             dispatch({
                 type: 'PASSWORD_UPDATE', payload: {
                     currentPassword: currentPassword,
-                    newPassword: newPassword
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword
+
                 }
             })
+            setFormLoading(true)
         }
-        handleClose();
+
     };
+
+    useEffect(() => {
+        if (state.createAccount.statusCodeForPasswordUpdateSuccess === 200) {
+            dispatch({ type: "ACCOUNTDETAILS" });
+            setFormLoading(false)
+            dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
+            const token = cookies.get('v2-token');
+            if (!token) {
+                dispatch({ type: "LOG_OUT" });
+                dispatch({ type: 'RESET_ALL' })
+                const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+                localStorage.setItem("login", encryptData.toString());
+                return;
+            }
+            handleClose()
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE-PASSWORD-UPDATE' })
+            }, 200)
+        }
+
+    }, [state.createAccount.statusCodeForPasswordUpdateSuccess])
+
+    useEffect(() => {
+        if (state.createAccount.passwordUpdateError || state.createAccount?.networkError) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+
+            }, 300)
+
+
+        }
+
+    }, [state.createAccount.passwordUpdateError, state.createAccount?.networkError])
+
+
+
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-['Gilroy']">
+            {formLoading && (
+                <div className="absolute inset-0  flex items-center justify-center rounded-2xl z-50">
+                    <div className="w-12 h-12 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
             <div className="w-[520px] bg-white rounded-2xl p-8 shadow-xl">
 
 
@@ -85,6 +141,7 @@ function AdminChangePassword({ show, handleClose }) {
                             onChange={(e) => {
                                 setCurrentPassword(e.target.value);
                                 setErrors({ ...errors, currentPassword: "" });
+                                dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
                             }}
                             className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${errors.currentPassword
                                 ? "border-red-500"
@@ -133,6 +190,7 @@ function AdminChangePassword({ show, handleClose }) {
                             onChange={(e) => {
                                 setNewPassword(e.target.value);
                                 setErrors({ ...errors, newPassword: "" });
+                                dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
                             }}
                             className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${errors.newPassword ? "border-red-500" : "border-gray-300"
                                 } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
@@ -159,10 +217,57 @@ function AdminChangePassword({ show, handleClose }) {
                     {errors.newPassword && (
                         <ErrorMessage message={errors.newPassword} type="error" />
                     )}
+
+
                 </div>
 
+                <div className="mt-2">
+                    <label className="text-[14px] text-gray-700">
+                        Confirm Password <span className="text-red-500">*</span>
+                    </label>
 
+                    <div className="relative mt-2">
+                        <input
+                            autoComplete="new-password"
+                            name="confirm_password"
+                            type={showConfirm ? "text" : "password"}
+                            value={confirmPassword}
+                            placeholder="Enter confirm password"
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value);
+                                setErrors({ ...errors, confirmPassword: "" });
+                                dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' });
+                            }}
+                            className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+                        />
 
+                        {showConfirm ? (
+                            <Eye
+                                size="20"
+                                color="#9CA3AF"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                                onClick={() => setShowConfirm(false)}
+                            />
+                        ) : (
+                            <EyeSlash
+                                size="20"
+                                color="#9CA3AF"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                                onClick={() => setShowConfirm(true)}
+                            />
+                        )}
+                    </div>
+
+                    {errors.confirmPassword && (
+                        <ErrorMessage message={errors.confirmPassword} type="error" />
+                    )}
+                </div>
+                {
+                    state.createAccount.passwordUpdateError && (
+                        <ErrorMessage message={state.createAccount.passwordUpdateError} type="error" />
+                    )
+                }
                 <div className="mt-8 flex justify-end gap-4">
                     <button
                         onClick={handleClose}
@@ -171,11 +276,11 @@ function AdminChangePassword({ show, handleClose }) {
                         Cancel
                     </button>
 
-                    <button disabled
+                    <button
                         onClick={handleSubmit}
                         className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition"
                     >
-                        Coming Soon
+                        Save Changes
                     </button>
                 </div>
             </div>
