@@ -33,6 +33,8 @@ import ActiveCustomer from './ActiveCustomer';
 import HostelTrial from './HostelTrial';
 import WhyChooseWithFAQ from './WhyChooseWithFAQ';
 import { Send2 } from "iconsax-react";
+import FeaturesKey from './FeaturesKey'
+import HowItsWorking from "./HowItsWorking";
 
 function FrontPage() {
   useEffect(() => {
@@ -241,8 +243,13 @@ function FrontPage() {
 
       {activeSection === "keyFeature" && (
         <Element name="keyFeature" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+          <FeaturesKey />
+           <LifeCycleMethod isFeatureWay={true}/>
+<HowItsWorking />
+           <RecurringInvoice />
+             <HostelTrial />
           {/* <KeyFeaturesNew />
-          <SmartStaySection />
+                    <SmartStaySection />
           <Getanswer /> */}
         </Element>
       )}

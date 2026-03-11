@@ -2008,7 +2008,7 @@ const stateRef = useRef(null);
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    className="max-w-[5.5rem] !h-12 text-base font-gilroy text-gray-600 font-semibold border border-gray-300 rounded-l-lg shadow-none bg-white"
+                    className="max-w-[5.5rem] !h-12 border border-gray-300 rounded-l-lg !rounded-tr-none !rounded-br-none"
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>

@@ -105,7 +105,7 @@ function RecurringInvoice() {
 
           <div className="w-full md:col-span-6 flex flex-col">
 
-            <div className="flex flex-col gap-4">
+            <div className="flex  gap-4">
               <h2 className="text-2xl md:text-4xl font-semibold text-[#000000] leading-tight">
                 Bed & Floor-Wise Management
               </h2>
