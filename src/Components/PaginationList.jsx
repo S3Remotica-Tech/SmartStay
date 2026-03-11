@@ -301,7 +301,7 @@ function PaginationList({
       {totalItems > 10 && (
 
         <div
-          className={`fixed bottom-1 left-0 right-0 lg:left-[260px] lg:right-4 md:left-[260px] md:right-16 
+          className={`fixed bottom-1 left-0 right-0 lg:left-[260px] lg:right-14 md:left-[260px] md:right-16 
   w-auto bg-white px-2 py-1 md:gap-24 lg:gap-96
   flex items-center z-10 font-[Gilroy]`}
         >
@@ -375,6 +375,7 @@ function PaginationList({
             </li>
           </ul>
         </div>
+ 
       )}
     </>
   );
