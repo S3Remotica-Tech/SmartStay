@@ -79,8 +79,8 @@ function LifeCycleMethod({isFeatureWay}) {
                         </span>
                     </h2>
 
-                    <div className='rounded-xl px-4 py-2  bg-[#FFF3EB33] w-fit flex items-center'>
-                        <label className='text-xs font-tasa text-[#FFA600]' >Tenant Management</label>
+                    <div className={`rounded-xl px-4 py-2 ${isFeatureWay ?  "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}>
+                        <label className='text-xs font-tasa ' >Tenant Management</label>
                     </div>
                 </div>
 
