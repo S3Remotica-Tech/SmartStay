@@ -338,14 +338,11 @@ function CreateAccountPage() {
   }, [state.createAccount?.networkError])
 
 
-
-
-
   return (
     <>
      <div data-testid='create-account' className="w-full font-gilroy">
-        <div className="ml-5 2xl:ml-52 2xl:mt-28">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1 fade-in">
+        <div className="md:ml-10 lg:ml-20 2xl:ml-52 2xl:mt-28">
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-6 fade-in">
             <div className="mt-4 relative">
 
               {loading && (
@@ -610,12 +607,12 @@ function CreateAccountPage() {
 
             </div>
 
-            <div className="w-full md:w-1/2">
-              <div className="mt-5 flex justify-center ml-[100px] w-[450px]">
+            <div className="w-full">
+              <div className="mt-5 flex justify-center w-full lg:w-[450px] lg:ml-[100px]">
                 <img
                   src={CreateAccount}
                   alt="create"
-                  className="w-full max-w-[480px] h-auto"
+                  className="w-full max-w-[480px] h-auto md:-mt-16 lg:-mt-8"
                 />
               </div>
             </div>
