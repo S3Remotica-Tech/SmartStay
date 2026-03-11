@@ -35,6 +35,8 @@ import WhyChooseWithFAQ from './WhyChooseWithFAQ';
 import { Send2 } from "iconsax-react";
 import FeaturesKey from './FeaturesKey'
 import HowItsWorking from "./HowItsWorking";
+import NativeBuilt from "./NativeBuilt";
+import EfficiantOperationSystem from "./EfficiantOperationSystem";
 
 function FrontPage() {
   useEffect(() => {
@@ -247,6 +249,8 @@ function FrontPage() {
            <LifeCycleMethod isFeatureWay={true}/>
 <HowItsWorking />
            <RecurringInvoice />
+           <NativeBuilt />
+           <EfficiantOperationSystem />
              <HostelTrial />
           {/* <KeyFeaturesNew />
                     <SmartStaySection />
