@@ -48,17 +48,23 @@ function AdminProfileEdit({ show, handleClose }) {
     };
 
     const handleFirstNameChange = (e) => {
+          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         setFirstName(e.target.value);
         setErrors((prev) => ({ ...prev, firstName: "" }));
         setErrors((prev) => ({ ...prev, noChange: "" }));
     };
 
     const handleLastNameChange = (e) => {
+          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         setLastName(e.target.value);
         setErrors((prev) => ({ ...prev, noChange: "" }));
     };
 
     const handleMobileChange = (e) => {
+          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         let value = e.target.value;
 
 
@@ -73,6 +79,8 @@ function AdminProfileEdit({ show, handleClose }) {
     };
 
     const handleEmailChange = (e) => {
+          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         setEmail(e.target.value);
         setErrors((prev) => ({ ...prev, email: "" }));
         setErrors((prev) => ({ ...prev, noChange: "" }));
@@ -94,6 +102,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
     const handleSubmit = () => {
+          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
         setErrors((prev) => ({ ...prev, noChange: "" }));
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         if (!validate()) return;
@@ -128,6 +137,8 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
     const handleImageUpload = (e) => {
+         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
+            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
         setErrors((prev) => ({ ...prev, noChange: "" }));
 
         const file = e.target.files[0];
@@ -146,6 +157,8 @@ function AdminProfileEdit({ show, handleClose }) {
     }, [previewImage]);
     useEffect(() => {
         if (state.createAccount?.statuscodeforUpdateprofile) {
+            dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
+            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
             dispatch({ type: "ACCOUNTDETAILS" });
             setFormLoading(false)
             handleClose()
@@ -158,15 +171,12 @@ function AdminProfileEdit({ show, handleClose }) {
     }, [state.createAccount?.statuscodeforUpdateprofile])
 
     useEffect(() => {
-        if (state.createAccount?.profileUpdateError) {
+        if (state.createAccount?.profileUpdateEmailError || state.createAccount?.profileUpdateMobileError) {
             setFormLoading(false)
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
-            }, 1000)
 
         }
 
-    }, [state.createAccount?.profileUpdateError])
+    }, [state.createAccount?.profileUpdateEmailError, state.createAccount?.profileUpdateMobileError])
     useEffect(() => {
         if (account) {
             setFirstName(account?.firstName)
@@ -285,6 +295,10 @@ function AdminProfileEdit({ show, handleClose }) {
                         {errors.mobile && (
                             <ErrorMessage message={errors.mobile} type="error" />
                         )}
+                        {
+                            state.createAccount?.profileUpdateMobileError && 
+                            <ErrorMessage message={state.createAccount?.profileUpdateMobileError} type="error" />
+                        }
                     </div>
 
 
@@ -308,6 +322,12 @@ function AdminProfileEdit({ show, handleClose }) {
                                 <ErrorMessage message={errors.noChange} type="error" />
                             </div>
                         )}
+                        {
+                            state.createAccount?.profileUpdateEmailError && (
+                                <ErrorMessage message={state.createAccount?.profileUpdateEmailError} type="error" />
+                            )
+                        }
+
 
                     </div>
                 </div>

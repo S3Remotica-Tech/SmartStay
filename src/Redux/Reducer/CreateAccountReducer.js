@@ -20,9 +20,10 @@ export const initialState = {
    email_mobile_Error: '',
    passwordDoesnotMatchError: '',
    networkError: '',
-   profileUpdateError: '',
+   profileUpdateEmailError: '',
    statusCodeForPasswordUpdateSuccess: 0,
-   passwordUpdateError: ''
+   passwordUpdateError: '',
+   profileUpdateMobileError: '' 
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -52,10 +53,15 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'CLEAR_UPDATE_STATUS_CODE_ACCOUNT':
          return { ...state, statuscodeforUpdateprofile: 0 }
 
-      case 'UPDATE_PROFILE_ERROR':
-         return { ...state, profileUpdateError: action.payload }
+      case 'UPDATE_PROFILE_EMAIL_ERROR':
+         return { ...state, profileUpdateEmailError: action.payload }
       case 'REMOVE_UPDATE_PROFILE_ERROR':
-         return { ...state, profileUpdateError: '' }
+         return { ...state, profileUpdateEmailError: '' }
+
+      case 'UPDATE_PROFILE_PHONE_NUM_ERROR':
+         return { ...state, profileUpdateMobileError: action.payload }
+      case 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR':
+         return { ...state, profileUpdateMobileError: '' }
 
       case 'PASSWORD-UPDATE':
          return { ...state, statusCodeForPasswordUpdateSuccess: action.payload.statusCode }

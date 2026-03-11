@@ -1135,6 +1135,7 @@ const stateRef = useRef(null);
   }
 
   const handleCloseAdminProfile = () => {
+     dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
     setShowOpenAdminProfile(false)
   }
 
@@ -1143,6 +1144,8 @@ const stateRef = useRef(null);
   }
 
   const handleCloseAdminEdit = () => {
+    dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
+            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
     setShowOpenAdminProfileEdit(false)
   }
 

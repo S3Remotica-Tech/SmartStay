@@ -141,9 +141,14 @@ function* ProfileUpdate(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-    if (error.status === 400 || error.status === 403) {
-      yield put({ type: 'UPDATE_PROFILE_ERROR', payload: error.response.data });
-    }
+    if (error.code === 'ERR_BAD_REQUEST') {
+             if (error.response.data.emailStatus !== "") {
+                yield put({ type: 'UPDATE_PROFILE_EMAIL_ERROR', payload: error.response.data.emailStatus });
+             } else if (error.response.data.mobileStatus !== "") {
+                yield put({ type: 'UPDATE_PROFILE_PHONE_NUM_ERROR', payload: error.response.data.mobileStatus });
+             }
+          }
+    
   }
 }
 
