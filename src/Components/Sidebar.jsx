@@ -102,6 +102,7 @@ function Sidebar() {
   const [billingOpen, setBillingOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMdSidebarExpanded, setIsMdSidebarExpanded] = useState(false);
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
@@ -431,6 +432,7 @@ function Sidebar() {
     handleFormPage(false)
     setCurrentPage(page);
     setIsDropdownOpen(false);
+    setIsMdSidebarExpanded(false);
     localStorage.setItem("currentPage", page);
     setIsSidebarOpen(false);
     dispatch(checkoutCustomerProfile(true))
@@ -689,8 +691,42 @@ function Sidebar() {
     hostelId ? `${path}/${hostelId}` : path;
 
 
+  const TooltipWrapper = ({ title, children }) => {
+    return (
+      <>
+        <div className="block lg:hidden">
+          <OverlayTrigger
+            trigger={tooltipTrigger}
+            placement="right"
+            container={document.body}
+            delay={{ show: 200, hide: 0 }}
+            overlay={<Tooltip className="custom-tooltip">{title}</Tooltip>}
+          >
+            {children}
+          </OverlayTrigger>
+        </div>
 
+        <div className="hidden lg:block">
+          {children}
+        </div>
+      </>
+    );
+  };
 
+  const [isMd, setIsMd] = React.useState(
+  window.innerWidth >= 768 && window.innerWidth < 1024
+);
+
+React.useEffect(() => {
+  const handleResize = () => {
+    setIsMd(window.innerWidth >= 768 && window.innerWidth < 1024);
+  };
+
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
+const tooltipTrigger = isMd ? ["hover"] : [];
   return (
 
     <>
@@ -709,15 +745,15 @@ function Sidebar() {
           </div>
 
           <div
-            className="w-64 min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md" >
+            className={`sidebar-left w-64 min-w-48 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`} >
             <div>
 
-              <div
+              {/* <div
                 className="p-3 flex-shrink-0 mt-1.5">
                 <img
                   src={Smartstay}
                   alt="smartstay"
-                  className="Title mb-1 w-36 h-6"
+                  className="sidebar-logo Title mb-1 w-36 h-6 hidden lg:block"
                   onClick={() => handlePageClick("dashboard")}
                 />
                 <button
@@ -767,10 +803,11 @@ function Sidebar() {
                     )}
 
                     <span
-                      className="inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer"  >
+                      className="sidebar-label hidden lg:inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer"  >
                       {payingGuestName}
                       <div>
                         <OverlayTrigger
+                          trigger={tooltipTrigger}
                           placement="right"
                           overlay={
                             <Tooltip className="custom-tooltip">
@@ -797,7 +834,9 @@ function Sidebar() {
 
                       </div>
                     </span>
-                    <span className="ms-auto">
+                    <span 
+                    className="ms-auto hidden lg:inline-flex"
+                    >
                       {isDropdownOpen ? (
                         <ArrowUp2 size="16" color="#4B4B4B" />
                       ) : (
@@ -819,7 +858,7 @@ function Sidebar() {
                             >
                               <li
                                 key={item.id}
-                                className="flex items-center py-2 px-3 cursor-pointer text-blue-600 max-w-40 truncate align-middle"
+                                className="flex items-center py-2 px-2 cursor-pointer text-blue-600 max-w-40 truncate align-middle"
 
                                 onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials, item.city)}
                               >
@@ -863,6 +902,189 @@ function Sidebar() {
                   </NavLink>
 
                 )}
+              </div> */}
+              <div
+                className="p-3 flex-shrink-0 mt-1.5">
+                <img
+                  src={Smartstay}
+                  alt="smartstay"
+                  className="sidebar-logo Title mb-1 w-36 h-6 hidden lg:block"
+                  onClick={() => handlePageClick("dashboard")}
+                />
+
+                <button
+                  onClick={closeSidebar}
+                  className={`bg-transparent border-none textbase cursor-pointer md:hidden ${isSidebarOpen ? "block" : "hidden"
+                    }`}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 18L18 6M6 6L18 18"
+                      stroke="#000000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+
+                {hostelListDetail && hostelListDetail?.length > 0 && (
+                  <li
+                    ref={dropdownRef}
+                    onClick={toggleDropdown}
+                    className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""
+                      }`}
+                  >
+
+                    {selectedProfileImage && selectedProfileImage !== null && selectedProfileImage !== "" ? (
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        overlay={
+                          <Tooltip className="custom-tooltip">
+                            {payingGuestName} {locationName}
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          src={selectedProfileImage}
+                          className="h-9 w-9 rounded-full mr-2"
+                          alt="Selected Profile"
+                        />
+                      </OverlayTrigger>
+                    ) : (
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        overlay={
+                          <Tooltip className="custom-tooltip">
+                            {payingGuestName} {locationName}
+                          </Tooltip>
+                        }
+                      >
+                        <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-pink-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 md:-ml-0.5 uppercase leading-none">
+                          {initials}
+                        </div>
+                      </OverlayTrigger>
+                    )}
+
+                    <span
+                      className="sidebar-label hidden lg:inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer"
+                    >
+                      {payingGuestName}
+
+                      <div>
+                        <OverlayTrigger
+                          trigger={tooltipTrigger}
+                          placement="right"
+                          container={document.body}
+                          overlay={
+                            <Tooltip className="custom-tooltip">
+                              {payingGuestName} {locationName}
+                            </Tooltip>
+                          }
+                        >
+                          <span className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px] cursor-pointer">
+
+                            <Location
+                              className="mr-1 shrink-0"
+                              size="16"
+                              color="#FF8A65"
+                              variant="Bold"
+                            />
+
+                            <span className="truncate min-w-0">
+                              {locationName}
+                            </span>
+
+                          </span>
+                        </OverlayTrigger>
+                      </div>
+                    </span>
+
+                    <span className="ms-auto hidden lg:inline-flex">
+                      {isDropdownOpen ? (
+                        <ArrowUp2 size="16" color="#4B4B4B" />
+                      ) : (
+                        <ArrowDown2 size="16" color="#4B4B4B" />
+                      )}
+                    </span>
+
+                    {isDropdownOpen && (
+                      <div
+                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full md:w-[50px] lg:w-full z-50 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
+                      >
+                        <ul style={{ margin: 0, padding: 0 }}>
+                          {hostelListDetail.map((item) => (
+                            <OverlayTrigger
+                              key={item.id}
+                              placement="right"
+                              container={document.body}
+                              overlay={
+                                <Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>
+                                  {item.name}
+                                </Tooltip>
+                              }
+                            >
+
+                              <li
+                                key={item.id}
+                                className="flex items-center py-2 px-2 cursor-pointer text-blue-600 max-w-40 truncate align-middle"
+                                onClick={() =>
+                                  handleHostelId(
+                                    item.hostelId,
+                                    item.name,
+                                    item.mainImage,
+                                    item.initials,
+                                    item.city
+                                  )
+                                }
+                              >
+                                {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
+                                  <img
+                                    src={item.mainImage}
+                                    className="w-6 h-6 md:w-7 md:h-7  rounded-full mr-2"
+                                    alt={item.initials || "Default Profile"}
+                                  />
+                                ) : (
+                                  <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
+                                    {item.initials}
+                                  </div>
+                                )}
+
+                                <span className="hidden lg:inline-block truncate">
+                                  {item.name}
+                                </span>
+                              </li>
+                            </OverlayTrigger>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                )}
+
+                {!(hostelListDetail ?? []).length && (
+                  <NavLink
+                    to={settingsPath}
+                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
+                    onClick={() => {
+                      handledisplaySettingsPG("manage-pg", "Manage PG");
+                      dispatch({ type: "MANAGE_PG" });
+                      setIsSidebarOpen(false);
+                    }}
+                  >
+                    + Add PG
+                  </NavLink>
+                )}
               </div>
               <div className="show-scrolls-sidebar overflow-y-auto overflow-x-hidden h-[calc(100vh-130px)] p-1"
               >
@@ -871,55 +1093,57 @@ function Sidebar() {
 
                   <li
                     className="list-none flex items-center" >
-                    <NavLink
-                      to={withHostel("/dashboard")}
-                      className={({ isActive }) =>
-                        `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                      }
-                      onClick={() => handlePageClick("dashboard")}
-                    >
-                      <Chart2
-                        size="20" variant="Bold"
-                      />
-                      <span className="inline-block text-sm font-semibold font-gilroy Title" >
-                        Home
-                      </span>
-                    </NavLink>
-                  </li>
-                  {
-                    import.meta.env.MODE === "development" &&
-
-                    <li className="list-none flex items-center" >
                       <NavLink
-                        to={withHostel("/dashboard-new")}
+                        to={withHostel("/dashboard")}
                         className={({ isActive }) =>
                           `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
                         }
-                        onClick={() => handlePageClick("dashboard-new")}
+                        onClick={() => handlePageClick("dashboard")}
                       >
                         <Chart2
                           size="20" variant="Bold"
                         />
-                        <span className="inline-block text-sm font-semibold font-gilroy Title mt-1" >
-                          Home New
+                        <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title" >
+                          Home
                         </span>
                       </NavLink>
-                    </li>
+                       </li>
+                  {
+                    import.meta.env.MODE === "development" &&
+
+                    <li className="list-none flex items-center" >
+                        <NavLink
+                          to={withHostel("/dashboard-new")}
+                          className={({ isActive }) =>
+                            `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                          }
+                          onClick={() => handlePageClick("dashboard-new")}
+                        >
+                          <Chart2
+                            size="20" variant="Bold"
+                          />
+                          <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1" >
+                            Home New
+                          </span>
+                        </NavLink>
+                        </li>
                   }
                   <li
-                    className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
+                    className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded collapsible-header
     ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
-                      setManageOpen(!manageOpen);
+                      const next = !manageOpen;
+                      setManageOpen(next);
                       setBillingOpen(false);
+                      setIsMdSidebarExpanded(next);
                       localStorage.setItem("manageOpen", !manageOpen);
                     }}
                   >
-                    <Setting2 size={20} variant="Bold" className="mt-1" />
-                    <span className="mt-1.5 font-gilroy font-semibold text-sm inline-block text-sm">
+                     <Setting2 size={20} variant="Bold" className="mt-1" />
+                      <span className="sidebar-label hidden lg:inline-block mt-1.5 font-gilroy font-semibold text-sm">
                       Manage
                     </span>
-                    <span className="ml-auto mt-1.5">
+                    <span className="ml-auto mt-1.5 inline-flex">
                       {manageOpen ? (
                         <ArrowUp2 size={16} color="#4B4B4B" />
                       ) : (
@@ -933,78 +1157,80 @@ function Sidebar() {
                       <ul
                         className="pl-2 relative p-1.5">
                         <li className="list-none flex">
-                          <NavLink
-                            to={withHostel("/paying-guest")}
-                            className={({ isActive }) =>
-                              `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                            }
-                            onClick={() => handlePageClick("pg-list")}
-                          >
-                            <Buildings size="20" variant="Bold" />
+                            <NavLink
+                              to={withHostel("/paying-guest")}
+                              className={({ isActive }) =>
+                                `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                              }
+                              onClick={() => handlePageClick("pg-list")}
+                            >
+                              <Buildings size="20" variant="Bold" />
 
-                            <span
-                              className="Title font-gilroy font-semibold text-sm inline-block" >
-                              Paying Guest
-                            </span>
-                          </NavLink>
-                        </li>
+                              <span
+                                className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
+                                Paying Guest
+                              </span>
+                            </NavLink>
+                             </li>
+
                         <li className="list-none">
-                          <NavLink
-                            to={withHostel("/tenant")}
-                            className={({ isActive }) =>
-                              `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("user-list")}
-
-                          >
-                            <Profile2User size="20" variant="Bold" />
-
-                            <span
-                              className="Title font-gilroy font-semibold text-sminline-block text-sm"
+                                                      <NavLink
+                              to={withHostel("/tenant")}
+                              className={({ isActive }) =>
+                                `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("user-list")}
 
                             >
-                              Tenant
-                            </span>
-                          </NavLink>
-                        </li>
+                              <Profile2User size="20" variant="Bold" />
+
+                              <span
+                                className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
+
+                              >
+                                Tenant
+                              </span>
+                            </NavLink>
+                            </li>
 
 
                         <li className="list-none">
-                          <NavLink
-                            to={withHostel("/asset")}
-                            className={({ isActive }) =>
-                              `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset" ? "active" : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("asset")}
+                         
+                            <NavLink
+                              to={withHostel("/asset")}
+                              className={({ isActive }) =>
+                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset" ? "active" : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("asset")}
 
-                          >
-                            <Box size="20" variant="Bold" />
-
-                            <span className="Title font-gilroy font-semibold text-sminline-block text-sm">
-                              Assets
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none">
-                          <NavLink
-                            to={withHostel("/vendor")}
-                            className={({ isActive }) =>
-                              `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor" ? "active" : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("vendor")}
-
-                          >
-                            <Shop size="20" variant="Bold" />
-
-                            <span className="Title font-gilroy font-semibold text-sminline-block text-sm"
                             >
-                              Vendor
-                            </span>
-                          </NavLink>
+                              <Box size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Assets
+                              </span>
+                            </NavLink>
+                            </li>
+
+                        <li className="list-none">
+                            <NavLink
+                              to={withHostel("/vendor")}
+                              className={({ isActive }) =>
+                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor" ? "active" : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("vendor")}
+
+                            >
+                              <Shop size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
+                              >
+                                Vendor
+                              </span>
+                            </NavLink>
                         </li>
 
                       </ul>
@@ -1012,38 +1238,48 @@ function Sidebar() {
                   )}
 
                   <li className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`} >
-                    <NavLink
-                      to={withHostel("/banking")}
-                      className={({ isActive }) =>
-                        `align-items-center list-Item  d-flex ${isActive || currentPage === "banking" ? "active" : ""
-                        }`
-                      }
-                      onClick={() => handlePageClick("banking")} >
-                      <Bank size="20" variant="Bold" className="-mt-1" />
+                    <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={<Tooltip className="custom-tooltip">Banking</Tooltip>}>
+                      <NavLink
+                        to={withHostel("/banking")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item  d-flex ${isActive || currentPage === "banking" ? "active" : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("banking")} >
+                        <Bank size="20" variant="Bold" className="-mt-1" />
 
-                      <span className="Title font-gilroy font-semibold text-sm"
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
 
-                      >
-                        Banking
-                      </span>
-                    </NavLink>
+                        >
+                          Banking
+                        </span>
+                      </NavLink>
+                    </OverlayTrigger>
                   </li>
 
                   <li
-                    className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded 
+                    className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
-                      setBillingOpen(!billingOpen);
+                      const next = !billingOpen;
+                      setBillingOpen(next);
                       setManageOpen(false);
+                      setIsMdSidebarExpanded(next);
                     }}
                   >
-                    <DocumentText size={21} variant="Bold" className="-mt-1" />
+                    <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={<Tooltip className="custom-tooltip">Billing & Payments</Tooltip>}>
+                      <DocumentText size={21} variant="Bold" className="-mt-1" />
+                    </OverlayTrigger>
 
-                    <span className="Title font-gilroy font-semibold text-[14px]">
+                    <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
                       Billing & Payments
                     </span>
 
-                    <span className="ml-auto">
+                    <span className="ml-auto inline-flex">
                       {billingOpen ? <ArrowUp2 size={16} /> : <ArrowDown2 size={16} />}
                     </span>
                   </li>
@@ -1064,9 +1300,13 @@ function Sidebar() {
                             onClick={() => handlePageClick("invoice")}
                             style={{ textDecoration: "none" }}
                           >
-                            <Receipt size="22" variant="Bold" className="ml-1 -mt-1" />
+                            <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                              delay={{ show: 200, hide: 0 }}
+                              overlay={<Tooltip className="custom-tooltip">Bills</Tooltip>}>
+                              <Receipt size="22" variant="Bold" className="ml-1 -mt-1" />
+                            </OverlayTrigger>
 
-                            <span className="Title font-gilroy font-semibold text-sm inline-block " >
+                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
                               Bills
                             </span>
                           </NavLink>
@@ -1082,10 +1322,14 @@ function Sidebar() {
                             onClick={() => handlePageClick("booking")}
 
                           >
-                            <CalendarAdd variant="Bold" size="22" className="-mt-1" />
+                            <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                              delay={{ show: 200, hide: 0 }}
+                              overlay={<Tooltip className="custom-tooltip">Bookings</Tooltip>}>
+                              <CalendarAdd variant="Bold" size="22" className="-mt-1" />
+                            </OverlayTrigger>
 
                             <span
-                              className="Title font-gilroy font-semibold text-sm inline-block">
+                              className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
                               Bookings
                             </span>
                           </NavLink>
@@ -1103,10 +1347,14 @@ function Sidebar() {
                             onClick={() => handlePageClick("recurring")}
 
                           >
-                            <RulerPen variant="Bold" size="22" className="-mt-1" />
+                            <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                              delay={{ show: 200, hide: 0 }}
+                              overlay={<Tooltip className="custom-tooltip">Recurring bills</Tooltip>}>
+                              <RulerPen variant="Bold" size="22" className="-mt-1" />
+                            </OverlayTrigger>
 
                             <span
-                              className="Title font-gilroy font-semibold text-sm inline-block"
+                              className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
                             >
 
                               Recurring bills
@@ -1124,10 +1372,14 @@ function Sidebar() {
                             }
                             onClick={() => handlePageClick("receipts")}
                           >
-                            <DocumentText variant="Bold" size="22" className="-mt-1" />
+                            <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                              delay={{ show: 200, hide: 0 }}
+                              overlay={<Tooltip className="custom-tooltip">Receipts</Tooltip>}>
+                              <DocumentText variant="Bold" size="22" className="-mt-1" />
+                            </OverlayTrigger>
 
                             <span
-                              className="Title font-gilroy font-semibold text-sm inline-block"
+                              className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
                             >
                               Receipts
                             </span>
@@ -1141,74 +1393,90 @@ function Sidebar() {
 
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                   >
-                    <NavLink
-                      to={withHostel("/electricity")}
-                      className={({ isActive }) =>
-                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "eb" ? "active" : ""
-                        }`
-                      }
-                      onClick={() => handlePageClick("eb")} >
-                      <Flash size="22" variant="Bold" />
+                    <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={<Tooltip className="custom-tooltip">Electricity</Tooltip>}>
+                      <NavLink
+                        to={withHostel("/electricity")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "eb" ? "active" : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("eb")} >
+                        <Flash size="22" variant="Bold" />
 
-                      <span className="Title font-gilroy font-semibold text-sm inline-block">
-                        Electricity
-                      </span>
-                    </NavLink>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Electricity
+                        </span>
+                      </NavLink>
+                    </OverlayTrigger>
                   </li>
 
 
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                   >
-                    <NavLink
-                      to={withHostel("/compliance")}
-                      className={({ isActive }) =>
-                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "compliance" ? "active" : ""
-                        }`
-                      }
-                      onClick={() => handlePageClick("compliance")}
+                    <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={<Tooltip className="custom-tooltip">Compliants</Tooltip>}>
+                      <NavLink
+                        to={withHostel("/compliance")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "compliance" ? "active" : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("compliance")}
 
-                    >
-                      <MessageQuestion size="22" variant="Bold" />
+                      >
+                        <MessageQuestion size="22" variant="Bold" />
 
-                      <span className="Title font-gilroy font-semibold text-sm inline-block" >
-                        Compliants
-                      </span>
-                    </NavLink>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
+                          Compliants
+                        </span>
+                      </NavLink>
+                    </OverlayTrigger>
                   </li>
 
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
-                    <NavLink
-                      to={withHostel("/expense")}
-                      className={({ isActive }) =>
-                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "expenses" ? "active" : ""
-                        }`
-                      }
-                      onClick={() => handlePageClick("expenses")}
-                    >
-                      <MoneySend size="20" variant="Bold" />
+                    <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={<Tooltip className="custom-tooltip">Expenses</Tooltip>}>
+                      <NavLink
+                        to={withHostel("/expense")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "expenses" ? "active" : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("expenses")}
+                      >
+                        <MoneySend size="20" variant="Bold" />
 
-                      <span className="Title font-gilroy font-semibold text-sm inline-block" >
-                        Expenses
-                      </span>
-                    </NavLink>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
+                          Expenses
+                        </span>
+                      </NavLink>
+                    </OverlayTrigger>
                   </li>
 
 
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
-                    <NavLink
-                      to={withHostel("/reports")}
-                      className={({ isActive }) =>
-                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "reports" ? "active" : ""
-                        }`
-                      }
-                      onClick={() => handlePageClick("reports")}
-                    >
-                      <Chart size="20" variant="Bold" />
+                    <OverlayTrigger trigger={tooltipTrigger} placement="right" container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={<Tooltip className="custom-tooltip">Reports</Tooltip>}>
+                      <NavLink
+                        to={withHostel("/reports")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "reports" ? "active" : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("reports")}
+                      >
+                        <Chart size="20" variant="Bold" />
 
-                      <span className="Title font-gilroy font-semibold text-sm inline-block" >
-                        Reports
-                      </span>
-                    </NavLink>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
+                          Reports
+                        </span>
+                      </NavLink>
+                    </OverlayTrigger>
                   </li>
 
                 </ul>
@@ -1227,7 +1495,7 @@ function Sidebar() {
             <Routes>
 
               <Route path="/payment-preview" element={<PaymentPreview />} />
-               <Route path="/graph" element={<GraphQL />} />
+              <Route path="/graph" element={<GraphQL />} />
               <Route
                 path="/dashboard/:hostelId?"
                 element={

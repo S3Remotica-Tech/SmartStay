@@ -91,6 +91,84 @@
   overflow-y: auto !important;
 }
 
+/* Icon-only sidebar behavior (md to <lg) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar-left:not(.md-expanded) .list-Item,
+  .sidebar-left:not(.md-expanded) .list-Items,
+  .sidebar-left:not(.md-expanded) .list-sub-Item {
+    justify-content: center;
+    gap: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Keep collapsible headers usable in icon-only mode */
+  .sidebar-left:not(.md-expanded) .list-Item.collapsible-header {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 0;
+    gap: 4px !important;
+  }
+
+  .sidebar-left:not(.md-expanded) .list-Item.collapsible-header > .ml-auto {
+    margin-left: 0 !important;
+    align-self: center;
+    margin-top: 2px;
+  }
+
+  .sidebar-left:not(.md-expanded) .list-Item svg,
+  .sidebar-left:not(.md-expanded) .list-Items svg,
+  .sidebar-left:not(.md-expanded) .list-sub-Item svg {
+    margin-right: 0 !important;
+  }
+
+  /* submenu indentation looks odd in icon-only mode */
+  .sidebar-left:not(.md-expanded) .submenu ul {
+    padding-left: 0 !important;
+  }
+
+  /* Hide labels + submenus in collapsed md mode */
+  .sidebar-left:not(.md-expanded) .sidebar-label,
+  .sidebar-left:not(.md-expanded) .sidebar-logo {
+    display: none !important;
+  }
+
+  .sidebar-left:not(.md-expanded) .submenu {
+    display: none !important;
+  }
+
+  /* Expanded md mode behaves like lg (icon + label + arrow on right) */
+  .sidebar-left.md-expanded {
+    width: 16rem !important; /* w-64 */
+    min-width: 12rem !important; /* min-w-48 */
+  }
+
+  .sidebar-left.md-expanded .sidebar-label,
+  .sidebar-left.md-expanded .sidebar-logo {
+    display: inline-block !important;
+  }
+
+  .sidebar-left.md-expanded .list-Item,
+  .sidebar-left.md-expanded .list-Items,
+  .sidebar-left.md-expanded .list-sub-Item {
+    justify-content: flex-start;
+    gap: 15px !important;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .sidebar-left.md-expanded .list-Item.collapsible-header {
+    flex-direction: row;
+  }
+
+  .sidebar-left.md-expanded .list-Item.collapsible-header > .ml-auto {
+    margin-left: auto !important;
+    margin-top: 0;
+  }
+}
+
 /* Right Panel Responsive Styles */
 @media (max-width: 1200px) {
   .right-panel {
