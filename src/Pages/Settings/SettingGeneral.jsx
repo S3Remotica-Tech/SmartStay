@@ -880,6 +880,7 @@ const stateRef = useRef(null);
       if (isChanged) {
 
         dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
+        setFormLoading(true)
       }
 
 
