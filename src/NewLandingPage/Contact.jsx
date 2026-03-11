@@ -223,7 +223,7 @@ function Contact() {
           style={{ top: "0", left: "0", width: "120px", zIndex: "1" }}
         />
         <h1 style={{ fontSize: 40, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>
-          Get in touch with us
+          Get in touch with us   
         </h1>
        
 

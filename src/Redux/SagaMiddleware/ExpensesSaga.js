@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { GetInitializeExpense, GetExpenseCatogory, AddExpense, GetExpense, DeleteExpense, transactionHistory, AddExpenseTag } from "../Action/ExpensesAction"
+import { GetInitializeExpense, GetExpenseCatogory, AddExpense, UpdateExpense, GetExpense, DeleteExpense, transactionHistory, AddExpenseTag } from "../Action/ExpensesAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
@@ -15,15 +15,15 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+   else if (status === 403) {
+      yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+   }
 }
 
 
@@ -51,13 +51,13 @@ function* handleGetCategory() {
 function* handleGetExpenses(action) {
    try {
       const response = yield call(GetExpense, action.payload);
-       const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
-      
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
+
 
       if (response?.status === 200) {
          yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status } })
@@ -78,12 +78,12 @@ function* handleGetInitializeExpense(action) {
    try {
       const response = yield call(GetInitializeExpense, action.payload);
 
-       const hostelId = GlobalHostelId(response);
-          if (hostelId) {
-            yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-            // const cookies = new Cookies()
-            // cookies.set('selected_hostelId', hostelId, { path: '/' });
-          }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -153,11 +153,61 @@ function* handleAddExpense(action) {
          }
       }
    }
-   
+
 }
 
 
+function* handleUpdateExpense(action) {
+   try {
+      const response = yield call(UpdateExpense, action.payload);
 
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "auto",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response?.status === 200) {
+         yield put({ type: 'UPDATE_EXPENSE_REDUCER', payload: { response: response.data.data, statusCode: response?.status } })
+         toast.success(`${response.data}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400 || error.status === 403) {
+            yield put({ type: 'BANK_INSUFFICIANT_FUND_ERROR', payload: error.response.data });
+
+         }
+      }
+   }
+
+}
 
 
 
@@ -209,7 +259,7 @@ function* handleAddExpenseTag(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -232,7 +282,7 @@ function* handleDeleteExpense(action) {
 
       };
 
-      if (response?.status === 200) {
+      if (response?.status === 204) {
          yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response?.status } })
 
          toast.success('Deleted successfully', {
@@ -297,6 +347,7 @@ function* HandleTransactionHistory(action) {
 function* ExpenseSaga() {
    yield takeEvery('CATEGORYLIST', handleGetCategory)
    yield takeEvery('ADDEXPENSE', handleAddExpense)
+   yield takeEvery('UPDATE_EXPENSE_SAGA', handleUpdateExpense)
    yield takeEvery('EXPENSELIST', handleGetExpenses)
    yield takeEvery('DELETEEXPENSE', handleDeleteExpense)
    yield takeEvery('TRANSACTIONHISTORY', HandleTransactionHistory)

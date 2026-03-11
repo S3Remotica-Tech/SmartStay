@@ -28,6 +28,15 @@ import OperationsSection from "./OperationsSection";
 import Pricing from "./Pricing";
 import MobileApp from "./MobileApp";
 import FAQSection from "./FAQSection";
+import PricingPlans from "./PricingPlans";
+import ActiveCustomer from './ActiveCustomer';
+import HostelTrial from './HostelTrial';
+import WhyChooseWithFAQ from './WhyChooseWithFAQ';
+import { Send2 } from "iconsax-react";
+import FeaturesKey from './FeaturesKey'
+import HowItsWorking from "./HowItsWorking";
+import NativeBuilt from "./NativeBuilt";
+import EfficiantOperationSystem from "./EfficiantOperationSystem";
 
 function FrontPage() {
   useEffect(() => {
@@ -35,6 +44,7 @@ function FrontPage() {
   }, []);
 
   let navigate = useNavigate();
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const handleSignIn = () => {
     navigate("/hostel-management-login");
@@ -47,7 +57,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-    
+
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
@@ -62,8 +72,8 @@ function FrontPage() {
       case "privacy_policy":
         navigate("/privacy-policy");
         break;
-        case "refund_policy":
-          navigate("/refund_policy");
+      case "refund_policy":
+        navigate("/refund_policy");
         break;
       case "firstPage":
         navigate("/");
@@ -117,10 +127,11 @@ function FrontPage() {
     scroll.scrollTo(0);
     setActiveSection("firstPage");
   };
-  
+
+
 
   return (
-    <>
+    <div className="relative">
       <Navbar collapseOnSelect expand="lg" fixed="top" style={{ backgroundColor: "#FFFFFF" }}>
         <Container fluid className="px-lg-5 px-md-4 px-sm-3">
           <Navbar.Brand onClick={handleBrandClick}>
@@ -211,16 +222,18 @@ function FrontPage() {
 
       {activeSection === "firstPage" && (
         <Element name="firstPage" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-                   <HomePage />
-                   <BusinessChallenges />
-                   <WhyChoose />
-                   <LifeCycleMethod />
-                   <RecurringInvoice />
-                   <HostelProperties />
-                   <OperationsSection />
-                   <Pricing />
-                   <MobileApp />
-                   <FAQSection />
+          <HomePage />
+          <ActiveCustomer />
+          <BusinessChallenges />
+          <WhyChoose />
+          <LifeCycleMethod />
+          <RecurringInvoice />
+          <HostelProperties />
+          <OperationsSection />
+          <Pricing />
+          <MobileApp />
+          <HostelTrial />
+          <FAQSection />
           {/* <Startup />
           <StatsSection />
           <RoomManagement />
@@ -232,14 +245,26 @@ function FrontPage() {
 
       {activeSection === "keyFeature" && (
         <Element name="keyFeature" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+          <FeaturesKey />
+          <LifeCycleMethod isFeatureWay={true} />
+          <HowItsWorking />
+          <RecurringInvoice />
+          <NativeBuilt />
+          <EfficiantOperationSystem />
+          <HostelTrial />
           {/* <KeyFeaturesNew />
-          <SmartStaySection />
+                    <SmartStaySection />
           <Getanswer /> */}
         </Element>
       )}
 
       {activeSection === "Pricing" && (
         <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+
+          <PricingPlans />
+          <ActiveCustomer />
+          <WhyChooseWithFAQ />
+
           {/* <SubscriptionPlan />
           <SmartStaySection />
           <Getanswer /> */}
@@ -249,7 +274,7 @@ function FrontPage() {
       {activeSection === "Contact_us" && (
         <Element name="Contact_us" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <Contact />
-                  </Element>
+        </Element>
       )}
 
       {activeSection === "terms_use" && (
@@ -272,8 +297,8 @@ function FrontPage() {
         </Element>
       )}
 
-      
-{activeSection === "refund_policy" && (
+
+      {activeSection === "refund_policy" && (
         <Element name="refund_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <Refundpolicy />
         </Element>
@@ -281,7 +306,36 @@ function FrontPage() {
       <Element name="footer">
         <Footers handleLinkName={handleSetActive} />
       </Element>
-    </>
+
+      <div
+        className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+
+        <div
+          className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
+        transition-all duration-300
+        ${showTooltip
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 translate-x-2 pointer-events-none"
+            }`}
+        >
+          Request Demo
+        </div>
+
+        {/* Button */}
+        <div
+          className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
+        transition-transform duration-300
+        ${showTooltip ? "scale-110" : "scale-100"}`}
+        >
+          <Send2 size="14" color="#FFFFFF" variant="Bold" />
+        </div>
+
+      </div>
+
+    </div>
   );
 }
 

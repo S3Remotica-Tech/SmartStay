@@ -12,7 +12,7 @@ import { Shield, TickCircle, ArrowRight } from 'iconsax-react'
 
 
 
-function LifeCycleMethod() {
+function LifeCycleMethod({isFeatureWay}) {
 
     const lifecycleCards = [
         {
@@ -67,20 +67,20 @@ function LifeCycleMethod() {
 
 
     return (
-        <div className="w-full bg-[#1A1A1A] py-[53px] px-[101px] font-tasa">
+        <div className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
 
 
             <div className="max-w-7xl mx-auto mb-14">
                 <div className='flex items-center justify-between'>
-                    <h2 className="text-3xl md:text-4xl font-semibold text-white font-tesa">
+                    <h2 className={`text-3xl md:text-4xl font-semibold ${isFeatureWay ? "text-black" : "text-white"}  font-tesa`}>
                         Complete Tenant
                         <span className="text-blue-500 block">
                             Lifecycle Management
                         </span>
                     </h2>
 
-                    <div className='rounded-xl px-4 py-2  bg-[#FFF3EB33] w-fit flex items-center'>
-                        <label className='text-xs font-tasa text-[#FFA600]' >Tenant Management</label>
+                    <div className={`rounded-xl px-4 py-2 ${isFeatureWay ?  "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}>
+                        <label className='text-xs font-tasa ' >Tenant Management</label>
                     </div>
                 </div>
 
@@ -104,7 +104,7 @@ function LifeCycleMethod() {
                     return (
                         <div
                             key={index}
-                            className={`bg-white rounded-xl p-6 shadow-sm flex flex-col justify-between ${span}`}
+                            className={`bg-white rounded-xl p-6 shadow-sm flex flex-col border border-gray-100 justify-between ${span}`}
                         >
 
                             <div>
@@ -202,12 +202,16 @@ function LifeCycleMethod() {
 
                 })}
             </div>
+            {
+                !isFeatureWay &&
+            
             <div className='max-w-7xl flex items-center justify-center'>
                 <button className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
                     Request Demo
                     <ArrowRight size="18" />
                 </button>
             </div>
+}
 
         </div>
     )

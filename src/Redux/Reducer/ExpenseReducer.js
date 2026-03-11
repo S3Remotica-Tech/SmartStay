@@ -14,7 +14,8 @@ export const initialState = {
     expenceNetBanking: '',
     getInitializeExpenseList: [],
     getInitializeExpenseStatusCode: 0,
-    insufficiantFundError: ""
+    insufficiantFundError: "",
+    StatusCodeForUpdateExpenseSuccess: 0
 }
 
 const ExpenseReducer = (state = initialState, action) => {
@@ -34,6 +35,12 @@ const ExpenseReducer = (state = initialState, action) => {
             return { ...state, StatusCodeForAddExpenseSuccess: action.payload.statusCode }
         case 'CLEAR_ADD_EXPENSE_SATUS_CODE':
             return { ...state, StatusCodeForAddExpenseSuccess: 0 }
+
+        case 'UPDATE_EXPENSE_REDUCER':
+            return { ...state, StatusCodeForUpdateExpenseSuccess: action.payload.statusCode }
+        case 'REMOVE_UPDATE_EXPENSE_REDUCER':
+            return { ...state, StatusCodeForUpdateExpenseSuccess: 0 }
+
         case 'EXPENSES_LIST':
             return { ...state, expenseList: action.payload.response, paymentModeList: action.payload.paymentmode, getExpenseStatusCode: action.payload.statusCode }
         case 'CLEAR_EXPENSE_SATUS_CODE':

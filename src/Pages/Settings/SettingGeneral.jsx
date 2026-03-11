@@ -123,7 +123,13 @@ function SettingGeneral() {
   } = useHasPermission("Profile");
 
 
-
+const firstNameRef = useRef(null);
+const emailRef = useRef(null);
+const phoneRef = useRef(null);
+const passwordRef = useRef(null);
+const cityRef = useRef(null);
+const pincodeRef = useRef(null);
+const stateRef = useRef(null);
 
 
   useEffect(() => {
@@ -146,6 +152,7 @@ function SettingGeneral() {
 
 
   const indianStates = [
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
     { value: "Assam", label: "Assam" },
@@ -168,7 +175,7 @@ function SettingGeneral() {
     { value: "Punjab", label: "Punjab" },
     { value: "Rajasthan", label: "Rajasthan" },
     { value: "Sikkim", label: "Sikkim" },
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
+    
     { value: "Telangana", label: "Telangana" },
     { value: "Tripura", label: "Tripura" },
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
@@ -873,6 +880,7 @@ function SettingGeneral() {
       if (isChanged) {
 
         dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
+        setFormLoading(true)
       }
 
 
@@ -883,8 +891,9 @@ function SettingGeneral() {
 
     if (!edit) {
       dispatch({ type: "ADDGENERALSETTING", payload: AddPayload });
+      setFormLoading(true)
     }
-    setFormLoading(true)
+    
   };
 
 
@@ -994,10 +1003,9 @@ function SettingGeneral() {
 
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
+    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201 || state.Settings?.StatusCodeforGetGeneral === 204) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData || []);
       setLoading(false)
-
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_ALL_GENERAL' })
       }, 1000)
@@ -1128,6 +1136,7 @@ function SettingGeneral() {
   }
 
   const handleCloseAdminProfile = () => {
+     dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
     setShowOpenAdminProfile(false)
   }
 
@@ -1136,6 +1145,8 @@ function SettingGeneral() {
   }
 
   const handleCloseAdminEdit = () => {
+    dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
+            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
     setShowOpenAdminProfileEdit(false)
   }
 
@@ -1201,9 +1212,9 @@ function SettingGeneral() {
               </div>
             )
               : (
-                <div className="mt-2">
-                  {account.roleName === "Admin" && (
-                    <div class="bg-white rounded-lg border border-gray-300 p-4 sticky top-0 z-[900] font-gilroy">
+                <div className="sticky top-0 bg-white z-[900] mt-2">
+                  {account.roleId === 1 && (
+                   <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
                       <div className="flex w-full gap-4">
                         <div >
                           {
@@ -1341,10 +1352,7 @@ function SettingGeneral() {
 
                   )}
 
-                  <div
-                    className={`flex border-b border-gray-200 gap-8 font-gilroy sticky ${account.roleName !== "Admin" ? "top-40" : "top-0"
-                      }`}
-                  >
+                  <div className="flex border-b border-gray-200 h-fit gap-8 font-gilroy">
                     {tabs.map((tab) => (
                       <div
                         key={tab.key}
@@ -2004,7 +2012,7 @@ function SettingGeneral() {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    className="max-w-[5.5rem] !h-12 text-base font-gilroy text-gray-600 font-semibold border border-gray-300 rounded-l-lg shadow-none bg-white"
+                    className="max-w-[5.5rem] !h-12 border border-gray-300 rounded-l-lg !rounded-tr-none !rounded-br-none"
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>

@@ -5,15 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { ArrowRight, Send2 } from "iconsax-react";
 import BgImage from "../Assets/v2LandingImages/Landing_Background_Image.svg";
 import Dashboard from "../Assets/v2LandingImages/Dashboard.svg";
-import axn from "../Assets/v2LandingImages/AXN.svg";
-import lenovo from "../Assets/v2LandingImages/Lenovo.svg";
-import slack from "../Assets/v2LandingImages/slack.svg";
-import youtube from "../Assets/v2LandingImages/youtube.svg";
-import amazon from "../Assets/v2LandingImages/amazon.svg";
-import google from "../Assets/v2LandingImages/Google.svg";
-import microsoft from "../Assets/v2LandingImages/Microsoft.svg";
-import Marquee from "react-fast-marquee";
-
+import { BsStars } from "react-icons/bs";
 
 
 
@@ -75,18 +67,18 @@ const HomePage = () => {
         </script>
       </Helmet>
 
-      
+
       <div
         className="w-screen max-h-[800px] overflow-hidden bg-cover bg-[bottom] bg-no-repeat relative"
         style={{ backgroundImage: `url(${BgImage})` }}
       >
         <div className="w-full">
-          <div className="max-w-5xl mx-auto text-center px-6">
+          <div className="max-w-5xl mx-auto text-center px-6 py-16">
 
 
             <div className="inline-flex items-center gap-2 bg-[#F4F6FF] shadow-sm border border-blue-[#F4F6FF] 
     text-[#0D30BA] text-base font-medium px-4 py-1.5 rounded-full mb-6 font-dmsans">
-              Make your Stay Smarter
+              <BsStars />  Make your Stay Smarter
             </div>
 
 
@@ -107,56 +99,36 @@ const HomePage = () => {
                 <ArrowRight size="18" />
               </button>
 
-              <button className="font-dmsans flex items-center gap-2 px-6 py-2.5 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
+              <button onClick={handleSignUp} className="font-dmsans flex items-center gap-2 px-6 py-2.5 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
                 Signup for free Trial
                 <ArrowRight size="18" />
               </button>
 
             </div>
 
-         <div className="w-[1000px] w-full mx-auto flex justify-center mt-4 rounded-2xl border-8 border-[#222222] relative">
+            <div className="w-[1000px] w-full mx-auto flex justify-center mt-4 z-10 rounded-2xl border-8 border-[#222222] relative">
               <img
                 src={Dashboard}
                 alt="Map"
                 className="w-full h-auto object-cover"
               />
 
-              <div className="absolute right-[-70px] top-[350px] -translate-y-1/2 bg-[#1E45E1] p-3 rounded-full shadow-md">
+              {/* <div className="absolute right-[-70px] top-[350px] -translate-y-1/2 bg-[#1E45E1] p-3 rounded-full shadow-md">
                 <Send2 size="14" color="#FFFFFF" variant="Bold" />
-              </div>
+              </div> */}
             </div>
 
 
 
 
-          
+
 
 
 
           </div>
         </div>
       </div>
-        <div className="w-full bg-[#FDFDFD] py-8 px-[200px] z-10">
-              <p className="text-center text-[#061C3D] text-lg mb-6 font-semibold font-gilroy">
-                Over <span className="text-blue-600 font-semibold font-gilroy italic">1,000+</span> actively paying customers
-              </p>
 
-
-              <Marquee
-                speed={100}
-                pauseOnHover={true}
-                gradient={false}
-              >
-                <img src={axn} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={lenovo} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={slack} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={youtube} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={amazon} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={google} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={microsoft} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-              </Marquee>
-
-            </div>
 
     </>
 

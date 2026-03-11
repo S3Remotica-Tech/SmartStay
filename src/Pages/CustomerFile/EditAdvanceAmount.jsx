@@ -44,20 +44,31 @@ function EditAdvanceAmount({ show, handleClose }) {
     // ];
 
 
+const handleMonthlyRentChange = (e) => {
+  dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' });
+  setIsChangedError("");
 
+  const value = e.target.value;
 
-    const handleMonthlyRentChange = (e) => {
-        dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
-        setIsChangedError("");
-        const value = e.target.value;
+  if (/^[0-9\b]*$/.test(value)) {
+    if (value === "" || Number(value) >= 0) {
+      setMonthlyRent(value);
+      setMonthlyRentError("");
+    }
+  }
+};
+    // const handleMonthlyRentChange = (e) => {
+    //     dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
+    //     setIsChangedError("");
+    //     const value = e.target.value;
 
-        if (/^[0-9\b]*$/.test(value)) {
-            if (value === "" || Number(value) > 0) {
-                setMonthlyRent(value);
-                setMonthlyRentError("");
-            }
-        }
-    };
+    //     if (/^[0-9\b]*$/.test(value)) {
+    //         if (value === "" || Number(value) > 0) {
+    //             setMonthlyRent(value);
+    //             setMonthlyRentError("");
+    //         }
+    //     }
+    // };
 
 
     // const handleEffectiveFromChange = (date, dateString) => {
@@ -74,7 +85,7 @@ function EditAdvanceAmount({ show, handleClose }) {
         dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
         let isValid = true;
 
-        if (!monthlyRent || Number(monthlyRent) <= 0) {
+       if (monthlyRent === "") {
             setMonthlyRentError("Please Enter New Advance Amount");
             rentInputRef.current?.focus();
             isValid = false;

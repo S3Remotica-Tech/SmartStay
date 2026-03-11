@@ -384,7 +384,7 @@ function Expenses({ allPageHostel_Id }) {
   useEffect(() => {
     if (
       state.ExpenseList.StatusCodeForAddExpenseSuccess === 201 ||
-      state.ExpenseList.deleteExpenseStatusCode === 200
+      state.ExpenseList.deleteExpenseStatusCode === 204 || state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
     ) {
       dispatch({
         type: "EXPENSELIST",
@@ -394,17 +394,17 @@ function Expenses({ allPageHostel_Id }) {
       setShowExpenseDelete(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_EXPENSE" });
-      }, 2000);
-      setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
-      }, 2000);
+        dispatch({ type: "REMOVE_UPDATE_EXPENSE_REDUCER" });
+      }, 200);
+
     }
   },
     [
       state.ExpenseList.StatusCodeForAddExpenseSuccess,
       state.ExpenseList.deleteExpenseStatusCode,
-      dispatch,
       state.login.selectedHostel_Id,
+      state.ExpenseList.StatusCodeForUpdateExpenseSuccess
     ]
   );
 
@@ -474,7 +474,8 @@ function Expenses({ allPageHostel_Id }) {
       dispatch({
         type: "DELETEEXPENSE",
         payload: {
-          id: deleteExpenseRowData,
+          expenseId: deleteExpenseRowData,
+          hostelId: state.login.selectedHostel_Id
         },
       });
       // setCurrentPage(1);
@@ -1075,21 +1076,24 @@ function Expenses({ allPageHostel_Id }) {
           Are you sure you want to delete this expense?
         </Modal.Body>
 
-        <Modal.Footer className="flex justify-center !border-t-0 -mt-2.5 gap-2">
-          <Button
-            onClick={handleCloseForDeleteExpense}
-            className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white text-[#1E45E1] !border !border-[#1E45E1] font-semibold font-gilroy text-[14px] me-2"
-          >
-            Cancel
-          </Button>
+        <Modal.Footer className="!border-t-0 -mt-2.5">
+          <div className="flex justify-center gap-2 w-full">
 
-          <Button
-            disabled
-            onClick={ConfirmDeleteExpense}
-            className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-semibold !font-gilroy !text-[14px] disabled:opacity-50"
-          >
-            {/* Delete */} Coming Soon
-          </Button>
+            <Button
+              onClick={handleCloseForDeleteExpense}
+              className="flex justify-center text-center w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy font-semibold text-[14px]"
+            >
+              Cancel
+            </Button>
+
+            <Button
+              onClick={ConfirmDeleteExpense}
+              className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-semibold !font-gilroy text-[14px]"
+            >
+              Delete
+            </Button>
+
+          </div>
         </Modal.Footer>
 
       </Modal>

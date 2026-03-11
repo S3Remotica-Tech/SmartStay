@@ -191,15 +191,10 @@ export async function UpdateProfile(params) {
 
 // Owner Update password
 
-export async function UpdatePassword (datum) {
-  new Promise((resolve) => {
-  resolve({status: 200});
-  })
-//  return await AxiosConfigV2.put(``,datum, {
-//     data: datum
-//   })
+export async function UpdatePassword(datum) {
+  console.log("datum", datum)
+  return await AxiosConfigV2.post(`/v2/profile/reset-password`, datum);
 }
-
 
 
 
