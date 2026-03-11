@@ -44,7 +44,7 @@ function FrontPage() {
   }, []);
 
   let navigate = useNavigate();
- const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const handleSignIn = () => {
     navigate("/hostel-management-login");
@@ -128,7 +128,7 @@ function FrontPage() {
     setActiveSection("firstPage");
   };
 
-  
+
 
   return (
     <div className="relative">
@@ -246,12 +246,12 @@ function FrontPage() {
       {activeSection === "keyFeature" && (
         <Element name="keyFeature" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <FeaturesKey />
-           <LifeCycleMethod isFeatureWay={true}/>
-<HowItsWorking />
-           <RecurringInvoice />
-           <NativeBuilt />
-           <EfficiantOperationSystem />
-             <HostelTrial />
+          <LifeCycleMethod isFeatureWay={true} />
+          <HowItsWorking />
+          <RecurringInvoice />
+          <NativeBuilt />
+          <EfficiantOperationSystem />
+          <HostelTrial />
           {/* <KeyFeaturesNew />
                     <SmartStaySection />
           <Getanswer /> */}
@@ -308,34 +308,33 @@ function FrontPage() {
       </Element>
 
       <div
-      className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
-
-          <div
-        className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
-        transition-all duration-300
-        ${
-          showTooltip
-            ? "opacity-100 translate-x-0"
-            : "opacity-0 translate-x-2 pointer-events-none"
-        }`}
+        className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
       >
-        Request Demo
-      </div>
 
-      {/* Button */}
-      <div
-        className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
+        <div
+          className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
+        transition-all duration-300
+        ${showTooltip
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 translate-x-2 pointer-events-none"
+            }`}
+        >
+          Request Demo
+        </div>
+
+        {/* Button */}
+        <div
+          className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
         transition-transform duration-300
         ${showTooltip ? "scale-110" : "scale-100"}`}
-      >
-        <Send2 size="14" color="#FFFFFF" variant="Bold" />
+        >
+          <Send2 size="14" color="#FFFFFF" variant="Bold" />
+        </div>
+
       </div>
 
-    </div>
-  
     </div>
   );
 }

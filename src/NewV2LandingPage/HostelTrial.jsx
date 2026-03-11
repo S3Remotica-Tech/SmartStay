@@ -1,8 +1,21 @@
 import React, { useState } from "react";
-import { Add, Minus, ArrowRight } from "iconsax-react";
+import {  ArrowRight } from "iconsax-react";
 import Building from "../Assets/v2LandingImages/Building.svg";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 function HostelTrial() {
+
+let navigate = useNavigate();
+
+
+
+const handleSignUp = () => {
+    navigate("/hostel-management-signup");
+  };
+
   return (
       <div className="w-full bg-[#FFFFFF] py-[40px] md:py-[53px] px-[20px] md:px-[101px] font-tasa">
    <div className="w-full flex justify-center py-2 bg-[#00051B] rounded-xl">
@@ -18,7 +31,7 @@ function HostelTrial() {
                                 Request Demo <ArrowRight size="18" />
                             </button>
 
-                            <button className="bg-[#1E45E1] text-[#FFFFFF] flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#1736b6] font-dmsans">
+                            <button onClick={handleSignUp} className="bg-[#1E45E1] text-[#FFFFFF] flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#1736b6] font-dmsans">
                                 Signup for free Trial <ArrowRight size="18" />
                             </button>
                         </div>

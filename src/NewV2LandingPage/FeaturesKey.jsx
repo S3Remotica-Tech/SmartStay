@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ArrowRight } from "iconsax-react";
 import { BsStars } from "react-icons/bs";
 import LaptopMen from "../Assets/v2LandingImages/LaptopMen.svg";
@@ -12,6 +12,13 @@ import VerifyKYC from "../Assets/v2LandingImages/VerifyKYC.svg";
 
 
 function FeaturesKey() {
+
+
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className="px-6 md:px-12 lg:px-[120px] py-12 bg-white font-tasa">
@@ -52,13 +59,13 @@ function FeaturesKey() {
 
                 <div className="relative flex justify-center lg:justify-end min-h-[550px] p-0">
 
-<div className="absolute right-[-50px]     bottom-[-40px] bg-[#4F84D9] w-[550px] h-[500px] rounded-tl-3xl -rotate-[10deg] z-0"></div>
+                    <div className="absolute right-[-50px]     bottom-[-40px] bg-[#4F84D9] w-[550px] h-[500px] rounded-tl-3xl -rotate-[10deg] z-0"></div>
                     <img
                         src={LaptopMen}
                         alt="hero"
                         className=" object-contain absolute bottom-0 "
                     />
-                    
+
 
                     <div className="hidden md:block absolute top-80 left-0 animate-float">
                         <img src={VerifyKYC} alt="kyc" />
