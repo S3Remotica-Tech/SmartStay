@@ -35,6 +35,9 @@ const hostelId = state.login?.selectedHostel_Id;
 
 
   };
+
+console.log("recurringBills",recurringBills)
+
   // const handleCloseLongStay = () => {
   //   dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
   //   setShowLongStay(false)
@@ -193,7 +196,7 @@ const hostelId = state.login?.selectedHostel_Id;
                             type="checkbox"
                             checked={checked}
                             onChange={(e) => setChecked(e.target.checked)}
-                            // disabled
+                            disabled
                             className="sr-only peer"
                           />
 

@@ -1753,7 +1753,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
 
                             <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              {item.paymentMode}
+                              {item.bankAccount}
                             </td>
 
 
@@ -1821,7 +1821,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
 
                             <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              {item.paymentMode}
+                              {item.bankAccount}
                             </td>
 
 

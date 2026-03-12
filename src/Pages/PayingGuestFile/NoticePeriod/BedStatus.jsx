@@ -376,7 +376,7 @@ function NoticeBedStatusDetails({
                               {
                                 (
                                   matchedData[0]?.currentStatus === "Notice Period" ||
-                                  matchedData[0]?.currentStatus === "Settlement Generated"
+                                  matchedData[0]?.currentStatus !== "Settlement Generated"
                                 ) &&
                                 <>
                                   <div
