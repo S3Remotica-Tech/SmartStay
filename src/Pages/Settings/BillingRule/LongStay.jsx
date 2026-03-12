@@ -44,6 +44,7 @@ function LongStayRecurringModal() {
     );
 
     const handleChange = (method) => {
+         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         setBillingMethod(method);
     };
     const [payments, setPayments] = useState([
@@ -160,10 +161,10 @@ function LongStayRecurringModal() {
     //     setDueDays(e.target.value);
     // };
 
-    const handleReminderDaysChange = (selected) => {
-        setErrors({});
-        setReminderDays(selected);
-    };
+    // const handleReminderDaysChange = (selected) => {
+    //     setErrors({});
+    //     setReminderDays(selected);
+    // };
 
     const handleSave = () => {
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
@@ -188,7 +189,14 @@ function LongStayRecurringModal() {
 
 
 
-    // state?.Settings?.SettingsBillsGetRecurring.billStartDate
+    useEffect(() => {
+        if (state?.Settings?.SettingsBillsGetRecurring) {
+            setBillingDate(state?.Settings?.SettingsBillsGetRecurring?.billStartDate)
+        }
+
+    }, [state?.Settings?.SettingsBillsGetRecurring])
+
+
 
     const handleSaveChanges = () => {
         setErrors({});
@@ -298,6 +306,7 @@ function LongStayRecurringModal() {
 
 
     const handleNavigateBillingRule = (tabName) => {
+
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         const hostelId = state.login?.selectedHostel_Id;
         if (hostelId) {
@@ -338,7 +347,11 @@ function LongStayRecurringModal() {
         ? (gracePeriod + 1).toString().padStart(2, "0")
         : null;
 
-
+const endDayDate = billingDate
+  ? billingDate === 1
+    ? 28
+    : billingDate - 1
+  : null;
     return (
         <>
 
@@ -506,7 +519,7 @@ function LongStayRecurringModal() {
                             </label>
 
                             <div className="bg-gray-100 border border-gray-200 rounded-md px-3 py-2.5 min-h-[40px] text-sm text-gray-500">
-                                {/* {state?.Settings?.SettingsBillsGetRecurring.billStartDate ? `${billingDate.value} of next month` : "—"} */}
+                                {billingDate ? `${endDayDate.toString().padStart(2, "0")} of next month` : "—"}
                             </div>
                             {
                                 billingMethod === "MONTHLY" &&
