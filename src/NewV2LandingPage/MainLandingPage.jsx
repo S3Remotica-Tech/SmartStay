@@ -37,6 +37,7 @@ import FeaturesKey from './FeaturesKey'
 import HowItsWorking from "./HowItsWorking";
 import NativeBuilt from "./NativeBuilt";
 import EfficiantOperationSystem from "./EfficiantOperationSystem";
+import SmartstayDemo from "./SmartstayDemo";
 
 function FrontPage() {
   useEffect(() => {
@@ -260,14 +261,9 @@ function FrontPage() {
 
       {activeSection === "Pricing" && (
         <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-
           <PricingPlans />
           <ActiveCustomer />
           <WhyChooseWithFAQ />
-
-          {/* <SubscriptionPlan />
-          <SmartStaySection />
-          <Getanswer /> */}
         </Element>
       )}
 
@@ -303,6 +299,13 @@ function FrontPage() {
           <Refundpolicy />
         </Element>
       )}
+
+{activeSection === "demo" && (
+        <Element name="demo" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+          <SmartstayDemo />
+                </Element>
+      )}
+
       <Element name="footer">
         <Footers handleLinkName={handleSetActive} />
       </Element>

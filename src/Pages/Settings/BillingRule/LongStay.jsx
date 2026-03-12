@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ArrowLeft, ArchiveBook, MinusCirlce } from "iconsax-react";
+import { ArrowLeft, ArchiveBook, MinusCirlce, ArrowDown, ArrowDown2, ArrowUp2, CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from '../../../Components/ErrorMessage';
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+
+
 
 function LongStayRecurringModal() {
 
@@ -14,17 +16,36 @@ function LongStayRecurringModal() {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [billingDate, setBillingDate] = useState(null);
-    const [dueDate, setDueDate] = useState(null);
-    const [noticePeriod, setNoticePeriod] = useState(null);
+    // const [dueDate, setDueDate] = useState(null);
+    // const [noticePeriod, setNoticePeriod] = useState(null);
     const [errors, setErrors] = useState({});
     const [formLoading, setFormLoading] = useState(false)
     const [gracePeriod, setGracePeriod] = useState(null);
     const [dueDays, setDueDays] = useState("");
-    const [reminderDays, setReminderDays] = useState(null);
+    const [reminderDays, setReminderDays] = useState([]);
     const [lateFeeEnabled, setLateFeeEnabled] = useState(false);
     const [lateFeeType, setLateFeeType] = useState("flat");
     const [flatFeeAmount, setFlatFeeAmount] = useState(300);
+    const [billingMethod, setBillingMethod] = useState("MONTHLY");
+    const [openDayPicker, setOpenDayPicker] = useState(false);
+    const pickerRef = useRef(null);
+    const [openDuePicker, setOpenDuePicker] = useState(false);
+    const duePickerRef = useRef(null);
+    const daysDue = Array.from({ length: 30 }, (_, i) => i + 1);
+    const [openGracePicker, setOpenGracePicker] = useState(false);
+    const gracePickerRef = useRef(null);
+    const [openReminderPicker, setOpenReminderPicker] = useState(false);
+    const reminderPickerRef = useRef(null);
 
+
+    const reminderRange = Array.from(
+        { length: dueDays?.value || 0 },
+        (_, i) => i + 1
+    );
+
+    const handleChange = (method) => {
+        setBillingMethod(method);
+    };
     const [payments, setPayments] = useState([
         { fromDay: '', toDay: '', amountPerDay: '' },
     ]);
@@ -49,11 +70,9 @@ function LongStayRecurringModal() {
         setPayments(updatedPayments);
     };
 
+    const days = Array.from({ length: 28 }, (_, i) => i + 1);
 
-    const dayOptionsStartDate = Array.from({ length: 28 }, (_, i) => ({
-        value: (i + 1).toString().padStart(2, '0'),
-        label: (i + 1).toString().padStart(2, '0'),
-    }));
+
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
@@ -133,14 +152,16 @@ function LongStayRecurringModal() {
     };
 
     const handleGracePeriodChange = (selected) => {
+        setErrors({});
         setGracePeriod(selected);
     };
 
-    const handleDueDaysChange = (e) => {
-        setDueDays(e.target.value);
-    };
+    // const handleDueDaysChange = (e) => {
+    //     setDueDays(e.target.value);
+    // };
 
     const handleReminderDaysChange = (selected) => {
+        setErrors({});
         setReminderDays(selected);
     };
 
@@ -150,17 +171,33 @@ function LongStayRecurringModal() {
         if (!billingDate) {
             newErrors.billingDate = "Please select billing date of month";
         }
-        // if (!dueDate) {
-        //     newErrors.dueDate = "Please select due days";
-        // }
-        // if (!noticePeriod) {
-        //     newErrors.notice = "Please select notice period";
-        // }
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+            dispatch({
+                type: "SETTINGSADD_RECURRING",
+                payload: {
+                    hostelId: state?.login?.selectedHostel_Id || "",
+                    startDate: billingDate,
+                    calculationType: "fixed"
+                }
+            })
+            setFormLoading(true)
+        }
+    };
 
 
-        //     if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
-        //     newErrors.dueDate = "Due date cannot be before billing date";
-        // }
+
+    // state?.Settings?.SettingsBillsGetRecurring.billStartDate
+
+    const handleSaveChanges = () => {
+        setErrors({});
+        dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
+        const newErrors = {};
+
+        if (billingDate && dueDays && Number(dueDays?.value) < Number(billingDate)) {
+            newErrors.dueDate = "Due date cannot be before billing date";
+        }
 
         setErrors(newErrors);
 
@@ -169,14 +206,69 @@ function LongStayRecurringModal() {
                 type: "SETTINGSADD_RECURRING",
                 payload: {
                     hostelId: state?.login?.selectedHostel_Id || "",
-                    startDate: Number(billingDate?.value) || 0,
-                    dueDate: Number(dueDate?.value) || 0,
-                    noticeDays: Number(noticePeriod?.value) || 0,
+                    dueDate: Number(dueDays?.value),
+                    gracePeriodDays: Number(gracePeriod?.value),
+                    calculationType: "fixed"
                 }
             })
             setFormLoading(true)
         }
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+                setOpenDayPicker(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (duePickerRef.current && !duePickerRef.current.contains(event.target)) {
+                setOpenDuePicker(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (gracePickerRef.current && !gracePickerRef.current.contains(event.target)) {
+                setOpenGracePicker(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                reminderPickerRef.current &&
+                !reminderPickerRef.current.contains(event.target)
+            ) {
+                setOpenReminderPicker(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
 
 
 
@@ -217,6 +309,36 @@ function LongStayRecurringModal() {
     }
 
 
+    const toggleReminderDay = (day) => {
+        setReminderDays((prev) => {
+            const exists = prev.find((d) => d.value === day);
+
+            if (exists) {
+                return prev.filter((d) => d.value !== day);
+            }
+
+            return [
+                ...prev,
+                {
+                    value: day,
+                    label: day.toString().padStart(2, "0"),
+                },
+            ];
+        });
+    };
+
+
+    const startDay = "01";
+
+    const endDay = gracePeriod
+        ? gracePeriod.toString().padStart(2, "0")
+        : null;
+
+    const startFrom = gracePeriod
+        ? (gracePeriod + 1).toString().padStart(2, "0")
+        : null;
+
+
     return (
         <>
 
@@ -233,6 +355,80 @@ function LongStayRecurringModal() {
                 </div>
             </div>
             <div className="bg-[#FAFAFA] h-fit p-3 font-gilroy">
+
+
+                <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy mb-3">
+
+
+                    <h2 className="text-lg font-semibold text-gray-800 font-gilroy ">
+                        Billing Method
+                    </h2>
+
+                    <label className="text-sm text-gray-500">
+                        Choose how rent invoices are generated for tenants.
+                    </label>
+
+
+                    <div className="flex gap-4 my-2">
+
+
+                        <div onClick={() => handleChange("MONTHLY")}
+                            className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full cursor-pointer transition
+          ${billingMethod === "MONTHLY"
+                                    ? "border-1 border-[#88A0FF] bg-[#AEBEFF4D]"
+                                    : "border-gray-200 bg-white"
+                                }`}
+                        >
+                            <input
+                                type="radio"
+                                name="billingMethod"
+                                value="MONTHLY"
+                                checked={billingMethod === "MONTHLY"}
+
+                                className="mt-1 accent-[#4E61F6]  cursor-pointer"
+                            />
+
+                            <div>
+                                <label className="text-sm font-medium text-gray-800 cursor-pointer ">
+                                    Monthly Recurring
+                                </label>
+                                <label className="text-xs text-gray-500 cursor-pointer ">
+                                    It's automatically calculated based on bill start date
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div onClick={() => handleChange("JOINING")}
+                            className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full cursor-pointer transition
+          ${billingMethod === "JOINING"
+                                    ? "border-1 border-[#88A0FF] bg-[#AEBEFF4D]"
+                                    : "border-gray-200 bg-white"
+                                }`}
+                        >
+                            <input
+                                type="radio"
+                                name="billingMethod"
+                                value="JOINING"
+                                checked={billingMethod === "JOINING"}
+
+                                className="mt-1 accent-[#4E61F6]  cursor-pointer"
+                            />
+
+                            <div>
+                                <label className="text-sm font-medium text-gray-800 cursor-pointer ">
+                                    Tenant Joining Based
+                                </label>
+                                <label className="text-xs text-gray-500 cursor-pointer whitespace-nowrap">
+                                    Invoices are generated based on each tenant's join date.
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
 
 
@@ -247,26 +443,55 @@ function LongStayRecurringModal() {
 
                     <div className="border-t border-[#E5E5E5] my-3"></div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+                        <div className="relative" ref={pickerRef} >
                             <label className="block text-sm text-gray-700 font-gilroy font-medium mb-1">
                                 Billing Start Date (Day of Month)
                             </label>
 
-                            <Select
-                                options={dayOptionsStartDate}
-                                styles={selectStyle}
-                                placeholder="Select Date"
-                                value={billingDate}
-                                onChange={(selected) => {
-                                    setBillingDate(selected);
-                                    setErrors((prev) => ({ ...prev, billingDate: "" }));
-                                    dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
-                                }}
-                            />
+                            <div
+                                onClick={() => billingMethod !== "JOINING" && setOpenDayPicker(!openDayPicker)}
+                                className={`w-full border border-gray-300 min-h-[40px] rounded-md px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer 
+    ${billingMethod === "JOINING" ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
+                            >
+                                <span className={billingDate ? "text-gray-900" : "text-gray-400"}>
+                                    {billingDate ? billingDate.toString().padStart(2, "0") : "Select Date"}
+                                </span>
 
-                            <p className="text-xs text-gray-400 mt-1">
-                                Select a day between 1-30
-                            </p>
+                                <span className="text-gray-400">{openDayPicker ? <ArrowUp2 size="18" color="#1E45E1" /> : <ArrowDown2 size="18" color="#1E45E1" />}</span>
+                            </div>
+
+
+                            {openDayPicker && (
+                                <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
+                                    <div className="grid grid-cols-5 gap-3">
+                                        {days.map((day) => (
+                                            <button
+                                                key={day}
+                                                type="button"
+                                                onClick={() => {
+                                                    setBillingDate(day);
+                                                    setOpenDayPicker(false);
+                                                    setErrors((prev) => ({ ...prev, billingDate: "" }));
+                                                    dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                                                }}
+                                                className={`w-10 h-10 rounded-full text-xs flex items-center justify-center
+            ${billingDate === day
+                                                        ? "bg-blue-600 text-white"
+                                                        : "text-gray-700 hover:bg-gray-200"
+                                                    }`}
+                                            >
+                                                {day.toString().padStart(2, "0")}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {billingMethod === "MONTHLY" && (
+                                <p className="text-xs text-gray-400 mt-1">
+                                    Select a day between 1–28
+                                </p>
+                            )}
 
                             {errors.billingDate && (
                                 <ErrorMessage message={errors.billingDate} type="error" />
@@ -276,16 +501,19 @@ function LongStayRecurringModal() {
 
                         <div>
                             <label className="block text-sm text-gray-700 font-gilroy font-medium mb-1">
-                                Billing End Date (Auto-calculated)
+                                Billing End Date {
+                                    billingMethod === "MONTHLY" && <span>(Auto-calculated)</span>}
                             </label>
 
-                            <div className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-500">
-                                {billingDate ? `${billingDate.value} of next month` : "—"}
+                            <div className="bg-gray-100 border border-gray-200 rounded-md px-3 py-2.5 min-h-[40px] text-sm text-gray-500">
+                                {/* {state?.Settings?.SettingsBillsGetRecurring.billStartDate ? `${billingDate.value} of next month` : "—"} */}
                             </div>
-
-                            <p className="text-xs text-gray-400 mt-1">
-                                Automatically calculated based on start date
-                            </p>
+                            {
+                                billingMethod === "MONTHLY" &&
+                                <p className="text-xs text-gray-400 mt-1">
+                                    Automatically calculated based on start date
+                                </p>
+                            }
                         </div>
 
                     </div>
@@ -296,19 +524,29 @@ function LongStayRecurringModal() {
                             <ErrorMessage message={state.Settings.billingRuleError} type="error" />
                         </div>
                     )}
+                    {
+                        billingMethod === "JOINING" &&
+                        <div className="mt-4 flex items-center gap-2 bg-[#FFF6E6] border border-[#FFF6E6] text-[#795216] text-xs px-3 py-2 rounded-md ">
+                            <span ><AiOutlineExclamationCircle color="#795216" size="16" /></span>
+                            This method doesn’t allow to edit, cause each tenant will have a personal billing cycle based on their joining date.
+                        </div>
+                    }
 
-                    {/* Save Button */}
-                    <div className="flex justify-end mt-6">
-                        <button
-                            onClick={handleSave}
-                            className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
-                        >
-                            <ArchiveBook
-                                size="16"
-                                color="#FFFFFF"
-                            />  Save Configuration
-                        </button>
-                    </div>
+                    {
+                        billingMethod === "MONTHLY" &&
+
+                        <div className="flex justify-end mt-6">
+                            <button
+                                onClick={handleSave}
+                                className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
+                            >
+                                <ArchiveBook
+                                    size="16"
+                                    color="#FFFFFF"
+                                />  Save Configuration
+                            </button>
+                        </div>
+                    }
 
                 </div>
                 {formLoading && (
@@ -322,38 +560,83 @@ function LongStayRecurringModal() {
                 <div className="space-y-6 mt-4">
 
 
-                    <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
+                    {billingMethod === "MONTHLY" && (
+                        <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
 
-                        <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
-                            Full Rent Grace Period
-                        </h2>
+                            <h2 className="text-lg font-semibold text-[#1F1F1F]">
+                                Full Rent Grace Period
+                            </h2>
 
-                        <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
-                            Tenants joining within the first few days of the billing cycle will be
-                            charged the full month rent. After this period, rent will be calculated
-                            based on stay duration.
-                        </label>
+                            <label className="text-sm text-[#616161] mt-1 mb-3 font-medium block">
+                                Tenants joining within the first few days of the billing cycle will be
+                                charged the full month rent. After this period, rent will be calculated
+                                based on stay duration.
+                            </label>
 
-                        <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
-                            Grace Period (Days)
-                        </label>
+                            <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                                Grace Period (Days)
+                            </label>
 
-                        <Select
-                            options={dayOptions}
-                            value={gracePeriod}
-                            styles={selectStyle}
-                            placeholder="Select Grace Period"
-                            onChange={handleGracePeriodChange}
-                        />
+                            <div className="relative max-w-lg" ref={gracePickerRef}>
 
-                        {/* Info Box */}
-                        <div className="mt-4 flex items-center gap-2 bg-[#D0DFFF] border border-[#D0DFFF] text-[#1E45E1] text-sm px-3 py-2 rounded-md">
-                            <span ><AiOutlineExclamationCircle color="#1E45E1" size="16" /></span>
-                            Full rent will apply if tenant joins from 4 to 11 of the month. Prorated rent applies from 12 onwards.
+
+                                <div
+                                    onClick={() => setOpenGracePicker(!openGracePicker)}
+                                    className="w-full border border-gray-300 min-h-[40px] rounded-md px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
+                                >
+                                    <span className={gracePeriod ? "text-gray-900" : "text-gray-400"}>
+                                        {gracePeriod ? gracePeriod.toString().padStart(2, "0") : "Select Grace Period"}
+                                    </span>
+
+                                    <span>
+                                        {openGracePicker
+                                            ? <ArrowUp2 size="18" color="#1E45E1" />
+                                            : <ArrowDown2 size="18" color="#1E45E1" />}
+                                    </span>
+                                </div>
+
+
+                                {openGracePicker && (
+                                    <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
+                                        <div className="grid grid-cols-5 gap-1">
+                                            {days.map((day) => (
+                                                <button
+                                                    key={day}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setGracePeriod(day);
+                                                        setOpenGracePicker(false);
+                                                    }}
+                                                    className={`w-10 h-10 rounded-full text-xs flex items-center justify-center
+                ${gracePeriod === day
+                                                            ? "bg-blue-600 text-white"
+                                                            : "text-gray-700 hover:bg-gray-200"
+                                                        }`}
+                                                >
+                                                    {day.toString().padStart(2, "0")}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                            </div>
+
+
+                            {gracePeriod && (
+                                <div className="mt-4 flex items-center gap-2 bg-[#D0DFFF] border border-[#D0DFFF] text-[#1E45E1] text-xs px-3 py-2 rounded-md">
+                                    <span>
+                                        <AiOutlineExclamationCircle color="#1E45E1" size="16" />
+                                    </span>
+
+                                    Full rent will apply if tenant joins from{" "}
+                                    <b>{startDay}</b> to <b>{endDay}</b> of the month.
+                                    Prorated rent applies from <b>{startFrom}</b> onwards.
+                                </div>
+                            )}
+
                         </div>
-
-                    </div>
-
+                    )}
 
 
                     <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
@@ -369,51 +652,157 @@ function LongStayRecurringModal() {
                         <div className="grid grid-cols-2 gap-6 items-start">
 
 
-                            <div>
+                            <div className="relative" ref={duePickerRef}>
                                 <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
                                     Due Within (Days)
                                 </label>
 
 
-                                <Select
-                                    options={dayOptions}
-                                    styles={selectStyle}
-                                    placeholder="Select Due Days"
-                                    value={dueDays}
-                                    onChange={(selected) => {
-                                        setDueDays(selected);
-                                        setErrors((prev) => ({ ...prev, dueDate: "" }));
-                                        dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
-                                    }}
-                                />
+                                <div
+                                    onClick={() => setOpenDuePicker(!openDuePicker)}
+                                    className="w-full border border-gray-300 rounded-md min-h-[40px] px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
+                                >
+                                    <span className={dueDays ? "text-gray-900" : "text-gray-400"}>
+                                        {dueDays ? dueDays.label : "Select Due Days"}
+                                    </span>
 
-
-                                <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border-1 border-[#FFE0CC] text-[#C2410C] text-sm px-3 py-2 rounded-md">
-                                    <span ><AiOutlineExclamationCircle color="#C2410C" size="16" /></span>  Overdue starts from 10 of the month
+                                    <span className="text-gray-400">{openDuePicker ? <ArrowUp2 size="18" color="#1E45E1" /> : <ArrowDown2 size="18" color="#1E45E1" />}</span>
                                 </div>
 
+
+                                {openDuePicker && (
+                                    <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
+                                        <div className="grid grid-cols-5 gap-3">
+                                            {daysDue?.map((day) => (
+                                                <button
+                                                    key={day}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setDueDays({
+                                                            value: day,
+                                                            label: day.toString().padStart(2, "0"),
+                                                        });
+                                                        setReminderDays([])
+                                                        setErrors((prev) => ({ ...prev, dueDate: "" }));
+                                                        dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                                                        setOpenDuePicker(false);
+                                                    }}
+                                                    className={`w-10 h-10 rounded-full text-xs flex items-center justify-center
+            ${dueDays?.value === day
+                                                            ? "bg-blue-600 text-white"
+                                                            : "text-gray-700 hover:bg-gray-200"
+                                                        }`}
+                                                >
+                                                    {day.toString().padStart(2, "0")}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {errors.dueDate && (
+                                    <ErrorMessage message={errors.dueDate} type="error" />
+                                )}
+
+                                {dueDays?.value && (
+                                    <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border border-[#FFE0CC] text-[#C2410C] text-xs px-3 py-2 rounded-md">
+                                        <span>
+                                            <AiOutlineExclamationCircle color="#C2410C" size="16" />
+                                        </span>
+                                        Overdue starts from {dueDays.value} of the month
+                                    </div>
+                                )}
                             </div>
 
-
-
-                            <div>
+                            <div className="relative" ref={reminderPickerRef}>
 
                                 <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
                                     Send Reminder (Days Before Due)
                                 </label>
 
-                                <Select isMulti
-                                    options={[
-                                        { value: 1, label: "01" },
-                                        { value: 3, label: "03" },
-                                        { value: 5, label: "05" }
-                                    ]}
-                                    value={reminderDays}
-                                    styles={selectStyle}
-                                    onChange={handleReminderDaysChange}
-                                />
+                                <div
+                                    onClick={() => dueDays?.value && setOpenReminderPicker(!openReminderPicker)}
+                                    className={`w-full border border-gray-300 rounded-md min-h-[40px] px-3 py-2.5 text-sm flex justify-between items-center
+${dueDays?.value ? "cursor-pointer bg-white" : "bg-gray-100 cursor-not-allowed"}
+`}
+                                >
 
-                                <label className="text-xs text-[#616161] mt-2 font-medium">
+                                    <div className="flex flex-wrap gap-2">
+                                        {reminderDays.length === 0 && (
+                                            <span className="text-gray-400 text-sm">Select Reminder Days</span>
+                                        )}
+
+                                        {reminderDays.map((day) => (
+                                            <div
+                                                key={day.value}
+                                                className="flex items-center gap-1 bg-[#EEF2FF] text-[#1E45E1] text-xs px-2 py-1 rounded-md"
+                                            >
+                                                {day.label}
+
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+
+                                                        setReminderDays((prev) =>
+                                                            prev.filter((d) => d.value !== day.value)
+                                                        );
+                                                    }}
+                                                    className="text-red-500"
+                                                >
+                                                    <CloseCircle size="14" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <span>
+                                        {openReminderPicker
+                                            ? <ArrowUp2 size="18" color="#1E45E1" />
+                                            : <ArrowDown2 size="18" color="#1E45E1" />}
+                                    </span>
+
+                                </div>
+
+
+                                {openReminderPicker && (
+
+                                    <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
+
+                                        <div className="grid grid-cols-5 gap-3">
+
+                                            {reminderRange.map((day) => {
+
+                                                const selected = reminderDays.some((d) => d.value === day);
+
+                                                return (
+
+                                                    <button
+                                                        key={day}
+                                                        type="button"
+                                                        onClick={() => toggleReminderDay(day)}
+                                                        className={`w-10 h-10 rounded-full text-xs flex items-center justify-center
+${selected
+                                                                ? "bg-blue-600 text-white"
+                                                                : "text-gray-700 hover:bg-gray-200"
+                                                            }`}
+                                                    >
+
+                                                        {day.toString().padStart(2, "0")}
+
+                                                    </button>
+
+                                                );
+
+                                            })}
+
+                                        </div>
+
+                                    </div>
+
+                                )}
+
+                                <label className="text-xs text-[#616161] mt-2 font-medium block">
                                     Automatic payment reminder will be sent before due date
                                 </label>
 
@@ -828,10 +1217,10 @@ function LongStayRecurringModal() {
 
                             className="flex items-center gap-2 bg-[#FFFFFF] hover:bg-gray-300 border-gray-50 border text-black text-sm font-gilroy px-5 py-2.5 rounded-lg shadow"
                         >
-                             Discard
+                            Discard
                         </button>
 
-                        <button
+                        <button onClick={handleSaveChanges}
                             className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
                         >
                             <ArchiveBook

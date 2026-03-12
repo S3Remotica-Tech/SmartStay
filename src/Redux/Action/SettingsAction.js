@@ -563,6 +563,8 @@ export async function SettingsAddRecurring(reccurring) {
   });
 }
 
+
+
 export function GetBillsFrequncyTypes() {
   new Promise((resolve) => {
   resolve({status: 200});
