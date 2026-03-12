@@ -349,7 +349,7 @@ function LongStayRecurringModal() {
 
 const endDayDate = billingDate
   ? billingDate === 1
-    ? 28
+    ? 30
     : billingDate - 1
   : null;
     return (
