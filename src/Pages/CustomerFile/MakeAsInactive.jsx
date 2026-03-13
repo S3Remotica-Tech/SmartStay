@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Button, Form, Image } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import Select from "react-select";
 
 
 
@@ -31,8 +31,8 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
     const [inActiveDate, setInActiveDate] = useState(null)
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
-
-
+    const [modeOfPayment, setModeOfPayment] = useState("");
+    const [paymentError, setPaymentError] = useState("");
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
@@ -40,13 +40,34 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
     }
 
 
+    const handleModeOfPaymentChange = (selectedOption) => {
+        if (!selectedOption) return;
+        setModeOfPayment(selectedOption);
+        setPaymentError("")
+
+    };
+
+
 
 
     const SubmitInActiveForm = () => {
+        let hasError = false;
+
         if (!inActiveDate) {
-            setIsACtiveDateError(" Please Select Inactive Date");
-            return;
+            setIsACtiveDateError("Please Select Inactive Date");
+            hasError = true;
+        } else {
+            setIsACtiveDateError("");
         }
+
+        if (!modeOfPayment) {
+            setPaymentError("Please Select Mode Of Transaction");
+            hasError = true;
+        } else {
+            setPaymentError("");
+        }
+
+        if (hasError) return;
 
         const incrementDateAndFormat = (date) => {
             const newDate = new Date(date);
@@ -70,7 +91,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                     cancelDate: formattedDate,
                     reason: inActiveComments,
                     customerId: inActiveDetails?.customerId || inActiveDetails?.tenetId,
-                    bankId: state.UsersList?.initializeCancelBookingList?.listBanks[0].bankId
+                    bankId: modeOfPayment
                 },
             });
             setFormLoading(true);
@@ -92,6 +113,16 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
         }
 
     }, [state.Booking.bookingMakeAsError, state.createAccount?.networkError])
+
+
+
+
+    const paymentOptions = Array.isArray(state.UsersList?.initializeCancelBookingList?.listBanks)
+        ? state.UsersList?.initializeCancelBookingList?.listBanks?.map((item) => ({
+            value: String(item.bankId),
+            label: `${item.holderName} - ${item.bankName || ""}`,
+        }))
+        : [];
 
 
     useEffect(() => {
@@ -224,8 +255,86 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                         <ErrorMessage message={isActiveDateError} type="error" />
                     )}
                 </div>
+                <div className="mb-2">
+                    <Form.Group
 
-                <div className="mb-3">
+                        controlId="exampleForm.ControlInput1"
+                    >
+                        <Form.Label className="text-sm font-medium text-[#222222] font-gilroy mt-1">
+                            Mode Of Transaction <span className="text-red-500 text-xl">*</span>
+                        </Form.Label>
+
+                        <Select
+                            options={paymentOptions}
+                            onChange={(selectedOption) =>
+                                handleModeOfPaymentChange(selectedOption?.value)
+                            }
+                            value={
+                                modeOfPayment
+                                    ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                                    : null
+                            }
+                            placeholder="Select Payment"
+
+                            noOptionsMessage={() => "No mode available"}
+                            styles={{
+                                control: (base) => ({
+                                    ...base,
+                                    fontSize: 16,
+                                    color: "rgba(75, 75, 75, 1)",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: modeOfPayment ? 600 : 500,
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px",
+                                    boxShadow: "none",
+                                    height: 48,
+                                    cursor: "pointer",
+                                }),
+                                menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                    fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "120px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                    fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                    cursor: "pointer",
+                                }),
+                                option: (base, state) => ({
+                                    ...base,
+                                    cursor: "pointer",
+                                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                                    color: "#000",
+                                    fontFamily: "Gilroy",
+                                }),
+                                indicatorSeparator: () => ({
+                                    display: "none",
+                                }),
+                            }}
+                        />
+
+                    </Form.Group>
+                    {paymentError && (
+                        <ErrorMessage message={paymentError} type="error" />
+
+                    )}
+                </div>
+
+                <div className="mb-2">
                     <Form.Group>
                         <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
                             Reason (Comments)
@@ -251,6 +360,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                         />
                     </div>
                 )}
+
 
 
                 <Modal.Footer className="border-0 p-0">
