@@ -306,11 +306,11 @@ function BedDetailsMap({ room, propsValue,
     };
 
     const handleclickBedForChangeBed = (bed) => {
- if (selectedBed?.bedId === bed.id) {
-        setSelectedBed(null);
-        setChangedBedClicked(null);
-        return;
-    }
+        if (selectedBed?.bedId === bed.id) {
+            setSelectedBed(null);
+            setChangedBedClicked(null);
+            return;
+        }
 
         setSelectedBed({
             bedId: bed.id,
@@ -723,13 +723,12 @@ function BedDetailsMap({ room, propsValue,
                 />
             }
 
-            <div className="flex flex-wrap justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-y-3">
-
+           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
                 {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (
                     filteredBeds.map((bed) => (
                         <div
                             key={`${bed.roomId}-${bed.id}`}
-                            className={`w-1/4 flex justify-center px-1 ${propsValue.addPermissionError ? 'disabled' : ''}`}
+                            className={`w-full flex justify-center px-1 ${propsValue.addPermissionError ? 'disabled' : ''}`}
                         >
                             <div
                                 className={`flex flex-col items-center justify-start w-20 ${propsValue.addPermissionError ? 'cursor-not-allowed' : 'cursor-pointer'}`}
@@ -815,8 +814,9 @@ function BedDetailsMap({ room, propsValue,
                         </div>
                     ))
                 ) : (
-                    <div className="flex justify-center w-full">
-                        <label className="text-xs font-gilroy text-neutral-600">
+
+                    <div className="col-span-full flex flex-col items-center justify-center py-2">
+                        <label className="text-xs font-gilroy text-neutral-600 whitespace-nowrap">
                             No beds available
                         </label>
                     </div>
@@ -824,20 +824,21 @@ function BedDetailsMap({ room, propsValue,
 
                 {!state.login.isTrigger && (
                     <div
-                        className={`w-1/4 flex justify-center ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        className={`w-full flex justify-center px-1 ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+
                         onClick={() => {
                             if (canWritePayingGuests) {
                                 handleAddBed(propsValue, room.id);
                             }
                         }}
                     >
-                        <div className="flex flex-col items-center w-full">
+                        <div className="flex flex-col items-center justify-center  w-20">
                             <FaSquarePlus
                                 className={`${propsValue.addPermissionError ? 'text-gray-400' : 'text-blue-600'} h-11 w-9`}
                             />
 
                             <div
-                                className={`pt-2 text-xs font-semibold font-montserrat ${!canWritePayingGuests ? 'text-gray-400' : 'text-blue-600'}`}
+                                className={`pt-2 text-[10px] font-semibold font-montserrat ${!canWritePayingGuests ? 'text-gray-400' : 'text-blue-600'}`}
                             >
                                 Add bed
                             </div>

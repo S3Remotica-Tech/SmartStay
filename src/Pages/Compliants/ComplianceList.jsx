@@ -490,10 +490,10 @@ const ComplianceList = (props) => {
         </div>
 
       ) : (
-        <div>
-            <div className="bg-wh border border-gray-200 rounded-[16px] h-[330px] md:h-[400px] lg:h-[400px] xl:h-[330px] 2xl:h-[330px] 3xl:h-full p-2 font-gilroy ">
-            <div className="p-3">
-              <div className="flex justify-between items-center flex-wrap">
+        <div  className="h-full">
+         <div className="bg-white border border-gray-200 rounded-2xl p-3 md:p-4 font-gilroy w-full h-full min-h-[320px] flex flex-col justify-between">
+          <div className="p-3 flex flex-col h-full">
+              <div className="flex justify-between items-start gap-3">
                 <div className="flex flex-wrap gap-2 items-start">
 
                   <div>
@@ -507,7 +507,7 @@ const ComplianceList = (props) => {
                             : props?.complaints?.customerProfile
                         }
                         roundedCircle
-                        className="h-[60px] w-[60px] object-cover"
+                        className="h-12 w-12 md:h-14 md:w-14 object-cover"
                       />
                       :
                       <div
@@ -527,8 +527,7 @@ const ComplianceList = (props) => {
                         {props.complaints && props?.complaints?.customerName}
                       </label>
 
-
-                      <div className="flex flex-wrap gap-2 ml-1">
+                      <div className="flex flex-wrap gap-2 mt-1">
 
                         <div className="flex items-center bg-[#FFE0D9] px-2.5 h-7 rounded-full text-gray-900 text-base font-medium font-gilroy text-sm whitespace-nowrap"
 
@@ -705,58 +704,57 @@ const ComplianceList = (props) => {
               </div>
               <hr className="border border-gray-200" />
 
-              <div className="flex flex-wrap justify-between items-center mb-3 ">
-                <div className="mb-2">
-                  <div className="mb-1">
-                    <label className="text-gray-400 text-xs font-medium font-gilroy">
-                      Request ID
-                    </label>
-                  </div>
-                  <div>
-                    <label className="text-gray-900 text-base font-semibold font-gilroy">
-                      {props.complaints?.complaintId}
-                    </label>
-                  </div>
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
+
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Request ID
+                  </span>
+
+                  <span className="text-gray-900 text-sm font-semibold">
+                    {props.complaints?.complaintId}
+                  </span>
                 </div>
 
-                <div className="mb-2">
-                  <div className="mb-1">
-                    <label className="text-gray-400 text-xs font-medium font-gilroy">
-                      Complaint Date
-                    </label>
-                  </div>
-                  <div>
-                    <label className="text-gray-900 text-base font-semibold font-gilroy">
-                      {props.complaints?.complaintDate}
-                    </label>
-                  </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Complaint Date
+                  </span>
+
+                  <span className="text-gray-900 text-sm font-semibold">
+                    {props.complaints?.complaintDate}
+                  </span>
                 </div>
 
-                <div className="mb-1">
-                  <div className="mb-1">
-                    <label className="text-gray-400 text-xs font-medium font-gilroy">
-                      Assigned To
-                    </label>
-                  </div>
-                  <div>
-                    {props.complaints?.assigneeName ? (
-                      <label className="text-gray-900 text-base font-semibold font-gilroy">
-                        {props.complaints?.assigneeName}
-                      </label>
-                    ) : (
-                      <span
-                        className={`text-base font-semibold cursor-pointer ${!canWriteComplaints ? 'text-gray-300' : 'text-blue-600'
-                          } font-gilroy`}
-                        onClick={() => (canWriteComplaints ? handleAssignOpenClose(props.complaints) : null)}
-                      >
-                        + Assign
-                      </span>
-                    )}
-                  </div>
+                <div className="flex flex-col col-span-2">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Assigned To
+                  </span>
+
+                  {props.complaints?.assigneeName ? (
+                    <span className="text-gray-900 text-sm font-semibold truncate">
+                      {props.complaints?.assigneeName}
+                    </span>
+                  ) : (
+                    <span
+                      className={`text-sm font-semibold cursor-pointer ${!canWriteComplaints
+                          ? "text-gray-300"
+                          : "text-blue-600 hover:underline"
+                        }`}
+                      onClick={() =>
+                        canWriteComplaints
+                          ? handleAssignOpenClose(props.complaints)
+                          : null
+                      }
+                    >
+                      + Assign
+                    </span>
+                  )}
                 </div>
+
               </div>
 
-              <div className="flex justify-between">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="mb-1">
                     <label className="text-gray-400 text-xs font-medium font-gilroy">
@@ -766,7 +764,7 @@ const ComplianceList = (props) => {
 
                   <div>
                     <label
-                      className="text-gray-900 text-base font-semibold font-gilroy block"
+                      className="text-gray-900 text-sm font-semibold font-gilroy block truncate"
                       title={props.complaints?.complaintTypeName}
                     >
                       {props.complaints?.complaintTypeName}
@@ -791,7 +789,7 @@ const ComplianceList = (props) => {
 
                   <div>
                     <label
-                      className={`text-sm font-gilroy ${props.complaints?.status?.toUpperCase() === "1"
+                      className={`!text-sm font-gilroy ${props.complaints?.status?.toUpperCase() === "1"
                         ? "text-green-600"
                         : "text-orange-500"
                         }`}
@@ -804,8 +802,8 @@ const ComplianceList = (props) => {
 
 
               <hr className="!border !border-gray-400" />
-              <div className="flex justify-between items-center min-h-[32px]" >
-                <div className="flex items-center">
+              <div className="flex flex-wrap md:flex-nowrap justify-between items-center gap-3 mt-auto">
+               <div className="flex items-center">
                   {props.complaints?.assigneeName === "" || props.complaints?.assigneeName === null ? (
                     <>
                       <img
@@ -839,7 +837,8 @@ const ComplianceList = (props) => {
 
                 <div
                   onClick={() => canWriteComplaints ? handleIconClick(props.complaints) : ''}
-                  className="border border-[#DCDCDC] rounded-full px-2.5 py-1.5 cursor-pointer flex items-center justify-center"
+                  // className="border border-[#DCDCDC] rounded-full px-2.5 py-1.5 cursor-pointer flex items-center justify-center"
+                  className="border border-[#DCDCDC] rounded-full px-3 py-1.5 flex items-center gap-1 cursor-pointer hover:bg-gray-100"
                 >
                   <img
                     src={CommentIcon}
