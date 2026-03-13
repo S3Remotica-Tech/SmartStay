@@ -3530,9 +3530,9 @@ function UserListRoomDetail(props) {
                         ) : (
                           <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700">
                             <p>No Contact Details are there!</p>
-                            <button
+                            <button disabled
                               type="button"
-                              disabled={!canWriteTenant}
+                              // disabled={!canWriteTenant}
                               onClick={handleAdditionalForm}
                               className="mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
                             >

@@ -246,6 +246,7 @@ if(!token){
               <Route path="/pg-software-contact" element={<MainLandingPage />} />
               <Route path="/privacy-policy" element={<MainLandingPage />} />
               <Route path="/refund_policy" element={<MainLandingPage />} />
+              <Route path="/demo" element={<MainLandingPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
 

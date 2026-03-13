@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 // import "./Homepage.css"
-import { ArrowRight, Send2 } from "iconsax-react";
+import { ArrowRight } from "iconsax-react";
 import BgImage from "../Assets/v2LandingImages/Landing_Background_Image.svg";
 import Dashboard from "../Assets/v2LandingImages/Dashboard.svg";
 import { BsStars } from "react-icons/bs";
@@ -21,8 +21,8 @@ const HomePage = () => {
   }, []);
 
 
-  const handleSignIn = () => {
-    navigate("/hostel-management-login");
+  const handleNavigateDemo = () => {
+    navigate("/demo");
   };
 
   const handleSignUp = () => {
@@ -94,7 +94,7 @@ const HomePage = () => {
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
 
-              <button className="font-dmsans flex items-center gap-2 px-6 py-2.5 border-1 border-[#515151] rounded-lg text-[#515151] font-medium hover:bg-gray-100 transition">
+              <button onClick={handleNavigateDemo} className="font-dmsans flex items-center gap-2 px-6 py-2.5 border-1 border-[#515151] rounded-lg text-[#515151] font-medium hover:bg-gray-100 transition">
                 Request Demo
                 <ArrowRight size="18" />
               </button>

@@ -1110,12 +1110,12 @@ function UserAdditionalContact(props) {
                       Cancel
                     </Button>
 
-                    <Button
+                    <Button disabled
                       onClick={handleSubmitContact}
-                      className="w-full mt-1 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy !px-[40px] py-2"
+                      className="w-full mt-1 !whitespace-nowrap !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy !px-[40px] py-2"
 
                     >
-                      Add
+                     Coming Soon
                     </Button>
                   </div>
                 </Modal.Footer>

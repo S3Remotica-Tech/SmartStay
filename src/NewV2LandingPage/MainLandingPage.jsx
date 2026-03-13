@@ -32,17 +32,21 @@ import PricingPlans from "./PricingPlans";
 import ActiveCustomer from './ActiveCustomer';
 import HostelTrial from './HostelTrial';
 import WhyChooseWithFAQ from './WhyChooseWithFAQ';
-import { Send2 } from "iconsax-react";
+import { CloseCircle, Send2 } from "iconsax-react";
 import FeaturesKey from './FeaturesKey'
 import HowItsWorking from "./HowItsWorking";
 import NativeBuilt from "./NativeBuilt";
 import EfficiantOperationSystem from "./EfficiantOperationSystem";
 import SmartstayDemo from "./SmartstayDemo";
+import { ArrowRight, Star1 } from "iconsax-react";
 
 function FrontPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [showPromoPopup, setShowPromoPopup] = useState(false);
+
 
   let navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
@@ -58,7 +62,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-
+    setShowPromoPopup(false)
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
@@ -75,6 +79,9 @@ function FrontPage() {
         break;
       case "refund_policy":
         navigate("/refund_policy");
+        break;
+      case "demo":
+        navigate("/demo");
         break;
       case "firstPage":
         navigate("/");
@@ -107,12 +114,52 @@ function FrontPage() {
     else if (path === "/refund_policy") {
       setActiveSection("refund_policy");
       scroll.scrollTo(document.getElementById("refund_policy")?.offsetTop - 70 || 0);
+    } else if (path === "/demo") {
+      setActiveSection("demo");
+      scroll.scrollTo(document.getElementById("demo")?.offsetTop - 70 || 0);
     }
     else {
       setActiveSection("firstPage");
       scroll.scrollTo(0);
     }
   }, [location.pathname]);
+
+  useEffect(() => {
+    let idleTimer;
+
+    const resetTimer = () => {
+      clearTimeout(idleTimer);
+
+      idleTimer = setTimeout(() => {
+        setShowPromoPopup(true);
+      }, 10000);
+    };
+
+    const events = ["mousemove", "keydown", "scroll", "click"];
+
+    events.forEach((event) =>
+      window.addEventListener(event, resetTimer)
+    );
+
+    resetTimer();
+
+    return () => {
+      clearTimeout(idleTimer);
+      events.forEach((event) =>
+        window.removeEventListener(event, resetTimer)
+      );
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
+
 
 
   const linkStyle = (isActive) => ({
@@ -235,12 +282,7 @@ function FrontPage() {
           <MobileApp />
           <HostelTrial />
           <FAQSection />
-          {/* <Startup />
-          <StatsSection />
-          <RoomManagement />
-          <SmartStaySection />
-          <TestimonialSlider />
-            <Getanswer /> */}
+          
         </Element>
       )}
 
@@ -253,9 +295,7 @@ function FrontPage() {
           <NativeBuilt />
           <EfficiantOperationSystem />
           <HostelTrial />
-          {/* <KeyFeaturesNew />
-                    <SmartStaySection />
-          <Getanswer /> */}
+
         </Element>
       )}
 
@@ -300,44 +340,127 @@ function FrontPage() {
         </Element>
       )}
 
-{activeSection === "demo" && (
+      {activeSection === "demo" && (
         <Element name="demo" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <SmartstayDemo />
-                </Element>
+        </Element>
       )}
 
       <Element name="footer">
         <Footers handleLinkName={handleSetActive} />
       </Element>
-
-      <div
-        className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-      >
+      {
+        activeSection !== "demo" &&
 
         <div
-          className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
+          className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+
+          <div
+            className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
         transition-all duration-300
         ${showTooltip
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 translate-x-2 pointer-events-none"
-            }`}
-        >
-          Request Demo
-        </div>
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 translate-x-2 pointer-events-none"
+              }`}
+          >
+            Request Demo
+          </div>
 
-        {/* Button */}
-        <div
-          className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
+
+          <div onClick={() => handleSetActive("demo")}
+            className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
         transition-transform duration-300
         ${showTooltip ? "scale-110" : "scale-100"}`}
-        >
-          <Send2 size="14" color="#FFFFFF" variant="Bold" />
+          >
+            <Send2 size="14" color="#FFFFFF" variant="Bold" />
+          </div>
+
+        </div>
+      }
+      {showPromoPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+
+
+          <div
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setShowPromoPopup(false)}
+          ></div>
+          <div className="
+      relative
+      bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
+      rounded-xl shadow-lg p-6 border font-tasa
+      w-[100%] sm:w-[600px]
+    ">
+
+
+            <button
+              onClick={() => setShowPromoPopup(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black"
+            >
+              <CloseCircle />
+            </button>
+
+            <div className="flex flex-col gap-4">
+
+
+
+
+
+              <div className="flex justify-between items-center">
+
+                <div>
+                  <h2 className="text-[32px] sm:text-[32px] font-semibold text-[#555555]">
+                    Stop Losing Time.
+                  </h2>
+
+                  <h2 className="text-[32px] sm:text-[32px] font-bold text-[#222222]">
+                    Start SmartStay.
+                  </h2>
+
+                  <p className="text-sm text-gray-600 mt-2 text-wrap">
+                    Experience SmartStay risk-free and see <br /> the difference in just a few days.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 ">
+                  <div className="bg-[#FFEFCF] rounded-md w-fit flex items-center px-1 py-1">
+                    <Star1 size="14"
+                      color="#FF8A65"
+                      variant="Bold" />
+                  </div>
+                  <div>
+                    <div className="text-[#222222] text-sm">  Saves 40+ hours </div>
+                    <div className="text-[#515151] text-xs"> Every month per property </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                {
+                  activeSection !== "demo" &&
+
+                  <button onClick={() => handleSetActive("demo")} className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium hover:bg-gray-100 transition w-full sm:w-auto">
+                    Request Demo
+                    <ArrowRight size="18" />
+                  </button>
+                }
+                <button
+                  onClick={handleSignUp}
+                  className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
+                >
+                  30 Day Free Trial
+                  <ArrowRight size="18" />
+                </button>
+
+              </div>
+            </div>
+          </div>
         </div>
 
-      </div>
-
+      )}
     </div>
   );
 }
