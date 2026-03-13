@@ -21,8 +21,8 @@ const HomePage = () => {
   }, []);
 
 
-  const handleSignIn = () => {
-    navigate("/hostel-management-login");
+  const handleNavigateDemo = () => {
+    navigate("/demo");
   };
 
   const handleSignUp = () => {
@@ -94,7 +94,7 @@ const HomePage = () => {
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
 
-              <button className="font-dmsans flex items-center gap-2 px-6 py-2.5 border-1 border-[#515151] rounded-lg text-[#515151] font-medium hover:bg-gray-100 transition">
+              <button onClick={handleNavigateDemo} className="font-dmsans flex items-center gap-2 px-6 py-2.5 border-1 border-[#515151] rounded-lg text-[#515151] font-medium hover:bg-gray-100 transition">
                 Request Demo
                 <ArrowRight size="18" />
               </button>

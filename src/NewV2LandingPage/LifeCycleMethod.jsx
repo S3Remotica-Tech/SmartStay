@@ -4,7 +4,7 @@ import Digital from "../Assets/v2LandingImages/Digital.svg";
 import Aadhaar from "../Assets/v2LandingImages/Aadhaar.svg";
 import Stays from "../Assets/v2LandingImages/Stay.svg";
 import Final from "../Assets/v2LandingImages/Final.svg";
-
+import { useNavigate } from "react-router-dom";
 import { Shield, TickCircle, ArrowRight } from 'iconsax-react'
 
 
@@ -13,6 +13,19 @@ import { Shield, TickCircle, ArrowRight } from 'iconsax-react'
 
 
 function LifeCycleMethod({isFeatureWay}) {
+
+let navigate = useNavigate();
+
+
+
+
+const handleNavigateDemo = () => {
+    navigate("/demo");
+  };
+
+
+
+
 
     const lifecycleCards = [
         {
@@ -206,7 +219,7 @@ function LifeCycleMethod({isFeatureWay}) {
                 !isFeatureWay &&
             
             <div className='max-w-7xl flex items-center justify-center'>
-                <button className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
+                <button onClick={handleNavigateDemo} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
                     Request Demo
                     <ArrowRight size="18" />
                 </button>

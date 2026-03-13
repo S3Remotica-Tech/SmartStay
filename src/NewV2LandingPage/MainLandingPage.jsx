@@ -62,7 +62,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-
+    setShowPromoPopup(false)
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
@@ -282,12 +282,7 @@ function FrontPage() {
           <MobileApp />
           <HostelTrial />
           <FAQSection />
-          {/* <Startup />
-          <StatsSection />
-          <RoomManagement />
-          <SmartStaySection />
-          <TestimonialSlider />
-            <Getanswer /> */}
+          
         </Element>
       )}
 
@@ -387,13 +382,13 @@ function FrontPage() {
       }
       {showPromoPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-    
-    {/* Dim Background */}
-    <div
-      className="absolute inset-0 bg-black/30"
-      onClick={() => setShowPromoPopup(false)}
-    ></div>
-         <div className="
+
+
+          <div
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setShowPromoPopup(false)}
+          ></div>
+          <div className="
       relative
       bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
       rounded-xl shadow-lg p-6 border font-tasa
@@ -401,68 +396,70 @@ function FrontPage() {
     ">
 
 
-          <button
-            onClick={() => setShowPromoPopup(false)}
-            className="absolute top-3 right-3 text-gray-500 hover:text-black"
-          >
-            <CloseCircle />
-          </button>
+            <button
+              onClick={() => setShowPromoPopup(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black"
+            >
+              <CloseCircle />
+            </button>
 
-          <div className="flex flex-col gap-4">
-
-
+            <div className="flex flex-col gap-4">
 
 
 
-            <div className="flex justify-between items-center">
 
-              <div>
-                <h2 className="text-[32px] sm:text-[32px] font-semibold text-[#555555]">
-                  Stop Losing Time.
-                </h2>
 
-                <h2 className="text-[32px] sm:text-[32px] font-bold text-[#222222]">
-                  Start SmartStay.
-                </h2>
+              <div className="flex justify-between items-center">
 
-                <p className="text-sm text-gray-600 mt-2 text-wrap">
-                  Experience SmartStay risk-free and see <br /> the difference in just a few days.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 ">
-                <div className="bg-[#FFEFCF] rounded-md w-fit flex items-center px-1 py-1">
-                  <Star1 size="14"
-                    color="#FF8A65"
-                    variant="Bold" />
-                </div>
                 <div>
-                  <div className="text-[#222222] text-sm">  Saves 40+ hours </div>
-                  <div className="text-[#515151] text-xs"> Every month per property </div>
+                  <h2 className="text-[32px] sm:text-[32px] font-semibold text-[#555555]">
+                    Stop Losing Time.
+                  </h2>
+
+                  <h2 className="text-[32px] sm:text-[32px] font-bold text-[#222222]">
+                    Start SmartStay.
+                  </h2>
+
+                  <p className="text-sm text-gray-600 mt-2 text-wrap">
+                    Experience SmartStay risk-free and see <br /> the difference in just a few days.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 ">
+                  <div className="bg-[#FFEFCF] rounded-md w-fit flex items-center px-1 py-1">
+                    <Star1 size="14"
+                      color="#FF8A65"
+                      variant="Bold" />
+                  </div>
+                  <div>
+                    <div className="text-[#222222] text-sm">  Saves 40+ hours </div>
+                    <div className="text-[#515151] text-xs"> Every month per property </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full">
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                {
+                  activeSection !== "demo" &&
 
-              <button className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium hover:bg-gray-100 transition w-full sm:w-auto">
-                Request Demo
-                <ArrowRight size="18" />
-              </button>
+                  <button onClick={() => handleSetActive("demo")} className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium hover:bg-gray-100 transition w-full sm:w-auto">
+                    Request Demo
+                    <ArrowRight size="18" />
+                  </button>
+                }
+                <button
+                  onClick={handleSignUp}
+                  className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
+                >
+                  30 Day Free Trial
+                  <ArrowRight size="18" />
+                </button>
 
-              <button
-                onClick={handleSignUp}
-                className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
-              >
-                30 Day Free Trial
-                <ArrowRight size="18" />
-              </button>
-
+              </div>
             </div>
           </div>
         </div>
-        </div>
- 
+
       )}
     </div>
   );
