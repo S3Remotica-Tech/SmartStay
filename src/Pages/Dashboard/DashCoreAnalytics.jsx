@@ -12,22 +12,37 @@ import {
   Tooltip,
   BarChart,
   Bar,
-  Legend,
+
 } from "recharts";
+import { useDispatch, useSelector } from "react-redux";
 
 function DashCoreAnalytics() {
+
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("This Month");
   const dropdownRef = useRef(null);
-  const occupancyData = [
-    { label: "Jan 1", occupied: 96, vacant: 22 },
-    { label: "Jan 5", occupied: 98, vacant: 20 },
-    { label: "Jan 10", occupied: 100, vacant: 18 },
-    { label: "Jan 15", occupied: 99, vacant: 19 },
-    { label: "Jan 20", occupied: 101, vacant: 17 },
-    { label: "Jan 25", occupied: 100, vacant: 18 },
-    { label: "Today", occupied: 101, vacant: 19 },
-  ];
+
+
+  const occupancyData =
+    state.PgList?.dashboardList?.occupancyTrend?.map((item) => ({
+      label: item.date,
+      occupied: item.occupied,
+      vacant: item.booked,
+    })) || [];
+
+
+  // const occupancyData = [
+  //   { label: "Jan 1", occupied: 96, vacant: 22 },
+  //   { label: "Jan 5", occupied: 98, vacant: 20 },
+  //   { label: "Jan 10", occupied: 100, vacant: 18 },
+  //   { label: "Jan 15", occupied: 99, vacant: 19 },
+  //   { label: "Jan 20", occupied: 101, vacant: 17 },
+  //   { label: "Jan 25", occupied: 100, vacant: 18 },
+  //   { label: "Today", occupied: 101, vacant: 19 },
+  // ];
 
 
   const revenueData = [
@@ -60,11 +75,11 @@ function DashCoreAnalytics() {
 
 
   const avgOccupied = Math.round(
-    occupancyData.reduce((a, b) => a + b.occupied, 0) / occupancyData.length
+    occupancyData?.reduce((a, b) => a + b.occupied, 0) / occupancyData?.length
   );
 
   const avgVacant = Math.round(
-    occupancyData.reduce((a, b) => a + b.vacant, 0) / occupancyData.length
+    occupancyData?.reduce((a, b) => a + b.vacant, 0) / occupancyData?.length
   );
 
 
@@ -76,7 +91,7 @@ function DashCoreAnalytics() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="rounded-xl border border-[#E5E7EB] bg-white p-3 lg:col-span-5">
-          
+
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-semibold text-[#101828] font-[Gilroy] text-[16px]">
               Occupancy Trend
@@ -135,11 +150,11 @@ function DashCoreAnalytics() {
                 domain={[0, "dataMax + 10"]}
               />
 
-              <Tooltip  contentStyle={{
-        fontFamily: "Gilroy",
-        borderRadius: 8,
-        border: "1px solid #E5E7EB",
-      }}/>
+              <Tooltip contentStyle={{
+                fontFamily: "Gilroy",
+                borderRadius: 8,
+                border: "1px solid #E5E7EB",
+              }} />
 
 
               <Line
@@ -163,7 +178,7 @@ function DashCoreAnalytics() {
             </LineChart>
           </ResponsiveContainer>
 
-  <hr className="border border-[#F3F4F5] mx-0 my-2" />
+          <hr className="border border-[#F3F4F5] mx-0 my-2" />
 
           <div className="grid grid-cols-2 text-center h-auto">
             <div>
@@ -225,11 +240,11 @@ function DashCoreAnalytics() {
                 }}
               />
 
-              <Tooltip  contentStyle={{
-        fontFamily: "Gilroy",
-        borderRadius: 8,
-        border: "1px solid #E5E7EB",
-      }}
+              <Tooltip contentStyle={{
+                fontFamily: "Gilroy",
+                borderRadius: 8,
+                border: "1px solid #E5E7EB",
+              }}
                 formatter={(value) => [`₹ ${value} L`, ""]}
                 cursor={{ fill: "transparent" }}
               />
@@ -263,7 +278,7 @@ function DashCoreAnalytics() {
             </BarChart>
           </ResponsiveContainer>
 
-  <hr className="border border-[#F3F4F5] mx-0 my-2" />
+          <hr className="border border-[#F3F4F5] mx-0 my-2" />
           <div className="grid grid-cols-2 ">
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">Total Collected</p>

@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar, ArrowDown2, MessageQuestion, Warning2, ArrowRight, Messages2 } from "iconsax-react";
+import { Calendar, ArrowDown2, MessageQuestion, ArrowRight, Messages2 } from "iconsax-react";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function DashRequestAndComplaints() {
-    // date dropdown states
+
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [showRequestFilter, setShowRequestFilter] = useState(false);
     // const [showComplaintFilter, setShowComplaintFilter] = useState(false);
     const [requestDate, setRequestDate] = useState("This Week");
@@ -16,10 +20,12 @@ function DashRequestAndComplaints() {
         "Last 3 Months",
     ];
 
+    const RequestComplaints = state.PgList?.dashboardList
+
     const requestStats = [
-        { count: 2, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: 1, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
-        { count: 1, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" },
+        { count: `${RequestComplaints?.tenantRequests?.pending}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
+        { count: `N/A`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
+        { count: `${RequestComplaints?.tenantRequests?.resolved}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" },
     ];
 
     const requestList = [
@@ -42,29 +48,21 @@ function DashRequestAndComplaints() {
     ];
 
     const complaintStats = [
-        { count: 2, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: 1, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
-        { count: 1, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" }
+        { count: `${RequestComplaints?.tenantComplaints?.pending}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
+        { count: `N/A`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
+        { count: `${RequestComplaints?.tenantComplaints?.resolved}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" }
     ];
 
-    const complaintList = [
-        {
-            name: "Karthik Kumar",
-            room: "A-204",
-            title: "Water leakage near washbasin",
-            type: "Maintenance",
-            status: "Open",
-            time: "2 hours ago",
-        },
-        {
-            name: "Divyanathan",
-            room: "B-101",
-            title: "WiFi password reset",
-            type: "Amenity",
-            status: "In Progress",
-            time: "5 hours ago",
-        },
-    ];
+    const complaintList =
+        RequestComplaints?.complaints?.map((item) => ({
+            id: item.complaintId,
+            name: item.customerName || "-",
+            room: "N/A",
+            title: "Complaints description needed",
+            type: item.type,
+            status: item.status,
+            time: item.date
+        })) || [];
 
     const statusStyle = {
         Pending: "bg-orange-50 text-orange-500",
@@ -136,7 +134,7 @@ function DashRequestAndComplaints() {
                             </div>
 
                             <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
-                                Tenant Requests (2)
+                                Tenant Requests ({`${RequestComplaints?.tenantRequests?.total}`})
                             </label>
                         </div>
 
@@ -232,42 +230,12 @@ function DashRequestAndComplaints() {
                             </div>
 
                             <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
-                                Tenant Complaints (5)
+                                Tenant Complaints ({`${RequestComplaints?.tenantComplaints?.total}`})
                             </label>
                         </div>
 
 
-                        {/* <div className="relative">
-                            <button
-                                onClick={() => setShowComplaintFilter(!showComplaintFilter)}
-                                className="flex items-center gap-2 border px-3 py-1.5 rounded-lg text-sm font-[Gilroy]"
-                            >
-                                <Calendar size="16" />
-                                {complaintDate}
-                                <ArrowDown2 size="14" />
-                            </button>
 
-                            {showComplaintFilter && (
-                                <div ref={dropdownRef} className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow">
-                                    {dateOptions.map((item) => (
-                                        <button
-                                            key={item}
-                                            onClick={() => {
-                                                setComplaintDate(item);
-                                                setShowComplaintFilter(false);
-                                            }}
-                                            className="
-            w-full text-left px-3 py-2 text-sm font-[Gilroy]
-            hover:bg-gray-100
-          "
-                                        >
-                                            {item}
-                                        </button>
-                                    ))}
-
-                                </div>
-                            )}
-                        </div> */}
                     </div>
 
 

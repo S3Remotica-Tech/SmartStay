@@ -38,7 +38,7 @@ function DashQuickAccess() {
     trend: "N/A% from last month",
   };
 
-   const dateOptions =
+  const dateOptions =
     QuickAccess?.filters?.map((item) => ({
       label: item,
       value: item
@@ -46,72 +46,33 @@ function DashQuickAccess() {
 
 
   const tabs = [
-    { id: "checkin", label: "Upcoming Check-ins", count: 3 },
-    { id: "overdue", label: "Overdue Invoices", count: 7 },
+    { id: "checkin", label: "Upcoming Check-ins", count: `${QuickAccess?.checkins?.length}` },
+    { id: "overdue", label: "Overdue Invoices", count: `${QuickAccess?.overdueInvoices?.length}` },
   ];
 
-  const checkinList = [
-    {
-      id: 1,
-      name: "Mathubala",
-      sharing: "1-Sharing",
-      room: "Room B",
-      bed: "101",
-      date: "Check-in: Jan 18, 2026",
-    },
-    {
-      id: 2,
-      name: "Jasvika",
-      sharing: "1-Sharing",
-      room: "Room B",
-      bed: "101",
-      date: "Check-in: Jan 20, 2026",
-    },
-    {
-      id: 3,
-      name: "Baby",
-      sharing: "1-Sharing",
-      room: "Room B",
-      bed: "101",
-      date: "Check-in: Jan 20, 2026",
-    },
-  ];
+ 
+
+  const checkinList =
+    QuickAccess?.checkins?.map((item) => ({
+      id: item?.complaintId,
+      name: item.customerName || "-",
+      sharing: "N/A",
+      room: item.roomName,
+      bed: item.bedName,
+      date: item.joiningDate
+    })) || [];
 
 
-
-
-  const payments = [
-    {
-      id: 1,
-      name: "Charles M",
-      invoice: "INV-001",
-      status: "Un Paid",
-      amount: "7,700",
-      date: "18 Dec 2025",
-      initials: "CM",
-    },
-    {
-      id: 2,
-      name: "Karthik Subbaraj",
-      invoice: "INV-001",
-      status: "Un Paid",
-      amount: "3,700",
-      date: "18 Dec 2025",
-      initials: "KS",
-    },
-    {
-      id: 3,
-      name: "Ravi Kumar S",
-      invoice: "INV-001",
-      status: "Un Paid",
-      amount: "3,700",
-      date: "18 Dec 2025",
-      initials: "RK",
-    },
-  ];
-
-
-
+  const payments =
+    QuickAccess?.overdueInvoices?.map((item) => ({
+      id: item.invoiceId,
+      name: item.customerName || "-",
+      invoice: item.invoiceNumber,
+      status: item.status,
+      amount: item.totalAmount,
+      date: item.dueDate,
+      initials: "N/A"
+    })) || [];
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -163,7 +124,7 @@ function DashQuickAccess() {
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
                   {dateOptions?.map((option) => (
                     <button
-                       key={option.value}
+                      key={option.value}
                       onClick={() => {
                         setSelected(option.value);
                         setOpen(false);

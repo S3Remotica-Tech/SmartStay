@@ -10,19 +10,35 @@ import {
     Calendar
 
 } from "iconsax-react";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function DashExpenseProfit() {
+
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState("This Month");
     const [calendarOpen, setCalendarOpen] = useState(false);
     const [slectedData, setSelectedData] = useState("This Month");
     const dropdownRef = useRef(null);
+
+
+    const ExpenseAnDProfit = state.PgList?.dashboardList?.finance
+
+
+
+
+
+
+
     const statsCards = [
         {
             title: "Revenue",
-            amount: "₹14.8 L",
+            amount: `₹ ${ExpenseAnDProfit?.totalIncome}`,
             subtitle: "this month",
-            change: "2.8%",
+            change: "N/A%",
             changeColor: "#EF4444",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -32,9 +48,9 @@ function DashExpenseProfit() {
         },
         {
             title: "Expenses",
-            amount: "₹3.2 L",
+            amount: `₹ ${ExpenseAnDProfit?.totalExpense}`,
             subtitle: "this month",
-            change: "—",
+             change: "N/A%",
             changeColor: "#16A34A",
             compareText: "",
             iconBg: "#FFFFFF",
@@ -44,9 +60,9 @@ function DashExpenseProfit() {
         },
         {
             title: "Profit",
-            amount: "₹11.6 L",
+            amount: `₹ ${ExpenseAnDProfit?.netProfit}`,
             subtitle: "this month",
-            change: "1.8%",
+            change: "N/A%",
             changeColor: "#16A34A",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
