@@ -123,13 +123,13 @@ function SettingGeneral() {
   } = useHasPermission("Profile");
 
 
-const firstNameRef = useRef(null);
-const emailRef = useRef(null);
-const phoneRef = useRef(null);
-const passwordRef = useRef(null);
-const cityRef = useRef(null);
-const pincodeRef = useRef(null);
-const stateRef = useRef(null);
+  const firstNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneRef = useRef(null);
+  const passwordRef = useRef(null);
+  const cityRef = useRef(null);
+  const pincodeRef = useRef(null);
+  const stateRef = useRef(null);
 
 
   useEffect(() => {
@@ -175,7 +175,7 @@ const stateRef = useRef(null);
     { value: "Punjab", label: "Punjab" },
     { value: "Rajasthan", label: "Rajasthan" },
     { value: "Sikkim", label: "Sikkim" },
-    
+
     { value: "Telangana", label: "Telangana" },
     { value: "Tripura", label: "Tripura" },
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
@@ -893,7 +893,7 @@ const stateRef = useRef(null);
       dispatch({ type: "ADDGENERALSETTING", payload: AddPayload });
       setFormLoading(true)
     }
-    
+
   };
 
 
@@ -1136,7 +1136,7 @@ const stateRef = useRef(null);
   }
 
   const handleCloseAdminProfile = () => {
-     dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
+    dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
     setShowOpenAdminProfile(false)
   }
 
@@ -1146,7 +1146,7 @@ const stateRef = useRef(null);
 
   const handleCloseAdminEdit = () => {
     dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
-            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+    dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
     setShowOpenAdminProfileEdit(false)
   }
 
@@ -1214,7 +1214,7 @@ const stateRef = useRef(null);
               : (
                 <div className="sticky top-0 bg-white z-[900] mt-2">
                   {account?.roleId === 1 && (
-                   <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
+                    <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
                       <div className="flex w-full gap-4">
                         <div >
                           {
@@ -1370,7 +1370,13 @@ const stateRef = useRef(null);
                   </div>
                   {
                     activeTab === "masters" && (
-                      <div className="overflow-y-auto flex-1 max-h-[calc(100vh-200px)] p-2">
+                      // <div className="overflow-y-auto flex-1 max-h-[calc(100vh-200px)] p-2">
+                      <div
+                        className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${generalFilterddata && generalFilterddata.length > 0
+                            ? "overflow-y-auto"
+                            : "flex items-center justify-center"
+                          }`}
+                      >
                         {generalFilterddata && generalFilterddata.length > 0 ? (
                           generalFilterddata.map((item) => {
                             const imageUrl = item.profilePic;
@@ -1532,9 +1538,12 @@ const stateRef = useRef(null);
                           })
                         ) :
                           !loading && (
-
-                            <div className="flex flex-col items-center text-center animated-text 2xl:mt-24">
-                              <img src={EmptyState} alt="emptystate" />
+                            <div className="flex flex-col items-center text-center animated-text 2xl:mt-24 h-[280px]">
+                              <img
+                                src={EmptyState}
+                                alt="emptystate"
+                                className="h-[200px] w-[200px] object-contain mt-4"
+                              />
 
                               <div className="pb-1 font-gilroy font-semibold text-lg text-gray-600">
                                 No Profile
