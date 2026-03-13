@@ -386,7 +386,7 @@ function FrontPage() {
 
           <div
             className="absolute inset-0 bg-black/30"
-            onClick={() => setShowPromoPopup(false)}
+            // onClick={() => setShowPromoPopup(false)}
           ></div>
           <div className="
       relative
