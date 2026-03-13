@@ -124,32 +124,43 @@ function FrontPage() {
     }
   }, [location.pathname]);
 
-  // useEffect(() => {
-  //   let idleTimer;
+  useEffect(() => {
+    let idleTimer;
 
-  //   const resetTimer = () => {
-  //     clearTimeout(idleTimer);
+    const resetTimer = () => {
+      clearTimeout(idleTimer);
 
-  //     idleTimer = setTimeout(() => {
-  //       setShowPromoPopup(true);
-  //     }, 5000);
-  //   };
+      idleTimer = setTimeout(() => {
+        setShowPromoPopup(true);
+      }, 10000);
+    };
 
-  //   const events = ["mousemove", "keydown", "scroll", "click"];
+    const events = ["mousemove", "keydown", "scroll", "click"];
 
-  //   events.forEach((event) =>
-  //     window.addEventListener(event, resetTimer)
-  //   );
+    events.forEach((event) =>
+      window.addEventListener(event, resetTimer)
+    );
 
-  //   resetTimer();
+    resetTimer();
 
-  //   return () => {
-  //     clearTimeout(idleTimer);
-  //     events.forEach((event) =>
-  //       window.removeEventListener(event, resetTimer)
-  //     );
-  //   };
-  // }, []);
+    return () => {
+      clearTimeout(idleTimer);
+      events.forEach((event) =>
+        window.removeEventListener(event, resetTimer)
+      );
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
 
   const linkStyle = (isActive) => ({
     cursor: "pointer",
@@ -343,42 +354,51 @@ function FrontPage() {
       <Element name="footer">
         <Footers handleLinkName={handleSetActive} />
       </Element>
-
-      <div
-        className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-      >
+      {
+        activeSection !== "demo" &&
 
         <div
-          className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
+          className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+
+          <div
+            className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
         transition-all duration-300
         ${showTooltip
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 translate-x-2 pointer-events-none"
-            }`}
-        >
-          Request Demo
-        </div>
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 translate-x-2 pointer-events-none"
+              }`}
+          >
+            Request Demo
+          </div>
 
 
-        <div onClick={() => handleSetActive("demo")}
-          className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
+          <div onClick={() => handleSetActive("demo")}
+            className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
         transition-transform duration-300
         ${showTooltip ? "scale-110" : "scale-100"}`}
-        >
-          <Send2 size="14" color="#FFFFFF" variant="Bold" />
-        </div>
+          >
+            <Send2 size="14" color="#FFFFFF" variant="Bold" />
+          </div>
 
-      </div>
+        </div>
+      }
       {showPromoPopup && (
-        <div className="
-    fixed bottom-4 right-4 left-4 sm:left-auto
-    z-50
-   w-auto sm:w-[30px]
-    bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
-    rounded-xl shadow-lg p-4 border font-tasa
-  ">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+    
+    {/* Dim Background */}
+    <div
+      className="absolute inset-0 bg-black/30"
+      onClick={() => setShowPromoPopup(false)}
+    ></div>
+         <div className="
+      relative
+      bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
+      rounded-xl shadow-lg p-6 border font-tasa
+      w-[100%] sm:w-[600px]
+    ">
 
 
           <button
@@ -441,6 +461,8 @@ function FrontPage() {
             </div>
           </div>
         </div>
+        </div>
+ 
       )}
     </div>
   );

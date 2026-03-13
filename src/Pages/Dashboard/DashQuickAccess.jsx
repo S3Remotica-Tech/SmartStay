@@ -46,7 +46,7 @@ function DashQuickAccess() {
 
 
  const tabs = [
-    { id: "checkin", label: "New Check-ins", count: 3 },
+    { id: "checkin", label: "Upcoming Check-ins", count: 3 },
     { id: "overdue", label: "Overdue Invoices", count: 7 },
   ];
 
