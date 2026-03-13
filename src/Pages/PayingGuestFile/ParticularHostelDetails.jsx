@@ -353,11 +353,11 @@ function ParticularHostelDetails(props) {
           )}
         </div>
 
-        <div className="container -mt-6">
+        <div className="lg:px-4 -mt-8">
           {roomList?.length > 0 ? (
             <>
               <div
-                className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-3"
+                className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4"
                 style={{ maxHeight: 'calc(100vh - 120px)', overflowY: 'auto' }}
               >
                 {roomList.map((room) => (
