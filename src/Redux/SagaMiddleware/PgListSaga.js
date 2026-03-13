@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updatePgList, UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
+import { updatePgList, UpdateBed, getAllBed,dashboardNew, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -568,6 +568,42 @@ function* handleCreatePGDashboard(action) {
     yield* handleApiError(error);
   }
 }
+
+
+
+function* handleDashboard(action) {
+   try {
+      const { hostelId, filters } = action.payload;
+      const response = yield call(dashboardNew, hostelId, filters)
+
+      const hostel_Id = GlobalHostelId(response);
+      if (hostel_Id) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
+      }
+      if (response?.status === 200) {
+         yield put({ type: 'GET_DASHBOARD_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 function* handleCheckBedDetails(action) {
   const response = yield call(CheckBedDetails, action.payload);
@@ -1590,6 +1626,7 @@ function refreshToken(response) {
 }
 
 function* PgListSaga() {
+yield takeEvery("GET_DASHBOARD_SAGA",handleDashboard)
   yield takeEvery("UPDATEBED", handleUpdateBed);
   yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
   yield takeEvery("GETALLBEDSLIST", handleGetAllBed)

@@ -1,6 +1,6 @@
 // import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
-
+import qs from "qs";
 
 
 
@@ -267,6 +267,35 @@ export async function dashboardReports(hostelId) {
 
   return await AxiosConfigV2.get(`/v2/dashboard/${hostelId}`,);
 }
+
+
+
+
+export async function dashboardNew(hostelId, filters = {}) {
+  return AxiosConfigV2.get(`/v2/dashboard/new/${hostelId}`, {
+    params: {
+       billingFilter: filters?.billingFilter,
+        complaintRequestFilter: filters?.complaintRequestFilter,
+        financeFilter:filters?.financeFilter,
+        occupancyFilter: filters?.occupancyFilter
+
+    },
+    paramsSerializer: params =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 // v1
 
