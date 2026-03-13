@@ -789,7 +789,7 @@ const ComplianceList = (props) => {
 
                   <div>
                     <label
-                      className={`!text-sm font-gilroy ${props.complaints?.status?.toUpperCase() === "1"
+                      className={`!text-sm font-gilroy ${props.complaints?.status === "1"
                         ? "text-green-600"
                         : "text-orange-500"
                         }`}

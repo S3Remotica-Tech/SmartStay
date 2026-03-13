@@ -353,7 +353,7 @@ function ParticularHostelDetails(props) {
           )}
         </div>
 
-        <div className="contaier lg:px-4 -mt-8">
+        <div className="lg:px-4 -mt-8">
           {roomList?.length > 0 ? (
             <>
               <div
