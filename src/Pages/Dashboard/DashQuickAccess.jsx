@@ -10,14 +10,15 @@ import {
   ArrowUp,
   DocumentText,
   Calendar,
-  ExportSquare, MoneySend
+  ExportSquare,
 
 } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
 
 
 function DashQuickAccess() {
 
-
+  const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
@@ -55,7 +56,7 @@ function DashQuickAccess() {
 
   const checkinList =
     QuickAccess?.checkins?.map((item) => ({
-      id: item?.complaintId,
+      id: item?.tenantId,
       name: item.customerName || "-",
       sharing: item.sharingType,
       room: item.roomName,
@@ -121,7 +122,25 @@ function DashQuickAccess() {
     }
   }, [state.PgList.getDashboardSuccessStatus]);
 
+  const handleNavigateTenant = (tenantId) => {
+    console.log("tenantId", tenantId)
+   
+    if (tenantId) {
 
+
+      navigate(`/tenant/details/${tenantId}`, {
+        state: {
+          customerId: tenantId,
+          hostelId: state.login.selectedHostel_Id,
+          isDashboardWay: true,
+          IsOverView: true,
+          
+
+        },
+      });
+       
+    }
+  }
 
 
   return (
@@ -264,31 +283,41 @@ function DashQuickAccess() {
           {
             activeTabDashboard === "checkin" &&
             <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls">
-              {checkinList.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center border-b pb-3"
-                >
-                  <div >
-                    <p className="font-semibold text-base">{item.name}</p>
+              {checkinList.length === 0 ? (
+                <div className="text-center py-6 text-sm text-gray-500">
+                  No check-in records found
+                </div>
+              ) : (
+                checkinList.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between items-center border-b pb-3"
+                  >
+                    <div>
+                      <p className="font-semibold text-base">{item.name}</p>
+
+                      <div className="flex gap-2">
+                        <p className="text-xs text-[#4A5565]">{item.sharing}</p>
+                        <p className="text-xs text-[#4A5565]">{item.room}</p>
+                        <p className="text-xs text-[#4A5565]">{item.bed}</p>
+                        <p className="text-xs text-[#4A5565]">
+                          Check-in : {item.date}
+                        </p>
+                      </div>
+                    </div>
+
                     <div className="flex gap-2">
-                      <p className="text-xs text-[#4A5565] text-xs">{item.sharing}</p>
-                      <p className="text-xs text-[#4A5565] text-xs">{item.room}</p>
-                      <p className="text-xs text-[#4A5565] text-xs">{item.bed}</p>
-                      <p className="text-xs text-[#4A5565] text-xs">Check-in : {item.date}</p>
+                      <button className="border rounded-md px-3 py-1 text-sm" onClick={() => handleNavigateTenant(item.id)}>
+                        View
+                      </button>
+
+                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm">
+                        Check-in
+                      </button>
                     </div>
                   </div>
-
-                  <div className="flex gap-2">
-                    <button className="border rounded-md px-3 py-1 text-sm">
-                      View
-                    </button>
-                    <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm">
-                      Check-in
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           }
 
@@ -297,58 +326,65 @@ function DashQuickAccess() {
           {
             activeTabDashboard === "overdue" &&
             <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls  font-[Gilroy] ">
-              {payments.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center border-b pb-3"
-                >
 
-                  <div className="flex items-center gap-3">
-
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-600 overflow-hidden">
-                      {item.profilePic ? (
-                        <img
-                          src={item.profilePic}
-                          alt="profile"
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <span>{item.initials}</span>
-                      )}
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-gray-900">
-                        {item.name}
-                      </div>
-
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <span>{item.invoice}</span>
-
-                        <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-[2px] text-[11px] font-medium text-orange-600">
-                          <span className="h-2 w-2 rounded-full bg-orange-500" />
-                          {item.status}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div className="flex items-center gap-6">
-
-                    <div className="text-right">
-                      <div className="text-sm font-semibold text-gray-900">
-                        ₹ {item.amount}
-                      </div>
-                      <div className="text-xs text-gray-500">{item.date}</div>
-                    </div>
-
-                    <button className="bg-[#1E45E1] text-white rounded-md px-3 py-2 text-sm">
-                      Record Payment
-                    </button>
-
-                  </div>
+              {payments.length === 0 ? (
+                <div className="text-center py-6 text-sm text-gray-500">
+                  No overdue records found
                 </div>
-              ))}
+              ) : (
+
+                payments.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between items-center border-b pb-3"
+                  >
+
+                    <div className="flex items-center gap-3">
+
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-600 overflow-hidden">
+                        {item.profilePic ? (
+                          <img
+                            src={item.profilePic}
+                            alt="profile"
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <span>{item.initials}</span>
+                        )}
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-gray-900">
+                          {item.name}
+                        </div>
+
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span>{item.invoice}</span>
+
+                          <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-[2px] text-[11px] font-medium text-orange-600">
+                            <span className="h-2 w-2 rounded-full bg-orange-500" />
+                            {item.status}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div className="flex items-center gap-6">
+
+                      <div className="text-right">
+                        <div className="text-sm font-semibold text-gray-900">
+                          ₹ {item.amount}
+                        </div>
+                        <div className="text-xs text-gray-500">{item.date}</div>
+                      </div>
+
+                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-2 text-sm">
+                        Record Payment
+                      </button>
+
+                    </div>
+                  </div>
+                )))}
 
             </div>
           }
