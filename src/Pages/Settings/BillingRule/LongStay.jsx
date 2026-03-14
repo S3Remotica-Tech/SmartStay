@@ -231,6 +231,9 @@ function LongStayRecurringModal() {
         setErrors({});
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         const newErrors = {};
+          if (!dueDays) {
+            newErrors.dueDate = "Please select billing due days of month";
+        }
 
         if (billingDate && dueDays && Number(dueDays) <= Number(billingDate)) {
             newErrors.dueDate = "Due date must be after billing date";
@@ -549,7 +552,7 @@ function LongStayRecurringModal() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="relative" ref={pickerRef} >
                             <label className="block text-sm text-gray-700 font-gilroy font-medium mb-1">
-                                Billing Start Date (Day of Month)
+                                Billing Start Date (Day of Month) <span className="text-red-600 text-sm">*</span>
                             </label>
 
                             <div

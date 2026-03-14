@@ -2365,18 +2365,31 @@ function UserListRoomDetail(props) {
     setaddamenityShow(false);
   }
 
-  // const isDisabled =
-  //   !canWriteAmenities ||
-  //   state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-  //   state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-  //   state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
+  const isDisabled =
+    !canWriteAmenities ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
 
+  const isDisabledButton =
+    !canWriteTenant ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
 
- useEffect(() => {
-        if (state.InvoiceList.manualInvoiceAddStatusCode === 201 || state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-        }
-    }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);
+  const isEditDisabled =
+    !canUpdateTenant ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED";
+
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 201 || state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+    }
+  }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);
 
 
   useEffect(() => {
@@ -2758,7 +2771,7 @@ function UserListRoomDetail(props) {
                     }
 
                     {import.meta.env.MODE === "development" &&
-                      state.UsersList.customerdetails?.customerCurrentStatus !== "BOOKED" &&
+                      (state.UsersList.customerdetails?.customerCurrentStatus !== "BOOKED" && state.UsersList.customerdetails?.hostelInfo?.currentStatus !== "CANCELLED") &&
 
                       <button
                         onClick={() => {
@@ -2869,21 +2882,22 @@ function UserListRoomDetail(props) {
                       <div className="text-[16px] font-gilroy font-semibold">
                         Basic Details
                       </div>
-                      <div className={!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
+                      <div className={isEditDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
                         <div
                           onClick={() => {
-                            if (canUpdateTenant) {
+                            if (!isEditDisabled) {
                               handleEditBasicDetails(CustomerOverView);
                             }
                           }}
-                          className={`h-10 w-10 flex items-center justify-center relative z-[1000] ${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"}`}
+                          className={`h-10 w-10 flex items-center justify-center relative z-[1000] 
+      ${isEditDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
                         >
                           <img
                             src={EditImage}
                             alt="editimage"
                             className="h-4 w-4"
                             style={{
-                              filter: !canUpdateTenant ? "grayscale(100%)" : "none",
+                              filter: isEditDisabled ? "grayscale(100%)" : "none",
                             }}
                           />
                         </div>
@@ -2963,25 +2977,27 @@ function UserListRoomDetail(props) {
                           >
                             Manual Address
                           </div>
-                          {activeTab === "manual" &&
-                            <span className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`} >
-                              <div
-                                onClick={() => {
-                                  if (canUpdateTenant) {
-                                    handleEditAddressDetailsShow(CustomerOverView);
-                                  }
-                                }}
-                                className="h-10 w-10 flex justify-center items-center relative z-[1000]"
-                              >
-                                <img
-                                  src={EditImage}
-                                  alt="edit"
-                                  className={`h-4 w-4 ${!canUpdateTenant ? "text-gray-300" : "text-black"}`}
-                                />
-                              </div>
-                            </span>
-
-                          }
+                         {activeTab === "manual" && (
+  <span className={isEditDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
+    <div
+      onClick={() => {
+        if (!isEditDisabled) {
+          handleEditAddressDetailsShow(CustomerOverView);
+        }
+      }}
+      className="h-10 w-10 flex justify-center items-center relative z-[1000]"
+    >
+      <img
+        src={EditImage}
+        alt="edit"
+        className="h-4 w-4"
+        style={{
+          filter: isEditDisabled ? "grayscale(100%)" : "none",
+        }}
+      />
+    </div>
+  </span>
+)}
                         </div>
                       </div>
 
@@ -3248,17 +3264,18 @@ function UserListRoomDetail(props) {
                                   <div className="text-center text-sm font-normal font-gilroy w-full">
                                     No Manual Documents are there!
 
-                                    <p>
-                                      <button
-                                        onClick={handlePreview}
-                                        type="button"
-                                        className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto"
-                                        disabled={!canWriteTenant}
-                                      >
-                                        <img src={FileAdd} alt="" />
-                                        <span>Upload Document</span>
-                                      </button>
-                                    </p>
+
+                                    <button
+                                      onClick={handlePreview}
+                                      type="button"
+                                      disabled={isDisabledButton}
+                                      className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+  disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                                    >
+                                      <img src={FileAdd} alt="" />
+                                      <span>Upload Document</span>
+                                    </button>
+
                                   </div>
                                 )}
 
@@ -3454,9 +3471,9 @@ function UserListRoomDetail(props) {
                                 {canUpdateTenant &&
                                   advanceList?.advanceAmount !== null &&
                                   advanceList?.advanceAmount !== undefined &&
-                                  CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && 
-                                  CustomerOverView.advanceInfo?.canEditAdvance && 
-                                   (
+                                  CustomerOverView.hostelInfo.currentStatus !== "NOTICE" &&
+                                  CustomerOverView.advanceInfo?.canEditAdvance &&
+                                  (
                                     <img
                                       onClick={handleUpdateAdvanceChange}
                                       src={EditImage}
@@ -3616,16 +3633,11 @@ function UserListRoomDetail(props) {
 
                       <div className="flex justify-start sm:justify-end ms-0 sm:ms-3 p-0 sm:p-2 w-full sm:w-auto">
                         <button
-                          disabled={
-                            !canWriteAmenities ||
-                            state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-                            state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-                            state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
-                            state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"
-                          }
+                          disabled={isDisabled}
                           onClick={() => handleShowAssignAmenities()}
-                          className={`flex items-center gap-1.5 font-gilroy font-semibold text-[14px] h-[35px] rounded-[12px] px-3 ${!canWriteAmenities ? "bg-blue-600/60 cursor-not-allowed" : "bg-blue-600"
-                            } text-white`}
+                          className={`flex items-center gap-1.5 font-gilroy font-semibold text-[14px] h-[35px] rounded-[12px] px-3 text-white
+    ${isDisabled ? "bg-blue-600/60 cursor-not-allowed" : "bg-blue-600 cursor-pointer"}
+  `}
                         >
                           <AddSquare size="18" color="#FFFFFF" variant="Bold" />
                           Assign
