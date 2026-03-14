@@ -20,7 +20,7 @@ function DashCoreAnalytics() {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("This Month");
   const dropdownRef = useRef(null);
@@ -53,13 +53,46 @@ function DashCoreAnalytics() {
     { month: "Dec", collected: 15.6, outstanding: 0.9 },
     { month: "Jan", collected: 3.1, outstanding: 12.8 },
   ];
-  const dateOptions = [
-    "Today",
-    "This Week",
-    "This Month",
-    "Last Month",
-    "Last 3 Months",
-  ];
+  const dateOptions =
+    state.PgList?.dashboardList?.filters?.map((item) => ({
+      label: item,
+      value: item
+    })) || [];
+
+useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+          occupancyFilter: selected
+          }
+        }
+      });
+
+      setLoading(true);
+    }
+  }, [selected]);
+
+useEffect(() => {
+    if (state.PgList?.dashboardList) {
+      setLoading(false)
+      
+    }
+  }, [state.PgList?.dashboardList]);
+
+
+ useState(() => {
+    if (state.PgList.getDashboardSuccessStatus === 200) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
+      }, 200);
+    }
+  }, [state.PgList.getDashboardSuccessStatus]);
+
 
 
   useEffect(() => {
@@ -74,13 +107,13 @@ function DashCoreAnalytics() {
 
 
 
-  const avgOccupied = Math.round(
-    occupancyData?.reduce((a, b) => a + b.occupied, 0) / occupancyData?.length
-  );
+  // const avgOccupied = Math.round(
+  //   occupancyData?.reduce((a, b) => a + b.occupied, 0) / occupancyData?.length
+  // );
 
-  const avgVacant = Math.round(
-    occupancyData?.reduce((a, b) => a + b.vacant, 0) / occupancyData?.length
-  );
+  // const avgVacant = Math.round(
+  //   occupancyData?.reduce((a, b) => a + b.vacant, 0) / occupancyData?.length
+  // );
 
 
   return (
@@ -88,6 +121,11 @@ function DashCoreAnalytics() {
       <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
         Core Analytics
       </h2>
+{loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="rounded-xl border border-[#E5E7EB] bg-white p-3 lg:col-span-5">
@@ -107,14 +145,13 @@ function DashCoreAnalytics() {
                 {selected}
               </button>
 
-              {/* Dropdown */}
               {open && (
                 <div ref={dropdownRef} className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
                   {dateOptions.map((option) => (
                     <button
-                      key={option}
+                      key={option.value}
                       onClick={() => {
-                        setSelected(option);
+                        setSelected(option.value);
                         setOpen(false);
                       }}
                       className="
@@ -122,7 +159,7 @@ function DashCoreAnalytics() {
             hover:bg-gray-100
           "
                     >
-                      {option}
+                      {option.label}
                     </button>
                   ))}
                 </div>

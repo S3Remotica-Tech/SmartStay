@@ -24,6 +24,7 @@ function DashQuickAccess() {
   const [selected, setSelected] = useState("This Month");
   const [open, setOpen] = useState(false)
   const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
+const [loading, setLoading] = useState(false);
 
 
   const QuickAccess = state.PgList?.dashboardList
@@ -83,11 +84,55 @@ function DashQuickAccess() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+          billingFilter: selected
+          }
+        }
+      });
+
+      setLoading(true);
+    }
+  }, [selected]);
+
+useEffect(() => {
+    if (state.PgList?.dashboardList) {
+      setLoading(false)
+      
+    }
+  }, [state.PgList?.dashboardList]);
+
+
+ useState(() => {
+    if (state.PgList.getDashboardSuccessStatus === 200) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
+      }, 200);
+    }
+  }, [state.PgList.getDashboardSuccessStatus]);
+
+
+
+
   return (
     <div className="mt-6 font-[Gilroy]">
       <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">
         Quick Access & Follow-ups
       </h2>
+ {loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 

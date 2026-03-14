@@ -59,7 +59,11 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
-
+  const [selectedFilters, setSelectedFilters] = useState({
+    occupancy: "",
+    tenants: "",
+    advance: ""
+  });
 
   const dropdownRef = useRef(null);
   const dropdownSharingRef = useRef(null)
@@ -199,9 +203,9 @@ function Dashboard() {
 
 
 
- useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
-        setLoading(false);
+      setLoading(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
@@ -224,6 +228,7 @@ function Dashboard() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -278,7 +283,27 @@ function Dashboard() {
 
 
 
-  console.log("state", state.PgList?.dashboardList)
+  useEffect(() => {
+  if (state.login.selectedHostel_Id) {
+
+    dispatch({
+      type: "GET_DASHBOARD_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          occupancyFilter: selectedFilters.occupancy,
+          tenantsFilter: selectedFilters.tenants,
+          advanceFilter: selectedFilters.advance
+        }
+      }
+    });
+
+    setLoading(true);
+  }
+}, [selectedFilters]);
+
+
+  console.log("selectedFilters", selectedFilters)
 
 
   const handleTabChange = (tab) => {
@@ -478,6 +503,7 @@ function Dashboard() {
                           </div>
                           {["Occupancy", "Tenants", "Advance Holding"].includes(card.title) && (
                             <div className="relative">
+
                               <span
                                 onClick={() => toggleCard(card.id)}
                                 className="ml-2 bg-white border border-[#D1D5DC] rounded p-1 cursor-pointer whitespace-nowrap inline-flex"
@@ -495,23 +521,32 @@ function Dashboard() {
                                   className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
                                 >
                                   {dateOptions?.map((option) => {
-                                    const isActive = selectedMonth === option.value;
+
+                                    const filterKey =
+                                      card.title === "Occupancy"
+                                        ? "occupancy"
+                                        : card.title === "Tenants"
+                                          ? "tenants"
+                                          : "advance";
+
+                                    const isActive = selectedFilters[filterKey] === option.value;
 
                                     return (
                                       <button
                                         key={option.value}
                                         onClick={() => {
-                                          setSelectedMonth(option.value);
+                                          setSelectedFilters((prev) => ({
+                                            ...prev,
+                                            [filterKey]: option.value
+                                          }));
+
                                           setOpenCards({});
                                         }}
-                                        className={`
-        w-full text-left px-4 py-2 text-xs font-[Gilroy]
-        transition
-        ${isActive
+                                        className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] transition
+              ${isActive
                                             ? "border-l-2 border-[#1E45E1] bg-[#F6F8FF] text-[#222] font-medium"
                                             : "text-gray-600 hover:bg-[#F6F8FF]"
-                                          }
-      `}
+                                          }`}
                                       >
                                         {option.label}
                                       </button>
