@@ -735,7 +735,7 @@ function Dashboard() {
                             }
 
                             {card.nextCheckout  &&
-                              <span className="text-gray-900 font-medium my-2 flex"> Next Checkout : {card.nextCheckout !== "null" ? card.nextCheckout : "N/A"}</span>
+                              <span className="text-gray-900 font-medium my-2 flex"> Next Checkout : {card.nextCheckout !== "null" ? card.nextCheckout : "-"}</span>
                             }
                           </div>
                         )}

@@ -85,7 +85,7 @@ const revenueData =
         }
       });
 
-      setLoading(true);
+      // setLoading(true);
     }
   }, [selected]);
 
@@ -234,13 +234,13 @@ const revenueData =
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">Avg Occupied</p>
               <p className="text-xl font-semibold text-[#16A34A] font-[Gilroy]">
-                101
+                
               </p>
             </div>
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">Avg Vacant</p>
               <p className="text-xl font-semibold text-[#F97316] font-[Gilroy]">
-                19
+                
               </p>
             </div>
           </div>
@@ -331,24 +331,26 @@ const revenueData =
           <hr className="border border-[#F3F4F5] mx-0 my-2" />
           <div className="grid grid-cols-2 ">
             <div>
-              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">Total Collected</p>
+              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
+                {/* Total Collected */}
+                </p>
               <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy]">
-                ₹ 54,000
+                {/* ₹ 54,000 */}
               </p>
               <p className="text-xs text-[#6A7282] font-[Gilroy] font-semibold">
-                ↓ 8% from last month
+                {/* ↓ 8% from last month */}
               </p>
             </div>
 
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
-                Total Outstanding
+                {/* Total Outstanding */}
               </p>
               <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy]">
-                ₹ 2.7L
+                {/* ₹ 2.7L */}
               </p>
               <p className="text-xs text-[#6A7282] font-[Gilroy] font-semibold">
-                ↑ 12% from last month
+                {/* ↑ 12% from last month */}
               </p>
             </div>
           </div>

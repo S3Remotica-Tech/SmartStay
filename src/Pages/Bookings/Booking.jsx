@@ -268,10 +268,10 @@ function Booking() {
             )}
 
             <div className="flex items-center gap-2">
-              <button
-                onClick={handleApplyInvoices}
+              <button disabled
+                // onClick={handleApplyInvoices}
                 className="bg-[#1E45E1] text-white text-sm font-semibold font-gilroy
-                 rounded-lg px-3 py-2.5 min-w-[150px] whitespace-nowrap"
+                 rounded-lg px-3 py-2.5 min-w-[150px] whitespace-nowrap disabled:bg-gray-200 cursor-not-allowed"
               >
                 Apply Invoices
               </button>

@@ -63,7 +63,7 @@ const [loading, setLoading] = useState(false);
             title: "Profit",
             amount: `₹ ${ExpenseAnDProfit?.netProfit}`,
             subtitle: "this month",
-            change: "N/A%",
+            change: "",
             changeColor: "#16A34A",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -129,7 +129,7 @@ useEffect(() => {
         }
       });
 
-      setLoading(true);
+    //   setLoading(true);
     }
   }, [slectedData]);
 

@@ -45,7 +45,7 @@ function DashRequestAndComplaints() {
         RequestComplaints?.request?.map((item) => ({
             id: item.requestId,
             name: item.customerName || "-",
-            room: "N/A",
+            room: "",
             type: item.type,
             status: item.status,
             time: item.date
@@ -108,7 +108,7 @@ useEffect(() => {
         }
       });
 
-      setLoading(true);
+    //   setLoading(true);
     }
   }, [requestDate]);
 

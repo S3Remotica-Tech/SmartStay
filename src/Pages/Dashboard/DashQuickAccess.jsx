@@ -35,8 +35,8 @@ function DashQuickAccess() {
     totalAmount: QuickAccess?.billingSummary?.totalAmount,
     collected: ` ${QuickAccess?.billingSummary?.totalPaid || 0}`,
     outstanding: `${QuickAccess?.billingSummary?.totalPending || 0}`,
-    collectionRate: "N/A",
-    trend: "N/A% from last month",
+    collectionRate: "",
+    trend: "0% from last month",
   };
 
   const dateOptions =
@@ -100,7 +100,7 @@ function DashQuickAccess() {
         }
       });
 
-      setLoading(true);
+      // setLoading(true);
     }
   }, [selected]);
 
