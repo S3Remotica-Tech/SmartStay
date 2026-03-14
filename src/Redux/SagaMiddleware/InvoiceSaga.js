@@ -1119,9 +1119,10 @@ function* handleUpdateAmenities(action) {
    }
 }
 
-function* handleUpdatemanualUnPaid(args) {
+function* handleUpdatemanualUnPaid(action) {
    try {
-            const response = yield call(UpdateManualUnPaid, args.payload);
+      const { hostelId, invoiceId} = action.payload
+                  const response = yield call(UpdateManualUnPaid,  hostelId, invoiceId);
      
       if (response?.status === 200) {
          yield put({ type: 'MANUAL_BILL_UPDATE_UNPAID_REDUCER', payload: { response: response.data, statusCode: response?.status } })

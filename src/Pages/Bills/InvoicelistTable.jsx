@@ -165,18 +165,19 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
   }
 
-const handleUnpaid = (item) =>{
-  console.log("executedddd")
-  if(item){
-    dispatch({ type: 'MANUAL_BILL_UPDATE_UNPAID_SAGA',
-       payload:
-       {
-      hostelId: item.hostelId,
-      invoiceId: item.invoiceId
-    }})
-  }
+const handleUnpaid = (item) => {
+  console.log("executedddd");
 
-}
+  if (item) {
+    dispatch({
+      type: "MANUAL_BILL_UPDATE_UNPAID_SAGA",
+      payload: {
+        hostelId: item.hostelId,
+        invoiceId: item.invoiceId
+      }
+    });
+  }
+};
 
 
   return (

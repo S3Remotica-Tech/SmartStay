@@ -285,11 +285,9 @@ export async function UpdateAmenities(hostelId, amenityId, datum) {
 }
 
 
-export async function UpdateManualUnPaid(hostel) {
-  console.log("hostel", hostel);
-
+export async function UpdateManualUnPaid(hostelId, invoiceId) {
   return await AxiosConfigV2.put(
-    `/v2/bills/unpaid/${hostel.hostelId}/${hostel.invoiceId}`,
+    `/v2/bills/unpaid/${hostelId}/${invoiceId}`,
     {},   
     {
       headers: {
