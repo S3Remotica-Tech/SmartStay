@@ -121,15 +121,14 @@ function Dashboard() {
       iconColor: "text-[#00A63E]",
       iconBg: "bg-[#F0FDF4]",
       stats: [
-        { label: "Occupied Beds", value1: "N/A", valueColor: "text-green-600" },
-        { label: "Available Beds", value1: "N/A", valueColor: "text-red-500" },
+        { label: "Occupied Beds", value1: `${dashboardList?.occupancy?.occupiedBeds}`, valueColor: "text-green-600" },
+        { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
-      nextMonth: "N/A% from last month",
-      sharingData: [
-        { percent: 0 },
-
-      ]
+      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth} from last month`,
+     sharingData: [
+  { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
+]
     },
     {
       id: 3,
@@ -138,12 +137,12 @@ function Dashboard() {
       iconColor: "text-purple-600",
       iconBg: "bg-purple-100",
       stats: [
-        { label: "Total Tenants", value1: "N/A" },
-        { label: "Check-in Tenants", value1: "N/A", valueColor: "text-green-600" },
+        { label: "Total Tenants", value1: `${dashboardList?.tenantsSummary?.totalTenants}` },
+        { label: "Check-in Tenants", value1: `${dashboardList?.tenantsSummary?.checkInTenants}`, valueColor: "text-green-600" },
       ],
       footer: "Notice Period",
-      footerValue: "N/A Tenants",
-      nextCheckout: "Feb 20, 2026"
+      footerValue: `${dashboardList?.tenantsSummary?.noticePeriod} Tenants`,
+      nextCheckout: `${dashboardList?.tenantsSummary?.nextCheckout}`
     },
     {
       id: 4,
@@ -152,8 +151,8 @@ function Dashboard() {
       iconColor: "text-orange-600",
       iconBg: "bg-orange-100",
       stats: [
-        { label: "Total Advance", value1: "₹ N/A" },
-        { label: "Refunded", value1: "₹N/A", valueColor: "text-red-500" },
+        { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance}` },
+        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded}`, valueColor: "text-red-500" },
 
       ],
       footer: "Others",
@@ -662,11 +661,11 @@ function Dashboard() {
                               {
                                 card.title === "Occupancy" &&
                                 <h3 className="text-sm font-semibold text-[#101828] font-[Gilroy]">
-                                  45%
+                                  {dashboardList?.occupancy?.occupancyRate}
                                 </h3>
                               }
                               {
-                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ N/A</span>
+                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other}</span>
                               }
 
                               {card.footerValue && (
@@ -735,8 +734,8 @@ function Dashboard() {
                               )
                             }
 
-                            {card.nextCheckout &&
-                              <span className="text-gray-900 font-medium my-2 flex"> Next Checkout:{card.nextCheckout}</span>
+                            {card.nextCheckout  &&
+                              <span className="text-gray-900 font-medium my-2 flex"> Next Checkout : {card.nextCheckout !== "null" ? card.nextCheckout : "N/A"}</span>
                             }
                           </div>
                         )}
