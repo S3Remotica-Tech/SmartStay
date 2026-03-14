@@ -39,7 +39,7 @@ const [loading, setLoading] = useState(false);
             title: "Revenue",
             amount: `₹ ${ExpenseAnDProfit?.totalIncome}`,
             subtitle: "this month",
-            change: "N/A%",
+            change: `${ExpenseAnDProfit?.incomeTrend} %`,
             changeColor: "#EF4444",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -51,7 +51,7 @@ const [loading, setLoading] = useState(false);
             title: "Expenses",
             amount: `₹ ${ExpenseAnDProfit?.totalExpense}`,
             subtitle: "this month",
-             change: "N/A%",
+              change: `${ExpenseAnDProfit?.expenseTrend} %`,
             changeColor: "#16A34A",
             compareText: "",
             iconBg: "#FFFFFF",
@@ -76,32 +76,22 @@ const [loading, setLoading] = useState(false);
 
 
 
-    const expenseBreakdown = [
-        {
-            label: "Foods",
-            amount: "₹1.2L",
-            percentage: 37.5,
-            barColor: "bg-[#155DFC]",
-        },
-        {
-            label: "Utilities",
-            amount: "₹0.8L",
-            percentage: 25,
-            barColor: "bg-[#00A63E]",
-        },
-        {
-            label: "Maintenance",
-            amount: "₹0.6L",
-            percentage: 18.75,
-            barColor: "bg-[#F54900]",
-        },
-        {
-            label: "Others",
-            amount: "₹0.6L",
-            percentage: 18.75,
-            barColor: "bg-[#9810FA]",
-        },
+  const expenseBreakdown =
+  state.PgList?.dashboardList?.expenseSummary?.breakdown?.map((item, index) => {
+    const colors = [
+      "bg-[#155DFC]",
+      "bg-[#00A63E]",
+      "bg-[#F54900]",
+      "bg-[#9810FA]"
     ];
+
+    return {
+      label: item.expenseType,
+      amount: `₹${item.amount}`,
+      percentage: item.percentage,
+      barColor: colors[index % colors.length]
+    };
+  }) || [];
 
  const dateOptions =
     state.PgList?.dashboardList?.filters?.map((item) => ({

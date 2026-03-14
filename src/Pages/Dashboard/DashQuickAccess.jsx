@@ -24,7 +24,7 @@ function DashQuickAccess() {
   const [selected, setSelected] = useState("This Month");
   const [open, setOpen] = useState(false)
   const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   const QuickAccess = state.PgList?.dashboardList
@@ -32,7 +32,7 @@ const [loading, setLoading] = useState(false);
   const billingSummary = {
     title: "Billing Summary",
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
-    totalAmount: " N/A",
+    totalAmount: QuickAccess?.billingSummary?.totalAmount,
     collected: ` ${QuickAccess?.billingSummary?.totalPaid || 0}`,
     outstanding: `${QuickAccess?.billingSummary?.totalPending || 0}`,
     collectionRate: "N/A",
@@ -51,13 +51,13 @@ const [loading, setLoading] = useState(false);
     { id: "overdue", label: "Overdue Invoices", count: `${QuickAccess?.overdueInvoices?.length}` },
   ];
 
- 
+
 
   const checkinList =
     QuickAccess?.checkins?.map((item) => ({
       id: item?.complaintId,
       name: item.customerName || "-",
-      sharing: "N/A",
+      sharing: item.sharingType,
       room: item.roomName,
       bed: item.bedName,
       date: item.joiningDate
@@ -72,7 +72,8 @@ const [loading, setLoading] = useState(false);
       status: item.status,
       amount: item.totalAmount,
       date: item.dueDate,
-      initials: "N/A"
+      initials: item.initials,
+      profilePic: item.profilePic
     })) || [];
 
   useEffect(() => {
@@ -94,7 +95,7 @@ const [loading, setLoading] = useState(false);
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: {
-          billingFilter: selected
+            billingFilter: selected
           }
         }
       });
@@ -103,15 +104,15 @@ const [loading, setLoading] = useState(false);
     }
   }, [selected]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.PgList?.dashboardList) {
       setLoading(false)
-      
+
     }
   }, [state.PgList?.dashboardList]);
 
 
- useState(() => {
+  useState(() => {
     if (state.PgList.getDashboardSuccessStatus === 200) {
       setLoading(false);
       setTimeout(() => {
@@ -128,7 +129,7 @@ useEffect(() => {
       <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">
         Quick Access & Follow-ups
       </h2>
- {loading && (
+      {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
@@ -274,7 +275,7 @@ useEffect(() => {
                       <p className="text-xs text-[#4A5565] text-xs">{item.sharing}</p>
                       <p className="text-xs text-[#4A5565] text-xs">{item.room}</p>
                       <p className="text-xs text-[#4A5565] text-xs">{item.bed}</p>
-                      <p className="text-xs text-[#4A5565] text-xs">{item.date}</p>
+                      <p className="text-xs text-[#4A5565] text-xs">Check-in : {item.date}</p>
                     </div>
                   </div>
 
@@ -304,11 +305,17 @@ useEffect(() => {
 
                   <div className="flex items-center gap-3">
 
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-600">
-                      {item.initials}
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-600 overflow-hidden">
+                      {item.profilePic ? (
+                        <img
+                          src={item.profilePic}
+                          alt="profile"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <span>{item.initials}</span>
+                      )}
                     </div>
-
-
                     <div>
                       <div className="text-sm font-semibold text-gray-900">
                         {item.name}

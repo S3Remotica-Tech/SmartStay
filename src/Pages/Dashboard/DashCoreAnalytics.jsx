@@ -20,7 +20,7 @@ function DashCoreAnalytics() {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("This Month");
   const dropdownRef = useRef(null);
@@ -30,7 +30,7 @@ const [loading, setLoading] = useState(false);
     state.PgList?.dashboardList?.occupancyTrend?.map((item) => ({
       label: item.date,
       occupied: item.occupied,
-      vacant: item.booked,
+      vacant: item.vacant,
     })) || [];
 
 
@@ -45,21 +45,34 @@ const [loading, setLoading] = useState(false);
   // ];
 
 
-  const revenueData = [
-    { month: "Aug", collected: 12.5, outstanding: 1.2 },
-    { month: "Sep", collected: 13.2, outstanding: 0.8 },
-    { month: "Oct", collected: 14.1, outstanding: 1.5 },
-    { month: "Nov", collected: 13.8, outstanding: 1.1 },
-    { month: "Dec", collected: 15.6, outstanding: 0.9 },
-    { month: "Jan", collected: 3.1, outstanding: 12.8 },
-  ];
+  // const revenueData = [
+  //   { month: "Aug", collected: 12.5, outstanding: 1.2 },
+  //   { month: "Sep", collected: 13.2, outstanding: 0.8 },
+  //   { month: "Oct", collected: 14.1, outstanding: 1.5 },
+  //   { month: "Nov", collected: 13.8, outstanding: 1.1 },
+  //   { month: "Dec", collected: 15.6, outstanding: 0.9 },
+  //   { month: "Jan", collected: 3.1, outstanding: 12.8 },
+  // ];
+
+
+const revenueData =
+    state.PgList?.dashboardList?.revenueTrend?.map((item) => ({
+      month: item.month,
+      collected: item.collected,
+      outstanding: item.outstanding,
+    })) || [];
+
+
+
+
+
   const dateOptions =
     state.PgList?.dashboardList?.filters?.map((item) => ({
       label: item,
       value: item
     })) || [];
 
-useEffect(() => {
+  useEffect(() => {
     if (state.login.selectedHostel_Id) {
 
       dispatch({
@@ -67,7 +80,7 @@ useEffect(() => {
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: {
-          occupancyFilter: selected
+            occupancyFilter: selected
           }
         }
       });
@@ -76,15 +89,15 @@ useEffect(() => {
     }
   }, [selected]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.PgList?.dashboardList) {
       setLoading(false)
-      
+
     }
   }, [state.PgList?.dashboardList]);
 
 
- useState(() => {
+  useState(() => {
     if (state.PgList.getDashboardSuccessStatus === 200) {
       setLoading(false);
       setTimeout(() => {
@@ -121,7 +134,7 @@ useEffect(() => {
       <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
         Core Analytics
       </h2>
-{loading && (
+      {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>

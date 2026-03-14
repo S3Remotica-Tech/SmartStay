@@ -18,7 +18,7 @@ function DashRequestAndComplaints() {
 
     const requestStats = [
         { count: `${RequestComplaints?.tenantRequests?.pending}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: `N/A`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
+        { count: `${RequestComplaints?.tenantRequests?.inprogress}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
         { count: `${RequestComplaints?.tenantRequests?.resolved}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" },
     ];
 
@@ -56,7 +56,7 @@ function DashRequestAndComplaints() {
 
     const complaintStats = [
         { count: `${RequestComplaints?.tenantComplaints?.pending}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: `N/A`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
+        { count: `${RequestComplaints?.tenantComplaints?.inprogress}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
         { count: `${RequestComplaints?.tenantComplaints?.resolved}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" }
     ];
 
@@ -64,8 +64,8 @@ function DashRequestAndComplaints() {
         RequestComplaints?.complaints?.map((item) => ({
             id: item.complaintId,
             name: item.customerName || "-",
-            room: "N/A",
-            title: "Complaints description needed",
+            room: item.roomName,
+            title:item.description,
             type: item.type,
             status: item.status,
             time: item.date
