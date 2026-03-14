@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-
+import UserlistForm from "../CustomerFile/UserlistForm";
 import {
 
   ArrowUp2,
@@ -16,6 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 
+
 function DashQuickAccess() {
 
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ function DashQuickAccess() {
   const [open, setOpen] = useState(false)
   const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
   const [loading, setLoading] = useState(false);
-
+  const [tenantDetails, setTenantDetails] = useState("");
+  const [showFormCheckIn, setShowFormCheckIn] = useState(false);
 
   const QuickAccess = state.PgList?.dashboardList
 
@@ -61,7 +63,8 @@ function DashQuickAccess() {
       sharing: item.sharingType,
       room: item.roomName,
       bed: item.bedName,
-      date: item.joiningDate
+      date: item.joiningDate,
+      profilePic: item.profilePic
     })) || [];
 
 
@@ -124,7 +127,7 @@ function DashQuickAccess() {
 
   const handleNavigateTenant = (tenantId) => {
     console.log("tenantId", tenantId)
-   
+
     if (tenantId) {
 
 
@@ -134,17 +137,32 @@ function DashQuickAccess() {
           hostelId: state.login.selectedHostel_Id,
           isDashboardWay: true,
           IsOverView: true,
-          
+
 
         },
       });
-       
+
     }
   }
 
+   const handleCheckIn = (data) => {
+    setShowFormCheckIn(true)
+    setTenantDetails(data)
+       }
+
+
+
+  const handleCloseCheckInForm = () => {
+    setShowFormCheckIn(false)
+  }
 
   return (
     <div className="mt-6 font-[Gilroy]">
+      {
+        showFormCheckIn && <UserlistForm EditObj={tenantDetails}
+          showAssignMenu={showFormCheckIn}
+          setShowAssignMenu={handleCloseCheckInForm} />
+      }
       <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">
         Quick Access & Follow-ups
       </h2>
@@ -311,7 +329,7 @@ function DashQuickAccess() {
                         View
                       </button>
 
-                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm">
+                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm" onClick={()=>handleCheckIn(item)}>
                         Check-in
                       </button>
                     </div>
