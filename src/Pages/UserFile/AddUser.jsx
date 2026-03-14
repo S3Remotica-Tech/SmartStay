@@ -63,7 +63,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       // const mobileNumber = mobileNo.slice(2);
 
       const initial = {
-        name: editDetails.firstName || "",
+        name: editDetails.fullName || "",
         email: editDetails.mailId || "",
         mobile: editDetails.mobileNo,
         countryCode: editDetails.countryCode,

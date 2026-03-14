@@ -6,7 +6,7 @@ import Speed from "../Assets/v2LandingImages/Speed.svg";
 import PaymentReceived from "../Assets/v2LandingImages/PaymentReceived.svg";
 import VerifyKYC from "../Assets/v2LandingImages/VerifyKYC.svg";
 
-
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -19,6 +19,22 @@ function FeaturesKey() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+
+
+
+    let navigate = useNavigate();
+
+    const handleSignUp = () => {
+        navigate("/hostel-management-signup");
+    };
+
+
+    const handleNavigateDemo = () => {
+        navigate("/demo");
+    };
+
+
 
     return (
         <div className="px-6 md:px-12 lg:px-[120px] py-12 bg-white font-tasa">
@@ -46,11 +62,11 @@ function FeaturesKey() {
                     </p>
 
                     <div className="flex flex-wrap gap-4">
-                        <button className="bg-[#FF9D00] text-white text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
+                        <button onClick={handleSignUp} className="bg-[#FF9D00] text-white text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
                             30 Day Free Trial <ArrowRight size="16" />
                         </button>
 
-                        <button className="bg-white text-[#222222] text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
+                        <button onClick={handleNavigateDemo} className="bg-white text-[#222222] text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
                             Book Demo <ArrowRight size="16" color="#222222" />
                         </button>
                     </div>

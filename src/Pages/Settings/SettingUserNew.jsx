@@ -296,10 +296,10 @@ function SettingNewUser() {
                               <tr className="border-b border-gray-200">
 
                                 <td
-                                  title={`${item?.firstName} ${item?.lastName}`}
+                                  title={`${item?.fullName}`}
                                   className="text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
                                 >
-                                  {item?.firstName} {item?.lastName}
+                                  {item?.fullName}
                                 </td>
 
                                 <td

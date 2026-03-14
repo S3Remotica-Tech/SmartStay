@@ -372,7 +372,7 @@ const InvoicePage = () => {
           invoiceId: rowData.invoiceId,
         },
       });
-       setLoading(true);
+      setLoading(true);
 
     }
   };
@@ -380,7 +380,7 @@ const InvoicePage = () => {
 
 
 
-    useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList?.invoicePDF;
       if (!pdfUrl) return;
@@ -1000,6 +1000,21 @@ const InvoicePage = () => {
     }
 
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
+
+
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceUnpaidStatusCode === 200) {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+
+      dispatch({ type: "REMOVE_MANUAL_BILL_UPDATE_UNPAID_REDUCER" });
+    }
+
+  }, [state.InvoiceList.manualInvoiceUnpaidStatusCode])
 
 
   useEffect(() => {

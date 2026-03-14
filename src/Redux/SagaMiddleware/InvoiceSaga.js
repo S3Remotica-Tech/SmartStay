@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-   getInitializeEditRecurring,shareWhatsappPDF, shareWhatsappPDFReceipt,
+   getInitializeEditRecurring,shareWhatsappPDF, shareWhatsappPDFReceipt,UpdateManualUnPaid,
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
 } from "../Action/InvoiceAction";
@@ -1119,7 +1119,69 @@ function* handleUpdateAmenities(action) {
    }
 }
 
+function* handleUpdatemanualUnPaid(action) {
+  try {
 
+    const { hostelId, invoiceId } = action.payload;
+
+    const response = yield call(UpdateManualUnPaid, hostelId, invoiceId);
+
+    if (response?.status === 200) {
+
+      yield put({
+        type: "MANUAL_BILL_UPDATE_UNPAID_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response.status
+        }
+      });
+
+      const toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        minHeight: "40px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success(response?.data?.message || "Bill marked as unpaid", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: toastStyle
+      });
+
+    } else {
+      yield put({
+        type: "ERROR",
+        payload: response?.data?.message
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+
+  } catch (error) {
+
+    yield* handleApiError(error);
+
+    if (error?.response?.status === 400 || error?.response?.status === 403) {
+      yield put({
+        type: "ERROR_AMENITIES_SETTINGS",
+        payload: { response: error.response.data }
+      });
+    }
+
+  }
+}
 
 function* handleManualInvoice() {
    try {
@@ -2043,6 +2105,8 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+
+   yield takeEvery('MANUAL_BILL_UPDATE_UNPAID_SAGA',handleUpdatemanualUnPaid )
 yield takeEvery('WHATSAPPSHAREPDFRECEIPT',handleGetshareWhatsappPDFReceipt)
    yield takeEvery('GETSHAREPDF',handleGetshareWhatsappPDF)
    yield takeEvery('GETINITIALIZEEDITRECURRING', handleGetInitializeEditRecurring)

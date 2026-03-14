@@ -220,7 +220,7 @@ const handleNavigateDemo = () => {
             
             <div className='max-w-7xl flex items-center justify-center'>
                 <button onClick={handleNavigateDemo} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
-                    Request Demo
+                   Explore Features
                     <ArrowRight size="18" />
                 </button>
             </div>

@@ -21,7 +21,7 @@ import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-import { Tabs, Tab } from "react-bootstrap";
+// import { Tabs, Tab } from "react-bootstrap";
 import { useHasPermission } from '../../Utils/Permission';
 import {
   Buildings,
@@ -45,7 +45,7 @@ function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   // const [data, setData] = useState([]);
-  // const [dashboardList, setDashboardList] = useState('');
+  const [dashboardList, setDashboardList] = useState('');
   const [activeTab, setActiveTab] = useState("1");
 
   const [openCards, setOpenCards] = useState({});
@@ -54,19 +54,20 @@ function Dashboard() {
   const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  // const [selectExpence, setSelectExpence] = useState("this_month");
-  // const [selectCashback, setSelectCashback] = useState("this_month");
-  // const [selectRevenu, setSelectRevenu] = useState("six_month");
+
 
   const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
-  // const [selectAdvance, setSelectAdvance] = useState("six_month");
+  const [selectedFilters, setSelectedFilters] = useState({
+    occupancy: "",
+    tenants: "",
+    advance: ""
+  });
 
   const dropdownRef = useRef(null);
   const dropdownSharingRef = useRef(null)
-  // const [open, setOpen] = useState(false);
-  // const [selected, setSelected] = useState("This Month");
+
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -80,7 +81,7 @@ function Dashboard() {
     }
   }, [canReadDashboard]);
 
- useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
       setTimeout(() => {
@@ -102,15 +103,16 @@ function Dashboard() {
       iconColor: "text-[#155DFC]",
       iconBg: "bg-[#EFF6FF]",
       stats: [
-        { label: "Total Rooms", value1: "20", value2: 24 },
-        { label: "Total Beds", value1: "53" },
+        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms}`, value2: `${dashboardList?.roomsBeds?.totalRooms}` },
+        { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds}` },
       ],
       footer: "Sharing Breakdown",
-      sharingData: [
-        { label: "1-share", value: 12, percent: 40 },
-        { label: "2-share", value: 24, percent: 70 },
-        { label: "3-share", value: 12, percent: 40 },
-      ]
+      sharingData:
+        dashboardList?.roomsBeds?.sharingInfo?.map((item) => ({
+          label: item.shareType,
+          value: item.fillBeds,
+          percent: item.occupancyRatio
+        })) || []
     },
     {
       id: 2,
@@ -119,15 +121,14 @@ function Dashboard() {
       iconColor: "text-[#00A63E]",
       iconBg: "bg-[#F0FDF4]",
       stats: [
-        { label: "Occupied Beds", value1: "43", valueColor: "text-green-600" },
-        { label: "Available Beds", value1: "10", valueColor: "text-red-500" },
+        { label: "Occupied Beds", value1: `${dashboardList?.occupancy?.occupiedBeds}`, valueColor: "text-green-600" },
+        { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
-      nextMonth: "3% from last month",
-      sharingData: [
-        { percent: 85 },
-
-      ]
+      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth} from last month`,
+     sharingData: [
+  { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
+]
     },
     {
       id: 3,
@@ -136,12 +137,12 @@ function Dashboard() {
       iconColor: "text-purple-600",
       iconBg: "bg-purple-100",
       stats: [
-        { label: "Total Tenants", value1: "306" },
-        { label: "Check-in Tenants", value1: "43", valueColor: "text-green-600" },
+        { label: "Total Tenants", value1: `${dashboardList?.tenantsSummary?.totalTenants}` },
+        { label: "Check-in Tenants", value1: `${dashboardList?.tenantsSummary?.checkInTenants}`, valueColor: "text-green-600" },
       ],
       footer: "Notice Period",
-      footerValue: "4 Tenants",
-      nextCheckout: "Feb 20, 2026"
+      footerValue: `${dashboardList?.tenantsSummary?.noticePeriod} Tenants`,
+      nextCheckout: `${dashboardList?.tenantsSummary?.nextCheckout}`
     },
     {
       id: 4,
@@ -150,8 +151,8 @@ function Dashboard() {
       iconColor: "text-orange-600",
       iconBg: "bg-orange-100",
       stats: [
-        { label: "Total Advance", value1: "₹1.5L" },
-        { label: "Refunded", value1: "₹10,000", valueColor: "text-red-500" },
+        { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance}` },
+        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded}`, valueColor: "text-red-500" },
 
       ],
       footer: "Others",
@@ -183,13 +184,11 @@ function Dashboard() {
   ];
 
 
-  const dateOptions = [
-    "Today",
-    "This Week",
-    "This Month",
-    "Last Month",
-    "Last 3 Months",
-  ];
+  const dateOptions =
+    dashboardList?.filters?.map((item) => ({
+      label: item,
+      value: item
+    })) || [];
 
   const toggleCard = (id) => {
     setOpenCards((prev) => ({
@@ -203,7 +202,15 @@ function Dashboard() {
 
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -220,6 +227,7 @@ function Dashboard() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -262,7 +270,12 @@ function Dashboard() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "PGDASHBOARD", payload: state.login.selectedHostel_Id });
+      dispatch({
+        type: "GET_DASHBOARD_SAGA", payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {}
+        }
+      });
       setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
@@ -270,26 +283,31 @@ function Dashboard() {
 
 
   useEffect(() => {
-    if (state.PgList?.statusCodeForAdvanceFilter === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DASHBOARD_FILTER_ADVANCE" });
-      }, 1000);
-    }
-  }, [state.PgList?.statusCodeForAdvanceFilter]);
+  if (state.login.selectedHostel_Id) {
 
-  useEffect(() => {
-    if (state.PgList?.NoDashboardStatusCode === 201) {
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NO_DASHBOARD_LIST" });
-      }, 1000);
-    }
-  }, [state.PgList?.NoDashboardStatusCode]);
+    dispatch({
+      type: "GET_DASHBOARD_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          occupancyFilter: selectedFilters.occupancy,
+          tenantsFilter: selectedFilters.tenants,
+          advanceFilter: selectedFilters.advance
+        }
+      }
+    });
+
+    setLoading(true);
+  }
+}, [selectedFilters]);
+
+
+  console.log("selectedFilters", selectedFilters)
 
 
   const handleTabChange = (tab) => {
-  setActiveTab(String(tab));
-};
+    setActiveTab(String(tab));
+  };
 
 
   useEffect(() => {
@@ -313,29 +331,24 @@ function Dashboard() {
   });
 
 
-  useEffect(() => {
-    if (state.PgList?.statusCodeForDashboardFilter === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS" });
-      }, 1000);
-    }
-  }, [state.PgList?.statusCodeForDashboardFilter]);
+
 
   useState(() => {
-    if (state.PgList.statuscodeForDashboard === 200) {
+    if (state.PgList.getDashboardSuccessStatus === 200) {
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: "CLEAR_CREATE_PG_DASHBOARD" });
+        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
       }, 200);
     }
-  }, [state.PgList.statuscodeForDashboard]);
+  }, [state.PgList.getDashboardSuccessStatus]);
 
   useEffect(() => {
-    if (state.PgList?.dashboardDetails) {
+    if (state.PgList?.dashboardList) {
       setLoading(false)
-      // setDashboardList(state.PgList?.dashboardDetails);
+      setDashboardList(state.PgList?.dashboardList);
 
     }
-  }, [state.PgList?.dashboardDetails]);
+  }, [state.PgList?.dashboardList]);
 
 
 
@@ -402,59 +415,55 @@ function Dashboard() {
           )}
         </Marquee>
 
-       <div className="w-full px-3 sticky top-0 z-[1000] bg-white py-2.5 border border-[#E5E7EB] rounded-xl">
-  <div
-    className={`flex ${
-      isSmallScreen ? "flex-col items-center" : "items-center"
-    } gap-3 w-1/2`}
-  >
-   
-    <button
-      onClick={() => handleTabChange("1")}
-      className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
-        ${
-          activeTab === "1"
-            ? "text-[#1E45E1] bg-[#F6F8FF]"
-            : "text-[#4B4B4B] bg-white hover:bg-gray-100"
-        }`}
-    >
-      Dashboard
-    </button>
+        <div className="w-full px-3 sticky top-0 z-[1000] bg-white py-2.5 border border-[#E5E7EB] rounded-xl">
+          <div
+            className={`flex ${isSmallScreen ? "flex-col items-center" : "items-center"
+              } gap-3 w-1/2`}
+          >
 
-   
-    <button
-      onClick={() => handleTabChange("2")}
-      className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
-        ${
-          activeTab === "2"
-            ? "text-[#1E45E1] bg-[#F6F8FF]"
-            : "text-[#4B4B4B] bg-white hover:bg-gray-100"
-        }`}
-    >
-      Announcement
-    </button>
+            <button
+              onClick={() => handleTabChange("1")}
+              className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
+        ${activeTab === "1"
+                  ? "text-[#1E45E1] bg-[#F6F8FF]"
+                  : "text-[#4B4B4B] bg-white hover:bg-gray-100"
+                }`}
+            >
+              Dashboard
+            </button>
 
-   
-    <button
-     onClick={() => handleTabChange("3")}
-      className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
-        ${
-          activeTab === "3"
-            ? "text-[#1E45E1] bg-[#F6F8FF]"
-            : "text-[#4B4B4B] bg-white hover:bg-gray-100"
-        }`}
-    >
-      Updates
-    </button>
-  </div>
 
-</div>
+            <button
+              onClick={() => handleTabChange("2")}
+              className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
+        ${activeTab === "2"
+                  ? "text-[#1E45E1] bg-[#F6F8FF]"
+                  : "text-[#4B4B4B] bg-white hover:bg-gray-100"
+                }`}
+            >
+              Announcement
+            </button>
 
-          {loading && <LoaderComponent />}
 
-          <div>
-            {activeTab === "1" && (
-              (!canReadDashboard && !loading) ? (
+            <button
+              onClick={() => handleTabChange("3")}
+              className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
+        ${activeTab === "3"
+                  ? "text-[#1E45E1] bg-[#F6F8FF]"
+                  : "text-[#4B4B4B] bg-white hover:bg-gray-100"
+                }`}
+            >
+              Updates
+            </button>
+          </div>
+
+        </div>
+
+        {loading && <LoaderComponent />}
+
+        <div>
+          {activeTab === "1" && (
+            (!canReadDashboard && !loading) ? (
               <div
                 className="flex flex-col items-center justify-center mt-24">
 
@@ -493,6 +502,7 @@ function Dashboard() {
                           </div>
                           {["Occupancy", "Tenants", "Advance Holding"].includes(card.title) && (
                             <div className="relative">
+
                               <span
                                 onClick={() => toggleCard(card.id)}
                                 className="ml-2 bg-white border border-[#D1D5DC] rounded p-1 cursor-pointer whitespace-nowrap inline-flex"
@@ -509,26 +519,35 @@ function Dashboard() {
                                   ref={dropdownRef}
                                   className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
                                 >
-                                  {dateOptions.map((option) => {
-                                    const isActive = selectedMonth === option;
+                                  {dateOptions?.map((option) => {
+
+                                    const filterKey =
+                                      card.title === "Occupancy"
+                                        ? "occupancy"
+                                        : card.title === "Tenants"
+                                          ? "tenants"
+                                          : "advance";
+
+                                    const isActive = selectedFilters[filterKey] === option.value;
 
                                     return (
                                       <button
-                                        key={option}
+                                        key={option.value}
                                         onClick={() => {
-                                          setSelectedMonth(option);
+                                          setSelectedFilters((prev) => ({
+                                            ...prev,
+                                            [filterKey]: option.value
+                                          }));
+
                                           setOpenCards({});
                                         }}
-                                        className={`
-            w-full text-left px-4 py-2 text-xs font-[Gilroy]
-             transition
-            ${isActive
+                                        className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] transition
+              ${isActive
                                             ? "border-l-2 border-[#1E45E1] bg-[#F6F8FF] text-[#222] font-medium"
                                             : "text-gray-600 hover:bg-[#F6F8FF]"
-                                          }
-          `}
+                                          }`}
                                       >
-                                        {option}
+                                        {option.label}
                                       </button>
                                     );
                                   })}
@@ -600,7 +619,7 @@ function Dashboard() {
                                           Detailed Sharing Breakdown
                                         </div>
 
-                                     
+
                                         <div className="space-y-4">
                                           {sharingBreakdown.map((item, index) => (
                                             <div
@@ -642,11 +661,11 @@ function Dashboard() {
                               {
                                 card.title === "Occupancy" &&
                                 <h3 className="text-sm font-semibold text-[#101828] font-[Gilroy]">
-                                  45%
+                                  {dashboardList?.occupancy?.occupancyRate}
                                 </h3>
                               }
                               {
-                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹54,000</span>
+                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other}</span>
                               }
 
                               {card.footerValue && (
@@ -656,9 +675,9 @@ function Dashboard() {
                               )}
 
                             </div>
-                            <div className="space-y-2">
-                              {card?.sharingData?.map((item, index) => (
-                                <div key={index} className="flex items-center gap-3">
+                            <div className="space-y-2 max-h-[100px] overflow-y-auto show-scrolls">
+                              {card?.sharingData?.length > 0 ? card?.sharingData?.map((item, index) => (
+                                <div key={index} className="flex items-center gap-3 me-3 ">
 
                                   <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
 
@@ -687,7 +706,12 @@ function Dashboard() {
                                     </span>
                                   }
                                 </div>
-                              ))}
+                              )) : card.title === "Rooms & Beds" &&
+                              <span className="text-red-500 text-xs font-semibold bg-red-100 px-2 py-2 rounded">
+                                No sharing Details are there!
+                              </span>
+
+                              }
                             </div>
 
 
@@ -710,8 +734,8 @@ function Dashboard() {
                               )
                             }
 
-                            {card.nextCheckout &&
-                              <span className="text-gray-900 font-medium my-2 flex"> Next Checkout:{card.nextCheckout}</span>
+                            {card.nextCheckout  &&
+                              <span className="text-gray-900 font-medium my-2 flex"> Next Checkout : {card.nextCheckout !== "null" ? card.nextCheckout : "-"}</span>
                             }
                           </div>
                         )}
@@ -736,18 +760,18 @@ function Dashboard() {
               </div>
             )
 
-            )}
+          )}
 
-            {activeTab === "2" && (
-              <DashboardAnnouncement />
-            )
-            }
-            {activeTab === "3" &&
+          {activeTab === "2" && (
+            <DashboardAnnouncement />
+          )
+          }
+          {activeTab === "3" &&
 
-              <DashboardUpdates />
-            }
-          </div>
-        
+            <DashboardUpdates />
+          }
+        </div>
+
       </div>
     </>
   );

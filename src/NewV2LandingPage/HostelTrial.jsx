@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  ArrowRight } from "iconsax-react";
+import { ArrowRight } from "iconsax-react";
 import Building from "../Assets/v2LandingImages/Building.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -8,17 +8,20 @@ import { useNavigate } from "react-router-dom";
 
 function HostelTrial() {
 
-let navigate = useNavigate();
+    let navigate = useNavigate();
 
+    const handleNavigateDemo = () => {
+        console.log("calledddd")
+        navigate("/demo");
+    };
 
+    const handleSignUp = () => {
+        navigate("/hostel-management-signup");
+    };
 
-const handleSignUp = () => {
-    navigate("/hostel-management-signup");
-  };
-
-  return (
-      <div className="w-full bg-[#FFFFFF] py-[40px] md:py-[53px] px-[20px] md:px-[101px] font-tasa">
-   <div className="w-full flex justify-center py-2 bg-[#00051B] rounded-xl">
+    return (
+        <div className="w-full bg-[#FFFFFF] py-[40px] md:py-[53px] px-[20px] md:px-[101px] font-tasa">
+            <div className="w-full flex justify-center py-2 bg-[#00051B] rounded-xl">
                 <div className="relative w-full rounded-xl overflow-hidden  flex items-center">
 
                     <div className="max-w-lg text-white p-4">
@@ -27,7 +30,7 @@ const handleSignUp = () => {
                         </h2>
 
                         <div className="flex gap-4 mt-6">
-                            <button className="bg-white text-[#222222] flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium hover:shadow font-dmsans">
+                            <button onClick={handleNavigateDemo} className="bg-white text-[#222222] flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium hover:shadow font-dmsans">
                                 Request Demo <ArrowRight size="18" />
                             </button>
 
@@ -47,8 +50,8 @@ const handleSignUp = () => {
                     </div>
                 </div>
             </div>
-            </div>
-  )
+        </div>
+    )
 }
 
 export default HostelTrial

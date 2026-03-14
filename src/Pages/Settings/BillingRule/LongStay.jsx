@@ -231,6 +231,9 @@ function LongStayRecurringModal() {
         setErrors({});
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         const newErrors = {};
+          if (!dueDays) {
+            newErrors.dueDate = "Please select billing due days of month";
+        }
 
         if (billingDate && dueDays && Number(dueDays) <= Number(billingDate)) {
             newErrors.dueDate = "Due date must be after billing date";
@@ -397,15 +400,20 @@ function LongStayRecurringModal() {
     };
 
 
-    const startDay = "01";
+    // const startDay = "01";
 
-    const endDay = gracePeriod
-        ? gracePeriod.toString().padStart(2, "0")
-        : null;
+    // const endDay = gracePeriod
+    //     ? gracePeriod.toString().padStart(2, "0")
+    //     : null;
 
-    const startFrom = gracePeriod
-        ? (gracePeriod + 1).toString().padStart(2, "0")
-        : null;
+    // const startFrom = gracePeriod
+    //     ? (gracePeriod + 1).toString().padStart(2, "0")
+    //     : null;
+
+
+    const startDay = billingDate;
+const endDay = billingDate + gracePeriod;
+const startFrom = endDay + 1;
 
     const getEndDayDate = (billingDate) => {
         if (!billingDate) return null;
@@ -495,11 +503,12 @@ function LongStayRecurringModal() {
                         </div>
 
 
-                        <div onClick={() => handleChange("joining_date_based")}
+                        <div
+                            //  onClick={() => handleChange("joining_date_based")}
                             className={`flex items-center max-h-[150px] gap-3 p-2 shadow-sm rounded-lg border w-full cursor-pointer transition
           ${billingMethod === "joining_date_based"
                                     ? "border-1 border-[#88A0FF] bg-[#AEBEFF4D]"
-                                    : "border-gray-200 bg-white"
+                                    : "border-gray-200 bg-gray-200"
                                 }`}
                         >
                             <input
@@ -507,8 +516,10 @@ function LongStayRecurringModal() {
                                 name="billingMethod"
                                 value="joining_date_based"
                                 checked={billingMethod === "joining_date_based"}
+                                disabled
+                                className="mt-1 accent-[#1E45E1] disabled:accent-[#DBDBDB] disabled:cursor-not-allowed disabled:opacity-60"
+                            // className="mt-1 accent-[#DBDBDB]  cursor-pointer"
 
-                                className="mt-1 accent-[#4E61F6]  cursor-pointer"
                             />
 
                             <div>
@@ -546,7 +557,7 @@ function LongStayRecurringModal() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="relative" ref={pickerRef} >
                             <label className="block text-sm text-gray-700 font-gilroy font-medium mb-1">
-                                Billing Start Date (Day of Month)
+                                Billing Start Date (Day of Month) <span className="text-red-600 text-sm">*</span>
                             </label>
 
                             <div
@@ -695,7 +706,7 @@ function LongStayRecurringModal() {
                                 Grace Period (Days)
                             </label>
 
-                            <div className="relative max-w-lg" ref={gracePickerRef}>
+                            <div className="relative max-w-xs" ref={gracePickerRef}>
 
 
                                 <div
@@ -706,11 +717,34 @@ function LongStayRecurringModal() {
                                         {gracePeriod ? gracePeriod.toString().padStart(2, "0") : "Select Grace Period"}
                                     </span>
 
-                                    <span>
-                                        {openGracePicker
-                                            ? <ArrowUp2 size="18" color="#1E45E1" />
-                                            : <ArrowDown2 size="18" color="#1E45E1" />}
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        {gracePeriod > 0 && (
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setGracePeriod(null);
+                                                    setErrors((prev) => ({ ...prev, noChange: "" }));
+                                                    setErrors((prev) => ({ ...prev, noChangeBottom: "" }));
+                                                }}
+                                                className="text-red-500"
+                                            >
+                                                <CloseCircle size="14" />
+                                            </button>
+
+
+
+                                        )}
+
+
+
+
+                                        <span>
+                                            {openGracePicker
+                                                ? <ArrowUp2 size="18" color="#1E45E1" />
+                                                : <ArrowDown2 size="18" color="#1E45E1" />}
+                                        </span>
+                                    </div>
                                 </div>
 
 
@@ -804,7 +838,7 @@ function LongStayRecurringModal() {
                                                         setErrors((prev) => ({ ...prev, dueDate: "" }));
                                                         setErrors((prev) => ({ ...prev, noChange: "" }))
                                                         setErrors((prev) => ({ ...prev, noChangeBottom: "" }))
-                                                                                                            dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                                                        dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
                                                         setOpenDuePicker(false);
                                                     }}
                                                     className={`w-10 h-10 rounded-full text-xs flex items-center justify-center
@@ -1339,12 +1373,12 @@ ${selected
                     )}
                     <div className="flex justify-end gap-3 mt-6">
 
-                        <button
+                        {/* <button
 
                             className="flex items-center gap-2 bg-[#FFFFFF] hover:bg-gray-300 border-gray-50 border text-black text-sm font-gilroy px-5 py-2.5 rounded-lg shadow"
                         >
                             Discard
-                        </button>
+                        </button> */}
 
                         <button onClick={handleSaveChanges}
                             className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"

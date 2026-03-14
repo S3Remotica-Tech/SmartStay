@@ -100,6 +100,8 @@ export const initialState = {
     isClickedBed: '',
     isClickedChangeBed: '',
     updatePgStatusCode: 0,
+    dashboardList:'',
+     getDashboardSuccessStatus:0,
 
 
 
@@ -117,6 +119,17 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, isClickedBed: action.payload }
         case 'SET_CHANGE_CLICKED_BED':
             return { ...state, isClickedChangeBed: action.payload }
+        case 'GET_DASHBOARD_REDUCER':
+            return { ...state, dashboardList: action.payload.response, getDashboardSuccessStatus: action.payload.statusCode }
+
+        case 'REMOVE_GET_DASHBOARD_REDUCER':
+
+            return { ...state,  getDashboardSuccessStatus: 0 }
+
+
+
+
+
 
         case 'REMOVE_MANAGE_PG':
             return { ...state, isManageEnable: false }

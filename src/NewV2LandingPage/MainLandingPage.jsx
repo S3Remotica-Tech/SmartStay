@@ -39,6 +39,7 @@ import NativeBuilt from "./NativeBuilt";
 import EfficiantOperationSystem from "./EfficiantOperationSystem";
 import SmartstayDemo from "./SmartstayDemo";
 import { ArrowRight, Star1 } from "iconsax-react";
+import back from "../Assets/v2LandingImages/back.svg"; 
 
 function FrontPage() {
   useEffect(() => {
@@ -386,15 +387,19 @@ function FrontPage() {
 
           <div
             className="absolute inset-0 bg-black/30"
-            onClick={() => setShowPromoPopup(false)}
+            // onClick={() => setShowPromoPopup(false)}
           ></div>
           <div className="
       relative
       bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
       rounded-xl shadow-lg p-6 border font-tasa
-      w-[100%] sm:w-[600px]
+      w-[100%] sm:w-[600px]    overflow-hidden
     ">
-
+<img
+    src={back}
+   className="absolute right-[-50px] bottom-0 top-0 w-[280px] opacity-10 pointer-events-none select-none"
+    alt=""
+  />
 
             <button
               onClick={() => setShowPromoPopup(false)}
@@ -425,7 +430,7 @@ function FrontPage() {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 ">
+                <div className="bg-white z-20 rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 ">
                   <div className="bg-[#FFEFCF] rounded-md w-fit flex items-center px-1 py-1">
                     <Star1 size="14"
                       color="#FF8A65"
@@ -442,14 +447,14 @@ function FrontPage() {
                 {
                   activeSection !== "demo" &&
 
-                  <button onClick={() => handleSetActive("demo")} className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium hover:bg-gray-100 transition w-full sm:w-auto">
+                  <button onClick={() => handleSetActive("demo")} className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium bg-white hover:bg-gray-100 transition w-full sm:w-auto">
                     Request Demo
                     <ArrowRight size="18" />
                   </button>
                 }
                 <button
                   onClick={handleSignUp}
-                  className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
+                  className="font-dmsans flex items-center z-20  justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
                 >
                   30 Day Free Trial
                   <ArrowRight size="18" />

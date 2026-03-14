@@ -10,19 +10,36 @@ import {
     Calendar
 
 } from "iconsax-react";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function DashExpenseProfit() {
+
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+const [loading, setLoading] = useState(false);
+
     const [open, setOpen] = useState(false)
-    const [selected, setSelected] = useState("This Month");
+    // const [selected, setSelected] = useState("This Month");
     const [calendarOpen, setCalendarOpen] = useState(false);
     const [slectedData, setSelectedData] = useState("This Month");
     const dropdownRef = useRef(null);
+
+
+    const ExpenseAnDProfit = state.PgList?.dashboardList?.finance
+
+
+
+
+
+
+
     const statsCards = [
         {
             title: "Revenue",
-            amount: "₹14.8 L",
+            amount: `₹ ${ExpenseAnDProfit?.totalIncome}`,
             subtitle: "this month",
-            change: "2.8%",
+            change: `${ExpenseAnDProfit?.incomeTrend} %`,
             changeColor: "#EF4444",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -32,9 +49,9 @@ function DashExpenseProfit() {
         },
         {
             title: "Expenses",
-            amount: "₹3.2 L",
+            amount: `₹ ${ExpenseAnDProfit?.totalExpense}`,
             subtitle: "this month",
-            change: "—",
+              change: `${ExpenseAnDProfit?.expenseTrend} %`,
             changeColor: "#16A34A",
             compareText: "",
             iconBg: "#FFFFFF",
@@ -44,9 +61,9 @@ function DashExpenseProfit() {
         },
         {
             title: "Profit",
-            amount: "₹11.6 L",
+            amount: `₹ ${ExpenseAnDProfit?.netProfit}`,
             subtitle: "this month",
-            change: "1.8%",
+            change: "",
             changeColor: "#16A34A",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -59,42 +76,30 @@ function DashExpenseProfit() {
 
 
 
-    const expenseBreakdown = [
-        {
-            label: "Foods",
-            amount: "₹1.2L",
-            percentage: 37.5,
-            barColor: "bg-[#155DFC]",
-        },
-        {
-            label: "Utilities",
-            amount: "₹0.8L",
-            percentage: 25,
-            barColor: "bg-[#00A63E]",
-        },
-        {
-            label: "Maintenance",
-            amount: "₹0.6L",
-            percentage: 18.75,
-            barColor: "bg-[#F54900]",
-        },
-        {
-            label: "Others",
-            amount: "₹0.6L",
-            percentage: 18.75,
-            barColor: "bg-[#9810FA]",
-        },
+  const expenseBreakdown =
+  state.PgList?.dashboardList?.expenseSummary?.breakdown?.map((item, index) => {
+    const colors = [
+      "bg-[#155DFC]",
+      "bg-[#00A63E]",
+      "bg-[#F54900]",
+      "bg-[#9810FA]"
     ];
 
+    return {
+      label: item.expenseType,
+      amount: `₹${item.amount}`,
+      percentage: item.percentage,
+      barColor: colors[index % colors.length]
+    };
+  }) || [];
 
+ const dateOptions =
+    state.PgList?.dashboardList?.filters?.map((item) => ({
+      label: item,
+      value: item
+    })) || [];
 
-    const dateOptions = [
-        "Today",
-        "This Week",
-        "This Month",
-        "Last Month",
-        "Last 3 Months",
-    ];
+   
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -107,8 +112,56 @@ function DashExpenseProfit() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+
+
+
+
+useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+          financeFilter: slectedData
+          }
+        }
+      });
+
+    //   setLoading(true);
+    }
+  }, [slectedData]);
+
+useEffect(() => {
+    if (state.PgList?.dashboardList) {
+      setLoading(false)
+      
+    }
+  }, [state.PgList?.dashboardList]);
+
+
+ useState(() => {
+    if (state.PgList.getDashboardSuccessStatus === 200) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
+      }, 200);
+    }
+  }, [state.PgList.getDashboardSuccessStatus]);
+
+
+
+
+
+
     return (
         <div className="w-full mt-6 font-[Gilroy]">
+{loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy]">
@@ -135,18 +188,18 @@ function DashExpenseProfit() {
                         <div ref={dropdownRef} className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50">
                             {dateOptions.map((option) => (
                                 <button
-                                    key={option}
+                                    key={option.value}
                                     onClick={() => {
-                                        setSelectedData(option);
+                                        setSelectedData(option.value);
                                         setCalendarOpen(false);
                                     }}
                                     className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100
-            ${slectedData === option
+            ${slectedData === option.label
                                             ? "text-blue-600 font-medium"
                                             : "text-gray-600"
                                         }`}
                                 >
-                                    {option}
+                                    {option.label}
                                 </button>
                             ))}
                         </div>
