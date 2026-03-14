@@ -165,7 +165,18 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
   }
 
+const handleUnpaid = (item) =>{
+  console.log("executedddd")
+  if(item){
+    dispatch({ type: 'MANUAL_BILL_UPDATE_UNPAID_SAGA',
+       payload:
+       {
+      hostelId: item.hostelId,
+      invoiceId: item.invoiceId
+    }})
+  }
 
+}
 
 
   return (
@@ -412,6 +423,56 @@ title={props.item?.fullName}
                       </div>
 
                     } 
+
+  {
+                      (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid") && 
+                                                    
+
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
+                        style={{
+                          cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                          backgroundColor: "#F9F9F9",
+                          padding: "8px 12px",
+                          opacity: !canUpdateInvoice ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          if (canUpdateInvoice) handleUnpaid(props);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                      >
+                        <img
+                          src={Edit}
+                          alt="Edit"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#222",
+                            cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Unpaid
+                        </label>
+                      </div>
+
+                    } 
+
+
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "

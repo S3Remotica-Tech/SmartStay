@@ -285,6 +285,20 @@ export async function UpdateAmenities(hostelId, amenityId, datum) {
 }
 
 
+export async function UpdateManualUnPaid(hostel) {
+  console.log("hostel", hostel);
+
+  return await AxiosConfigV2.put(
+    `/v2/bills/unpaid/${hostel.hostelId}/${hostel.invoiceId}`,
+    {},   
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
 
 
 export async function AddAmenity(hostelId, datum) {

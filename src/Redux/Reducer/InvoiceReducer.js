@@ -100,6 +100,7 @@ export const initialState = {
     sharePdfError: '',
     shareReceiptPDF: '',
     shareReceiptPdfSuccess: 0,
+     manualInvoiceUnpaidStatusCode: 0,
 
 
     invoiceFilters: {
@@ -334,6 +335,12 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, manualInvoiceAddStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
             return { ...state, manualInvoiceAddStatusCode: 0 }
+
+        case 'MANUAL_BILL_UPDATE_UNPAID_REDUCER':
+            return { ...state, manualInvoiceUnpaidStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_MANUAL_BILL_UPDATE_UNPAID_REDUCER':
+            return { ...state, manualInvoiceUnpaidStatusCode: 0 }
 
 
         case 'MANUAL_INVOICE_EDIT':
