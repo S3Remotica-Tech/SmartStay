@@ -30,8 +30,11 @@ function DashQuickAccess() {
   const [loading, setLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState("");
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
-//  const [showform, setShowform] = useState(false);
+  const [showform, setShowform] = useState(false);
   const QuickAccess = state.PgList?.dashboardList
+  const [invoiceValue, setInvoiceValue] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState("")
+
 
   const billingSummary = {
     title: "Billing Summary",
@@ -146,15 +149,26 @@ function DashQuickAccess() {
     }
   }
 
-   const handleCheckIn = (data) => {
+  const handleCheckIn = (data) => {
     setShowFormCheckIn(true)
     setTenantDetails(data)
-       }
+  }
 
 
 
   const handleCloseCheckInForm = () => {
     setShowFormCheckIn(false)
+  }
+
+  const handleRecordPayment = (item) => {
+    console.log("item",item)
+    setShowform(true)
+    setInvoiceValue(item)
+    setSelectedUserId(item.tenantId)
+  }
+
+  const handleCloseForm =()=>{
+    setShowform(false)
   }
 
   return (
@@ -165,12 +179,13 @@ function DashQuickAccess() {
           setShowAssignMenu={handleCloseCheckInForm} />
       } */}
 
- {/* {showform && (
+      {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
-         selectedUserId={selectedUserId} invoiceValue={invoiceValue} 
-         invoiceList={invoiceList} />
+          // selectedUserId={selectedUserId} invoiceValue={invoiceValue}
+          // invoiceList={invoiceList} 
+          />
 
-      )} */}
+      )}
 
 
 
@@ -340,8 +355,8 @@ function DashQuickAccess() {
                         View
                       </button>
 
-                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 disabled:cursor-not-allowed" 
-                      
+                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 disabled:cursor-not-allowed"
+
                       // onClick={()=>handleCheckIn(item)}
                       >
                         Check-in
@@ -410,9 +425,9 @@ function DashQuickAccess() {
                         <div className="text-xs text-gray-500">{item.date}</div>
                       </div>
 
-                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 disabled:cursor-not-allowed" 
-                      //  onClick={()=>handleRecordPayment()}
-                       >
+                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 "
+                        // onClick={() => handleRecordPayment(item)}
+                      >
                         Record Payment
                       </button>
 

@@ -155,14 +155,14 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
 
         if (value !== "") {
             let numValue = Number(value);
-            if (numValue > (invoiceList.balanceDue || 0)) {
-                numValue = invoiceList.balanceDue || 0;
+            if (numValue > (invoiceList?.balanceDue || 0)) {
+                numValue = invoiceList?.balanceDue || 0;
             }
             value = numValue;
-            setBalance((invoiceList.balanceDue || 0) - numValue);
+            setBalance((invoiceList?.balanceDue || 0) - numValue);
         } else {
 
-            setBalance(invoiceList.balanceDue || 0);
+            setBalance(invoiceList?.balanceDue || 0);
         }
 
         setPayableAmount(value);
@@ -175,7 +175,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const handleSaveInvoiceList = () => {
         dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
         const formatpaiddate = formatDateForPayload(selectedDate);
-        const billDate = new Date(invoiceValue.Date);
+        const billDate = new Date(invoiceValue?.Date);
         const paidDate = new Date(formatpaiddate);
 
         if (!payableAmount) {
@@ -217,7 +217,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
 
 
         if (
-            invoiceList.InvoiceId &&
+            invoiceList?.InvoiceId &&
             payableAmount &&
             modeOfPayment &&
             formatpaiddate && state.login.selectedHostel_Id
@@ -226,7 +226,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
                 type: "RECORD_PAYMENT",
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
-                    invoiceId: invoiceList.InvoiceId,
+                    invoiceId: invoiceList?.InvoiceId,
                     data: {
                         bankId: modeOfPayment,
                         paymentDate: formatpaiddate,
@@ -376,7 +376,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
                                 <div className="ms-auto text-end mt-2">
                                     <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Due Pending</p>
                                     <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
-                                        {invoiceList.balanceDue}
+                                        {invoiceList?.balanceDue}
                                     </p>
                                 </div>
                             </div>
