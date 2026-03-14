@@ -269,6 +269,7 @@ function UserlistForm(props) {
     }
   }
 
+  console.log("props.EditObj", props.EditObj )
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
@@ -279,10 +280,10 @@ function UserlistForm(props) {
       }
 
 
-      setFirstname(props.EditObj?.firstName);
+      setFirstname(props.EditObj?.firstName || props.EditObj?.name);
       setLastname(props.EditObj?.lastName);
 
-      setRooms(props.EditObj.Rooms);
+      setRooms(props.EditObj.Rooms || props.EditObj?.room);
 
     } else {
 
@@ -777,7 +778,7 @@ function UserlistForm(props) {
                 <div className="flex items-center gap-3 mb-3 ml-3">
                   {file && file !== "0" ? (
                     <Image
-                      src={file}
+                      src={file || props.EditObj?.name}
                       roundedCircle
                       className="h-14 w-14"
                       alt="image"
@@ -790,7 +791,7 @@ function UserlistForm(props) {
 
                   <div>
                     <p className="mb-1 mt-2 text-lg font-gilroy font-semibold  truncate max-w-[150px]">
-                      {firstname} {lastname}
+                      {firstname} {lastname} {props.EditObj?.name}
                     </p>
                   </div>
                 </div>

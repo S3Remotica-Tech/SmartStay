@@ -103,8 +103,8 @@ function Dashboard() {
       iconColor: "text-[#155DFC]",
       iconBg: "bg-[#EFF6FF]",
       stats: [
-        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms}`, value2: `${dashboardList?.roomsBeds?.totalRooms}` },
-        { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds}` },
+        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms || ""}`, value2: `${dashboardList?.roomsBeds?.totalRooms || ""}` },
+        { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds || ""}` },
       ],
       footer: "Sharing Breakdown",
       sharingData:
@@ -121,8 +121,8 @@ function Dashboard() {
       iconColor: "text-[#00A63E]",
       iconBg: "bg-[#F0FDF4]",
       stats: [
-        { label: "Occupied Beds", value1: `${dashboardList?.occupancy?.occupiedBeds}`, valueColor: "text-green-600" },
-        { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds}`, valueColor: "text-red-500" },
+        { label: "Occupied Beds", value1: `${dashboardList?.occupancy?.occupiedBeds || ""}`, valueColor: "text-green-600" },
+        { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds || ""}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
       nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth} from last month`,
@@ -137,12 +137,12 @@ function Dashboard() {
       iconColor: "text-purple-600",
       iconBg: "bg-purple-100",
       stats: [
-        { label: "Total Tenants", value1: `${dashboardList?.tenantsSummary?.totalTenants}` },
-        { label: "Check-in Tenants", value1: `${dashboardList?.tenantsSummary?.checkInTenants}`, valueColor: "text-green-600" },
+        { label: "Total Tenants", value1: `${dashboardList?.tenantsSummary?.totalTenants || ""}` },
+        { label: "Check-in Tenants", value1: `${dashboardList?.tenantsSummary?.checkInTenants || ""}`, valueColor: "text-green-600" },
       ],
       footer: "Notice Period",
-      footerValue: `${dashboardList?.tenantsSummary?.noticePeriod} Tenants`,
-      nextCheckout: `${dashboardList?.tenantsSummary?.nextCheckout}`
+      footerValue: `${dashboardList?.tenantsSummary?.noticePeriod || ""} Tenants`,
+      nextCheckout: `${dashboardList?.tenantsSummary?.nextCheckout || ""}`
     },
     {
       id: 4,
@@ -151,8 +151,8 @@ function Dashboard() {
       iconColor: "text-orange-600",
       iconBg: "bg-orange-100",
       stats: [
-        { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance}` },
-        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded}`, valueColor: "text-red-500" },
+        { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance || "0"}` },
+        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
 
       ],
       footer: "Others",
@@ -302,7 +302,7 @@ function Dashboard() {
 }, [selectedFilters]);
 
 
-  console.log("selectedFilters", selectedFilters)
+  // console.log("selectedFilters", selectedFilters)
 
 
   const handleTabChange = (tab) => {
@@ -599,10 +599,12 @@ function Dashboard() {
                                       size="18"
                                       className="text-gray-400 cursor-pointer"
                                       variant="Outline"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowBreakdown((prev) => !prev);
-                                      }}
+                                     onClick={(e) => {
+  if (card?.sharingData?.length > 0) {
+    e.stopPropagation();
+    setShowBreakdown((prev) => !prev);
+  }
+}}
                                     />
                                   )}
 
@@ -675,7 +677,11 @@ function Dashboard() {
                               )}
 
                             </div>
-                            <div className="space-y-2 max-h-[100px] overflow-y-auto show-scrolls">
+                            <div 
+                             className={`space-y-2 ${
+    card?.sharingData?.length > 0 ? "max-h-[100px] overflow-y-auto show-scrolls" : ""
+  }`}
+                            >
                               {card?.sharingData?.length > 0 ? card?.sharingData?.map((item, index) => (
                                 <div key={index} className="flex items-center gap-3 me-3 ">
 

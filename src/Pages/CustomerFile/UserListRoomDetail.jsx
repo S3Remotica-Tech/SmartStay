@@ -217,7 +217,16 @@ function UserListRoomDetail(props) {
 
   const amenitiesRef = useRef(null);
 
-  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo } = location.state || {};
+  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay } = location.state || {};
+
+
+
+  useEffect(() => {
+    if (isDashboardWay) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customerId } });
+    }
+
+  }, [isDashboardWay])
 
 
   useEffect(() => {
@@ -2418,6 +2427,8 @@ function UserListRoomDetail(props) {
   const handleNavigateTenant = () => {
     if (isPgWay) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else if (isDashboardWay) {
+      navigate(`/dashboard-new/${state.login.selectedHostel_Id}`);
     } else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`)
     }
@@ -2977,27 +2988,27 @@ function UserListRoomDetail(props) {
                           >
                             Manual Address
                           </div>
-                         {activeTab === "manual" && (
-  <span className={isEditDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
-    <div
-      onClick={() => {
-        if (!isEditDisabled) {
-          handleEditAddressDetailsShow(CustomerOverView);
-        }
-      }}
-      className="h-10 w-10 flex justify-center items-center relative z-[1000]"
-    >
-      <img
-        src={EditImage}
-        alt="edit"
-        className="h-4 w-4"
-        style={{
-          filter: isEditDisabled ? "grayscale(100%)" : "none",
-        }}
-      />
-    </div>
-  </span>
-)}
+                          {activeTab === "manual" && (
+                            <span className={isEditDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
+                              <div
+                                onClick={() => {
+                                  if (!isEditDisabled) {
+                                    handleEditAddressDetailsShow(CustomerOverView);
+                                  }
+                                }}
+                                className="h-10 w-10 flex justify-center items-center relative z-[1000]"
+                              >
+                                <img
+                                  src={EditImage}
+                                  alt="edit"
+                                  className="h-4 w-4"
+                                  style={{
+                                    filter: isEditDisabled ? "grayscale(100%)" : "none",
+                                  }}
+                                />
+                              </div>
+                            </span>
+                          )}
                         </div>
                       </div>
 
