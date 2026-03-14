@@ -400,15 +400,20 @@ function LongStayRecurringModal() {
     };
 
 
-    const startDay = "01";
+    // const startDay = "01";
 
-    const endDay = gracePeriod
-        ? gracePeriod.toString().padStart(2, "0")
-        : null;
+    // const endDay = gracePeriod
+    //     ? gracePeriod.toString().padStart(2, "0")
+    //     : null;
 
-    const startFrom = gracePeriod
-        ? (gracePeriod + 1).toString().padStart(2, "0")
-        : null;
+    // const startFrom = gracePeriod
+    //     ? (gracePeriod + 1).toString().padStart(2, "0")
+    //     : null;
+
+
+    const startDay = billingDate;
+const endDay = billingDate + gracePeriod;
+const startFrom = endDay + 1;
 
     const getEndDayDate = (billingDate) => {
         if (!billingDate) return null;
