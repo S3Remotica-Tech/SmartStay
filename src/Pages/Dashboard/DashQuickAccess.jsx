@@ -329,7 +329,10 @@ function DashQuickAccess() {
                         View
                       </button>
 
-                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm" onClick={()=>handleCheckIn(item)}>
+                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm" 
+                      
+                      // onClick={()=>handleCheckIn(item)}
+                      >
                         Check-in
                       </button>
                     </div>
