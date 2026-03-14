@@ -171,14 +171,15 @@ function ManagedUsers() {
 
 
     return (
-        <div className="w-full overflow-x-hidden overflow-auto max-h-[400px]">
-
-
+        // <div className="w-full overflow-x-hidden overflow-auto max-h-[400px]">
+        <div className="w-full overflow-x-hidden max-h-[400px]">
             {
                 state.Settings?.addSettingStaffList?.length > 0 &&
 
-                <div
-                    className="font-gilroy mt-2 border border-gray-300 rounded-lg max-h-[320px] overflow-y-auto">
+                // <div
+                //     className="font-gilroy mt-2 border border-gray-300 rounded-lg max-h-[320px] overflow-y-auto">
+                //     <Table className="align-middle">
+                <div className="font-gilroy mt-2 border border-gray-300 rounded-lg max-h-[400px] overflow-y-auto">
                     <Table className="align-middle">
                         <thead className="bg-[#F9FAFB] sticky top-0 z-10">
                             <tr>
@@ -247,20 +248,20 @@ function ManagedUsers() {
                                                     <div>
 
                                                         <div
-                                                        onClick={() => canUpdateUser && handleEditForm(user)}
+                                                            onClick={() => canUpdateUser && handleEditForm(user)}
                                                             className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ease-in-out rounded-t-[10px] ${canUpdateUser ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'}`}
                                                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
                                                             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                                                         >
                                                             <img src={Edit} width={16} height={16} alt="Edit"
-                                                             style={{ filter: canUpdateUser ? "none" : "grayscale(100%)" }} />
+                                                                style={{ filter: canUpdateUser ? "none" : "grayscale(100%)" }} />
                                                             <span
-                                                              className={`text-[14px] font-medium font-gilroy ${canUpdateUser ? 'cursor-pointer text-[#1E45E1]' : 'cursor-not-allowed text-[#A0A0A0]'}`}>
+                                                                className={`text-[14px] font-medium font-gilroy ${canUpdateUser ? 'cursor-pointer text-[#1E45E1]' : 'cursor-not-allowed text-[#A0A0A0]'}`}>
                                                                 Edit
                                                             </span>
                                                         </div>
 
-                                                       <div className="h-px bg-gray-200 m-0" />
+                                                        <div className="h-px bg-gray-200 m-0" />
                                                         <div
                                                             onClick={() => canDeleteUser && handleDeleteForm(user)}
                                                             className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ease-in-out rounded-b-[10px] ${canDeleteUser ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'}`}
@@ -291,10 +292,8 @@ function ManagedUsers() {
                     </Table>
                 </div>
             }
-            {
+            {/* {
                 state.Settings?.addSettingStaffList?.length === 0 &&
-
-
                 <div className="2xl:mt-24 flex justify-center items-center animated-text ">
                     <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
@@ -307,7 +306,26 @@ function ManagedUsers() {
                     </div>
                 </div>
 
-            }
+            } */}
+            {state.Settings?.addSettingStaffList?.length === 0 && (
+                <div className="flex justify-center items-center h-[300px]">
+                    <div className="2xl:mt-24 text-center animated-text">
+                        <img
+                            src={Emptystate}
+                            alt="emptystate"
+                            className="h-[200px] w-[200px] object-contain"
+                        />
+
+                        <div className="text-[18px] font-semibold text-[#4B4B4B]">
+                            No Staff
+                        </div>
+
+                        <div className="text-[14px] font-medium text-[#4B4B4B]">
+                            There are no staff&apos;s available
+                        </div>
+                    </div>
+                </div>
+            )}
 
 
             {isConfirmDelete && (
