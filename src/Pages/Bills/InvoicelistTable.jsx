@@ -11,6 +11,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import { useDispatch, useSelector } from "react-redux";
 import RefundAmount from "../Bills/RefundAmount";
 import { useNavigate } from "react-router-dom";
+import UnPaidInvoice from "./UnPaidInvoice";
 
 const InvoiceTable = (props) => {
   const state = useSelector((state) => state);
@@ -29,13 +30,13 @@ const InvoiceTable = (props) => {
 
   const {
     canWriteModule: canWriteInvoice,
-     canReadModule: canReadInvoice,
+    canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
 
-const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
   const isExportAllow = isValidSubscription && canReadInvoice
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
   const handleInvoicepdf = (item) => {
     props.OnHandleshowInvoicePdf(item)
     setShowDots(false)
-   
+
   }
 
 
@@ -139,11 +140,11 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
   const handleNavigatePDF = (item) => {
     if (item) {
-                  dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
+      dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
       navigate(`/invoice/details/${item.invoiceId}`, {
-         replace: false,
+        replace: false,
         state: {
-          rowData: item, ts: Date.now() 
+          rowData: item, ts: Date.now()
         },
       });
 
@@ -152,7 +153,7 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
 
   const handleNavigateTenantProfile = (view) => {
-       if (view) {
+    if (view) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
       navigate(`/tenant/details/${view.customerId}`, {
         state: {
@@ -165,21 +166,31 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
   }
 
-const handleUnpaid = (item) => {
-  console.log("executedddd");
+const [showUnpaidModal, setShowUnpaidModal] = useState(false);
+const [selectedInvoice, setSelectedInvoice] = useState(null);
 
-  if (item) {
-    dispatch({
-      type: "MANUAL_BILL_UPDATE_UNPAID_SAGA",
-      payload: {
-        hostelId: item.hostelId,
-        invoiceId: item.invoiceId
-      }
-    });
-  }
-};
+  const handleUnpaid = (item) => {
+setShowDots(false);
+  setSelectedInvoice(item);
+  setShowUnpaidModal(true);
+  
+    // if (item) {
+    //   dispatch({
+    //     type: "MANUAL_BILL_UPDATE_UNPAID_SAGA",
+    //     payload: {
+    //       hostelId: item.hostelId,
+    //       invoiceId: item.invoiceId
+    //     }
+    //   });
+    // }
+  };
 
 
+
+
+const handleCloseUnPaid = () =>{
+  setShowUnpaidModal(false);
+}
   return (
 
     <>
@@ -199,13 +210,13 @@ const handleUnpaid = (item) => {
           <div className="Invoice_Name" style={{
             fontFamily: 'Gilroy', fontSize: '13px', color: "#1E45E1",
             fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer",
-            textAlign: "start",whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    maxWidth: "180px"
+            textAlign: "start", whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "180px"
           }}
             onClick={() => handleNavigateTenantProfile(props.item)}
-title={props.item?.fullName}
+            title={props.item?.fullName}
           >
             {props.item?.fullName}
 
@@ -377,9 +388,9 @@ title={props.item?.fullName}
                 >
                   <div style={{ width: "100%" }}>
 
-                     {
-                      (props.item.invoiceMode === "Recurring" && props.item?.paymentStatus === "Pending") && 
-                                                    
+                    {
+                      (props.item.invoiceMode === "Recurring" && props.item?.paymentStatus === "Pending") &&
+
 
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
@@ -423,11 +434,11 @@ title={props.item?.fullName}
                         </label>
                       </div>
 
-                    } 
+                    }
 
-  {
-                      (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid") && 
-                                                    
+                    {
+                      (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid") &&
+
 
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
@@ -440,7 +451,7 @@ title={props.item?.fullName}
                           opacity: !canUpdateInvoice ? 0.5 : 1,
                         }}
                         onClick={() => {
-                          if (canUpdateInvoice) handleUnpaid(props);
+                          if (canUpdateInvoice) handleUnpaid(props.item);
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.backgroundColor = "#EDF2FF";
@@ -471,7 +482,7 @@ title={props.item?.fullName}
                         </label>
                       </div>
 
-                    } 
+                    }
 
 
 
@@ -585,7 +596,7 @@ title={props.item?.fullName}
                     )}
                     {
                       props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" &&
-<></>
+                      <></>
                       // <div
                       //   className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
 
@@ -691,6 +702,14 @@ title={props.item?.fullName}
       {
         payapleform && <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
       }
+
+
+{showUnpaidModal && (
+  <UnPaidInvoice show={showUnpaidModal} handleClose={handleCloseUnPaid}  selectedInvoice={selectedInvoice}/>
+)}
+
+
+
     </>
   )
 }
