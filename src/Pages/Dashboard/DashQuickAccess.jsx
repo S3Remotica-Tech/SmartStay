@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import UserlistForm from "../CustomerFile/UserlistForm";
+import RecordPayment from "../Bills/RecordPayment"
 import {
 
   ArrowUp2,
@@ -29,7 +30,7 @@ function DashQuickAccess() {
   const [loading, setLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState("");
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
-
+//  const [showform, setShowform] = useState(false);
   const QuickAccess = state.PgList?.dashboardList
 
   const billingSummary = {
@@ -70,7 +71,7 @@ function DashQuickAccess() {
 
   const payments =
     QuickAccess?.overdueInvoices?.map((item) => ({
-      id: item.invoiceId,
+      invoiceId: item.invoiceId,
       name: item.customerName || "-",
       invoice: item.invoiceNumber,
       status: item.status,
@@ -158,11 +159,21 @@ function DashQuickAccess() {
 
   return (
     <div className="mt-6 font-[Gilroy]">
-      {
+      {/* {
         showFormCheckIn && <UserlistForm EditObj={tenantDetails}
           showAssignMenu={showFormCheckIn}
           setShowAssignMenu={handleCloseCheckInForm} />
-      }
+      } */}
+
+ {/* {showform && (
+        <RecordPayment show={showform} handleClose={handleCloseForm}
+         selectedUserId={selectedUserId} invoiceValue={invoiceValue} 
+         invoiceList={invoiceList} />
+
+      )} */}
+
+
+
       <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">
         Quick Access & Follow-ups
       </h2>
@@ -329,7 +340,7 @@ function DashQuickAccess() {
                         View
                       </button>
 
-                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm" 
+                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 disabled:cursor-not-allowed" 
                       
                       // onClick={()=>handleCheckIn(item)}
                       >
@@ -356,7 +367,7 @@ function DashQuickAccess() {
 
                 payments.map((item) => (
                   <div
-                    key={item.id}
+                    key={item.invoiceId}
                     className="flex justify-between items-center border-b pb-3"
                   >
 
@@ -399,7 +410,9 @@ function DashQuickAccess() {
                         <div className="text-xs text-gray-500">{item.date}</div>
                       </div>
 
-                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-2 text-sm">
+                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 disabled:cursor-not-allowed" 
+                      //  onClick={()=>handleRecordPayment()}
+                       >
                         Record Payment
                       </button>
 

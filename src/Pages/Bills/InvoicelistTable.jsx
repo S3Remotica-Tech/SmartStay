@@ -166,14 +166,14 @@ const InvoiceTable = (props) => {
 
   }
 
-const [showUnpaidModal, setShowUnpaidModal] = useState(false);
-const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [showUnpaidModal, setShowUnpaidModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const handleUnpaid = (item) => {
-setShowDots(false);
-  setSelectedInvoice(item);
-  setShowUnpaidModal(true);
-  
+    setShowDots(false);
+    setSelectedInvoice(item);
+    setShowUnpaidModal(true);
+
     // if (item) {
     //   dispatch({
     //     type: "MANUAL_BILL_UPDATE_UNPAID_SAGA",
@@ -188,9 +188,9 @@ setShowDots(false);
 
 
 
-const handleCloseUnPaid = () =>{
-  setShowUnpaidModal(false);
-}
+  const handleCloseUnPaid = () => {
+    setShowUnpaidModal(false);
+  }
   return (
 
     <>
@@ -704,9 +704,9 @@ const handleCloseUnPaid = () =>{
       }
 
 
-{showUnpaidModal && (
-  <UnPaidInvoice show={showUnpaidModal} handleClose={handleCloseUnPaid}  selectedInvoice={selectedInvoice}/>
-)}
+      {showUnpaidModal && (
+        <UnPaidInvoice show={showUnpaidModal} handleClose={handleCloseUnPaid} selectedInvoice={selectedInvoice} />
+      )}
 
 
 
