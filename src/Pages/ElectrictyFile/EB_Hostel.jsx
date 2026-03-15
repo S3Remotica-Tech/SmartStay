@@ -978,9 +978,9 @@ const RoomReadingTable = () => {
 
 
                     {roomReadingList?.length === 0 && !loading ? (
-                      <div className="flex justify-center text-center">
+                      <div className="animated-text flex items-center justify-center h-[70vh] 2xl:mt-52">
                         <div>
-                          <img src={emptyimg} alt="emptystate" className="mt-24 2xl:mt-52" />
+                          <img src={emptyimg} alt="emptystate" />
                           <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-600">
                             No Room Reading
                           </div>
@@ -1188,9 +1188,9 @@ const RoomReadingTable = () => {
 
                 {activeTab === "customer" && (
                   customerReadingList?.length === 0 ? (
-                    <div className="flex justify-center text-center">
+                    <div className="animated-text flex items-center justify-center h-[70vh] 2xl:mt-52">
                       <div>
-                        <img src={emptyimg} alt="emptystate" className="mt-24 mx-auto" />
+                        <img src={emptyimg} alt="emptystate"/>
 
                         <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-gray-600">
                           No Tenant Reading

@@ -237,7 +237,7 @@ function OccupiedBedStatus({
                                                     {activeRoomId === index && (
                                                         <div
                                                             ref={popupRef}
-                                                            className="absolute right-0 top-[50px] w-[220px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
+                                                            className="absolute right-12 -top-[20px] w-[190px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
                                                         >
                                                             <div
                                                                 onClick={() => canWriteCustomers && handleReAssignBed(tenant)}

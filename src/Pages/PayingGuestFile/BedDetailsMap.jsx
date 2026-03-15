@@ -723,7 +723,7 @@ function BedDetailsMap({ room, propsValue,
                 />
             }
 
-           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
                 {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (
                     filteredBeds.map((bed) => (
                         <div
@@ -824,7 +824,7 @@ function BedDetailsMap({ room, propsValue,
 
                 {!state.login.isTrigger && (
                     <div
-                        className={`w-full flex justify-center px-1 ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        className={`w-full flex px-1 ${filteredBeds.length === 0 ? 'col-span-full justify-center' : 'justify-center'} ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
 
                         onClick={() => {
                             if (canWritePayingGuests) {
@@ -832,7 +832,7 @@ function BedDetailsMap({ room, propsValue,
                             }
                         }}
                     >
-                        <div className="flex flex-col items-center justify-center  w-20">
+                        <div className="flex flex-col items-center justify-center w-20">
                             <FaSquarePlus
                                 className={`${propsValue.addPermissionError ? 'text-gray-400' : 'text-blue-600'} h-11 w-9`}
                             />

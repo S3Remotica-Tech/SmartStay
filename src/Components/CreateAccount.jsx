@@ -340,18 +340,17 @@ function CreateAccountPage() {
 
   return (
     <>
-     <div data-testid='create-account' className="w-full font-gilroy">
-        <div className="md:ml-10 lg:ml-20 2xl:ml-52 2xl:mt-28">
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-6 fade-in">
+      <div data-testid='create-account' className="w-full font-gilroy">
+        <div className="mx-auto max-w-[650px] md:max-w-[700px] lg:max-w-none lg:pl-20 2xl:mt-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-6 fade-in">
             <div className="mt-4 relative">
-
               {loading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
                   <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
                 </div>
               )}
 
-              <div className="flex gap-1 mb-1 cursor-pointer">
+              <div className="flex gap-1 mb-1 cursor-pointer justify-center lg:justify-start 2xl:ml-[75px]">
                 <img
                   src={Logo}
                   alt="Company Logo"
@@ -369,19 +368,20 @@ function CreateAccountPage() {
                 </div>
               </div>
 
-              <div className="mt-3 mb-1">
+              <div className="mt-3 mb-1 flex justify-center lg:justify-start 2xl:ml-[75px]">
                 <label className="text-3xl font-semibold text-[#222222] font-gilroy">
                   Create your free account
                 </label>
               </div>
 
-              <div className="mt-1 mb-1">
+              <div className="mt-1 mb-1 flex justify-center lg:justify-start 2xl:ml-[75px]">
                 <label className="text-base font-normal text-[#4B4B4B] font-montserrat">
                   Enter your details below to find your stay smartly
                 </label>
               </div>
 
-              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 max-w-[650px]">
+                <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 max-w-[650px] md:max-w-[750px] mx-auto lg:mx-0 2xl:-ml-12
+                max-h-[300px] overflow-y-auto pr-2 show-scroll">
                 <div className="w-full" data-testid="fname-container">
                   <Form.Group controlId="formGridEmail">
                     <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
@@ -582,18 +582,18 @@ function CreateAccountPage() {
                   : null} */}
               </div>
 
-              <div className="mt-4 mb-1 mr-5">
+              <div className="mt-4 mb-1 mr-5 2xl:ml-[75px]">
                 <Button
                   data-testid="create-account-btn"
                   disabled={loading}
                   onClick={handleCreateAccount}
-                  className="!w-full !bg-[#1E45E1] !rounded-[12px] !h-[50px] !font-semibold !font-montserrat"
+                  className="!w-full 2xl:!w-[750px] xl:!w-[630px] !bg-[#1E45E1] !rounded-[12px] !h-[50px] !font-semibold !font-montserrat"
                 >
                   Create account
                 </Button>
               </div>
 
-              <div className="mt-3 mb-2">
+              <div className="mt-3 mb-2 2xl:ml-[75px]">
                 <label className="text-[14px] font-normal font-montserrat">
                   Already have an account?
                   <span
@@ -619,7 +619,6 @@ function CreateAccountPage() {
           </div>
         </div>
       </div>
-
     </>
   )
 }

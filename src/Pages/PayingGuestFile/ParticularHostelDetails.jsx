@@ -354,6 +354,7 @@ function ParticularHostelDetails(props) {
         </div>
 
         <div className="lg:px-4 -mt-8">
+        {/* <div className="lg:px-4 -mt-8 bg-white h-[400px] overflow-y-auto"> */}
           {roomList?.length > 0 ? (
             <>
               <div

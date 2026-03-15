@@ -308,7 +308,7 @@ const ComplianceList = (props) => {
     }
 
     if (compliant === "") {
-      setStatusErrorType("Please Select User");
+      setStatusErrorType("Please Select Staff");
     } else {
 
 

@@ -1023,13 +1023,12 @@ function Expenses({ allPageHostel_Id }) {
 
 
             !loading && (!filteredData || filteredData.length === 0) && canReadExpense ? (
-              <div className="flex items-center justify-center w-full animated-text"
+              <div className="animated-text flex items-center justify-center h-[85vh] 2xl:mt-52"
               >
                 <div>
                   <div className="flex justify-center">
                     <img
                       src={EmptyState}
-                      className="mt-24 2xl:mt-52"
                       alt="Empty state"
                     />
                   </div>

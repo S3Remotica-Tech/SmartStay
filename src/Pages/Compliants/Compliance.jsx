@@ -670,7 +670,7 @@ const Compliance = () => {
     let isValid = true;
 
     if (!selectedUsername) {
-      setUserErrmsg('Please Select  Customer')
+      setUserErrmsg('Please Select Tenant')
       isValid = false;
     }
 
@@ -1155,7 +1155,7 @@ const Compliance = () => {
 
               {!loading && filteredUsers.length === 0 && (
                 <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in">
-                  <div className="flex flex-col items-center justify-center text-center mb-8">
+                  <div className="flex flex-col items-center justify-center text-center">
                     <img
                       src={Emptystate}
                       alt="emptystate"
@@ -1353,7 +1353,7 @@ const Compliance = () => {
                     <Form.Group controlId="exampleForm.ControlInput1">
                       <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal"
                       >
-                        Customer {" "} <span className="text-red-600 text-xl">*</span>
+                        Tenant {" "} <span className="text-red-600 text-xl">*</span>
                       </Form.Label>
 
 

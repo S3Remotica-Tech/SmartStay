@@ -392,7 +392,9 @@ useEffect(() => {
             </>
           ) :
 
-            <div className="relative overflow-y-auto pr-5 show-scroll h-[calc(100vh-80px)]">
+            // <div className="relative overflow-y-auto pr-5 show-scroll h-[calc(100vh-80px)]">
+            // <div className="relative h-[calc(100vh-80px)]">
+            <div className="relative flex flex-col h-[calc(100vh-80px)]">
              
               {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
@@ -409,7 +411,9 @@ useEffect(() => {
 
 
 
-              <div className='row row-gap-3 '>
+              {/* <div className='row row-gap-3 '> */}
+              {/* <div className="overflow-y-auto h-full pr-5 row row-gap-3"> */}
+              <div className="flex-1 overflow-y-auto pr-5 row row-gap-3">
                 {filteredData && filteredData.length > 0 && filteredData.map((vendor) => (
                   <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                     <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
@@ -423,8 +427,8 @@ useEffect(() => {
                 }
 
                 {!loading && filteredData?.length === 0 && (
-                  <div className="flex flex-col items-center justify-center w-full  animate-fade-in">
-                    <div className="flex justify-center mt-24 2xl:mt-52">
+                   <div className="flex flex-col items-center justify-center flex-1 2xl:mt-52">
+                    <div clasame="flex justify-center">
                       <img
                         src={EmptyState}
                         alt="Empty state"
