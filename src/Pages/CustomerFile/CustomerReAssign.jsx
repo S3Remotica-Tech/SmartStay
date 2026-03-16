@@ -173,7 +173,7 @@ function CustomerReAssign(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {item?.sharingType || 0} 
+            {item?.sharingType || 0}
           </span>
         </div>
       ),
@@ -752,8 +752,7 @@ function CustomerReAssign(props) {
           backdrop="static"
           centered dialogClassName="custom-modal-style"
         >
-          <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white"
-          >
+          <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white">
             <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b">
               <div className="text-xl font-semibold font-gilroy">
                 Change Bed
@@ -763,7 +762,7 @@ function CustomerReAssign(props) {
                 className="cursor-pointer" />
             </Modal.Header>
 
-            <Modal.Body className=" mt-1 mr-3 pt-1" >
+            <Modal.Body className="mt-1 mr-3 pt-1 overflow-hidden">
               <div className="flex items-center">
                 <div>
 
@@ -818,9 +817,7 @@ function CustomerReAssign(props) {
                     </div>
                   </div>
 
-
-
-                  <div className="overflow-y-auto max-h-[380px] mt-1 pt-1 show-scroll p-2">
+                  <div className="overflow-y-auto max-h-[360px] md:h-[200px] lg:h-auto mt-1 pt-1 show-scroll p-2">
                     <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
                       <div>
                         <Form.Group controlId="purchaseDate">
@@ -1123,48 +1120,48 @@ function CustomerReAssign(props) {
                         </Form.Group>
                       </div> */}
                       <div>
-  <Form.Group>
-    
-    {/* Label + Checkbox in One Line */}
-    <div className="flex items-center">
-      <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
-        New Rent Amount 
-        <span className="text-red-500 text-[20px] ml-1">*</span>
-      </Form.Label>
+                        <Form.Group>
 
-      <Form.Check
-        type="checkbox"
-        label={
-          <span className="text-[#1E45E1] font-medium text-[12px] font-gilroy whitespace-nowrap">
-            Same as Current
-          </span>
-        }
-        className="ms-3 mb-0 cursor-pointer flex items-center"
-        ref={rentRef}
-        onChange={(e) => {
-          if (e.target.checked) {
-            setNewRoomRent(currentRoomRent);
-            setRentError("");
-          } else {
-            setNewRoomRent("");
-            setRentError("");
-          }
-        }}
-      />
-    </div>
+                          {/* Label + Checkbox in One Line */}
+                          <div className="flex items-center">
+                            <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
+                              New Rent Amount
+                              <span className="text-red-500 text-[20px] ml-1">*</span>
+                            </Form.Label>
 
-    <FormControl
-      onChange={(e) => handleNewRoomRent(e)}
-      value={newRoomRent}
-      type="text"
-      placeholder="Enter Amount"
-      className="mt-2 h-[50px] rounded-lg border border-[#D9D9D9] text-[16px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
-    />
+                            <Form.Check
+                              type="checkbox"
+                              label={
+                                <span className="text-[#1E45E1] font-medium text-[12px] font-gilroy whitespace-nowrap">
+                                  Same as Current
+                                </span>
+                              }
+                              className="ml-3 mb-0 cursor-pointer flex items-center"
+                              ref={rentRef}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setNewRoomRent(currentRoomRent);
+                                  setRentError("");
+                                } else {
+                                  setNewRoomRent("");
+                                  setRentError("");
+                                }
+                              }}
+                            />
+                          </div>
 
-    {rentError && <ErrorMessage message={rentError} type="error" />}
+                          <FormControl
+                            onChange={(e) => handleNewRoomRent(e)}
+                            value={newRoomRent}
+                            type="text"
+                            placeholder="Enter Amount"
+                            className="mt-2 h-[48px] rounded-lg border border-[#D9D9D9] text-[15px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
+                          />
 
-  </Form.Group>
-</div>
+                          {rentError && <ErrorMessage message={rentError} type="error" />}
+
+                        </Form.Group>
+                      </div>
                     </div>
                   </div>
 
@@ -1188,7 +1185,7 @@ function CustomerReAssign(props) {
 
             <Modal.Footer className="-mt-6 border-top-0">
               <Button disabled={formLoading}
-                 className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
+                className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
                 onClick={handleSaveReassignBed}
               >
                 Change Bed
