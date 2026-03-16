@@ -13,7 +13,7 @@ function WhyChoose() {
 
     return (
         <div className={`w-full  bg-white text-[#000000] py-10 px-[70px]`}>
-            <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center">
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center px-[70px]">
 
                 <div>
 

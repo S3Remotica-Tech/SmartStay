@@ -88,11 +88,11 @@ function Pricing() {
 
 
     return (
-        <div className="w-full bg-[#FDFDFD] py-[40px] md:py-[53px] px-[20px] md:px-[101px] font-tasa">
+        <div className="w-full bg-[#FDFDFD] py-[40px] md:py-[53px] px-[20px] md:px-[101px] font-tasa animate-[fadeUp_0.6s_ease-out]">
 
             <div className='flex justify-between '>
                 <div className="mb-8">
-                    <h2 className="text-5xl font-semibold text-[#1E1E1E]">
+                    <h2 className="text-5xl font-semibold text-[#1E1E1E] ">
                         Built to Scale.
                         <br />
                         <span className="bg-gradient-to-r from-[#03A7FF] to-[#0565FF] bg-clip-text text-transparent">Priced to Grow.</span>

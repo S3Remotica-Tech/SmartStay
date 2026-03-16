@@ -9,6 +9,9 @@ export default {
       animation: {
         scroll: "scroll 20s linear infinite",
       },
+      animation: {
+        blink: "blink 1s infinite",
+      },
       keyframes: {
         scroll: {
           "0%": { transform: "translateX(0)" },

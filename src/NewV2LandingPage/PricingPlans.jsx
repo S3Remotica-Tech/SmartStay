@@ -112,7 +112,7 @@ function PricingPlans() {
   return (
     <div className='w-screen h-auto  bg-white font-tasa'>
 
-      <div className=" mx-auto text-center px-[120px] py-16 h-auto">
+      <div className=" mx-auto text-center px-[120px] py-16 h-auto animate-[fadeUp_0.6s_ease-out]">
 
 
         <div className="inline-flex items-center gap-2 bg-[#F4F6FF] shadow-sm border border-blue-[#F4F6FF] 
@@ -252,21 +252,6 @@ function PricingPlans() {
           ))}
 
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
 

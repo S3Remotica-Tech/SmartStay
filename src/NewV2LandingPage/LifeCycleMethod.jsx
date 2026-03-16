@@ -19,8 +19,8 @@ let navigate = useNavigate();
 
 
 
-const handleNavigateDemo = () => {
-    navigate("/demo");
+const handleNavigateFeatures = () => {
+    navigate("/hostel-management-features");
   };
 
 
@@ -117,7 +117,14 @@ const handleNavigateDemo = () => {
                     return (
                         <div
                             key={index}
-                            className={`bg-white rounded-xl p-6 shadow-sm flex flex-col border border-gray-100 justify-between ${span}`}
+                             className={`
+    bg-white animate-[fadeUp_0.6s_ease-out] 
+    rounded-xl p-6 shadow-sm flex flex-col border border-gray-100 justify-between
+    ${span}
+    transition-transform duration-300 ease-out
+    hover:shadow-lg hover:-translate-y-2
+    hover:border-blue-200
+  `}
                         >
 
                             <div>
@@ -157,11 +164,11 @@ const handleNavigateDemo = () => {
                                                         return (
                                                             <div key={i} className="mx-1 my-2 flex items-center gap-2">
 
-                                                                {card.icon === "shield-tick" && i === 0 ? (
+                                                                {/* {card.icon === "shield-tick" && i === 0 ? ( */}
                                                                     <TickCircle size="20" variant="Bold" color="#00A32E" />
-                                                                ) : (
+                                                                {/* ) : (
                                                                     <TickCircle size="20" color="#1E45E1" />
-                                                                )}
+                                                                )} */}
 
                                                                 <label>{item}</label>
 
@@ -219,7 +226,7 @@ const handleNavigateDemo = () => {
                 !isFeatureWay &&
             
             <div className='max-w-7xl flex items-center justify-center'>
-                <button onClick={handleNavigateDemo} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
+                <button onClick={handleNavigateFeatures} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
                    Explore Features
                     <ArrowRight size="18" />
                 </button>
