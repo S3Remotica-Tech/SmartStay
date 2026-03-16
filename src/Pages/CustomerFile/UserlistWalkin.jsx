@@ -509,7 +509,7 @@ function UserlistWalkin() {
             )}
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
-              <div className="animated-text flex justify-center mt-24 2xl:mt-52">
+              <div className="animated-text flex items-center justify-center h-[55vh] 2xl:mt-52">
                 <div className="text-center">
                   <img src={Emptystate} alt="emptystate" className="mx-auto" />
 
