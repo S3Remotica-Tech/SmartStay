@@ -868,60 +868,7 @@ function PgList() {
                       {floorName && floorName.trim() !== "" ? floorName : ""}
                     </div>
 
-                      {!state.login.isTrigger && (
-                        <div
-                          className={`lg:hidden md:mt-3 cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
-                            }`}
-                          onClick={handleShowDots}
-                        >
-                          <PiDotsThreeOutlineVerticalFill className="h-4 w-4"/>
-                           {showDots && (
-                            <div
-                              ref={popupRef}
-                              className="bg-gray-50 absolute right-10 top-28 border border-gray-300 rounded-lg shadow-md w-36 z-50"
-                            >
-                              <div>
-                                <div
-                                  onClick={
-                                    canUpdatePayingGuests
-                                      ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
-                                      : undefined
-                                  }
-                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
-                                >
-                                  <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
-                                  <span className={`text-sm font-medium font-gilroy ${!canUpdatePayingGuests ? 'text-gray-400 cursor-not-allowed' : 'text-blue-700 cursor-pointer'}`}
-                                  >
-                                    Edit
-                                  </span>
-                                </div>
-                                <div className="h-px bg-gray-200 my-1" />
-
-                                <div
-                                  onClick={
-                                    canDeletePayingGuests
-                                      ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
-                                      : undefined
-                                  }
-
-                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
-                                >
-                                  <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
-                                  <span
-                                    className={`text-sm font-medium font-gilroy ${!canDeletePayingGuests ? 'text-[#A0A0A0] cursor-not-allowed' : 'text-[#FF0000] cursor-pointer'}`}
-                                  >
-                                    Delete
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-y-2 gap-x-6 mt-2 md:grid-cols-3 lg:flex lg:flex-nowrap lg:items-center lg:gap-6 lg:mt-0 md:px-4">
-
+                    <div className="flex items-center gap-3 flex-nowrap mr-4">
                       <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
                         <img className="w-4 h-4" alt="Available" src={availabeimg} />
                         Available
@@ -959,7 +906,7 @@ function PgList() {
                           {showDots && (
                             <div
                               ref={popupRef}
-                              className="bg-gray-50 absolute right-16 top-[105px] border border-gray-300 rounded-lg shadow-md w-36 z-50"
+                              className="pg-card bg-white absolute right-10 top-6 border border-gray-300 rounded-lg shadow-md w-36 z-50"
                             >
                               <div>
                                 <div
@@ -1013,7 +960,7 @@ function PgList() {
                   </div>
 
                 </div>
-              // </div>
+              </div>
             )
               :
               (!loading) && (
