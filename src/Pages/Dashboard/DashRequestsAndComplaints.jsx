@@ -65,7 +65,7 @@ function DashRequestAndComplaints() {
             id: item.complaintId,
             name: item.customerName || "-",
             room: item.roomName,
-            title:item.description,
+            title: item.description,
             type: item.type,
             status: item.status,
             time: item.date
@@ -89,45 +89,45 @@ function DashRequestAndComplaints() {
     }, []);
 
 
- const dateOptions =
-    state.PgList?.dashboardList?.filters?.map((item) => ({
-      label: item,
-      value: item
-    })) || [];
+    const dateOptions =
+        state.PgList?.dashboardList?.filters?.map((item) => ({
+            label: item,
+            value: item
+        })) || [];
 
-useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    useEffect(() => {
+        if (state.login.selectedHostel_Id) {
 
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-          complaintRequestFilter: requestDate
-          }
+            dispatch({
+                type: "GET_DASHBOARD_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        complaintRequestFilter: requestDate
+                    }
+                }
+            });
+
+            //   setLoading(true);
         }
-      });
+    }, [requestDate]);
 
-    //   setLoading(true);
-    }
-  }, [requestDate]);
+    useEffect(() => {
+        if (state.PgList?.dashboardList) {
+            setLoading(false)
 
-useEffect(() => {
-    if (state.PgList?.dashboardList) {
-      setLoading(false)
-      
-    }
-  }, [state.PgList?.dashboardList]);
+        }
+    }, [state.PgList?.dashboardList]);
 
 
- useState(() => {
-    if (state.PgList.getDashboardSuccessStatus === 200) {
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
-      }, 200);
-    }
-  }, [state.PgList.getDashboardSuccessStatus]);
+    useState(() => {
+        if (state.PgList.getDashboardSuccessStatus === 200) {
+            setLoading(false);
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
+            }, 200);
+        }
+    }, [state.PgList.getDashboardSuccessStatus]);
 
 
 
@@ -139,11 +139,11 @@ useEffect(() => {
 
             <div className="flex justify-between items-center mb-4">
 
-{loading && (
-        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
+                {loading && (
+                    <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                        <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                    </div>
+                )}
                 <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
                     Tenant Requests & Complaints
                 </h2>
@@ -182,7 +182,7 @@ useEffect(() => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-[Gilroy]">
 
-                <div className="border rounded-xl p-4 bg-white">
+                 <div className="border rounded-xl p-4 bg-white flex flex-col">
 
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex items-center gap-2">
@@ -216,45 +216,54 @@ useEffect(() => {
                     </div>
 
 
-                    <div className="flex-1 overflow-y-auto max-h-64 ">
-                        {requestList.map((item, index) => (
-                            <div
-                                key={index}
-                                className="flex  py-3 border-b last:border-none w-full overflow-y-auto max-h-64"
-                            >
-                                <div className="w-full ">
-                                    <div className="flex justify-between w-full ">
-                                        <p className="text-base font-semibold text-[#101828]">
-                                            {item.name}{" "}
-                                            <span className="text-xs text-[#6A7282]  font-semibold ">• {item.room}</span>
-                                        </p>
+                    <div className="flex-1 overflow-y-auto max-h-64">
+  {requestList?.length === 0 ? (
+    <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
+      No requests are there
+    </div>
+  ) : (
+    requestList.map((item, index) => (
+      <div
+        key={index}
+        className="flex py-3 border-b last:border-none w-full"
+      >
+        <div className="w-full">
+          <div className="flex justify-between w-full">
+            <p className="text-base font-semibold text-[#101828]">
+              {item.name}
+              <span className="text-xs text-[#6A7282] font-semibold">
+                {" "}• {item.room}
+              </span>
+            </p>
 
-                                        <span
-                                            className={`text-xs px-2 rounded  font-semibold${statusStyle[item.status]}`}
-                                        >
-                                            {item.status}
-                                        </span>
+            <span
+              className={`text-xs px-2 rounded font-semibold ${statusStyle[item.status]}`}
+            >
+              {item.status}
+            </span>
+          </div>
 
-                                    </div>
+          <p className="text-sm text-[#4A5565] font-semibold">
+            {item.title}
+          </p>
+
+          <div className="flex justify-between w-full">
+            <p className="text-xs text-[#6A7282] font-semibold">
+              {item.type}
+            </p>
+            <p className="text-[10px] text-[#6A7282] font-semibold">
+              {item.time}
+            </p>
+          </div>
+        </div>
+      </div>
+    ))
+  )}
+</div>
 
 
-                                    <p className="text-sm text-[#4A5565] font-semibold ">{item.title}</p>
-                                    <div className="flex justify-between w-full ">
-                                        <p className="text-xs text-[#6A7282] font-semibold ">{item.type}</p>
-                                        <p className="text-[10px] text-[#6A7282] font-semibold">{item.time}</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                        ))}
-
-                    </div>
-
-
-                    <button
-                        className="
+                    <button disabled
+                       className=" 
     mt-3
     w-full
     flex
@@ -269,6 +278,9 @@ useEffect(() => {
     font-semibold
     text-[#364153]
     hover:bg-gray-50
+    disabled:bg-gray-200
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
   "
                     >
                         View All Requests
@@ -278,7 +290,7 @@ useEffect(() => {
                 </div>
 
 
-                <div className="border rounded-xl p-4 bg-white">
+              <div className="border rounded-xl p-4 bg-white flex flex-col">
 
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex items-center gap-2">
@@ -314,43 +326,50 @@ useEffect(() => {
                     </div>
 
 
-                    <div className="flex-1 overflow-y-auto max-h-64 ">
-                        {complaintList.map((item, index) => (
-                            <div
-                                key={index}
-                                className="flex  py-3 border-b last:border-none w-full "
-                            >
-                                <div className="w-full ">
-                                    <div className="flex justify-between w-full ">
-                                        <p className="text-base font-semibold text-[#101828]">
-                                            {item.name}{" "}
-                                            <span className="text-xs text-[#6A7282]  font-semibold ">• {item.room}</span>
-                                        </p>
-
-                                        <span
-                                            className={`text-xs px-2 rounded  font-semibold${statusStyle[item.status]}`}
-                                        >
-                                            {item.status}
-                                        </span>
-
-                                    </div>
-
-
-                                    <p className="text-sm text-[#4A5565] font-semibold ">{item.title}</p>
-                                    <div className="flex justify-between w-full ">
-                                        <p className="text-xs text-[#6A7282] font-semibold ">{item.type}</p>
-                                        <p className="text-[10px] text-[#6A7282] font-semibold">{item.time}</p>
-                                    </div>
-
-                                </div>
-
-
+                    <div className="flex-1 overflow-y-auto max-h-64">
+                        {complaintList?.length === 0 ? (
+                            <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
+                                No complaints are there
                             </div>
-                        ))}
+                        ) : (
+                            complaintList.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className="flex py-3 border-b last:border-none w-full"
+                                >
+                                    <div className="w-full">
+                                        <div className="flex justify-between w-full">
+                                            <p className="text-base font-semibold text-[#101828]">
+                                                {item.name}
+                                                <span className="text-xs text-[#6A7282] font-semibold">
+                                                    {" "}• {item.room}
+                                                </span>
+                                            </p>
+
+                                            <span
+                                                className={`text-xs px-2 rounded font-semibold ${statusStyle[item.status]}`}
+                                            >
+                                                {item.status}
+                                            </span>
+                                        </div>
+
+                                        <p className="text-sm text-[#4A5565] font-semibold">{item.title}</p>
+
+                                        <div className="flex justify-between w-full">
+                                            <p className="text-xs text-[#6A7282] font-semibold">{item.type}</p>
+                                            <p className="text-[10px] text-[#6A7282] font-semibold">
+                                                {item.time}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
 
                     <button
-                        className="
+                        disabled
+                        className=" 
     mt-3
     w-full
     flex
@@ -365,10 +384,16 @@ useEffect(() => {
     font-semibold
     text-[#364153]
     hover:bg-gray-50
+    disabled:bg-gray-200
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
   "
                     >
                         View All Complaints
-                        <ArrowRight size="16" color="#1E45E1" />
+                        <ArrowRight
+                            size="16"
+                            className="text-[#1E45E1] disabled:text-gray-400"
+                        />
                     </button>
 
 

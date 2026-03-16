@@ -1524,6 +1524,8 @@ const tooltipTrigger = isMd ? ["hover"] : [];
                   }
                 />
               }
+
+              
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
@@ -1771,7 +1773,7 @@ const tooltipTrigger = isMd ? ["hover"] : [];
 
 
               {
-                import.meta.env.MODE === "development" &&
+                import.meta.env.MODE === "development" || import.meta.env.MODE === "qa" &&
                 <>
 
 

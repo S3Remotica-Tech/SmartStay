@@ -189,7 +189,7 @@ function UserListRoomDetail(props) {
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
-
+const menuRef = useRef(null);
 
 
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
@@ -204,7 +204,17 @@ function UserListRoomDetail(props) {
   } = useHasPermission("Customers");
 
 
+  const {
+    canReadModule: canReadCheckout,
+    canWriteModule: canWriteCheckout
 
+  } = useHasPermission("Checkout");
+
+  const {
+    canWriteModule: canWriteBooking,
+    canReadModule: canReadBooking,
+
+  } = useHasPermission("Booking");
 
 
 
@@ -246,7 +256,19 @@ function UserListRoomDetail(props) {
   }, [totriggerBillTap, IsOverView, scrollTo]);
 
 
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setOpenMenu(false);
+    }
+  };
 
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
 
   useEffect(() => {
@@ -1528,70 +1550,11 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.phoneError]);
 
-  // const handleCloseGenerateFormShow = () => {
-  //   // seGenerateForm(false);
-  //   setAdvanceDateError("");
-  //   setAdvanceDueDateError("");
-  //   setAdvanceDate("");
-  //   setAdvanceDueDate("");
-  // };
-
-  // const handleGenerateAdvance = () => {
-  //   let hasError = false;
-
-  //   if (!advanceDate) {
-  //     setAdvanceDateError("Please Select Invoice Date");
-  //     hasError = true;
-  //   } else {
-  //     setAdvanceDateError("");
-  //   }
-
-  //   if (!advanceDueDate) {
-  //     setAdvanceDueDateError("Please Select Due Date");
-  //     hasError = true;
-  //   } else {
-  //     setAdvanceDueDateError("");
-  //   }
 
 
-  //   if (advanceDate && advanceDueDate && advanceDetail[0]?.joining_Date) {
-  //     const joiningDate = dayjs(advanceDetail[0].joining_Date).startOf("day");
-  //     const invoiceDate = dayjs(advanceDate).startOf("day");
-  //     const dueDate = dayjs(advanceDueDate).startOf("day");
 
-  //     if (invoiceDate.isBefore(joiningDate)) {
-  //       setAdvanceDateError("Before Join Date Not Allowed");
-  //       hasError = true;
-  //     }
 
-  //     if (dueDate.isBefore(invoiceDate)) {
-  //       setAdvanceDueDateError("Due Date after Invoice Date only");
-  //       hasError = true;
-  //     }
-  //   }
-  //   if (hasError) {
-  //     return;
-  //   }
-  //   const formattedInvoiceDate = formatDate(advanceDate);
-  //   const formattedDueDate = formatDate(advanceDueDate);
 
-  //   dispatch({
-  //     type: "ADVANCEGENERATE",
-  //     payload: {
-  //       user_id: props.id,
-  //       invoice_date: formattedInvoiceDate,
-  //       due_date: formattedDueDate,
-  //       isadvance: 1
-  //     },
-  //   });
-  // };
-  // const formatDate = (dateObj) => {
-  //   const date = new Date(dateObj);
-  //   const year = date.getFullYear();
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   return `${year}-${month}-${day}`;
-  // };
   const initialState = {
     firstname: "",
     lastname: "",
@@ -2556,15 +2519,15 @@ function UserListRoomDetail(props) {
 
                 {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
                   <div
-                    className="absolute inset-0 rounded-full flex items-center justify-center bg-black/30 cursor-pointer"
+                    className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 
+    ${canUpdateTenant ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
                     onClick={() => {
-                      if (!state.UsersList?.KycCustomerDetails?.pic) {
+                      if (canUpdateTenant && !state.UsersList?.KycCustomerDetails?.pic) {
                         document.getElementById("fileInput").click();
                       }
                     }}
                   >
-                    <div className="bg-white rounded-full p-1.5 flex items-center justify-center"
-                    >
+                    <div className="bg-white rounded-full p-1.5 flex items-center justify-center">
                       <img
                         src={EditImage}
                         alt="Edit"
@@ -2579,7 +2542,11 @@ function UserListRoomDetail(props) {
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  onChange={handleImageUpload}
+                  onChange={(e) => {
+                    if (canUpdateTenant) {
+                      handleImageUpload(e);
+                    }
+                  }}
                 />
               </div>
 
@@ -2687,38 +2654,49 @@ function UserListRoomDetail(props) {
                 </button>
 
                 {openMenu && (
-                  <div className="absolute right-0 mt-2 w-fit whitespace-nowrap rounded-md bg-white shadow-lg border border-gray-200 z-20">
+                  <div  ref={menuRef} className="absolute right-0 mt-2 w-fit whitespace-nowrap rounded-md bg-white shadow-lg border border-gray-200 z-20">
 
 
                     {
                       state.UsersList.customerdetails?.customerCurrentStatus === "CHECK_IN" &&
                       <>
                         <button
-
+                          disabled={!canWriteCheckout}
                           onClick={() => {
-                            if (canWriteTenant) {
+                            if (canWriteCheckout) {
                               handleCustomerCheckout(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="
+    w-full px-3 py-2 text-left text-sm flex items-center gap-2
+    text-gray-600 hover:bg-gray-100
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
+    disabled:hover:bg-transparent
+  "
                         >
-                          <Notification1 size="18"
-                            color="#1E45E1"
+                          <Notification1
+                            size="18"
+                            color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
                           />
                           Move to Notice Period
                         </button>
 
                         <button
+                          disabled={!canWriteTenant}
                           onClick={() => {
                             if (canWriteTenant) {
                               handleCustomerReAssign(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-600 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
-                          <ArrowSwapHorizontal size={16} color="#1E45E1" />
+                          <ArrowSwapHorizontal
+                            size={16}
+                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                          />
                           Change Bed
                         </button>
                       </>
@@ -2728,34 +2706,43 @@ function UserListRoomDetail(props) {
                       state.UsersList.customerdetails?.customerCurrentStatus === "NOTICE" &&
                       <>
                         <button
+                          disabled={!canWriteCheckout}
                           onClick={() => {
-                            if (canWriteTenant) {
+                            if (canWriteCheckout) {
                               handleCheckoutGenrateNew(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
-
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-600 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
-                          <LogoutCurve size="18"
-                            color="#1E45E1"
+                          <LogoutCurve
+                            size="18"
+                            color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
                           />
                           Generate
                         </button>
 
                         <button
+                          disabled={!canWriteTenant}
                           onClick={() => {
                             if (canWriteTenant) {
                               handleBacktoCheckout(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
-
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="
+    w-full px-3 py-2 text-left text-sm flex items-center gap-2
+    text-gray-600 hover:bg-gray-100
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
+    disabled:hover:bg-transparent
+  "
                         >
-                          <Calendar2 size="18"
-                            color="#1E45E1"
-                            variant="Bold" />
+                          <Calendar2
+                            size="18"
+                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                            variant="Bold"
+                          />
                           Cancel Check-Out
                         </button>
                       </>
@@ -2764,17 +2751,24 @@ function UserListRoomDetail(props) {
                       state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED" &&
                       <>
                         <button
-
+                          disabled={!canWriteCheckout}
                           onClick={() => {
-                            if (canWriteTenant) {
+                            if (canWriteCheckout) {
                               handleConformCheckout(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="
+    w-full px-3 py-2 text-left text-sm flex items-center gap-2
+    text-gray-600 hover:bg-gray-100
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
+    disabled:hover:bg-transparent
+  "
                         >
-                          <LogoutCurve size="18"
-                            color="#1E45E1"
+                          <LogoutCurve
+                            size="18"
+                            color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
                           />
                           Check-Out
                         </button>
@@ -2802,36 +2796,43 @@ function UserListRoomDetail(props) {
                     {
                       state.UsersList.customerdetails?.customerCurrentStatus === "BOOKED" &&
                       <>
-                        <button onClick={() => {
-                          handleShowBookingToCheckin();
-                          setOpenMenu(null);
-                        }}
+                        <button disabled={!canWriteTenant}
+                          onClick={() => {
+                            handleShowBookingToCheckin();
+                            setOpenMenu(null);
+                          }}
                           type="button"
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="w-full px-3 py-2 text-left text-sm text-gray-600 hover:bg-gray-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
+        disabled:cursor-not-allowed"
                         >
-                          <AddCircle size="18"
-                            color="#1E45E1" />
+                          <AddCircle size="18" color={canWriteTenant ? "#1E45E1" : "#9CA3AF"} />
                           Check-In
                         </button>
 
                         <button
-
+                          disabled={!canWriteBooking}
                           onClick={() => {
-                            if (canWriteTenant) {
+                            if (canWriteBooking) {
                               handleInActive(CustomerOverView);
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                          className="
+        w-full px-3 py-2 text-left text-sm flex items-center gap-2
+        text-gray-600 hover:bg-gray-100
+        disabled:text-gray-400
+        disabled:cursor-not-allowed
+        disabled:hover:bg-transparent
+      "
                         >
-                          <LogoutCurve size="18"
-                            color="#1E45E1"
+                          <LogoutCurve
+                            size="18"
+                            color={canWriteBooking ? "#1E45E1" : "#9CA3AF"}
                           />
                           Make as Inactive
                         </button>
                       </>
                     }
-
                   </div>
                 )}
               </div>

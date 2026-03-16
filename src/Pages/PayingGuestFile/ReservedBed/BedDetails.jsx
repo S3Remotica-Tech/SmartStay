@@ -39,6 +39,7 @@ function BedDetails({
 
 
     const {
+         canWriteModule: canWriteBooking,
         canReadModule: canReadBooking,
 
     } = useHasPermission("Booking");
@@ -259,19 +260,19 @@ function BedDetails({
 
 
                                                             <div
-                                                                onClick={() => canReadBooking && handleMakeInActive(tenant)}
+                                                                onClick={() => canWriteBooking && handleMakeInActive(tenant)}
                                                                 className={`flex items-center gap-2 px-2.5 py-2 rounded-b-lg 
-    ${canReadBooking
+    ${canWriteBooking
                                                                         ? "cursor-pointer opacity-100 hover:bg-red-50"
                                                                         : "cursor-not-allowed opacity-50"}`}
                                                             >
                                                                 <LogoutCurve
                                                                     size={18}
-                                                                    color={canReadBooking ? "#FF9500" : "#A0A0A0"}
+                                                                    color={canWriteBooking ? "#FF9500" : "#A0A0A0"}
                                                                 />
                                                                 <label
                                                                     className={`text-sm font-medium font-gilroy 
-      ${canReadBooking ? "text-gray-800" : "text-gray-300"}`}
+      ${canWriteBooking ? "text-gray-800" : "text-gray-300"}`}
                                                                 >
                                                                     Make as Inactive
                                                                 </label>

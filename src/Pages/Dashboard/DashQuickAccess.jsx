@@ -15,7 +15,7 @@ import {
 
 } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
-
+import { useHasPermission } from '../../Utils/Permission';
 
 
 function DashQuickAccess(
@@ -91,6 +91,24 @@ function DashQuickAccess(
 
 
     })) || [];
+
+
+
+  const {
+    canWriteModule: canWriteTenant,
+
+  } = useHasPermission("Customers");
+
+
+
+  const {
+    canWriteModule: canWriteInvoice,
+
+  } = useHasPermission("Bills");
+
+
+
+
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -169,7 +187,7 @@ function DashQuickAccess(
   }
 
   const handleRecordPayment = (item) => {
-      
+
     setShowform(true)
     setSelectedUserId(item.customerId)
     setInvoiceList({
@@ -188,23 +206,23 @@ function DashQuickAccess(
 
 
 
-    useEffect(() => {
-          if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
-                          dispatch({
-                type: "GET_DASHBOARD_SAGA",
-                payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {
-                         billingFilter: selected
-                    }
-                }
-            });
-                           
-              setTimeout(() => {
-                  dispatch({ type: "CLEAR_RECORD_PAYMENT" });
-              }, 300);
+  useEffect(() => {
+    if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            billingFilter: selected
           }
-      }, [state.InvoiceList.RecordPaymentUpdateStatusCode])
+        }
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_RECORD_PAYMENT" });
+      }, 300);
+    }
+  }, [state.InvoiceList.RecordPaymentUpdateStatusCode])
 
   const handleCloseForm = () => {
     setShowform(false)
@@ -226,9 +244,9 @@ function DashQuickAccess(
 
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
-        selectedUserId={selectedUserId}
-        invoiceValue={invoiceValue}
-        invoiceList={invoiceList}
+          selectedUserId={selectedUserId}
+          invoiceValue={invoiceValue}
+          invoiceList={invoiceList}
         />
 
       )}
@@ -401,9 +419,15 @@ function DashQuickAccess(
                         View
                       </button>
 
-                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 disabled:cursor-not-allowed"
-
-                      // onClick={()=>handleCheckIn(item)}
+                      <button
+                        disabled={!canWriteTenant}
+                        className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm
+  disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-400"
+                        onClick={() => {
+                          if (canWriteTenant) {
+                            handleCheckIn(item);
+                          }
+                        }}
                       >
                         Check-in
                       </button>
@@ -446,7 +470,7 @@ function DashQuickAccess(
                         )}
                       </div>
                       <div>
-                        <div className="text-sm font-semibold text-gray-900">
+                        <div className="text-sm font-semibold text-gray-900 mb-2">
                           {item.name}
                         </div>
 
@@ -471,8 +495,15 @@ function DashQuickAccess(
                         <div className="text-xs text-gray-500">{item.date}</div>
                       </div>
 
-                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 "
-                        onClick={() => handleRecordPayment(item)}
+                      <button
+                        disabled={!canWriteInvoice}
+                        className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm
+  disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+                        onClick={() => {
+                          if (canWriteInvoice) {
+                            handleRecordPayment(item);
+                          }
+                        }}
                       >
                         Record Payment
                       </button>
