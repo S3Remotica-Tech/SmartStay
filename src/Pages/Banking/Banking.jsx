@@ -81,7 +81,7 @@ function Banking() {
   // const canUpdateBanking = useHasPermission("Banking", "canUpdate");
   // const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
-
+  console.log("transactionFilterddata", transactionFilterddata)
   useEffect(() => {
     if (!canReadBanking) {
       setLoader(false);
@@ -120,6 +120,8 @@ function Banking() {
     }
   }, [hostel_id]);
 
+  console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
+
   useEffect(() => {
     setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -130,7 +132,7 @@ function Banking() {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+  }, [state.bankingDetails.statusCodeForGetBanking, state.bankingDetails?.bankingList]);
 
 
   useEffect(() => {
@@ -229,11 +231,12 @@ function Banking() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       setFormLoading(false)
-      handleCloseAddBalance();
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
+      handleCloseAddBalance();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
-      }, 1000);
+      }, 100);
+
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
 
@@ -395,12 +398,12 @@ function Banking() {
   //   setSortConfig({ key, direction });
   // };
 
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
-  }, [transactionFilterddata]);
+  // const sortedData = React.useMemo(() => {
+  //   return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
+  // }, [transactionFilterddata]);
 
 
-
+  // console.log("sortedData",sortedData)
 
   useEffect(() => {
     if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
@@ -955,9 +958,9 @@ function Banking() {
 
           <div >
 
-            {sortedData?.length > 0 ? (
+            {transactionFilterddata?.length > 0 ? (
 
-              <div className="overflow-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px] md:h-[200px] lg:h-[260px] overflow-y-auto thin-scrollbar">
+              <div className="overflow-y-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px] md:h-[200px] lg:h-[260px]  thin-scrollbar">
 
                 <Table className="min-w-full border-collapse w-full font-medium font-gilroy sticky top-0 z-10]"
                   responsive="md" >
@@ -990,7 +993,7 @@ function Banking() {
 
                   <tbody className="text-center">
                     <PaginationList>
-                      {sortedData?.map((user) => {
+                      {transactionFilterddata?.map((user) => {
 
 
                         return (
@@ -1040,7 +1043,7 @@ function Banking() {
 
 
               <div>
-                {!loader && sortedData.length === 0 && canReadBanking && (
+                {!loader && transactionFilterddata.length === 0 && canReadBanking && (
                   <div className="flex justify-center mt-24 2xl:mt-52">
                     <div>
                       <div className="text-center mb-2">

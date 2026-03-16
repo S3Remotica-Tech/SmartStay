@@ -18,7 +18,9 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function DashQuickAccess() {
+function DashQuickAccess(
+  { handleTriggerFilter }
+) {
 
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -33,17 +35,18 @@ function DashQuickAccess() {
   const [showform, setShowform] = useState(false);
   const QuickAccess = state.PgList?.dashboardList
   const [invoiceValue, setInvoiceValue] = useState("");
+  const [invoiceList, setInvoiceList] = useState('')
   const [selectedUserId, setSelectedUserId] = useState("")
 
-
+  console.log("selectedUserId", selectedUserId)
   const billingSummary = {
     title: "Billing Summary",
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
     totalAmount: QuickAccess?.billingSummary?.totalAmount,
     collected: ` ${QuickAccess?.billingSummary?.totalPaid || 0}`,
     outstanding: `${QuickAccess?.billingSummary?.totalPending || 0}`,
-    collectionRate: "",
-    trend: "0% from last month",
+    collectionRate: `${QuickAccess?.billingSummary?.collectionRate || 0}`,
+    trend: `${QuickAccess?.billingSummary?.fromLastMonth} from last month`,
   };
 
   const dateOptions =
@@ -78,10 +81,15 @@ function DashQuickAccess() {
       name: item.customerName || "-",
       invoice: item.invoiceNumber,
       status: item.status,
-      amount: item.totalAmount,
+      amount: item.dueAmount,
       date: item.dueDate,
       initials: item.initials,
-      profilePic: item.profilePic
+      profilePic: item.profilePic,
+      customerId: item.customerId,
+      dueAmount: item.dueAmount,
+      invoiceDate: item.invoiceDate,
+
+
     })) || [];
 
   useEffect(() => {
@@ -161,14 +169,51 @@ function DashQuickAccess() {
   }
 
   const handleRecordPayment = (item) => {
-    console.log("item",item)
+      
     setShowform(true)
-    setInvoiceValue(item)
-    setSelectedUserId(item.tenantId)
+    setSelectedUserId(item.customerId)
+    setInvoiceList({
+      balanceDue: item?.dueAmount,
+      InvoiceId: item?.invoiceId,
+    })
+    setInvoiceValue({
+      Date: item?.invoiceDate,
+      invoiceId: item?.invoiceId
+    })
+
+
   }
 
-  const handleCloseForm =()=>{
+
+
+
+
+    useEffect(() => {
+          if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+                          dispatch({
+                type: "GET_DASHBOARD_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                         billingFilter: selected
+                    }
+                }
+            });
+                           
+              setTimeout(() => {
+                  dispatch({ type: "CLEAR_RECORD_PAYMENT" });
+              }, 300);
+          }
+      }, [state.InvoiceList.RecordPaymentUpdateStatusCode])
+
+  const handleCloseForm = () => {
     setShowform(false)
+  }
+
+  const handlefilterbyDates = (option) => {
+    setSelected(option.value);
+    setOpen(false);
+    // handleTriggerFilter(option)
   }
 
   return (
@@ -181,9 +226,10 @@ function DashQuickAccess() {
 
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
-          // selectedUserId={selectedUserId} invoiceValue={invoiceValue}
-          // invoiceList={invoiceList} 
-          />
+        selectedUserId={selectedUserId}
+        invoiceValue={invoiceValue}
+        invoiceList={invoiceList}
+        />
 
       )}
 
@@ -235,8 +281,8 @@ function DashQuickAccess() {
                     <button
                       key={option.value}
                       onClick={() => {
-                        setSelected(option.value);
-                        setOpen(false);
+
+                        handlefilterbyDates(option)
                       }}
                       className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${selected === option.label ? "text-blue-600 font-medium " : "text-gray-600"
                         }`}
@@ -286,13 +332,13 @@ function DashQuickAccess() {
             <div className="flex justify-between text-sm mb-1">
               <span className="text-[#4A5565 font-medium text-xs"> Collection Rate</span>
               <span className="font-semibold">
-                {billingSummary.collectionRate}%
+                {billingSummary.collectionRate}
               </span>
             </div>
             <div className="h-2 rounded-full bg-gray-100">
               <div
                 className="h-full bg-[#F54900] rounded-full transition-all"
-                style={{ width: `${billingSummary.collectionRate}%` }}
+                style={{ width: `${billingSummary.collectionRate}` }}
               />
 
             </div>
@@ -425,8 +471,8 @@ function DashQuickAccess() {
                         <div className="text-xs text-gray-500">{item.date}</div>
                       </div>
 
-                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 "
-                        // onClick={() => handleRecordPayment(item)}
+                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 "
+                        onClick={() => handleRecordPayment(item)}
                       >
                         Record Payment
                       </button>

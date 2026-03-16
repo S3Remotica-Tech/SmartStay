@@ -235,9 +235,9 @@ function LongStayRecurringModal() {
             newErrors.dueDate = "Please select billing due days of month";
         }
 
-        if (billingDate && dueDays && Number(dueDays) <= Number(billingDate)) {
-            newErrors.dueDate = "Due date must be after billing date";
-        }
+        // if (billingDate && dueDays && Number(dueDays) <= Number(billingDate)) {
+        //     newErrors.dueDate = "Due date must be after billing date";
+        // }
 
         const payload = {
             dueDays: Number(dueDays),

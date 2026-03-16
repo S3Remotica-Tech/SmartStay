@@ -36,7 +36,9 @@ export const initialState = {
    apiResponseHostelId: '',
    fcmStatus: 0,
    logoutAdminStatusCode: 0,
-readNotificationSuccess: 0
+   readNotificationSuccess: 0,
+   demoSuccess: 0,
+   demoEror: ''
 }
 const LoginReducer = (state = initialState, action) => {
 
@@ -136,6 +138,15 @@ const LoginReducer = (state = initialState, action) => {
          return { ...state, readNotificationSuccess: action.payload.statusCode }
       case 'CLEAR_READ_NOTIFICATION':
          return { ...state, readNotificationSuccess: 0 }
+      case 'DEMO_REQUEST_REDUCER':
+         return { ...state, demoSuccess: action.payload.statusCode }
+      case 'REMOVE_DEMO_REQUEST_REDUCER':
+         return { ...state, demoSuccess: 0 }
+
+         case 'DEMO_ERROR' :
+             return { ...state, demoEror: action.payload }
+              case 'REMOVE_DEMO_ERROR' :
+             return { ...state, demoEror: '' }
 
       case 'ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: action.payload }

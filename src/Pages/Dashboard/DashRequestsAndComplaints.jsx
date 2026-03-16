@@ -42,10 +42,10 @@ function DashRequestAndComplaints() {
     // ];
 
     const requestList =
-        RequestComplaints?.request?.map((item) => ({
+        RequestComplaints?.dashboardRequests?.map((item) => ({
             id: item.requestId,
             name: item.customerName || "-",
-            room: "",
+            room: item.roomName || "",
             type: item.type,
             status: item.status,
             time: item.date

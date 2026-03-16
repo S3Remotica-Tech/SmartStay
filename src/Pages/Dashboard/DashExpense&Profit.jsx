@@ -17,7 +17,7 @@ function DashExpenseProfit() {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [open, setOpen] = useState(false)
     // const [selected, setSelected] = useState("This Month");
@@ -51,7 +51,7 @@ const [loading, setLoading] = useState(false);
             title: "Expenses",
             amount: `₹ ${ExpenseAnDProfit?.totalExpense}`,
             subtitle: "this month",
-              change: `${ExpenseAnDProfit?.expenseTrend} %`,
+            change: `${ExpenseAnDProfit?.expenseTrend} %`,
             changeColor: "#16A34A",
             compareText: "",
             iconBg: "#FFFFFF",
@@ -76,30 +76,30 @@ const [loading, setLoading] = useState(false);
 
 
 
-  const expenseBreakdown =
-  state.PgList?.dashboardList?.expenseSummary?.breakdown?.map((item, index) => {
-    const colors = [
-      "bg-[#155DFC]",
-      "bg-[#00A63E]",
-      "bg-[#F54900]",
-      "bg-[#9810FA]"
-    ];
+    const expenseBreakdown =
+        state.PgList?.dashboardList?.expenseSummary?.breakdown?.map((item, index) => {
+            const colors = [
+                "bg-[#155DFC]",
+                "bg-[#00A63E]",
+                "bg-[#F54900]",
+                "bg-[#9810FA]"
+            ];
 
-    return {
-      label: item.expenseType,
-      amount: `₹${item.amount}`,
-      percentage: item.percentage,
-      barColor: colors[index % colors.length]
-    };
-  }) || [];
+            return {
+                label: item.expenseType,
+                amount: `₹${item.amount}`,
+                percentage: item.percentage,
+                barColor: colors[index % colors.length]
+            };
+        }) || [];
 
- const dateOptions =
-    state.PgList?.dashboardList?.filters?.map((item) => ({
-      label: item,
-      value: item
-    })) || [];
+    const dateOptions =
+        state.PgList?.dashboardList?.filters?.map((item) => ({
+            label: item,
+            value: item
+        })) || [];
 
-   
+
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -116,39 +116,39 @@ const [loading, setLoading] = useState(false);
 
 
 
-useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    useEffect(() => {
+        if (state.login.selectedHostel_Id) {
 
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-          financeFilter: slectedData
-          }
+            dispatch({
+                type: "GET_DASHBOARD_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    filters: {
+                        financeFilter: slectedData
+                    }
+                }
+            });
+
+            //   setLoading(true);
         }
-      });
+    }, [slectedData]);
 
-    //   setLoading(true);
-    }
-  }, [slectedData]);
+    useEffect(() => {
+        if (state.PgList?.dashboardList) {
+            setLoading(false)
 
-useEffect(() => {
-    if (state.PgList?.dashboardList) {
-      setLoading(false)
-      
-    }
-  }, [state.PgList?.dashboardList]);
+        }
+    }, [state.PgList?.dashboardList]);
 
 
- useState(() => {
-    if (state.PgList.getDashboardSuccessStatus === 200) {
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
-      }, 200);
-    }
-  }, [state.PgList.getDashboardSuccessStatus]);
+    useState(() => {
+        if (state.PgList.getDashboardSuccessStatus === 200) {
+            setLoading(false);
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
+            }, 200);
+        }
+    }, [state.PgList.getDashboardSuccessStatus]);
 
 
 
@@ -157,11 +157,11 @@ useEffect(() => {
 
     return (
         <div className="w-full mt-6 font-[Gilroy]">
-{loading && (
-        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
+            {loading && (
+                <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+                    <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
 
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy]">
@@ -316,27 +316,32 @@ useEffect(() => {
 
 
                 <div className="space-y-4">
-                    {expenseBreakdown.map((item, index) => (
-                        <div key={index}>
-
-                            <div className="flex justify-between items-center mb-1">
-                                <span className="text-[14px] font-medium text-[#364153] font-[Gilroy]">
-                                    {item.label}
-                                </span>
-                                <span className="text-sm text-[#101828] font-[Gilroy] font-semibold ">
-                                    {item.amount} ({item.percentage}%)
-                                </span>
-                            </div>
-
-
-                            <div className="w-full h-2 rounded-full bg-[#F1F5F9]">
-                                <div
-                                    className={`h-2 rounded-full ${item.barColor}`}
-                                    style={{ width: `${item.percentage}%` }}
-                                />
-                            </div>
+                    {expenseBreakdown?.length === 0 ? (
+                        <div className="text-center text-gray-400 text-sm py-6">
+                            No Data Available
                         </div>
-                    ))}
+                    ) : (
+                        expenseBreakdown.map((item, index) => (
+                            <div key={index}>
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="text-[14px] font-medium text-[#364153] font-[Gilroy]">
+                                        {item.label}
+                                    </span>
+
+                                    <span className="text-sm text-[#101828] font-[Gilroy] font-semibold">
+                                        {item.amount} ({item.percentage}%)
+                                    </span>
+                                </div>
+
+                                <div className="w-full h-2 rounded-full bg-[#F1F5F9]">
+                                    <div
+                                        className={`h-2 rounded-full ${item.barColor}`}
+                                        style={{ width: `${item.percentage}%` }}
+                                    />
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
 

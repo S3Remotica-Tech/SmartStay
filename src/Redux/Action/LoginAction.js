@@ -278,6 +278,17 @@ export async function LogoutAdmin(logout) {
 }
 
 
+export async function demoRequest(demo) {
+  // console.log("logout",logout)
+    return await AxiosConfigV2.post('/v2/demo/request',demo,{
+    data:demo
+   
+  })
+}
+
+
+
+
 
 
 
