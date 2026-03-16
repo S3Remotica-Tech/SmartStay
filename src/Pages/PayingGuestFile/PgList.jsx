@@ -875,11 +875,11 @@ function PgList() {
                             }`}
                           onClick={handleShowDots}
                         >
-                          <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
+                          <PiDotsThreeOutlineVerticalFill className="h-4 w-4"/>
                            {showDots && (
                             <div
                               ref={popupRef}
-                              className="pg-card bg-white absolute right-10 top-4 border border-gray-300 rounded-lg shadow-md w-36 z-50"
+                              className="bg-gray-50 absolute right-10 top-28 border border-gray-300 rounded-lg shadow-md w-36 z-50"
                             >
                               <div>
                                 <div
@@ -962,7 +962,7 @@ function PgList() {
                            {showDots && (
                             <div
                               ref={popupRef}
-                              className="pg-card bg-white absolute right-10 top-4 border border-gray-300 rounded-lg shadow-md w-36 z-50"
+                              className="bg-gray-50 absolute right-16 top-[105px] border border-gray-300 rounded-lg shadow-md w-36 z-50"
                             >
                               <div>
                                 <div
