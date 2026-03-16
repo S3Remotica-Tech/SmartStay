@@ -24,7 +24,7 @@ function SmartstayDemo() {
   const [name, setName] = useState("");
   const [noOfProperties, setNoOfProperties] = useState("");
   const [stateName, setStateName] = useState("");
-  const [countryCode, setCountryCode] = useState("");
+  const [countryCode, setCountryCode] = useState("+91");
   const [errors, setErrors] = useState({});
   const [formLoading, setFormLoading] = useState(false)
   const nameRef = useRef(null);
@@ -61,10 +61,10 @@ function SmartstayDemo() {
 
 
   const countryOptions = [
-    { value: "+91", label: "+91" },
-    { value: "+1", label: "+1" },
-    { value: "+44", label: "+44" },
-    { value: "+61", label: "+61" }
+    { value: "91", label: "+91" },
+    { value: "1", label: "+1" },
+    { value: "44", label: "+44" },
+    { value: "61", label: "+61" }
   ];
 
   const stateOptions = [
@@ -75,7 +75,7 @@ function SmartstayDemo() {
   ];
 
 
-
+console.log("demoDate", demoDate)
 
 
   const handleDemoReuquest = () => {
@@ -114,10 +114,9 @@ function SmartstayDemo() {
     }
 
     const formatDate = (date) => {
-      if (!date) return "";
-      const [year, month, day] = date.split("-");
-      return `${day}-${month}-${year}`;
-    };
+  if (!date) return "";
+  return dayjs(date).format("DD-MM-YYYY");
+};
 
     const payload = {
       countryCode: countryCode || "",
@@ -301,7 +300,7 @@ function SmartstayDemo() {
 
                   <input ref={mobileRef}
                     type="text"
-                    value={contactNumber}
+                    value={contactNumber} maxLength={10}
                     onChange={(e) => {
                       setContactNumber(e.target.value)
                       setErrors((prev) => ({ ...prev, countryCode: "" }));

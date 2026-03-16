@@ -194,7 +194,7 @@ function* handleDemoRequest(args) {
     };
     if (response?.status === 200) {
       yield put({ type: 'DEMO_REQUEST_REDUCER', payload: { response: response.data, statusCode: response?.status } });
-      toast.success(`${response.data}`, {
+      toast.success("Send Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
