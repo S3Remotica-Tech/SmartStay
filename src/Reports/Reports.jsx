@@ -558,7 +558,7 @@ function Reports() {
                 {reportCards.map((item, idx) => {
                   const Icon = item.icon;
 
-                  const isDev = import.meta.env.MODE === "development";
+                  const isDev = import.meta.env.MODE === "development" || import.meta.env.MODE === "qa";
                   const isProd = import.meta.env.MODE === "production";
 
                   const allowedRegisters = [

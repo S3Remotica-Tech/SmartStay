@@ -171,7 +171,7 @@ const {
     
               </div>
   )
-  : import.meta.env.MODE === "development" ?
+  : import.meta.env.MODE === "development"  ?
 (
  <div className=" p-3" style={{backgroundColor:"#F8FAFC"}}>
 
