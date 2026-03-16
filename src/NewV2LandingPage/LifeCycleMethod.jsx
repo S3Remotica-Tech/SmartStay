@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useEffect, useRef, useState } from "react";
 import TenantIcon from "../Assets/v2LandingImages/Tenant_icon.svg";
 import Digital from "../Assets/v2LandingImages/Digital.svg";
 import Aadhaar from "../Assets/v2LandingImages/Aadhaar.svg";
@@ -7,7 +7,7 @@ import Final from "../Assets/v2LandingImages/Final.svg";
 import { useNavigate } from "react-router-dom";
 import { Shield, TickCircle, ArrowRight } from 'iconsax-react'
 
-
+import useInView from "./useInview";
 
 
 
@@ -15,7 +15,7 @@ import { Shield, TickCircle, ArrowRight } from 'iconsax-react'
 function LifeCycleMethod({isFeatureWay}) {
 
 let navigate = useNavigate();
-
+const [ref, isInView] = useInView(0.3);
 
 
 
@@ -80,7 +80,7 @@ const handleNavigateFeatures = () => {
 
 
     return (
-        <div className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
+        <div  className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
 
 
             <div className="max-w-7xl mx-auto mb-14">
@@ -115,7 +115,7 @@ const handleNavigateFeatures = () => {
                     }
 
                     return (
-                        <div
+                        <div ref={ref}
                             key={index}
                              className={`
     bg-white animate-[fadeUp_0.6s_ease-out] 
