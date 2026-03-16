@@ -170,9 +170,13 @@ function UserList(props) {
 
   const {
     canWriteModule: canWriteBooking,
-    canReadModule: canReadBooking,
+    // canReadModule: canReadBooking,
 
   } = useHasPermission("Booking");
+
+
+
+
 
   const handleInvoiceNumber = (e) => {
     setInvoiceNumber(e.target.value)
@@ -2966,11 +2970,11 @@ function UserList(props) {
                                                   </div>
 
                                                   <div
-                                                    onClick={() => canReadBooking && handleInActive(user)}
+                                                    onClick={() => canWriteBooking && handleInActive(user)}
                                                     className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canReadBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                  ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
-                                                    <img src={Addbook} className={`h-4 w-4 ${!canReadBooking && "grayscale"}`} />
+                                                    <img src={Addbook} className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`} />
                                                     <span className="text-sm font-medium font-gilroy">Make as Inactive</span>
                                                   </div>
                                                 </>

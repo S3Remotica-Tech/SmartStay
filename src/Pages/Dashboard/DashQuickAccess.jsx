@@ -446,7 +446,7 @@ function DashQuickAccess(
                         )}
                       </div>
                       <div>
-                        <div className="text-sm font-semibold text-gray-900">
+                        <div className="text-sm font-semibold text-gray-900 mb-2">
                           {item.name}
                         </div>
 
