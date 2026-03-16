@@ -18,7 +18,9 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function DashQuickAccess() {
+function DashQuickAccess(
+  { handleTriggerFilter }
+) {
 
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -33,9 +35,10 @@ function DashQuickAccess() {
   const [showform, setShowform] = useState(false);
   const QuickAccess = state.PgList?.dashboardList
   const [invoiceValue, setInvoiceValue] = useState("");
+  const [invoiceList, setInvoiceList] = useState('')
   const [selectedUserId, setSelectedUserId] = useState("")
 
-
+  console.log("selectedUserId", selectedUserId)
   const billingSummary = {
     title: "Billing Summary",
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
@@ -95,22 +98,22 @@ function DashQuickAccess() {
   }, []);
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
 
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            billingFilter: selected
-          }
-        }
-      });
+  //     dispatch({
+  //       type: "GET_DASHBOARD_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           billingFilter: selected
+  //         }
+  //       }
+  //     });
 
-      // setLoading(true);
-    }
-  }, [selected]);
+  //     // setLoading(true);
+  //   }
+  // }, [selected]);
 
   useEffect(() => {
     if (state.PgList?.dashboardList) {
@@ -161,14 +164,35 @@ function DashQuickAccess() {
   }
 
   const handleRecordPayment = (item) => {
-    console.log("item",item)
+   
     setShowform(true)
-    setInvoiceValue(item)
-    setSelectedUserId(item.tenantId)
   }
 
-  const handleCloseForm =()=>{
+
+
+  // useEffect(() => {
+  //   const pdfDetails = state.InvoiceList?.particularBillsDetails
+  //   const tenantId = state.InvoiceList?.particularBillsDetails?.customerInfo?.customerId
+  //   setSelectedUserId(tenantId)
+  //   setInvoiceList({
+  //     balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
+  //     InvoiceId: pdfDetails?.invoiceId,
+  //   })
+  //   setInvoiceValue({
+  //     Date: pdfDetails?.invoiceDate,
+  //     invoiceId: pdfDetails?.invoiceId
+  //   })
+
+  // }, [state.InvoiceList?.particularBillsDetails])
+
+  const handleCloseForm = () => {
     setShowform(false)
+  }
+
+  const handlefilterbyDates = (option) => {
+    setSelected(option.value);
+    setOpen(false);
+    handleTriggerFilter(option)
   }
 
   return (
@@ -181,9 +205,10 @@ function DashQuickAccess() {
 
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
-          // selectedUserId={selectedUserId} invoiceValue={invoiceValue}
-          // invoiceList={invoiceList} 
-          />
+          // selectedUserId={selectedUserId}
+          // invoiceValue={invoiceValue}
+          // invoiceList={invoiceList}
+        />
 
       )}
 
@@ -235,8 +260,8 @@ function DashQuickAccess() {
                     <button
                       key={option.value}
                       onClick={() => {
-                        setSelected(option.value);
-                        setOpen(false);
+
+                        handlefilterbyDates(option)
                       }}
                       className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${selected === option.label ? "text-blue-600 font-medium " : "text-gray-600"
                         }`}
@@ -425,8 +450,8 @@ function DashQuickAccess() {
                         <div className="text-xs text-gray-500">{item.date}</div>
                       </div>
 
-                      <button disabled className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 "
-                        // onClick={() => handleRecordPayment(item)}
+                      <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm disabled:bg-gray-200 "
+                        onClick={() => handleRecordPayment(item.invoiceId)}
                       >
                         Record Payment
                       </button>

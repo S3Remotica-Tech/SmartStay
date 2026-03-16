@@ -232,13 +232,17 @@ const revenueData =
 
           <div className="grid grid-cols-2 text-center h-auto">
             <div>
-              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">Avg Occupied</p>
+              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
+                {/* Avg Occupied */}
+                </p>
               <p className="text-xl font-semibold text-[#16A34A] font-[Gilroy]">
                 
               </p>
             </div>
             <div>
-              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">Avg Vacant</p>
+              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
+                {/* Avg Vacant */}
+                </p>
               <p className="text-xl font-semibold text-[#F97316] font-[Gilroy]">
                 
               </p>

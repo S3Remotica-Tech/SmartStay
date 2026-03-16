@@ -32,6 +32,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const [room_name, setRoomName] = useState("")
     const [bed_name, setBedName] = useState("")
     const [profile_pic, setProfilePic] = useState(null)
+    const [selectedTenant, setSelectedTenant] = useState("")
 
     const [balance, setBalance] = useState(0);
     const [payableAmount, setPayableAmount] = useState("");
@@ -39,26 +40,53 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const [transactionId, setTransactionId] = useState("");
     const [modeOfPayment, setModeOfPayment] = useState('')
 
-    useEffect(() => {
-        if (selectedUserId) {
-            const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === selectedUserId)
 
-            setName(userDetails[0]?.fullName)
-            setFloorName(userDetails[0]?.floorName)
-            setRoomName(userDetails[0]?.roomName)
-            setBedName(userDetails[0]?.bedName)
-            setProfilePic(userDetails[0]?.profilePic)
-            setInitials(userDetails[0]?.initials)
-        }
-    }, [selectedUserId])
+//     console.log("selectedTenant", selectedTenant)
+// const pdfDetails = state.InvoiceList?.particularBillsDetails
+    // useEffect(() => {
+        
+    //     const tenantId = state.InvoiceList?.particularBillsDetails?.customerInfo?.customerId
+    //     setSelectedTenant(tenantId)
+    //     // setInvoiceList({
+    //     //   balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
+    //     //   InvoiceId: pdfDetails?.invoiceId,
+    //     // })
+    //     // setInvoiceValue({
+    //     //   Date: pdfDetails?.invoiceDate,
+    //     //   invoiceId: pdfDetails?.invoiceId
+    //     // })
+
+    // }, [state.InvoiceList?.particularBillsDetails])
+
+
+   useEffect(() => {
+    if (selectedUserId) {
+
+        const userDetails = state?.UsersList?.Users?.listCustomers
+            ?.filter((u) =>
+                u.customerId === selectedUserId 
+            );
+        const user = userDetails?.[0];
+
+        setName(user?.fullName);
+        setFloorName(user?.floorName);
+        setRoomName(user?.roomName);
+        setBedName(user?.bedName);
+        setProfilePic(user?.profilePic);
+        setInitials(user?.initials);
+    }
+}, [selectedUserId,  state?.UsersList?.Users?.listCustomers]);
+
+
+
 
 
     const options = {
-    dateFormat: "d/m/Y",
-    defaultDate: null,
-    minDate: null,
-  }; 
-  
+        dateFormat: "d/m/Y",
+        defaultDate: null,
+        minDate: null,
+    };
+
     useEffect(() => {
         if (calendarRef.current) {
             calendarRef.current.flatpickr.set(options);
@@ -869,29 +897,29 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     )
 }
 RecordPayment.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  selectedUserId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-
-  invoiceList: PropTypes.shape({
-    balanceDue: PropTypes.number,
-    InvoiceId: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ])
-  }),
-
-  invoiceValue: PropTypes.shape({
-    invoiceId: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    selectedUserId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
     ]),
-    invoiceDate: PropTypes.string,
-    Date: PropTypes.string
-  })
+
+    invoiceList: PropTypes.shape({
+        balanceDue: PropTypes.number,
+        InvoiceId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
+    }),
+
+    invoiceValue: PropTypes.shape({
+        invoiceId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        invoiceDate: PropTypes.string,
+        Date: PropTypes.string
+    })
 };
 
 export default RecordPayment

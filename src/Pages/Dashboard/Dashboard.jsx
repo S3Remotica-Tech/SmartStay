@@ -110,7 +110,7 @@ function Dashboard() {
       sharingData:
         dashboardList?.roomsBeds?.sharingInfo?.map((item) => ({
           label: item.shareType,
-          value: item.fillBeds,
+          value: item.occupiedBeds,
           percent: item.occupancyRatio
         })) || []
     },
@@ -126,9 +126,9 @@ function Dashboard() {
       ],
       footer: "Occupancy Rate",
       nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth} from last month`,
-     sharingData: [
-  { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
-]
+      sharingData: [
+        { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
+      ]
     },
     {
       id: 3,
@@ -283,23 +283,23 @@ function Dashboard() {
 
 
   useEffect(() => {
-  if (state.login.selectedHostel_Id) {
+    if (state.login.selectedHostel_Id) {
 
-    dispatch({
-      type: "GET_DASHBOARD_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: {
-          occupancyFilter: selectedFilters.occupancy,
-          tenantsFilter: selectedFilters.tenants,
-          advanceFilter: selectedFilters.advance
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            occupancyFilter: selectedFilters.occupancy,
+            tenantsFilter: selectedFilters.tenants,
+            advanceFilter: selectedFilters.advance
+          }
         }
-      }
-    });
+      });
 
-    setLoading(true);
-  }
-}, [selectedFilters]);
+      setLoading(true);
+    }
+  }, [selectedFilters]);
 
 
   // console.log("selectedFilters", selectedFilters)
@@ -362,7 +362,22 @@ function Dashboard() {
     months.push({ month: monthYear, revenue: 0, expense: 0 });
   }
 
+  const handleTriggerFilter = (options) => {
+    if (state.login.selectedHostel_Id) {
 
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            billingFilter: options
+          }
+        }
+      });
+
+      setLoading(true);
+    }
+  }
   return (
 
 
@@ -599,12 +614,12 @@ function Dashboard() {
                                       size="18"
                                       className="text-gray-400 cursor-pointer"
                                       variant="Outline"
-                                     onClick={(e) => {
-  if (card?.sharingData?.length > 0) {
-    e.stopPropagation();
-    setShowBreakdown((prev) => !prev);
-  }
-}}
+                                      onClick={(e) => {
+                                        if (card?.sharingData?.length > 0) {
+                                          e.stopPropagation();
+                                          setShowBreakdown((prev) => !prev);
+                                        }
+                                      }}
                                     />
                                   )}
 
@@ -622,32 +637,45 @@ function Dashboard() {
                                         </div>
 
 
-                                        <div className="space-y-4">
-                                          {sharingBreakdown.map((item, index) => (
+                                        <div className="space-y-4 overflow-y-auto max-h-[220px] show-scrolls">
+                                          {dashboardList?.roomsBeds?.sharingInfo?.map((item, index) => (
                                             <div
                                               key={index}
-                                              className="px-3 py-2 border   rounded"
+                                              className="px-3 py-2 border rounded"
                                             >
                                               <div className="flex justify-between text-xs text-gray-500 mb-1">
-                                                <div className="text-[#101828] font-semibold text-sm">{item.type}</div>
-                                                <div className="text-[#64748B] font-semibold text-xs">{item.roomsAvailable} Rooms Available</div>
+                                                <div className="text-[#101828] font-semibold text-sm">
+                                                  {item.shareType}
+                                                </div>
+
+                                                <div className="text-[#64748B] font-semibold text-xs">
+                                                  {item.availableRooms} Rooms Available
+                                                </div>
                                               </div>
 
                                               <div className="flex justify-between text-sm whitespace-nowrap border-t pb-1 pt-1 space-x-8">
+
                                                 <div className="gap-1">
                                                   <div className="text-[#6A7282] font-semibold text-xs">Rooms</div>
-                                                  <div className="text-[#101828] font-semibold text-base">{item.rooms}</div>
+                                                  <div className="text-[#101828] font-semibold text-base">
+                                                    {item.totalRooms}
+                                                  </div>
                                                 </div>
 
                                                 <div className="gap-1">
                                                   <div className="text-[#6A7282] font-semibold text-xs">Total Beds</div>
-                                                  <div className="text-[#101828] font-semibold text-base">{item.totalBeds}</div>
+                                                  <div className="text-[#101828] font-semibold text-base">
+                                                    {item.totalBeds}
+                                                  </div>
                                                 </div>
 
                                                 <div className="gap-1 text-green-600">
                                                   <div className="text-[#6A7282] font-semibold text-xs">Occupied</div>
-                                                  <div className="text-[#00A63E] font-semibold text-base">{item.occupied}</div>
+                                                  <div className="text-[#00A63E] font-semibold text-base">
+                                                    {item.occupiedBeds}
+                                                  </div>
                                                 </div>
+
                                               </div>
                                             </div>
                                           ))}
@@ -677,10 +705,9 @@ function Dashboard() {
                               )}
 
                             </div>
-                            <div 
-                             className={`space-y-2 ${
-    card?.sharingData?.length > 0 ? "max-h-[100px] overflow-y-auto show-scrolls" : ""
-  }`}
+                            <div
+                              className={`space-y-2 ${card?.sharingData?.length > 0 ? "max-h-[100px] overflow-y-auto show-scrolls" : ""
+                                }`}
                             >
                               {card?.sharingData?.length > 0 ? card?.sharingData?.map((item, index) => (
                                 <div key={index} className="flex items-center gap-3 me-3 ">
@@ -740,7 +767,7 @@ function Dashboard() {
                               )
                             }
 
-                            {card.nextCheckout  &&
+                            {card.nextCheckout &&
                               <span className="text-gray-900 font-medium my-2 flex"> Next Checkout : {card.nextCheckout !== "null" ? card.nextCheckout : "-"}</span>
                             }
                           </div>
@@ -754,7 +781,10 @@ function Dashboard() {
 
 
 
-                <DashQuickAccess />
+                <DashQuickAccess
+                  billingFilter={handleTriggerFilter}
+
+                />
 
                 <DashExpenseProfit />
 
