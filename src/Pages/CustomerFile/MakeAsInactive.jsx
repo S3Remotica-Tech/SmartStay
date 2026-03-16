@@ -216,7 +216,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
 
             </div>
 
-            <Modal.Body className="px-4 pb-4 pt-0">
+            <Modal.Body className="px-4 pb-4 pt-0 max-h-[70vh] md:max-h-[56vh] lg:max-h-full overflow-y-auto show-scroll">
 
                 <div className="mb-2">
                     <Form.Group controlId="joiningDate">
@@ -363,7 +363,8 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
 
 
 
-                <Modal.Footer className="border-0 p-0">
+                {/* <Modal.Footer className="border-0 p-0"> */}
+                <Modal.Footer className="border-0 pt-2 pb-1 px-0">
                     <div className="flex w-full gap-3">
                         <Button
                             onClick={handleCloseInActive}
