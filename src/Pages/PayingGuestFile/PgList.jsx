@@ -734,7 +734,7 @@ function PgList() {
         </div>
       }
 
-      <div className="sticky top-0 bg-white z-40 p-2">
+      <div className="bg-white z-40 p-2 h-screen flex flex-col overflow-hidden">
 
         {state.login.isTrigger && (
           <>
@@ -797,7 +797,7 @@ function PgList() {
 
             {!state.login.isTrigger && (
               <div className="flex justify-between items-center mb-6">
-                <label className="ms-2 text-lg font-semibold font-gilroy text-gray-900">
+                <label className="ml-2 text-lg font-semibold font-gilroy text-gray-900">
                   {showHostelDetails?.name}
                 </label>
 
@@ -817,9 +817,9 @@ function PgList() {
                 <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
               </div>
             ) : floorList?.length > 0 ? (
-              <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ml-2 md:ml-0">
+              <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ms-2">
 
-                <div className="sticky top-24 z-10">
+                <div className="md:w-1/12 sticky top-24 z-10">
 
                   <div className="flex justify-center mb-2">
                     <div
@@ -862,12 +862,11 @@ function PgList() {
                 </div>
 
 
-                <div className="md:w-11/12 lg:w-full md:pl-4 flex flex-col h-full ">
-                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3">
-                    <div className="flex justify-between items-center lg:block md:px-3 2xl:px-4">
-                      <div className="text-xl font-gilroy font-semibold capitalize whitespace-nowrap">
-                        {floorName && floorName.trim() !== "" ? floorName : ""}
-                      </div>
+                <div className="md:w-11/12 md:pl-4 flex flex-col h-full">
+                  <div className="flex justify-between items-center mb-3">
+                    <div className="text-xl font-gilroy font-semibold capitalize">
+                      {floorName && floorName.trim() !== "" ? floorName : ""}
+                    </div>
 
                       {!state.login.isTrigger && (
                         <div
@@ -934,17 +933,14 @@ function PgList() {
                             <img className="w-4 h-4" alt="Occupied" src={occubiedimg} />
                             Occupied
                           </span>
-
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
                             <img className="w-4 h-4" alt="Reserved" src={recerverimg} />
                             Reserved
                           </span>
-
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
                             <img className="w-4 h-4" alt="Overdue" src={overdueimg} />
                             Overdue
                           </span>
-
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
                             <img className="w-4 h-4" alt="Notice Period" src={noticeimg} />
                             Notice Period
@@ -952,14 +948,15 @@ function PgList() {
                         </>
                       )}
 
-                      {!state.login.isTrigger && (
+                      {
+
+                        !state.login.isTrigger &&
                         <div
-                          className={`hidden lg:mr-1.5 lg:flex cursor-pointer h-7 w-7 rounded-full border border-gray-200 items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
-                            }`}
+                          className={`cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center relative ${showDots ? 'z-[1000] bg-[#E7F1FF]' : 'z-auto bg-white'}`}
                           onClick={handleShowDots}
                         >
                           <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
-                           {showDots && (
+                          {showDots && (
                             <div
                               ref={popupRef}
                               className="bg-gray-50 absolute right-16 top-[105px] border border-gray-300 rounded-lg shadow-md w-36 z-50"
@@ -1001,13 +998,13 @@ function PgList() {
                             </div>
                           )}
                         </div>
-                      )}
-                    </div>
+                      }
 
+                    </div>
                   </div>
 
-
-                  <div className="overflow-y-auto h-full pr-2">
+                  {/* <div className="overflow-y-auto h-full pr-2"> */}
+                  <div className="overflow-y-auto flex-1 pr-2">
                     <ParticularHostelDetails
                       floorID={floorClick}
                       hostel_Id={state.login?.selectedHostel_Id}
@@ -1025,7 +1022,7 @@ function PgList() {
                     <div className="flex justify-center mt-28 2xl:mt-52">
                       <img
                         src={EmptyState}
-                        alt="Empty state"
+                         alt="Empty state"
                       />
                     </div>
                     <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
@@ -1034,10 +1031,10 @@ function PgList() {
                     <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                       There is no floor added to this paying guest.
                     </div>
-
+                   
                   </div>
                 </div>
-
+              
               )}
           </div>
         )}

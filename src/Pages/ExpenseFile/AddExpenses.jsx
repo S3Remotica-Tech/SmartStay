@@ -440,10 +440,10 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
     : [];
 
   return (
-    <div
-      className="modal show block static font-gilroy">
+    
+   <div className="fixed inset-0 z-50 flex items-center justify-center font-gilroy">
       <Modal show={show} onHide={handleClose} dialogClassName="custom-modals-style" backdrop="static" >
-        <Modal.Dialog className="m-0 p-0">
+         <Modal.Dialog className="m-0 p-0 max-h-[80vh] w-full max-w-lg">
           <Modal.Header className="flex items-center justify-between">
             <Modal.Title className="!text-lg !font-semibold text-[#222222] !font-gilroy">
               {currentItem ? "Edit Expense" : "Add Expense"}
@@ -464,7 +464,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
             <ErrorMessage message={generalError} type="error" />
           )}
 
-          <Modal.Body className="max-h-95 overflow-y-scroll p-3 show-scroll pt-1 mt-2">
+            <Modal.Body className="overflow-y-auto p-3 max-h-[70vh] show-scroll">
             <div className="grid grid-cols-12 gap-3">
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">

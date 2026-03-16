@@ -168,9 +168,9 @@ function UserList(props) {
   } = useHasPermission("Checkout");
 
 
- const {
+  const {
     canWriteModule: canWriteBooking,
-      canReadModule: canReadBooking,
+    canReadModule: canReadBooking,
 
   } = useHasPermission("Booking");
 
@@ -192,7 +192,7 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
- 
+
 
 
   useEffect(() => {
@@ -2179,7 +2179,7 @@ function UserList(props) {
       </div>
     );
   };
- 
+
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setBillLoading(false)
@@ -2521,8 +2521,8 @@ function UserList(props) {
                       width={38}
                       height={38}
                       className={`transition-opacity duration-300 ${canReadTenant
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
                         }`}
                       onClick={() => {
                         if (canReadTenant) handleCustomerExcel();
@@ -2537,8 +2537,8 @@ function UserList(props) {
                       width={38}
                       height={38}
                       className={`transition-opacity duration-300 ${canReadTenant
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
                         }`}
                       onClick={handleBookingExcel}
                     />
@@ -2551,8 +2551,8 @@ function UserList(props) {
                       width={38}
                       height={38}
                       className={`transition-opacity duration-300 ${canReadCheckout
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
                         }`}
                       onClick={handlecheckoutExcel}
                     />
@@ -2565,8 +2565,8 @@ function UserList(props) {
                       width={38}
                       height={38}
                       className={`transition-opacity duration-300 ${canReadWalkin
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
                         }`}
                       onClick={handlewalkinExcel}
                     />
@@ -2721,7 +2721,7 @@ function UserList(props) {
                   </div>
                 ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
 
-                  <div className="animated-text mt-24 2xl:mt-52 flex items-center justify-center">
+                   <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
                     <div>
                       <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
@@ -2742,9 +2742,9 @@ function UserList(props) {
                   </div>
                 ) : null}
 
-                 <div className="font-gilroy mb-5 mt-3 px-0 h-[450px] md:h-[350px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px] show-scroll">
-                  {canReadTenant && sortedData && sortedData.length > 0 &&
-                    <div className="relative h-full overflow-y-auto overflow-x-auto show-scroll">
+                {canReadTenant && sortedData && sortedData.length > 0 &&
+                  <div className="font-gilroy mb-5 mt-3 px-0 h-[450px] md:h-[350px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px] show-scroll">
+                     <div className="relative h-full overflow-y-auto overflow-x-auto show-scroll">
                       <div ref={tableRef} className="relative">
                         <Table
                           responsive="md"
@@ -2991,9 +2991,9 @@ function UserList(props) {
 
                       </div>
                     </div>
-                  }
-                </div>
-         
+                 </div>
+                }
+
 
                 {customerReassign === true ? (
                   <CustomerReAssign

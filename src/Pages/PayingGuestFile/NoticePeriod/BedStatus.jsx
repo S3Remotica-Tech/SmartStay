@@ -372,7 +372,7 @@ function NoticeBedStatusDetails({
                           {activeMenu === index && (
                             <div
                               ref={popupRef}
-                              className="absolute right-0 top-12 w-48 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50">
+                              className="absolute right-16 top-1 w-40 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50">
                               {
                                 (
                                   matchedData[0]?.currentStatus === "Notice Period" ||
@@ -668,7 +668,7 @@ function NoticeBedStatusDetails({
                             {activeMenuForReserved === index && (
                               <div
                                 ref={popupRef}
-                                className="absolute right-0 top-12 w-40 flex flex-col bg-gray-100 border border-gray-300 rounded-lg shadow-md z-50"
+                                className="absolute right-16 -top-8 w-40 flex flex-col bg-gray-100 border border-gray-300 rounded-lg shadow-md z-50"
                               >
 
                                 <div
@@ -718,7 +718,7 @@ function NoticeBedStatusDetails({
                                   <label
                                     className={`ml-0.5 text-sm font-medium font-gilroy mb-0 ${canWriteCustomers && !currentItem.isOccupied
                                       ? "text-gray-900 cursor-pointer"
-                                      : "text-gray-300 cursor-not-allowed"
+                                      : "text-gray-400 cursor-not-allowed"
                                       }`}
                                   >
                                     Check-In
@@ -746,7 +746,7 @@ function NoticeBedStatusDetails({
                                       cursor: canWriteCustomers && "not-allowed",
                                     }} />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0  text-gray-300 cursor-not-allowed
+                                    className={`text-sm font-medium font-gilroy mb-0 text-gray-400 cursor-not-allowed
                                       `}
                                   >
                                     Change Bed

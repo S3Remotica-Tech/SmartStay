@@ -837,7 +837,9 @@ function AddVendor({ show, setShow, currentItem }) {
                     type="text"
                     placeholder="Enter First Name"
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
+
+                 
 
                   />
                 </Form.Group>
@@ -860,7 +862,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     onChange={(e) => handleLastNameChange(e)}
                     type="text"
                     placeholder="Enter Last Name"
-                    className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
+                    className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${last_Name ? "font-semibold" : "font-medium"
                       } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                   />
@@ -881,9 +883,8 @@ function AddVendor({ show, setShow, currentItem }) {
                     <Form.Select
                       value={countryCode}
                       // id="vendor-select-pg"
-
-                      className={`border border-[#D9D9D9] rounded-l-[8px] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy ${countryCode ? "font-semibold" : "font-medium"
-                        } bg-white max-w-[90px] px-3 focus:outline-none`}
+                      className={`border border-[#D9D9D9] rounded-l-[8px] h-[50px] text-[14px] text-[#4B4B4B] font-gilroy ${countryCode ? "font-semibold" : "font-medium"
+                        } bg-white max-w-[72px] focus:outline-none`}
 
                     >
                       <option>+{countryCode}</option>

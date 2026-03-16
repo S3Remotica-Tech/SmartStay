@@ -479,7 +479,7 @@ function SettingAmenities() {
                                                             {showDots === index && (
                                                                 <div
                                                                     ref={popupRef}
-                                                                    className="absolute top-5 right-10 w-44 sm:w-40 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col z-50 text-sm"
+                                                                    className="absolute top-8 right-12 w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col z-50 text-sm"
                                                                 >
                                                                     <div
                                                                         onClick={() => canUpdateAmenities && handleEditAmenities(amenity)}
