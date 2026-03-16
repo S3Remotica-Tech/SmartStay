@@ -284,7 +284,10 @@ function Dashboard() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       dispatch({
         type: "GET_DASHBOARD_SAGA",
         payload: {
@@ -362,22 +365,22 @@ function Dashboard() {
     months.push({ month: monthYear, revenue: 0, expense: 0 });
   }
 
-  const handleTriggerFilter = (options) => {
-    if (state.login.selectedHostel_Id) {
+  // const handleTriggerFilter = (options) => {
+  //   if (state.login.selectedHostel_Id) {
 
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            billingFilter: options
-          }
-        }
-      });
+  //     dispatch({
+  //       type: "GET_DASHBOARD_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           billingFilter: options
+  //         }
+  //       }
+  //     });
 
-      setLoading(true);
-    }
-  }
+  //     setLoading(true);
+  //   }
+  // }
   return (
 
 
@@ -782,7 +785,7 @@ function Dashboard() {
 
 
                 <DashQuickAccess
-                  billingFilter={handleTriggerFilter}
+                  // billingFilter={handleTriggerFilter}
 
                 />
 

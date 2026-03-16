@@ -41,41 +41,20 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const [modeOfPayment, setModeOfPayment] = useState('')
 
 
-//     console.log("selectedTenant", selectedTenant)
-// const pdfDetails = state.InvoiceList?.particularBillsDetails
-    // useEffect(() => {
-        
-    //     const tenantId = state.InvoiceList?.particularBillsDetails?.customerInfo?.customerId
-    //     setSelectedTenant(tenantId)
-    //     // setInvoiceList({
-    //     //   balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
-    //     //   InvoiceId: pdfDetails?.invoiceId,
-    //     // })
-    //     // setInvoiceValue({
-    //     //   Date: pdfDetails?.invoiceDate,
-    //     //   invoiceId: pdfDetails?.invoiceId
-    //     // })
-
-    // }, [state.InvoiceList?.particularBillsDetails])
-
-
-   useEffect(() => {
-    if (selectedUserId) {
-
-        const userDetails = state?.UsersList?.Users?.listCustomers
-            ?.filter((u) =>
-                u.customerId === selectedUserId 
-            );
-        const user = userDetails?.[0];
-
-        setName(user?.fullName);
-        setFloorName(user?.floorName);
-        setRoomName(user?.roomName);
-        setBedName(user?.bedName);
-        setProfilePic(user?.profilePic);
-        setInitials(user?.initials);
-    }
-}, [selectedUserId,  state?.UsersList?.Users?.listCustomers]);
+    useEffect(() => {
+        if (!selectedUserId) return;
+        const user = state?.UsersList?.Users?.listCustomers?.find(
+            (u) => u.customerId === selectedUserId
+        );
+        if (user) {
+            setName(user.fullName);
+            setFloorName(user.floorName);
+            setRoomName(user.roomName);
+            setBedName(user.bedName);
+            setProfilePic(user.profilePic);
+            setInitials(user.initials);
+        }
+    }, [selectedUserId, state?.UsersList?.Users?.listCustomers]);
 
 
 

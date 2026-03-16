@@ -27,7 +27,7 @@ function DashCoreAnalytics() {
 
 
   const occupancyData =
-    state.PgList?.dashboardList?.occupancyTrend?.map((item) => ({
+    state.PgList?.dashboardList?.occupancyTrendSummary?.occupancyTrend?.map((item) => ({
       label: item.date,
       occupied: item.occupied,
       vacant: item.vacant,
@@ -233,18 +233,18 @@ const revenueData =
           <div className="grid grid-cols-2 text-center h-auto">
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
-                {/* Avg Occupied */}
+                Avg Occupied
                 </p>
               <p className="text-xl font-semibold text-[#16A34A] font-[Gilroy]">
-                
+                {state.PgList?.dashboardList?.occupancyTrendSummary?.avgOccupied}
               </p>
             </div>
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
-                {/* Avg Vacant */}
+                Avg Vacant
                 </p>
               <p className="text-xl font-semibold text-[#F97316] font-[Gilroy]">
-                
+                 {state.PgList?.dashboardList?.occupancyTrendSummary?.avgVacant}
               </p>
             </div>
           </div>
@@ -336,25 +336,25 @@ const revenueData =
           <div className="grid grid-cols-2 ">
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
-                {/* Total Collected */}
+                Total Collected
                 </p>
               <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy]">
-                {/* ₹ 54,000 */}
+                {state.PgList?.dashboardList?.revenueSummary?.totalCollected?.amount}
               </p>
               <p className="text-xs text-[#6A7282] font-[Gilroy] font-semibold">
-                {/* ↓ 8% from last month */}
+                ↓  {state.PgList?.dashboardList?.revenueSummary?.totalCollected?.percentageChange}% from last month
               </p>
             </div>
 
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
-                {/* Total Outstanding */}
+                Total Outstanding
               </p>
               <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy]">
-                {/* ₹ 2.7L */}
+                 {state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.amount}
               </p>
               <p className="text-xs text-[#6A7282] font-[Gilroy] font-semibold">
-                {/* ↑ 12% from last month */}
+                ↑ {state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.percentageChange}% from last month
               </p>
             </div>
           </div>
