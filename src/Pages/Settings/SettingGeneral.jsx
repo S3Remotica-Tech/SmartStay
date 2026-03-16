@@ -43,6 +43,7 @@ import RecentActivity from "./RecentActivity";
 import ManagedUsers from "./ManagedUsers";
 import AdminChangePassword from "./AdminChangePassword";
 import AdminProfileEdit from "./AdminProfileEdit";
+import ComingSoon from "../../Utils/ComingSoon";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -1373,8 +1374,8 @@ function SettingGeneral() {
                       // <div className="overflow-y-auto flex-1 max-h-[calc(100vh-200px)] p-2">
                       <div
                         className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${generalFilterddata && generalFilterddata.length > 0
-                            ? "overflow-y-auto"
-                            : "flex items-center justify-center"
+                          ? "overflow-y-auto"
+                          : "flex items-center justify-center"
                           }`}
                       >
                         {generalFilterddata && generalFilterddata.length > 0 ? (
@@ -1560,12 +1561,14 @@ function SettingGeneral() {
                     )}
 
                   {
-                    activeTab === "recent" && <RecentActivity />
-                  }
-
-
-                  {
-                    activeTab === "users" && <ManagedUsers />
+                    activeTab === "recent"
+                      ? (import.meta.env.MODE === "development"
+                        ? <RecentActivity />
+                        : <ComingSoon />
+                      )
+                      : activeTab === "users"
+                        ? <ManagedUsers />
+                        : null
                   }
 
                 </div>

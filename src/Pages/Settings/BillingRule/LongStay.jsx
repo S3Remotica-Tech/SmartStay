@@ -231,29 +231,37 @@ function LongStayRecurringModal() {
         setErrors({});
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         const newErrors = {};
-          if (!dueDays) {
+        if (!dueDays) {
             newErrors.dueDate = "Please select billing due days of month";
         }
 
         // if (billingDate && dueDays && Number(dueDays) <= Number(billingDate)) {
         //     newErrors.dueDate = "Due date must be after billing date";
         // }
-
-        const payload = {
+        const currentData = {
             dueDays: Number(dueDays),
             gracePeriod: Number(gracePeriod) || "",
             billingMethod: billingMethod,
             reminderDays: reminderDays?.map((item) => item.value) || []
         };
 
+        const initialData = {
+            dueDays: Number(initialValues?.dueDays),
+            gracePeriod: Number(initialValues?.gracePeriod) || "",
+            billingMethod: initialValues?.billingMethod,
+            reminderDays: initialValues?.reminderDays?.map((item) => item.value) || []
+        };
+
+        const normalize = (data) => ({
+            dueDays: Number(data.dueDays),
+            gracePeriod: Number(data.gracePeriod),
+            billingMethod: data.billingMethod,
+            reminderDays: [...(data.reminderDays || [])].sort()
+        });
         const isChanged =
-            JSON.stringify(payload) !==
-            JSON.stringify({
-                dueDays: initialValues.dueDays,
-                gracePeriod: initialValues.gracePeriod,
-                billingMethod: initialValues.billingMethod,
-                reminderDays: initialValues.reminderDays
-            });
+            JSON.stringify(normalize(currentData)) !==
+            JSON.stringify(normalize(initialData));
+
 
         if (!isChanged) {
             newErrors.noChangeBottom = "No changes detected";
@@ -368,7 +376,7 @@ function LongStayRecurringModal() {
 
 
     const handleNavigateBillingRule = (tabName) => {
-
+        setErrors({})
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         const hostelId = state.login?.selectedHostel_Id;
         if (hostelId) {
@@ -412,8 +420,8 @@ function LongStayRecurringModal() {
 
 
     const startDay = billingDate;
-const endDay = billingDate + gracePeriod;
-const startFrom = endDay + 1;
+    const endDay = billingDate + gracePeriod;
+    const startFrom = endDay + 1;
 
     const getEndDayDate = (billingDate) => {
         if (!billingDate) return null;
@@ -897,7 +905,8 @@ ${dueDays ? "cursor-pointer bg-white" : "bg-gray-100 cursor-not-allowed"}
                                                     type="button"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-
+                                                        setErrors((prev) => ({ ...prev, noChangeBottom: "" }));
+                                                        setErrors((prev) => ({ ...prev, noChange: "" }));
                                                         setReminderDays((prev) =>
                                                             prev.filter((d) => d.value !== day.value)
                                                         );
@@ -983,376 +992,380 @@ ${selected
 
                         </div>
                         <div className="border-t border-[#E5E5E5] my-2"></div>
+                        {
 
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <div className="">
-                                    <label className="text-sm text-[#1F1F1F] mt-2 font-semibold">
-                                        Enable Late Fees
-                                    </label>
-                                </div>
-                                <div>
-                                    <label className="text-sm text-gray-500 mt-2">
-                                        Automatically charge late fees on overdue payments
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
+                            import.meta.env.MODE === "development" &&
+                            <>
 
-                                <span className="text-sm text-gray-500">
-                                    {lateFeeEnabled ? "On" : "Off"}
-                                </span>
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <div className="">
+                                            <label className="text-sm text-[#1F1F1F] mt-2 font-semibold">
+                                                Enable Late Fees
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-500 mt-2">
+                                                Automatically charge late fees on overdue payments
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
 
-                                <button
-                                    onClick={() => setLateFeeEnabled(!lateFeeEnabled)}
-                                    className={`w-11 h-6 flex items-center rounded-full p-1 transition 
+                                        <span className="text-sm text-gray-500">
+                                            {lateFeeEnabled ? "On" : "Off"}
+                                        </span>
+
+                                        <button disabled={import.meta.env.MODE === "production" || import.meta.env.MODE === "qa"}
+                                            onClick={() => setLateFeeEnabled(!lateFeeEnabled)}
+                                            className={`w-11 h-6 flex items-center rounded-full p-1 transition 
         ${lateFeeEnabled ? "bg-[#1E45E1]" : "bg-gray-300"}`}
-                                >
-                                    <div
-                                        className={`bg-white w-4 h-4 rounded-full shadow-md transform transition
+                                        >
+                                            <div
+                                                className={`bg-white w-4 h-4 rounded-full shadow-md transform transition
           ${lateFeeEnabled ? "translate-x-5" : "translate-x-0"}`}
-                                    />
-                                </button>
-
-                            </div>
-                        </div>
-
-
-
-
-
-                        {lateFeeEnabled && (
-
-                            <div className="bg-white border-l-2 border-[#1E45E1] p-3 font-gilroy mt-2">
-
-                                <label className="text-sm font-medium text-[#1F1F1F] mb-3 block">
-                                    Late Fee Type
-                                </label>
-
-                                <div className="space-y-2">
-
-                                    <div
-                                        onClick={() => setLateFeeType("flat")}
-                                        className={`flex items-center gap-3 p-2 border  rounded-lg cursor-pointer
-      ${lateFeeType === "flat"
-                                                ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
-                                                : "border-gray-200"}`}
-                                    >
-                                        <input
-                                            type="radio"
-                                            checked={lateFeeType === "flat"}
-                                            readOnly
-                                        />
-
-                                        <div>
-                                            <div>
-                                                <label className="text-sm font-medium text-[#1F1F1F]">
-                                                    Flat Fee
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label className="text-xs text-gray-500">
-                                                    One-time charge when payment becomes overdue
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div
-                                        onClick={() => setLateFeeType("daily")}
-                                        className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer
-      ${lateFeeType === "daily"
-                                                ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
-                                                : "border-gray-200  border"}`}
-                                    >
-                                        <input
-                                            type="radio"
-                                            checked={lateFeeType === "daily"}
-                                            readOnly
-                                        />
-
-                                        <div>
-                                            <div>
-                                                <label className="text-sm font-medium text-[#1F1F1F]">
-                                                    Daily Fee
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label className="text-xs text-gray-500">
-                                                    Fixed amount charged per day after due date
-                                                </label>
-                                            </div>
-                                        </div>
+                                            />
+                                        </button>
 
                                     </div>
-
-
-
-                                    <div
-                                        onClick={() => setLateFeeType("tiered")}
-                                        className={`flex items-center gap-3 p-2 border rounded-lg cursor-pointer
-      ${lateFeeType === "tiered"
-                                                ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
-                                                : "border-gray-200"}`}
-                                    >
-                                        <input
-                                            type="radio"
-                                            checked={lateFeeType === "tiered"}
-                                            readOnly
-                                        />
-
-                                        <div>
-                                            <div>
-                                                <label className="text-sm font-medium text-[#1F1F1F]">
-                                                    Tiered Daily Fee
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label className="text-xs text-gray-500">
-                                                    Variable daily charges based on overdue period
-                                                </label>
-                                            </div>
-                                        </div>
-
-
-
-
-
-
-
-
-
-
-                                    </div>
-
                                 </div>
 
 
 
-                                {lateFeeType === "flat" && (
 
-                                    <div className="mt-4">
 
-                                        <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
-                                            Flat Fee Amount (₹)
+                                {lateFeeEnabled && (
+
+                                    <div className="bg-white border-l-2 border-[#1E45E1] p-3 font-gilroy mt-2">
+
+                                        <label className="text-sm font-medium text-[#1F1F1F] mb-3 block">
+                                            Late Fee Type
                                         </label>
 
-                                        <div className="relative w-[220px]">
-                                            <span className="absolute left-3 top-2 text-gray-500 text-sm">
-                                                ₹
-                                            </span>
+                                        <div className="space-y-2">
 
-                                            <input
-                                                type="number"
-                                                value={flatFeeAmount}
-                                                onChange={handleFlatFeeAmountChange}
-                                                className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
-                                            />
-                                        </div>
-
-                                    </div>
-
-                                )}
-
-
-                                {
-                                    lateFeeType === "daily" && (
-
-                                        <div className="grid grid-cols-2 gap-6 mt-4">
-
-
-                                            <div>
-
-                                                <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
-                                                    Daily Fee Amount (₹)
-                                                </label>
-
-                                                <div className="relative">
-
-                                                    <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
-                                                        ₹
-                                                    </span>
-
-                                                    <input
-                                                        type="number"
-                                                        value={dailyFeeAmount}
-                                                        onChange={handleDailyFeeAmountChange}
-                                                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
-                                                    />
-
-                                                </div>
-
-                                            </div>
-
-
-
-                                            <div>
-
-                                                <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
-                                                    Maximum Late Fee Cap (₹)
-                                                </label>
-
-                                                <div className="relative">
-
-                                                    <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
-                                                        ₹
-                                                    </span>
-
-                                                    <input
-                                                        type="number"
-                                                        value={maxLateFeeCap}
-                                                        onChange={handleMaxLateFeeCapChange}
-                                                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
-                                                    />
-
-                                                </div>
-
-                                                <p className="text-xs text-gray-400 mt-2">
-                                                    Late fees will not exceed this amount regardless of delay duration
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-
-                                    )
-                                }
-
-                                {lateFeeType === "tiered" && (
-                                    <div>
-                                        <div className="border rounded-lg  mt-3">
-
-                                            <table className="w-full">
-                                                <thead className="bg-gray-100">
-                                                    <tr>
-                                                        <th className="px-4 py-1.5 rounded-tl-lg text-xs text-gray-500 whitespace-nowrap">FROM DAY</th>
-                                                        <th className="px-4 py-1.5  text-xs text-gray-500 whitespace-nowrap">TO DAY</th>
-                                                        <th className="px-4 py-1.5  text-xs text-gray-500 whitespace-nowrap">AMOUNT PER DAY (₹)</th>
-                                                        <th className="px-4 py-1.5 rounded-tr-lg text-xs text-gray-500 whitespace-nowrap">ACTION</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    {payments.map((payment, index) => (
-                                                        <tr key={index} className="">
-
-                                                            <td className="px-4 py-2">
-                                                                <Select
-                                                                    options={dayOptions}
-                                                                    value={dayOptions.find(option => option.value === payment.fromDay)}
-                                                                    styles={selectStyle}
-                                                                    placeholder="Select"
-                                                                    menuPlacement="bottom"
-                                                                    onChange={(selected) =>
-                                                                        handleInputChange(index, {
-                                                                            target: { name: "fromDay", value: selected?.value }
-                                                                        })
-                                                                    }
-                                                                />
-                                                            </td>
-
-                                                            <td className="px-4 py-2">
-                                                                <Select
-                                                                    options={dayOptions}
-                                                                    value={dayOptions.find(option => option.value === payment.toDay)}
-                                                                    styles={selectStyle}
-                                                                    menuPlacement="bottom"
-                                                                    placeholder="Select"
-                                                                    onChange={(selected) =>
-                                                                        handleInputChange(index, {
-                                                                            target: { name: "toDay", value: selected?.value }
-                                                                        })
-                                                                    }
-                                                                />
-                                                            </td>
-
-                                                            <td className="px-4 py-2">
-                                                                <input
-                                                                    type="text"
-                                                                    name="amountPerDay"
-                                                                    value={payment.amountPerDay}
-                                                                    onChange={(e) => handleInputChange(index, e)}
-                                                                    className="w-full p-2 border-1 rounded border-gray-200 hover:border-gray-200"
-                                                                />
-                                                            </td>
-
-                                                            <td className="px-4 py-2 ">
-                                                                <button
-                                                                    onClick={() => handleDeleteRow(index)}
-                                                                    className="text-[#FF0000] px-3 py-1 flex gap-2 items-center rounded whitespace-nowrap"
-                                                                >
-                                                                    Remove
-                                                                    <MinusCirlce
-                                                                        size="16"
-                                                                        color="#FF0000"
-                                                                    />
-                                                                </button>
-                                                            </td>
-
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-
-
-
-                                        </div>
-                                        <div className="flex justify-between">
-
-                                            <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border-1 border-[#FFE0CC] text-[#C2410C] text-sm px-3 py-1 rounded-md leading-none">
-                                                <span ><AiOutlineExclamationCircle color="#C2410C" size="16" /></span>
-                                                Payment Amount will applies from 12 of the Month
-                                            </div>
-
-                                            <button
-                                                onClick={handleAddRow}
-                                                className="mt-4  text-[#1E45E1] px-4 py-1 rounded border-1 border-[#1E45E1]"
+                                            <div
+                                                onClick={() => setLateFeeType("flat")}
+                                                className={`flex items-center gap-3 p-2 border  rounded-lg cursor-pointer
+      ${lateFeeType === "flat"
+                                                        ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
+                                                        : "border-gray-200"}`}
                                             >
-                                                + Add Slab
-                                            </button>
-                                        </div>
-
-                                        <div className="mt-4">
-
-                                            <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
-                                                Maximum Late Fee Amount (₹)
-                                            </label>
-
-                                            <div className="relative w-[220px]">
-                                                <span className="absolute left-3 top-2 text-gray-500 text-sm">
-                                                    ₹
-                                                </span>
-
                                                 <input
-                                                    type="number"
-
-                                                    className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                    type="radio"
+                                                    checked={lateFeeType === "flat"}
+                                                    readOnly
                                                 />
 
-                                                <label className="text-xs text-gray-500 whitespace-nowrap">
-                                                    Late fees will not exceed this amount regardless of delay duration
-                                                </label>
+                                                <div>
+                                                    <div>
+                                                        <label className="text-sm font-medium text-[#1F1F1F]">
+                                                            Flat Fee
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label className="text-xs text-gray-500">
+                                                            One-time charge when payment becomes overdue
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div
+                                                onClick={() => setLateFeeType("daily")}
+                                                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer
+      ${lateFeeType === "daily"
+                                                        ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
+                                                        : "border-gray-200  border"}`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    checked={lateFeeType === "daily"}
+                                                    readOnly
+                                                />
+
+                                                <div>
+                                                    <div>
+                                                        <label className="text-sm font-medium text-[#1F1F1F]">
+                                                            Daily Fee
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label className="text-xs text-gray-500">
+                                                            Fixed amount charged per day after due date
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <div
+                                                onClick={() => setLateFeeType("tiered")}
+                                                className={`flex items-center gap-3 p-2 border rounded-lg cursor-pointer
+      ${lateFeeType === "tiered"
+                                                        ? "bg-[#D0DFFF] border-1 border-[#D0DFFF]"
+                                                        : "border-gray-200"}`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    checked={lateFeeType === "tiered"}
+                                                    readOnly
+                                                />
+
+                                                <div>
+                                                    <div>
+                                                        <label className="text-sm font-medium text-[#1F1F1F]">
+                                                            Tiered Daily Fee
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label className="text-xs text-gray-500">
+                                                            Variable daily charges based on overdue period
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
                                             </div>
 
                                         </div>
 
 
 
+                                        {lateFeeType === "flat" && (
+
+                                            <div className="mt-4">
+
+                                                <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                                                    Flat Fee Amount (₹)
+                                                </label>
+
+                                                <div className="relative w-[220px]">
+                                                    <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                                                        ₹
+                                                    </span>
+
+                                                    <input
+                                                        type="number"
+                                                        value={flatFeeAmount}
+                                                        onChange={handleFlatFeeAmountChange}
+                                                        className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                    />
+                                                </div>
+
+                                            </div>
+
+                                        )}
+
+
+                                        {
+                                            lateFeeType === "daily" && (
+
+                                                <div className="grid grid-cols-2 gap-6 mt-4">
+
+
+                                                    <div>
+
+                                                        <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                                                            Daily Fee Amount (₹)
+                                                        </label>
+
+                                                        <div className="relative">
+
+                                                            <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
+                                                                ₹
+                                                            </span>
+
+                                                            <input
+                                                                type="number"
+                                                                value={dailyFeeAmount}
+                                                                onChange={handleDailyFeeAmountChange}
+                                                                className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                            />
+
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                    <div>
+
+                                                        <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                                                            Maximum Late Fee Cap (₹)
+                                                        </label>
+
+                                                        <div className="relative">
+
+                                                            <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
+                                                                ₹
+                                                            </span>
+
+                                                            <input
+                                                                type="number"
+                                                                value={maxLateFeeCap}
+                                                                onChange={handleMaxLateFeeCapChange}
+                                                                className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                            />
+
+                                                        </div>
+
+                                                        <p className="text-xs text-gray-400 mt-2">
+                                                            Late fees will not exceed this amount regardless of delay duration
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+                                            )
+                                        }
+
+                                        {lateFeeType === "tiered" && (
+                                            <div>
+                                                <div className="border rounded-lg  mt-3">
+
+                                                    <table className="w-full">
+                                                        <thead className="bg-gray-100">
+                                                            <tr>
+                                                                <th className="px-4 py-1.5 rounded-tl-lg text-xs text-gray-500 whitespace-nowrap">FROM DAY</th>
+                                                                <th className="px-4 py-1.5  text-xs text-gray-500 whitespace-nowrap">TO DAY</th>
+                                                                <th className="px-4 py-1.5  text-xs text-gray-500 whitespace-nowrap">AMOUNT PER DAY (₹)</th>
+                                                                <th className="px-4 py-1.5 rounded-tr-lg text-xs text-gray-500 whitespace-nowrap">ACTION</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            {payments.map((payment, index) => (
+                                                                <tr key={index} className="">
+
+                                                                    <td className="px-4 py-2">
+                                                                        <Select
+                                                                            options={dayOptions}
+                                                                            value={dayOptions.find(option => option.value === payment.fromDay)}
+                                                                            styles={selectStyle}
+                                                                            placeholder="Select"
+                                                                            menuPlacement="bottom"
+                                                                            onChange={(selected) =>
+                                                                                handleInputChange(index, {
+                                                                                    target: { name: "fromDay", value: selected?.value }
+                                                                                })
+                                                                            }
+                                                                        />
+                                                                    </td>
+
+                                                                    <td className="px-4 py-2">
+                                                                        <Select
+                                                                            options={dayOptions}
+                                                                            value={dayOptions.find(option => option.value === payment.toDay)}
+                                                                            styles={selectStyle}
+                                                                            menuPlacement="bottom"
+                                                                            placeholder="Select"
+                                                                            onChange={(selected) =>
+                                                                                handleInputChange(index, {
+                                                                                    target: { name: "toDay", value: selected?.value }
+                                                                                })
+                                                                            }
+                                                                        />
+                                                                    </td>
+
+                                                                    <td className="px-4 py-2">
+                                                                        <input
+                                                                            type="text"
+                                                                            name="amountPerDay"
+                                                                            value={payment.amountPerDay}
+                                                                            onChange={(e) => handleInputChange(index, e)}
+                                                                            className="w-full p-2 border-1 rounded border-gray-200 hover:border-gray-200"
+                                                                        />
+                                                                    </td>
+
+                                                                    <td className="px-4 py-2 ">
+                                                                        <button
+                                                                            onClick={() => handleDeleteRow(index)}
+                                                                            className="text-[#FF0000] px-3 py-1 flex gap-2 items-center rounded whitespace-nowrap"
+                                                                        >
+                                                                            Remove
+                                                                            <MinusCirlce
+                                                                                size="16"
+                                                                                color="#FF0000"
+                                                                            />
+                                                                        </button>
+                                                                    </td>
+
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+
+
+
+                                                </div>
+                                                <div className="flex justify-between">
+
+                                                    <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border-1 border-[#FFE0CC] text-[#C2410C] text-sm px-3 py-1 rounded-md leading-none">
+                                                        <span ><AiOutlineExclamationCircle color="#C2410C" size="16" /></span>
+                                                        Payment Amount will applies from 12 of the Month
+                                                    </div>
+
+                                                    <button
+                                                        onClick={handleAddRow}
+                                                        className="mt-4  text-[#1E45E1] px-4 py-1 rounded border-1 border-[#1E45E1]"
+                                                    >
+                                                        + Add Slab
+                                                    </button>
+                                                </div>
+
+                                                <div className="mt-4">
+
+                                                    <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                                                        Maximum Late Fee Amount (₹)
+                                                    </label>
+
+                                                    <div className="relative w-[220px]">
+                                                        <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                                                            ₹
+                                                        </span>
+
+                                                        <input
+                                                            type="number"
+
+                                                            className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                                                        />
+
+                                                        <label className="text-xs text-gray-500 whitespace-nowrap">
+                                                            Late fees will not exceed this amount regardless of delay duration
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                        )}
+
+
 
                                     </div>
 
                                 )}
+                            </>
 
-
-
-                            </div>
-
-                        )}
-
-
-
+                        }
 
 
 
