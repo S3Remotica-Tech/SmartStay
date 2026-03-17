@@ -1380,7 +1380,7 @@ const Compliance = () => {
                             }
                             : null
                         }
-                        placeholder="Select a customer"
+                        placeholder="Select a Tenant"
                         classNamePrefix="custom"
                         // menuPlacement="auto"
                         isDisabled={edit}
