@@ -222,7 +222,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                         </div>
                     ) : (
                         <div
-                            className="table-responsive mx-2 show-scrolls overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0"
+                            className="table-responsive mx-2 show-scroll max-h-[310px] lg:max-h-[310px] md:max-h-[250px] overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0"
                         >
                             <Table bordered={false}
                                 className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
@@ -302,15 +302,13 @@ const EBRoomOverview = ({ onBack, room }) => {
                             </div>
                         </div>
                     ) : (
-                        <div className="table-responsive mx-2 show-scrolls overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0"
+                        <div className="table-responsive mx-2 show-scrolls overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 max-h-[310px] lg:max-h-[310px] md:max-h-[230px]"
                         >
                             <Table bordered={false}
                                 className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none">
                                 <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
                                     <tr>
-                                        <th>
-                                            NAME
-                                        </th>
+                                        <th><div className="pl-1"> NAME</div></th>
                                         <th>
                                             BILLING MONTH
                                         </th>
@@ -338,7 +336,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                                         {formattedTenantReadings?.map((row, i) => (
                                             <tr key={i} className="border-b border-gray-300 h-10 m-2 text-black font-gilroy text-sm align-middle">
 
-                                                <td className="p-1 d-flex align-items-center gap-2 ml-4">
+                                                <td className="p-1 d-flex align-items-center gap-2 ml-1">
                                                     {
                                                         formattedTenantReadings.profilePic ?
                                                             <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" className="mr-3 w-11 h-11" />
