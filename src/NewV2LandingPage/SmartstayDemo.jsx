@@ -423,7 +423,9 @@ function SmartstayDemo() {
                     placeholder="Enter City"
                     value={city}
                     onChange={(e) => {
-                      setCity(e.target.value);
+                      let value = e.target.value;
+                      value = value.replace(/[^a-zA-Z\s]/g, "");
+                      setCity(value);
                       setErrors((prev) => ({ ...prev, city: "" }));
                     }}
                     className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
@@ -441,8 +443,9 @@ function SmartstayDemo() {
                     placeholder="Enter Country"
                     value={country}
                     onChange={(e) => {
-                      setCountry(e.target.value);
-
+                      let value = e.target.value;
+                      value = value.replace(/[^a-zA-Z\s]/g, "");
+                      setCountry(value);
                     }}
                     className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
                   />
