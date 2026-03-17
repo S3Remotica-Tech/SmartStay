@@ -32,12 +32,32 @@ function SmartstayDemo() {
   const demoDateRef = useRef(null);
   const mobileRef = useRef(null);
   const countryCodeRef = useRef(null);
+  const emailRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!value) {
+      setErrors((prev) => ({ ...prev, email: "" }));
+    } else if (!emailRegex.test(value)) {
+      setErrors((prev) => ({
+        ...prev,
+        email: "Enter Valid Mail ID",
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        email: "",
+      }));
+    }
+  };
   const steps = [
     {
       id: 1,
@@ -75,13 +95,13 @@ function SmartstayDemo() {
   ];
 
 
-console.log("demoDate", demoDate)
+
 
 
   const handleDemoReuquest = () => {
 
     let newErrors = {};
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!name) {
       newErrors.name = "Please Enter Name";
     }
@@ -92,6 +112,8 @@ console.log("demoDate", demoDate)
 
     if (!contactNumber) {
       newErrors.contactNumber = "Please Enter Contact Number";
+    } else if (contactNumber.length !== 10) {
+      newErrors.contactNumber = "Enter valid 10 digit number";
     }
 
     if (!city) {
@@ -101,6 +123,9 @@ console.log("demoDate", demoDate)
     if (!demoDate) {
       newErrors.demoDate = "Please Enter Demo Date";
     }
+    if (email && !emailRegex.test(email)) {
+      newErrors.email = "Enter Valid Mail ID";
+    }
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
@@ -109,14 +134,14 @@ console.log("demoDate", demoDate)
       else if (newErrors.contactNumber) mobileRef.current?.focus();
       else if (newErrors.city) cityRef.current?.focus();
       else if (newErrors.demoDate) demoDateRef.current?.focus();
-
+      else if (newErrors.email) emailRef.current?.focus();
       return;
     }
 
     const formatDate = (date) => {
-  if (!date) return "";
-  return dayjs(date).format("DD-MM-YYYY");
-};
+      if (!date) return "";
+      return dayjs(date).format("DD-MM-YYYY");
+    };
 
     const payload = {
       countryCode: countryCode || "",
@@ -249,10 +274,14 @@ console.log("demoDate", demoDate)
                   type="text"
                   value={name}
                   onChange={(e) => {
-                    setName(e.target.value);
-                    setErrors((prev) => ({ ...prev, name: "" }));
+                    const value = e.target.value;
+
+                    if (/^[a-zA-Z\s]*$/.test(value)) {
+                      setName(value);
+                      setErrors((prev) => ({ ...prev, name: "" }));
+                    }
                   }}
-                  placeholder="Enter name"
+                  placeholder="Enter Name"
                   className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
                 />
                 {errors.name && (
@@ -298,18 +327,26 @@ console.log("demoDate", demoDate)
                     />
                   </div>
 
-                  <input ref={mobileRef}
+                  <input
+                    ref={mobileRef}
                     type="text"
-                    value={contactNumber} maxLength={10}
+                    value={contactNumber}
+                    inputMode="numeric"
+                    maxLength={10}
                     onChange={(e) => {
-                      setContactNumber(e.target.value)
-                      setErrors((prev) => ({ ...prev, countryCode: "" }));
-                      setErrors((prev) => ({ ...prev, contactNumber: "" }));
+                      let value = e.target.value;
+                      value = value.replace(/\D/g, "");
+                      if (value.length > 10) return;
+                      setContactNumber(value);
+                      setErrors((prev) => ({
+                        ...prev,
+                        countryCode: "",
+                        contactNumber: "",
+                      }));
                     }}
                     placeholder="Enter Contact Number"
-                    className="w-full mt-1 h-10 px-3 text-sm  bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                    className="w-full mt-1 h-10 px-3 text-sm bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
                   />
-
                 </div>
                 {(errors.countryCode || errors.contactNumber) && (
                   <ErrorMessage
@@ -323,13 +360,16 @@ console.log("demoDate", demoDate)
               <div className="mb-3">
                 <label className="text-sm font-normal">Mail ID</label>
 
-                <input
+                <input ref={emailRef}
                   type="email"
-                  placeholder="Enter  Mail ID"
+                  placeholder="Enter Mail ID"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmailChange}
                   className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
                 />
+                {errors.email && (
+                  <ErrorMessage message={errors.email} type="error" />
+                )}
               </div>
 
 
@@ -383,7 +423,9 @@ console.log("demoDate", demoDate)
                     placeholder="Enter City"
                     value={city}
                     onChange={(e) => {
-                      setCity(e.target.value);
+                      let value = e.target.value;
+                      value = value.replace(/[^a-zA-Z\s]/g, "");
+                      setCity(value);
                       setErrors((prev) => ({ ...prev, city: "" }));
                     }}
                     className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
@@ -401,8 +443,9 @@ console.log("demoDate", demoDate)
                     placeholder="Enter Country"
                     value={country}
                     onChange={(e) => {
-                      setCountry(e.target.value);
-
+                      let value = e.target.value;
+                      value = value.replace(/[^a-zA-Z\s]/g, "");
+                      setCountry(value);
                     }}
                     className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
                   />
@@ -447,7 +490,7 @@ console.log("demoDate", demoDate)
                   <div className="datepicker-wrapper relative w-full mt-px">
                     <DatePicker
                       ref={demoDateRef}
-                       className="w-full mt-1 h-10 text-xs border border-[#DCDCDC] rounded-md font-gilroy"
+                      className="w-full mt-1 h-10 text-xs border border-[#DCDCDC] rounded-md font-gilroy"
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={demoDate ? dayjs(demoDate) : null}

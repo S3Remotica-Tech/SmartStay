@@ -446,6 +446,9 @@ function Reports() {
 
   }, [state.createAccount?.networkError])
 
+
+
+
   return (
 
     <div className="w-full flex flex-col font-[Gilroy] px-0 mt-px h-[600px] 2xl:h-[800px] 3xl:h-[800px]">
@@ -689,9 +692,9 @@ function Reports() {
           )
             :
 
-            activeTab === "analytical" && import.meta.env.MODE === "production" || import.meta.env.MODE === "qa"  &&
-            <ComingSoon />
-          }
+            activeTab === "analytical" &&
+            (import.meta.env.MODE === "production" ||
+              import.meta.env.MODE === "qa") && <ComingSoon />}
         </div>
       )}
     </div>

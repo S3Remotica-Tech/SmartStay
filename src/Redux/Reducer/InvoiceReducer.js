@@ -100,7 +100,9 @@ export const initialState = {
     sharePdfError: '',
     shareReceiptPDF: '',
     shareReceiptPdfSuccess: 0,
-     manualInvoiceUnpaidStatusCode: 0,
+    manualInvoiceUnpaidStatusCode: 0,
+    unPaidError: '',
+    
 
 
     invoiceFilters: {
@@ -303,6 +305,10 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_MANUAL_INVOICE_NUMBER_GET':
             return { ...state, Manulainvoicenumberstatuscode: 0 }
 
+        case 'UNPAID_ERROR':
+            return { ...state, unPaidError: action.payload }
+        case 'REMOVE_UNPAID_ERROR':
+            return { ...state, unPaidError: '' }
 
         case 'INVALID_DETAILS_ERROR':
             return { ...state, ManualInvoiceNumberError: action.payload }
