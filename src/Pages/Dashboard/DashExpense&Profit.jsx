@@ -63,7 +63,7 @@ function DashExpenseProfit() {
             title: "Profit",
             amount: `₹ ${ExpenseAnDProfit?.netProfit}`,
             subtitle: "this month",
-            change: "",
+            change: `${ExpenseAnDProfit?.profitTrend} %`,
             changeColor: "#16A34A",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -169,9 +169,11 @@ function DashExpenseProfit() {
                 </h2>
 
                 <div className="relative">
-                    <button
+                    <button disabled
                         onClick={() => setCalendarOpen(!calendarOpen)}
-                        className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 bg-white font-[Gilroy] whitespace-nowrap"
+                        className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
+   text-black border-gray-300
+  disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed disabled:opacity-70"
                     >
                         <Calendar size="16" color="#1E45E1" />
 
@@ -257,16 +259,19 @@ function DashExpenseProfit() {
                                 )}
                             </p>
 
+                            {
+                                import.meta.env.MODE === "development" &&
 
-                            <div className="mt-4 border-t pt-3 flex justify-between items-center cursor-pointer">
-                                <span className="text-sm text-[#222222] font-semibold font-[Gilroy] cursor-pointer">
-                                    View Report
-                                </span>
-                                <span className="text-[#2563EB] text-lg cursor-pointer"> <ArrowRight
-                                    size="16"
-                                    className="text-blue-600 transition-transform group-hover:translate-x-1"
-                                /></span>
-                            </div>
+                                <div className="mt-4 border-t pt-3 flex justify-between items-center cursor-pointer">
+                                    <span className="text-sm text-[#222222] font-semibold font-[Gilroy] cursor-pointer">
+                                        View Report
+                                    </span>
+                                    <span className="text-[#2563EB] text-lg cursor-pointer"> <ArrowRight
+                                        size="16"
+                                        className="text-blue-600 transition-transform group-hover:translate-x-1"
+                                    /></span>
+                                </div>
+                            }
                         </div>
                     );
                 })}

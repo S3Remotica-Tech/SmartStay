@@ -173,7 +173,7 @@ function MobileApp() {
            
 
 
-            <div className="bg-white mb-4 mx-auto grid md:grid-cols-10 items-center border border-gray-200 rounded-lg p-4 md:p-8 gap-10">
+            {/* <div className="bg-white mb-4 mx-auto grid md:grid-cols-10 items-center border border-gray-200 rounded-lg p-4 md:p-8 gap-10">
 
                 <div className="w-full md:col-span-6 flex items-start self-start ">
                     <div>
@@ -211,7 +211,7 @@ function MobileApp() {
 />
 
                 </div>
-            </div>
+            </div> */}
 
 
 

@@ -16,7 +16,7 @@ function NativeBuilt() {
                     Natively built. Deeply connected...!
                 </h1>
                 <div className='mt-2 mb-2'>
-                    <img src={Built} alt="image"/>
+                    <img src={Built} alt="image" className='h-[300px] w-full'/>
                 </div>
 
 

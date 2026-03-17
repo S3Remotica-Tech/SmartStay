@@ -749,78 +749,62 @@ function Banking() {
                           {openMenuId === item.bankingId && (
                             <div
                               ref={popupRef}
-                              className="
-                    absolute right-7 top-12
-                    w-40
-                    bg-gray-50
-                    border border-gray-200
-                    rounded-xl
-                    z-[9999]
-                  "
+                              className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
                             >
-                              <div
-                                className={`flex items-center gap-2 px-3 py-2 rounded-t-xl ${canWriteBanking
-                                  ? "cursor-pointer hover:bg-blue-100"
-                                  : "cursor-not-allowed opacity-50"
-                                  }`}
-                                onClick={() => {
-                                  if (canWriteBanking) {
-                                    handleOpenSelfTransfer(item);
-                                  }
-                                }}
+
+                              <button disabled
+                                // disabled={!(canWriteBanking && !item.isDeleted)}
+                                onClick={() => handleOpenSelfTransfer(item)}
+                                className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
+    disabled:cursor-not-allowed disabled:opacity-50
+    enabled:hover:bg-blue-100"
                               >
-                                <img
-                                  src={transArrow}
-                                  alt="transArrow"
-                                  className="h-4 w-4"
-                                />
+                                <img src={transArrow} alt="transArrow" className="h-4 w-4" />
+
                                 <span className="text-sm font-semibold font-gilroy">
                                   Self Transfer
                                 </span>
-                              </div>
+                              </button>
 
                               <div className="h-px bg-gray-200" />
-                              <div
-                                className={`flex items-center gap-2 px-3 py-2 ${canUpdateBanking
-                                  ? "cursor-pointer hover:bg-blue-100"
-                                  : "cursor-not-allowed opacity-50 pointer-events-none"
-                                  }`}
-                                onClick={() => {
-                                  if (canUpdateBanking) {
-                                    handleEditAddBank(item);
-                                  }
-                                }}
+
+
+                              <button
+                                disabled={!(canUpdateBanking && !item.isDeleted)}
+                                onClick={() => handleEditAddBank(item)}
+                                className="flex w-full items-center gap-2 px-3 py-2
+      disabled:cursor-not-allowed disabled:opacity-50
+      enabled:hover:bg-blue-100"
                               >
                                 <Edit
                                   size={16}
-                                  color={!canUpdateBanking ? "#A9A9A9" : "#1E45E1"}
+                                  className="text-[#1E45E1] disabled:text-gray-400"
                                 />
                                 <span className="text-sm font-semibold font-gilroy">
                                   Edit
                                 </span>
-                              </div>
+                              </button>
 
                               <div className="h-px bg-gray-200" />
-                              <div
-                                className={`flex items-center gap-2 px-3 py-2 rounded-b-xl ${canDeleteBanking
-                                  ? "cursor-pointer hover:bg-red-50"
-                                  : "cursor-not-allowed opacity-50"
-                                  }`}
-                                onClick={() => {
-                                  if (canDeleteBanking) {
-                                    handleDeleteForm(item);
-                                  }
-                                }}
+
+
+                              <button disabled
+                                // disabled={!(canDeleteBanking && !item.isDeleted)}
+                                onClick={() => handleDeleteForm(item)}
+                                className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+    disabled:cursor-not-allowed disabled:opacity-50
+    enabled:hover:bg-red-50"
                               >
                                 <Trash
                                   size={16}
-                                  color={!canDeleteBanking ? "#A9A9A9" : "red"}
+                                  className="text-red-500 disabled:text-gray-400"
                                 />
                                 <span className="text-sm font-semibold text-red-500 font-gilroy">
                                   Delete
                                 </span>
-                              </div>
+                              </button>
                             </div>
+
                           )}
                         </div>
 
@@ -860,7 +844,7 @@ function Banking() {
 
                           <span
                             className={`text-sm font-semibold font-gilroy ${canWriteBanking
-                              ? "text-blue-600 cursor-pointer"
+                              ? "text-gray-400 cursor-not-allowed"
                               : "text-gray-400 cursor-not-allowed"
                               }`}
                           >
@@ -926,22 +910,26 @@ function Banking() {
                           Balance
                         </span>
 
+
+
                         {item.accountBalance === 0 ||
                           item.accountBalance === "" ||
                           item.accountBalance === null ? (
+
                           <span
-                            className={`text-sm font-semibold font-gilroy ${canWriteBanking
+                            className={`text-sm font-semibold font-gilroy ${canWriteBanking && !item.isDeleted
                               ? "text-blue-600 cursor-pointer"
                               : "text-gray-400 cursor-not-allowed"
                               }`}
                             onClick={() => {
-                              if (canWriteBanking) {
+                              if (canWriteBanking && !item.isDeleted) {
                                 handleShowAddBalance(item);
                               }
                             }}
                           >
                             +Add Amount
                           </span>
+
                         ) : (
                           <span className="text-sm font-semibold text-black font-gilroy">
                             ₹{item.accountBalance}

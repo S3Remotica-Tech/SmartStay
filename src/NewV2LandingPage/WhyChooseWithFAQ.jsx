@@ -62,7 +62,7 @@ function WhyChooseWithFAQ() {
 
 
 
-                <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center ">
+                <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center px-[70px]">
 
                     <div>
 

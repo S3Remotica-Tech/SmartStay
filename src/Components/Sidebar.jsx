@@ -114,7 +114,7 @@ function Sidebar() {
   const cookies = new Cookies();
 
   const pageMap = {
-    "/dashboard/:hostelId": "dashboard",
+    // "/dashboard/:hostelId": "dashboard",
     "/dashboard-new/:hostelId": "dashboard-new",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
@@ -189,7 +189,7 @@ function Sidebar() {
     if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
 
       if (isFirstLogin.current) {
-        navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
+        navigate(`/dashboard-new/${state.login.selectedHostel_Id}`, { replace: true });
         isFirstLogin.current = false;
       }
     }
@@ -714,19 +714,19 @@ function Sidebar() {
   };
 
   const [isMd, setIsMd] = React.useState(
-  window.innerWidth >= 768 && window.innerWidth < 1024
-);
+    window.innerWidth >= 768 && window.innerWidth < 1024
+  );
 
-React.useEffect(() => {
-  const handleResize = () => {
-    setIsMd(window.innerWidth >= 768 && window.innerWidth < 1024);
-  };
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMd(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
 
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-const tooltipTrigger = isMd ? ["hover"] : [];
+  const tooltipTrigger = isMd ? ["hover"] : [];
   return (
 
     <>
@@ -748,161 +748,7 @@ const tooltipTrigger = isMd ? ["hover"] : [];
             className={`sidebar-left w-64 min-w-48 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`} >
             <div>
 
-              {/* <div
-                className="p-3 flex-shrink-0 mt-1.5">
-                <img
-                  src={Smartstay}
-                  alt="smartstay"
-                  className="sidebar-logo Title mb-1 w-36 h-6 hidden lg:block"
-                  onClick={() => handlePageClick("dashboard")}
-                />
-                <button
-                  onClick={closeSidebar}
-                  className={`bg-transparent border-none textbase cursor-pointer md:hidden ${isSidebarOpen ? "block" : "hidden"
-                    }`}
 
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 18L18 6M6 6L18 18"
-                      stroke="#000000"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-
-
-
-
-                {hostelListDetail && hostelListDetail?.length > 0 && (
-                  <li ref={dropdownRef}
-                    onClick={toggleDropdown}
-                    className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""}`}
-
-                  >
-
-                    {selectedProfileImage && selectedProfileImage !== null && selectedProfileImage !== "" ? (
-                      <img
-                        src={selectedProfileImage}
-                        className="h-9 w-9 rounded-full mr-2"
-
-                        alt="Selected Profile"
-                      />
-                    ) : (
-                      <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase leading-none" >
-                        {initials}
-                      </div>
-                    )}
-
-                    <span
-                      className="sidebar-label hidden lg:inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer"  >
-                      {payingGuestName}
-                      <div>
-                        <OverlayTrigger
-                          trigger={tooltipTrigger}
-                          placement="right"
-                          overlay={
-                            <Tooltip className="custom-tooltip">
-                              {payingGuestName} {locationName}
-                            </Tooltip>
-                          }
-                        >
-                          <span
-                            className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px] cursor-pointer" >
-
-                            <Location
-                              className="mr-1 shrink-0"
-                              size="16"
-                              color="#FF8A65"
-                              variant="Bold"
-                            />
-
-                            <span
-                              className="truncate min-w-0" >
-                              {locationName}
-                            </span>
-                          </span>
-                        </OverlayTrigger>
-
-                      </div>
-                    </span>
-                    <span 
-                    className="ms-auto hidden lg:inline-flex"
-                    >
-                      {isDropdownOpen ? (
-                        <ArrowUp2 size="16" color="#4B4B4B" />
-                      ) : (
-                        <ArrowDown2 size="16" color="#4B4B4B" />
-                      )}
-                    </span>
-
-
-                    {isDropdownOpen && (
-                      <div
-                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full z-10 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
-                      >
-                        <ul style={{ margin: 0, padding: 0 }}>
-                          {hostelListDetail.map((item) => (
-                            <OverlayTrigger
-                              key={item.id}
-                              placement="right"
-                              overlay={<Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>{item.name}</Tooltip>}
-                            >
-                              <li
-                                key={item.id}
-                                className="flex items-center py-2 px-2 cursor-pointer text-blue-600 max-w-40 truncate align-middle"
-
-                                onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials, item.city)}
-                              >
-                                {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
-                                  <img
-                                    src={item.mainImage}
-                                    className="w-6 h-6 rounded-full mr-2"
-                                    alt={item.initials || "Default Profile"}
-                                  />
-                                ) : (
-                                  <div
-                                    className="shrink-0 min-w-6 w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase"
-
-                                  >
-                                    {item.initials}
-                                  </div>
-                                )}
-                                {item.name}
-                              </li>
-                            </OverlayTrigger>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </li>
-                )}
-
-
-                {!(hostelListDetail ?? []).length && (
-                  <NavLink
-                    to={settingsPath}
-                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
-
-                    onClick={() => {
-                      handledisplaySettingsPG("manage-pg", "Manage PG");
-                      dispatch({ type: "MANAGE_PG" });
-                      setIsSidebarOpen(false);
-                    }}
-                  >
-                    + Add PG
-                  </NavLink>
-
-                )}
-              </div> */}
               <div
                 className="p-3 flex-shrink-0 mt-1.5">
                 <img
@@ -1091,7 +937,7 @@ const tooltipTrigger = isMd ? ["hover"] : [];
 
                 <ul className="flex-1 min-h-0 overflow-y-auto list-none p-0.5 mb-0 w-full" >
 
-                  <li
+                  {/* <li
                     className="list-none flex items-center" >
                       <NavLink
                         to={withHostel("/dashboard")}
@@ -1107,27 +953,26 @@ const tooltipTrigger = isMd ? ["hover"] : [];
                           Home
                         </span>
                       </NavLink>
-                       </li>
-                  {
-                    import.meta.env.MODE === "development" &&
+                       </li> */}
+                 
 
-                    <li className="list-none flex items-center" >
-                        <NavLink
-                          to={withHostel("/dashboard-new")}
-                          className={({ isActive }) =>
-                            `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                          }
-                          onClick={() => handlePageClick("dashboard-new")}
-                        >
-                          <Chart2
-                            size="20" variant="Bold"
-                          />
-                          <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1" >
-                            Home New
-                          </span>
-                        </NavLink>
-                        </li>
-                  }
+                  <li className="list-none flex items-center" >
+                    <NavLink
+                      to={withHostel("/dashboard-new")}
+                      className={({ isActive }) =>
+                        `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                      }
+                      onClick={() => handlePageClick("dashboard-new")}
+                    >
+                      <Chart2
+                        size="20" variant="Bold"
+                      />
+                      <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1" >
+                        Home
+                      </span>
+                    </NavLink>
+                  </li>
+                  
                   <li
                     className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded collapsible-header
     ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
@@ -1139,8 +984,8 @@ const tooltipTrigger = isMd ? ["hover"] : [];
                       localStorage.setItem("manageOpen", !manageOpen);
                     }}
                   >
-                     <Setting2 size={20} variant="Bold" className="mt-1" />
-                      <span className="sidebar-label hidden lg:inline-block mt-1.5 font-gilroy font-semibold text-sm">
+                    <Setting2 size={20} variant="Bold" className="mt-1" />
+                    <span className="sidebar-label hidden lg:inline-block mt-1.5 font-gilroy font-semibold text-sm">
                       Manage
                     </span>
                     <span className="ml-auto mt-1.5 inline-flex">
@@ -1157,80 +1002,80 @@ const tooltipTrigger = isMd ? ["hover"] : [];
                       <ul
                         className="pl-2 relative p-1.5">
                         <li className="list-none flex">
-                            <NavLink
-                              to={withHostel("/paying-guest")}
-                              className={({ isActive }) =>
-                                `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                              }
-                              onClick={() => handlePageClick("pg-list")}
-                            >
-                              <Buildings size="20" variant="Bold" />
+                          <NavLink
+                            to={withHostel("/paying-guest")}
+                            className={({ isActive }) =>
+                              `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                            }
+                            onClick={() => handlePageClick("pg-list")}
+                          >
+                            <Buildings size="20" variant="Bold" />
 
-                              <span
-                                className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
-                                Paying Guest
-                              </span>
-                            </NavLink>
-                             </li>
-
-                        <li className="list-none">
-                                                      <NavLink
-                              to={withHostel("/tenant")}
-                              className={({ isActive }) =>
-                                `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("user-list")}
-
-                            >
-                              <Profile2User size="20" variant="Bold" />
-
-                              <span
-                                className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
-
-                              >
-                                Tenant
-                              </span>
-                            </NavLink>
-                            </li>
-
+                            <span
+                              className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm" >
+                              Paying Guest
+                            </span>
+                          </NavLink>
+                        </li>
 
                         <li className="list-none">
-                         
-                            <NavLink
-                              to={withHostel("/asset")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset" ? "active" : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("asset")}
+                          <NavLink
+                            to={withHostel("/tenant")}
+                            className={({ isActive }) =>
+                              `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("user-list")}
+
+                          >
+                            <Profile2User size="20" variant="Bold" />
+
+                            <span
+                              className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
 
                             >
-                              <Box size="20" variant="Bold" />
+                              Tenant
+                            </span>
+                          </NavLink>
+                        </li>
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Assets
-                              </span>
-                            </NavLink>
-                            </li>
 
                         <li className="list-none">
-                            <NavLink
-                              to={withHostel("/vendor")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor" ? "active" : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("vendor")}
 
+                          <NavLink
+                            to={withHostel("/asset")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("asset")}
+
+                          >
+                            <Box size="20" variant="Bold" />
+
+                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                              Assets
+                            </span>
+                          </NavLink>
+                        </li>
+
+                        <li className="list-none">
+                          <NavLink
+                            to={withHostel("/vendor")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("vendor")}
+
+                          >
+                            <Shop size="20" variant="Bold" />
+
+                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
                             >
-                              <Shop size="20" variant="Bold" />
-
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm"
-                              >
-                                Vendor
-                              </span>
-                            </NavLink>
+                              Vendor
+                            </span>
+                          </NavLink>
                         </li>
 
                       </ul>
@@ -1496,6 +1341,8 @@ const tooltipTrigger = isMd ? ["hover"] : [];
 
               <Route path="/payment-preview" element={<PaymentPreview />} />
               <Route path="/graph" element={<GraphQL />} />
+              {/* {
+                import.meta.env.MODE === "development" &&
               <Route
                 path="/dashboard/:hostelId?"
                 element={
@@ -1508,24 +1355,25 @@ const tooltipTrigger = isMd ? ["hover"] : [];
                   </div>
                 }
               />
-              {
-                import.meta.env.MODE === "development" &&
+} */}
+              {/* {
+                import.meta.env.MODE === "development" && */}
 
-                <Route
-                  path="/dashboard-new/:hostelId?"
-                  element={
-                    <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
-                      <Dashboard
-                        displayCompliance={handledisplaycompliace}
-                        allPageHostel_Id={allPageHostel_Id}
-                        setAllPageHostel_Id={setAllPageHostel_Id}
-                      />
-                    </div>
-                  }
-                />
-              }
+              <Route
+                path="/dashboard-new/:hostelId?"
+                element={
+                  <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
+                    <Dashboard
+                      displayCompliance={handledisplaycompliace}
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
+                }
+              />
+              {/* } */}
 
-              
+
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
@@ -1918,7 +1766,7 @@ const tooltipTrigger = isMd ? ["hover"] : [];
                 <Route path="subscription" element={<SettingSubscription />} />
                 <Route path="integration" element={<SettingIntergration />} />
                 <Route path="electricity" element={<SettingElectricity />} />
-                 <Route path="billing-rule-old" element={<BillingRuleOld />} />
+                <Route path="billing-rule-old" element={<BillingRuleOld />} />
                 <Route path="billing-rule" element={<BillingRule />} />
                 <Route path="long-stay-recurring" element={<LongStayRecurringModal />} />
                 <Route path="notifications" element={<SettingsNotifications />} />

@@ -689,7 +689,7 @@ function Reports() {
           )
             :
 
-            activeTab === "analytical" && import.meta.env.MODE === "production" &&
+            activeTab === "analytical" && import.meta.env.MODE === "production" || import.meta.env.MODE === "qa"  &&
             <ComingSoon />
           }
         </div>

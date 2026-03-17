@@ -277,7 +277,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     };
 
-
+console.log("bookingDetails",bookingDetails)
 
 
 
@@ -373,17 +373,17 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                     className="mb-1 text-lg font-semibold font-gilroy truncate max-w-[120px]"
                                     title={`${bookingDetails?.firstName || ""} ${bookingDetails?.lastName || ""}`}
                                 >
-                                    {bookingDetails?.firstName} {bookingDetails?.lastName}
+                                    {bookingDetails?.firstName} {bookingDetails?.lastName} {bookingDetails?.name}
                                 </p>
 
                                 <div className="flex gap-2">
                                     <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                                        {bookingDetails?.floorName || bookingDetails?.hostelInfo?.floorName}
+                                        {bookingDetails?.floorName || bookingDetails?.hostelInfo?.floorName || state.UsersList?.customerdetails?.hostelInfo?.floorName} 
                                     </span>
 
                                     <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                                        {bookingDetails?.roomName || bookingDetails?.hostelInfo?.roomName} -{" "}
-                                        {bookingDetails?.bedName || bookingDetails?.hostelInfo?.bedName}
+                                        {bookingDetails?.roomName || bookingDetails?.hostelInfo?.roomName ||  bookingDetails?.room} -{" "}
+                                        {bookingDetails?.bedName || bookingDetails?.hostelInfo?.bedName ||  bookingDetails?.bed}
                                     </span>
                                 </div>
                             </div>

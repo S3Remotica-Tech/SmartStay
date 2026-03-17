@@ -40,15 +40,14 @@ function HostelProperties() {
       <div className="max-w-7xl mx-auto text-center">
 
        
-        <span className="px-4 py-1 text-xs rounded-full bg-[#E9EDFF] text-[#1E45E1] font-medium">
+        <span className="px-4 py-1.5 text-xs rounded-full bg-[#E9EDFF] opacity-100 text-[#1E45E1] font-medium">
           Tailored for your Business
         </span>
 
         
-        <h2 className="mt-6 text-3xl md:text-5xl font-semibold text-white">
-          A managing solution for
-          <br />
-          <span className="text-[#2F80FF]">Every Hostels & Properties</span>
+          <h2 className="mt-6 text-3xl md:text-5xl font-medium text-white leading-8 whitespace-wrap">
+          A managing solution for  <br/>
+                    <span className="text-[#2F80FF] font-semibold"> Every Hostels & Properties</span>
         </h2>
 
         
@@ -57,7 +56,9 @@ function HostelProperties() {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-[#262626] p-6 rounded-xl text-left border-1 border-[#262626] hover:border-[#262626] transition"
+             className="bg-[#262626] p-6 rounded-xl text-left border-1 border-[#262626]
+transition-all duration-300
+hover:-translate-y-2 hover:shadow-2xl hover:border-[#2F80FF]"
             >
               <div className="mb-6">{card.icon}</div>
 

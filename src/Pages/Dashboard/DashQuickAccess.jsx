@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import UserlistForm from "../CustomerFile/UserlistForm";
+import BookedCheckIn from "../CustomerFile/BookedCheckIn";
 import RecordPayment from "../Bills/RecordPayment"
 import {
 
@@ -37,8 +37,8 @@ function DashQuickAccess(
   const [invoiceValue, setInvoiceValue] = useState("");
   const [invoiceList, setInvoiceList] = useState('')
   const [selectedUserId, setSelectedUserId] = useState("")
+  const [BookingAssignForm, setBookingAssignForm] = useState(false)
 
-  console.log("selectedUserId", selectedUserId)
   const billingSummary = {
     title: "Billing Summary",
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
@@ -65,13 +65,14 @@ function DashQuickAccess(
 
   const checkinList =
     QuickAccess?.checkins?.map((item) => ({
-      id: item?.tenantId,
+      customerId: item?.tenantId,
       name: item.customerName || "-",
       sharing: item.sharingType,
       room: item.roomName,
       bed: item.bedName,
       date: item.joiningDate,
-      profilePic: item.profilePic
+      profilePic: item.profilePic,
+      initials: item.initials
     })) || [];
 
 
@@ -156,8 +157,6 @@ function DashQuickAccess(
   }, [state.PgList.getDashboardSuccessStatus]);
 
   const handleNavigateTenant = (tenantId) => {
-    console.log("tenantId", tenantId)
-
     if (tenantId) {
 
 
@@ -175,15 +174,16 @@ function DashQuickAccess(
     }
   }
 
-  const handleCheckIn = (data) => {
-    setShowFormCheckIn(true)
-    setTenantDetails(data)
+
+
+  const handleBookingAssign = (book) => {
+    setBookingAssignForm(true)
+    setTenantDetails(book)
+
   }
 
-
-
-  const handleCloseCheckInForm = () => {
-    setShowFormCheckIn(false)
+  const handleCloseBooking = () => {
+    setBookingAssignForm(false)
   }
 
   const handleRecordPayment = (item) => {
@@ -202,6 +202,25 @@ function DashQuickAccess(
 
   }
 
+  useEffect(() => {
+    if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+      setBookingAssignForm(false)
+      dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            billingFilter: selected
+          }
+        }
+      });
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+      }, 100)
+    }
+
+  }, [state.UsersList?.bookingToCheckinStatusCode])
 
 
 
@@ -236,11 +255,11 @@ function DashQuickAccess(
 
   return (
     <div className="mt-6 font-[Gilroy]">
-      {/* {
-        showFormCheckIn && <UserlistForm EditObj={tenantDetails}
-          showAssignMenu={showFormCheckIn}
-          setShowAssignMenu={handleCloseCheckInForm} />
-      } */}
+     
+      {
+        BookingAssignForm && <BookedCheckIn BookingAssignForm={BookingAssignForm}
+          handleClose={handleCloseBooking} bookingDetails={tenantDetails} />
+      }
 
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
@@ -278,9 +297,11 @@ function DashQuickAccess(
 
             <div className="relative" ref={dropdownRef}>
 
-              <button
+              <button disabled
                 onClick={() => setOpen(!open)}
-                className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 bg-white font-[Gilroy] whitespace-nowrap "
+                className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
+   text-black border-gray-300
+  disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Calendar size="16" />
                 {selected}
@@ -398,7 +419,7 @@ function DashQuickAccess(
               ) : (
                 checkinList.map((item) => (
                   <div
-                    key={item.id}
+                    key={item.customerId}
                     className="flex justify-between items-center border-b pb-3"
                   >
                     <div>
@@ -415,7 +436,7 @@ function DashQuickAccess(
                     </div>
 
                     <div className="flex gap-2">
-                      <button className="border rounded-md px-3 py-1 text-sm" onClick={() => handleNavigateTenant(item.id)}>
+                      <button className="border rounded-md px-3 py-1 text-sm" onClick={() => handleNavigateTenant(item.customerId)}>
                         View
                       </button>
 
@@ -425,7 +446,7 @@ function DashQuickAccess(
   disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-400"
                         onClick={() => {
                           if (canWriteTenant) {
-                            handleCheckIn(item);
+                            handleBookingAssign(item);
                           }
                         }}
                       >

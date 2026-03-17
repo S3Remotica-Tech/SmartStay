@@ -32,14 +32,14 @@ import PricingPlans from "./PricingPlans";
 import ActiveCustomer from './ActiveCustomer';
 import HostelTrial from './HostelTrial';
 import WhyChooseWithFAQ from './WhyChooseWithFAQ';
-import { CloseCircle, Send2 } from "iconsax-react";
+import { ArrowUp, CloseCircle, Send2 } from "iconsax-react";
 import FeaturesKey from './FeaturesKey'
 import HowItsWorking from "./HowItsWorking";
 import NativeBuilt from "./NativeBuilt";
 import EfficiantOperationSystem from "./EfficiantOperationSystem";
 import SmartstayDemo from "./SmartstayDemo";
 import { ArrowRight, Star1 } from "iconsax-react";
-import back from "../Assets/v2LandingImages/back.svg"; 
+import back from "../Assets/v2LandingImages/back.svg";
 
 function FrontPage() {
   useEffect(() => {
@@ -133,7 +133,7 @@ function FrontPage() {
 
       idleTimer = setTimeout(() => {
         setShowPromoPopup(true);
-      }, 10000);
+      }, 20000);
     };
 
     const events = ["mousemove", "keydown", "scroll", "click"];
@@ -283,7 +283,7 @@ function FrontPage() {
           <MobileApp />
           <HostelTrial />
           <FAQSection />
-          
+
         </Element>
       )}
 
@@ -354,13 +354,13 @@ function FrontPage() {
         activeSection !== "demo" &&
 
         <div
-          className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center"
+          className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center flex-col  gap-2  z-[9999]"
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
         >
 
           <div
-            className={`absolute right-14 bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
+            className={`absolute right-14 z-[9999] bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
         transition-all duration-300
         ${showTooltip
                 ? "opacity-100 translate-x-0"
@@ -379,27 +379,40 @@ function FrontPage() {
             <Send2 size="14" color="#FFFFFF" variant="Bold" />
           </div>
 
+
+
         </div>
       }
+
+      <div
+        className="fixed right-10 bottom-14 -translate-y-1/2 flex items-center flex-col gap-2 z-[9999]"
+      >
+        <div
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="bg-gradient-to-r from-[#1E45E1] to-[#05A7FF] hover:opacity-90 p-3 rounded-full shadow-md cursor-pointer transition-all duration-300 hover:scale-110"
+        >
+          <ArrowUp size="14" color="#FFFFFF" />
+        </div>
+      </div>
       {showPromoPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
 
 
-          <div
-            className="absolute inset-0 bg-black/30"
-            // onClick={() => setShowPromoPopup(false)}
-          ></div>
+          <div className="absolute inset-0 bg-black/30  animate-fadeIn"></div>
           <div className="
       relative
-      bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
-      rounded-xl shadow-lg p-6 border font-tasa
-      w-[100%] sm:w-[600px]    overflow-hidden
+  bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
+  rounded-xl shadow-lg p-6 border font-tasa
+  w-[100%] sm:w-[600px]
+  overflow-hidden
+  transform transition-all duration-300 ease-out
+  scale-100 opacity-100 animate-[popup_0.35s_ease-out]
     ">
-<img
-    src={back}
-   className="absolute right-[-50px] bottom-0 top-0 w-[280px] opacity-10 pointer-events-none select-none"
-    alt=""
-  />
+            <img
+              src={back}
+              className="absolute right-[-50px] bottom-0 top-0 w-[280px] opacity-10 pointer-events-none select-none"
+              alt=""
+            />
 
             <button
               onClick={() => setShowPromoPopup(false)}
@@ -430,7 +443,7 @@ function FrontPage() {
                   </p>
                 </div>
 
-                <div className="bg-white z-20 rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 ">
+                <div className="bg-white z-20 rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 animate-[floatY_3s_ease-in-out_infinite]">
                   <div className="bg-[#FFEFCF] rounded-md w-fit flex items-center px-1 py-1">
                     <Star1 size="14"
                       color="#FF8A65"

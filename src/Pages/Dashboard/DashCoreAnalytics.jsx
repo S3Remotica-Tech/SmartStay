@@ -150,9 +150,11 @@ const revenueData =
 
             <div className="relative inline-block">
               {/* Button */}
-              <button
+              <button disabled
                 onClick={() => setOpen(!open)}
-                className="flex items-center gap-2 border px-3 py-1.5 rounded-lg text-sm font-[Gilroy] bg-white hover:bg-gray-50"
+                className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
+   text-black border-gray-300
+  disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Calendar size="16" />
                 {selected}
