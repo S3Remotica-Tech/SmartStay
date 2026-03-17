@@ -1,4 +1,4 @@
-import React,{ useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TenantIcon from "../Assets/v2LandingImages/Tenant_icon.svg";
 import Digital from "../Assets/v2LandingImages/Digital.svg";
 import Aadhaar from "../Assets/v2LandingImages/Aadhaar.svg";
@@ -12,16 +12,16 @@ import useInView from "./useInview";
 
 
 
-function LifeCycleMethod({isFeatureWay}) {
+function LifeCycleMethod({ isFeatureWay }) {
 
-let navigate = useNavigate();
-const [ref, isInView] = useInView(0.3);
+    let navigate = useNavigate();
+    const [ref, isInView] = useInView(0.3);
 
 
 
-const handleNavigateFeatures = () => {
-    navigate("/hostel-management-features");
-  };
+    const handleNavigateFeatures = () => {
+        navigate("/hostel-management-features");
+    };
 
 
 
@@ -80,7 +80,7 @@ const handleNavigateFeatures = () => {
 
 
     return (
-        <div  className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
+        <div className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
 
 
             <div className="max-w-7xl mx-auto mb-14">
@@ -92,7 +92,7 @@ const handleNavigateFeatures = () => {
                         </span>
                     </h2>
 
-                    <div className={`rounded-xl px-4 py-2 ${isFeatureWay ?  "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}>
+                    <div className={`rounded-xl px-4 py-2 ${isFeatureWay ? "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}>
                         <label className='text-xs font-tasa ' >Tenant Management</label>
                     </div>
                 </div>
@@ -117,7 +117,7 @@ const handleNavigateFeatures = () => {
                     return (
                         <div ref={ref}
                             key={index}
-                             className={`
+                            className={`
     bg-white animate-[fadeUp_0.6s_ease-out] 
     rounded-xl p-6 shadow-sm flex flex-col border border-gray-100 justify-between
     ${span}
@@ -165,7 +165,7 @@ const handleNavigateFeatures = () => {
                                                             <div key={i} className="mx-1 my-2 flex items-center gap-2">
 
                                                                 {/* {card.icon === "shield-tick" && i === 0 ? ( */}
-                                                                    <TickCircle size="20" variant="Bold" color="#00A32E" />
+                                                                <TickCircle size="20" variant="Bold" color="#00A32E" />
                                                                 {/* ) : (
                                                                     <TickCircle size="20" color="#1E45E1" />
                                                                 )} */}
@@ -224,14 +224,14 @@ const handleNavigateFeatures = () => {
             </div>
             {
                 !isFeatureWay &&
-            
-            <div className='max-w-7xl flex items-center justify-center'>
-                <button onClick={handleNavigateFeatures} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
-                   Explore Features
-                    <ArrowRight size="18" />
-                </button>
-            </div>
-}
+
+                <div className='max-w-7xl flex items-center justify-center'>
+                    <button onClick={handleNavigateFeatures} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
+                        Explore Features
+                        <ArrowRight size="18" />
+                    </button>
+                </div>
+            }
 
         </div>
     )

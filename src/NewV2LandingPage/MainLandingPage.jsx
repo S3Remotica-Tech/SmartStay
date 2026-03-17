@@ -133,7 +133,7 @@ function FrontPage() {
 
       idleTimer = setTimeout(() => {
         setShowPromoPopup(true);
-      }, 10000);
+      }, 20000);
     };
 
     const events = ["mousemove", "keydown", "scroll", "click"];

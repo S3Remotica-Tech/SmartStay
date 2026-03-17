@@ -107,8 +107,9 @@ function HowItsWorking() {
 
                 <Swiper
                     slidesPerView={"auto"}
+                    // slidesPerView={3}
                     centeredSlides={true}
-                    spaceBetween={50}
+                    spaceBetween={10}
                     loop={true}
                     autoplay={{
                         delay: 2500,
@@ -123,15 +124,15 @@ function HowItsWorking() {
                     className="py-12"
                 >
                     {howItWorksData.map((item) => (
-                        <SwiperSlide key={item.id} className="!w-[520px]">
+                        <SwiperSlide key={item.id} className="!w-[720px] w-full ">
 
                             <div
-  className={`min-h-[220px] md:min-h-[240px] lg:min-h-[300px] rounded-xl p-6 flex gap-6  transition-all duration-500
+                                className={`min-h-[220px] md:min-h-[240px] lg:min-h-[400px] grid grid-cols-2 rounded-xl p-6 flex gap-6  transition-all duration-500
   ${activeTab === item.id
-    ? "bg-white shadow-2xl scale-100"
-    : "bg-white scale-90 "
-  }`}
->
+                                        ? "bg-white shadow-2xl scale-100"
+                                        : "bg-white scale-90 "
+                                    }`}
+                            >
                                 <div className="flex-1">
                                     <label className="font-semibold text-[29px] mb-3  text-[#222222]">
                                         {item.title}
@@ -158,18 +159,22 @@ function HowItsWorking() {
                                         ))}
                                     </div>
                                 </div>
+                                <div>
 
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-[160px]"
-                                />
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="object-cover"
+                                    />
+                                </div>
 
                             </div>
 
                         </SwiperSlide>
                     ))}
                 </Swiper>
+
+
 
             </div>
         </div>
