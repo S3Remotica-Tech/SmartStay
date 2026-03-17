@@ -975,27 +975,27 @@ ${selected
                         </div>
 
                     </div>
+                    {
 
+                        import.meta.env.MODE === "development" &&
+                        <>
 
-                    <div className="bg-white  rounded-xl shadow-sm p-3 font-gilroy">
+                            <div className="bg-white  rounded-xl shadow-sm p-3 font-gilroy">
 
-                        <div className="flex justify-between items-center">
+                                <div className="flex justify-between items-center">
 
-                            <div>
-                                <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
-                                    Late Fee Configuration (Fine Amount)
-                                </h2>
-                                <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
-                                    Set up late payment penalties and charges
-                                </label>
-                            </div>
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
+                                            Late Fee Configuration (Fine Amount)
+                                        </h2>
+                                        <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
+                                            Set up late payment penalties and charges
+                                        </label>
+                                    </div>
 
-                        </div>
-                        <div className="border-t border-[#E5E5E5] my-2"></div>
-                        {
+                                </div>
+                                <div className="border-t border-[#E5E5E5] my-2"></div>
 
-                            import.meta.env.MODE === "development" &&
-                            <>
 
                                 <div className="flex justify-between items-center">
                                     <div>
@@ -1363,9 +1363,6 @@ ${selected
                                     </div>
 
                                 )}
-                            </>
-
-                        }
 
 
 
@@ -1377,7 +1374,12 @@ ${selected
 
 
 
-                    </div>
+
+                            </div>
+                        </>
+
+                    }
+
                     {errors.noChangeBottom && (
                         <div ref={noChangeRef} className="mt-4">
                             <ErrorMessage message={errors.noChangeBottom} type="error" />

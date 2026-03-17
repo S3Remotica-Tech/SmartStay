@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-   getInitializeEditRecurring,shareWhatsappPDF, shareWhatsappPDFReceipt,UpdateManualUnPaid,
+   getInitializeEditRecurring, shareWhatsappPDF, shareWhatsappPDFReceipt, UpdateManualUnPaid,
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
 } from "../Action/InvoiceAction";
@@ -21,15 +21,15 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+   else if (status === 403) {
+      yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+   }
 }
 
 function* handleGetInitializeEditRecurring(action) {
@@ -66,8 +66,8 @@ function* handleGetshareWhatsappPDF(action) {
       }
       if (response?.status === 200) {
          yield put({ type: 'GET_SHARE_PDF', payload: { response: response.data, statusCode: response?.status } })
-      
-       var toastStyle = {
+
+         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
             width: "100%",
@@ -94,14 +94,14 @@ function* handleGetshareWhatsappPDF(action) {
             progress: undefined,
             style: toastStyle
          })
-      
-      
+
+
       }
 
    }
    catch (error) {
       yield* handleApiError(error);
- if (error.status === 400 || error.status === 403) {
+      if (error.status === 400 || error.status === 403) {
          yield put({ type: 'SHARE_PDF_ERROR', payload: error.response.data });
       }
    }
@@ -120,8 +120,8 @@ function* handleGetshareWhatsappPDFReceipt(action) {
       }
       if (response?.status === 200) {
          yield put({ type: 'WHATSAPP_SHARE_PDF_RECEIPT', payload: { response: response.data, statusCode: response?.status } })
-     
-       var toastStyle = {
+
+         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
             width: "100%",
@@ -148,14 +148,14 @@ function* handleGetshareWhatsappPDFReceipt(action) {
             progress: undefined,
             style: toastStyle
          })
-     
-     
+
+
       }
 
    }
    catch (error) {
       yield* handleApiError(error);
- if (error.status === 400 || error.status === 403) {
+      if (error.status === 400 || error.status === 403) {
          yield put({ type: 'SHARE_PDF_ERROR', payload: error.response.data });
       }
    }
@@ -444,7 +444,7 @@ function* handleGetFinalSettlementList(action) {
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-               }
+      }
 
 
 
@@ -459,20 +459,20 @@ function* handleGetFinalSettlementList(action) {
    }
    catch (error) {
       yield* handleApiError(error);
- if (error.status === 400 || error.status === 403) {
+      if (error.status === 400 || error.status === 403) {
          yield put({ type: 'FINAL_SETTLMENT_ERROR', payload: error.response.data });
-        toast.error(`${error.response.data}`, {
-               style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
-               position: "top-right",
-               autoClose: 2000,
-               hideProgressBar: true,
-               closeButton: false,
-               closeOnClick: true,
-               pauseOnHover: true,
-               draggable: true,
-               progress: undefined,
+         toast.error(`${error.response.data}`, {
+            style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
 
-            });
+         });
 
       }
    }
@@ -931,7 +931,7 @@ function* handleInvoicePdf(action) {
    try {
       const response = yield call(InvoicePDf, action.payload)
 
-      
+
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "red",
@@ -954,13 +954,13 @@ function* handleInvoicePdf(action) {
             }
          })
       }
-         }
+   }
    catch (error) {
       yield* handleApiError(error);
 
- if (error.status === 400) {
+      if (error.status === 400) {
          yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
-          toast.error(error.response.data, {
+         toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1120,67 +1120,82 @@ function* handleUpdateAmenities(action) {
 }
 
 function* handleUpdatemanualUnPaid(action) {
-  try {
+   try {
 
-    const { hostelId, invoiceId } = action.payload;
+      const { hostelId, invoiceId } = action.payload;
 
-    const response = yield call(UpdateManualUnPaid, hostelId, invoiceId);
+      const response = yield call(UpdateManualUnPaid, hostelId, invoiceId);
 
-    if (response?.status === 200) {
+      if (response?.status === 200) {
 
-      yield put({
-        type: "MANUAL_BILL_UPDATE_UNPAID_REDUCER",
-        payload: {
-          response: response.data,
-          statusCode: response.status
-        }
-      });
+         yield put({
+            type: "MANUAL_BILL_UPDATE_UNPAID_REDUCER",
+            payload: {
+               response: response.data,
+               statusCode: response.status
+            }
+         });
 
-      const toastStyle = {
-        backgroundColor: "#E6F6E6",
-        color: "black",
-        width: "100%",
-        borderRadius: "60px",
-        minHeight: "40px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        fontSize: 14,
-        display: "flex",
-        alignItems: "center",
-        padding: "10px",
-      };
+         const toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            minHeight: "40px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+         };
 
-      toast.success(response?.data?.message || "Bill marked as unpaid", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        style: toastStyle
-      });
+         toast.success(response?.data?.message || "Bill marked as unpaid", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            style: toastStyle
+         });
 
-    } else {
-      yield put({
-        type: "ERROR",
-        payload: response?.data?.message
-      });
-    }
+      } else {
+         yield put({
+            type: "ERROR",
+            payload: response?.data?.message
+         });
+      }
 
-    if (response) {
-      refreshToken(response);
-    }
 
-  } catch (error) {
 
-    yield* handleApiError(error);
+   } catch (error) {
 
-    if (error?.response?.status === 400 || error?.response?.status === 403) {
-      yield put({
-        type: "ERROR_AMENITIES_SETTINGS",
-        payload: { response: error.response.data }
-      });
-    }
+      yield* handleApiError(error);
 
-  }
+      if (error?.response?.status === 400 || error?.response?.status === 403) {
+         yield put({
+            type: "UNPAID_ERROR",
+            payload: { response: error.response.data }
+         });
+
+         toast.error(error.response.data, {
+            style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+         });
+
+
+
+
+
+      }
+
+   }
 }
 
 function* handleManualInvoice() {
@@ -1906,7 +1921,7 @@ function* handleReference_Id() {
 
 function* handleReceiptPdf(action) {
    try {
-       const response = yield call(ReceiptPDf, action.payload)
+      const response = yield call(ReceiptPDf, action.payload)
 
       if (response?.status === 200) {
          yield put({
@@ -1915,13 +1930,13 @@ function* handleReceiptPdf(action) {
             }
          })
       }
-     
+
    }
    catch (error) {
       yield* handleApiError(error);
- if (error.status === 400) {
+      if (error.status === 400) {
          yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
-          toast.error(error.response.data, {
+         toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1930,7 +1945,7 @@ function* handleReceiptPdf(action) {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            
+
          })
       }
    }
@@ -2106,9 +2121,9 @@ function refreshToken(response) {
 
 function* InvoiceSaga() {
 
-   yield takeEvery('MANUAL_BILL_UPDATE_UNPAID_SAGA',handleUpdatemanualUnPaid )
-yield takeEvery('WHATSAPPSHAREPDFRECEIPT',handleGetshareWhatsappPDFReceipt)
-   yield takeEvery('GETSHAREPDF',handleGetshareWhatsappPDF)
+   yield takeEvery('MANUAL_BILL_UPDATE_UNPAID_SAGA', handleUpdatemanualUnPaid)
+   yield takeEvery('WHATSAPPSHAREPDFRECEIPT', handleGetshareWhatsappPDFReceipt)
+   yield takeEvery('GETSHAREPDF', handleGetshareWhatsappPDF)
    yield takeEvery('GETINITIALIZEEDITRECURRING', handleGetInitializeEditRecurring)
    yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
    yield takeEvery('UPDATE_TENANT_RECURRING', handleUpdateTenantRecurring)

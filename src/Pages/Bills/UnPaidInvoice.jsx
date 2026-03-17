@@ -43,6 +43,13 @@ function UnPaidInvoice({ show, handleClose, selectedInvoice }) {
 
     }, [state.InvoiceList.manualInvoiceUnpaidStatusCode])
 
+    useEffect(() => {
+        if (state.InvoiceList?.unPaidError) {
+            setFormLoading(false);
+        }
+
+    }, [state.InvoiceList?.unPaidError])
+
 
     return (
         <Modal

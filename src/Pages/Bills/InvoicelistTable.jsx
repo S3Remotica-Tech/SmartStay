@@ -437,7 +437,7 @@ const InvoiceTable = (props) => {
                     }
 
                     {
-                      (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid") &&
+                      (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid" && props.item.invoiceType === "Rent") &&
 
 
                       <div
