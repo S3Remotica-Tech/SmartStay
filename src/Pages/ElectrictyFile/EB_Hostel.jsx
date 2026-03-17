@@ -519,7 +519,6 @@ const RoomReadingTable = () => {
                       />
                     </div>
 
-
                     <Offcanvas
                       show={filterShow}
                       onHide={handleFilterClose}
@@ -990,11 +989,10 @@ const RoomReadingTable = () => {
                         </div>
                       </div>
                     ) : (
+                      <div className="show-scrolls overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[420px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800">
 
-                      <div className="show-scrolls overflow-y-auto max-h-[360px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800"
-                      >
                         <Table bordered={false} className="mb-0 table-auto w-full">
-                          <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs"
+                          <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs font-gilroy"
                           >
                             <tr>
 
@@ -1190,7 +1188,7 @@ const RoomReadingTable = () => {
                   customerReadingList?.length === 0 ? (
                     <div className="animated-text flex items-center justify-center h-[70vh] 2xl:mt-52">
                       <div>
-                        <img src={emptyimg} alt="emptystate"/>
+                        <img src={emptyimg} alt="emptystate" />
 
                         <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-gray-600">
                           No Tenant Reading
@@ -1202,11 +1200,11 @@ const RoomReadingTable = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800"
+                    <div className="overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[420px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800 show-scroll"
                     >
                       <Table bordered={false} className="mb-0 table-auto w-full">
-                        <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-sm"
-                        >
+                        <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs font-gilroy" >
+
 
                           <tr>
                             <th className="text-left">
@@ -1242,16 +1240,21 @@ const RoomReadingTable = () => {
                             {formattedReadings?.map((row, i) => (
                               <tr key={i} className="!border-b !border-gray-300">
 
-                                <td className="flex items-center gap-2 p-2 font-semibold text-blue-700 text-left cursor-pointer"
-                                  onClick={() => handleTenantsDetailsPage(row)}>
-                                  {row.profilePic ?
+                                <td
+                                  className="flex items-center gap-2 p-2 text-left cursor-pointer"
+                                  onClick={() => handleTenantsDetailsPage(row)}
+                                >
+                                  {row.profilePic ? (
                                     <img src={row.profilePic} alt="profilepic" className="mr-3 w-10 h-10" />
-                                    :
+                                  ) : (
                                     <div className="w-7 h-7 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center font-semibold font-gilroy">
                                       {row?.initials || "-"}
                                     </div>
-                                  }
-                                  {row.fullName}
+                                  )}
+
+                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 underline">
+                                    {row.fullName}
+                                  </span>
                                 </td>
                                 <td>
                                   <div className="mt-2">{row.billingMonth}</div>

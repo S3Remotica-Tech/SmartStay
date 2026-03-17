@@ -2461,7 +2461,7 @@ useEffect(() => {
 
       <div
         key={CustomerOverView?.customerId}
-        className="h-[97vh] overflow-y-auto mt-2 bgpink-200 w-full max-w-full overflow-x-hidden"
+        className="h-[97vh] mt-2 bgpink-200 w-full max-w-full overflow-hidden"
       >
 
         <div
@@ -2479,7 +2479,7 @@ useEffect(() => {
           </span>
         </div>
 
-        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl mt-3 p-3  mx-4">
+        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl mt-3 p-3 mx-4">
           <div
             className="flex flex-col md:flex-row items-center justify-between"
           >
@@ -2654,7 +2654,7 @@ useEffect(() => {
                 </button>
 
                 {openMenu && (
-                  <div  ref={menuRef} className="absolute right-0 mt-2 w-fit whitespace-nowrap rounded-md bg-white shadow-lg border border-gray-200 z-20">
+                  <div  ref={menuRef} className="absolute right-8 -mt-[52px] w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20">
 
 
                     {
@@ -2721,7 +2721,7 @@ useEffect(() => {
                           />
                           Generate
                         </button>
-
+                  <div className="h-px bg-gray-300" />
                         <button
                           disabled={!canWriteTenant}
                           onClick={() => {
@@ -2745,6 +2745,7 @@ useEffect(() => {
                           />
                           Cancel Check-Out
                         </button>
+                        <div className="h-px bg-gray-300" />
                       </>
                     }
                     {
@@ -2853,8 +2854,7 @@ useEffect(() => {
 
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                // className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
-                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
+                 className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
 
               >
                 <Tab

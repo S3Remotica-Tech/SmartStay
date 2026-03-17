@@ -837,7 +837,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     type="text"
                     placeholder="Enter First Name"
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
 
                  
 
@@ -863,11 +863,12 @@ function AddVendor({ show, setShow, currentItem }) {
                     type="text"
                     placeholder="Enter Last Name"
                     className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${last_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                 </Form.Group>
               </div>
+
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
@@ -884,7 +885,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       value={countryCode}
                       // id="vendor-select-pg"
                       className={`border border-[#D9D9D9] rounded-l-[8px] h-[50px] text-[14px] text-[#4B4B4B] font-gilroy ${countryCode ? "font-semibold" : "font-medium"
-                        } bg-white max-w-[72px] focus:outline-none`}
+                        } bg-white max-w-[72px] focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                     >
                       <option>+{countryCode}</option>
@@ -897,7 +898,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       placeholder="9876543210"
                       maxLength={10}
                       className={`text-[16px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
-                        } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none`}
+                        } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
 
                     />
                   </InputGroup>
@@ -931,7 +932,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     type="email"
                     placeholder="Enter Email ID"
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
-                      } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none`}
+                      } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                   />
                   {emailError && (
                     <ErrorMessage message={emailError} type="error" />
@@ -960,7 +961,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     ref={businessNameRef}
                     placeholder="Enter Business Name"
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                   {businessNameError && (
@@ -985,7 +986,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     value={house_no}
                     onChange={(e) => handleHouseNo(e)}
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                 </Form.Group>
@@ -1007,7 +1008,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     value={street}
                     onChange={(e) => handleStreetName(e)}
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                 </Form.Group>
@@ -1028,7 +1029,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     value={landmark}
                     onChange={(e) => handleLandmark(e)}
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                 </Form.Group>
@@ -1053,7 +1054,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     ref={cityRef}
                     onChange={(e) => handleCity(e)}
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                 </Form.Group>
@@ -1081,7 +1082,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     pattern="[0-9]*"
                     placeholder="Enter Pincode"
                     className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none`}
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
 
                   />
                   {pinCodeError && (

@@ -334,12 +334,10 @@ function RecurringBills() {
   };
 
 
-
-
   return (
+
     <div className="relative bg-white">
-      <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap h-auto"
-      >
+     <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap">
         <div className="mt-0">
           <label className="text-lg text-gray-900 font-semibold font-gilroy">
             Recurring</label>
@@ -511,7 +509,7 @@ function RecurringBills() {
             activeStay === 'long_stay' ?
             (
               <div className="flex flex-col items-center justify-center h-full 
-              animated-text  h-[70vh] 2xl:mt-52">
+              animated-text mt-20 2xl:mt-52">
                 <div className="text-center">
                   <img src={Emptystate} alt="emptystate" />
                 </div>
@@ -523,9 +521,8 @@ function RecurringBills() {
                 </div>
               </div>
             ) : !recurLoader && activeStay === 'short_stay' ?
-              <div className="mt-5 h-[400px] flex justify-center items-center bg-[#f2f6fc] rounded-[10px] mr-5 shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-dashed border-[#b0c4de]"
 
-              >
+              <div className="mt-4 !h-[450px] md:h-[350px] flex justify-center items-center bg-[#f2f6fc] rounded-[10px] mr-5 shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-dashed border-[#b0c4de]">
                 <div className="text-center">
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
@@ -550,28 +547,15 @@ function RecurringBills() {
                 className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"
               ></div>
             </div>
-
-
           }
 
           {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
-            <div
-              className=" booking-table-userlist  booking-table ml-2 mr-4 mt-4 pb-5"
-
-            >
-
-              <div
-
-                className={`show-scrolls  overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 ${sortedDataRecure?.length >= 12 ? "h-[445px]" : "h-auto"
-                  }`}
-              >
+            <div className="booking-table-userlist  booking-table ml-2 mr-4 mt-4 pb-5">
+              <div className="overflow-y-auto !max-h-[450px] md:max-h-[320px] border-t border-gray-200 mt-2 scrollbar-thin scrollbar-thumb-gray-400 show-scroll">
                 <Table
                   responsive="md"
-                  className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
-
-                >
-                  <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"
-                  >
+                  className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none">
+                  <thead className="bg-blue-100 sticky top-0 z-10">
                     <tr>
                       <th>
                         Name

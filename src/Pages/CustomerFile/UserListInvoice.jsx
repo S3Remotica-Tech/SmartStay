@@ -141,7 +141,7 @@ function UserListInvoice(props) {
               <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto mt-7">
                 <Table bordered={false} className="align-middle mb-0">
                   <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
-                    <tr className="text-center">
+                    <tr className="text-left">
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Number</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Type</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Date</th>
@@ -159,37 +159,36 @@ function UserListInvoice(props) {
                         // let daydue = dueDated.getDate();
                         // let monthdue = dueDated.getMonth() + 1;
                         // let yeardue = dueDated.getFullYear();
-                        <tr key={view.id}
-                          className="border-b border-[#F9FAFF] text-center font-gilroy tt-[14px] font-medium">
-
-                          <td >
+                        <tr key={view.id}  className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
+                          
+                          <td className="text-[13px]">
                             {view.invoiceNumber}
                           </td>
 
-                          <td >
+                          <td>
                             {view.invoiceType}
                           </td>
 
                           <td>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
+                            <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
                               {view?.invoiceGeneratedDate}
                             </span>
                           </td>
 
                           <td>
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
+                            <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
                               {view?.dueDate}
                             </span>
                           </td>
 
                           <td className="" >
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
+                            <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
                               {view?.totalAmount}
                             </span>
                           </td>
 
                           <td className="" >
-                            <span className="px-5 py-1 rounded-[14px] text-xs font-medium font-gilroy leading-[1.5]">
+                            <span className="rounded-[14px] font-medium font-gilroy ">
                               ₹{view.dueAmount}
                             </span>
                           </td>

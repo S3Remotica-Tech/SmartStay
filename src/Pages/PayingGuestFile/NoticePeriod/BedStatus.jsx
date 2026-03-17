@@ -372,7 +372,7 @@ function NoticeBedStatusDetails({
                           {activeMenu === index && (
                             <div
                               ref={popupRef}
-                              className="absolute right-16 top-1 w-40 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50">
+                              className="absolute right-16 -top-3 w-40 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50">
                               {
                                 (
                                   matchedData[0]?.currentStatus === "Notice Period" ||

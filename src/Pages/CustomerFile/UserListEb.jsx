@@ -131,34 +131,22 @@ function UserEb(props) {
   return (
     <>
 
-      <div className="mt-[50px]">
+      <div className="mt-2">
         <div className="mt-2 pb-5">
           {
-
             !canReadElectricity ? (
 
-              <div className="flex flex-col items-center justify-center min-h-[45vh]"
-              >
-
+              <div className="flex flex-col items-center justify-center min-h-[45vh]">
                 <ErrorMessage message={['You do not have access to view Eb Reading']} type="warning" />
-
               </div>
-
-
             )
-
-
               :
 
-
               formattedTenantReadings?.length > 0 ? (
-                <div className="mx-2 bg-white shadow-md max-h-[420px] overflow-y-auto"
-
-                >
-                  <Table bordered={false} className="align-middle mb-0"
-                  >
-                    <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2" >
-                      <tr className="text-uppercase">
+                <div className="mx-3 bg-white shadow-md max-h-[320px] overflow-y-auto">
+                  <Table bordered={false} className="align-middle mb-0">
+                    <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
+                      <tr className="text-left">
                         <th className="font-gilroy text-gray-500 font-bold text-[13px]">BILLING MONTH</th>
                         <th className="font-gilroy text-gray-500 font-bold text-[13px]">FROM</th>
                         <th className="font-gilroy text-gray-500 font-bold text-[13px]">TO</th>
@@ -170,19 +158,21 @@ function UserEb(props) {
                       </tr>
 
                     </thead>
-                    <tbody className="text-[13px] font-gilroy">
+                    <tbody className="text-xs align-middle font-gilroy">
                       <PaginationList>
                         {formattedTenantReadings?.map((row, i) => (
-                          <tr key={i} className="border-b border-gray-300 font-gilroy">
+                          <tr key={i}
+                            className="border-b border-[#F9FAFF] font-gilroy text-[14px] font-medium"
+                          >
 
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.billingMonth}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.from}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.to}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.floor}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.room}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.bed}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.totalUnits}</td>
-                              <td className="!font-gilroy text-black font-semibold text-[13px]">{row.amount}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.billingMonth}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.from}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.to}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.floor}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.room}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.bed}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.totalUnits}</td>
+                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.amount}</td>
                           </tr>
                         ))}
                       </PaginationList>
@@ -190,9 +180,9 @@ function UserEb(props) {
                   </Table>
                 </div>
               ) :
-                <div className="mt-6 flex justify-center">
+                <div className="mt-4 flex justify-center">
                   <div>
-                    
+
                     <div className="text-center">
                       <img src={Emptystate} alt="emptystate" />
                     </div>
@@ -203,7 +193,7 @@ function UserEb(props) {
                     <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
                       There are no Electricity added.
                     </div>
-                    </div>
+                  </div>
                 </div>
           }
         </div>
