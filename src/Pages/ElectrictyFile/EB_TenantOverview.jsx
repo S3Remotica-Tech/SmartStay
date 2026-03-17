@@ -10,11 +10,9 @@ import Profile from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
-import { Table } from "react-bootstrap";
 import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-// import { BiDotsVerticalRounded } from "react-icons/bi";
 import verify from "../../Assets/Images/New_images/verify.svg";
 import Bed from "../../Assets/Images/New_images/Bed.svg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -114,107 +112,69 @@ const EBTenantOverview = ({ tenant, onBack }) => {
     return (
         <>
             <div>
-                <div className="mb-5  mx-4">
 
-                    <div
-                        className="d-flex align-items-center"
-                        style={{
-                            position: "sticky",
-                            top: 4,
-                            zIndex: 1000,
-                            backgroundColor: "#fff",
-                            padding: "12px 20px",
-                            height: "60px",
-                        }}
-                    >
+                <div className="mb-4 mx-4">
+                    <div className="flex items-center -ml-11 sticky top-1 z-[1000] bg-white px-5 py-3 h-[60px]">
                         <img
                             src={leftarrow}
                             alt="leftarrow"
                             width={20}
                             height={20}
                             onClick={onBack}
-                            style={{ cursor: "pointer" }}
+                            className="cursor-pointer"
                         />
-                        <span
-                            style={{
-                                fontWeight: 600,
-                                fontSize: "18px",
-                                fontFamily: "Gilroy",
-                                paddingLeft: "10px",
-                            }}
-                        >
+                        <span className="font-semibold text-[18px] font-gilroy pl-2.5">
                             EB Bill Overview
                         </span>
                     </div>
 
-                    <div className="card mt-3" style={{
-                        borderRadius: "15px",
-                        position: "sticky",
-                        top: "0",
-                        zIndex: 10,
-                        background: "white"
-                    }}>
+                    <div className="bg-white rounded-[15px] border border-gray-200">
 
+                        <div className="flex items-center gap-3 p-1">
 
-                        <div
-                            className="card-body d-flex align-items-center"
-                            style={{ gap: "12px" }}
-                        >
                             <img
                                 src={tenant?.profilePic || Profile}
                                 alt="Profile"
-                                style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                                className="w-20 h-20 rounded-full ml-3"
                             />
 
                             <div>
-
-                                <p
-                                    className="mb-1"
-                                    style={{
-                                        fontSize: "17px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                    }}
-                                >
+                                <p className="mb-1 text-[17px] font-semibold font-gilroy">
                                     {tenant?.fullName}
-                                    <img src={verify} alt="verify" style={{ marginTop: "-5px" }}></img>
+                                    <img
+                                        src={verify}
+                                        alt="verify"
+                                        className="-mt-1 inline-block"
+                                    />
                                 </p>
 
-                                <div className="d-flex align-items-center" style={{ gap: "16px" }}>
+                                <div className="flex items-center gap-4">
 
-                                    <div className="d-flex align-items-center" style={{ gap: "6px" }}>
+                                    <div className="flex items-center gap-1.5">
                                         <img src={building} height="14" width="14" alt="Floor" />
-                                        <span style={{ color: "Black", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy" }}>
+                                        <span className="text-black font-semibold text-[14px] font-gilroy">
                                             {tenant.floorName}
                                         </span>
                                     </div>
 
-                                    <span style={{ fontSize: "14px", fontWeight: 600, color: "black", marginLeft: 5, fontFamily: "Gilroy" }}>
-
+                                    <span className="text-black font-semibold text-[14px] font-gilroy ml-1">
                                         <img
                                             src={Bed}
                                             height="14"
                                             width="14"
-                                            style={{ marginRight: 6, marginTop: "-4px" }}
                                             alt="Bed"
+                                            className="mr-1.5 -mt-1 inline-block"
                                         />
                                         {tenant.roomName}
                                     </span>
 
-                                    <span
-                                        style={{
-                                            fontSize: "14px",
-                                            fontWeight: 600,
-                                            color: "black",
-                                            marginLeft: 5, fontFamily: "Gilroy"
-                                        }}
-                                    >
+                                    <span className="text-black font-semibold text-[14px] font-gilroy ml-1">
                                         <img
                                             src={Bed}
                                             height="14"
                                             width="14"
-                                            style={{ marginRight: 6, marginTop: "-4px" }}
                                             alt="Bed"
+                                            className="mr-1.5 -mt-1 inline-block"
                                         />
                                         {tenant.bedName}
                                     </span>
@@ -224,231 +184,217 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                         </div>
 
                     </div>
+
                 </div>
 
-                <div className="d-flex align-items-center mb-3 mx-4">
-                    <div
-                        className="d-flex"
-                        style={{ marginLeft: "2px", marginTop: "-10px" }}
-                    >
+
+                <div className="flex items-center mb-3 mx-4">
+
+                    <div className="flex ml-[2px] -mt-2.5">
                         <div
                             onClick={() => setActiveTab("customer")}
-                            style={{
-                                fontSize: 17,
-                                fontFamily: "Gilroy",
-                                color: activeTab === "customer" ? "black" : "#4B4B4B",
-                                fontWeight: activeTab === "customer" ? "600" : "normal",
-                                cursor: "pointer",
-                                marginRight: 24,
-                                paddingBottom: 6,
-                                borderBottom:
-                                    activeTab === "customer"
-                                        ? "2px solid #1E45E1"
-                                        : "2px solid transparent",
-                            }}
+                            className={`text-[17px] font-gilroy cursor-pointer mr-6 pb-1.5 
+            ${activeTab === "customer" ? "text-black font-semibold border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] font-normal border-b-2 border-transparent"}`}
                         >
                             Current Reading
                         </div>
+
                         <div
                             onClick={() => setActiveTab("room")}
-                            style={{
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                color: activeTab === "room" ? "black" : "#4B4B4B",
-                                fontWeight: activeTab === "room" ? "600" : "normal",
-                                cursor: "pointer",
-                                paddingBottom: 6,
-                                borderBottom:
-                                    activeTab === "room"
-                                        ? "2px solid #1E45E1"
-                                        : "2px solid transparent",
-                            }}
+                            className={`text-[16px] font-gilroy cursor-pointer pb-1.5 
+            ${activeTab === "room" ? "text-black font-semibold border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] font-normal border-b-2 border-transparent"}`}
                         >
                             Previous Reading
                         </div>
+
                     </div>
 
-                    <div
-                        className="ms-auto d-flex gap-3 me-2 p-1"
-                        style={{
-                            backgroundColor: "white",
-                            borderRadius: 5,
-                            padding: 6,
-                            boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
-                        }}
-                    >
-                        <FiFilter size={20} style={{ cursor: "pointer" }} />
+                    <div className="ml-auto flex gap-3 mr-2 p-1 bg-white rounded shadow-sm">
+                        <FiFilter size={20} className="cursor-pointer" />
                     </div>
+
                 </div>
 
                 {activeTab === "room" && (
                     billingData?.length === 0 ? (
-                        <div className="d-flex justify-content-center" style={{ textAlign: "center", marginTop: 40 }}>
+
+                        <div className="flex justify-center text-center mt-6">
+
                             <div>
-                            <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                                No Room Reading
+                                <img
+                                    src={emptyimg}
+                                    width={200}
+                                    height={200}
+                                    alt="emptystate"
+                                />
+
+                                <div className="pb-1 mt-2 font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
+                                    No Room Reading
+                                </div>
+
+                                <div className="pb-1 font-medium font-gilroy text-[14px] text-[#4B4B4B]">
+                                    There are no Room Reading available.
+                                </div>
                             </div>
-                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no Room Reading available.
-                            </div>
-                             </div>
+
                         </div>
                     ) : (
-                        <div
-                            className="table-responsive mx-4 show-scrolls"
-                            style={{
-                                background: "#fff",
-                                borderRadius: 12,
-                                boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                                maxHeight: "420px",
-                                overflowY: "auto",
-                            }}
-                        >
-                            <Table bordered={false} className="align-middle mb-0">
-                                <thead
-                                    style={{
-                                        backgroundColor: "rgba(231, 241, 255, 1)",
-                                        position: "sticky",
-                                        top: 0,
-                                        zIndex: 2,
-                                    }}
-                                >
-                                    <tr className="text-uppercase">
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                       <div className="mx-6 bg-white shadow-md max-h-[350px] lg:max-h-[350px] md:max-h-[230px] overflow-y-auto show-scroll border-t border-gray-200">
+
+                            <table className="w-full border-collapse">
+
+                                <thead className="bg-blue-100 sticky top-0 z-10 font-gilroy">
+
+                                    <tr className="text-left">
+                                        
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             BILLING MONTH
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             FROM
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             TO
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             FLOOR
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             ROOM
                                         </th>
-
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
+                                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
                                             BED
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
+                                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
+                                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
                                             AMOUNT
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody style={{ fontSize: 14, color: "#000" }}>
+
+                                <tbody className="text-[14px] text-gray-800 font-gilroy">
                                     <PaginationList>
                                         {billingData?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "" }}>
-
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.billingMonth}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.from}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.to}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.units}</td>
-                                                <td style={{ fontWeight: 600, color: "black" }}>{row.amount}</td>
-
-
+                                            <tr key={i} className="border-b border-gray-300 text-left">
+                                                
+                                               <td className="px-4 py-2">
+                                                    {row.billingMonth}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.from}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.to}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.floor}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.room}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.bed}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.units}
+                                                </td>
+                                               <td className="px-4 py-2">
+                                                    {row.amount}
+                                                </td>
 
                                             </tr>
                                         ))}
                                     </PaginationList>
                                 </tbody>
-                            </Table>
+
+                            </table>
+
                         </div>
                     )
                 )}
 
                 {activeTab === "customer" && (
                     formattedTenantReadings?.length === 0 ? (
-                        <div className="d-flex justify-content-center" style={{ textAlign: "center", marginTop: 40 }}>
-                          <div>
-                            <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                                No Reading
+
+                        <div className="flex justify-center text-center mt-6">
+
+                            <div>
+                                <img
+                                    src={emptyimg}
+                                    width={200}
+                                    height={200}
+                                    alt="emptystate"
+                                />
+
+                                <div className="pb-1 mt-2 font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
+                                    No Reading
+                                </div>
+
+                                <div className="pb-1 font-medium font-gilroy text-[14px] text-[#4B4B4B]">
+                                    There are no reading available.
+                                </div>
                             </div>
-                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no reading available.
-                            </div>
-                            </div>
+
                         </div>
                     ) : (
-                        <div
-                            className="table-responsive mx-4 show-scrolls"
-                            style={{
-                                background: "#fff",
-                                borderRadius: 12,
-                                boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                                maxHeight: "420px",
-                                overflowY: "auto",
-                            }}
-                        >
-                            <Table bordered={false} className="align-middle mb-0">
-                                <thead
-                                    style={{
-                                        backgroundColor: "rgba(231, 241, 255, 1)",
-                                        position: "sticky",
-                                        top: 0,
-                                        zIndex: 2,
-                                    }}
-                                >
-                                    <tr className="text-uppercase">
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+
+                        <div className="mx-6 bg-white shadow-md max-h-[350px] lg:max-h-[350px] md:max-h-[230px] overflow-y-auto show-scroll border-t border-gray-200">
+
+                            <table className="w-full border-collapse">
+
+                                <thead className="bg-blue-100 sticky top-0 z-10 font-gilroy">
+
+                                    <tr className="text-left">
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             BILLING MONTH
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             FROM
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             TO
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             FLOOR
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             ROOM
                                         </th>
-
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             BED
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                                             AMOUNT
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody style={{ fontSize: 14, color: "#000" }}>
+
+                                <tbody className="text-[14px] text-gray-800 font-gilroy">
                                     <PaginationList>
                                         {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", fontFamily: "Gilroy" }}>
+                                            <tr key={i} className="border-b border-gray-300">
 
-                                                <td style={{}}>{row.billingMonth}</td>
-                                                <td style={{}}>{row.from}</td>
-                                                <td style={{}}>{row.to}</td>
-                                                <td style={{}}>{row.floor}</td>
-                                                <td style={{}}>{row.room}</td>
-                                                <td style={{}}>{row.bed}</td>
-                                                <td style={{}}>{row.totalUnits}</td>
-                                                <td style={{}}>{row.amount}</td>
-
-
+                                                <td className="px-4 py-2">{row.billingMonth}</td>
+                                                <td className="px-4 py-2">{row.from}</td>
+                                                <td className="px-4 py-2">{row.to}</td>
+                                                <td className="px-4 py-2">{row.floor}</td>
+                                                <td className="px-4 py-2">{row.room}</td>
+                                                <td className="px-4 py-2">{row.bed}</td>
+                                                <td className="px-4 py-2">{row.totalUnits}</td>
+                                                <td className="px-4 py-2">{row.amount}</td>
 
                                             </tr>
                                         ))}
                                     </PaginationList>
                                 </tbody>
-                            </Table>
+
+                            </table>
+
                         </div>
                     )
                 )}
