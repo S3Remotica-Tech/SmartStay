@@ -42,11 +42,11 @@ function DashQuickAccess(
   const billingSummary = {
     title: "Billing Summary",
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
-    totalAmount: QuickAccess?.billingSummary?.totalAmount,
+    totalAmount: QuickAccess?.billingSummary?.totalAmount || 0,
     collected: ` ${QuickAccess?.billingSummary?.totalPaid || 0}`,
     outstanding: `${QuickAccess?.billingSummary?.totalPending || 0}`,
     collectionRate: `${QuickAccess?.billingSummary?.collectionRate || 0}`,
-    trend: `${QuickAccess?.billingSummary?.fromLastMonth} from last month`,
+    trend: `${QuickAccess?.billingSummary?.fromLastMonth || ""} from last month`,
   };
 
   const dateOptions =
@@ -57,8 +57,8 @@ function DashQuickAccess(
 
 
   const tabs = [
-    { id: "checkin", label: "Upcoming Check-ins", count: `${QuickAccess?.checkins?.length}` },
-    { id: "overdue", label: "Overdue Invoices", count: `${QuickAccess?.overdueInvoices?.length}` },
+    { id: "checkin", label: "Upcoming Check-ins", count: `${QuickAccess?.checkins?.length || "0"}` },
+    { id: "overdue", label: "Overdue Invoices", count: `${QuickAccess?.overdueInvoices?.length || "0"}` },
   ];
 
 

@@ -37,9 +37,9 @@ function DashExpenseProfit() {
     const statsCards = [
         {
             title: "Revenue",
-            amount: `₹ ${ExpenseAnDProfit?.totalIncome}`,
+            amount: `₹ ${ExpenseAnDProfit?.totalIncome ||  0}`,
             subtitle: "this month",
-            change: `${ExpenseAnDProfit?.incomeTrend} %`,
+            change: `${ExpenseAnDProfit?.incomeTrend || 0} %`,
             changeColor: "#EF4444",
             compareText: "vs last time",
             iconBg: "#FFFFFF",
@@ -49,9 +49,9 @@ function DashExpenseProfit() {
         },
         {
             title: "Expenses",
-            amount: `₹ ${ExpenseAnDProfit?.totalExpense}`,
+            amount: `₹ ${ExpenseAnDProfit?.totalExpense || 0}`,
             subtitle: "this month",
-            change: `${ExpenseAnDProfit?.expenseTrend} %`,
+            change: `${ExpenseAnDProfit?.expenseTrend || 0} %`,
             changeColor: "#16A34A",
             compareText: "",
             iconBg: "#FFFFFF",
@@ -61,9 +61,9 @@ function DashExpenseProfit() {
         },
         {
             title: "Profit",
-            amount: `₹ ${ExpenseAnDProfit?.netProfit}`,
+            amount: `₹ ${ExpenseAnDProfit?.netProfit || 0}`,
             subtitle: "this month",
-            change: `${ExpenseAnDProfit?.profitTrend} %`,
+            change: `${ExpenseAnDProfit?.profitTrend || 0} %`,
             changeColor: "#16A34A",
             compareText: "vs last time",
             iconBg: "#FFFFFF",

@@ -17,9 +17,9 @@ function DashRequestAndComplaints() {
     const RequestComplaints = state.PgList?.dashboardList
 
     const requestStats = [
-        { count: `${RequestComplaints?.tenantRequests?.pending}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: `${RequestComplaints?.tenantRequests?.inprogress}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
-        { count: `${RequestComplaints?.tenantRequests?.resolved}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" },
+        { count: `${RequestComplaints?.tenantRequests?.pending || "0"}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
+        { count: `${RequestComplaints?.tenantRequests?.inprogress || "0"}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
+        { count: `${RequestComplaints?.tenantRequests?.resolved || "0"}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" },
     ];
 
     // const requestList = [
@@ -56,9 +56,9 @@ function DashRequestAndComplaints() {
 
 
     const complaintStats = [
-        { count: `${RequestComplaints?.tenantComplaints?.pending}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: `${RequestComplaints?.tenantComplaints?.inprogress}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
-        { count: `${RequestComplaints?.tenantComplaints?.resolved}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" }
+        { count: `${RequestComplaints?.tenantComplaints?.pending || "0"}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
+        { count: `${RequestComplaints?.tenantComplaints?.inprogress || "0"}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
+        { count: `${RequestComplaints?.tenantComplaints?.resolved || "0"}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" }
     ];
 
     const complaintList =
@@ -194,7 +194,7 @@ function DashRequestAndComplaints() {
                             </div>
 
                             <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
-                                Tenant Requests ({`${RequestComplaints?.tenantRequests?.total}`})
+                                Tenant Requests ({`${RequestComplaints?.tenantRequests?.total || "0"}`})
                             </label>
                         </div>
 
@@ -305,7 +305,7 @@ function DashRequestAndComplaints() {
                             </div>
 
                             <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
-                                Tenant Complaints ({`${RequestComplaints?.tenantComplaints?.total}`})
+                                Tenant Complaints ({`${RequestComplaints?.tenantComplaints?.total || "0"}`})
                             </label>
                         </div>
 
