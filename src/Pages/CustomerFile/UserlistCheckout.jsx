@@ -524,54 +524,24 @@ function CheckOut() {
                 <div>
                   {sortedData?.length > 0 ? (
                     <div>
-                      <div className="show-scrolls relative p-2 font-gilroy">
-                        <Table
+                      <div className="show-scrolls relative p-2 font-gilroy mt-3">
+                        {/* <Table
                           responsive="md"
                           className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
 
+                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1"> */}
+
+                        <Table responsive="md"
+                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
                           <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
                             <tr>
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Name
-                                </div>
-                              </th>
-
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Mobile No
-                                </div>
-                              </th>
-
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Floor
-                                </div>
-                              </th>
-
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Room
-                                </div>
-                              </th>
-
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Bed
-                                </div>
-                              </th>
-
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Check-Out Date
-                                </div>
-                              </th>
-
-                              <th>
-                                <div className="flex items-center justify-start gap-1">
-                                  Status
-                                </div>
-                              </th>
+                              <th>Name</th>
+                              <th><div className="-ml-1">Mobile No</div></th>
+                              <th><div className="-ml-2">Floor</div></th>
+                              <th>Room</th>
+                              <th>Bed</th>
+                              <th>Check-Out Date</th>
+                              <th>Status</th>
                             </tr>
                           </thead>
 
@@ -582,42 +552,41 @@ function CheckOut() {
                                   <tr key={checkout.customerId} className="font-gilroy border-b border-[#E8E8E8]">
                                     <td
                                       onClick={() => handleCustomerProfilePage(checkout)}
-                                      className="align-middle border-b border-[#E8E8E8]"
+                                      className="text-start align-middle font-medium whitespace-nowrap"
                                     >
-
                                       <div className="flex items-center">
-                                        <span
-                                          className="text-sm font-semibold font-gilroy text-[#1E45E1] text-start align-middle cursor-pointer customer-name"
+                                        <span 
+                                          className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline"
                                         >
                                           {checkout.firstName}
                                         </span>
                                       </div>
                                     </td>
 
-                                    <td className="p-0 text-sm font-medium font-gilroy text-black text-start align-middle border-b border-gray-300">
+                                    <td className="p-0 text-sm font-medium font-gilroy align-middle border-b border-gray-300 text-[#1E45E1]">
                                       +{checkout?.countryCode} {checkout.mobile}
                                     </td>
 
-                                    <td className="p-0 text-sm font-semibold font-gilroy text-start align-middle whitespace-nowrap border-b border-gray-300">
+                                    <td className="p-0 text-sm font-medium font-gilroy align-middle whitespace-nowrap border-b border-gray-300 text-[#1E45E1]">
                                       {checkout.floorName || "_"}
                                     </td>
 
-                                    <td className="pl-4 text-start text-sm font-semibold font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                    <td className="pl-4 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap text-[#1E45E1]">
                                       {checkout.roomName || "_"}
                                     </td>
 
-                                    <td className="pl-4 text-start text-sm font-semibold font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                    <td className="pl-4 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap text-[#1E45E1]">
                                       {checkout.bedName || "_"}
                                     </td>
 
                                     <td className="p-0 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
-                                      <span className="inline-block px-2.5 py-1.5 rounded-full bg-gray-200 overflow-hidden text-ellipsis whitespace-nowrap align-middle">
+                                      <span className="ml-1 inline-block px-2.5 py-1.5 rounded-full bg-gray-200 overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
                                         {checkout.checkoutDate || "N/A"}
                                       </span>
                                     </td>
 
-                                    <td className="p-0 text-start text-sm font-semibold font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
-                                      <span className="inline-block px-2 py-1 rounded bg-pink-300">
+                                    <td className="p-0 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
+                                      <span className="inline-block px-2 py-1 rounded bg-pink-300 text-[#1E45E1]">
                                         {checkout.currentStatus || "-"}
                                       </span>
                                     </td>

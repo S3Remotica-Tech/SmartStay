@@ -2655,55 +2655,57 @@ function UserList(props) {
 
             <TabContext value={value} className="p-0" >
 
-
               <Tabs
                 activeKey={value}
                 onSelect={(k) => handleChange(null, k)}
                 id="custom-tabs"
-                className="flex w-1/2 gap-5 p-0 pb-2 border-0"
+                className="flex w-1/2 gap-5 p-0 border-0"
               >
-                <Tab className="p-0 "
+
+                <Tab
                   eventKey="1"
                   title={
                     <span
-                      className={`inline-block p-0 capitalize text-[16px] font-gilroy font-medium
-    ${value === "1" ? "text-[#222222] border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] border-b-2 border-white"}
-  `}
+                      className={`capitalize text-[16px] font-gilroy font-medium pb-1 inline-block
+        ${value === "1"
+                          ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                          : "text-[#4B4B4B] border-b-2 border-transparent"
+                        }`}
                     >
                       Tenants
                     </span>
                   }
-                >
-                </Tab>
+                />
+
                 <Tab
                   eventKey="4"
                   title={
                     <span
-                      className={`capitalize text-[16px] font-medium font-gilroy ${value === "4"
-                        ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                        : "text-[#4B4B4B] border-b-2 border-transparent"
+                      className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
+        ${value === "4"
+                          ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                          : "text-[#4B4B4B] border-b-2 border-transparent"
                         }`}
                     >
                       Walk-in
                     </span>
                   }
-                >
-                </Tab>
+                />
+
                 <Tab
                   eventKey="3"
                   title={
                     <span
-                      className={`capitalize text-[16px] font-medium font-gilroy ${value === "3"
-                        ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                        : "text-[#4B4B4B] border-b-2 border-transparent"
+                      className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
+        ${value === "3"
+                          ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                          : "text-[#4B4B4B] border-b-2 border-transparent"
                         }`}
                     >
                       Check-out
                     </span>
                   }
-                >
-                </Tab>
-
+                />
 
               </Tabs>
 
@@ -2721,7 +2723,7 @@ function UserList(props) {
                   </div>
                 ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
 
-                   <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
+                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
                     <div>
                       <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
@@ -2743,8 +2745,8 @@ function UserList(props) {
                 ) : null}
 
                 {canReadTenant && sortedData && sortedData.length > 0 &&
-                  <div className="font-gilroy mb-5 mt-3 px-0 h-[450px] md:h-[350px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px] show-scroll">
-                     <div className="relative h-full overflow-y-auto overflow-x-auto show-scroll">
+                  <div className="font-gilroy mb-5 mt-4 px-0 h-[450px] md:h-[350px] lg:h-[450px] xl:h-[450px] 2xl:h-[740px] show-scroll">
+                    <div className="relative h-full overflow-y-auto overflow-x-auto show-scroll">
                       <div ref={tableRef} className="relative">
                         <Table
                           responsive="md"
@@ -2991,7 +2993,7 @@ function UserList(props) {
 
                       </div>
                     </div>
-                 </div>
+                  </div>
                 }
 
 

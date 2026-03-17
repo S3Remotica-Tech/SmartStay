@@ -490,9 +490,9 @@ const ComplianceList = (props) => {
         </div>
 
       ) : (
-        <div  className="h-full">
-         <div className="bg-white border border-gray-200 rounded-2xl p-3 md:p-4 font-gilroy w-full h-full min-h-[320px] flex flex-col justify-between">
-          <div className="p-3 flex flex-col h-full">
+        <div className="">
+          <div className="bg-white border border-gray-200 rounded-2xl p-3 md:p-4 font-gilroy w-full min-h-[320px] flex flex-col justify-between">
+            <div className="p-3 flex flex-col ">
               <div className="flex justify-between items-start gap-3">
                 <div className="flex flex-wrap gap-2 items-start">
 
@@ -704,9 +704,9 @@ const ComplianceList = (props) => {
               </div>
               <hr className="border border-gray-200" />
 
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
+              {/* <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 mb-4">
 
-                <div className="flex flex-col">
+                <div className="flex flex-col col-span-2 lg:col-span-1">
                   <span className="text-gray-400 text-xs font-medium">
                     Request ID
                   </span>
@@ -715,8 +715,8 @@ const ComplianceList = (props) => {
                     {props.complaints?.complaintId}
                   </span>
                 </div>
-
-                <div className="flex flex-col">
+        
+           <div className="flex flex-col col-span-2 lg:col-span-1">
                   <span className="text-gray-400 text-xs font-medium">
                     Complaint Date
                   </span>
@@ -726,7 +726,7 @@ const ComplianceList = (props) => {
                   </span>
                 </div>
 
-                <div className="flex flex-col col-span-2">
+                 <div className="flex flex-col col-span-2 lg:col-span-1">
                   <span className="text-gray-400 text-xs font-medium">
                     Assigned To
                   </span>
@@ -798,12 +798,162 @@ const ComplianceList = (props) => {
                     </label>
                   </div>
                 </div>
+              </div> */}
+
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 mb-4">
+
+                <div className="flex flex-col md:col-span-2 lg:col-span-1">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Request ID
+                  </span>
+
+                  <span className="text-gray-900 text-sm font-semibold">
+                    {props.complaints?.complaintId}
+                  </span>
+                </div>
+
+                <div className="flex flex-col col-span-2 lg:col-span-1 lg:col-auto">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Complaint Date
+                  </span>
+
+                  <span className="text-gray-900 text-sm font-semibold">
+                    {props.complaints?.complaintDate}
+                  </span>
+                </div>
+
+                <div className="flex flex-col col-span-2 lg:col-span-1 lg:col-auto">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Assigned To
+                  </span>
+
+                  {props.complaints?.assigneeName ? (
+                    <span className="text-gray-900 text-sm font-semibold truncate">
+                      {props.complaints?.assigneeName}
+                    </span>
+                  ) : (
+                    <span
+                      className={`text-sm font-semibold cursor-pointer ${!canWriteComplaints
+                          ? "text-gray-300"
+                          : "text-blue-600 hover:underline"
+                        }`}
+                      onClick={() =>
+                        canWriteComplaints
+                          ? handleAssignOpenClose(props.complaints)
+                          : null
+                      }
+                    >
+                      + Assign
+                    </span>
+                  )}
+                </div>
+
+              </div> */}
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 mb-4"> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mb-4 lg:flex lg:justify-between">
+
+                {/* <div className="flex flex-col"> */}
+                <div className="flex flex-col lg:flex-1">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Request ID
+                  </span>
+
+                  <span className="text-gray-900 text-sm font-semibold">
+                    {props.complaints?.complaintId}
+                  </span>
+                </div>
+
+                {/* <div className="flex flex-col"> */}
+                <div className="flex flex-col lg:flex-1">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Complaint Date
+                  </span>
+
+                  <span className="text-gray-900 text-sm font-semibold">
+                    {props.complaints?.complaintDate}
+                  </span>
+                </div>
+
+                {/* <div className="flex flex-col md:col-span-2 lg:col-span-1"> */}
+                <div className="flex flex-col md:col-span-2 lg:flex-1 lg:items-end">
+                  <span className="text-gray-400 text-xs font-medium">
+                    Assigned To
+                  </span>
+
+                  {props.complaints?.assigneeName ? (
+                    <span className="text-gray-900 text-sm font-semibold truncate">
+                      {props.complaints?.assigneeName}
+                    </span>
+                  ) : (
+                    <span
+                      className={`text-sm font-semibold cursor-pointer ${!canWriteComplaints
+                          ? "text-gray-300"
+                          : "text-blue-600 hover:underline"
+                        }`}
+                      onClick={() =>
+                        canWriteComplaints
+                          ? handleAssignOpenClose(props.complaints)
+                          : null
+                      }
+                    >
+                      + Assign
+                    </span>
+                  )}
+                </div>
+
               </div>
+
+              <div className="grid grid-cols-2 gap-4 lg:flex lg:justify-between">
+                <div className="flex flex-col">
+                  <div className="mb-1">
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
+                      Complaint Types
+                    </label>
+                  </div>
+
+                  <div>
+                    <label
+                      className="text-gray-900 text-sm font-semibold font-gilroy block truncate"
+                      title={props.complaints?.complaintTypeName}
+                    >
+                      {props.complaints?.complaintTypeName}
+                      {props.complaints?.description && (
+                        <span
+                          className="inline-block max-w-[200px] truncate align-middle ml-1 -mt-1"
+                          title={props.complaints?.description}
+                        >
+                          {" - "}{props.complaints?.description}
+                        </span>
+                      )}
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex flex-col lg:items-end">
+                  <div >
+                    <label className="text-gray-400 text-xs font-medium font-gilroy">
+                      Status
+                    </label>
+                  </div>
+
+                  <div>
+                    <label
+                      className={`!text-sm font-gilroy ${props.complaints?.status === "1"
+                        ? "text-green-600"
+                        : "text-orange-500"
+                        }`}
+                    >
+                      {props.complaints?.status === null ? "Open" : props.complaints?.status}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
 
 
               <hr className="!border !border-gray-400" />
               <div className="flex flex-wrap md:flex-nowrap justify-between items-center gap-3 mt-auto">
-               <div className="flex items-center">
+                <div className="flex items-center">
                   {props.complaints?.assigneeName === "" || props.complaints?.assigneeName === null ? (
                     <>
                       <img
@@ -907,7 +1057,7 @@ const ComplianceList = (props) => {
 
                       <div
                         className={`p-2.5 bg-[#F4F5F7] rounded-[10px]
-    ${comments.length > 2 ? "h-[250px] overflow-y-auto" : "h-auto overflow-y-hidden"}
+    ${comments?.length > 2 ? "h-[250px] overflow-y-auto" : "h-auto overflow-y-hidden"}
   `}
                       >
 

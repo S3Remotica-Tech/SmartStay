@@ -34,7 +34,7 @@ function UserListInvoice(props) {
   // const [activeId, setActiveId] = useState(null);
   // const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
- 
+
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
@@ -44,7 +44,7 @@ function UserListInvoice(props) {
 
 
 
-  
+
   const sortedData = React.useMemo(() => {
     return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
   }, [invoiceFilterddata]);
@@ -92,12 +92,12 @@ function UserListInvoice(props) {
   // };
 
   const handleAddBill = () => {
-    
-    navigate('/create-bill', { state: { id: state?.UsersList?.customerdetails?.customerId  } });
+
+    navigate('/create-bill', { state: { id: state?.UsersList?.customerdetails?.customerId } });
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
   };
 
- 
+
 
 
   // const handleDeleteBill = (user) => {
@@ -106,28 +106,23 @@ function UserListInvoice(props) {
 
   // };
 
-  
+
 
 
   return (
     <>
-      <div className="flex justify-end w-full lg:-mt-[70px]" >
-        {
-          state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
+      <div className="flex justify-end w-full lg:-mt-[65px] min-h-[45px]">
+        {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
           <Button
             onClick={handleAddBill}
             disabled={props.customerAdd || !canWriteInvoice}
             className="!font-gilroy text-sm text-white !font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
           >
-            {" "}
             + Create Bill
           </Button>
-        }
+        )}
       </div>
-   
-
-
 
       <div>
         {
@@ -143,41 +138,17 @@ function UserListInvoice(props) {
 
 
             sortedData?.length > 0 ? (
-              <div className={`overflow-auto border-t border-gray-200 mt-5 mb-5 px-0 ${sortedData?.length >= 4 ? "h-64" : "h-auto"
-                }`}
-
-              >
-                <Table className="min-w-full border-collapse w-full font-medium sticky top-0 z-10 font-gilroy">
-
-                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10 font-gilroy">
-                    <tr className="h-7">
-                      <th className="text-start pl-5 whitespace-nowrap">
-                        <div className="flex gap-1 items-center justify-start">Invoice Number</div>
-                      </th>
-                      <th className="text-start whitespace-nowrap">
-                        <div className="flex gap-1 items-center justify-start">Invoice Type</div>
-                      </th>
-                      <th className="text-start whitespace-nowrap">
-                        <div className="flex gap-1 items-center justify-start ml-10">Invoice Date</div>
-                      </th>
-                      <th className="text-start whitespace-nowrap">
-                        <div className="flex gap-1 items-center justify-start ml-12">Due Date</div>
-                      </th>
-                      <th className="text-start">
-                        <div className="flex gap-1 items-center justify-start ml-10">Amount</div>
-                      </th>
-                      <th className="text-start">
-                        <div className="flex gap-1 items-center justify-start ml-12">Due</div>
-                      </th>
-                      <th className="text-start">
-                        <div className="flex gap-1 items-center justify-start ml-4">Status</div>
-                      </th>
-                      {/* {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-                        <th className="text-start text-gray-500 font-medium text-[12px] font-gilroy">
-                          Action
-                        </th>
-                      )} */}
-
+              <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto mt-7">
+                <Table bordered={false} className="align-middle mb-0">
+                  <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
+                    <tr className="text-center">
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Number</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Type</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Date</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due Date</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Amount</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Status</th>
                     </tr>
                   </thead>
 
@@ -188,7 +159,9 @@ function UserListInvoice(props) {
                         // let daydue = dueDated.getDate();
                         // let monthdue = dueDated.getMonth() + 1;
                         // let yeardue = dueDated.getFullYear();
-                        <tr key={view.id} className="border-b border-[#E8E8E8]">
+                        <tr key={view.id}
+                          className="border-b border-[#F9FAFF] text-center font-gilroy tt-[14px] font-medium">
+
                           <td >
                             {view.invoiceNumber}
                           </td>
@@ -460,7 +433,7 @@ function UserListInvoice(props) {
       </div>
 
 
-    
+
 
 
 

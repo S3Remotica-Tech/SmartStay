@@ -453,7 +453,7 @@ const [activeTab, setActiveTab] = useState("kyc");
 
 
           </div>
-          <TabPanel value="1" className="px-0 mt-2">
+          <TabPanel value="1" className="px-0 mt-4">
 
             <div className="container mt-3">
               <div className="row">
@@ -1252,19 +1252,19 @@ const [activeTab, setActiveTab] = useState("kyc");
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="2" className="px-0 mt-2">
+          <TabPanel value="2" className="px-0 mt-3">
             <UserEb
               id={state.UsersList?.customerdetails?.customerId}
 
 
             />
           </TabPanel>
-          <TabPanel value="3" className="px-0 mt-2">
+          <TabPanel value="3" className="px-0 mt-3">
             <UserListInvoice
 
             />
           </TabPanel>
-          <TabPanel value="4" className="px-0 mt-2">
+          <TabPanel value="4" className="px-0 mt-4">
             <TransactionHistory />
           </TabPanel>
         </TabContext>

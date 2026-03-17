@@ -410,7 +410,7 @@ function OccupiedBedStatus({
                                                 {activeRoomIdReserved === index && (
                                                     <div
                                                         ref={popupRef}
-                                                        className="absolute right-0 top-[25px] w-[220px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
+                                                        className="absolute right-12 top-[25px] w-[220px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
                                                     >
                                                         <div
                                                             className={`flex gap-2 items-center p-2 rounded-t-lg ${canWriteCustomers ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-50"
