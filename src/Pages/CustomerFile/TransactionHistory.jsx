@@ -51,7 +51,7 @@ function TransactionHistory() {
 
 
     return (
-        <div className="mt-[50px]">{
+        <div>{
             !canReadTenant ? (
 
                 <div className="flex flex-col items-center justify-center min-h-[45vh]">
@@ -80,23 +80,21 @@ function TransactionHistory() {
                             </div>
                         </div>
                     ) : (
-                        <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto"
-                        >
+                        <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto mt-1">
                             <Table bordered={false} className="align-middle mb-0">
                                 <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
-                                  
-                                    <tr className="text-uppercase text-center">
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">DATE</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">BILL NAME</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">AMOUNT PAID</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">RECEIPT / REF.NO</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">RECEIVED BY</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">PAYMENT MODE</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">STATUS</th>
+                                    <tr className="text-center">
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">DATE</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">BILL NAME</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">AMOUNT PAID</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">RECEIPT / REF.NO</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">RECEIVED BY</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">PAYMENT MODE</th>
+                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">STATUS</th>
                                     </tr>
 
                                 </thead>
-                                <tbody style={{ fontSize: 14, color: "#000" }}>
+                                <tbody className="text-xs align-middle font-gilroy">
                                     <PaginationList>
 
                                         {CustomerOverView?.map((row, i) => {
@@ -106,7 +104,7 @@ function TransactionHistory() {
                                                     key={i}
                                                     className="border-b border-[#F9FAFF] text-center font-gilroy text-[14px] font-medium"
                                                 > 
-                                                    <td className="p-0 text-[13px] font-medium text-gray-400 font-gilroy leading-[1.5]">
+                                                    <td className="p-0 text-[12px] font-medium text-gray-400 font-gilroy leading-[1.5]">
                                                         {formatDate(row.transactionDate)}
                                                     </td>
                                                     <td className="text-[14px] font-medium text-gray-400 font-gilroy leading-[1.5]">
