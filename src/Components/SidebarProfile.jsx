@@ -11,6 +11,7 @@ import User from "../Assets/Images/New_images/user.svg";
 import ArchieveTick from "../Assets/Images/New_images/ArchieveTick.svg";
 import LogoutIcon from "../Assets/Images/New_images/logout.svg";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
+import { useSelector } from "react-redux";
 
 function SidebarProfile({
   profiles,
@@ -20,9 +21,12 @@ function SidebarProfile({
   showProfileCard,
   setShowProfileCard,
   handleShowLogout,
-handleShowsettingsGenaral,
+  handleShowsettingsGenaral,
   profileCardRef,
 }) {
+  const state = useSelector((state) => state);
+
+  console.log("state.UsersList.hostelList", state.UsersList.hostelList)
   return (
     <Offcanvas
       show={showProfileCard}
@@ -49,14 +53,14 @@ handleShowsettingsGenaral,
           ) : (
             <div
               className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fw-semibold"
-              style={{ width: 56, height: 56 , fontFamily:"Gilroy"}}
+              style={{ width: 56, height: 56, fontFamily: "Gilroy" }}
             >
               {stateData?.accountList?.initial || ""}
             </div>
           )}
 
           <div>
-            
+
             <div className="fw-semibold mb-2 fs-5">
               {[stateData?.accountList?.firstName || profilename, stateData?.accountList?.lastName]
                 .filter(Boolean)
@@ -93,7 +97,7 @@ handleShowsettingsGenaral,
           role="button"
           tabIndex={0}
           style={{ cursor: "pointer" }}
-          // title="Close"
+        // title="Close"
         >
           <img src={Icon} alt="close" />
         </div>
@@ -122,7 +126,11 @@ handleShowsettingsGenaral,
                 <span><img src={Buildings} alt="sms" style={{ width: 16, height: 16 }} /></span>
                 <span className="small">
                   {payingGuestName}
-                  <span className="text-primary ms-1">+2more</span>
+                  {state.UsersList.hostelList.length > 2 && (
+                    <span className="text-primary ms-1">
+                      +{state.UsersList.hostelList.length - 2} more
+                    </span>
+                  )}
                 </span>
               </div>
             )}
@@ -164,40 +172,40 @@ handleShowsettingsGenaral,
           </div>
 
           {/* Logout */}
-         <div
-  role="button"
-  onClick={() => {
-    setShowProfileCard(false);
-    handleShowLogout();
-  }}
-  className="d-flex align-items-center gap-2 px-3 py-2 rounded-3"
-  style={{
-    backgroundColor: "#FFF7F7",
-    cursor: "pointer",
-  }}
->
-  <img
-    src={LogoutIcon}
-    alt="logout"
-    style={{
-      width: 18,
-      height: 18,
-      display: "block",   
-    }}
-  />
+          <div
+            role="button"
+            onClick={() => {
+              setShowProfileCard(false);
+              handleShowLogout();
+            }}
+            className="d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+            style={{
+              backgroundColor: "#FFF7F7",
+              cursor: "pointer",
+            }}
+          >
+            <img
+              src={LogoutIcon}
+              alt="logout"
+              style={{
+                width: 18,
+                height: 18,
+                display: "block",
+              }}
+            />
 
-  <span
-    style={{
-      color: "#FF3B30",
-      fontSize: 14,
-      fontWeight: 500,
-      lineHeight: "18px",
-      fontFamily: "Gilroy",
-    }}
-  >
-    Logout
-  </span>
-</div>
+            <span
+              style={{
+                color: "#FF3B30",
+                fontSize: 14,
+                fontWeight: 500,
+                lineHeight: "18px",
+                fontFamily: "Gilroy",
+              }}
+            >
+              Logout
+            </span>
+          </div>
 
         </div>
 
@@ -241,7 +249,7 @@ SidebarProfile.propTypes = {
   showProfileCard: PropTypes.bool.isRequired,
   setShowProfileCard: PropTypes.func.isRequired,
   handleShowLogout: PropTypes.func.isRequired,
-handleShowsettingsGenaral:PropTypes.func.isRequired,
+  handleShowsettingsGenaral: PropTypes.func.isRequired,
   profileCardRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })
