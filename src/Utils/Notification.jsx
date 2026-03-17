@@ -136,7 +136,7 @@ function Notification({ show, handleClose }) {
                 show={show}
                 onHide={handleClose}
                 placement="end"
-                backdrop="static"
+                // backdrop="static"
                 style={{
                     width: 350,
                     fontFamily: "Gilroy",

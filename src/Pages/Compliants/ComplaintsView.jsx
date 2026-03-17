@@ -182,9 +182,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
 
-    console.log("state.ComplianceList.statusCodeForAddComplianceComment", state.ComplianceList.statusCodeForAddComplianceComment)
-
-
+ 
 
 
 
@@ -193,7 +191,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
             show={show}
             onHide={handleClose}
             placement="end"
-            backdrop="static"
+            // backdrop="static"
             className="!w-[355px] !border-l !border-[#E5E7EB] !font-gilroy fixed rounded-[10px]"
             style={{ right: trigger ? 0 : '358px' }}
         >

@@ -103,8 +103,8 @@ function Dashboard() {
       iconColor: "text-[#155DFC]",
       iconBg: "bg-[#EFF6FF]",
       stats: [
-        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms || ""}`, value2: `${dashboardList?.roomsBeds?.totalRooms || ""}` },
-        { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds || ""}` },
+        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`, value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
+        { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds || "0"}` },
       ],
       footer: "Sharing Breakdown",
       sharingData:
@@ -121,8 +121,8 @@ function Dashboard() {
       iconColor: "text-[#00A63E]",
       iconBg: "bg-[#F0FDF4]",
       stats: [
-        { label: "Occupied Beds", value1: `${dashboardList?.occupancy?.occupiedBeds || ""}`, valueColor: "text-green-600" },
-        { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds || ""}`, valueColor: "text-red-500" },
+        { label: "Occupied Beds", value1: `${dashboardList?.occupancy?.occupiedBeds || "0"}`, valueColor: "text-green-600" },
+        { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds || "0"}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
       nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth} from last month`,
@@ -137,11 +137,11 @@ function Dashboard() {
       iconColor: "text-purple-600",
       iconBg: "bg-purple-100",
       stats: [
-        { label: "Total Tenants", value1: `${dashboardList?.tenantsSummary?.totalTenants || ""}` },
-        { label: "Check-in Tenants", value1: `${dashboardList?.tenantsSummary?.checkInTenants || ""}`, valueColor: "text-green-600" },
+        { label: "Total Tenants", value1: `${dashboardList?.tenantsSummary?.totalTenants || "0"}` },
+        { label: "Check-in Tenants", value1: `${dashboardList?.tenantsSummary?.checkInTenants || "0"}`, valueColor: "text-green-600" },
       ],
       footer: "Notice Period",
-      footerValue: `${dashboardList?.tenantsSummary?.noticePeriod || ""} Tenants`,
+      footerValue: `${dashboardList?.tenantsSummary?.noticePeriod || "No"} Tenants`,
       nextCheckout: `${dashboardList?.tenantsSummary?.nextCheckout || ""}`
     },
     {
@@ -381,6 +381,10 @@ function Dashboard() {
   //     setLoading(true);
   //   }
   // }
+
+
+  const isDisabled = import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
+
   return (
 
 
@@ -518,63 +522,74 @@ function Dashboard() {
                               {card.title}
                             </h3>
                           </div>
-                          {["Occupancy", "Tenants", "Advance Holding"].includes(card.title) && (
-                            <div className="relative">
+                          {
+                            !isDisabled &&
 
-                              <span
-                                onClick={() => toggleCard(card.id)}
-                                className="ml-2 bg-white border border-[#D1D5DC] rounded p-1 cursor-pointer whitespace-nowrap inline-flex"
-                              >
-                                {openCards[card.id] ? (
-                                  <ArrowUp2 size="16" color="#1E45E1" />
-                                ) : (
-                                  <ArrowDown2 size="16" color="#1E45E1" />
-                                )}
-                              </span>
-
-                              {openCards[card.id] && (
-                                <div
-                                  ref={dropdownRef}
-                                  className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
+                            ["Occupancy", "Tenants", "Advance Holding"].includes(card.title) && (
+                              <div className="relative">
+                                <span
+                                  onClick={() => !isDisabled && toggleCard(card.id)}
+                                  className={`ml-2 border rounded p-1 whitespace-nowrap inline-flex
+        ${isDisabled
+                                      ? "bg-gray-100 border-gray-200 cursor-not-allowed opacity-60"
+                                      : "bg-white border-[#D1D5DC] cursor-pointer"}
+      `}
                                 >
-                                  {dateOptions?.map((option) => {
+                                  {openCards[card.id] ? (
+                                    <ArrowUp2
+                                      size="16"
+                                      className={isDisabled ? "text-gray-400" : "text-[#1E45E1]"}
+                                    />
+                                  ) : (
+                                    <ArrowDown2
+                                      size="16"
+                                      className={isDisabled ? "text-gray-400" : "text-[#1E45E1]"}
+                                    />
+                                  )}
+                                </span>
 
-                                    const filterKey =
-                                      card.title === "Occupancy"
-                                        ? "occupancy"
-                                        : card.title === "Tenants"
-                                          ? "tenants"
-                                          : "advance";
+                                {/* Dropdown */}
+                                {!isDisabled && openCards[card.id] && (
+                                  <div
+                                    ref={dropdownRef}
+                                    className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
+                                  >
+                                    {dateOptions?.map((option) => {
+                                      const filterKey =
+                                        card.title === "Occupancy"
+                                          ? "occupancy"
+                                          : card.title === "Tenants"
+                                            ? "tenants"
+                                            : "advance";
 
-                                    const isActive = selectedFilters[filterKey] === option.value;
+                                      const isActive =
+                                        selectedFilters[filterKey] === option.value;
 
-                                    return (
-                                      <button
-                                        key={option.value}
-                                        onClick={() => {
-                                          setSelectedFilters((prev) => ({
-                                            ...prev,
-                                            [filterKey]: option.value
-                                          }));
-
-                                          setOpenCards({});
-                                        }}
-                                        className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] transition
+                                      return (
+                                        <button
+                                          key={option.value}
+                                          onClick={() => {
+                                            setSelectedFilters((prev) => ({
+                                              ...prev,
+                                              [filterKey]: option.value,
+                                            }));
+                                            setOpenCards({});
+                                          }}
+                                          className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] transition
               ${isActive
-                                            ? "border-l-2 border-[#1E45E1] bg-[#F6F8FF] text-[#222] font-medium"
-                                            : "text-gray-600 hover:bg-[#F6F8FF]"
-                                          }`}
-                                      >
-                                        {option.label}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              )}
-
-                            </div>
-                          )}
-
+                                              ? "border-l-2 border-[#1E45E1] bg-[#F6F8FF] text-[#222] font-medium"
+                                              : "text-gray-600 hover:bg-[#F6F8FF]"
+                                            }`}
+                                        >
+                                          {option.label}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          }
 
 
                         </div>
@@ -785,7 +800,7 @@ function Dashboard() {
 
 
                 <DashQuickAccess
-                  // billingFilter={handleTriggerFilter}
+                // billingFilter={handleTriggerFilter}
 
                 />
 
