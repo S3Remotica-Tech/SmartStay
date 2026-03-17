@@ -125,7 +125,7 @@ function Dashboard() {
         { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds || "0"}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
-      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth} from last month`,
+      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth || ""} from last month`,
       sharingData: [
         { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
       ]
@@ -156,32 +156,11 @@ function Dashboard() {
 
       ],
       footer: "Others",
+       footerOthers: `${dashboardList?.advanceSummary?.other || "0"}`,
     },
   ];
 
-  const sharingBreakdown = [
-    {
-      type: "1-Sharing",
-      roomsAvailable: 2,
-      rooms: 7,
-      totalBeds: 7,
-      occupied: 5,
-    },
-    {
-      type: "2-Sharing",
-      roomsAvailable: 1,
-      rooms: 5,
-      totalBeds: 10,
-      occupied: 8,
-    },
-    {
-      type: "3-Sharing",
-      roomsAvailable: 2,
-      rooms: 12,
-      totalBeds: 36,
-      occupied: 30,
-    },
-  ];
+  
 
 
   const dateOptions =
@@ -713,7 +692,7 @@ function Dashboard() {
                                 </h3>
                               }
                               {
-                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other}</span>
+                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other || 0}</span>
                               }
 
                               {card.footerValue && (
@@ -722,6 +701,7 @@ function Dashboard() {
                                 </span>
                               )}
 
+                            
                             </div>
                             <div
                               className={`space-y-2 ${card?.sharingData?.length > 0 ? "max-h-[100px] overflow-y-auto show-scrolls" : ""
