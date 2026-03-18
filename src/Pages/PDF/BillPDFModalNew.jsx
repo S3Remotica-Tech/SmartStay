@@ -14,7 +14,7 @@ import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, DocumentDownload } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload, Danger } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,7 @@ import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
 import { BsThreeDotsVertical } from "react-icons/bs";
+import DiscountInvoice from "./DiscountInvoice";
 
 
 
@@ -35,31 +36,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
-  const [payapleform, setPayableForm] = useState(false)
+  const [payapleform, setPayableForm] =  useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
   const modalRef = useRef(null);
-
-
-
-
-
+  const [showDiscountInvoice, setShowDiscountInvoice] =  useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
-
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-
-
+  const innerScrollRef = useRef(null);
+  const [pdfLoading, setPdfLoading] = useState(false)
 
   const menuItems = [
     {
@@ -82,11 +67,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     },
   ];
 
+  const [isOpen, setIsOpen] = useState(false);
 
 
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
-  // const [invoiceValue, setInvoiceValue] = useState("");
 
   const [invoiceList, setInvoiceList] = useState({
     balanceDue: '',
@@ -95,7 +80,29 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
   });
 
-  const cardRef = useRef(null);
+
+  const handleCloseForm = () => {
+
+    setShowform(false);
+    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
+    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+  };
+
+
+
+  const handleDownload = (rowData) => {
+
+    dispatch({
+      type: "INVOICEPDF",
+      payload: {
+        hostelId: rowData.hostelId,
+        invoiceId: rowData.invoiceId,
+      },
+    });
+    setPdfLoading(true)
+
+  };
 
   useEffect(() => {
 
@@ -116,38 +123,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-
-  const handleCloseForm = () => {
-
-    setShowform(false);
-    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
-    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-  };
-
-
-  const innerScrollRef = useRef(null);
-
-
-
-
-  const [pdfLoading, setPdfLoading] = useState(false)
-
-  const handleDownload = (rowData) => {
-
-    dispatch({
-      type: "INVOICEPDF",
-      payload: {
-        hostelId: rowData.hostelId,
-        invoiceId: rowData.invoiceId,
-      },
-    });
-    setPdfLoading(true)
-
-  };
-
-
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state?.InvoiceList?.invoicePDF;
@@ -184,7 +168,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }, [state.InvoiceList.sharePdfSuccess])
 
 
+  useEffect(() => {
+    if (state.InvoiceList.createRefundStatusCode === 200) {
+      setPayableForm(false)
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_REFUND' })
+      }, 100)
+    }
+
+  }, [state.InvoiceList.createRefundStatusCode])
 
 
   const handleBackInvoice = () => {
@@ -200,7 +194,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleShareClick = () => {
     setIsOpen(!isOpen);
@@ -309,19 +302,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }
 
 
+  const handleMakeDiscount = () => {
+    setOpen(false)
+    setShowDiscountInvoice(true)
+  }
+
+  const handleCloseFormDiscount = () => {
+    setShowDiscountInvoice(false)
+  }
 
 
-  useEffect(() => {
-    if (state.InvoiceList.createRefundStatusCode === 200) {
-      setPayableForm(false)
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_CREATE_REFUND' })
-      }, 100)
-    }
-
-  }, [state.InvoiceList.createRefundStatusCode])
 
 
   const statusClasses = {
@@ -335,12 +326,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   };
 
 
+
+
   return (
     <div style={{
       position: 'relative ',
 
     }}>
-
+      {
+        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
+      }
 
       {pdfLoading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -1562,9 +1557,18 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 : "Refund Made"}
             </span>
 
+            <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">
+              {pdfDetails?.paymentHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount > 0
+                ? "No Payments made yet!"
+                : pdfDetails?.refundHistory?.length === 0
+                  ? "No Refund made yet!"
+                  : ""}
+            </span>
+
+
             <div className="flex items-center gap-2">
 
-              {/* Record Payment */}
+
               {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
                 <button
                   disabled={!canWriteInvoice}
@@ -1577,7 +1581,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 </button>
               )}
 
-              {/* Refund */}
+
               {pdfDetails?.invoiceInfo?.totalAmount < 0 &&
                 Number(pdfDetails?.invoiceInfo?.balanceAmount) !== 0 && (
                   <button
@@ -1712,7 +1716,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
               )}
 
 
-              <div className="flex justify-end px-5 py-2 border-t">
+              <div className="flex justify-end px-5 py-2 border-t ">
                 <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
                   Balance Due
                 </span>
@@ -1721,46 +1725,62 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 </span>
               </div>
 
-
-              <div className="relative inline-block" ref={menuRef}>
-                <button
-                  onClick={() => setOpen(!open)}
-                  className="p-2 rounded-md hover:bg-gray-100"
-                >
-                  ⋮
-                </button>
-
-                {open && (
-                  <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                    <ul className="py-1 text-sm text-gray-700">
-
-                      <li
-                        onClick={() => {
-                          console.log("Waive Off clicked");
-                          setOpen(false);
-                        }}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Waive Off
-                      </li>
-
-                      <li
-                        onClick={() => {
-                          console.log("Make Discount clicked");
-                          setOpen(false);
-                        }}
-                        className="px-4 py-2 hover:bg-blue-50 text-blue-600 cursor-pointer"
-                      >
-                        Make Discount
-                      </li>
-
-                    </ul>
-                  </div>
-                )}
-              </div>
-
+             
             </div>
           )}
+
+ {
+                pdfDetails?.invoiceInfo?.totalAmount > 0 &&
+
+                <div className="relative inline-block w-full border-t" ref={menuRef}>
+                  <div className="flex justify-between items-center mx-4 my-1">
+                    <div className="flex justify-between gap-2 items-center">
+                      <Danger size="20" color="#F59E0B" />
+                      <label className="text-sm text-[#4B4B4B] font-medium">Late Fee Detected : ₹</label>
+                    </div>
+                    <div className="flex justify-between gap-2 items-center">
+                      <label className="text-sm text-[#1E45E1] font-medium cursor-pointer" onClick={() => handleMakeDiscount()}>Create Invoice</label>
+                      <button
+                        onClick={() => setOpen(!open)}
+                        className="p-2 rounded-md hover:bg-gray-100"
+                      >
+                        <BsThreeDotsVertical />
+                      </button>
+                    </div>
+                  </div>
+
+                  {open && (
+                    <div ref={menuRef} className="absolute top-[-80px] right-[80px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                      <div className="py-1 text-sm text-gray-700">
+
+
+                        <button
+                          onClick={() => {
+
+                            setOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          Waive Off
+                        </button>
+
+
+                        <button
+                          onClick={() => handleMakeDiscount()}
+                          className="w-full text-left px-4 py-2 hover:bg-blue-50 text-[#4B4B4B] flex items-center gap-2"
+                        >
+                          Make Discount
+                        </button>
+
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              }
+
+
+
         </div>
       )}
 

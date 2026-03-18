@@ -438,7 +438,7 @@ function LongStayRecurringModal() {
 
 
     const isDisabled =
-        billingMethod === "joining_date_based" || !state.UsersList.hotelDetailsinPg?.canModifyBilling;
+        !state.UsersList.hotelDetailsinPg?.canModifyBilling;
 
 
 

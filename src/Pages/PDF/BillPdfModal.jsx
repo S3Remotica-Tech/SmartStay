@@ -283,10 +283,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
   const {
     canWriteModule: canWriteInvoice,
- canReadModule: canReadInvoice,
+    canReadModule: canReadInvoice,
   } = useHasPermission("Bills");
 
-const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
   const isExportAllow = isValidSubscription && canReadInvoice
 
 
@@ -468,8 +468,10 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
             <div className="gap-2 d-flex ">
               <div
                 className="d-flex justify-content-center align-items-center border"
-                style={{ borderRadius: '8px', cursor: isExportAllow ? "pointer" : "not-allowed", height: 30, width: 30,
-                   opacity: isExportAllow ? 1 : 0.5 }}
+                style={{
+                  borderRadius: '8px', cursor: isExportAllow ? "pointer" : "not-allowed", height: 30, width: 30,
+                  opacity: isExportAllow ? 1 : 0.5
+                }}
                 onClick={() => { if (isExportAllow) handleDownload(rowData) }}
               >
                 <DocumentDownload
@@ -550,10 +552,10 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
 
                           <span
                             className={`text-[13px] font-normal font-gilroy ${isDisabled
-                                ? "text-gray-400"
-                                : hoveredItem === item.key
-                                  ? "text-white"
-                                  : "text-[#212529]"
+                              ? "text-gray-400"
+                              : hoveredItem === item.key
+                                ? "text-white"
+                                : "text-[#212529]"
                               }`}
                           >
                             {item.label}
@@ -1720,141 +1722,141 @@ const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionAct
               {
                 pdfDetails?.paymentHistory?.length > 0 &&
 
-                  <Table responsive className="mb-0">
-                    <thead style={{ background: "#F9FAFB" }}>
-                      <tr>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>PAYMENT MODE</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
-                      </tr>
-                    </thead>
+                <Table responsive className="mb-0">
+                  <thead style={{ background: "#F9FAFB" }}>
+                    <tr>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>PAYMENT MODE</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
+                    </tr>
+                  </thead>
 
-                    <tbody>
-                      {pdfDetails?.paymentHistory?.length > 0 ? (
-                        pdfDetails.paymentHistory.map((item, index) => (
-                          <tr key={index}>
-                            <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                             {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
-                            </td>
+                  <tbody>
+                    {pdfDetails?.paymentHistory?.length > 0 ? (
+                      pdfDetails.paymentHistory.map((item, index) => (
+                        <tr key={index}>
+                          <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
+                            {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
+                          </td>
 
 
 
-                            <td
+                          <td
+                            style={{
+                              color: "#1E45E1",
+                              fontWeight: 500,
+                              fontSize: 12,
+                            }}
+                          >
+                            {item.transactionReferenceId || item.referenceNumber || "-"}
+                          </td>
+
+
+                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                            {item.bankAccount}
+                          </td>
+
+
+                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                            ₹{item.amount}
+                          </td>
+
+
+                          <td>
+                            <Badge
+                              bg="success"
                               style={{
-                                color: "#1E45E1",
+                                borderRadius: 20,
                                 fontWeight: 500,
+                                padding: "6px 10px",
                                 fontSize: 12,
                               }}
                             >
-                              {item.transactionReferenceId || item.referenceNumber || "-"}
-                            </td>
-
-
-                            <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              {item.bankAccount}
-                            </td>
-
-
-                            <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              ₹{item.amount}
-                            </td>
-
-
-                            <td>
-                              <Badge
-                                bg="success"
-                                style={{
-                                  borderRadius: 20,
-                                  fontWeight: 500,
-                                  padding: "6px 10px",
-                                  fontSize: 12,
-                                }}
-                              >
-                                ● Paid
-                              </Badge>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
-                            No payments found
-
+                              ● Paid
+                            </Badge>
                           </td>
                         </tr>
-                      )}
-
-                    </tbody>
-                  </Table>
-}
-{pdfDetails?.refundHistory?.length > 0 && 
-                  <Table responsive className="mb-0">
-                    <thead style={{ background: "#F9FAFB" }}>
+                      ))
+                    ) : (
                       <tr>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>RETURNED FROM</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
-                        <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
+                        <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
+                          No payments found
+
+                        </td>
                       </tr>
-                    </thead>
+                    )}
 
-                    <tbody>
-                      {pdfDetails?.refundHistory?.length > 0 ? (
-                        pdfDetails.refundHistory.map((item, index) => (
-                          <tr key={index}>
-                            <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                             {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
-                            </td>
+                  </tbody>
+                </Table>
+              }
+              {pdfDetails?.refundHistory?.length > 0 &&
+                <Table responsive className="mb-0">
+                  <thead style={{ background: "#F9FAFB" }}>
+                    <tr>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>RETURNED FROM</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
+                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
+                    </tr>
+                  </thead>
 
-                            <td
+                  <tbody>
+                    {pdfDetails?.refundHistory?.length > 0 ? (
+                      pdfDetails.refundHistory.map((item, index) => (
+                        <tr key={index}>
+                          <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
+                            {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
+                          </td>
+
+                          <td
+                            style={{
+                              color: "#1E45E1",
+                              fontWeight: 500,
+                              fontSize: 12,
+                            }}
+                          >
+                            {item.transactionReferenceId || item.referenceNumber || "-"}
+                          </td>
+
+
+                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                            {item.bankAccount}
+                          </td>
+
+
+                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                            ₹{item.amount}
+                          </td>
+
+
+                          <td>
+                            <Badge
+                              bg="success"
                               style={{
-                                color: "#1E45E1",
+                                borderRadius: 20,
                                 fontWeight: 500,
+                                padding: "6px 10px",
                                 fontSize: 12,
                               }}
                             >
-                              {item.transactionReferenceId || item.referenceNumber || "-"}
-                            </td>
-
-
-                            <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              {item.bankAccount}
-                            </td>
-
-
-                            <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
-                              ₹{item.amount}
-                            </td>
-
-
-                            <td>
-                              <Badge
-                                bg="success"
-                                style={{
-                                  borderRadius: 20,
-                                  fontWeight: 500,
-                                  padding: "6px 10px",
-                                  fontSize: 12,
-                                }}
-                              >
-                                ● Refunded
-                              </Badge>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
-                            No refund found
-
+                              ● Refunded
+                            </Badge>
                           </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
+                          No refund found
+
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
               }
               <div
                 className="d-flex justify-content-end px-5 py-2"
