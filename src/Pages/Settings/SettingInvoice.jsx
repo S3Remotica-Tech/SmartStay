@@ -1625,20 +1625,23 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 centered
                                 backdrop="static"
                                 className="logout-card flex justify-center items-center"
-                                dialogClassName="custom-modal-width"
+                                dialogClassName="!max-w-[450px] w-full"
                               >
                                 <Modal.Header className="!border-0">
-                                  <Modal.Title className="text-[18px] font-gilroy font-semibold text-center text-[#222222] flex-1 pt-5">
+                                  <Modal.Title className="text-[18px] font-gilroy font-semibold text-center text-[#222222] flex-1 pt-2">
                                     Override Global Value?
                                   </Modal.Title>
                                 </Modal.Header>
 
-                                <Modal.Body className="text-[14px] font-gilroy font-medium text-[#646464] text-center px-5" >
-                                  You’re changing this field only for this bill.
-                                  It won’t affect the main settings.
+                                <Modal.Body className="-mt-2 text-[14px] font-gilroy font-medium text-[#646464] text-center px-6 py-3">
+                                  <p className="mx-auto">
+                                    You’re changing this field only for this bill.
+                                    <br />
+                                    It won’t affect the main settings.
+                                  </p>
                                 </Modal.Body>
 
-                                <Modal.Footer className="!justify-center !border-t-0 !pb-5"
+                                <Modal.Footer className="!justify-center !border-t-0 !pb-5 -mt-5"
                                 >
                                   <Button className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[rgba(111,108,143,1)] !font-gilroy !font-semibold !border !border-gray-500 !mr-2.5"
 
@@ -2537,8 +2540,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 <><SecurityDepositInvoiceTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateThemes={templateThemes} /> </>}
 
               {selectedTab === "rental_receipt" &&
-                <> 
-                <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateReceiptThemes={templateReceiptThemes} /> 
+                <>
+                  <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateReceiptThemes={templateReceiptThemes} />
                 </>
               }
 
@@ -2945,7 +2948,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
               </div>
               :
               <div>
-              
+
                 <div className="bg-white sticky top-0 z-10 pb-2 h-20 shrink-0 mt-2">
                   <label className="text-[18px] font-semibold text-[#222] font-gilroy">
                     Bill Templates
