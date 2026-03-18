@@ -114,6 +114,8 @@ function SmartstayDemo() {
       newErrors.contactNumber = "Please Enter Contact Number";
     } else if (contactNumber.length !== 10) {
       newErrors.contactNumber = "Enter valid 10 digit number";
+    } else if (/^0+$/.test(contactNumber)) {
+      newErrors.contactNumber = "Enter Valid Contact Number";
     }
 
     if (!city) {
@@ -195,11 +197,7 @@ function SmartstayDemo() {
   return (
     <>
       <div className="relative bg-white py-[80px] font-tasa">
-        {formLoading && (
-          <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
+
         <div className=" max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[60px] items-start px-[40px]">
 
 
@@ -257,12 +255,16 @@ function SmartstayDemo() {
 
 
 
-          <div className="bg-white p-[30px] rounded-xl shadow-sm border border-[#D3D3D3] z-50 font-gilroy">
-
+          <div className="relative bg-white p-[30px] rounded-xl shadow-sm border border-[#D3D3D3] z-50 font-gilroy">
+            {formLoading && (
+              <div className="absolute inset-0  flex items-center bg-white/50 justify-center  z-[999]">
+                <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
             <h2 className="text-[22px] font-semibold mb-3">
               Get your personalized Demo
             </h2>
-            <div className="max-h-[450px] overflow-y-auto show-scrolls">
+            <div className="max-h-[450px] overflow-y-auto show-scrolls relative">
 
 
               <div className="mb-3">
@@ -282,7 +284,9 @@ function SmartstayDemo() {
                     }
                   }}
                   placeholder="Enter Name"
-                  className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                  className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]
+    ${name ? "font-semibold text-black" : "font-normal"}
+  `}
                 />
                 {errors.name && (
                   <ErrorMessage message={errors.name} type="error" />
@@ -307,19 +311,35 @@ function SmartstayDemo() {
                           ...base,
                           border: "none",
                           boxShadow: "none",
-                          minHeight: "36px"
+                          minHeight: "36px",
+                          fontWeight: 600,
                         }),
+
+                        singleValue: (base) => ({
+                          ...base,
+                          fontWeight: 600,
+                          color: "#1E1E1E",
+                        }),
+
+                        placeholder: (base) => ({
+                          ...base,
+                          fontWeight: 400,
+                        }),
+
                         menu: (base) => ({
                           ...base,
                           zIndex: 9999
                         }),
+
                         option: (base, state) => ({
                           ...base,
                           cursor: "pointer",
                           backgroundColor: state.isFocused ? "lightblue" : "white",
                           color: "#000",
                           fontFamily: "Gilroy",
+                          fontWeight: state.isSelected ? 600 : 400,
                         }),
+
                         indicatorSeparator: () => ({
                           display: "none",
                         }),
@@ -337,6 +357,14 @@ function SmartstayDemo() {
                       let value = e.target.value;
                       value = value.replace(/\D/g, "");
                       if (value.length > 10) return;
+                      if (/^0+$/.test(value)) {
+                        setContactNumber(value);
+                        setErrors((prev) => ({
+                          ...prev,
+                          contactNumber: "Enter Valid Contact Number",
+                        }));
+                        return;
+                      }
                       setContactNumber(value);
                       setErrors((prev) => ({
                         ...prev,
@@ -345,7 +373,9 @@ function SmartstayDemo() {
                       }));
                     }}
                     placeholder="Enter Contact Number"
-                    className="w-full mt-1 h-10 px-3 text-sm bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                    className={`w-full mt-1 h-10 px-3 text-sm   rounded-md bg-white text-[#808092] outline-none 
+    ${contactNumber ? "font-semibold text-black" : "font-normal"}
+  `}
                   />
                 </div>
                 {(errors.countryCode || errors.contactNumber) && (
@@ -365,7 +395,9 @@ function SmartstayDemo() {
                   placeholder="Enter Mail ID"
                   value={email}
                   onChange={handleEmailChange}
-                  className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                  className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${email ? "font-semibold text-black" : "font-normal"}
+  `}
                 />
                 {errors.email && (
                   <ErrorMessage message={errors.email} type="error" />
@@ -381,7 +413,9 @@ function SmartstayDemo() {
                   placeholder="Eg: Royal Homes"
                   value={organizationName}
                   onChange={(e) => setOrganizationName(e.target.value)}
-                  className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                  className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${organizationName ? "font-semibold text-black" : "font-normal"}
+  `}
                 />
               </div>
 
@@ -395,7 +429,9 @@ function SmartstayDemo() {
                   value={noOfProperties}
                   onChange={(e) => setNoOfProperties(e.target.value)}
                   placeholder="Enter Properties count"
-                  className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                  className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${noOfProperties ? "font-semibold text-black" : "font-normal"}
+  `}
                 />
               </div>
               <div className="mb-3">
@@ -408,7 +444,9 @@ function SmartstayDemo() {
                   value={tenants}
                   onChange={(e) => setTenants(e.target.value)}
                   placeholder="Enter number of tenants"
-                  className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                  className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${tenants ? "font-semibold text-black" : "font-normal"}
+  `}
                 />
               </div>
 
@@ -428,7 +466,9 @@ function SmartstayDemo() {
                       setCity(value);
                       setErrors((prev) => ({ ...prev, city: "" }));
                     }}
-                    className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${city ? "font-semibold text-black" : "font-normal"}
+  `}
                   />
                   {errors.city && (
                     <ErrorMessage message={errors.city} type="error" />
@@ -447,7 +487,9 @@ function SmartstayDemo() {
                       value = value.replace(/[^a-zA-Z\s]/g, "");
                       setCountry(value);
                     }}
-                    className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${country ? "font-semibold text-black" : "font-normal"}
+  `}
                   />
 
                 </div>
@@ -476,6 +518,15 @@ function SmartstayDemo() {
                     valueContainer: (base) => ({
                       ...base,
                       padding: "0 8px"
+                    }),
+                    singleValue: (base) => ({
+                      ...base,
+                      fontWeight: 600, // ✅ selected value bold
+                      color: "#1E1E1E"
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      fontWeight: 400 // optional: keep placeholder normal
                     })
                   }}
                 />
@@ -490,7 +541,9 @@ function SmartstayDemo() {
                   <div className="datepicker-wrapper relative w-full mt-px">
                     <DatePicker
                       ref={demoDateRef}
-                      className="w-full mt-1 h-10 text-xs border border-[#DCDCDC] rounded-md font-gilroy"
+                      className={`w-full mt-1 h-10 text-xs border border-[#DCDCDC] text-black rounded-md font-gilroy 
+  ${demoDate ? "font-bold text-black" : "font-normal text-[#808092]"}
+`}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={demoDate ? dayjs(demoDate) : null}
@@ -519,7 +572,9 @@ function SmartstayDemo() {
                     type="time"
                     value={demoTime}
                     onChange={(e) => setDemoTime(e.target.value)}
-                    className="w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]"
+                    className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${demoTime ? "font-semibold text-black" : "font-normal"}
+  `}
                   />
                 </div>
 

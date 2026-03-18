@@ -325,6 +325,38 @@ body {
   }
 }
 
+.animate-shine {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.6) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  animation: shineMove 3s infinite;
+}
+
+@keyframes shineMove {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shine {
+  animation: shine 3s linear infinite;
+}
      /* @font-face {
        font-family: 'Outfit';
        src: url('/src/Assets/Fonts/Outfit.ttf') format('truetype');

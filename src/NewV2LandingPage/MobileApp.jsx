@@ -41,7 +41,9 @@ function MobileApp() {
                 <div className="mb-8">
                     <h2 className="text-[46px] font-semibold text-[#FFFFFF] whitespace-nowrap">
                         Get
-                        <span className="bg-gradient-to-r from-[#03A7FF] to-[#0565FF] bg-clip-text text-transparent"> Smartstay </span>
+                        <span className="relative  text-transparent bg-clip-text bg-gradient-to-r from-[#03A7FF] to-[#0565FF] overflow-hidden">
+                          <span className="animate-shine">Smartstay</span>  
+                        </span>
                         for Mobile.
                     </h2>
                     <label className="text-[#FFFFFF] mt-2 text-xl font-normal">
@@ -170,7 +172,7 @@ function MobileApp() {
             </div>
 
 
-           
+
 
 
             {/* <div className="bg-white mb-4 mx-auto grid md:grid-cols-10 items-center border border-gray-200 rounded-lg p-4 md:p-8 gap-10">

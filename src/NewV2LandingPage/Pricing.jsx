@@ -92,10 +92,14 @@ function Pricing() {
 
             <div className='flex justify-between '>
                 <div className="mb-8">
-                    <h2 className="text-5xl font-semibold text-[#1E1E1E] ">
+                    <h2 className="text-5xl font-semibold text-[#1E1E1E]">
                         Built to Scale.
                         <br />
-                        <span className="bg-gradient-to-r from-[#03A7FF] to-[#0565FF] bg-clip-text text-transparent">Priced to Grow.</span>
+                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#03A7FF] to-[#0565FF] overflow-hidden">
+                            <span className="animate-shine">
+                                Priced to Grow.
+                            </span>
+                        </span>
                     </h2>
                     <label className="text-[#6B7280] mt-2 text-base font-normal">
                         Start free for 30 days. No credit card required. Cancel anytime.
@@ -113,19 +117,20 @@ function Pricing() {
 
 
                 {pricingPlans.map((plan, index) => (
-                    <div
-                        key={index}
-                        className={`rounded-xl border border-[#E5E5E5] p-4 
-      transition-all duration-300 ease-in-out transform
-      hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02]
+                  <div
+  key={index}
+  className={`rounded-xl border-2 border-gray-200 p-4  shadow-md
+  transition-all duration-300 ease-in-out transform
+  hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02]
+  hover:border-[#1E45E1]
 
-      ${plan.highlight ? "bg-gradient-to-b from-[#FFF1D6] to-[#FFFFFF]" : "bg-white"}
-      
-      ${index === 0 ? "col-span-3" : ""}
-      ${index === 1 ? "col-span-3" : ""}
-      ${index === 2 ? "col-span-2" : ""}
-      `}
-                    >
+  ${plan.highlight ? "bg-gradient-to-b from-[#FFF1D6] to-[#FFFFFF]" : "bg-white"}
+  
+  ${index === 0 ? "col-span-3" : ""}
+  ${index === 1 ? "col-span-3" : ""}
+  ${index === 2 ? "col-span-2" : ""}
+  `}
+>
 
                         <h3 className="text-center text-xl font-semibold text-[#676767]">{plan.name}</h3>
 

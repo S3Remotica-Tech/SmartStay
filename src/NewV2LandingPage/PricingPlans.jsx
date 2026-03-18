@@ -174,9 +174,10 @@ function PricingPlans() {
           {pricingPlans.map((plan, index) => (
             <div
               key={index}
-              className={`rounded-xl border  border-[#E5E5E5] p-4 
-      transition-all duration-300 ease-in-out transform
-      hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02]
+              className={`rounded-xl border-2 border-gray-200 p-4  shadow-md
+  transition-all duration-300 ease-in-out transform
+  hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02]
+  hover:border-[#1E45E1]
 
       ${plan.bg || "bg-white"}
       

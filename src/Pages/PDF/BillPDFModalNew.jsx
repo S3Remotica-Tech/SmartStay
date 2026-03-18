@@ -304,10 +304,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     setPayableForm(false)
   }
 
-const handleWaiveOff = () =>{
-   setOpen(false)
-   setShowWaiveModal(true)
-}
+  const handleWaiveOff = () => {
+    setOpen(false)
+    setShowWaiveModal(true)
+  }
 
 
   const handleMakeDiscount = () => {
@@ -341,7 +341,7 @@ const handleWaiveOff = () =>{
       position: 'relative ',
 
     }}>
-      
+
       {pdfLoading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -1760,16 +1760,21 @@ const handleWaiveOff = () =>{
 
 
                     <button
-                      onClick={() => handleWaiveOff()}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                      onClick={handleWaiveOff}
+                      disabled={!canWriteInvoice}
+                      className={`w-full text-left px-4 py-2 flex items-center gap-2
+    ${canWriteInvoice ? "hover:bg-gray-100 cursor-pointer" : "opacity-50 cursor-not-allowed"}
+  `}
                     >
                       Waive Off
                     </button>
 
-
                     <button
-                      onClick={() => handleMakeDiscount()}
-                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-[#4B4B4B] flex items-center gap-2"
+                      onClick={handleMakeDiscount}
+                      disabled={!canWriteInvoice}
+                      className={`w-full text-left px-4 py-2 flex items-center gap-2
+    ${canWriteInvoice ? "hover:bg-blue-50 text-[#4B4B4B] cursor-pointer" : "opacity-50 cursor-not-allowed text-gray-400"}
+  `}
                     >
                       Make Discount
                     </button>
@@ -1793,7 +1798,7 @@ const handleWaiveOff = () =>{
         />
       }
 
-{
+      {
         showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
       }
 

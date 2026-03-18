@@ -61,44 +61,6 @@ function UserAdditionalContact(props) {
   });
 
 
-  // const indianStates = [
-  //   { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-  //   { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-  //   { value: "Assam", label: "Assam" },
-  //   { value: "Bihar", label: "Bihar" },
-  //   { value: "Chhattisgarh", label: "Chhattisgarh" },
-  //   { value: "Goa", label: "Goa" },
-  //   { value: "Gujarat", label: "Gujarat" },
-  //   { value: "Haryana", label: "Haryana" },
-  //   { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-  //   { value: "Jharkhand", label: "Jharkhand" },
-  //   { value: "Karnataka", label: "Karnataka" },
-  //   { value: "Kerala", label: "Kerala" },
-  //   { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-  //   { value: "Maharashtra", label: "Maharashtra" },
-  //   { value: "Manipur", label: "Manipur" },
-  //   { value: "Meghalaya", label: "Meghalaya" },
-  //   { value: "Mizoram", label: "Mizoram" },
-  //   { value: "Nagaland", label: "Nagaland" },
-  //   { value: "Odisha", label: "Odisha" },
-  //   { value: "Punjab", label: "Punjab" },
-  //   { value: "Rajasthan", label: "Rajasthan" },
-  //   { value: "Sikkim", label: "Sikkim" },
-  //   { value: "Tamil Nadu", label: "Tamil Nadu" },
-  //   { value: "Telangana", label: "Telangana" },
-  //   { value: "Tripura", label: "Tripura" },
-  //   { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-  //   { value: "Uttarakhand", label: "Uttarakhand" },
-  //   { value: "West Bengal", label: "West Bengal" },
-  //   { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
-  //   { value: "Chandigarh", label: "Chandigarh" },
-  //   { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
-  //   { value: "Delhi", label: "Delhi" },
-  //   { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-  //   { value: "Ladakh", label: "Ladakh" },
-  //   { value: "Lakshadweep", label: "Lakshadweep" },
-  //   { value: "Puducherry", label: "Puducherry" },
-  // ];
 
   useEffect(() => {
     if (props.contactEdit && props.editAdditional) {
@@ -148,116 +110,10 @@ function UserAdditionalContact(props) {
 
 
 
-  // const handleHouseNo = (e) => {
-  //   setHouseNo(e.target.value);
-  //   setHouse_NoError("")
-
-  // };
-
-  // const handleStreetName = (e) => {
-  //   setStreet(e.target.value);
-  //   setStreetError("");
-
-
-
-  // }
-
-  // const handleLandmark = (e) => {
-  //   setLandmark(e.target.value);
-  //   setLandmarkError("");
-
-  // }
-
-
-  // const handlePinCodeChange = (e) => {
-  //   const value = e.target.value;
-
-  //   if (!/^\d{0,6}$/.test(value)) return;
-
-  //   setPincode(value);
-
-  //   if (value.length === 6) {
-  //     setPincodeError("");
-  //   } else {
-  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  //   }
-  //   setFormError("")
-  // };
-
-
-
-
-  // const handleCity = (e) => {
-  //   const value = e.target.value;
-  //   const regex = /^[a-zA-Z\s]*$/;
-  //   if (regex.test(value)) {
-  //     setCity(value);
-  //     setCityError("");
-  //     setFormError("");
-  //   }
-  // }
-  // const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
-  //   const trimmedValue = (value ?? "").toString().trim();
-
-  //   const isValueEmpty =
-  //     trimmedValue === "" || trimmedValue === "null" || trimmedValue === "undefined" || trimmedValue === "0";
-
-  //   if (isValueEmpty) {
-  //     switch (fieldName) {
-  //       case "gurardian":
-  //         setError("Please Enter Guardian Name");
-  //         break;
-  //       case "userName":
-  //         setError("Please Enter User Name");
-  //         break;
-  //       case "Phone":
-  //         setError("Please Enter your Phone No");
-  //         break;
-  //       case "City":
-  //         setError("Please Enter City");
-  //         break;
-  //       case "Pincode":
-  //         setError("Please Enter Pincode");
-  //         break;
-  //       case "Statename":
-  //         setError("Please Select State");
-  //         break;
-  //       default:
-  //         break;
-  //     }
-
-  //     if (!focusedRef.current && ref?.current) {
-  //       ref.current.focus();
-  //       focusedRef.current = true;
-  //     }
-
-  //     return false;
-  //   }
-
-
-  //   if (fieldName === "Pincode" && trimmedValue.length !== 6) {
-  //     setError("Pin Code Must Be Exactly 6 Digits");
-
-  //     if (!focusedRef.current && ref?.current) {
-  //       ref.current.focus();
-  //       focusedRef.current = true;
-  //     }
-
-  //     return false;
-  //   }
-
-  //   setError("");
-  //   return true;
-  // };
-
-
 
   const usernameRef = useRef(null)
   const guardianRef = useRef(null)
   const PhoneRef = useRef(null)
-  // const cityRef = useRef(null)
-  // const pincodeRef = useRef(null)
-  // const stateRef = useRef(null)
   const nochangeRef = useRef(null)
 
 
@@ -267,12 +123,6 @@ function UserAdditionalContact(props) {
     const focusedRef = { current: false };
 
 
-    // if (!validateAssignField(userName, "userName", usernameRef, setUserNameError, focusedRef)) hasError = true;
-    // if (!validateAssignField(guardian, "gurardian", guardianRef, setGuardianError, focusedRef)) hasError = true;
-    // if (!validateAssignField(Phone, "Phone", PhoneRef, setPhoneError, focusedRef)) hasError = true;
-    // if (!validateAssignField(city, "City", cityRef, setCityError, focusedRef)) hasError = true;
-    // if (!validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
-    // if (!validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
 
 
     if (Phone && Phone.length !== 10) {
@@ -716,24 +566,37 @@ function UserAdditionalContact(props) {
                           </span>
                         </Form.Label>
 
-                        <InputGroup>
-                          <Form.Select
-                            value={countryCode}
-                            id="vendor-select-pg"
-                            className={`border border-[#D9D9D9] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy ${countryCode ? 'font-semibold' : 'font-medium'} shadow-none bg-white max-w-[80px] pr-[10px]`}
-                          >
-                            <option>+{countryCode}</option>
-                          </Form.Select>
-                          <Form.Control
-                            value={Phone}
-                            ref={PhoneRef}
-                            onChange={handlePhone}
-                            type="text"
-                            placeholder="9876543210"
-                            maxLength={10}
-                            className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
-                          />
-                        </InputGroup>
+                       <InputGroup className="!flex">
+
+  <Form.Select
+    value={countryCode}
+    id="vendor-select-pg"
+    className={`border border-[#D9D9D9] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy 
+    ${countryCode ? 'font-semibold' : 'font-medium'} 
+    shadow-none bg-white max-w-[80px] pr-[10px]
+
+    !rounded-l-[8px] !rounded-r-none   
+    !border-r-0                      
+    `}
+  >
+    <option>+{countryCode}</option>
+  </Form.Select>
+
+  <Form.Control
+    value={Phone}
+    ref={PhoneRef}
+    onChange={handlePhone}
+    type="text"
+    placeholder="9876543210"
+    maxLength={10}
+    className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none 
+    border border-[#D9D9D9] h-[50px] mt-0 w-full px-3
+
+    !rounded-r-[8px] !rounded-l-none   // ✅ force override
+    "
+  />
+
+</InputGroup>
                         <p
                           id="MobileNumberError"
                           className="text-red-500 text-[12px] mt-[5px]"
@@ -1115,7 +978,7 @@ function UserAdditionalContact(props) {
                       className="w-full mt-1 !whitespace-nowrap !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy !px-[40px] py-2"
 
                     >
-                     Coming Soon
+                      Coming Soon
                     </Button>
                   </div>
                 </Modal.Footer>
