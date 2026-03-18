@@ -2074,10 +2074,9 @@ function Sidebar() {
               +
             </button>
 
-            {/* Icon Section */}
+            
             <div className="flex flex-col items-center justify-start gap-4 mt-7">
 
-              {/* Search */}
               <div
                 className="relative flex flex-col items-center gap-1 cursor-pointer"
                 title="Search"
@@ -2085,7 +2084,7 @@ function Sidebar() {
                 <img src={SearchVector} alt="Search" className="w-6 h-6" />
               </div>
 
-              {/* Notification */}
+       
               <div
                 onClick={handleShowNotification}
                 onMouseEnter={() => handleMouseEnter("notification")}

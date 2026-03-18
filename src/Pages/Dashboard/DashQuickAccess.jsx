@@ -34,7 +34,7 @@ function DashQuickAccess(
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [showform, setShowform] = useState(false);
   const QuickAccess = state.PgList?.dashboardList
-  const [invoiceValue, setInvoiceValue] = useState("");
+  // const [invoiceValue, setInvoiceValue] = useState("");
   const [invoiceList, setInvoiceList] = useState('')
   const [selectedUserId, setSelectedUserId] = useState("")
   const [BookingAssignForm, setBookingAssignForm] = useState(false)
@@ -190,15 +190,12 @@ function DashQuickAccess(
 
     setShowform(true)
     setSelectedUserId(item.customerId)
-    setInvoiceList({
+       setInvoiceList({
       balanceDue: item?.dueAmount,
-      InvoiceId: item?.invoiceId,
+      invoiceId: item?.invoiceId,
+      invoiceDate: item?.invoiceDate
     })
-    setInvoiceValue({
-      Date: item?.invoiceDate,
-      invoiceId: item?.invoiceId
-    })
-
+   
 
   }
 
@@ -264,7 +261,7 @@ function DashQuickAccess(
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
           selectedUserId={selectedUserId}
-          invoiceValue={invoiceValue}
+          // invoiceValue={invoiceValue}
           invoiceList={invoiceList}
         />
 
