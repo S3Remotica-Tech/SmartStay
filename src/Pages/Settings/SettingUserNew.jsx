@@ -407,11 +407,11 @@ function SettingNewUser() {
                         <img src={emptyimg} alt="Empty state" />
                       </div>
 
-                      <div className="pb-1 text-lg font-semibold font-gilroy text-[#4B4B4B]">
-                        No Staff
+                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                        No Staff 
                       </div>
 
-                      <div className="pb-1 text-base font-medium font-gilroy text-[#4B4B4B]">
+                      <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
                         There are no staff's available
                       </div>
                     </div>

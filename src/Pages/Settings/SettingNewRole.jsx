@@ -362,11 +362,11 @@ function SettingNewRole() {
                       <img src={EmptyState} alt="Empty state" />
                     </div>
 
-                    <div className="pb-1 text-lg font-semibold font-gilroy text-[#4B4B4B]">
+                    <div className="text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
                       No Roles
                     </div>
 
-                    <div className="pb-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
+                    <div className="text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
                       There are no Roles available
                     </div>
                   </div>

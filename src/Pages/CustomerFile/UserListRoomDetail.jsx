@@ -2884,7 +2884,8 @@ useEffect(() => {
               </TabList>
             </Box>
           </div>
-          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full">
+          {/* <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full"> */}
+          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full max-h-[320px] overflow-y-auto show-scroll">
             <>
               <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">
 
@@ -2968,7 +2969,7 @@ useEffect(() => {
                   </div>
 
 
-                  <div className="flex-1 bg-white h-auto max-h-[240px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
+                  <div className="show-scrol flex-1 bg-white h-auto max-h-[240px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
 
                     <div className="card-header flex justify-between items-center border-0 bg-transparent" >
                       <div className="card-header p-0 border-0 bg-transparent w-full">
@@ -3071,7 +3072,7 @@ useEffect(() => {
                                 <div className="flex items-center gap-2 -mt-3">
                                   <img src={PincodeImage} alt="pincode" className="w-4 h-4" />
                                   <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
-                                    {CustomerOverView.address?.pincode}
+                                    {CustomerOverView.address?.pincode || ""}
                                   </span>
                                 </div>
                               </div>
@@ -3996,7 +3997,7 @@ useEffect(() => {
                           </div>
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
-                            <Form.Group className="">
+                            <Form.Group>
                               <Form.Label className="text-sm text-gray-900 font-medium font-gilroy"
 
                               >
