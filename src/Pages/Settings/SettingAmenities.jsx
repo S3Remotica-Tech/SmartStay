@@ -555,7 +555,7 @@ function SettingAmenities() {
                                             <img src={EmptyState} alt="Empty state" />
                                         </div>
 
-                                        <div className="pb-1 text-[15px] font-medium font-gilroy text-[#4B4B4B]">
+                                        <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
                                             No Amenities available
                                         </div>
                                     </div>

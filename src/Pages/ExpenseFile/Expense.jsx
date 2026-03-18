@@ -1032,10 +1032,10 @@ function Expenses({ allPageHostel_Id }) {
                       alt="Empty state"
                     />
                   </div>
-                  <div className="pb-1 text-center font-semibold text-[18px] text-[#4B4B4B] font-gilroy">
+                  <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
                     No expenses available
                   </div>
-                  <div className="pb-1 text-center font-medium text-[14px] text-[#4B4B4B] font-gilroy">
+                  <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
                     There are no expenses available.
                   </div>
                 </div>
