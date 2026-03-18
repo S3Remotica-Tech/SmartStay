@@ -27,7 +27,7 @@ function BusinessChallenges() {
         />
 
         <div
-          className={`absolute -top-24 left-1/2 -translate-x-1/2 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
+          className={`absolute -top-24 left-1/6 -translate-x-1/2 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
           style={{ animationDelay: "0.1s" }}
         >
