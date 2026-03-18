@@ -43,57 +43,15 @@ const InvoicePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [invoiceValue, setInvoiceValue] = useState("");
-  // const [initials, setInitials] = useState("");
-  // const [formRecordLoading, setFormRecordLoading] = useState(false)
-  // const dropdownRef = useRef(null);
+
   const [invoiceList, setInvoiceList] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    hostel_Name: "",
-    hostel_Id: "",
-    FloorNo: "",
-    RoomNo: "",
-    date: "",
-    paymentType: "",
-    amount: "",
-    balanceDue: "",
-    dueDate: "",
-    payableAmount: "",
-    InvoiceId: "",
-    invoice_type: "",
-    transaction: "",
+    balanceDue: '',
+    invoiceId: '',
+    invoiceDate: '',
   });
-
-
-
-
-
-
-  // const location = useLocation();
-
-  // const isDuplicate = location.pathname.includes("/invoice/new/");
-
-
-  // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
-
-
-
-
-
-
-  // const [showSearchFilter, setShowSearchFilter] = useState(false);
-  // const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
-
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("ALL");
   const [selectedUserId, setSelectedUserId] = useState("");
-  // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
-  // const [amounterrormsg, setAmountErrmsg] = useState("");
-  // const [dateerrmsg, setDateErrmsg] = useState("");
-  // const [totalErrormsg, setTotalErrmsg] = useState("");
   const [customername, setCustomerName] = useState("");
   const [startdate, setStartDate] = useState(null);
   const [enddate, setEndDate] = useState(null);
@@ -102,13 +60,10 @@ const InvoicePage = () => {
 
   const [bills, setBills] = useState([]);
 
-  // const [account, setAccount] = useState("");
-  // const [accountError, setAccountError] = useState("");
   const startRef = useRef(null);
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
-  // const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
   const [receiptformShow, setReceiptFormShow] = useState(false);
   const [showAllBill, setShowAllBill] = useState(true);
@@ -694,42 +649,13 @@ const InvoicePage = () => {
 
   const handleShowForm = (props) => {
     setShowform(true);
-
-    setInvoiceValue(props.item);
-
+    // setInvoiceValue(props.item);
     if (props.item.invoiceId !== undefined) {
-
-      const dateObject = new Date(props.item.Date);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-
-      const lastDayOfMonth = new Date(year, month, 0);
-      const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
-        lastDayOfMonth.getMonth() + 1
-      ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
-
       setSelectedUserId(props.item.customerId);
-      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-        day
-      ).padStart(2, "0")}`;
       setInvoiceList({
-        id: props.item?.id,
-        firstName: props.item?.firstName,
-        lastName: props.item?.lastName,
-        phone: props.item?.phoneNo,
-        email: props.item?.EmailID,
-        hostel_Name: props.item?.Hostel_Name,
-        hostel_Id: props.item?.Hostel_Id,
-        FloorNo: props?.item?.Floor_Id,
-        RoomNo: props?.item?.Room_No,
-        date: formattedDate,
-        amount: props.item?.invoiceAmount,
-        paidAmount: props.item?.paidAmount,
         balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
-        dueDate: formattedDueDate,
-        InvoiceId: props.item?.invoiceId,
-        invoice_type: props.item?.invoiceType,
+        invoiceId: props.item?.invoiceId,
+        invoiceDate: props.item.invoiceDate,
       });
 
     } else {
@@ -755,19 +681,9 @@ const InvoicePage = () => {
     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
     setInvoiceList({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      hostel_Name: "",
-      hostel_Id: "",
-      FloorNo: "",
-      RoomNo: "",
-      amount: "",
-      balanceDue: "",
-      dueDate: "",
-      transaction: "",
-      paymentType: "",
+      balanceDue: '',
+      invoiceId: '',
+      invoiceDate: '',
     });
     // setSelectedDate(null);
   };
@@ -1200,29 +1116,29 @@ const InvoicePage = () => {
   //   sendWhatsAppMessage("receipt");
   // }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
 
-  useEffect(() => {
-    if (selectedUserId) {
-      const filteredDetails = state.UsersList?.Users?.listCustomers?.find(
-        (item) => item.User_Id === selectedUserId
-      );
-      if (filteredDetails) {
+  // useEffect(() => {
+  //   if (selectedUserId) {
+  //     const filteredDetails = state.UsersList?.Users?.listCustomers?.find(
+  //       (item) => item.User_Id === selectedUserId
+  //     );
+  //     if (filteredDetails) {
 
-        setInvoiceList({
-          ...invoiceList,
-          firstName: filteredDetails.Name.split(" ")[0] || "",
-          lastName: filteredDetails.Name.split(" ")[1] || "",
-          phone: filteredDetails.Phone || "",
-          email: filteredDetails.Email || "",
-          hostel_Name: filteredDetails.HostelName || "",
-          hostel_Id: filteredDetails.Hostel_Id || "",
-          FloorNo: filteredDetails.Floor || "",
-          RoomNo: filteredDetails.Rooms || "",
-        });
-      }
+  //       // setInvoiceList({
+  //       //   ...invoiceList,
+  //       //   firstName: filteredDetails.Name.split(" ")[0] || "",
+  //       //   lastName: filteredDetails.Name.split(" ")[1] || "",
+  //       //   phone: filteredDetails.Phone || "",
+  //       //   email: filteredDetails.Email || "",
+  //       //   hostel_Name: filteredDetails.HostelName || "",
+  //       //   hostel_Id: filteredDetails.Hostel_Id || "",
+  //       //   FloorNo: filteredDetails.Floor || "",
+  //       //   RoomNo: filteredDetails.Rooms || "",
+  //       // });
+  //     }
 
-    }
+  //   }
 
-  }, [selectedUserId, state.UsersList?.Users.listCustomers, state.InvoiceList?.Invoice]);
+  // }, [selectedUserId, state.UsersList?.Users.listCustomers, state.InvoiceList?.Invoice]);
 
 
   useEffect(() => {
@@ -1860,7 +1776,9 @@ const InvoicePage = () => {
 
 
       {showform && (
-        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId} invoiceValue={invoiceValue} invoiceList={invoiceList} />
+        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId}
+          // invoiceValue={invoiceValue}
+          invoiceList={invoiceList} />
 
       )}
     </div>

@@ -8,6 +8,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import "../Bills/Invoices.css";
 import "flatpickr/dist/themes/material_blue.css";
 import BillPdfModal from "../PDF/BillPdfModal";
+import BillPDFModalNew from "../PDF/BillPDFModalNew"
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import '../OthersComponent/BillPdfModal.css';
@@ -357,7 +358,8 @@ function BillsPdfDetails() {
                         overflowY: "auto",
                     }}
                 >
-                    <BillPdfModal rowData={rowData || rowDatas} isReportsInvoiceRegisterWay={isReportsInvoiceRegisterWay} />
+                    {/* <BillPdfModal rowData={rowData || rowDatas} isReportsInvoiceRegisterWay={isReportsInvoiceRegisterWay} /> */}
+                     <BillPDFModalNew rowData={rowData || rowDatas} isReportsInvoiceRegisterWay={isReportsInvoiceRegisterWay} />
                 </div>
 
 

@@ -23,6 +23,22 @@ function SettingAllPages({ isVisibleSidebar }) {
 
 
 
+
+useEffect(() => {
+  const path = location.pathname;
+
+  const lastSegment = path.split("/").pop(); 
+
+  if (lastSegment) {
+    setActivePage(
+      lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1)
+    );
+  }
+}, [location.pathname]);
+
+
+
+
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {
   //     setHostel_Id(state.login.selectedHostel_Id)
@@ -70,7 +86,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   useEffect(() => {
     if (isVisibleSidebar) {
-      setIsSidebarOpen(false);
+          setIsSidebarOpen(false);
       setIsInvoiceAddMode(true);
     } else {
       setIsSidebarOpen(true);

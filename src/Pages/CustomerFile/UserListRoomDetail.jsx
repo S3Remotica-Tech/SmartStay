@@ -189,7 +189,7 @@ function UserListRoomDetail(props) {
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
-const menuRef = useRef(null);
+  const menuRef = useRef(null);
 
 
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
@@ -256,19 +256,19 @@ const menuRef = useRef(null);
   }, [totriggerBillTap, IsOverView, scrollTo]);
 
 
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setOpenMenu(false);
-    }
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenu(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -2654,7 +2654,7 @@ useEffect(() => {
                 </button>
 
                 {openMenu && (
-                  <div  ref={menuRef} className="absolute right-8 -mt-[52px] w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20">
+                  <div ref={menuRef} className="absolute right-8 -mt-[52px] w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20">
 
 
                     {
@@ -2670,7 +2670,7 @@ useEffect(() => {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-600 hover:bg-gray-100
+    text-gray-900 hover:bg-gray-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2691,7 +2691,7 @@ useEffect(() => {
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-600 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
                           <ArrowSwapHorizontal
                             size={16}
@@ -2713,7 +2713,7 @@ useEffect(() => {
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-600 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
                           <LogoutCurve
                             size="18"
@@ -2721,7 +2721,7 @@ useEffect(() => {
                           />
                           Generate
                         </button>
-                  <div className="h-px bg-gray-300" />
+                        <div className="h-px bg-gray-300" />
                         <button
                           disabled={!canWriteTenant}
                           onClick={() => {
@@ -2732,7 +2732,7 @@ useEffect(() => {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-600 hover:bg-gray-100
+    text-gray-900 hover:bg-gray-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2761,7 +2761,7 @@ useEffect(() => {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-600 hover:bg-gray-100
+    text-gray-900 hover:bg-gray-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2784,7 +2784,7 @@ useEffect(() => {
                           handleShowWalletHistory();
                           setOpenMenu(null);
                         }}
-                        className="w-full px-3 py-2 text-left text-sm text-gary-600 hover:bg-gray-100 flex items-center gap-2"
+                        className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
                       >
                         <WalletCheck
                           size="18"
@@ -2803,7 +2803,7 @@ useEffect(() => {
                             setOpenMenu(null);
                           }}
                           type="button"
-                          className="w-full px-3 py-2 text-left text-sm text-gray-600 hover:bg-gray-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
+                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
         disabled:cursor-not-allowed"
                         >
                           <AddCircle size="18" color={canWriteTenant ? "#1E45E1" : "#9CA3AF"} />
@@ -2820,7 +2820,7 @@ useEffect(() => {
                           }}
                           className="
         w-full px-3 py-2 text-left text-sm flex items-center gap-2
-        text-gray-600 hover:bg-gray-100
+        text-gray-900 hover:bg-gray-100
         disabled:text-gray-400
         disabled:cursor-not-allowed
         disabled:hover:bg-transparent
@@ -2854,7 +2854,7 @@ useEffect(() => {
 
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                 className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
+                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
 
               >
                 <Tab
@@ -2884,7 +2884,6 @@ useEffect(() => {
               </TabList>
             </Box>
           </div>
-          {/* <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full"> */}
           <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full max-h-[320px] overflow-y-auto show-scroll">
             <>
               <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">

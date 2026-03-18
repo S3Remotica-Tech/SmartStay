@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
-import DownLoad from '../../Assets/Images/New_images/searchss.png'
+// import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
 import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'
 import Whatsapp_white from '../../Assets/Images/whatsapp_white.png'
@@ -11,12 +11,10 @@ import Mail_white from '../../Assets/Images/gmail_white.png'
 import Message_text from '../../Assets/Images/message-text.png'
 import Message_text_white from '../../Assets/Images/message-white.png'
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-// import html2canvas from "html2canvas";
-// import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, DocumentDownload } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload, Danger } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +24,9 @@ import { ArrowUp2, ArrowDown2, AddCircle } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
-
-
+import { BsThreeDotsVertical } from "react-icons/bs";
+import DiscountInvoice from "./DiscountInvoice";
+import WaiveOFFConfirm from "./WaiveOFFConfirm"
 
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
@@ -37,19 +36,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
-  const [payapleform, setPayableForm] = useState(false)
+  const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
   const modalRef = useRef(null);
-
-
-
-
-
-
-
-
-
+  const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef();
+  const innerScrollRef = useRef(null);
+  const [pdfLoading, setPdfLoading] = useState(false)
+  const [showWaiveModal, setShowWaiveModal] = useState(false);
   const menuItems = [
     {
       label: "Send Mail",
@@ -71,19 +67,45 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     },
   ];
 
+  const [isOpen, setIsOpen] = useState(false);
 
 
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
-  const [invoiceValue, setInvoiceValue] = useState("");
 
   const [invoiceList, setInvoiceList] = useState({
-    balanceDue: "",
-    InvoiceId: "",
+    balanceDue: '',
+    invoiceId: '',
+    invoiceDate: '',
 
   });
 
-  const cardRef = useRef(null);
+
+  const handleCloseForm = () => {
+
+    setShowform(false);
+    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
+    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+  };
+
+  const handleCloseConfirm = () => {
+    setShowWaiveModal(false)
+  }
+
+
+  const handleDownload = (rowData) => {
+
+    dispatch({
+      type: "INVOICEPDF",
+      payload: {
+        hostelId: rowData.hostelId,
+        invoiceId: rowData.invoiceId,
+      },
+    });
+    setPdfLoading(true)
+
+  };
 
   useEffect(() => {
 
@@ -104,103 +126,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-
-  const handleCloseForm = () => {
-
-    setShowform(false);
-    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
-    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-  };
-
-
-  const innerScrollRef = useRef(null);
-
-  // const handleDownload = async () => {
-  //   const element = cardRef.current;
-  //   const innerElement = innerScrollRef.current;
-
-  //   if (!element || !innerElement) return;
-
-
-  //   const outerOriginal = {
-  //     height: element.style.height,
-  //     maxHeight: element.style.maxHeight,
-  //     overflow: element.style.overflow,
-  //     overflowY: element.style.overflowY,
-  //   };
-
-  //   const innerOriginal = {
-  //     height: innerElement.style.height,
-  //     maxHeight: innerElement.style.maxHeight,
-  //     overflow: innerElement.style.overflow,
-  //     overflowY: innerElement.style.overflowY,
-  //   };
-
-
-  //   element.style.height = "auto";
-  //   element.style.maxHeight = "none";
-  //   element.style.overflow = "visible";
-  //   element.style.overflowY = "visible";
-
-  //   innerElement.style.height = "auto";
-  //   innerElement.style.maxHeight = "none";
-  //   innerElement.style.overflow = "visible";
-  //   innerElement.style.overflowY = "visible";
-
-  //   await new Promise((resolve) => setTimeout(resolve, 100));
-
-  //   const canvas = await html2canvas(element, {
-  //     scale: 2,
-  //     useCORS: true,
-  //     logging: true,
-  //     allowTaint: false,
-  //   });
-
-  //   const imgData = canvas.toDataURL("image/png");
-  //   const imgWidth = 595.28;
-  //   const pageHeight = 841.89;
-  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //   let heightLeft = imgHeight;
-  //   let position = 0;
-
-  //   const pdf = new jsPDF("p", "pt", "a4");
-  //   pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  //   heightLeft -= pageHeight;
-
-  //   while (heightLeft > 0) {
-  //     pdf.addPage();
-  //     position = -(imgHeight - heightLeft);
-  //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  //     heightLeft -= pageHeight;
-  //   }
-
-  //   pdf.save("invoice.pdf");
-
-
-  //   Object.assign(element.style, outerOriginal);
-  //   Object.assign(innerElement.style, innerOriginal);
-  // };
-
-
-  const [pdfLoading, setPdfLoading] = useState(false)
-
-  const handleDownload = (rowData) => {
-
-    dispatch({
-      type: "INVOICEPDF",
-      payload: {
-        hostelId: rowData.hostelId,
-        invoiceId: rowData.invoiceId,
-      },
-    });
-    setPdfLoading(true)
-
-  };
-
-
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state?.InvoiceList?.invoicePDF;
@@ -237,7 +171,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }, [state.InvoiceList.sharePdfSuccess])
 
 
+  useEffect(() => {
+    if (state.InvoiceList.createRefundStatusCode === 200) {
+      setPayableForm(false)
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_REFUND' })
+      }, 100)
+    }
+
+  }, [state.InvoiceList.createRefundStatusCode])
 
 
   const handleBackInvoice = () => {
@@ -251,12 +195,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   }
 
 
-  // const isValid = (value) => {
-  //   return value !== null && value !== undefined && value !== "undefined" && value !== "";
-  // };
 
 
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleShareClick = () => {
     setIsOpen(!isOpen);
@@ -346,10 +286,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const handleNavigateRecordPayment = (pdfDetails) => {
     setShowform(true);
     setSelectedUserId(pdfDetails?.customerInfo?.customerId)
-    setInvoiceValue(pdfDetails)
+    // setInvoiceValue(pdfDetails)
     setInvoiceList({
       balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
-      InvoiceId: pdfDetails?.invoiceId,
+      invoiceId: pdfDetails?.invoiceId,
+      invoiceDate: pdfDetails?.invoiceDate,
     })
   }
 
@@ -363,20 +304,23 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     setPayableForm(false)
   }
 
+const handleWaiveOff = () =>{
+   setOpen(false)
+   setShowWaiveModal(true)
+}
+
+
+  const handleMakeDiscount = () => {
+    setOpen(false)
+    setShowDiscountInvoice(true)
+  }
+
+  const handleCloseFormDiscount = () => {
+    setShowDiscountInvoice(false)
+  }
 
 
 
-  useEffect(() => {
-    if (state.InvoiceList.createRefundStatusCode === 200) {
-      setPayableForm(false)
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_CREATE_REFUND' })
-      }, 100)
-    }
-
-  }, [state.InvoiceList.createRefundStatusCode])
 
 
   const statusClasses = {
@@ -390,13 +334,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   };
 
 
+
+
   return (
     <div style={{
       position: 'relative ',
 
     }}>
-
-
+      
       {pdfLoading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -445,17 +390,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 );
               })()}
             </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
           </div>
@@ -583,7 +517,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
           style={{
             height: "calc(100vh - 38px)",
             overflowY: "auto",
-            // position: "relative",
             marginBottom: 20, zIndex: 100,
           }}
           className="d-flex justify-content-center p-3 show-scrolls"  >
@@ -1618,78 +1551,52 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
       </div>
 
 
-      {
-        pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" &&
+      {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
+        <div className="sticky bottom-0 left-0 right-0 z-[1000] bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
 
-        <div
-          style={{
-            position: "sticky",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1000,
-            padding: 2,
-            backgroundColor: "#fff",
-            boxShadow: "0 -6px 10px -6px rgba(0,0,0,0.15)",
-            // borderRadius: 12,
-          }}
-        >
-
-          <div
-            className="d-flex justify-content-between align-items-center px-3 py-2"
-            style={{ cursor: "pointer" }}
-          >
-            <span
-              style={{
-                fontWeight: 600,
-                fontSize: 16,
-                color: "#222",
-                fontFamily: "Gilroy",
-              }}
-            >
-              {pdfDetails?.invoiceInfo?.totalAmount > 0 ? "Payments Made" : "Refund Made"}
+          {/* Header */}
+          <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
+            <span className="font-semibold text-[16px] text-[#222]">
+              {pdfDetails?.invoiceInfo?.totalAmount > 0
+                ? "Payments Made"
+                : "Refund Made"}
             </span>
 
-            <div className="d-flex align-items-center gap-2">
-              {
-                Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 &&
-                <Button disabled={!canWriteInvoice}
-                  size="sm"
-                  style={{
-                    background: "#1E45E1",
-                    border: "none",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    whiteSpace: "nowrap", display: "flex", alignItems: "center",
-                    gap: 6,
+            <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">
+              {pdfDetails?.paymentHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount > 0
+                ? "No Payments made yet!"
+                : pdfDetails?.refundHistory?.length === 0
+                  ? "No Refund made yet!"
+                  : ""}
+            </span>
 
-                  }}
-                  onClick={() => { if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails) }}
-                >
-                  <AddCircle size="16" color="#fff" variant="Bold" /> Record Payment
-                </Button>
-              }
-              {
-                pdfDetails?.invoiceInfo?.totalAmount < 0 && Number(pdfDetails?.invoiceInfo?.balanceAmount) !== 0 &&
-                <Button disabled={!canWriteInvoice}
-                  size="sm"
-                  style={{
-                    background: "#1E45E1",
-                    border: "none",
-                    borderRadius: 8,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    display: "flex", alignItems: "center",
-                    gap: 6,
-                    whiteSpace: "nowrap",
-                  }}
-                  onClick={() => handleNavigateRefund(pdfDetails)}
-                >
-                  <AddCircle size="16" color="#fff" variant="Bold" /> Refund Amount
-                </Button>
-              }
 
+            <div className="flex items-center gap-2">
+
+
+              {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
+                <button
+                  disabled={!canWriteInvoice}
+                  onClick={() => {
+                    if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails);
+                  }}
+                  className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
+                >
+                  + Record Payment
+                </button>
+              )}
+
+
+              {pdfDetails?.invoiceInfo?.totalAmount < 0 &&
+                Number(pdfDetails?.invoiceInfo?.balanceAmount) !== 0 && (
+                  <button
+                    disabled={!canWriteInvoice}
+                    onClick={() => handleNavigateRefund(pdfDetails)}
+                    className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
+                  >
+                    + Refund Amount
+                  </button>
+                )}
 
 
               {
@@ -1712,167 +1619,187 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 )
               }
 
-
             </div>
-
           </div>
 
+
           {isOpenPayment && (
-            <div style={{ fontFamily: "Gilroy" }}>
-              {
-                pdfDetails?.paymentHistory?.length > 0 &&
+            <div>
 
-                <Table responsive className="mb-0">
-                  <thead style={{ background: "#F9FAFB" }}>
-                    <tr>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>PAYMENT MODE</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
-                    </tr>
-                  </thead>
 
-                  <tbody>
-                    {pdfDetails?.paymentHistory?.length > 0 ? (
-                      pdfDetails.paymentHistory.map((item, index) => (
-                        <tr key={index}>
-                          <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                            {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
+              {pdfDetails?.paymentHistory?.length > 0 && (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                      <tr>
+                        <th className="text-left px-3 py-2">DATE</th>
+                        <th className="text-left px-3 py-2">REF NO</th>
+                        <th className="text-left px-3 py-2">PAYMENT MODE</th>
+                        <th className="text-left px-3 py-2">AMOUNT</th>
+                        <th className="text-left px-3 py-2">STATUS</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {pdfDetails.paymentHistory.map((item, index) => (
+                        <tr key={index} className="border-t">
+                          <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                            {item.date || item.paidDate || "-"}
                           </td>
 
-
-
-                          <td
-                            style={{
-                              color: "#1E45E1",
-                              fontWeight: 500,
-                              fontSize: 12,
-                            }}
-                          >
-                            {item.transactionReferenceId || item.referenceNumber || "-"}
+                          <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                            {item.transactionReferenceId ||
+                              item.referenceNumber ||
+                              "-"}
                           </td>
 
-
-                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
                             {item.bankAccount}
                           </td>
 
-
-                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
                             ₹{item.amount}
                           </td>
 
-
-                          <td>
-                            <Badge
-                              bg="success"
-                              style={{
-                                borderRadius: 20,
-                                fontWeight: 500,
-                                padding: "6px 10px",
-                                fontSize: 12,
-                              }}
-                            >
+                          <td className="px-3 py-2">
+                            <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
                               ● Paid
-                            </Badge>
+                            </span>
                           </td>
                         </tr>
-                      ))
-                    ) : (
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+
+              {pdfDetails?.refundHistory?.length > 0 && (
+                <div className="overflow-x-auto mt-2">
+                  <table className="w-full text-sm">
+                    <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
                       <tr>
-                        <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
-                          No payments found
-
-                        </td>
+                        <th className="text-left px-3 py-2">DATE</th>
+                        <th className="text-left px-3 py-2">REF NO</th>
+                        <th className="text-left px-3 py-2">RETURNED FROM</th>
+                        <th className="text-left px-3 py-2">AMOUNT</th>
+                        <th className="text-left px-3 py-2">STATUS</th>
                       </tr>
-                    )}
+                    </thead>
 
-                  </tbody>
-                </Table>
-              }
-              {pdfDetails?.refundHistory?.length > 0 &&
-                <Table responsive className="mb-0">
-                  <thead style={{ background: "#F9FAFB" }}>
-                    <tr>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>RETURNED FROM</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
-                      <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {pdfDetails?.refundHistory?.length > 0 ? (
-                      pdfDetails.refundHistory.map((item, index) => (
-                        <tr key={index}>
-                          <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
-                            {item.date ? item.date : item.paidDate ? item.paidDate : "-"}
+                    <tbody>
+                      {pdfDetails.refundHistory.map((item, index) => (
+                        <tr key={index} className="border-t">
+                          <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                            {item.date || item.paidDate || "-"}
                           </td>
 
-                          <td
-                            style={{
-                              color: "#1E45E1",
-                              fontWeight: 500,
-                              fontSize: 12,
-                            }}
-                          >
-                            {item.transactionReferenceId || item.referenceNumber || "-"}
+                          <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                            {item.transactionReferenceId ||
+                              item.referenceNumber ||
+                              "-"}
                           </td>
 
-
-                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
                             {item.bankAccount}
                           </td>
 
-
-                          <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
                             ₹{item.amount}
                           </td>
 
-
-                          <td>
-                            <Badge
-                              bg="success"
-                              style={{
-                                borderRadius: 20,
-                                fontWeight: 500,
-                                padding: "6px 10px",
-                                fontSize: 12,
-                              }}
-                            >
+                          <td className="px-3 py-2">
+                            <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
                               ● Refunded
-                            </Badge>
+                            </span>
                           </td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
-                          No refund found
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
-              }
-              <div
-                className="d-flex justify-content-end px-5 py-2"
-                style={{ borderTop: "1px solid #eee" }}
-              >
-                <span className="me-2" style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 500 }}>Balance Due</span>
-                <span style={{ color: "#E53935", fontSize: 14, fontWeight: 500 }}>₹{pdfDetails?.invoiceInfo?.balanceAmount}</span>
+
+              <div className="flex justify-end px-5 py-2 border-t ">
+                <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
+                  Balance Due
+                </span>
+                <span className="text-sm text-red-500 font-medium">
+                  ₹{pdfDetails?.invoiceInfo?.balanceAmount}
+                </span>
               </div>
+
+
             </div>
           )}
+
+          {
+            pdfDetails?.invoiceInfo?.totalAmount > 0 &&
+
+            <div className="relative inline-block w-full border-t" ref={menuRef}>
+              <div className="flex justify-between items-center mx-4 my-1">
+                <div className="flex justify-between gap-2 items-center">
+                  <Danger size="20" color="#F59E0B" />
+                  <label className="text-sm text-[#4B4B4B] font-medium">Late Fee Detected : ₹</label>
+                </div>
+                <div className="flex justify-between gap-2 items-center">
+                  <label className="text-sm text-[#1E45E1] font-medium cursor-pointer" onClick={() => handleMakeDiscount()}>Create Invoice</label>
+                  <button
+                    onClick={() => setOpen(!open)}
+                    className="p-2 rounded-md hover:bg-gray-300 bg-gray-100"
+                  >
+                    <BsThreeDotsVertical />
+                  </button>
+                </div>
+              </div>
+
+              {open && (
+                <div ref={menuRef} className="absolute top-[-80px] right-[80px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <div className="py-1 text-sm text-gray-700">
+
+
+                    <button
+                      onClick={() => handleWaiveOff()}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                    >
+                      Waive Off
+                    </button>
+
+
+                    <button
+                      onClick={() => handleMakeDiscount()}
+                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-[#4B4B4B] flex items-center gap-2"
+                    >
+                      Make Discount
+                    </button>
+
+                  </div>
+                </div>
+              )}
+
+            </div>
+          }
+
+
+
         </div>
+      )}
+      {showWaiveModal &&
+        <WaiveOFFConfirm
+          show={showWaiveModal}
+          handleClose={handleCloseConfirm}
+
+        />
       }
+
+{
+        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
+      }
+
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
           selectedUserId={selectedUserId}
-          invoiceValue={invoiceValue}
           invoiceList={invoiceList}
         />
 

@@ -11,7 +11,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 
 
-function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoiceList }) {
+function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const [room_name, setRoomName] = useState("")
     const [bed_name, setBedName] = useState("")
     const [profile_pic, setProfilePic] = useState(null)
-    const [selectedTenant, setSelectedTenant] = useState("")
+    // const [selectedTenant, setSelectedTenant] = useState("")
 
     const [balance, setBalance] = useState(0);
     const [payableAmount, setPayableAmount] = useState("");
@@ -58,7 +58,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
 
 
 
-
+    // console.log("invoiceValue",invoiceValue)
 
     const options = {
         dateFormat: "d/m/Y",
@@ -182,7 +182,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const handleSaveInvoiceList = () => {
         dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
         const formatpaiddate = formatDateForPayload(selectedDate);
-        const billDate = new Date(invoiceValue?.Date);
+        const billDate = new Date(invoiceList?.invoiceDate);
         const paidDate = new Date(formatpaiddate);
 
         if (!payableAmount) {
@@ -224,7 +224,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
 
 
         if (
-            invoiceList?.InvoiceId &&
+            invoiceList?.invoiceId &&
             payableAmount &&
             modeOfPayment &&
             formatpaiddate && state.login.selectedHostel_Id
@@ -233,7 +233,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
                 type: "RECORD_PAYMENT",
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
-                    invoiceId: invoiceList?.InvoiceId,
+                    invoiceId: invoiceList?.invoiceId,
                     data: {
                         bankId: modeOfPayment,
                         paymentDate: formatpaiddate,
@@ -259,8 +259,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
             // setShowform(false)
             dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
-            if (invoiceValue?.invoiceId) {
-                dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: invoiceValue?.invoiceId } })
+            if (invoiceList?.invoiceId) {
+                dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: invoiceList?.invoiceId } })
 
             }
 
@@ -551,13 +551,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
                                                         setSelectedDate(date ? date.toDate() : null);
                                                     }}
                                                     disabledDate={(current) => {
-                                                        // const selectedUser = state.UsersList.Users.find(
-                                                        //   (item) => item.customerId === invoiceValue.customerId
-                                                        // );
-
-
-                                                        const invoiceDate = invoiceValue?.invoiceDate
-                                                            ? dayjs(invoiceValue?.invoiceDate, "DD/MM/YYYY").startOf("day")
+                                                        const invoiceDate = invoiceList?.invoiceDate
+                                                            ? dayjs(invoiceList?.invoiceDate, "DD/MM/YYYY").startOf("day")
                                                             : null;
 
                                                         return (
@@ -891,14 +886,14 @@ RecordPayment.propTypes = {
         ])
     }),
 
-    invoiceValue: PropTypes.shape({
-        invoiceId: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        invoiceDate: PropTypes.string,
-        Date: PropTypes.string
-    })
+    // invoiceValue: PropTypes.shape({
+    //     invoiceId: PropTypes.oneOfType([
+    //         PropTypes.string,
+    //         PropTypes.number
+    //     ]),
+    //     invoiceDate: PropTypes.string,
+    //     Date: PropTypes.string
+    // })
 };
 
 export default RecordPayment
