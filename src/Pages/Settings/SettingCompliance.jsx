@@ -552,10 +552,10 @@ function SettingCompliance() {
           <div className="flex justify-center">
             <img src={EmptyState} alt="Empty state" className="mt-28 2xl:mt-52" />
           </div>
-          <div className="pb-1 text-gray-700 font-gilroy font-semibold text-lg">
+          <div className="pb-1 text-center font-gilroy font-semibold !text-lg text-[#4B4B4B] mt-2">
             No ComplaintTypes
           </div>
-          <div className="pb-1 text-gray-700 font-gilroy font-medium text-sm">
+          <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
             There are no ComplaintTypes available.
           </div>
         </div>

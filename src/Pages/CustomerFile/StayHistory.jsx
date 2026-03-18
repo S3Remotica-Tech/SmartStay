@@ -44,10 +44,10 @@ function StayHistory({ show, handleClose }) {
         onHide={handleClose}
         centered
         backdrop="static"
-        dialogClassName="custom-modals-style-stays"
+        dialogClassName="custom-modals-style-stays !flex !items-center !justify-center"
       >
         <Modal.Dialog className="m-0 p-0" >
-          <Modal.Header className="border border-gray-200">
+         <Modal.Header className="border border-gray-200">
             <Modal.Title className="!text-[18px] text-gray-900 !font-semibold font-gilroy">
               Stay Details
             </Modal.Title>
@@ -84,7 +84,7 @@ function StayHistory({ show, handleClose }) {
                   {Array.isArray(data) &&
                     data.map((row, index) => (
                       <tr key={index} className="border-b border-gray-300">
-                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap max-w-[150px] truncate">
                           {row.roomName}/{row.bedName}
                         </td>
 
@@ -99,9 +99,9 @@ function StayHistory({ show, handleClose }) {
                                 : "N/A"
                             }`}
                         </td>
-
-                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
-                          {row.reason ? row.reason : "N/A"}
+                      
+                       <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle max-w-[150px] truncate">
+                        {row.reason ? row.reason : "N/A"}
                         </td>
 
                         <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">

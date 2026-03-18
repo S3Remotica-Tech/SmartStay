@@ -591,7 +591,7 @@ function SettingExpenses() {
               <div className="w-full flex justify-center items-center mt-24 2xl:mt-52">
                 <div className="text-center">
                   <img src={EmptyState} alt="emptystate" className="max-w-xs mx-auto" />
-                  <div className="font-gilroy font-semibold text-lg text-gray-700 mt-2">
+                  <div className="pb-1 text-center font-gilroy font-semibold !text-lg text-[#4B4B4B] mt-2">
                     No Expense available
                   </div>
                 </div>
