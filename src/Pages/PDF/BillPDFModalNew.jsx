@@ -26,7 +26,7 @@ import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DiscountInvoice from "./DiscountInvoice";
-
+import WaiveOFFConfirm from "./WaiveOFFConfirm"
 
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
@@ -36,16 +36,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
-  const [payapleform, setPayableForm] =  useState(false);
+  const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
   const modalRef = useRef(null);
-  const [showDiscountInvoice, setShowDiscountInvoice] =  useState(false);
+  const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
   const innerScrollRef = useRef(null);
   const [pdfLoading, setPdfLoading] = useState(false)
-
+  const [showWaiveModal, setShowWaiveModal] = useState(false);
   const menuItems = [
     {
       label: "Send Mail",
@@ -89,6 +89,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
   };
 
+  const handleCloseConfirm = () => {
+    setShowWaiveModal(false)
+  }
 
 
   const handleDownload = (rowData) => {
@@ -301,6 +304,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     setPayableForm(false)
   }
 
+const handleWaiveOff = () =>{
+   setOpen(false)
+   setShowWaiveModal(true)
+}
+
 
   const handleMakeDiscount = () => {
     setOpen(false)
@@ -333,10 +341,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
       position: 'relative ',
 
     }}>
-      {
-        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
-      }
-
+      
       {pdfLoading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -1725,66 +1730,72 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 </span>
               </div>
 
-             
+
             </div>
           )}
 
- {
-                pdfDetails?.invoiceInfo?.totalAmount > 0 &&
+          {
+            pdfDetails?.invoiceInfo?.totalAmount > 0 &&
 
-                <div className="relative inline-block w-full border-t" ref={menuRef}>
-                  <div className="flex justify-between items-center mx-4 my-1">
-                    <div className="flex justify-between gap-2 items-center">
-                      <Danger size="20" color="#F59E0B" />
-                      <label className="text-sm text-[#4B4B4B] font-medium">Late Fee Detected : ₹</label>
-                    </div>
-                    <div className="flex justify-between gap-2 items-center">
-                      <label className="text-sm text-[#1E45E1] font-medium cursor-pointer" onClick={() => handleMakeDiscount()}>Create Invoice</label>
-                      <button
-                        onClick={() => setOpen(!open)}
-                        className="p-2 rounded-md hover:bg-gray-100"
-                      >
-                        <BsThreeDotsVertical />
-                      </button>
-                    </div>
-                  </div>
-
-                  {open && (
-                    <div ref={menuRef} className="absolute top-[-80px] right-[80px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                      <div className="py-1 text-sm text-gray-700">
-
-
-                        <button
-                          onClick={() => {
-
-                            setOpen(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
-                        >
-                          Waive Off
-                        </button>
-
-
-                        <button
-                          onClick={() => handleMakeDiscount()}
-                          className="w-full text-left px-4 py-2 hover:bg-blue-50 text-[#4B4B4B] flex items-center gap-2"
-                        >
-                          Make Discount
-                        </button>
-
-                      </div>
-                    </div>
-                  )}
-
+            <div className="relative inline-block w-full border-t" ref={menuRef}>
+              <div className="flex justify-between items-center mx-4 my-1">
+                <div className="flex justify-between gap-2 items-center">
+                  <Danger size="20" color="#F59E0B" />
+                  <label className="text-sm text-[#4B4B4B] font-medium">Late Fee Detected : ₹</label>
                 </div>
-              }
+                <div className="flex justify-between gap-2 items-center">
+                  <label className="text-sm text-[#1E45E1] font-medium cursor-pointer" onClick={() => handleMakeDiscount()}>Create Invoice</label>
+                  <button
+                    onClick={() => setOpen(!open)}
+                    className="p-2 rounded-md hover:bg-gray-300 bg-gray-100"
+                  >
+                    <BsThreeDotsVertical />
+                  </button>
+                </div>
+              </div>
+
+              {open && (
+                <div ref={menuRef} className="absolute top-[-80px] right-[80px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <div className="py-1 text-sm text-gray-700">
+
+
+                    <button
+                      onClick={() => handleWaiveOff()}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                    >
+                      Waive Off
+                    </button>
+
+
+                    <button
+                      onClick={() => handleMakeDiscount()}
+                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-[#4B4B4B] flex items-center gap-2"
+                    >
+                      Make Discount
+                    </button>
+
+                  </div>
+                </div>
+              )}
+
+            </div>
+          }
 
 
 
         </div>
       )}
+      {showWaiveModal &&
+        <WaiveOFFConfirm
+          show={showWaiveModal}
+          handleClose={handleCloseConfirm}
 
+        />
+      }
 
+{
+        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
+      }
 
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
