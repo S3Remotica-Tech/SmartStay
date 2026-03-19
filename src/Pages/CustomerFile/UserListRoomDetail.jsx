@@ -269,7 +269,7 @@ function UserListRoomDetail(props) {
 
   }, [CustomerOverView])
 
-  
+
 
 
 
@@ -753,9 +753,9 @@ function UserListRoomDetail(props) {
     setAdditionalForm(true);
   };
 
-const handleCloseAdditionalForm = () =>{
-   setAdditionalForm(false);
-}
+  const handleCloseAdditionalForm = () => {
+    setAdditionalForm(false);
+  }
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -3545,23 +3545,24 @@ const handleCloseAdditionalForm = () =>{
                         {
                           additionalContact?.length > 0 && (
                             <div className="flex items-center gap-3">
-                             
 
 
-                              <button disabled={!canWriteTenant} type="button"
-                                onClick={() => { 
-                                  if (canWriteTenant) {
-                                    handleAdditionalForm();
-                                  }
-                                }}
-                                className={`flex justify-center gap-2 items-center px-4 py-1  rounded-md  font-gilroy text-white
-        ${canWriteTenant ? "cursor-pointer bg-[#1E45E1]" : "cursor-not-allowed opacity-50"}`}
+
+                              <button disabled={isDisabledButton}
+                                type="button"
+                                onClick={handleAdditionalForm}
+                                className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
+    ${!isDisabledButton
+                                    ? "bg-[#1E45E1] text-white cursor-pointer"
+                                    : "bg-gray-100 text-gray-400 cursor-not-allowed"}
+  `}
+
                               >
                                 <AddCircle
                                   size="20"
-                                  color={canWriteTenant ? "#FFFFFF" : "#CCCCCC"}
-                                
-                                />  Additional 
+                                  color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
+
+                                />  Additional
                               </button>
 
                             </div>
@@ -3578,8 +3579,8 @@ const handleCloseAdditionalForm = () =>{
                           <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700">
                             <p>No Contact Details are there!</p>
                             <button
-                                                          type="button"
-                              disabled={!canWriteTenant}
+                              type="button"
+                              disabled={isDisabledButton}
                               onClick={handleAdditionalForm}
                               className="mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
                             >

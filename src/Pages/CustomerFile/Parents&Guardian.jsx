@@ -23,21 +23,32 @@ function ParentsGuardian({ additionalContact }) {
   return (
     <>
       {additionalContact?.map((contact, index) => (
-        <div key={contact.contactId} className="mb-4">
+        <div key={contact.contactId} className="mb-2">
 
 
           <div
-            className=" bg-gray-100 p-3 rounded-xl cursor-pointer"
+            className=" bg-gray-100 px-4 py-1.5 rounded-xl cursor-pointer"
             onClick={() => handleToggle(index)}
           >
             <div className="flex justify-between items-center">
               <div>
-                <div className="flex items-center gap-4">
-                  <p className="font-semibold text-black text-xl text-start mb-2">{contact.fullName} </p>
+                <div className="flex items-center gap-4 relative group">
+
+                  <p className="font-semibold text-black text-md mb-2 capitalize 
+                max-w-[180px] truncate overflow-hidden whitespace-nowrap">
+                    {contact.fullName}
+                  </p>
+
                   <span className="bg-orange-100 px-3 py-1 rounded-lg text-orange-600 text-sm font-medium">
                     Contact {index + 1}
                   </span>
 
+                  {contact?.fullName && contact.fullName.length > 10 && (
+                    <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
+      bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
+                      {contact.fullName}
+                    </span>
+                  )}
                 </div>
 
                 <p className="text-sm text-gray-500 flex items-center">
