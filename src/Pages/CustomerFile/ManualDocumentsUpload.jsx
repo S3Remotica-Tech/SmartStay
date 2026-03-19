@@ -14,7 +14,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
     const [hover, setHover] = useState(false)
 
     const [loading, setLoading] = useState(false)
-    console.log("files", files)
+   
 
 
     const handleFileSelect = () => {

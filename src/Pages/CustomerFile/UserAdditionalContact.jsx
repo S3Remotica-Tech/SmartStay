@@ -12,7 +12,7 @@ import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 
 
-function UserAdditionalContact(props) {
+function UserAdditionalContact({show, handleClose}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -20,26 +20,14 @@ function UserAdditionalContact(props) {
   const [guardian, setGuardian] = useState(null);
   const [Phone, setPhone] = useState("");
 
-  const [house_no, setHouseNo] = useState("");
-  const [street, setStreet] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("")
-  const [state_name, setStateName] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
-  const [contactId, setContactId] = useState("");
+  // const [contactId, setContactId] = useState("");
   const [formError, setFormError] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [guardianError, setGuardianError] = useState("");
-  const [guardianAlreadyError, setGuardianAlreadyError] = useState("");
-  // const [house_noError, setHouse_NoError] = useState("");
-  // const [streetError, setStreetError] = useState("");
-  // const [landmarkError, setLandmarkError] = useState("");
-  // const [pincodeError, setPincodeError] = useState("");
-  // const [cityError, setCityError] = useState("");
-  // const [state_nameError, setStateNameError] = useState("");
-  const MobileNumber = `${countryCode}${Phone}`;
+
+
   const [formLoading, setFormLoading] = useState(false)
   const [isOthers, setIsOthers] = useState(false);
   const [guardianOccupation, setGuardianOccupation] = useState("");
@@ -47,57 +35,13 @@ function UserAdditionalContact(props) {
   const [occupationError, setOccupationError] = useState("");
 
 
-  const [initialState, setInitialState] = useState({
-    userName: "",
-    guardiaz: "",
-    Phone: "",
-    address: "",
-    house_no: "",
-    street: "",
-    city: "",
-    landmark: "",
-    state: "",
-    pinCode: "",
-  });
+  const CustomerOverView = state.UsersList?.customerdetails;
 
-
-
-  useEffect(() => {
-    if (props.contactEdit && props.editAdditional) {
-      const phoneNumber = String(props.contactEdit.mob_no || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
-      setUserName(props.contactEdit.user_name);
-      setGuardian(props.contactEdit.guardian);
-      setPhone(mobileNumber);
-
-      setContactId(props.contactEdit.id);
-      setCountryCode(countryCode);
-      setPincode(props.contactEdit.pin_code);
-      setHouseNo(props.contactEdit.address)
-      setStreet(props.contactEdit.area)
-      setLandmark(props.contactEdit.landmark)
-      setCity(props.contactEdit.city)
-      setStateName(props.contactEdit.state)
-
-      setInitialState({
-        userName: props.contactEdit.user_name || "",
-        guardian: props.contactEdit.guardian || "",
-        Phone: props.contactEdit.mob_no || "",
-
-        house_no: props.contactEdit.address || "",
-        street: props.contactEdit.area || "",
-        city: props.contactEdit.city || "",
-        landmark: props.contactEdit.landmark || "",
-        state: props.contactEdit.state || "",
-        pinCode: props.contactEdit.pin_code || "",
-      });
-    }
-  }, [props.contactEdit && props.editAdditional]);
-
+ 
 
 
   const handleUserName = (e) => {
+     dispatch({ type: "CLEAR_CONTACT_ERROR" });
     const value = e.target.value
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
@@ -117,129 +61,29 @@ function UserAdditionalContact(props) {
   const nochangeRef = useRef(null)
 
 
-  const handleSubmitContact = () => {
-    dispatch({ type: "CLEAR_CONTACT_ERROR" });
-    let hasError = false;
-    const focusedRef = { current: false };
-
-
-
-
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      if (!focusedRef.current && PhoneRef?.current) {
-        PhoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneError("");
-    }
-
-    if (hasError) return;
-
-
-    const normalize = (val) => {
-      const str = (val ?? "").toString().trim().toLowerCase();
-      return str === "null" || str === "undefined" ? "" : str;
-    };
-
-
-    if (props.editAdditional && props.contactEdit.id) {
-      const isChanged =
-        userName !== initialState.userName ||
-        guardian !== initialState.guardian ||
-        Number(countryCode + Phone) !== Number(initialState.Phone) ||
-        normalize(house_no) !== normalize(initialState.house_no) ||
-        normalize(street) !== normalize(initialState.street) ||
-        normalize(landmark) !== normalize(initialState.landmark) ||
-        city !== initialState.city ||
-        normalize(pincode) !== normalize(initialState.pinCode?.toString()) ||
-        state_name !== initialState.state;
-
-      if (!isChanged) {
-        setFormError("No Changes Detected");
-
-        setTimeout(() => {
-          if (nochangeRef.current) {
-            nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-            nochangeRef.current.focus();
-          }
-        }, 100);
-
-        return;
-      } else {
-        setFormError("");
-      }
-
-
-      dispatch({
-        type: "CUSTOMERADDCONTACT",
-        payload: {
-          user_name: userName,
-          guardian,
-          mob_no: MobileNumber,
-          address: house_no,
-          area: street,
-          landmark,
-          city,
-          pin_code: pincode,
-          state: state_name,
-          user_id: props.id,
-          id: contactId,
-        },
-      });
-
-      setFormLoading(true);
-    } else {
-
-      dispatch({
-        type: "CUSTOMERADDCONTACT",
-        payload: {
-          user_name: userName,
-          guardian,
-          mob_no: MobileNumber,
-          address: house_no,
-          area: street,
-          landmark,
-          city,
-          pin_code: pincode,
-          state: state_name,
-          user_id: props.id,
-        },
-      });
-
-      setFormLoading(true);
-    }
+  const isValidPhone = (phone) => {
+    if (!/^\d{10}$/.test(phone)) return false;
+    if (/^(\d)\1{9}$/.test(phone)) return false;
+    return true;
   };
 
 
 
 
-  useEffect(() => {
-    if (state.UsersList.statusCodeForCustomerCoatact === 200) {
-      setFormLoading(false)
-      handleCloseAdditionalForm();
-      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
-      }, 100);
-    }
-  }, [state.UsersList.statusCodeForCustomerCoatact]);
+
+
+
+
 
 
 
   const handlePhone = (e) => {
+     dispatch({ type: "CLEAR_CONTACT_ERROR" });
     const value = e.target.value;
-
     if (!/^\d{0,10}$/.test(value)) {
       return;
     }
-
     setPhone(value);
-
-
     if (value === "") {
       setPhoneError("");
     } else if (value.length === 10) {
@@ -247,36 +91,23 @@ function UserAdditionalContact(props) {
     } else {
       setPhoneError("Please Enter Valid Mobile Number");
     }
-
     setFormError("");
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
 
-  useEffect(() => {
-    if (state.UsersList.contactError) {
-      setGuardianAlreadyError(state.UsersList.contactError);
-    }
-  }, [state.UsersList.contactError]);
+
 
   const handleCloseAdditionalForm = () => {
-    props.setAdditionalForm(false);
     setUserName("");
     setPhone("");
-
     setGuardian("");
+    setGuardianOccupation("");
     setUserNameError("");
     setGuardianError("");
     setPhoneError("");
-
-    setHouseNo("")
-    setStreet("")
-    setLandmark("")
-    setCity("")
-    setPincode("")
-    setStateName("")
+    setOccupationError("");
     setFormError("");
-    setGuardianAlreadyError("")
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
@@ -301,10 +132,10 @@ function UserAdditionalContact(props) {
   }, [state.createAccount?.networkError])
 
   const reasonOptions = [
-    { value: "father", label: "Father" },
-    { value: "mother", label: "Mother" },
-    { value: "brother", label: "Brother" },
-    { value: "sister", label: "Sister" },
+    { value: "Father", label: "Father" },
+    { value: "Mother", label: "Mother" },
+    { value: "Brother", label: "Brother" },
+    { value: "Brother", label: "Brother" },
     {
       value: "Others",
       label: "Others",
@@ -313,19 +144,20 @@ function UserAdditionalContact(props) {
   ];
 
   const occupationOptions = [
-    { value: "govt", label: "Govt Employee" },
-    { value: "private", label: "Private Employee" },
-    { value: "business", label: "Business / Self-employed" },
-    { value: "farmer", label: "Farmer" },
-    { value: "daily", label: "Daily Wage / Labour" },
-    { value: "home", label: "Homemaker" },
-    { value: "retired", label: "Retired Employee" },
-    { value: "abroad", label: "Abroad (Working Overseas)" },
-    { value: "other", label: "Other" },
+    { value: "Govt Employee", label: "Govt Employee" },
+    { value: "Private Employee", label: "Private Employee" },
+    { value: "Business / Self-employed", label: "Business / Self-employed" },
+    { value: "Farmer", label: "Farmer" },
+    { value: "Daily Wage / Labour", label: "Daily Wage / Labour" },
+    { value: "Homemaker", label: "Homemaker" },
+    { value: "Retired Employee", label: "Retired Employee" },
+    { value: "Abroad (Working Overseas)", label: "Abroad (Working Overseas)" },
+    { value: "Other", label: "Other" },
   ];
 
 
   const handleGuardian = (selectedOption) => {
+       dispatch({ type: "CLEAR_CONTACT_ERROR" });
     setFormError("");
     setGuardianError("");
     if (selectedOption?.value === "Others") {
@@ -339,6 +171,7 @@ function UserAdditionalContact(props) {
 
 
   const handleOccupation = (selectedOption) => {
+       dispatch({ type: "CLEAR_CONTACT_ERROR" });
     setOccupationError("");
 
     if (selectedOption?.value === "other") {
@@ -349,13 +182,60 @@ function UserAdditionalContact(props) {
       setGuardianOccupation(selectedOption.value);
     }
   };
+  const handleSubmitContact = () => {
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
+    let hasError = false;
+    if (!userName.trim()) {
+      setUserNameError("Please enter Guardian Name");
+      if (usernameRef.current) usernameRef.current.focus();
+      hasError = true;
+    }
 
+
+    if (!isValidPhone(Phone)) {
+      setPhoneError("Enter a valid mobile number");
+      if (!hasError && PhoneRef.current) PhoneRef.current.focus();
+      hasError = true;
+    }
+
+
+    if (hasError) return;
+
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+      customerId: CustomerOverView?.customerId,
+      fullName: userName,
+      mobile: Phone,
+      relationship: guardian || "",
+      occupation: guardianOccupation || "",
+    };
+
+    dispatch({
+      type: "CUSTOMERADDCONTACT",
+      payload,
+    });
+
+    setFormLoading(true);
+  };
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList.statusCodeForCustomerCoatact === 200) {
+      setFormLoading(false)
+             handleCloseAdditionalForm();
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeForCustomerCoatact]);
 
   return (
     <div>
       <Modal
-        show={props.additionalForm}
-        onHide={handleCloseAdditionalForm}
+        show={show}
+        onHide={handleClose}
         backdrop="static"
         centered
       >
@@ -372,15 +252,15 @@ function UserAdditionalContact(props) {
                     Add Parent/Guardian Details
                   </div>
 
-                  <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm}
-                    className="cursor pointer" />
+                  <CloseCircle size="24" color="#000" onClick={handleClose}
+                    className="cursor-pointer" />
                 </Modal.Header>
 
                 <div className="max-h-[400px] overflow-y-scroll overflow-x-hidden show-scroll p-2 mt-1 mr-0">
                   <div className="flex flex-wrap mt-1">
 
                     <div className="w-full">
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Label className="text-[14px] font-medium font-gilroy">
                           Guardian Full Name {" "}
                           <span className="text-red-500 text-[20px]"> *</span>
@@ -403,14 +283,11 @@ function UserAdditionalContact(props) {
                     </div>
 
                     <div className="w-full">
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Label className="text-[14px] font-medium font-gilroy"
                         >
                           Relationship {" "}
-                          <span className="text-red-500 text-[20px]">
-                            {" "}
-                            *{" "}
-                          </span>
+
                         </Form.Label>
                         {isOthers ? (
                           <div style={{ position: "relative" }}>
@@ -483,10 +360,10 @@ function UserAdditionalContact(props) {
                       )}
                     </div>
                     <div className="w-full">
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Label className="text-[14px] font-medium font-gilroy">
                           Guardian Occupation{" "}
-                          <span className="text-red-500 text-[20px]">*</span>
+
                         </Form.Label>
 
                         {isOccupationOther ? (
@@ -566,37 +443,37 @@ function UserAdditionalContact(props) {
                           </span>
                         </Form.Label>
 
-                       <InputGroup className="!flex">
+                        <InputGroup className="!flex">
 
-  <Form.Select
-    value={countryCode}
-    id="vendor-select-pg"
-    className={`border border-[#D9D9D9] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy 
+                          <Form.Select
+                            value={countryCode}
+                            id="vendor-select-pg"
+                            className={`border border-[#D9D9D9] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy 
     ${countryCode ? 'font-semibold' : 'font-medium'} 
     shadow-none bg-white max-w-[80px] pr-[10px]
 
     !rounded-l-[8px] !rounded-r-none   
     !border-r-0                      
     `}
-  >
-    <option>+{countryCode}</option>
-  </Form.Select>
+                          >
+                            <option>+{countryCode}</option>
+                          </Form.Select>
 
-  <Form.Control
-    value={Phone}
-    ref={PhoneRef}
-    onChange={handlePhone}
-    type="text"
-    placeholder="9876543210"
-    maxLength={10}
-    className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none 
+                          <Form.Control
+                            value={Phone}
+                            ref={PhoneRef}
+                            onChange={handlePhone}
+                            type="text"
+                            placeholder="9876543210"
+                            maxLength={10}
+                            className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none 
     border border-[#D9D9D9] h-[50px] mt-0 w-full px-3
 
-    !rounded-r-[8px] !rounded-l-none   // ✅ force override
+    !rounded-r-[8px] !rounded-l-none   
     "
-  />
+                          />
 
-</InputGroup>
+                        </InputGroup>
                         <p
                           id="MobileNumberError"
                           className="text-red-500 text-[12px] mt-[5px]"
@@ -608,344 +485,6 @@ function UserAdditionalContact(props) {
                       </Form.Group>
                     </div>
 
-                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <Form.Group className="mb-3">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            display: "flex",
-                            alignItems: "center",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          Address {" "} {" "}
-                          <span style={{ color: "red", fontSize: "20px", marginLeft: '4px' }}>
-                            *
-                          </span>
-                          <Form.Check
-                            type="checkbox"
-                            label={
-                              <span
-                                style={{
-                                  color: "#1E45E1",
-                                  fontWeight: 500,
-                                  whiteSpace: "nowrap",
-                                  fontSize: 11,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Same as tenant address
-                              </span>
-                            }
-                            className="ms-3"
-
-                          />
-                        </Form.Label>
-                        <FormControl
-                          //    value={house_no}
-                          // onChange={(e) => handleHouseNo(e)}
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Amount"
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                            marginTop: 8,
-                          }}
-                        />
-                       
-                      </Form.Group>
-
-
-                    </div> */}
-
-                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                      <Form.Group className="">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Flat , House no , Building , Company , Apartment {" "}
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter House No"
-                          value={house_no}
-                          onChange={(e) => handleHouseNo(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {house_noError && (
-                        <ErrorMessage message={house_noError} type="error" />
-                      )}
-                    </div> */}
-
-                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                      <Form.Group className="">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Area , Street , Sector , Village {" "}
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Street"
-                          value={street}
-                          onChange={(e) => handleStreetName(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {streetError && (
-                        <ErrorMessage message={streetError} type="error" />
-                      )}
-                    </div> */}
-
-                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                      <Form.Group className="">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Landmark {" "}
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="E.g , near appollo hospital"
-                          value={landmark}
-                          onChange={(e) => handleLandmark(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {landmarkError && (
-                        <ErrorMessage message={landmarkError} type="error" />
-                      )}
-                    </div> */}
-
-                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Pincode {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                        </Form.Label>
-                        <Form.Control
-                          value={pincode}
-                          ref={pincodeRef}
-                          onChange={(e) => handlePinCodeChange(e)}
-                          type="tel"
-                          maxLength={6}
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          placeholder="Enter Pincode"
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: pincode ? 600 : 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                        {pincodeError && (
-                          <ErrorMessage message={pincodeError} type="error" />
-                        )}
-
-
-                      </Form.Group>
-                    </div> */}
-
-                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                      <Form.Group className="">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Town/City {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter City"
-                          value={city}
-                          ref={cityRef}
-                          onChange={(e) => handleCity(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {cityError && (
-                        <ErrorMessage message={cityError} type="error" />
-                      )}
-                    </div> */}
-
-                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                        <Form.Label
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 14,
-                            fontWeight: 500,
-                            color: "#222",
-                            fontStyle: "normal",
-                            lineHeight: "normal",
-                          }}
-                        >
-                          State {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-
-                        <Select
-                          options={indianStates}
-                          onChange={(selectedOption) => {
-                            setStateName(selectedOption?.value);
-                          }}
-                          ref={stateRef}
-                          onInputChange={(inputValue, { action }) => {
-                            if (action === "input-change") {
-                              const lettersOnly = inputValue.replace(
-                                /[^a-zA-Z\s]/g,
-                                ""
-                              );
-                              return lettersOnly;
-                            }
-                            return inputValue;
-                          }}
-                          value={
-                            state_name ? { value: state_name, label: state_name } : null
-                          }
-                          placeholder="Select State"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No state available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "50px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: state_name ? 600 : 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-                        />
-
-                        {!state_name && state_nameError && (
-                          <ErrorMessage message={state_nameError} type="error" />
-                        )}
-                      </Form.Group>
-
-                    </div> */}
 
 
                     {formError && (
@@ -959,26 +498,27 @@ function UserAdditionalContact(props) {
 
                 </div>
 
-                {guardianAlreadyError && (
-                  <ErrorMessage message={guardianAlreadyError} type="error" />
+                {state.UsersList.contactError && (
+                  <ErrorMessage message={state.UsersList.contactError} type="error" />
                 )}
+
                 <Modal.Footer className="border-0 pt-0" >
                   <div className="flex justify-end gap-3">
 
                     <Button
-                      onClick={handleCloseAdditionalForm}
+                      onClick={handleClose}
                       className="w-full mt-1 bg-white border-0 !font-gilroy !text-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] font-gilroy px-[40px] py-2"
 
                     >
                       Cancel
                     </Button>
 
-                    <Button disabled
+                    <Button disabled={formLoading}
                       onClick={handleSubmitContact}
                       className="w-full mt-1 !whitespace-nowrap !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy !px-[40px] py-2"
 
                     >
-                      Coming Soon
+                      {formLoading ? "Adding..." : "Add"}
                     </Button>
                   </div>
                 </Modal.Footer>

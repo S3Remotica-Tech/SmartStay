@@ -1,7 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {finalAddRoomReading,TenantUploadDocument,deleteTenantUploadDocument,deleteTemplatesImages, 
+import {
+   finalAddRoomReading, TenantUploadDocument, deleteTenantUploadDocument, deleteTemplatesImages,
    cancelCheckoutInitialize, getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading, editHostelReading,
@@ -29,15 +30,15 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+   else if (status === 403) {
+      yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+   }
 }
 
 
@@ -77,7 +78,7 @@ function* handleDeleteTenantUploadDocument(args) {
          });
 
       }
-     
+
    }
    catch (error) {
       yield* handleApiError(error);
@@ -121,7 +122,7 @@ function* handleDeleteTemplatesImages(args) {
          });
 
       }
-     
+
    }
    catch (error) {
       yield* handleApiError(error);
@@ -137,7 +138,7 @@ function* handleDeleteTemplatesImages(args) {
 function* handleTenantUploadDocument(datum) {
    try {
       const response = yield call(TenantUploadDocument, datum.payload);
-     if (response?.status === 201) {
+      if (response?.status === 201) {
          yield put({
             type: 'TENANT_DOCUMENT_UPLOAD',
             payload: { response: response.message, statusCode: response?.status },
@@ -178,8 +179,8 @@ function* handleTenantUploadDocument(datum) {
    catch (error) {
       yield* handleApiError(error);
       if (error.status) {
-                    yield put({ type: 'TENANT_DOCUMENT_UPLOAD_ERROR', payload: error.response.data });
-                           toast.error(`${error.response.data}`, {
+         yield put({ type: 'TENANT_DOCUMENT_UPLOAD_ERROR', payload: error.response.data });
+         toast.error(`${error.response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -189,8 +190,8 @@ function* handleTenantUploadDocument(datum) {
             draggable: true,
             progress: undefined,
          });
-             
-                  }
+
+      }
    }
 }
 
@@ -229,7 +230,7 @@ function* handleCancelCheckoutInitialize(reading) {
       if (response?.status === 200) {
          yield put({ type: 'INITIALIZE_CANCEL_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })
       }
-     
+
    }
    catch (err) {
 
@@ -899,7 +900,7 @@ function* handleBookedDetails(action) {
       if (response?.status === 200) {
          yield put({ type: 'BOOKED_DETAILS', payload: { response: response.data, statusCode: response?.status } })
       }
-    
+
    }
    catch (error) {
       yield* handleApiError(error);
@@ -907,7 +908,7 @@ function* handleBookedDetails(action) {
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error?.status === 400 || error?.response?.status === 400) {
             yield put({ type: 'BED_AVAILABLE_ERROR_BOOKED', payload: error.response.data });
-                     yield put({ type: 'BOOKED_DETAILS', payload: { response: '', statusCode: 0 } })
+            yield put({ type: 'BOOKED_DETAILS', payload: { response: '', statusCode: 0 } })
 
          }
       }
@@ -2583,7 +2584,7 @@ function* handleCustomerAddContact(action) {
       if (response?.status === 200) {
 
          yield put({ type: 'CUSTOMER_ADD_CONTACT', payload: { response: response.data, statusCode: response?.status } })
-         toast.success(`${response.data.message}`, {
+         toast.success(`Created Successfully`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -2595,21 +2596,14 @@ function* handleCustomerAddContact(action) {
             style: toastStyle,
          });
       }
-      else if (response?.status === 201) {
-         yield put({ type: 'CONTACT_ERROR', payload: { response: response.data.message, statusCode: response?.status } })
-      }
 
-      else {
-         yield put({ type: 'ERROR', payload: response.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
    }
-   catch (err) {
-      const error = err || {};
+   catch (error) {
       yield* handleApiError(error);
+      if (error.status === 400 || error.status === 403) {
+         yield put({ type: 'CONTACT_ERROR', payload: { response: error.response.data } })
 
+      }
    }
 }
 
@@ -3285,10 +3279,10 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
-    yield takeEvery('DELETETEMPLATESIMAGES',handleDeleteTemplatesImages)
+   yield takeEvery('DELETETEMPLATESIMAGES', handleDeleteTemplatesImages)
    yield takeEvery('DELETETENANTDOCUMENT', handleDeleteTenantUploadDocument)
-   yield takeEvery('TENANTDOCUMENTUPLOADSAGA',handleTenantUploadDocument)
- yield takeEvery('FINALSETTLEMENTADDROOMREADINGSAGA', handleFinalSettlementAddRoomReading)
+   yield takeEvery('TENANTDOCUMENTUPLOADSAGA', handleTenantUploadDocument)
+   yield takeEvery('FINALSETTLEMENTADDROOMREADINGSAGA', handleFinalSettlementAddRoomReading)
    yield takeEvery('DELETEREADING', handleDeleteReading)
    yield takeEvery('INITIALIZECANCELCHECKOUT', handleCancelCheckoutInitialize)
    yield takeEvery('GETINITIALIZECHECKOUT', handleGetInitializeCheckout)
