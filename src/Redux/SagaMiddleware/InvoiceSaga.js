@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+   InvoiceDiscount,
    getInitializeEditRecurring, shareWhatsappPDF, shareWhatsappPDFReceipt, UpdateManualUnPaid,
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
@@ -31,6 +32,70 @@ function* handleApiError(error) {
       yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
    }
 }
+
+function* handleInvoiceDiscount(action) {
+
+   try {
+      const response = yield call(InvoiceDiscount, action.payload)
+
+      if (response?.status === 200) {
+         yield put({ type: 'INVOICE_DISCOUNT_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.status === 400 || error.status === 403) {
+         yield put({ type: 'INVOICE_DISCOUNT_REDUCER_ERROR', payload: error.response.data });
+      }
+
+   }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function* handleGetInitializeEditRecurring(action) {
 
@@ -2120,7 +2185,7 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
-
+   yield takeEvery('INVOICE_DISCOUNT_SAGA', handleInvoiceDiscount)
    yield takeEvery('MANUAL_BILL_UPDATE_UNPAID_SAGA', handleUpdatemanualUnPaid)
    yield takeEvery('WHATSAPPSHAREPDFRECEIPT', handleGetshareWhatsappPDFReceipt)
    yield takeEvery('GETSHAREPDF', handleGetshareWhatsappPDF)

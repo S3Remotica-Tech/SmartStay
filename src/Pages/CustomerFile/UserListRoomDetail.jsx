@@ -5,10 +5,9 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, Edit2, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1 } from "iconsax-react";
+import { Call, Sms, House, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-// import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
@@ -23,14 +22,10 @@ import UserListAmenities from "./UserListAmenities";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-// import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-// import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Trash } from "iconsax-react";
-// import docDown from "../../Assets/Images/New_images/downdoc.png";
-// import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
@@ -38,7 +33,6 @@ import dayjs from "dayjs";
 import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
-// import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
 import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
@@ -49,9 +43,6 @@ import CityImage from "../../Assets/Images/buildings.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import LinkImage from "../../Assets/Images/home-link.png";
-// import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
-// import MoneyImage from "../../Assets/Images/Money.png";
-// import EyeIcon from "../../Assets/Images/eye.png";
 import BackToCheckIn from "./BackToCheckIn";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import Stayhistory from "../../Assets/Images/stay_history.png";
@@ -146,13 +137,13 @@ function UserListRoomDetail(props) {
   const [inActiveDetails, setInactiveDetails] = useState("")
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
-  // const [contactEdit, setContactEdit] = useState("");
+  const [additionalContact, setAdditionalContact] = useState([]);
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
   const [advanceDate, setAdvanceDate] = useState("");
   const [advanceDueDate, setAdvanceDueDate] = useState("");
-  const [advanceDateError, setAdvanceDateError] = useState("");
-  const [advanceDueDateError, setAdvanceDueDateError] = useState("");
+  // const [advanceDateError, setAdvanceDateError] = useState("");
+  // const [advanceDueDateError, setAdvanceDueDateError] = useState("");
   const [customerDetails, setCustomerDetails] = useState([])
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
@@ -190,8 +181,7 @@ function UserListRoomDetail(props) {
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
   const menuRef = useRef(null);
-
-
+  const [ProfilePic, setProfilepic] = useState(false)
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   // const canDeleteTenant = useHasPermission("Customers", "canDelete")
   // const canWriteTenant = useHasPermission("Customers", "canWrite")
@@ -205,14 +195,14 @@ function UserListRoomDetail(props) {
 
 
   const {
-    canReadModule: canReadCheckout,
+    // canReadModule: canReadCheckout,
     canWriteModule: canWriteCheckout
 
   } = useHasPermission("Checkout");
 
   const {
     canWriteModule: canWriteBooking,
-    canReadModule: canReadBooking,
+    // canReadModule: canReadBooking,
 
   } = useHasPermission("Booking");
 
@@ -228,7 +218,9 @@ function UserListRoomDetail(props) {
   const amenitiesRef = useRef(null);
 
   const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay } = location.state || {};
+  const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
+  const CustomerOverView = state.UsersList.customerdetails;
 
 
   useEffect(() => {
@@ -269,6 +261,19 @@ function UserListRoomDetail(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (CustomerOverView) {
+      setAdditionalContact(CustomerOverView?.additionalContacts)
+    }
+
+  }, [CustomerOverView])
+
+  
+
+
+
+
 
 
   useEffect(() => {
@@ -382,6 +387,7 @@ function UserListRoomDetail(props) {
 
 
   const indianStates = [
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
     { value: "Assam", label: "Assam" },
@@ -429,7 +435,6 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       handleCloseGenerateAdvance()
-
       const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter((item) => {
         return item.User_Id === props?.customerUser_Id;
       });
@@ -525,7 +530,7 @@ function UserListRoomDetail(props) {
   }, [props?.userData]);
 
 
-  const [ProfilePic, setProfilepic] = useState(false)
+
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
@@ -748,7 +753,9 @@ function UserListRoomDetail(props) {
     setAdditionalForm(true);
   };
 
-
+const handleCloseAdditionalForm = () =>{
+   setAdditionalForm(false);
+}
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -1967,7 +1974,8 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
-      dispatch({ type: "CONTACTALLDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setAdditionalForm(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
       }, 100);
@@ -2279,9 +2287,7 @@ function UserListRoomDetail(props) {
     }
   };
 
-  const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
-  const CustomerOverView = state.UsersList.customerdetails;
 
   // console.log("CustomerOverView", CustomerOverView)
 
@@ -2294,7 +2300,7 @@ function UserListRoomDetail(props) {
       : null;
 
 
-  console.log("CustomerOverView", CustomerOverView)
+  // console.log("CustomerOverView", CustomerOverView)
 
 
 
@@ -3530,38 +3536,49 @@ function UserListRoomDetail(props) {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto max-h-[240px] overflow-y-auto">
-                    <div className="w-full max-w-full px-2 sm:px-3 mt- py-3">
+                  <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto ">
+                    <div className="w-full max-w-full px-2 sm:px-3 py-3">
                       <div className="flex justify-between items-center border-b border-gray-300 pb-2">
                         <div className="font-semibold text-[16px] font-gilroy">
                           Parent/Guardian Details
                         </div>
-                        <div
-                          onClick={() => {
-                            if (canUpdateTenant) {
-                              // handleEditStayDetails(CustomerOverView);
-                            }
-                          }}
-                          className={`flex justify-center items-center h-7 w-7 relative z-10 ${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"}`}
-                        >
-                          <img
-                            src={EditImage}
-                            alt="Edit"
-                            className="h-4 w-4"
-                            style={{ color: !canUpdateTenant ? "#CCCCCC" : "#000" }}
-                          />
-                        </div>
+                        {
+                          additionalContact?.length > 0 && (
+                            <div className="flex items-center gap-3">
+                             
+
+
+                              <button disabled={!canWriteTenant} type="button"
+                                onClick={() => { 
+                                  if (canWriteTenant) {
+                                    handleAdditionalForm();
+                                  }
+                                }}
+                                className={`flex justify-center gap-2 items-center px-4 py-1  rounded-md  font-gilroy text-white
+        ${canWriteTenant ? "cursor-pointer bg-[#1E45E1]" : "cursor-not-allowed opacity-50"}`}
+                              >
+                                <AddCircle
+                                  size="20"
+                                  color={canWriteTenant ? "#FFFFFF" : "#CCCCCC"}
+                                
+                                />  Additional 
+                              </button>
+
+                            </div>
+                          )
+                        }
+
+
                       </div>
 
-                      <div className="pt-4 font-gilroy text-center">
-                        {state?.UsersList?.customerAllDetaills?.length === 0 ? (
-                          <ParentsGuardian />
+                      <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scrolls">
+                        {additionalContact?.length > 0 ? (
+                          <ParentsGuardian additionalContact={additionalContact} />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700">
                             <p>No Contact Details are there!</p>
-                            <button 
-                            // disabled
-                              type="button"
+                            <button
+                                                          type="button"
                               disabled={!canWriteTenant}
                               onClick={handleAdditionalForm}
                               className="mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
@@ -3694,16 +3711,13 @@ function UserListRoomDetail(props) {
 
                 />
               ) : null}
-              {additionalForm === true ? (
+              {additionalForm && (
                 <UserAdditionalContact
-                  additionalForm={additionalForm}
-                  setAdditionalForm={setAdditionalForm}
-                  id={props.id}
-                  // contactEdit={contactEdit}
+                  show={additionalForm}
+                  handleClose={handleCloseAdditionalForm}
                   editAdditional={editAdditional}
-                  setEditAdditional={setEditAdditional}
                 />
-              ) : null}
+              )}
 
 
             </>
@@ -4957,416 +4971,7 @@ function UserListRoomDetail(props) {
             </Modal.Footer>
           </Modal>
 
-          {/* <Modal
-            show={generateForm}
-            onHide={handleCloseGenerateFormShow}
-            backdrop="static"
-            centered
-          >
-            <Modal.Dialog
-              style={{
-                maxWidth: 666,
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
-              className="m-0 p-0"
-            >
-              <Modal.Body style={{ marginTop: -30 }}>
-                <div className="d-flex align-items-center">
-                  <div className="container">
-                    <div className="row mb-3"></div>
 
-                    <Modal.Header style={{ position: "relative" }}>
-                      <div
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        Generate Advance
-                      </div>
-
-                      <CloseCircle
-                        size="24"
-                        color="#000"
-                        onClick={handleCloseGenerateFormShow}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </Modal.Header>
-
-                    <div className="row mb-3">
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group
-                          className="mb-2"
-                          controlId="checkoutDate"
-                        >
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Invoice Date {" "}
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: "20px",
-                              }}
-                            >
-                              *
-                            </span>
-                          </Form.Label>
-
-                          <div
-                            className="datepicker-wrapper"
-                            style={{
-                              position: "relative",
-                              width: "100%",
-                            }}
-                          >
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={
-                                advanceDate
-                                  ? dayjs(advanceDate)
-                                  : null
-                              }
-                              onChange={(date) => {
-                                setAdvanceDateError("");
-                                setAdvanceDate(
-                                  date ? date.toDate() : null
-                                );
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(
-                                  ".datepicker-wrapper"
-                                )
-                              }
-                              dropdownClassName="custom-datepicker-popup"
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
-                            />
-                          </div>
-                        </Form.Group>
-                        {advanceDateError && (
-                          <ErrorMessage message={advanceDateError} type="error" />
-                        )}
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group
-                          className="mb-2"
-                          controlId="checkoutDate"
-                        >
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Due Date {" "}
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: "20px",
-                              }}
-                            >
-                              *
-                            </span>
-                          </Form.Label>
-
-                          <div
-                            className="datepicker-wrapper"
-                            style={{
-                              position: "relative",
-                              width: "100%",
-                            }}
-                          >
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={
-                                advanceDueDate
-                                  ? dayjs(advanceDueDate)
-                                  : null
-                              }
-                              onChange={(date) => {
-                                setAdvanceDueDateError("");
-                                setAdvanceDueDate(
-                                  date ? date.toDate() : null
-                                );
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(
-                                  ".datepicker-wrapper"
-                                )
-                              }
-                              dropdownClassName="custom-datepicker-popup"
-                            />
-                          </div>
-                        </Form.Group>
-                        {advanceDueDateError && (
-                          <ErrorMessage message={advanceDueDateError} type="error" />
-                        )}
-                      </div>
-                    </div>
-
-                    <Button
-                      className="w-100"
-                      style={{
-                        backgroundColor: "#1E45E1",
-                        fontWeight: 600,
-                        height: 50,
-                        borderRadius: 12,
-                        fontSize: 16,
-                        fontFamily: "Montserrat",
-                      }}
-                      onClick={handleGenerateAdvance}
-                    >
-                      Generate Advance
-                    </Button>
-                  </div>
-
-                </div>
-              </Modal.Body>
-
-
-            </Modal.Dialog>
-          </Modal> */}
-
-
-
-
-          <Modal
-            show={generateFormAdvance}
-            onHide={handleCloseGenerateAdvance}
-            backdrop="static"
-            centered
-          >
-            <Modal.Dialog
-              style={{
-                maxWidth: 666,
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
-              className="m-0 p-0"
-            >
-              <Modal.Body style={{ marginTop: -30 }}>
-                <div className="d-flex align-items-center">
-                  <div className="container">
-                    <div className="row mb-3"></div>
-
-                    <Modal.Header style={{ position: "relative" }}>
-                      <div
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        Generate Advance
-                      </div>
-
-                      <CloseCircle
-                        size="24"
-                        color="#000"
-                        onClick={handleCloseGenerateAdvance}
-                        className="cursor-pointer"
-                      />
-                    </Modal.Header>
-
-                    <div className="row mb-3">
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group
-                          className="mb-2"
-                          controlId="checkoutDate"
-                        >
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Invoice Date {" "}
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: "20px",
-                              }}
-                            >
-                              *
-                            </span>
-                          </Form.Label>
-
-                          <div
-                            className="datepicker-wrapper"
-                            style={{
-                              position: "relative",
-                              width: "100%",
-                            }}
-                          >
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={
-                                advanceDate
-                                  ? dayjs(advanceDate)
-                                  : null
-                              }
-                              onChange={(date) => {
-                                setAdvanceDateError("");
-                                setAdvanceDate(
-                                  date ? date.toDate() : null
-                                );
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(
-                                  ".datepicker-wrapper"
-                                )
-                              }
-                              dropdownClassName="custom-datepicker-popup"
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
-                            />
-                          </div>
-                        </Form.Group>
-                        {advanceDateError && (
-                          <ErrorMessage message={advanceDateError} type="error" />
-                        )}
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group
-                          className="mb-2"
-                          controlId="checkoutDate"
-                        >
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Due Date {" "}
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: "20px",
-                              }}
-                            >
-                              *
-                            </span>
-                          </Form.Label>
-
-                          <div
-                            className="datepicker-wrapper"
-                            style={{
-                              position: "relative",
-                              width: "100%",
-                            }}
-                          >
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={
-                                advanceDueDate
-                                  ? dayjs(advanceDueDate)
-                                  : null
-                              }
-                              onChange={(date) => {
-                                setAdvanceDueDateError("");
-                                setAdvanceDueDate(
-                                  date ? date.toDate() : null
-                                );
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(
-                                  ".datepicker-wrapper"
-                                )
-                              }
-                              dropdownClassName="custom-datepicker-popup"
-                            />
-                          </div>
-                        </Form.Group>
-                        {advanceDueDateError && (
-                          <ErrorMessage message={advanceDueDateError} type="error" />
-                        )}
-                      </div>
-                    </div>
-
-
-                    <div className="d-flex gap-2">
-                      <Button
-
-                        variant="secondary"
-                        className="w-100"
-                        style={{
-                          height: 45,
-                          borderRadius: 12,
-                          fontSize: 15,
-                          fontWeight: 500,
-                          fontFamily: "Montserrat",
-                          paddingLeft: 20,
-                          paddingRight: 20,
-                        }}
-                        onClick={handleCancelButton}
-                      >
-                        Cancel
-                      </Button>
-
-                      <Button
-                        className="w-100"
-                        style={{
-                          backgroundColor: "#1E45E1",
-                          height: 45,
-                          borderRadius: 12,
-                          fontSize: 15,
-                          fontWeight: 600,
-                          fontFamily: "Montserrat",
-                          paddingLeft: 25,
-                          paddingRight: 25,
-                        }}
-
-                        disabled={advanceDetail[0]?.inv_id}
-                        onClick={handleSaveButton}
-                      >
-                        Save
-                      </Button>
-                    </div>
-
-                  </div>
-
-                </div>
-              </Modal.Body>
-
-
-            </Modal.Dialog>
-          </Modal>
 
           <TabPanel value="2" className="w-full max-w-full px-2 sm:px-0">
             <UserEb

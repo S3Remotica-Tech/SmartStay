@@ -289,7 +289,7 @@ const revenueData =
                 tickLine={false}
                 domain={[0, "dataMax + 2"]}
                 label={{
-                  value: "₹ Lakhs",
+                  value: "₹",
                   angle: -90,
                   position: "insideLeft",
                   style: { fontFamily: "Gilroy", fontSize: 12 },
@@ -301,11 +301,10 @@ const revenueData =
                 borderRadius: 8,
                 border: "1px solid #E5E7EB",
               }}
-                formatter={(value) => [`₹ ${value} L`, ""]}
+                formatter={(value) => [`₹ ${value} `, ""]}
                 cursor={{ fill: "transparent" }}
               />
 
-              {/* Collected */}
               <Bar
                 dataKey="collected"
                 fill="#16A34A"
@@ -313,7 +312,7 @@ const revenueData =
                 radius={[6, 6, 0, 0]}
               />
 
-              {/* Outstanding */}
+             
               <Bar
                 dataKey="outstanding"
                 fill="#F54900"
@@ -321,16 +320,7 @@ const revenueData =
                 radius={[6, 6, 0, 0]}
               />
 
-              {/* <Legend
-                verticalAlign="top"
-                align="center"
-                iconType="circle"
-                wrapperStyle={{
-                  fontFamily: "Gilroy",
-                  fontSize: 12,
-                  marginBottom: 16,
-                }}
-              /> */}
+             
             </BarChart>
           </ResponsiveContainer>
 

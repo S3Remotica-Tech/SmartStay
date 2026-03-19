@@ -709,20 +709,20 @@ function Banking() {
                   return (
                     <div
                       key={item.id}
-                      className="
-            flex-shrink-0
+                      className={` flex-shrink-0
             w-[280px]
             h-[180px]
             flex flex-col justify-between
-            border border-gray-300
+            
             rounded-xl
             overflow-hidden
             relative
-            bg-white
-          "
+           ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border border-gray-300 hover:shadow-md transition"} `}
+
+
                     >
 
-                      <div className="p-4 overflow-y-auto">
+                      <div className="p-4 overflow-y-auto" >
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm font-semibold font-gilroy mb-0">
@@ -736,11 +736,18 @@ function Banking() {
 
 
                           <div
-                            className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${openMenuId === item.bankingId
-                              ? "bg-blue-100"
-                              : "bg-white"
-                              }`}
-                            onClick={() => handleShowDots(item.bankingId)}
+                            className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
+    ${item.isDeleted
+                                ? "cursor-not-allowed opacity-50 "
+                                : "cursor-pointer"
+                              }
+    ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
+  `}
+                            onClick={() => {
+                              if (!item.isDeleted) {
+                                handleShowDots(item.bankingId);
+                              }
+                            }}
                           >
                             <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                           </div>

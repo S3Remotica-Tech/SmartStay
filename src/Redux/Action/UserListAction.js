@@ -666,23 +666,23 @@ export async function customerReAssignBed(hostelId , customerId , datum) {
 }
 
 
-export  function customerAddContact() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.post('/contacts/add_contact', datum, {
-  //   data: datum
-  // })
+export async function customerAddContact(contact) {
+  console.log("contact", contact);
+
+  return await AxiosConfigV2.put(
+    `/v2/customers/additional-contacts/${contact.hostelId}/${contact.customerId}`,
+    contact 
+  );
 }
 
-export  function customerAllContact() {
 
-new Promise((resolve) => {
+export   function customerAllContact() {
+   new Promise((resolve) => {
   resolve({status: 200});
 })
-  // return await AxiosConfig.post('/users/all_contacts', datum, {
-  //   data: datum
-  // })
+//  return await AxiosConfigV2.get('/users/all_contacts', datum, {
+//     data: datum
+//   })
 }
 
 
