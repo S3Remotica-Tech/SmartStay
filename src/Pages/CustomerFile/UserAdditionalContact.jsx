@@ -135,7 +135,7 @@ function UserAdditionalContact({show, handleClose}) {
     { value: "Father", label: "Father" },
     { value: "Mother", label: "Mother" },
     { value: "Brother", label: "Brother" },
-    { value: "Brother", label: "Brother" },
+    { value: "Sister", label: "Sister" },
     {
       value: "Others",
       label: "Others",

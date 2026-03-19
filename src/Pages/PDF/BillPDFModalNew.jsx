@@ -20,7 +20,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
-import { ArrowUp2, ArrowDown2, AddCircle } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
@@ -1575,15 +1575,56 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
               {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
-                <button
-                  disabled={!canWriteInvoice}
-                  onClick={() => {
-                    if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails);
-                  }}
-                  className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
-                >
-                  + Record Payment
-                </button>
+                <div className="relative inline-flex" ref={menuRef}>
+
+                  
+                  <button
+                    disabled={!canWriteInvoice}
+                    onClick={() => {
+                      if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails);
+                    }}
+                    className="flex items-center gap-2 bg-[#1E45E1] text-white text-sm px-4 py-2 rounded-l-md disabled:opacity-50"
+                  >
+                    <Add size="16"  color="#FFFFFF"/>
+                    Record Payment
+                  </button>
+                  <button
+                    onClick={() => setOpen(!open)}
+                    className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
+                  >
+                   <ArrowDown2
+  size="16"
+  className={`transition-transform duration-300 ${
+    open ? "rotate-180" : "rotate-0"
+  }`}
+/>
+                  </button>
+                  {open && (
+                    <div className="absolute right-0 top-[-100px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+
+                      <button
+                        onClick={handleWaiveOff}
+                        disabled={!canWriteInvoice}
+                        className={`w-full text-left px-4 py-2 text-sm
+              ${canWriteInvoice ? "hover:bg-gray-100" : "opacity-50 cursor-not-allowed"}
+            `}
+                      >
+                        Waive Off
+                      </button>
+
+                      <button
+                        onClick={handleMakeDiscount}
+                        disabled={!canWriteInvoice}
+                        className={`w-full text-left px-4 py-2 text-sm
+              ${canWriteInvoice ? "hover:bg-blue-50" : "opacity-50 cursor-not-allowed"}
+            `}
+                      >
+                        Make Discount
+                      </button>
+
+                    </div>
+                  )}
+                </div>
               )}
 
 
@@ -1603,14 +1644,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 (
                   isOpenPayment ? (
                     <ArrowUp2
-                      size="18"
+                      size="18" variant="Bold"
                       color="#1E45E1"
                       style={{ cursor: "pointer" }}
                       onClick={() => { setIsOpenPayment(false); setIsOpen(false) }}
                     />
                   ) : (
                     <ArrowDown2
-                      size="18"
+                      size="18" variant="Bold"
                       color="#1E45E1"
                       style={{ cursor: "pointer" }}
                       onClick={() => { setIsOpenPayment(true); setIsOpen(false) }}
@@ -1734,7 +1775,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
             </div>
           )}
 
-          {
+          {/* {
             pdfDetails?.invoiceInfo?.totalAmount > 0 &&
 
             <div className="relative inline-block w-full border-t" ref={menuRef}>
@@ -1785,7 +1826,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
             </div>
           }
-
+ */}
 
 
         </div>

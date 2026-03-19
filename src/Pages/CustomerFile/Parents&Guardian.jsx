@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
-import { Call,  MessageEdit, ArrowDown2 } from "iconsax-react";
+import { Call, Edit, ArrowDown2 } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import Landamrkimage from "../../Assets/Images/landmark.png";
 import { useHasPermission } from '../../Utils/Permission';
@@ -15,10 +15,10 @@ function ParentsGuardian({ additionalContact }) {
   };
 
   const {
-    
-      canUpdateModule: canUpdateTenant,
-          } = useHasPermission("Customers");
-  
+
+    canUpdateModule: canUpdateTenant,
+  } = useHasPermission("Customers");
+
 
   return (
     <>
@@ -33,7 +33,7 @@ function ParentsGuardian({ additionalContact }) {
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex items-center gap-4">
-                   <p className="font-semibold text-black text-xl text-start mb-2">{contact.fullName} </p>
+                  <p className="font-semibold text-black text-xl text-start mb-2">{contact.fullName} </p>
                   <span className="bg-orange-100 px-3 py-1 rounded-lg text-orange-600 text-sm font-medium">
                     Contact {index + 1}
                   </span>
@@ -52,14 +52,14 @@ function ParentsGuardian({ additionalContact }) {
                 <button disabled
                   onClick={() => {
                     if (canUpdateTenant) {
-                                          }
+                    }
                   }}
                   className={`flex justify-center items-center h-8 w-8 rounded-full 
                                        disabled:cursor-not-allowed 
       disabled:opacity-50
             ${canUpdateTenant ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed opacity-50"}`}
                 >
-                  <MessageEdit size="22" color={canUpdateTenant ? "#1E45E1" : "#CCCCCC"} variant="Bold" />
+                  <Edit size="22" color={canUpdateTenant ? "#1E45E1" : "#CCCCCC"} />
                 </button>
 
 
