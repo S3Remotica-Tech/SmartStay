@@ -190,12 +190,12 @@ function DashQuickAccess(
 
     setShowform(true)
     setSelectedUserId(item.customerId)
-       setInvoiceList({
+    setInvoiceList({
       balanceDue: item?.dueAmount,
       invoiceId: item?.invoiceId,
       invoiceDate: item?.invoiceDate
     })
-   
+
 
   }
 
@@ -252,7 +252,7 @@ function DashQuickAccess(
 
   return (
     <div className="mt-6 font-[Gilroy]">
-     
+
       {
         BookingAssignForm && <BookedCheckIn BookingAssignForm={BookingAssignForm}
           handleClose={handleCloseBooking} bookingDetails={tenantDetails} />
@@ -371,12 +371,13 @@ function DashQuickAccess(
                 {billingSummary.collectionRate}
               </span>
             </div>
-            <div className="h-2 rounded-full bg-gray-100">
+            <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
               <div
-                className="h-full bg-[#F54900] rounded-full transition-all"
-                style={{ width: `${billingSummary.collectionRate}` }}
+                className="h-full bg-[#F54900] rounded-full transition-all duration-300"
+                style={{
+                  width: `${Math.min(Math.max(billingSummary.collectionRate, 0), 100)}%`
+                }}
               />
-
             </div>
             <p className="text-xs text-gray-500 mt-1 flex ">
               <ArrowUp
