@@ -264,14 +264,12 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (CustomerOverView) {
-      setAdditionalContact([CustomerOverView?.additionalContacts])
+      setAdditionalContact(CustomerOverView?.additionalContacts)
     }
 
   }, [CustomerOverView])
 
-  const validContacts = additionalContact?.filter(Boolean) || [];
-
-  console.log("additionalContact", additionalContact)
+  
 
 
 
@@ -3538,43 +3536,33 @@ const handleCloseAdditionalForm = () =>{
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto max-h-[250px]">
+                  <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto ">
                     <div className="w-full max-w-full px-2 sm:px-3 py-3">
                       <div className="flex justify-between items-center border-b border-gray-300 pb-2">
                         <div className="font-semibold text-[16px] font-gilroy">
                           Parent/Guardian Details
                         </div>
                         {
-                          validContacts.length > 0 && (
+                          additionalContact?.length > 0 && (
                             <div className="flex items-center gap-3">
-                              <div
-                                onClick={() => {
-                                  if (canUpdateTenant) {
-                                    // handleEditStayDetails(CustomerOverView);
-                                  }
-                                }}
-                                className={`flex justify-center items-center h-8 w-8 rounded-full 
-        ${canUpdateTenant ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed opacity-50"}`}
-                              >
-                                <Edit size="18" color={canUpdateTenant ? "#000" : "#CCCCCC"} />
-                              </div>
+                             
 
 
-                              <div
-                                onClick={() => {
+                              <button disabled={!canWriteTenant} type="button"
+                                onClick={() => { 
                                   if (canWriteTenant) {
                                     handleAdditionalForm();
                                   }
                                 }}
-                                className={`flex justify-center items-center h-8 w-8 rounded-full 
-        ${canWriteTenant ? "cursor-pointer bg-blue-50" : "cursor-not-allowed opacity-50"}`}
+                                className={`flex justify-center gap-2 items-center px-4 py-1  rounded-md  font-gilroy text-white
+        ${canWriteTenant ? "cursor-pointer bg-[#1E45E1]" : "cursor-not-allowed opacity-50"}`}
                               >
                                 <AddCircle
                                   size="20"
-                                  color={canWriteTenant ? "#1E45E1" : "#CCCCCC"}
-                                  variant="Bold"
-                                />
-                              </div>
+                                  color={canWriteTenant ? "#FFFFFF" : "#CCCCCC"}
+                                
+                                />  Additional 
+                              </button>
 
                             </div>
                           )
@@ -3583,15 +3571,14 @@ const handleCloseAdditionalForm = () =>{
 
                       </div>
 
-                      <div className="pt-4 font-gilroy text-center">
-                        {validContacts.length > 0 ? (
-                          <ParentsGuardian additionalContact={validContacts} />
+                      <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scrolls">
+                        {additionalContact?.length > 0 ? (
+                          <ParentsGuardian additionalContact={additionalContact} />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700">
                             <p>No Contact Details are there!</p>
                             <button
-                              // disabled
-                              type="button"
+                                                          type="button"
                               disabled={!canWriteTenant}
                               onClick={handleAdditionalForm}
                               className="mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"

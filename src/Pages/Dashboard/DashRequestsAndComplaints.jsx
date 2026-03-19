@@ -62,14 +62,14 @@ function DashRequestAndComplaints() {
     ];
 
     const complaintList =
-        RequestComplaints?.complaints?.map((item) => ({
-            id: item.complaintId,
-            name: item.customerName || "-",
+        RequestComplaints?.tenantcomplaint?.map((item) => ({
+            tenantId: item.tenantId,
+            name: item.fullName || "-",
             room: item.roomName,
-            title: item.description,
-            type: item.type,
+            title: item.complaintDescription,
+            type: item.complaintType,
             status: item.status,
-            time: item.date
+            time: item.complaintDate
         })) || [];
 
     const statusStyle = {
