@@ -95,7 +95,11 @@ function UserAdditionalContact({show, handleClose}) {
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
-
+useEffect(() => {
+  return () => {
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
+  };
+}, []);
 
 
   const handleCloseAdditionalForm = () => {

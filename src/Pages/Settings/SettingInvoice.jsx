@@ -2949,7 +2949,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
               :
               <div>
 
-                <div className="bg-white sticky top-0 z-10 pb-2 h-20 shrink-0 mt-2">
+                <div className="bg-white sticky top-0 z-10 pb-2 h-auto shrink-0 mt-2">
                   <label className="text-[18px] font-semibold text-[#222] font-gilroy">
                     Bill Templates
                   </label>

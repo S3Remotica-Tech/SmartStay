@@ -57,7 +57,7 @@ function* handleInvoiceDiscount(action) {
 
          };
 
-         toast.success(response.data, {
+         toast.success(response.data || "Updated Successfully", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,

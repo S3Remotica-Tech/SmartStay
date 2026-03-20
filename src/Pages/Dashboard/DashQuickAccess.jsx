@@ -372,12 +372,14 @@ function DashQuickAccess(
               </span>
             </div>
             <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-              <div
-                className="h-full bg-[#F54900] rounded-full transition-all duration-300"
-                style={{
-                  width: `${Math.min(Math.max(billingSummary.collectionRate, 0), 100)}%`
-                }}
-              />
+              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#F54900] transition-all duration-300"
+                  style={{
+                    width: `${Math.min(Math.max(parseFloat(billingSummary.collectionRate) || 0, 0), 100)}%`
+                  }}
+                />
+              </div>
             </div>
             <p className="text-xs text-gray-500 mt-1 flex ">
               <ArrowUp

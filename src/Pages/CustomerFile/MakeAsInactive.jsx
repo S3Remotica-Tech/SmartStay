@@ -261,7 +261,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                         controlId="exampleForm.ControlInput1"
                     >
                         <Form.Label className="text-sm font-medium text-[#222222] font-gilroy mt-1">
-                            Mode Of Transaction <span className="text-red-500 text-xl">*</span>
+                            Refund From <span className="text-red-500 text-xl">*</span>
                         </Form.Label>
 
                         <Select

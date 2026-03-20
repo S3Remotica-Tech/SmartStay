@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
-import DownLoad from '../../Assets/Images/New_images/searchss.png'
+// import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
 import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'
 import Whatsapp_white from '../../Assets/Images/whatsapp_white.png'
@@ -83,7 +83,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
   });
 
-  const cardRef = useRef(null);
+  // const cardRef = useRef(null);
 
   useEffect(() => {
 

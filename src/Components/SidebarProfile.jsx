@@ -26,7 +26,7 @@ function SidebarProfile({
 }) {
   const state = useSelector((state) => state);
 
-  console.log("state.UsersList.hostelList", state.UsersList.hostelList)
+  // console.log("state.UsersList.hostelList", state.UsersList.hostelList)
   return (
     <Offcanvas
       show={showProfileCard}
