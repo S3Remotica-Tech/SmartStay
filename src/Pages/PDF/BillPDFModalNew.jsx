@@ -231,7 +231,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-  const pdfDetails = state.InvoiceList?.particularBillsDetails
+  const pdfDetails = state.InvoiceList?.particularBillsDetails;
+
+  console.log("pdfDetails", pdfDetails)
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
@@ -332,6 +334,35 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
     "Pending Refund": "bg-orange-100 text-orange-700",
     Cancelled: "bg-orange-100 text-orange-900",
   };
+
+
+  const isPending = pdfDetails?.invoiceInfo?.paymentStatus === "Pending";
+
+  const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
+  const isRent = pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
+
+  const showSplitButton = isPending && (isSettlement || isRent);
+
+
+  useEffect(() => {
+    if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
+      setShowDiscountInvoice(false)
+      dispatch({
+        type: 'GETPARTICULARBILLSDETAILS', payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId
+        }
+      })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
+      })
+    }
+
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
+
+
+
+
 
 
 
@@ -1562,13 +1593,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 : "Refund Made"}
             </span>
 
-            <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">
-              {pdfDetails?.paymentHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount > 0
-                ? "No Payments made yet!"
-                : pdfDetails?.refundHistory?.length === 0
-                  ? "No Refund made yet!"
-                  : ""}
-            </span>
+
+            {pdfDetails?.paymentHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount > 0
+              ? <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500"> No Payments made yet!</span>
+              : pdfDetails?.refundHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount < 0
+                ? <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">No Refund made yet!</span>
+                : ""}
+
 
 
             <div className="flex items-center gap-2">
@@ -1577,30 +1608,36 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
               {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
                 <div className="relative inline-flex" ref={menuRef}>
 
-                  
+
                   <button
                     disabled={!canWriteInvoice}
                     onClick={() => {
                       if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails);
                     }}
-                    className="flex items-center gap-2 bg-[#1E45E1] text-white text-sm px-4 py-2 rounded-l-md disabled:opacity-50"
+                    className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm px-4 py-2 
+        ${showSplitButton ? "rounded-l-md" : "rounded-md"} 
+        disabled:opacity-50`}
                   >
-                    <Add size="16"  color="#FFFFFF"/>
+                    <Add size="16" color="#FFFFFF" />
                     Record Payment
                   </button>
-                  <button
-                    onClick={() => setOpen(!open)}
-                    className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
-                  >
-                   <ArrowDown2
-  size="16"
-  className={`transition-transform duration-300 ${
-    open ? "rotate-180" : "rotate-0"
-  }`}
-/>
-                  </button>
+
+                  {
+                    showSplitButton &&
+                    <button
+                      onClick={() => setOpen(!open)}
+                      className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
+                    >
+                      <ArrowDown2
+                        size="16"
+                        className={`transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
+                          }`}
+                      />
+                    </button>
+                  }
+
                   {open && (
-                    <div className="absolute right-0 top-[-100px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <div className="absolute right-0 top-[-100px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-xl z-50">
 
                       <button
                         onClick={handleWaiveOff}
@@ -1614,7 +1651,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                       <button
                         onClick={handleMakeDiscount}
-                        disabled={!canWriteInvoice}
+                        disabled={!canWriteInvoice }
                         className={`w-full text-left px-4 py-2 text-sm
               ${canWriteInvoice ? "hover:bg-blue-50" : "opacity-50 cursor-not-allowed"}
             `}

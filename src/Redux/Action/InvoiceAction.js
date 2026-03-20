@@ -394,7 +394,7 @@ export async function DeleteAmenities(amenityId, hostelId) {
 
 
 export async function InvoiceDiscount(discount) {
-  return await AxiosConfigV2.post(``, discount, {
+  return await AxiosConfigV2.post(`/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`, discount, {
   })
 }
 

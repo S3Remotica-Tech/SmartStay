@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import RefundAmount from "../Bills/RefundAmount";
 import { useNavigate } from "react-router-dom";
 import UnPaidInvoice from "./UnPaidInvoice";
+import { DiscountCircle } from 'iconsax-react';
+import DiscountInvoice from "../PDF/DiscountInvoice";
 
 const InvoiceTable = (props) => {
   const state = useSelector((state) => state);
@@ -20,6 +22,13 @@ const InvoiceTable = (props) => {
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
+  const [WriteoffForm, setWriteOffForm] = useState(false)
+  const [payapleform, setPayableForm] = useState(false)
+  const [refundDetails, setRefundDetails] = useState('')
+  const popupRef = useRef(null);
+  const [showUnpaidModal, setShowUnpaidModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
 
   const [showAbove, setShowAbove] = useState(false);
   // const canWriteInvoice = useHasPermission("Invoice", "canWrite")
@@ -49,10 +58,6 @@ const InvoiceTable = (props) => {
   }, [popupPosition]);
 
 
-
-  const [WriteoffForm, setWriteOffForm] = useState(false)
-  const [payapleform, setPayableForm] = useState(false)
-  const [refundDetails, setRefundDetails] = useState('')
 
 
   const handleShowDots = (event) => {
@@ -122,7 +127,7 @@ const InvoiceTable = (props) => {
 
 
 
-  const popupRef = useRef(null);
+
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setShowDots(false);
@@ -166,8 +171,7 @@ const InvoiceTable = (props) => {
 
   }
 
-  const [showUnpaidModal, setShowUnpaidModal] = useState(false);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
+
 
   const handleUnpaid = (item) => {
     setShowDots(false);
@@ -185,12 +189,41 @@ const InvoiceTable = (props) => {
     // }
   };
 
-
+  const handleMakeDiscount = () => {
+    setShowDiscountInvoice(true)
+  }
+  const handleCloseFormDiscount = () => {
+    setShowDiscountInvoice(false)
+  }
 
 
   const handleCloseUnPaid = () => {
     setShowUnpaidModal(false);
   }
+
+
+useEffect(() => {
+    if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
+      setShowDiscountInvoice(false)
+      dispatch({
+        type: 'GETPARTICULARBILLSDETAILS', payload: {
+          hostelId: props.item?.hostelId,
+          invoiceId: props.item?.invoiceId
+        }
+      })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
+      })
+    }
+
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
+
+
+
+
+
+
+
   return (
 
     <>
@@ -275,6 +308,11 @@ const InvoiceTable = (props) => {
           }}
           className=""
         >
+
+
+
+
+
 
           {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
@@ -440,51 +478,63 @@ const InvoiceTable = (props) => {
                       (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid" && props.item.invoiceType === "Rent") &&
 
 
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          backgroundColor: "#F9F9F9",
-                          padding: "8px 12px",
-                          opacity: !canUpdateInvoice ? 0.5 : 1,
-                        }}
+                      <button
+                        disabled={!canWriteInvoice}
                         onClick={() => {
-                          if (canUpdateInvoice) handleUnpaid(props.item);
+                          if (canWriteInvoice) handleUnpaid(props.item);
                         }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
+                        className={`flex items-center gap-2 w-full text-left px-3 py-2 
+    bg-[#F9F9F9] rounded-t-md
+    ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}
+  `}
                       >
                         <img
                           src={Edit}
                           alt="Edit"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
-                          }}
+                          className={`h-4 w-4 ${!canWriteInvoice ? "grayscale" : ""}`}
                         />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#222",
-                            cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
+
+                        <span className="text-sm font-medium font-[Gilroy,sans-serif] text-[#222]">
                           Unpaid
-                        </label>
-                      </div>
+                        </span>
+                      </button>
 
                     }
 
+                    {
+                      props.item?.invoiceAmount > 0 &&
+                      props.item?.paymentStatus === "Pending" &&
+                      (
+                        props.item?.invoiceType === "Rent" ||
+                        props.item?.invoiceType === "Settlement"
+                      ) &&
+                      <>
 
+                        <button
+                          disabled={!canWriteInvoice}
+                          onClick={() => {
+                            if (canWriteInvoice) handleMakeDiscount(props.item);
+                          }}
+                          className={`flex items-center gap-2 w-full text-left px-3 py-2 
+    bg-[#F9F9F9] rounded-t-md
+    ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}
+  `}
+                        >
+                          <DiscountCircle
+                            size="16"
+                            color="#ec400c"
+                          />
+
+
+                          <span className="text-sm font-medium font-[Gilroy,sans-serif] text-[#222]">
+                            Make Discount
+                          </span>
+                        </button>
+                      </>
+
+
+
+                    }
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
@@ -692,6 +742,12 @@ const InvoiceTable = (props) => {
 
 
       </tr>
+
+
+{
+        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
+      }
+
 
       {
         (WriteoffForm) && (
