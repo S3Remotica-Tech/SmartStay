@@ -8,6 +8,8 @@ import React, {
 import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../Components/ErrorMessage'
+import Select from "react-select";
+import { Trash } from "iconsax-react";
 
 
 function DiscountInvoice({ show, handleClose }) {
@@ -16,10 +18,13 @@ function DiscountInvoice({ show, handleClose }) {
     const state = useSelector((state) => state);
     const [discountInput, setDiscountInput] = useState("");
     const [discountInputError, setDiscountInputError] = useState("");
+    const [reasonError, setReasonError] = useState("")
     const dispatch = useDispatch();
     const [formLoading, setFormLoading] = useState(false)
-    const pdfDetails = state.InvoiceList?.particularBillsDetails
-
+    const pdfDetails = state.InvoiceList?.particularBillsDetails;
+    const [discountType, setDiscountType] = useState("amount");
+    const [selectedReason, setSelectedReason] = useState(null);
+    const [customReason, setCustomReason] = useState("");
     const handleDiscountChange = (e) => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
         dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
@@ -29,33 +34,85 @@ function DiscountInvoice({ show, handleClose }) {
 
     const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
     const discount = parseFloat(discountInput) || 0;
+    const calculatedDiscount =
+  discountType === "percent"
+    ? Math.round((total * discount) / 100)
+    : Math.round(discount);
+   const payableAmount = Math.round(total - calculatedDiscount);
 
-    const payableAmount = total - discount;
-    console.log("Discount", pdfDetails)
+
+    const reasonOptions = [
+        { value: "loyalty", label: "Loyalty Discount" },
+        { value: "promo", label: "Promotional Offer" },
+        { value: "service", label: "Service Issue" },
+        { value: "partial", label: "Partial Stay" },
+        { value: "approval", label: "Special Approval" },
+        { value: "other", label: "Other" },
+    ];
 
 
     const handleApplyInvoices = () => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
-        setDiscountInputError('')
-        if (!discountInput) {
-            setDiscountInputError("Please Enter Discount Amount")
-        }
-        if (discountInput && pdfDetails?.invoiceId && state.login?.selectedHostel_Id) {
-            dispatch({
-                type: 'INVOICE_DISCOUNT_SAGA',
-                payload: {
-                    hostelId: state.login?.selectedHostel_Id,
-                    invoiceId: pdfDetails?.invoiceId,
-                    discountAmount: discountInput,
-                    // discountPercentage: ,
-                    // reason: ,
-                }
-            })
-            setFormLoading(true)
-        }
-    }
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
 
+        let hasError = false;
+
+        const finalReason =
+            selectedReason?.value === "other"
+                ? customReason
+                : selectedReason?.label;
+
+        const discountValue = parseFloat(discountInput) || 0;
+        const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
+
+
+        setDiscountInputError('');
+        setReasonError('');
+
+
+        if (!discountInput) {
+            setDiscountInputError("Please Enter Discount");
+            hasError = true;
+        }
+
+        if (!finalReason) {
+            setReasonError("Please select or enter reason");
+            hasError = true;
+        }
+
+        if (discountType === "percent" && discountValue > 100) {
+            setDiscountInputError("Percentage cannot exceed 100");
+            hasError = true;
+        }
+
+        if (discountType === "amount" && discountValue > total) {
+            setDiscountInputError("Discount cannot exceed total amount");
+            hasError = true;
+        }
+
+
+        if (hasError) return;
+
+
+        let payload = {
+            hostelId: state.login?.selectedHostel_Id,
+            invoiceId: pdfDetails?.invoiceId,
+            reason: finalReason,
+        };
+
+        if (discountType === "amount") {
+            payload.discountAmount = discountValue;
+        } else {
+            payload.discountPercentage = discountValue;
+        }
+
+        dispatch({
+            type: 'INVOICE_DISCOUNT_SAGA',
+            payload
+        });
+
+        setFormLoading(true);
+    };
 
     useEffect(() => {
         if (state.InvoiceList?.makeDiscountError) {
@@ -79,6 +136,7 @@ function DiscountInvoice({ show, handleClose }) {
     useEffect(() => {
         return () => {
             setDiscountInputError('')
+            setReasonError('');
             dispatch({ type: 'CLEAR_NETWORK_ERROR' })
             dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
         }
@@ -97,7 +155,7 @@ function DiscountInvoice({ show, handleClose }) {
                     <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
                 </div>
             )}
-            <div className="flex justify-between items-center px-4 pt-4 py-2 border-b">
+            <div className="flex justify-between items-center px-4 pt-4 py-2 ">
                 <h2 className="text-lg font-semibold text-gray-800">
                     Discount Invoice
                 </h2>
@@ -107,17 +165,17 @@ function DiscountInvoice({ show, handleClose }) {
                 </button>
             </div>
 
-            <div className='flex justify-between items-center bg-[#F7F8FCA8] px-4 py-2.5 rounded mb-2'>
+            <div className='flex justify-between items-center bg-[#F7F8FCA8] mx-4 px-2 py-2.5 rounded mb-2'>
                 <div className="flex gap-3">
                     {
-                       pdfDetails?.customerInfo?.profilePic ? 
-                       <img src={pdfDetails?.customerInfo?.profilePic} alt="image"  className='h-14 w-14 '/> 
-                       :
-                        <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
-                        {pdfDetails?.customerInfo?.initials}
-                    </div>
+                        pdfDetails?.customerInfo?.profilePic ?
+                            <img src={pdfDetails?.customerInfo?.profilePic} alt="image" className='h-14 w-14 ' />
+                            :
+                            <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
+                                {pdfDetails?.customerInfo?.initials}
+                            </div>
                     }
-                   
+
 
                     <div>
                         <div className="font-medium text-lg text-gray-800 mb-1">{pdfDetails?.customerInfo?.fullName}</div>
@@ -150,7 +208,97 @@ function DiscountInvoice({ show, handleClose }) {
 
 
             <div className="px-4 py-2">
-                <p className="text-sm font-medium mb-2">For Invoices</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
+                    <div className="mb-2 col-span-1 sm:col-span-2 md:col-span-4">
+                        <label className="block mb-1 text-sm font-semibold text-[#4B4B4B]">
+                            Reason for Discount <span className='text-red-500'>*</span>
+                        </label>
+
+                        {selectedReason?.value === "other" ? (
+                            <div className="relative w-full">
+
+
+                                <input
+                                    type="text"
+                                    value={customReason}
+                                    onChange={(e) => {
+                                        setCustomReason(e.target.value);
+                                        setReasonError('');
+                                    }}
+                                    placeholder="Enter custom reason"
+                                    className="w-full border border-[#D9D9D9] rounded-md px-3 py-2 pr-10 text-sm outline-none"
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSelectedReason(null);
+                                        setCustomReason("");
+                                        setReasonError('');
+                                    }}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
+                                >
+                                    <Trash size={18} />
+                                </button>
+
+                            </div>
+                        ) : (
+
+                            <Select
+                                options={reasonOptions}
+                                value={selectedReason}
+                                onChange={(option) => {
+                                    setSelectedReason(option);
+                                    setReasonError('');
+                                    if (option?.value !== "other") {
+                                        setCustomReason("");
+                                    }
+                                }}
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        height: "45px",
+                                        border: "1px solid #D9D9D9",
+                                        borderRadius: "8px",
+                                        fontSize: "14px",
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        boxShadow: "none",
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                        color: state.data.value === "Others" ? "#1E45E1" : "#000",
+                                    }),
+                                    placeholder: (base) => ({
+                                        ...base,
+                                        color: "#555",
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto", scrollbarWidth: "thin",
+                                        msOverflowStyle: "auto",
+                                    }),
+                                }}
+                                placeholder="Select Reason"
+                                className="text-sm  rounded-md"
+                            />
+
+                        )}
+                    </div>
+
+
+                </div>
+                {reasonError &&
+                    <div className="mb-2">
+                        <ErrorMessage message={reasonError} type="error" />
+                    </div>
+                }
+                <p className="text-sm font-semibold mb-2 text-[#222222]">For Invoice</p>
 
                 <div className="border rounded-lg overflow-hidden">
                     <table className="w-full text-sm">
@@ -160,8 +308,8 @@ function DiscountInvoice({ show, handleClose }) {
                                 <th className="text-left px-3 py-2">DUE DATE</th>
                                 <th className="text-left px-3 py-2">AMOUNT</th>
                                 <th className="text-left px-3 py-2">OVERDUE ON</th>
-                                <th className="text-left px-3 py-2">
-                                    AMOUNT TO APPLY (DISCOUNT)
+                                <th className="text-left px-3 py-2 captitialize">
+                                    AMOUNT TO APPLY (DISCOUNT) Percentage to Apply (Discount)
                                 </th>
                             </tr>
                         </thead>
@@ -178,17 +326,37 @@ function DiscountInvoice({ show, handleClose }) {
                                 <td className="px-3 py-2">
                                     <div className="flex items-center border rounded-md overflow-hidden w-full">
 
-
                                         <input
                                             type="number"
                                             value={discountInput}
-                                            onChange={(e) => handleDiscountChange(e)}
-                                            placeholder="₹ 0.00"
-                                            className="w-full px-2 py-1 text-sm outline-none"
+                                            onChange={handleDiscountChange}
+                                            placeholder={discountType === "percent" ? "Enter %" : "₹ 0.00"}
+                                            className="w-full px-2 py-2.5 text-sm outline-none"
                                         />
 
+                                        <div className="flex border-l rounded">
+                                            <button
+                                                type="button"
+                                                onClick={() => setDiscountType("amount")}
+                                                className={`px-3 py-1 text-sm rounded-sm ${discountType === "amount"
+                                                    ? "bg-[#1E45E1] text-white"
+                                                    : "bg-[#E7F1FF]"
+                                                    }`}
+                                            >
+                                                ₹
+                                            </button>
 
-
+                                            <button
+                                                type="button"
+                                                onClick={() => setDiscountType("percent")}
+                                                className={`px-3 text-sm rounded-sm ${discountType === "percent"
+                                                    ? "bg-[#1E45E1] text-white"
+                                                    : "bg-[#E7F1FF]"
+                                                    }`}
+                                            >
+                                                %
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -224,7 +392,9 @@ function DiscountInvoice({ show, handleClose }) {
                         Discount Applied
                     </span>
                     <span className="font-semibold text-right whitespace-nowrap">
-                        ₹ {discountInput || "0.00"}
+                        {discountType === "amount" ? "₹ " : ""}
+                        {calculatedDiscount ? calculatedDiscount : "0.00"}
+                        {discountType === "percent" && ` (${discountInput || 0}%)`}
                     </span>
 
 
