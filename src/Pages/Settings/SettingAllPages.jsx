@@ -17,27 +17,37 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   const state = useSelector(state => state);
   // const [hostel_Id, setHostel_Id] = useState('')
-  const [activePage, setActivePage] = useState("General");
+  const [activePage, setActivePage] = useState("general");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
 
 
 
+// useEffect(() => {
+//   const path = location.pathname;
+
+//   const lastSegment = path.split("/").pop(); 
+// console.log("lastSegment",lastSegment)
+//   if (lastSegment) {
+//     setActivePage(
+//       lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1)
+//     );
+//   }
+// }, [location.pathname]);
+
+
+
 useEffect(() => {
   const path = location.pathname;
-
-  const lastSegment = path.split("/").pop(); 
-
+  const lastSegment = path.split("/").pop();
+console.log("lastSegment",lastSegment)
   if (lastSegment) {
-    setActivePage(
-      lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1)
-    );
+    setActivePage(lastSegment); 
   }
 }, [location.pathname]);
 
-
-
+console.log("active page", activePage)
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {
@@ -146,11 +156,11 @@ useEffect(() => {
                     <p
                       onClick={() => handleSettingsNavigate(key, label)}
                       className={`flex justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer mb-2.5 
-                      ${activePage === label ? "text-[#1E45E1]" : "text-black"}`}
+                      ${activePage === key ? "text-[#1E45E1]" : "text-black"}`}
                     >
                       {label}
                       <img
-                        src={activePage === label ? blueArrow : blackArrow}
+                        src={activePage === key ? blueArrow : blackArrow}
                         className="w-4 h-4" alt="image"
                       />
                     </p>
@@ -182,11 +192,11 @@ useEffect(() => {
                     <p
                       onClick={() => handleSettingsNavigate(route, pageKey)}
                       className={`flex flex-shrink-0 justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer -mt-2.5
-                      ${activePage === pageKey ? "text-[#1E45E1]" : "text-black"}`}
+                      ${activePage === route ? "text-[#1E45E1]" : "text-black"}`}
                     >
                       {label}
                       <img alt="image"
-                        src={activePage === pageKey ? blueArrow : blackArrow}
+                        src={activePage === route ? blueArrow : blackArrow}
                         className="w-4 h-4"
                       />
                     </p>
