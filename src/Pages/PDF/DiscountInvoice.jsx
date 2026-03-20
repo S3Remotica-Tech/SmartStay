@@ -35,10 +35,10 @@ function DiscountInvoice({ show, handleClose }) {
     const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
     const discount = parseFloat(discountInput) || 0;
     const calculatedDiscount =
-  discountType === "percent"
-    ? Math.round((total * discount) / 100)
-    : Math.round(discount);
-   const payableAmount = Math.round(total - calculatedDiscount);
+        discountType === "percent"
+            ? Math.round((total * discount) / 100)
+            : Math.round(discount);
+    const payableAmount = Math.round(total - calculatedDiscount);
 
 
     const reasonOptions = [
@@ -210,7 +210,7 @@ function DiscountInvoice({ show, handleClose }) {
             <div className="px-4 py-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
                     <div className="mb-2 col-span-1 sm:col-span-2 md:col-span-4">
-                        <label className="block mb-1 text-sm font-semibold text-[#4B4B4B]">
+                        <label className="block mb-1 text-sm font-medium text-[#4B4B4B]">
                             Reason for Discount <span className='text-red-500'>*</span>
                         </label>
 
@@ -226,7 +226,7 @@ function DiscountInvoice({ show, handleClose }) {
                                         setReasonError('');
                                     }}
                                     placeholder="Enter custom reason"
-                                    className="w-full border border-[#D9D9D9] rounded-md px-3 py-2 pr-10 text-sm outline-none"
+                                    className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
                                 />
 
                                 <button
@@ -269,12 +269,31 @@ function DiscountInvoice({ show, handleClose }) {
                                         ...base,
                                         cursor: "pointer",
                                         fontFamily: "Gilroy",
-                                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                        color: state.data.value === "Others" ? "#1E45E1" : "#000",
+                                        backgroundColor:
+                                            state.data.value === "other"
+                                                ? "#E7F1FF"
+                                                : state.isFocused
+                                                    ? "#f0f0f0"
+                                                    : "white",
+
+                                        fontWeight:
+                                            state.data.value === "other" ? 600 : 400,
+                                        color:
+                                            state.data.value === "other"
+                                                ? "#1E45E1"
+                                                : "#000",
+
                                     }),
                                     placeholder: (base) => ({
                                         ...base,
                                         color: "#555",
+                                        fontWeight: 400,
+                                    }),
+                                    singleValue: (base) => ({
+                                        ...base,
+                                        fontWeight: 600,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
                                     }),
                                     indicatorSeparator: () => ({ display: "none" }),
                                     menuList: (base) => ({
@@ -309,7 +328,7 @@ function DiscountInvoice({ show, handleClose }) {
                                 <th className="text-left px-3 py-2">AMOUNT</th>
                                 <th className="text-left px-3 py-2">OVERDUE ON</th>
                                 <th className="text-left px-3 py-2 captitialize">
-                                    AMOUNT TO APPLY (DISCOUNT) Percentage to Apply (Discount)
+                                    {discountType === "amount" ? "AMOUNT TO APPLY (DISCOUNT)" : "PERCENTAGE TO APPLY (DISCOUNT)"}
                                 </th>
                             </tr>
                         </thead>
@@ -334,11 +353,11 @@ function DiscountInvoice({ show, handleClose }) {
                                             className="w-full px-2 py-2.5 text-sm outline-none"
                                         />
 
-                                        <div className="flex border-l rounded">
+                                        <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
                                             <button
                                                 type="button"
                                                 onClick={() => setDiscountType("amount")}
-                                                className={`px-3 py-1 text-sm rounded-sm ${discountType === "amount"
+                                                className={`px-3 py-1 text-sm rounded ${discountType === "amount"
                                                     ? "bg-[#1E45E1] text-white"
                                                     : "bg-[#E7F1FF]"
                                                     }`}
@@ -349,7 +368,7 @@ function DiscountInvoice({ show, handleClose }) {
                                             <button
                                                 type="button"
                                                 onClick={() => setDiscountType("percent")}
-                                                className={`px-3 text-sm rounded-sm ${discountType === "percent"
+                                                className={`px-3 text-sm rounded ${discountType === "percent"
                                                     ? "bg-[#1E45E1] text-white"
                                                     : "bg-[#E7F1FF]"
                                                     }`}

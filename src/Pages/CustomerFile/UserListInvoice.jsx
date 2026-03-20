@@ -1,6 +1,6 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +15,15 @@ import { useHasPermission } from '../../Utils/Permission';
 // import InvoicePage from "../../Invoice";
 import { useNavigate } from "react-router-dom";
 import PaginationList from "../../Components/PaginationList";
-
-
+import {
+  Edit,
+  Trash,
+  DiscountCircle,
+  DocumentDownload,
+  ReceiptEdit,
+  MoneySend
+} from "iconsax-react";
+import { IoMdMore } from "react-icons/io";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
@@ -24,22 +31,22 @@ function UserListInvoice(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const popupRef = useRef(null);
+  const popupRef = useRef(null);
   // const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
   // const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
   // const [tabletrue, setTableTrue] = useState(true)
   // const [billMode, setBillMode] = useState("New Bill");
   // const [showmanualinvoice, setShowManualInvoice] = useState(false);
-  // const [activeId, setActiveId] = useState(null);
-  // const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [activeId, setActiveId] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
-    // canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteInvoice,
+    canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
 
@@ -58,38 +65,38 @@ function UserListInvoice(props) {
 
 
 
-  // const handleShowDots = (item, event) => {
-  //   if (activeId === item.id) {
-  //     setActiveId(null);
-  //   } else {
-  //     setActiveId(item.id);
-  //   }
-  //   const { top, left, height } = event.target.getBoundingClientRect();
-  //   const popupTop = top + (height / 2);
-  //   const popupLeft = left - 150;
-  //   setPopupPosition({ top: popupTop, left: popupLeft });
-  // };
-  // const handleClickOutside = (event) => {
-  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //     setActiveId(null);
-  //   }
-  // };
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
-  // const [BillsForm, setBillsForm] = useState(false)
+  const handleShowDots = (item, event) => {
+    if (activeId === item.id) {
+      setActiveId(null);
+    } else {
+      setActiveId(item.id);
+    }
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 150;
+    setPopupPosition({ top: popupTop, left: popupLeft });
+  };
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveId(null);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  const [BillsForm, setBillsForm] = useState(false)
 
-  // const handleEditBill = (item) => {
+  const handleEditBill = (item) => {
 
-  //   props.handleEditItem(item)
-  //   // setBillsForm(false)
+    // props.handleEditItem(item)
+    // setBillsForm(false)
 
-  //   dispatch({ type: 'USERROOMAVAILABLETRUE' });
+    dispatch({ type: 'USERROOMAVAILABLETRUE' });
 
-  // };
+  };
 
   const handleAddBill = () => {
 
@@ -106,7 +113,8 @@ function UserListInvoice(props) {
 
   // };
 
-
+  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
+  const isExportAllow = isValidSubscription && canReadInvoice
 
 
   return (
@@ -149,18 +157,16 @@ function UserListInvoice(props) {
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Amount</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Status</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Action</th>
                     </tr>
                   </thead>
 
                   <tbody className="text-xs align-middle font-gilroy">
                     <PaginationList>
                       {sortedData?.map((view) => (
-                        // let dueDated = new Date(view.DueDate);
-                        // let daydue = dueDated.getDate();
-                        // let monthdue = dueDated.getMonth() + 1;
-                        // let yeardue = dueDated.getFullYear();
-                        <tr key={view.id}  className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
-                          
+
+                        <tr key={view.id} className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
+
                           <td className="text-[13px]">
                             {view.invoiceNumber}
                           </td>
@@ -228,172 +234,154 @@ function UserListInvoice(props) {
                               </span>
                             )}
                           </td>
-                          {/* {
+                          {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+                            <td className="text-left align-middle border-b border-[#E8E8E8]">
+                              <div className="flex flex-wrap gap-2 py-2">
+                                <div
+                                  className={`flex justify-center items-center relative cursor-pointer 
+        ${activeId === view.id ? "z-[1000]" : ""}`}
+                                  onClick={(e) => handleShowDots(view, e)}
+                                >
 
-                              state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
+                                  <IoMdMore className="text-xl text-[#222222]" />
 
-                              <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-                                <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-                                  <div
-                                    style={{
-                                      cursor: "pointer",
-                                      // height: 40,
-                                      // width: 40,
-                                      // borderRadius: 100,
-                                      // border: "1px solid #EFEFEF",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
-                                      zIndex:
-                                        activeId === view.id
-                                          ? 1000
-                                          : "auto",
-                                      // backgroundColor:
-                                      //   activeId === view.id
-                                      //     ? "#E7F1FF"
-                                      //     : "white",
-                                    }}
-                                    onClick={(e) =>
-                                      handleShowDots(view, e)
-                                    }
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      style={{ height: 20, width: 20 , transform:"rotate(90deg)" }}
-                                    />
-                                    {activeId === view.id && (
-                                      <div
-                                        ref={popupRef}
-                                        className="ven-popup showdots-btn"
-                                        style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#F9F9F9",
-                                          position: "fixed",
-                                          top: popupPosition.top,
-                                          left: popupPosition.left-50,
-                                          width: 160,
-                                          height: "auto",
-                                          border: "1px solid #EBEBEB",
-                                          borderRadius: 10,
-                                          display: "flex",
-                                          flexDirection: "column",
-                                          padding: 0,
-                                          alignItems: "flex-start",
-                                          zIndex: 1000,
-                                        }}
+                                  {activeId === view.id && (
+                                    <div
+                                      ref={popupRef}
+                                      className="fixed z-[1000] w-44 bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] overflow-hidden flex flex-col"
+                                      style={{
+                                        top: popupPosition.top,
+                                        left: popupPosition.left - 50,
+                                      }}
+                                    >
+
+                                     
+                                      {(view.invoiceMode === "Recurring" &&
+                                        view?.paymentStatus === "Pending") && (
+                                          <button
+                                            onClick={() => canUpdateInvoice && handleEdit(view)}
+                                            disabled={!canUpdateInvoice}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
+      ${canUpdateInvoice
+                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
+                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                              } rounded-t-[10px]`}
+                                          >
+                                            <Edit size="16" />
+                                            Edit
+                                          </button>
+                                        )}
+
+                                      {/* Unpaid */}
+                                      {(view.invoiceMode === "Manual" &&
+                                        view?.paymentStatus === "Paid" &&
+                                        view.invoiceType === "Rent") && (
+                                          <button
+                                            disabled={!canWriteInvoice}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
+      ${canWriteInvoice
+                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
+                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                              }`}
+                                          >
+                                            <Edit size="16" />
+                                            Unpaid
+                                          </button>
+                                        )}
+
+                                      {/* Discount */}
+                                      {(view?.invoiceAmount > 0 &&
+                                        view?.paymentStatus === "Pending" &&
+                                        !view?.isDiscounted &&
+                                        (view?.invoiceType === "Rent" ||
+                                          view?.invoiceType === "Settlement")) && (
+                                          <button
+                                            disabled={!canWriteInvoice}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
+      ${canWriteInvoice
+                                                ? "hover:bg-[#FFF4F0] text-[#ec400c]"
+                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                              }`}
+                                          >
+                                            <DiscountCircle size="16" />
+                                            Discount
+                                          </button>
+                                        )}
+
+                                      {/* Download */}
+                                      <button
+                                        onClick={() => isExportAllow && handleInvoicepdf(view)}
+                                        disabled={!isExportAllow}
+                                        className={`flex items-center gap-2 w-full px-3 py-2 text-sm
+    ${isExportAllow
+                                            ? "hover:bg-gray-100 text-[#222]"
+                                            : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                          }`}
                                       >
-                                        <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
+                                        <DocumentDownload size="16" />
+                                        Download
+                                      </button>
 
-                                          <div
-                                            onClick={() => {
-                                              if (canUpdateInvoice) {
-                                                handleEditBill(view);
-                                              }
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                            }}
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                              padding: "8px 12px",
-                                              width: "100%",
-                                              backgroundColor: "#F9F9F9",
-                                              cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-
-                                              opacity: !canUpdateInvoice ? 0.5 : 1,
-                                              borderTopLeftRadius: 10,
-                                              borderTopRightRadius: 10,
-                                            }}
+                                      {/* Record */}
+                                      {(view.dueAmount !== 0 &&
+                                        view?.invoiceAmount > 0 &&
+                                        view?.paymentStatus !== "Cancelled" &&
+                                        view?.paymentStatus !== "Paid") && (
+                                          <button
+                                            disabled={!canWriteInvoice}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
+      ${canWriteInvoice
+                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
+                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                              }`}
                                           >
-                                            <img
-                                              src={Edit}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
-                                              }}
-                                              alt="Edit"
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: !canUpdateInvoice ? "#ccc" : "#222222",
-                                                cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Edit
-                                            </label>
-                                          </div>
+                                            <ReceiptEdit size="16" />
+                                            Record
+                                          </button>
+                                        )}
 
-
-                                          <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                                          <div
-                                            onClick={() => {
-                                              if (canDeleteInvoice) {
-                                                handleDeleteBill(view);
-                                              }
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                            }}
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                              padding: "8px 12px",
-                                              width: "100%",
-                                              backgroundColor: "#F9F9F9",
-                                              cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                                              opacity: !canDeleteInvoice ? 0.5 : 1,
-                                              borderBottomLeftRadius: 10,
-                                              borderBottomRightRadius: 10,
-                                            }}
+                                      {/* Refund */}
+                                      {(view?.invoiceAmount < 0 &&
+                                        view?.paymentStatus !== "Refunded" &&
+                                        view?.paymentStatus !== "Cancelled") && (
+                                          <button
+                                            disabled={!canWriteInvoice}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
+      ${canWriteInvoice
+                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
+                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                              }`}
                                           >
-                                            <img
-                                              src={Delete}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
-                                              }}
-                                              alt="Delete"
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: !canDeleteInvoice ? "#ccc" : "#FF0000",
-                                                cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
-                                        </div>
-                                      </div>
+                                            <MoneySend size="16" />
+                                            Refund
+                                          </button>
+                                        )}
 
-                                    )}
+                                      {/* Divider */}
+                                      <div className="h-px bg-[#EAEAEA]" />
 
+                                    
+                                      {/* {(view?.paymentStatus !== "Cancelled" &&
+                                        view?.paymentStatus !== "Paid") && (
+                                          <button
+                                            disabled={!canDeleteInvoice}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-b-[10px]
+      ${canDeleteInvoice
+                                                ? "hover:bg-[#FFF0F0] text-red-500"
+                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                              }`}
+                                          >
+                                            <Trash size="16" />
+                                            Delete
+                                          </button>
+                                        )} */}
 
-
-                                  </div>
+                                    </div>
+                                  )}
                                 </div>
-
-                              </td>
-                            } */}
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </PaginationList>
@@ -440,13 +428,13 @@ function UserListInvoice(props) {
   );
 }
 UserListInvoice.propTypes = {
-  handleEditItem: PropTypes.func.isRequired,
-  handleDeleteItem: PropTypes.func.isRequired,
-  customerEdit: PropTypes.func.isRequired,
-  customerDelete: PropTypes.func.isRequired,
-  handleAddItem: PropTypes.func.isRequired,
-  id: PropTypes.func.isRequired,
-  customerAdd: PropTypes.func.isRequired,
+  handleEditItem: PropTypes.func,
+  handleDeleteItem: PropTypes.func,
+  customerEdit: PropTypes.func,
+  customerDelete: PropTypes.func,
+  handleAddItem: PropTypes.func,
+  id: PropTypes.func,
+  customerAdd: PropTypes.func,
 };
 
 export default UserListInvoice;

@@ -1649,36 +1649,43 @@ const InvoicePage = () => {
               <div className="relative">
                 {showdeleteform && (
                   <Modal
-                    show={showdeleteform}
-                    onHide={handleCloseDeleteform}
-                    centered
-                    backdrop="static"
-                    dialogClassName="custom-delete-modal"
-                  >
-                    <Modal.Header className="border-b-0 justify-center">
-                      <Modal.Title className="text-center text-lg font-semibold text-gray-800">
-                        Delete Billing?
-                      </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center text-sm text-gray-600 mt-[-10px]">
-                      Are you sure you want to delete this Billing?
-                    </Modal.Body>
-                    <Modal.Footer className="flex justify-center border-t-0 mt-[-10px] gap-2">
-                      <Button
-                        className="w-full max-w-xs h-12 rounded-lg border border-blue-600 text-blue-600 font-semibold"
-                        onClick={handleCloseDeleteform}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        disabled
-                        className="w-full max-w-xs h-12 rounded-lg bg-blue-600 text-white font-semibold"
-                        onClick={handleBillDeleted}
-                      >
-                        {/* Delete */} Coming Soon
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
+  show={showdeleteform}
+  onHide={handleCloseDeleteform}
+  centered
+  backdrop="static"
+>
+  <Modal.Header className="!border-b-0 !flex !justify-center">
+    <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
+      Delete Billing?
+    </Modal.Title>
+  </Modal.Header>
+
+  <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
+    Are you sure you want to delete this Billing?
+  </Modal.Body>
+
+  <Modal.Footer className="!block !border-t-0 !p-2">
+   
+    <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
+      
+      <Button
+        onClick={handleCloseDeleteform}
+        className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
+      >
+        Cancel
+      </Button>
+
+      <Button
+        disabled
+        onClick={handleBillDeleted}
+        className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
+      >
+        Coming Soon
+      </Button>
+
+    </div>
+  </Modal.Footer>
+</Modal>
                 )}
 
                 <div className="mx-auto mt-2">

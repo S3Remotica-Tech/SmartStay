@@ -714,27 +714,27 @@ function UserListRoomDetail(props) {
   }, [state.UsersList.isUsersListTrue]);
 
   const handleEditItem = (item) => {
-    props.onEditItem(item);
+    props?.onEditItem(item);
   };
   const handleAddItem = (item) => {
-    props.onAddItem(item);
+    props?.onAddItem(item);
   };
   const handleDeleteItem = (items) => {
     props.onDeleteItem(items);
   };
   const handleEditRoomItem = (item) => {
-    props.onEditRoomItem(item);
+    props?.onEditRoomItem(item);
   };
   const handleEditHostelItem = (item) => {
-    props.onEditHostelItem(item);
+    props?.onEditHostelItem(item);
   };
 
   const handleDeleteHostelItem = (user) => {
-    props.onDeleteHostelItem(user);
+    props?.onDeleteHostelItem(user);
   };
 
   const handleDeleteRoomItem = (user) => {
-    props.onDeleteRoomItem(user);
+    props?.onDeleteRoomItem(user);
   };
 
   // const handleContactEdit = (u) => {
@@ -5200,30 +5200,33 @@ function UserListRoomDetail(props) {
 }
 
 UserListRoomDetail.propTypes = {
-  onEditItem: PropTypes.func.isRequired,
-  id: PropTypes.func.isRequired,
-  onDeleteItem: PropTypes.func.isRequired,
-  customerEditPermission: PropTypes.func.isRequired,
-  userDetails: PropTypes.func.isRequired,
-  hostelIds: PropTypes.func.isRequired,
+  onEditItem: PropTypes.func,
+  onDeleteItem: PropTypes.func,
+  onClick: PropTypes.func,
+  handleBack: PropTypes.func,
+  onAddItem: PropTypes.func,
 
-  onClick: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  setHostelIds: PropTypes.func.isRequired,
-  hostelName: PropTypes.func.isRequired,
-  sethosName: PropTypes.func.isRequired,
-  statusAmni: PropTypes.func.isRequired,
-  handleBack: PropTypes.func.isRequired,
-  roomDetail: PropTypes.func.isRequired,
-  customerAddPermission: PropTypes.func.isRequired,
-  customerDeletePermission: PropTypes.func.isRequired,
-  onEditRoomItem: PropTypes.func.isRequired,
-  onEditHostelItem: PropTypes.func.isRequired,
-  onDeleteHostelItem: PropTypes.func.isRequired,
-  onDeleteRoomItem: PropTypes.func.isRequired,
-  setcustomerUser_Id: PropTypes.func.isRequired,
-  customerUser_Id: PropTypes.func.isRequired,
-  onAddItem: PropTypes.func.isRequired,
-  userData: PropTypes.func.isRequired,
+  customerEditPermission: PropTypes.bool,
+  customerAddPermission: PropTypes.bool,
+  customerDeletePermission: PropTypes.bool,
+
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  hostelIds: PropTypes.array,
+  hostelName: PropTypes.string,
+  setHostelIds: PropTypes.func,
+  sethosName: PropTypes.func,
+
+  customerUser_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setcustomerUser_Id: PropTypes.func,
+
+  value: PropTypes.any,
+  userDetails: PropTypes.object,
+  roomDetail: PropTypes.object,
+  userData: PropTypes.object,
+
+  onEditRoomItem: PropTypes.func,
+  onEditHostelItem: PropTypes.func,
+  onDeleteHostelItem: PropTypes.func,
+  onDeleteRoomItem: PropTypes.func,
 };
 export default withErrorBoundary(UserListRoomDetail);
