@@ -1205,7 +1205,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                                 <Table responsive bordered={false} className="mb-0">
                                   <thead>
                                     <tr style={{ backgroundColor: "#FFF" }}>
-                                      <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>INV NO</th>
+                                      <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>S.NO</th>
                                       <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textAlign: "center" }}>DESCRIPTION</th>
                                       <th
                                         style={{
@@ -1224,7 +1224,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                                     {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
                                       <tr key={index}>
                                         <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500 }}>
-                                          {item.invoiceNo}
+                                          {index + 1}
                                         </td>
                                         <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500, textAlign: "center" }}>
                                           {item.description}

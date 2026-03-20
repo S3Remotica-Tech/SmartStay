@@ -31,12 +31,7 @@ const InvoiceTable = (props) => {
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
 
   const [showAbove, setShowAbove] = useState(false);
-  // const canWriteInvoice = useHasPermission("Invoice", "canWrite")
-  // const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
-  // const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
-
-
-
+  
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
