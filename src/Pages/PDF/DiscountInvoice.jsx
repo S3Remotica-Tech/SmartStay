@@ -109,9 +109,15 @@ function DiscountInvoice({ show, handleClose }) {
 
             <div className='flex justify-between items-center bg-[#F7F8FCA8] px-4 py-2.5 rounded mb-2'>
                 <div className="flex gap-3">
-                    <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
-                        -
+                    {
+                       pdfDetails?.customerInfo?.profilePic ? 
+                       <img src={pdfDetails?.customerInfo?.profilePic} alt="image"  className='h-14 w-14 '/> 
+                       :
+                        <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
+                        {pdfDetails?.customerInfo?.initials}
                     </div>
+                    }
+                   
 
                     <div>
                         <div className="font-medium text-lg text-gray-800 mb-1">{pdfDetails?.customerInfo?.fullName}</div>

@@ -294,7 +294,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
 
 
-
+console.log("state.UsersList?.initializeCheckout",state.UsersList?.initializeCheckout)
 
 
     return (
@@ -347,7 +347,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                                 Check-out Date
                             </p>
                             <p className="text-sm font-gilroy font-semibold m-0">
-                                {data?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}
+                                { state.UsersList?.initializeCheckout?.checkoutDate }
                             </p>
                         </div>
 

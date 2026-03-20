@@ -341,7 +341,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
   const isRent = pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
 
-  const showSplitButton = isPending && (isSettlement || isRent);
+  const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
+
+  const showSplitButton = isPending && (isSettlement || isRent) && isNotDiscounted;
 
 
   useEffect(() => {
@@ -921,69 +923,51 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                               </div>
                             </Col>
 
-
-
-
-
-
-
-
-
-
-
-
-
                           </Row>
 
                         </div>
-                        <div className="mb-3 mt-3  px-3 py-2 border rounded" style={{
-                          backgroundColor: "#FAFBFF",
-                          fontSize: 13,
-                          fontWeight: 600,
-                        }}>
+                        <div className="my-3 w-full flex justify-end">
+                          <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
 
+                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                Grand Total
+                              </span>
+                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
+                              </span>
+                            </div>
 
+                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                Payment Made
+                              </span>
+                              <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                                ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                              </span>
+                            </div>
+                            {
+                              pdfDetails?.invoiceInfo?.totalAmount > 0 &&
 
+                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Discount Applied
+                                </span>
+                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
+                                </span>
+                              </div>
+                            }
 
-                          <div
-                            className="d-flex justify-content-between align-items-center mb-2"
-                            style={{
-                              backgroundColor: "#FAFBFF",
-                              fontSize: 13,
-                              fontWeight: 600,
-                            }}
-                          >
+                            <div className="flex justify-between items-center text-[12px] font-semibold">
+                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                Balance Due
+                              </span>
+                              <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
+                              </span>
+                            </div>
 
-                            <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
-                            <div style={{ fontSize: 12, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
-                              {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
-                          </div>
-                          <div
-                            className="d-flex justify-content-between align-items-center mb-2"
-                            style={{
-                              backgroundColor: "#FAFBFF",
-                              fontSize: 12,
-                              fontWeight: 600,
-                            }}
-                          >
-
-                            <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{pdfDetails?.invoiceInfo?.totalAmount > 0 ? "Payments Made" : "Refund Made"}</div>
-                            <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(0,163, 46, 1)", fontFamily: "Gilroy" }}>₹{" "}
-                              {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}</div>
-                          </div>
-
-                          <div
-                            className="d-flex justify-content-between align-items-center mb-2"
-                            style={{
-                              backgroundColor: "#FAFBFF",
-                              fontSize: 12,
-                              fontWeight: 600,
-                            }}
-                          >
-
-                            <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
-                            <div style={{ fontSize: 12, fontWeight: 600, color: "#FF0000", fontFamily: "Gilroy" }}>₹{" "}
-                              {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}</div>
                           </div>
                         </div>
                       </>
@@ -1340,54 +1324,45 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-                          <div className="mb-3 mt-3  px-3 py-2 border rounded" style={{
-                            backgroundColor: "#FAFBFF",
-                            fontSize: 13,
-                            fontWeight: 600,
-                          }}>
+                          <div className="my-3 w-full flex justify-end">
+                            <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
 
+                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Grand Total
+                                </span>
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
+                                </span>
+                              </div>
 
+                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Payment Made
+                                </span>
+                                <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                                </span>
+                              </div>
 
+                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Discount Applied
+                                </span>
+                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
+                                </span>
+                              </div>
 
-                            <div
-                              className="d-flex justify-content-between align-items-center mb-2"
-                              style={{
-                                backgroundColor: "#FAFBFF",
-                                fontSize: 13,
-                                fontWeight: 600,
-                              }}
-                            >
+                              <div className="flex justify-between items-center text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Balance Due
+                                </span>
+                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
+                                </span>
+                              </div>
 
-                              <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
-                                {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
-                            </div>
-                            <div
-                              className="d-flex justify-content-between align-items-center mb-2"
-                              style={{
-                                backgroundColor: "#FAFBFF",
-                                fontSize: 12,
-                                fontWeight: 600,
-                              }}
-                            >
-
-                              <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Payment Made</div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(0,163, 46, 1)", fontFamily: "Gilroy" }}>₹{" "}
-                                {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}</div>
-                            </div>
-
-                            <div
-                              className="d-flex justify-content-between align-items-center mb-2"
-                              style={{
-                                backgroundColor: "#FAFBFF",
-                                fontSize: 12,
-                                fontWeight: 600,
-                              }}
-                            >
-
-                              <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "#FF0000", fontFamily: "Gilroy" }}>₹{" "}
-                                {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}</div>
                             </div>
                           </div>
 
@@ -1651,7 +1626,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                       <button
                         onClick={handleMakeDiscount}
-                        disabled={!canWriteInvoice }
+                        disabled={!canWriteInvoice}
                         className={`w-full text-left px-4 py-2 text-sm
               ${canWriteInvoice ? "hover:bg-blue-50" : "opacity-50 cursor-not-allowed"}
             `}

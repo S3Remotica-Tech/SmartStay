@@ -3263,7 +3263,16 @@ function UserListRoomDetail(props) {
 
 
                       <TabPanel value="1">
-                        <KYCDocuments />
+                        {CustomerOverView?.files?.kycDoc?.length > 0 ? (
+                          <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
+                        )
+
+                          : (
+                            <div className="text-center text-sm font-normal font-gilroy w-full mt-10">
+                              No KYC Documents are there!
+                            </div>
+                          )
+                        }
                       </TabPanel>
                       <TabPanel value="2">
 

@@ -29,9 +29,9 @@ const InvoiceTable = (props) => {
   const [showUnpaidModal, setShowUnpaidModal] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
-
+  const [discountDetails, setDiscountDetails] = useState('')
   const [showAbove, setShowAbove] = useState(false);
-  
+
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
@@ -184,8 +184,18 @@ const InvoiceTable = (props) => {
     // }
   };
 
-  const handleMakeDiscount = () => {
+  const handleMakeDiscount = (item) => {
+    setDiscountDetails(item)
     setShowDiscountInvoice(true)
+    setShowDots(false)
+
+    dispatch({
+      type: 'GETPARTICULARBILLSDETAILS', payload: {
+        hostelId: item?.hostelId,
+        invoiceId: item?.invoiceId
+      }
+    })
+
   }
   const handleCloseFormDiscount = () => {
     setShowDiscountInvoice(false)
@@ -197,15 +207,10 @@ const InvoiceTable = (props) => {
   }
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
       setShowDiscountInvoice(false)
-      dispatch({
-        type: 'GETPARTICULARBILLSDETAILS', payload: {
-          hostelId: props.item?.hostelId,
-          invoiceId: props.item?.invoiceId
-        }
-      })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
       setTimeout(() => {
         dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
       })
@@ -399,7 +404,7 @@ useEffect(() => {
             }} >
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDots ? "#1E45E1" : "#6B7280", }} onClick={(e) => handleShowDots(e)} />
 
-              {showDots && <>
+              {/* {showDots && <>
                 <div
                   ref={popupRef}
                   style={{
@@ -468,7 +473,7 @@ useEffect(() => {
                       </div>
 
                     }
-
+<span className="block w-full h-[1px] bg-gray-300"></span>
                     {
                       (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid" && props.item.invoiceType === "Rent") &&
 
@@ -499,7 +504,11 @@ useEffect(() => {
                     {
                       props.item?.invoiceAmount > 0 &&
                       props.item?.paymentStatus === "Pending" &&
+                      props.item?.isDiscounted === false &&
                       (
+                        props.item?.invoiceType === "Rent" ||
+                        props.item?.invoiceType === "Settlement"
+                      ) && (
                         props.item?.invoiceType === "Rent" ||
                         props.item?.invoiceType === "Settlement"
                       ) &&
@@ -510,7 +519,7 @@ useEffect(() => {
                           onClick={() => {
                             if (canWriteInvoice) handleMakeDiscount(props.item);
                           }}
-                          className={`flex items-center gap-2 w-full text-left px-3 py-2 
+                          className={`flex items-center gap-2 w-full text-left px-2 py-2 
     bg-[#F9F9F9] rounded-t-md
     ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}
   `}
@@ -530,7 +539,7 @@ useEffect(() => {
 
 
                     }
-
+<span className="block w-full h-[1px] bg-gray-300"></span>
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
                       onClick={() => { if (isExportAllow) { handleInvoicepdf(props.item) } }}
@@ -557,7 +566,7 @@ useEffect(() => {
                         Download
                       </label>
                     </div>
-
+<span className="block w-full h-[1px] bg-gray-300"></span>
 
                     {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 && props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") && (
                       <div
@@ -599,6 +608,7 @@ useEffect(() => {
                         </label>
                       </div>
                     )}
+                    <span className="block w-full h-[1px] bg-gray-300"></span>
                     {props.item?.invoiceAmount < 0 && props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
@@ -639,6 +649,7 @@ useEffect(() => {
                         </label>
                       </div>
                     )}
+                   
                     {
                       props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" &&
                       <></>
@@ -683,6 +694,7 @@ useEffect(() => {
                       // </div>
 
                     }
+                   
                     {
                       (props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") &&
 
@@ -730,7 +742,121 @@ useEffect(() => {
                   </div>
                 </div>
 
-              </>}
+              </>} */}
+              {showDots && (
+                <div
+                  ref={popupRef}
+                  className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                  style={{
+                    top: showAbove
+                      ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                      : popupPosition.top - 35,
+                    left: popupPosition.left,
+                  }}
+                >
+
+                  {(props.item.invoiceMode === "Recurring" &&
+                    props.item?.paymentStatus === "Pending") && (
+                      <div
+                        onClick={() => canUpdateInvoice && handleEdit(props)}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-t-[10px] 
+        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <img src={Edit} alt="Edit" className={`h-4 w-4 ${!canUpdateInvoice && "grayscale"}`} />
+                        <span className="text-sm font-medium text-[#222]">Edit</span>
+                      </div>
+                    )}
+
+
+
+                  {(props.item.invoiceMode === "Manual" &&
+                    props.item?.paymentStatus === "Paid" &&
+                    props.item.invoiceType === "Rent") && (
+                      <button
+                        disabled={!canWriteInvoice}
+                        onClick={() => canWriteInvoice && handleUnpaid(props.item)}
+                        className={`flex items-center gap-2 w-full px-3 py-2 text-left
+        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <img src={Edit} alt="Edit" className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`} />
+                        <span className="text-sm font-medium text-[#222]">Unpaid</span>
+                      </button>
+                    )}
+
+                  {(props.item?.invoiceAmount > 0 &&
+                    props.item?.paymentStatus === "Pending" &&
+                    !props.item?.isDiscounted &&
+                    (props.item?.invoiceType === "Rent" ||
+                      props.item?.invoiceType === "Settlement")) && (
+                      <button
+                        disabled={!canWriteInvoice}
+                        onClick={() => canWriteInvoice && handleMakeDiscount(props.item)}
+                        className={`flex items-center gap-2 w-full px-3 py-2 text-left
+        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <DiscountCircle size="16" color="#ec400c" />
+                        <span className="text-sm font-medium text-[#222]">Make Discount</span>
+                      </button>
+                    )}
+
+
+
+
+                  <div
+                    onClick={() => isExportAllow && handleInvoicepdf(props.item)}
+                    className={`flex items-center gap-2 px-3 py-2
+      ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                  >
+                    <img src={Download} alt="Download" className="h-4 w-4" />
+                    <span className="text-sm font-medium text-[#222]">Download</span>
+                  </div>
+
+
+
+                  {(props.item.dueAmount !== 0 &&
+                    props.item?.invoiceAmount > 0 &&
+                    props.item?.paymentStatus !== "Cancelled" &&
+                    props.item?.paymentStatus !== "Paid") && (
+                      <div
+                        onClick={() => canWriteInvoice && handleShowform(props)}
+                        className={`flex items-center gap-2 px-3 py-2
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <img src={Assign} alt="Record" className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`} />
+                        <span className="text-sm font-medium text-[#222]">Record Payment</span>
+                      </div>
+                    )}
+
+
+
+
+                  {(props.item?.invoiceAmount < 0 &&
+                    props.item?.paymentStatus !== "Refunded" &&
+                    props.item?.paymentStatus !== "Cancelled") && (
+                      <div
+                        onClick={() => canWriteInvoice && handleRefundAmount(props)}
+                        className={`flex items-center gap-2 px-3 py-2
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <img src={Assign} alt="Refund" className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`} />
+                        <span className="text-sm font-medium text-[#222]">Refund Amount</span>
+                      </div>
+                    )}
+
+
+                  {(props.item?.paymentStatus !== "Cancelled" &&
+                    props.item?.paymentStatus !== "Paid") && (
+                      <div
+                        onClick={() => canDeleteInvoice && handleBillDelete(props)}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-b-[10px]
+        ${canDeleteInvoice ? "cursor-pointer hover:bg-[#FFF0F0]" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <img src={Delete} alt="Delete" className={`h-4 w-4 ${!canDeleteInvoice && "grayscale"}`} />
+                        <span className="text-sm font-medium text-[#FF0000]">Delete</span>
+                      </div>
+                    )}
+                </div>
+              )}
             </div>
           </div>
         </td>
@@ -739,8 +865,8 @@ useEffect(() => {
       </tr>
 
 
-{
-        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
+      {
+        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} discountDetails={discountDetails} />
       }
 
 
