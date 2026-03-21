@@ -370,52 +370,33 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
   return (
-    <div style={{
-      position: 'relative ',
-
-    }}>
-
-      {pdfLoading && (
-        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
-
-      <div className="" style={{ borderLeft: "1px solid #E5E7EB" }}>
+    <div className="relative">
 
 
-        <div
-          className="d-flex justify-content-between align-items-center "
-          style={{
-            backgroundColor: "#fff",
-            borderBottom: "1px solid #E0E0E0",
-            height: "48px",
-            boxShadow: "initial",
-            width: "100%", position: "sticky", zIndex: 10, top: 0, right: 0, left: 0
 
-          }}
-        >
-          <div className="d-flex align-items-center gap-2">
-            <div className="ps-1">
-              <label style={{
-                fontSize: 14, fontWeight: 500, color: "#222222",
-                fontFamily: "Gilroy"
-              }}
-              >{pdfDetails?.invoiceNumber}
+      <div className="border-l border-gray-200">
+
+        <div className="flex justify-between items-center bg-white border-b border-gray-200 min-h-[50px] w-full sticky top-0 z-10 px-2">
+
+          <div className="flex items-center gap-2">
+            <div className="pl-1">
+              <label className="text-sm font-medium text-[#222] font-gilroy">
+                {pdfDetails?.invoiceNumber}
               </label>
             </div>
 
             <div>
               {(() => {
-                const status = pdfDetails?.invoiceInfo?.paymentStatus === "Cancelled"
-                  ? "Cancelled"
-                  : pdfDetails?.invoiceInfo?.paymentStatus;
+                const status =
+                  pdfDetails?.invoiceInfo?.paymentStatus === "Cancelled"
+                    ? "Cancelled"
+                    : pdfDetails?.invoiceInfo?.paymentStatus;
 
                 if (!status) return null;
 
                 return (
                   <span
-                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium  font-gilroy ${statusClasses[status] || "bg-gray-100 text-gray-700"
+                    className={`px-3 py-1 rounded-full text-xs font-medium font-gilroy ${statusClasses[status] || "bg-gray-100 text-gray-700"
                       }`}
                   >
                     {status}
@@ -423,185 +404,156 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 );
               })()}
             </div>
-
-
           </div>
 
 
+          <div className="flex items-center gap-2">
 
 
-          <div>
-
-            <div className="gap-2 d-flex ">
-              <div
-                className="d-flex justify-content-center align-items-center border"
-                style={{
-                  borderRadius: '8px', cursor: isExportAllow ? "pointer" : "not-allowed", height: 30, width: 30,
-                  opacity: isExportAllow ? 1 : 0.5
-                }}
-                onClick={() => { if (isExportAllow) handleDownload(rowData) }}
-              >
-                <DocumentDownload
-                  size="18"
-                  color={isExportAllow ? "#222222" : "#BDBDBD"}
-                />
-
-              </div>
-
-              <div className="position-relative d-inline-block">
-                <div
-                  className="d-flex align-items-center justify-content-center gap-2"
-                  onClick={handleShareClick}
-                  style={{
-                    height: 30,
-                    width: 80,
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    backgroundColor: "rgba(30, 69, 225, 1)",
-                  }}
-                >
-                  <img
-                    src={Whatsapp}
-                    alt="Share"
-                    style={{
-                      height: 15,
-                      width: 15,
-                      filter: "brightness(0) invert(1)",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 400,
-                      fontFamily: "Gilroy",
-                      color: "#fff",
-                      lineHeight: 1,
-                    }}
-                  >
-                    Share
-                  </span>
-                </div>
-
-
-
-
-                {isOpen && (
-                  <div
-                    className="absolute  right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]"
-                  >
-                    {menuItems.map((item) => {
-                      const isDisabled = !isExportAllow;
-
-                      return (
-                        <div
-                          ref={modalRef}
-                          key={item.key}
-                          className={`flex items-center mb-2 p-1 rounded z-[9999] transition-colors duration-200
-        ${isDisabled
-                              ? "bg-gray-100 cursor-not-allowed opacity-60"
-                              : hoveredItem === item.key
-                                ? "bg-[#1E45E1] cursor-pointer"
-                                : "bg-white cursor-pointer"
-                            }`}
-                          onMouseEnter={() => !isDisabled && setHoveredItem(item.key)}
-                          onMouseLeave={() => !isDisabled && setHoveredItem(null)}
-                          onClick={() => !isDisabled && handleMenuClick(item.key)}
-                        >
-                          <img
-                            src={
-                              !isDisabled && hoveredItem === item.key
-                                ? item.iconWhite
-                                : item.icon
-                            }
-                            className="me-2"
-                            alt={item.label}
-                          />
-
-                          <span
-                            className={`text-[13px] font-normal font-gilroy ${isDisabled
-                              ? "text-gray-400"
-                              : hoveredItem === item.key
-                                ? "text-white"
-                                : "text-[#212529]"
-                              }`}
-                          >
-                            {item.label}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )
-                }
-
-              </div>
-              <div className="me-3">
-                <IoClose style={{ height: 20, width: 20, cursor: "pointer", color: "#FF0000" }} onClick={handleBackInvoice} />
-
-              </div>
-
+            <div
+              className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${isExportAllow ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                }`}
+              onClick={() => {
+                if (isExportAllow) handleDownload(rowData);
+              }}
+            >
+              <DocumentDownload
+                size="18"
+                color={isExportAllow ? "#222222" : "#BDBDBD"}
+              />
             </div>
+
+
+            <div className="relative inline-block">
+              <div
+                className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-lg cursor-pointer bg-[#1E45E1]"
+                onClick={handleShareClick}
+              >
+                <img
+                  src={Whatsapp}
+                  alt="Share"
+                  className="h-[15px] w-[15px] invert"
+                />
+                <span className="text-sm font-normal text-white font-gilroy leading-none">
+                  Share
+                </span>
+              </div>
+
+
+              {isOpen && (
+                <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
+                  {menuItems.map((item) => {
+                    const isDisabled = !isExportAllow;
+
+                    return (
+                      <div
+                        ref={modalRef}
+                        key={item.key}
+                        className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
+                  ${isDisabled
+                            ? "bg-gray-100 cursor-not-allowed opacity-60"
+                            : hoveredItem === item.key
+                              ? "bg-[#1E45E1] text-white cursor-pointer"
+                              : "bg-white cursor-pointer"
+                          }`}
+                        onMouseEnter={() =>
+                          !isDisabled && setHoveredItem(item.key)
+                        }
+                        onMouseLeave={() =>
+                          !isDisabled && setHoveredItem(null)
+                        }
+                        onClick={() =>
+                          !isDisabled && handleMenuClick(item.key)
+                        }
+                      >
+                        <img
+                          src={
+                            !isDisabled && hoveredItem === item.key
+                              ? item.iconWhite
+                              : item.icon
+                          }
+                          className="mr-2"
+                          alt={item.label}
+                        />
+
+                        <span
+                          className={`text-[13px] font-normal font-gilroy ${isDisabled
+                            ? "text-gray-400"
+                            : hoveredItem === item.key
+                              ? "text-white"
+                              : "text-[#212529]"
+                            }`}
+                        >
+                          {item.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+
+            <div className="mr-3">
+              <IoClose
+                className="h-5 w-5 text-red-500 cursor-pointer"
+                onClick={handleBackInvoice}
+              />
+            </div>
+
           </div>
         </div>
 
 
 
-        <div
-          style={{
-            height: "calc(100vh - 38px)",
-            overflowY: "auto",
-            marginBottom: 20, zIndex: 100,
-          }}
-          className="d-flex justify-content-center p-3 show-scrolls"  >
-
+        <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F0F4FF]   flex justify-center p-3 show-scrolls">
+          {pdfLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+              <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
           {isVisible &&
-            <div className=""
-              style={{
-                width: '90%', borderRadius: '8px', backgroundColor: "",
-              }}
-
-            >
+            <div className="w-[90%] rounded-lg mb-5">
 
 
-              <div ref={innerScrollRef}
-                style={{ borderRadius: "8px", backgroundColor: "#FFFFFF", marginBottom: 50, boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.08)", }}
+              <div
+                ref={innerScrollRef}
+                className="bg-white rounded-lg  shadow-md"
               >
 
-                <div className=" p-2 position-relative" style={{
-                  borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
-                }}>
-                  <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
-                    <div className="col-6" >
-                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo"
-                        style={{ height: pdfDetails?.configurations?.hostelLogo ? 50 : 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
+
+                <div className="p-2 rounded-t-lg">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 items-center px-3 gap-4">
+
+
+                    <div className="flex justify-start">
+                      <img
+                        src={
+                          pdfDetails?.configurations?.hostelLogo
+                            ? pdfDetails?.configurations?.hostelLogo
+                            : Logo
+                        }
+                        alt="logo"
+                        className="mt-2 max-w-[134px] rounded object-contain"
+                        style={{
+                          height: pdfDetails?.configurations?.hostelLogo ? 50 : 25,
+                        }}
+                      />
                     </div>
 
-                    <div className="mt-2 col-5 ps-4 pe-0" >
-                      <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
+
+                    <div className="mt-2 sm:pl-4">
+
+                      <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
                         {pdfDetails?.stayInfo?.hostelName}
                       </div>
-                      <div
-                        className="d-flex flex-wrap"
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "1.2rem",
-                          width: 220,
-                          whiteSpace: "normal",
-                          wordBreak: "break-word",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          display: "-webkit-box",
-                          WebkitLineClamp: 5,
-                          WebkitBoxOrient: "vertical",
-                        }}
-                      >
+
+                      <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
                         {pdfDetails?.configurations?.address}
                       </div>
 
                     </div>
+
                   </div>
                 </div>
 
@@ -615,7 +567,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                   }}
                 />
 
-                <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
+                <div className="bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
                     <h5 style={{ ...textStyle, fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600 }}>
 
@@ -847,34 +799,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                                     </tr>}
 
-                                  {/* <tr
-                                    style={{
-                                      backgroundColor: "#FAFBFF",
-                                      fontWeight: 600,
-                                      borderTop: "1px solid #DFDFDF",
-                                    }}
-                                  >
-                                    <td
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#FF0000",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      Total Deductions
-                                    </td>
-                                    <td
-                                      style={{
-                                        textAlign: "right",
-                                        fontSize: 14,
-                                        fontWeight: 600,
-                                        color: "#2D2D2D",
-                                      }}
-                                    >
-                                      ₹{" "}
-                                      {totalDeductions || 0}
-                                    </td>
-                                  </tr> */}
+
                                 </tbody>
                               </Table>
 

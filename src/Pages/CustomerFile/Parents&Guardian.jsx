@@ -43,12 +43,12 @@ function ParentsGuardian({ additionalContact }) {
                     Contact {index + 1}
                   </span>
 
-                  {contact?.fullName && contact.fullName.length > 10 && (
+                  {/* {contact?.fullName && contact.fullName.length > 10 && ( */}
                     <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
       bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
                       {contact.fullName}
                     </span>
-                  )}
+                  {/* )} */}
                 </div>
 
                 <p className="text-sm text-gray-500 flex items-center">
@@ -100,12 +100,12 @@ function ParentsGuardian({ additionalContact }) {
                         <span className="text-[14px] font-semibold font-gilroy">
                           {contact?.occupation || ""}
                         </span>
-                        {contact?.occupation && contact.occupation.length > 10 && (
+                        {/* {contact?.occupation && contact.occupation.length > 10 && ( */}
                           <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
     bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
                             {contact.occupation}
                           </span>
-                        )}
+                        {/* )} */}
                       </div>
                     </div>
 
@@ -119,12 +119,12 @@ function ParentsGuardian({ additionalContact }) {
                         <span className="text-[14px] font-semibold font-gilroy truncate max-w-[200px]">
                           {contact?.relationship || ""}
                         </span>
-                        {contact?.relationship && contact.relationship.length > 10 && (
+                        {/* {contact?.relationship && contact.relationship.length > 10 && ( */}
                           <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
     bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
                             {contact.relationship}
                           </span>
-                        )}
+                        {/* )} */}
                       </div>
                     </div>
                   </div>
