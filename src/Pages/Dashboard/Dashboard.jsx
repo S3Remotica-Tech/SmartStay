@@ -156,11 +156,11 @@ function Dashboard() {
 
       ],
       footer: "Others",
-       footerOthers: `${dashboardList?.advanceSummary?.other || "0"}`,
+      footerOthers: `${dashboardList?.advanceSummary?.other || "0"}`,
     },
   ];
 
-  
+
 
 
   const dateOptions =
@@ -460,7 +460,12 @@ function Dashboard() {
 
         </div>
 
-        {loading && <LoaderComponent />}
+        {loading && 
+        <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
+          <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
+            
+          </div>
+        </div>}
 
         <div>
           {activeTab === "1" && (
@@ -701,7 +706,7 @@ function Dashboard() {
                                 </span>
                               )}
 
-                            
+
                             </div>
                             <div
                               className={`space-y-2 ${card?.sharingData?.length > 0 ? "max-h-[100px] overflow-y-auto show-scrolls" : ""
