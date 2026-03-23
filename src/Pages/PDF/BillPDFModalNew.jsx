@@ -14,17 +14,17 @@ import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, DocumentDownload, Danger } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload, Danger, RefreshSquare } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
+// import Button from "react-bootstrap/Button";
+// import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
-import { BsThreeDotsVertical } from "react-icons/bs";
+// import { BsThreeDotsVertical } from "react-icons/bs";
 import DiscountInvoice from "./DiscountInvoice";
 import WaiveOFFConfirm from "./WaiveOFFConfirm"
 
@@ -326,13 +326,34 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
   const statusClasses = {
-    Pending: "bg-red-100 text-red-800",
-    "Partial Payment": "bg-red-100 text-red-800",
-    Paid: "bg-green-100 text-green-800",
-    Refunded: "bg-yellow-100 text-yellow-700",
-    "Partially Refunded": "bg-yellow-100 text-yellow-700",
-    "Pending Refund": "bg-orange-100 text-orange-700",
-    Cancelled: "bg-orange-100 text-orange-900",
+    Pending: {
+      bg: "bg-[#FFF1F1]",
+      dot: "bg-[#EF4444]",
+    },
+    "Partial Payment": {
+      bg: "bg-[#FFF1F1]",
+      dot: "bg-[#EF4444]",
+    },
+    Paid: {
+      bg: "bg-[#ECFDF5]",
+      dot: "bg-[#10B981]",
+    },
+    Refunded: {
+      bg: "bg-[#FFFBEB]",
+      dot: "bg-[#F59E0B]",
+    },
+    "Partially Refunded": {
+      bg: "bg-[#FFFBEB]",
+      dot: "bg-[#F59E0B]",
+    },
+    "Pending Refund": {
+      bg: "bg-[#FFF7ED]",
+      dot: "bg-[#FB923C]",
+    },
+    Cancelled: {
+      bg: "bg-[#F3F4F6]",
+      dot: "bg-[#6B7280]",
+    },
   };
 
 
@@ -380,7 +401,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
           <div className="flex items-center gap-2">
             <div className="pl-1">
-              <label className="text-sm font-medium text-[#222] font-gilroy">
+              <label className="text-[16px] text-black font-semibold font-gilroy">
                 {pdfDetails?.invoiceNumber}
               </label>
             </div>
@@ -394,11 +415,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                 if (!status) return null;
 
+                const styles = statusClasses[status] || {
+                  bg: "bg-gray-100",
+                  dot: "bg-gray-400",
+                };
+
                 return (
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium font-gilroy ${statusClasses[status] || "bg-gray-100 text-gray-700"
-                      }`}
+                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-gilroy w-fit ${styles.bg}`}
                   >
+                    <span className={`h-2 w-2 rounded-full ${styles.dot}`} />
                     {status}
                   </span>
                 );
@@ -422,6 +448,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 color={isExportAllow ? "#222222" : "#BDBDBD"}
               />
             </div>
+
+            <button
+              disabled
+              className="flex items-center justify-center h-[30px] w-[30px] rounded-lg border
+             disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <RefreshSquare
+                size="18"
+                className="text-[#222222] disabled:text-gray-400"
+              />
+            </button>
 
 
             <div className="relative inline-block">

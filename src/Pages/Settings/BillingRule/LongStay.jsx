@@ -27,11 +27,15 @@ function LongStayRecurringModal() {
     const [lateFeeType, setLateFeeType] = useState("flat");
     const [flatFeeAmount, setFlatFeeAmount] = useState(300);
     const [billingMethod, setBillingMethod] = useState("fixed");
+    const [billingPeriod, setBillingPeriod] = useState("prepaid")
     const [openDayPicker, setOpenDayPicker] = useState(false);
     const pickerRef = useRef(null);
     const [openDuePicker, setOpenDuePicker] = useState(false);
     const duePickerRef = useRef(null);
-    // const daysDue = Array.from({ length: 30 }, (_, i) => i + 1);
+    const [openNoticePicker, setOpenNoticePicker] = useState(false);
+    const [noticeDays, setNoticeDays] = useState(null);
+    const noticePickerRef = useRef();
+
     const [openGracePicker, setOpenGracePicker] = useState(false);
     const gracePickerRef = useRef(null);
     const [openReminderPicker, setOpenReminderPicker] = useState(false);
@@ -40,7 +44,7 @@ function LongStayRecurringModal() {
     const days = Array.from({ length: 28 }, (_, i) => i + 1);
     const noChangeRef = useRef(null);
 
-
+ const noticeDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
@@ -59,6 +63,14 @@ function LongStayRecurringModal() {
         dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         setBillingMethod(method);
     };
+
+    const handleChangePaid = (period) => {
+        setErrors({})
+        dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
+        setBillingPeriod(period)
+    }
+
+
     const [payments, setPayments] = useState([
         { fromDay: '', toDay: '', amountPerDay: '' },
     ]);
@@ -163,14 +175,14 @@ function LongStayRecurringModal() {
             newErrors.billingDate = "Please select billing date of month";
         }
 
-        const isChanged =
-            billingDate !== initialValues.billingDate ||
-            billingMethod !== initialValues.billingMethod
+        // const isChanged =
+        //     billingDate !== initialValues.billingDate ||
+        //     billingMethod !== initialValues.billingMethod 
 
 
-        if (!isChanged) {
-            newErrors.noChange = "No Changes Detected";
-        }
+        // if (!isChanged) {
+        //     newErrors.noChange = "No Changes Detected";
+        // }
 
         setErrors(newErrors);
 
@@ -180,7 +192,8 @@ function LongStayRecurringModal() {
                 payload: {
                     hostelId: state?.login?.selectedHostel_Id || "",
                     startDate: billingDate,
-                    calculationType: billingMethod
+                    calculationType: billingMethod,
+                    billingModel: billingPeriod,
                 }
             })
             setFormLoading(true)
@@ -194,9 +207,15 @@ function LongStayRecurringModal() {
             const apiData = state?.Settings?.SettingsBillsGetRecurring;
 
             const billingStart = apiData?.billStartDate;
-            const billingType = apiData?.typeOfBilling === "Fixed" ? "fixed" : "joining_date_based";
+            const billingType =
+                apiData?.typeOfBilling?.toLowerCase()?.trim() === "fixed"
+                    ? "fixed"
+                    : "joining_date_based";
+
+            setBillingMethod(billingType);
             const dueDate = apiData?.billDueDate;
             const GracePeriods = apiData?.gracePeriod
+            const NoticeDays = apiData?.noticePeriod
             const remainder = apiData?.reminderDays?.map((day) => ({
                 value: day,
                 label: day.toString().padStart(2, "0")
@@ -204,16 +223,18 @@ function LongStayRecurringModal() {
             setReminderDays(remainder);
 
             setBillingDate(billingStart);
-            setBillingMethod(billingType);
+
             setDueDays(dueDate);
             setGracePeriod(GracePeriods)
-
+            setNoticeDays(NoticeDays)
             setInitialValues({
                 billingDate: billingStart,
                 billingMethod: billingType,
                 dueDays: dueDate,
                 gracePeriod: GracePeriods,
-                reminderDays: remainder
+                reminderDays: remainder,
+                noticeDays: NoticeDays
+                // billingModal: 
             });
         }
     }, [state?.Settings?.SettingsBillsGetRecurring]);
@@ -235,28 +256,29 @@ function LongStayRecurringModal() {
             newErrors.dueDate = "Please select billing due days of month";
         }
 
-        // if (billingDate && dueDays && Number(dueDays) <= Number(billingDate)) {
-        //     newErrors.dueDate = "Due date must be after billing date";
-        // }
+
         const currentData = {
             dueDays: Number(dueDays),
             gracePeriod: Number(gracePeriod) || "",
             billingMethod: billingMethod,
-            reminderDays: reminderDays?.map((item) => item.value) || []
+            reminderDays: reminderDays?.map((item) => item.value) || [],
+            noticeDays: noticeDays
         };
 
         const initialData = {
             dueDays: Number(initialValues?.dueDays),
             gracePeriod: Number(initialValues?.gracePeriod) || "",
             billingMethod: initialValues?.billingMethod,
-            reminderDays: initialValues?.reminderDays?.map((item) => item.value) || []
+            reminderDays: initialValues?.reminderDays?.map((item) => item.value) || [],
+            noticeDays: initialValues?.noticeDays
         };
 
         const normalize = (data) => ({
             dueDays: Number(data.dueDays),
             gracePeriod: Number(data.gracePeriod),
             billingMethod: data.billingMethod,
-            reminderDays: [...(data.reminderDays || [])].sort()
+            noticeDays: Number(data.noticeDays),
+                reminderDays: [...(data.reminderDays || [])].sort()
         });
         const isChanged =
             JSON.stringify(normalize(currentData)) !==
@@ -286,8 +308,8 @@ function LongStayRecurringModal() {
                     hostelId: state?.login?.selectedHostel_Id || "",
                     dueDate: Number(dueDays),
                     gracePeriodDays: Number(gracePeriod) || '',
-                    // calculationType: billingMethod,
-                    reminderDays: reminderDays?.map(item => item.value)
+                    reminderDays: reminderDays?.map(item => item.value),
+                    noticeDays: noticeDays
                 }
             })
             setFormLoading(true)
@@ -348,7 +370,16 @@ function LongStayRecurringModal() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (noticePickerRef.current && !noticePickerRef.current.contains(event.target)) {
+                setOpenNoticePicker(false);
+            }
+        };
 
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
 
 
@@ -484,11 +515,13 @@ function LongStayRecurringModal() {
                     <div className="flex gap-4 my-2">
 
 
-                        <div onClick={() => handleChange("fixed")}
-                            className={`flex items-center max-h-[150px] gap-3 p-2 shadow-sm rounded-lg border w-full cursor-pointer transition
-          ${billingMethod === "fixed"
-                                    ? "border-1 border-[#88A0FF] bg-[#AEBEFF4D]"
-                                    : "border-gray-200 bg-white"
+                        <div
+                            onClick={() => handleChange("fixed")}
+
+                            className={`flex items-center gap-3 p-2 max-h-[150px] rounded-lg border w-full transition cursor-pointer
+    ${billingMethod === "fixed"
+                                    ? "border border-[#4E61F6] bg-[#EEF2FF] ring-2 ring-[#4E61F6]/30"
+                                    : "border-gray-200 bg-white shadow-sm"
                                 }`}
                         >
                             <input
@@ -496,27 +529,25 @@ function LongStayRecurringModal() {
                                 name="billingMethod"
                                 value="fixed"
                                 checked={billingMethod === "fixed"}
-
-                                className="mt-1 accent-[#4E61F6]  cursor-pointer"
+                                className="mt-1 accent-[#1E45E1] scale-100"
                             />
 
                             <div>
-                                <label className="text-sm font-semibold text-[#222222] cursor-pointer ">
+                                <label className="text-sm font-semibold text-[#222222]">
                                     Monthly Recurring
                                 </label>
-                                <label className="text-xs text-gray-500 cursor-pointer ">
+                                <p className="text-xs text-gray-500">
                                     It's automatically calculated based on bill start date
-                                </label>
+                                </p>
                             </div>
                         </div>
-
 
                         <div
                             //  onClick={() => handleChange("joining_date_based")}
                             className={`flex items-center max-h-[150px] gap-3 p-2 shadow-sm rounded-lg border w-full cursor-pointer transition
           ${billingMethod === "joining_date_based"
-                                    ? "border-1 border-[#88A0FF] bg-[#AEBEFF4D]"
-                                    : "border-gray-200 bg-gray-200"
+                                    ? "border border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
+                                    : "border-gray-200  shadow-sm bg-gray-200"
                                 }`}
                         >
                             <input
@@ -549,7 +580,7 @@ function LongStayRecurringModal() {
 
                     <div className="mb-2 flex justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-800 font-gilroy ">
+                            <h2 className="text-lg font-semibold text-gray-800 font-gilroy">
                                 Basic Billing Configuration
                             </h2>
                             <label className="text-sm text-gray-500">
@@ -640,7 +671,74 @@ function LongStayRecurringModal() {
 
                     </div>
 
+                    <div className="">
+                        <h2 className="text-lg font-semibold text-gray-800 font-gilroy ">
+                            Billing Schedule
+                        </h2>
 
+                        <div className="flex grid grid-cols-1 md:grid-cols-2  gap-4 my-2">
+
+
+                            <div
+                                onClick={() => !isDisabled && handleChangePaid("prepaid")}
+                                className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
+    ${isDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}
+    ${billingPeriod === "prepaid"
+                                        ? "border border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
+                                        : "border-gray-200 bg-white shadow-sm"
+                                    }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="billingPeriod"
+                                    value="prepaid"
+                                    checked={billingPeriod === "prepaid"}
+                                    disabled={isDisabled}
+                                    className="mt-1 accent-[#4E61F6] cursor-pointer disabled:cursor-not-allowed"
+                                />
+
+                                <div>
+                                    <label className="text-sm font-semibold text-[#222222] cursor-pointer">
+                                        Prepaid
+                                    </label>
+                                    <label className="text-xs text-gray-500">
+                                        Invoices will generate at the start date of month
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div
+                                onClick={() => !isDisabled && handleChangePaid("postpaid")}
+                                className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
+    ${isDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}
+    ${billingPeriod === "postpaid"
+                                        ? "border border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
+                                        : "border-gray-200 bg-white shadow-sm"
+                                    }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="billingPeriod"
+                                    value="postpaid"
+                                    checked={billingPeriod === "postpaid"}
+                                    disabled={isDisabled}
+                                    className="mt-1 accent-[#1E45E1] disabled:accent-[#DBDBDB] disabled:cursor-not-allowed"
+                                />
+
+                                <div>
+                                    <label className="text-sm font-semibold text-[#222222]">
+                                        Postpaid
+                                    </label>
+                                    <label className="text-xs text-gray-500 whitespace-nowrap">
+                                        Invoices will generate at the end date of month
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
                     {state.Settings.billingRuleError && (
                         <div className="mt-4">
                             <ErrorMessage message={state.Settings.billingRuleError} type="error" />
@@ -672,14 +770,14 @@ function LongStayRecurringModal() {
                                 onClick={handleSave}
                                 className={`flex items-center gap-2 text-sm font-gilroy px-5 py-2.5 rounded-lg border
   ${state.UsersList.hotelDetailsinPg?.canModifyBilling
-                                        ? "bg-[#2F4ED8] hover:bg-[#243ec0] text-white border-[#243ec0] cursor-pointer"
+                                        ? "bg-[#EEF1FF] hover:bg-[#EEF1FF] text-[#081E76] border-1 border-[#081E76] cursor-pointer"
                                         : "bg-gray-200 text-gray-500 border-gray-200 cursor-not-allowed"
                                     }`}
                             >
                                 <ArchiveBook
                                     size="16"
                                     color={
-                                        state.UsersList.hotelDetailsinPg?.canModifyBilling ? "#FFFFFF" : "#9CA3AF"
+                                        state.UsersList.hotelDetailsinPg?.canModifyBilling ? "#081E76" : "#9CA3AF"
                                     }
                                 />
 
@@ -975,6 +1073,114 @@ ${selected
                         </div>
 
                     </div>
+
+
+
+
+                    <div className="bg-white rounded-xl shadow-sm p-3 font-gilroy">
+
+                        <h2 className="text-lg font-semibold text-[#1F1F1F] font-gilroy">
+                            Notice Period (Due days)
+                        </h2>
+
+                        <label className="text-sm text-[#616161] mt-1 mb-3 font-medium">
+                            Set default notice period days to get serve by tenants.
+                        </label>
+
+                        <div className="grid grid-cols-2 gap-6 items-start">
+
+
+                            <div className="relative" >
+                                <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                                    Notice period (Days)
+                                </label>
+
+                                <div
+                                    onClick={() => setOpenNoticePicker(!openNoticePicker)}
+                                    className="w-full border border-gray-300 rounded-md min-h-[40px] px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
+                                >
+                                    <span className={noticeDays ? "text-gray-900" : "text-gray-400"}>
+                                        {noticeDays ? noticeDays : "Select Notice Days"}
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        {noticeDays && (
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setNoticeDays(null);
+                                                    setErrors((prev) => ({ ...prev, noticeDate: "" }));
+                                                }}
+                                                className="cursor-pointer flex items-center"
+                                            >
+                                                <CloseCircle size="14" color="#FF0000" />
+                                            </span>
+                                        )}
+                                        <span className="text-gray-400">
+                                            {openNoticePicker ? (
+                                                <ArrowUp2 size="18" color="#1E45E1" />
+                                            ) : (
+                                                <ArrowDown2 size="18" color="#1E45E1" />
+                                            )}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {openNoticePicker && (
+                                    <div ref={noticePickerRef} className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
+                                        <div className="grid grid-cols-5 gap-3">
+                                            {noticeDaysOptions?.map((day) => (
+                                                <button
+                                                    key={day}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setNoticeDays(day);
+                                                        setErrors((prev) => ({ ...prev, noticeDate: "" }));
+                                                        setErrors((prev) => ({ ...prev, noChange: "" }));
+                                                        setErrors((prev) => ({ ...prev, noChangeBottom: "" }));
+                                                        dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
+                                                        setOpenNoticePicker(false);
+                                                    }}
+                                                    className={`w-10 h-10 rounded-full text-xs flex items-center justify-center
+              ${noticeDays === day
+                                                            ? "bg-blue-600 text-white"
+                                                            : "text-gray-700 hover:bg-gray-200"
+                                                        }`}
+                                                >
+                                                    {day.toString().padStart(2, "0")}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {errors.noticeDate && (
+                                    <ErrorMessage message={errors.noticeDate} type="error" />
+                                )}
+
+                                {noticeDays && (
+                                    <div className="mt-3 flex items-center gap-2 bg-[#D0DFFF] border border-[#D0DFFF] text-[#1E45E1] text-xs px-3 py-2 rounded-md whitespace-nowrap w-fit">
+                                        <AiOutlineExclamationCircle color="#1E45E1" size="16" />
+                                        Tenants must serve the notice period days before leaving the property
+                                    </div>
+                                )}
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
                     {
 
                         import.meta.env.MODE === "development" &&

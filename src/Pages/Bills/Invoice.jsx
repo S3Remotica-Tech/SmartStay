@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col } from "react-bootstrap";
 import { Modal, Button, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -26,8 +25,6 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { Filter } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
-import AxiosConfig from "../../WebService/AxiosConfig";
-import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
@@ -1037,110 +1034,7 @@ const InvoicePage = () => {
 
 
 
-  // const sendWhatsAppMessage = async (type) => {
-  //   const isInvoice = type === "invoice";
-
-  //   const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
-  //   const statusCode = isInvoice ? state.InvoiceList?.statusCodeForPDf : state.InvoiceList?.statusCodeForReceiptPDf;
-  //   const isWhatsAppEnabled = state.InvoiceList.whatsappSettings?.[isInvoice ? 1 : 2];
-  //   const receiptData = isInvoice
-  //     ? state.InvoiceList.BillsPdfDetails
-  //     : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
-
-  //   if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
-  //     setShowLoader(false);
-
-  //     if (!isWhatsAppEnabled) {
-  //       Swal.fire({
-  //         icon: "info",
-  //         text: `WhatsApp notification for ${isInvoice ? "Bills" : "Deposit Receipt"} is not enabled. Please enable it in Settings > Notifications.`,
-  //       });
-  //       return;
-  //     }
-
-  //     setLoading(true);
-
-  //     try {
-  //       const parsedUrl = new URL(pdfUrl);
-  //       const filename = parsedUrl.pathname.slice(1);
-  //       const userName = receiptData?.user_details?.name || '';
-  //       let userPhone = receiptData?.user_details?.phone?.toString() || '';
-
-  //       if (!userPhone.startsWith("+91")) {
-  //         userPhone = userPhone.startsWith("91") ? "+" + userPhone : "+91" + userPhone;
-  //       }
-
-  //       const response = await AxiosConfig.post("/send-whatsapp", {
-  //         to: userPhone,
-  //         templateName: "invoice_notification",
-  //         parameters: [userName, filename],
-  //       });
-
-  //       if (response.data.statusCode === 200) {
-  //         Swal.fire({
-  //           icon: "success",
-  //           text: response.data.message,
-  //         });
-  //       } else {
-  //         Swal.fire({
-  //           icon: "warning",
-  //           text: "Unexpected response from server.",
-  //         });
-  //       }
-  //     } catch (error) {
-  //       Swal.fire({
-  //         icon: "error",
-  //         text: error.response?.data?.error || "Failed to send WhatsApp message",
-  //       });
-  //     } finally {
-  //       setLoading(false);
-  //     }
-
-  //     dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-  //   } else if (statusCode === 200 && pdfUrl) {
-  //     const pdfWindow = window.open("", "_blank");
-  //     if (pdfWindow) {
-  //       pdfWindow.location.href = pdfUrl;
-  //     }
-  //     dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-  //   }
-  // };
-
-
-
-  // useEffect(() => {
-  //   sendWhatsAppMessage("invoice");
-  // }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
-
-  // useEffect(() => {
-  //   sendWhatsAppMessage("receipt");
-  // }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
-
-  // useEffect(() => {
-  //   if (selectedUserId) {
-  //     const filteredDetails = state.UsersList?.Users?.listCustomers?.find(
-  //       (item) => item.User_Id === selectedUserId
-  //     );
-  //     if (filteredDetails) {
-
-  //       // setInvoiceList({
-  //       //   ...invoiceList,
-  //       //   firstName: filteredDetails.Name.split(" ")[0] || "",
-  //       //   lastName: filteredDetails.Name.split(" ")[1] || "",
-  //       //   phone: filteredDetails.Phone || "",
-  //       //   email: filteredDetails.Email || "",
-  //       //   hostel_Name: filteredDetails.HostelName || "",
-  //       //   hostel_Id: filteredDetails.Hostel_Id || "",
-  //       //   FloorNo: filteredDetails.Floor || "",
-  //       //   RoomNo: filteredDetails.Rooms || "",
-  //       // });
-  //     }
-
-  //   }
-
-  // }, [selectedUserId, state.UsersList?.Users.listCustomers, state.InvoiceList?.Invoice]);
-
-
+  
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -1584,7 +1478,7 @@ const InvoicePage = () => {
               <Select
                 options={selectOptions}
                 styles={CustomStyles}
-                disabled={!canReadInvoice}
+                 isDisabled={!canReadInvoice}
                 onChange={(e) => handleStatusFilter(e)}
                 value={selectOptions.find((opt) => opt.value === statusfilter)}
                 id="statusselect"
@@ -1592,7 +1486,7 @@ const InvoicePage = () => {
             </div>
 
             <div className="flex items-center gap-3 z-50">
-              <Select
+              <Select  isDisabled
                 options={monthOptions}
                 value={selectedMonth}
                 onChange={handleMonthChange}
