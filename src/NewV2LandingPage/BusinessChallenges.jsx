@@ -12,10 +12,11 @@ function BusinessChallenges() {
     flex flex-col items-center justify-start pt-4 relative overflow-hidden ">
 
 
-      <h2 className="text-[52px] md:text-4xl font-semibold text-[#000000] text-center font-gilroy">
-        Are you facing these <br />
-        <span className="text-[#0565FF]">Business Challenges?</span>
-      </h2>
+
+      <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-[48px] font-semibold text-[#000000] text-center font-gilroy">
+  Are you facing these <br />
+  <span className="text-[#0565FF]">Business Challenges?</span>
+</h2>
 
 
       <div className="relative mt-36">
@@ -27,7 +28,7 @@ function BusinessChallenges() {
         />
 
         <div
-          className={`absolute -top-24 left-1/6 -translate-x-1/2 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
+          className={`absolute -top-24 left-1/6 -translate-x-1/2 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
           style={{ animationDelay: "0.1s" }}
         >
@@ -36,7 +37,7 @@ function BusinessChallenges() {
 
 
         <div
-          className={`absolute top-16 -left-64 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
+          className={`absolute top-16 -left-64 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
           style={{ animationDelay: "0.3s" }}
         >
@@ -45,7 +46,7 @@ function BusinessChallenges() {
 
 
         <div
-          className={`absolute top-[184px] -left-72 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
+          className={`absolute top-[184px] -left-72 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
           style={{ animationDelay: "0.5s" }}
         >
@@ -54,7 +55,7 @@ function BusinessChallenges() {
 
 
         <div
-          className={`absolute top-16 -right-64 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
+          className={`absolute top-16 -right-64 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
           style={{ animationDelay: "0.7s" }}
         >
@@ -63,12 +64,14 @@ function BusinessChallenges() {
 
 
         <div
-          className={`absolute top-44 -right-72 bg-white px-4 py-1.5 rounded-full shadow text-base text-[#090909] font-tasa whitespace-nowrap font-medium
+          className={`absolute top-44 -right-72 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
           style={{ animationDelay: "0.9s" }}
         >
           Tenants Calling For Small Issues?
         </div>
+
+       
       </div>
     </div>
   )

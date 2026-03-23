@@ -40,18 +40,18 @@ function HostelProperties() {
       <div className="max-w-7xl mx-auto text-center">
 
        
-        <span className="px-4 py-1.5 text-xs rounded-full bg-[#E9EDFF] opacity-100 text-[#1E45E1] font-medium">
+        <span className="px-4 py-1.5 text-xs 2xl:text-base rounded-full bg-[#E9EDFF] opacity-100 text-[#1E45E1] font-medium">
           Tailored for your Business
         </span>
 
         
-          <h2 className="mt-6 text-3xl md:text-5xl font-medium text-white leading-8 whitespace-wrap">
+          <h2 className="mt-6 text-3xl md:text-5xl 2xl:text-6xl font-medium text-white leading-8 whitespace-wrap">
           A managing solution for  <br/>
                     <span className="text-[#2F80FF] font-semibold"> Every Hostels & Properties</span>
         </h2>
 
         
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 2xl:gap-12">
 
           {cards.map((card, index) => (
             <div
@@ -62,11 +62,11 @@ hover:-translate-y-2 hover:shadow-2xl hover:border-[#2F80FF]"
             >
               <div className="mb-6">{card.icon}</div>
 
-              <h3 className="text-white font-semibold text-xl">
+              <h3 className="text-white font-semibold text-xl 2xl:text-2xl">
                 {card.title}
               </h3>
 
-              <p className="text-white text-sm mt-3 leading-relaxed">
+              <p className="text-white text-sm mt-3 leading-relaxed 2xl:text-xl">
                 {card.desc}
               </p>
             </div>

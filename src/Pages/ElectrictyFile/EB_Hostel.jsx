@@ -989,7 +989,7 @@ const RoomReadingTable = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="show-scrolls overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[420px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800">
+                      <div className="show-scroll overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[380px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800">
 
                         <Table bordered={false} className="mb-0 table-auto w-full">
                           <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs font-gilroy"
@@ -1016,7 +1016,7 @@ const RoomReadingTable = () => {
                               <th>TOTAL UNITS</th>
                               <th>AMOUNT</th>
                               {
-                                !isEbBased && <th>ACTION</th>
+                                !isEbBased && <th>ACTIONss</th>
 
                               }
                             </tr>
@@ -1200,7 +1200,7 @@ const RoomReadingTable = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[420px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800 show-scroll"
+                    <div className="overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[430px] mt-1 pr-0 pl-0 font-gilroy text-gray-800 show-scroll"
                     >
                       <Table bordered={false} className="mb-0 table-auto w-full">
                         <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs font-gilroy" >

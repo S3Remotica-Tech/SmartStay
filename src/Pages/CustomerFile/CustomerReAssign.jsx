@@ -1171,9 +1171,9 @@ function CustomerReAssign(props) {
               </div>
             </Modal.Body>
 
-            {state.UsersList?.changeBedError && <div className="d-flex justify-content-center">
+            {state.UsersList?.changeBedError && <div className="flex justify-center mb-3">
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
-            </div>}
+            </div>} 
 
             {formLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -1184,6 +1184,7 @@ function CustomerReAssign(props) {
 
 
             <Modal.Footer className="-mt-6 border-top-0">
+              
               <Button disabled={formLoading}
                 className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
                 onClick={handleSaveReassignBed}

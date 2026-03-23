@@ -40,7 +40,7 @@ function RecurringInvoice() {
 
           <div className="w-full md:col-span-6 flex items-center  ">
             <div>
-              <h2 className="text-2xl md:text-4xl font-semibold text-[#000000] leading-tight">
+              {/* <h2 className="text-2xl md:text-4xl font-semibold text-[#000000] leading-tight">
                 Recurring Rent Invoices
               </h2>
 
@@ -48,7 +48,16 @@ function RecurringInvoice() {
                 Automate your monthly rent collection process.
                 No more manual reminders or calculation mistakes.
                 Get paid on time, every time.
-              </p>
+              </p> */}
+              <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-semibold text-[#000000] leading-tight">
+  Recurring Rent Invoices
+</h2>
+
+<p className="text-[#2D2D2D] mt-4 max-w-md text-base md:text-xl 2xl:text-2xl font-normal">
+  Automate your monthly rent collection process.
+  No more manual reminders or calculation mistakes.
+  Get paid on time, every time.
+</p>
 
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -60,7 +69,7 @@ function RecurringInvoice() {
                       color="#00A32E"
                       className="shrink-0"
                     />
-                    <span className="text-[#090F29] text-sm md:text-base font-semibold">
+                    <span className="text-[#090F29] text-sm 2xl:text-lg md:text-base font-semibold">
                       {item}
                     </span>
                   </div>
@@ -106,11 +115,11 @@ function RecurringInvoice() {
           <div className="w-full md:col-span-6 flex flex-col">
 
             <div className="flex  gap-4">
-              <h2 className="text-2xl md:text-4xl font-semibold text-[#000000] leading-tight">
+              <h2 className="text-2xl md:text-4xl 2xl:text-4xl font-semibold text-[#000000] leading-tight">
                 Bed & Floor-Wise Management
               </h2>
 
-              <p className="text-[#2D2D2D] text-sm md:text-base font-normal">
+              <p className="text-[#2D2D2D] text-sm md:text-base 2xl:text-lg font-normal">
                 Track rooms, beds, and floors in real time & avoid allocation
                 confusions. Know availability instantly without checking registers.
               </p>
@@ -126,7 +135,7 @@ function RecurringInvoice() {
                     color="#00A32E"
                     className="shrink-0"
                   />
-                  <span className="text-[#090F29] text-sm md:text-base font-semibold">
+                  <span className="text-[#090F29] text-sm md:text-base 2xl:text-lg font-semibold">
                     {item}
                   </span>
                 </div>
