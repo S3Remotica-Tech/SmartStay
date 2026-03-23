@@ -393,7 +393,7 @@ function BillsPdfDetails() {
                         </div>
 
 
-                        <input
+                        <input disabled
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}

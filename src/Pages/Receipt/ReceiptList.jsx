@@ -273,54 +273,23 @@ const Receipt = (props) => {
                   }}
                 >
 
-                  <div
-                    className="d-flex justify-content-start align-items-center gap-2 "
-                    style={{
-                      cursor: !canUpdateReceipt ? "not-allowed" : "pointer",
-                      opacity: !canUpdateReceipt ? 0.5 : 1,
-                      borderTopLeftRadius: 10,
-                      borderTopRightRadius: 10,
-                      backgroundColor: "#F9F9F9",
-                      padding: "8px 12px",
-                      width: "100%"
-                    }}
-                    onClick={() => {
-                      if (canUpdateReceipt) {
-                        handleEdit(props.item);
-                      }
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!canUpdateReceipt)
-                        e.currentTarget.style.backgroundColor = "#EDF2FF";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
+                  <button
+                    type="button"
+                    disabled
+                    className="flex justify-start items-center gap-2 w-full px-3 py-2 
+             rounded-t-[10px] bg-[#F9F9F9] border-0
+             opacity-50 cursor-not-allowed
+             disabled:bg-gray-50"
                   >
                     <img
                       src={Edit}
                       alt="Edit"
-                      style={{
-                        height: 16,
-                        width: 16,
-
-                      }}
+                      className="h-4 w-4"
                     />
-                    <label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#222222",
-                        cursor: !canUpdateReceipt ? "not-allowed" : "pointer",
-                      }}
-                    >
+                    <span className="text-[14px] font-medium text-[#222222] font-gilroy">
                       Edit
-                    </label>
-                  </div>
-
-                  {/* {props.item.invoiceType !== "Settlement" &&
- props.item.invoiceType !== "Refund" && ( */}
+                    </span>
+                  </button>
 
                   <div
                     className="d-flex justify-content-start align-items-center gap-2"

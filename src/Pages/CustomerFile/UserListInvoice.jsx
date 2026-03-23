@@ -46,7 +46,7 @@ function UserListInvoice(props) {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
-    canDeleteModule: canDeleteInvoice,
+    // canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
 
@@ -116,6 +116,34 @@ function UserListInvoice(props) {
   const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
   const isExportAllow = isValidSubscription && canReadInvoice
 
+
+   const handleInvoicepdf = (rowData) => {
+    console.log("rowData",rowData)
+    if (rowData.invoiceId) {
+      dispatch({
+        type: "INVOICEPDF",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: rowData.invoiceId,
+        },
+      });
+      setLoading(true);
+
+    }
+  };
+
+   useEffect(() => {
+      if (state.InvoiceList?.statusCodeForPDf === 200) {
+        const pdfUrl = state.InvoiceList?.invoicePDF;
+        if (!pdfUrl) return;
+        // setLoading(false);
+        // setShowLoader(false);
+        window.open(pdfUrl, "_blank");
+        dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+      }
+  
+    }, [state.InvoiceList?.statusCodeForPDf]);
+  
 
   return (
     <>
@@ -272,7 +300,7 @@ function UserListInvoice(props) {
                                           </button>
                                         )}
 
-                                      {/* Unpaid */}
+                        
                                       {(view.invoiceMode === "Manual" &&
                                         view?.paymentStatus === "Paid" &&
                                         view.invoiceType === "Rent") && (
@@ -289,8 +317,8 @@ function UserListInvoice(props) {
                                           </button>
                                         )}
 
-                                      {/* Discount */}
-                                      {(view?.invoiceAmount > 0 &&
+                                      
+                                      {(view?.totalAmount > 0 &&
                                         view?.paymentStatus === "Pending" &&
                                         !view?.isDiscounted &&
                                         (view?.invoiceType === "Rent" ||
@@ -308,7 +336,7 @@ function UserListInvoice(props) {
                                           </button>
                                         )}
 
-                                      {/* Download */}
+                                      
                                       <button
                                         onClick={() => isExportAllow && handleInvoicepdf(view)}
                                         disabled={!isExportAllow}
@@ -324,7 +352,7 @@ function UserListInvoice(props) {
 
                                       {/* Record */}
                                       {(view.dueAmount !== 0 &&
-                                        view?.invoiceAmount > 0 &&
+                                        view?.totalAmount > 0 &&
                                         view?.paymentStatus !== "Cancelled" &&
                                         view?.paymentStatus !== "Paid") && (
                                           <button
@@ -341,8 +369,8 @@ function UserListInvoice(props) {
                                         )}
 
                                       {/* Refund */}
-                                      {(view?.invoiceAmount < 0 &&
-                                        view?.paymentStatus !== "Refunded" &&
+                                      {(view?.totalAmount < 0 &&
+                                        view?.paymentStatus !== "Refund" &&
                                         view?.paymentStatus !== "Cancelled") && (
                                           <button
                                             disabled={!canWriteInvoice}
@@ -357,7 +385,7 @@ function UserListInvoice(props) {
                                           </button>
                                         )}
 
-                                      {/* Divider */}
+                              
                                       <div className="h-px bg-[#EAEAEA]" />
 
                                     

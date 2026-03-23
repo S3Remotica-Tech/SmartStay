@@ -206,229 +206,237 @@ function DiscountInvoice({ show, handleClose }) {
 
             </div>
 
+            <div className='max-h-[350px] overflow-y-auto show-scrolls'>
+                <div className="px-4 py-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
+                        <div className="mb-2 col-span-1 sm:col-span-2 md:col-span-4">
+                            <label className="block mb-1 text-sm font-medium text-[#4B4B4B]">
+                                Reason for Discount <span className='text-red-500'>*</span>
+                            </label>
 
-            <div className="px-4 py-2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
-                    <div className="mb-2 col-span-1 sm:col-span-2 md:col-span-4">
-                        <label className="block mb-1 text-sm font-medium text-[#4B4B4B]">
-                            Reason for Discount <span className='text-red-500'>*</span>
-                        </label>
-
-                        {selectedReason?.value === "other" ? (
-                            <div className="relative w-full">
+                            {selectedReason?.value === "other" ? (
+                                <div className="relative w-full">
 
 
-                                <input
-                                    type="text"
-                                    value={customReason}
-                                    onChange={(e) => {
-                                        setCustomReason(e.target.value);
+                                    <input
+                                        type="text"
+                                        value={customReason}
+                                        onChange={(e) => {
+                                            setCustomReason(e.target.value);
+                                            setReasonError('');
+                                        }}
+                                        placeholder="Enter custom reason"
+                                        className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setSelectedReason(null);
+                                            setCustomReason("");
+                                            setReasonError('');
+                                        }}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
+                                    >
+                                        <Trash size={18} />
+                                    </button>
+
+                                </div>
+                            ) : (
+
+                                <Select
+                                    options={reasonOptions}
+                                    value={selectedReason}
+                                    onChange={(option) => {
+                                        setSelectedReason(option);
                                         setReasonError('');
+                                        if (option?.value !== "other") {
+                                            setCustomReason("");
+                                        }
                                     }}
-                                    placeholder="Enter custom reason"
-                                    className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
+                                    styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            height: "45px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "14px",
+                                            color: "#222222",
+                                            fontFamily: "Gilroy",
+                                            boxShadow: "none",
+                                        }),
+                                        option: (base, state) => ({
+                                            ...base,
+                                            cursor: "pointer",
+                                            fontFamily: "Gilroy",
+                                            backgroundColor:
+                                                state.data.value === "other"
+                                                    ? "#E7F1FF"
+                                                    : state.isFocused
+                                                        ? "#f0f0f0"
+                                                        : "white",
+
+                                            fontWeight:
+                                                state.data.value === "other" ? 600 : 400,
+                                            color:
+                                                state.data.value === "other"
+                                                    ? "#1E45E1"
+                                                    : "#000",
+
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            fontWeight: 400,
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontWeight: 600,
+                                            color: "#222222",
+                                            fontFamily: "Gilroy",
+                                        }),
+                                        indicatorSeparator: () => ({ display: "none" }),
+                                        menuList: (base) => ({
+                                            ...base,
+                                            maxHeight: "150px",
+                                            overflowY: "auto", scrollbarWidth: "thin",
+                                            msOverflowStyle: "auto",
+                                        }),
+                                    }}
+                                    placeholder="Select Reason"
+                                    className="text-sm  rounded-md"
                                 />
 
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setSelectedReason(null);
-                                        setCustomReason("");
-                                        setReasonError('');
-                                    }}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
-                                >
-                                    <Trash size={18} />
-                                </button>
+                            )}
+                        </div>
 
-                            </div>
-                        ) : (
 
-                            <Select
-                                options={reasonOptions}
-                                value={selectedReason}
-                                onChange={(option) => {
-                                    setSelectedReason(option);
-                                    setReasonError('');
-                                    if (option?.value !== "other") {
-                                        setCustomReason("");
-                                    }
-                                }}
-                                styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        height: "45px",
-                                        border: "1px solid #D9D9D9",
-                                        borderRadius: "8px",
-                                        fontSize: "14px",
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        boxShadow: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                        ...base,
-                                        cursor: "pointer",
-                                        fontFamily: "Gilroy",
-                                        backgroundColor:
-                                            state.data.value === "other"
-                                                ? "#E7F1FF"
-                                                : state.isFocused
-                                                    ? "#f0f0f0"
-                                                    : "white",
-
-                                        fontWeight:
-                                            state.data.value === "other" ? 600 : 400,
-                                        color:
-                                            state.data.value === "other"
-                                                ? "#1E45E1"
-                                                : "#000",
-
-                                    }),
-                                    placeholder: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                        fontWeight: 400,
-                                    }),
-                                    singleValue: (base) => ({
-                                        ...base,
-                                        fontWeight: 600,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                    }),
-                                    indicatorSeparator: () => ({ display: "none" }),
-                                    menuList: (base) => ({
-                                        ...base,
-                                        maxHeight: "150px",
-                                        overflowY: "auto", scrollbarWidth: "thin",
-                                        msOverflowStyle: "auto",
-                                    }),
-                                }}
-                                placeholder="Select Reason"
-                                className="text-sm  rounded-md"
-                            />
-
-                        )}
                     </div>
+                    {reasonError &&
+                        <div className="mb-2">
+                            <ErrorMessage message={reasonError} type="error" />
+                        </div>
+                    }
+                    <p className="text-sm font-semibold mb-2 text-[#222222]">For Invoice</p>
 
+                    <div className="border rounded-lg overflow-hidden">
+                        <table className="w-full text-sm">
+                            <thead className="bg-gray-50 text-gray-500 text-xs font-medium">
+                                <tr>
+                                    <th className="text-left px-3 py-2">INVOICE OF</th>
+                                    <th className="text-left px-3 py-2"> INVOICE DATE</th>
+                                    <th className="text-left px-3 py-2">AMOUNT</th>
+                                    <th className="text-left px-3 py-2 ">
+                                        OVERDUE ON 
+                                       </th>
+                                    <th className="text-left px-3 py-2 captitialize">
+                                        {discountType === "amount" ? "AMOUNT TO APPLY (DISCOUNT)" : "PERCENTAGE TO APPLY (DISCOUNT)"}
+                                    </th>
+                                </tr>
+                            </thead>
 
-                </div>
-                {reasonError &&
-                    <div className="mb-2">
-                        <ErrorMessage message={reasonError} type="error" />
-                    </div>
-                }
-                <p className="text-sm font-semibold mb-2 text-[#222222]">For Invoice</p>
-
-                <div className="border rounded-lg overflow-hidden">
-                    <table className="w-full text-sm">
-                        <thead className="bg-gray-50 text-gray-500 text-xs font-medium">
-                            <tr>
-                                <th className="text-left px-3 py-2">INVOICE OF</th>
-                                <th className="text-left px-3 py-2">DUE DATE</th>
-                                <th className="text-left px-3 py-2">AMOUNT</th>
-                                <th className="text-left px-3 py-2">OVERDUE ON</th>
-                                <th className="text-left px-3 py-2 captitialize">
-                                    {discountType === "amount" ? "AMOUNT TO APPLY (DISCOUNT)" : "PERCENTAGE TO APPLY (DISCOUNT)"}
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr className="border-t">
-                                <td className="px-3 py-2 text-blue-600 font-semibold">
-                                    {pdfDetails?.invoiceNumber}
-                                </td>
-                                <td className="px-3 py-2 text-gray-500">{pdfDetails?.dueDate}</td>
-                                <td className="px-3 py-2 font-semibold">₹ {pdfDetails?.invoiceInfo?.totalAmount}</td>
-                                <td className="px-3 py-2 text-gray-500">-</td>
-
-                                <td className="px-3 py-2">
-                                    <div className="flex items-center border rounded-md overflow-hidden w-full">
-
-                                        <input
-                                            type="number"
-                                            value={discountInput}
-                                            onChange={handleDiscountChange}
-                                            placeholder={discountType === "percent" ? "Enter %" : "₹ 0.00"}
-                                            className="w-full px-2 py-2.5 text-sm outline-none"
-                                        />
-
-                                        <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
-                                            <button
-                                                type="button"
-                                                onClick={() => setDiscountType("amount")}
-                                                className={`px-3 py-1 text-sm rounded ${discountType === "amount"
-                                                    ? "bg-[#1E45E1] text-white"
-                                                    : "bg-[#E7F1FF]"
-                                                    }`}
-                                            >
-                                                ₹
-                                            </button>
-
-                                            <button
-                                                type="button"
-                                                onClick={() => setDiscountType("percent")}
-                                                className={`px-3 text-sm rounded ${discountType === "percent"
-                                                    ? "bg-[#1E45E1] text-white"
-                                                    : "bg-[#E7F1FF]"
-                                                    }`}
-                                            >
-                                                %
-                                            </button>
+                            <tbody>
+                                <tr className="border-t">
+                                    <td className="px-3 py-2 text-blue-600 font-semibold">
+                                        {pdfDetails?.invoiceNumber}
+                                    </td>
+                                    <td className="px-3 py-2 text-gray-500">{pdfDetails?.invoiceDate}</td>
+                                    <td className="px-3 py-2 font-semibold">₹ {pdfDetails?.invoiceInfo?.totalAmount}</td>
+                                    <td className="px-3 py-2 text-gray-500">
+                                        <div>
+{pdfDetails?.dueDate}
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        <span className='text-[#FF9500] text-xs'>OverdueBy {}</span>
+                                        
+                                        </td>
+
+                                    <td className="px-3 py-2">
+                                        <div className="flex items-center border rounded-md overflow-hidden w-full">
+
+                                            <input
+                                                type="number"
+                                                value={discountInput}
+                                                onChange={handleDiscountChange}
+                                                placeholder={discountType === "percent" ? "Enter %" : "₹ 0.00"}
+                                                className="w-full px-2 py-2.5 text-sm outline-none"
+                                            />
+
+                                            <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setDiscountType("amount")}
+                                                    className={`px-3 py-1 text-sm rounded ${discountType === "amount"
+                                                        ? "bg-[#1E45E1] text-white"
+                                                        : "bg-[#E7F1FF]"
+                                                        }`}
+                                                >
+                                                    ₹
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setDiscountType("percent")}
+                                                    className={`px-3 text-sm rounded ${discountType === "percent"
+                                                        ? "bg-[#1E45E1] text-white"
+                                                        : "bg-[#E7F1FF]"
+                                                        }`}
+                                                >
+                                                    %
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {discountInputError &&
+                        <ErrorMessage message={discountInputError} type="error" />
+                    }
+
+                    {
+                        state.InvoiceList?.makeDiscountError &&
+                        <ErrorMessage message={state.InvoiceList?.makeDiscountError} type="error" />
+                    }
+
                 </div>
 
-                {discountInputError &&
-                    <ErrorMessage message={discountInputError} type="error" />
-                }
 
-                {
-                    state.InvoiceList?.makeDiscountError &&
-                    <ErrorMessage message={state.InvoiceList?.makeDiscountError} type="error" />
-                }
-
-            </div>
+                <div className="flex justify-end h-fit w-full  px-10 whitespace-nowrap">
+                    <div className="bg-gray-50 p-4 rounded-lg w-full max-w-sm text-sm grid grid-cols-2 gap-y-2">
 
 
-            <div className="flex justify-end h-fit w-full  px-10 whitespace-nowrap">
-                <div className="bg-gray-50 p-4 rounded-lg w-full max-w-sm text-sm grid grid-cols-2 gap-y-2">
+                        <span className="text-[#4B4B4B] break-words">
+                            Invoice Amount ({pdfDetails?.invoiceNumber})
+                        </span>
+                        <span className="font-semibold text-right whitespace-nowrap">
+                            ₹ {pdfDetails?.invoiceInfo?.totalAmount}
+                        </span>
 
 
-                    <span className="text-[#4B4B4B] break-words">
-                        Invoice Amount ({pdfDetails?.invoiceNumber})
-                    </span>
-                    <span className="font-semibold text-right whitespace-nowrap">
-                        ₹ {pdfDetails?.invoiceInfo?.totalAmount}
-                    </span>
+                        <span className="text-[#4B4B4B] break-words">
+                            Discount Applied
+                        </span>
+                        <span className="font-semibold text-right whitespace-nowrap">
+                            {discountType === "amount" ? "₹ " : ""}
+                            {calculatedDiscount ? calculatedDiscount : "0.00"}
+                            {discountType === "percent" && ` (${discountInput || 0}%)`}
+                        </span>
 
 
-                    <span className="text-[#4B4B4B] break-words">
-                        Discount Applied
-                    </span>
-                    <span className="font-semibold text-right whitespace-nowrap">
-                        {discountType === "amount" ? "₹ " : ""}
-                        {calculatedDiscount ? calculatedDiscount : "0.00"}
-                        {discountType === "percent" && ` (${discountInput || 0}%)`}
-                    </span>
+                        <span className="text-[#4B4B4B] break-words font-medium">
+                            Total Payable
+                        </span>
+                        <span className="font-semibold text-right whitespace-nowrap">
+                            ₹ {payableAmount}
+                        </span>
 
-
-                    <span className="text-[#4B4B4B] break-words font-medium">
-                        Total Payable
-                    </span>
-                    <span className="font-semibold text-right whitespace-nowrap">
-                        ₹ {payableAmount}
-                    </span>
-
+                    </div>
                 </div>
             </div>
 
-
-            <div className="flex justify-end gap-3 px-5 py-4 border-t">
+            <div className="flex justify-end gap-3 px-5 py-3 border-t">
                 <button
                     onClick={handleClose}
                     className="px-4 py-2 text-sm border rounded-md bg-gray-100 hover:bg-gray-200"
