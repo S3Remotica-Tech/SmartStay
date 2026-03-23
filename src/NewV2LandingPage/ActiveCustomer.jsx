@@ -11,29 +11,31 @@ import Marquee from "react-fast-marquee";
 
 function ActiveCustomer() {
 
-    
+
   return (
-    <div className="w-full bg-[#FDFDFD] py-12 px-[200px]">
-              <p className="text-center text-[#061C3D] text-lg mb-6 font-semibold font-gilroy">
-                Over <span className="text-blue-600 font-semibold font-gilroy italic">1,000+</span> actively paying customers
-              </p>
+    <div className="w-full bg-[#FDFDFD] py-12 px-[150px]">
 
 
-              <Marquee
-                speed={100}
-                pauseOnHover={true}
-                gradient={false}
-              >
-                <img src={axn} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={lenovo} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={slack} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={youtube} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={amazon} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={google} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-                <img src={microsoft} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
-              </Marquee>
+      <p className="text-center text-[#061C3D] text-lg 2xl:text-xl mb-6 font-semibold font-gilroy">
+        Over <span className="text-blue-600 font-semibold font-gilroy italic">1,000+</span> actively paying customers
+      </p>
 
-            </div>
+
+      <Marquee
+        speed={100}
+        pauseOnHover={true}
+        gradient={false}
+      >
+        <img src={axn} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+        <img src={lenovo} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+        <img src={slack} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+        <img src={youtube} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+        <img src={amazon} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+        <img src={google} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+        <img src={microsoft} className="h-8 mx-10 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition" />
+      </Marquee>
+
+    </div>
   )
 }
 

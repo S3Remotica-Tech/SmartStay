@@ -83,7 +83,7 @@ function LifeCycleMethod({ isFeatureWay }) {
         <div className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
 
 
-            <div className="max-w-7xl mx-auto mb-14">
+            {/* <div className="max-w-7xl mx-auto mb-14">
                 <div className='flex items-center justify-between'>
                     <h2 className={`text-3xl md:text-4xl font-semibold ${isFeatureWay ? "text-black" : "text-white"}  font-tesa`}>
                         Complete Tenant
@@ -98,6 +98,23 @@ function LifeCycleMethod({ isFeatureWay }) {
                 </div>
 
 
+            </div> */}
+
+            <div className="max-w-7xl mx-auto mb-14">
+                <div className="flex items-center justify-between">
+
+                    <h2 className={`text-3xl md:text-4xl 2xl:text-5xl font-semibold ${isFeatureWay ? "text-black" : "text-white"} font-tesa`}>
+                        Complete Tenant
+                        <span className="text-blue-500 block">
+                            Lifecycle Management
+                        </span>
+                    </h2>
+
+                    <div className={`rounded-xl px-4 py-3 ${isFeatureWay ? "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}>
+                        <label className="text-xs 2xl:text-lg font-tasa">Tenant Management</label>
+                    </div>
+
+                </div>
             </div>
 
 
@@ -135,12 +152,13 @@ function LifeCycleMethod({ isFeatureWay }) {
                                     (card.icon === "user" || card.icon === "home") &&
 
                                     <>
-                                        <h3 className="text-[24px] font-semibold text-[#222222] mb-2 leading">
+
+
+                                        <h3 className="text-[24px] 2xl:text-[28px] font-semibold text-[#222222] mb-2 leading">
                                             {card.title}
                                         </h3>
 
-
-                                        <label className="text-base text-[#2D2D2D] mb-6">
+                                        <label className="text-base 2xl:text-lg text-[#2D2D2D] mb-6">
                                             {card.description}
                                         </label>
                                     </>
@@ -151,10 +169,18 @@ function LifeCycleMethod({ isFeatureWay }) {
                                     (card.icon === "document-text" || card.icon === "shield-tick" || card.icon === "receipt") &&
                                     <div className='grid md:grid-cols-2 gap-6 h-full'>
                                         <div >
-                                            <h3 className="text-[24px] font-semibold text-[#222222] mb-2 leading">
+                                            {/* <h3 className="text-[24px] font-semibold text-[#222222] mb-2 leading">
                                                 {card.title}
                                             </h3>
                                             <label className="text-base text-[#2D2D2D] mb-6">
+                                                {card.description}
+                                            </label> */}
+
+                                            <h3 className="text-[24px] 2xl:text-[28px] font-semibold text-[#222222] mb-2 leading">
+                                                {card.title}
+                                            </h3>
+
+                                            <label className="text-base 2xl:text-lg text-[#2D2D2D] mb-6">
                                                 {card.description}
                                             </label>
 
@@ -226,7 +252,7 @@ function LifeCycleMethod({ isFeatureWay }) {
                 !isFeatureWay &&
 
                 <div className='max-w-7xl flex items-center justify-center'>
-                    <button onClick={handleNavigateFeatures} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium hover:bg-gray-100 hover:text-[#222222] transition">
+                    <button onClick={handleNavigateFeatures} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium 2xl:text-xl hover:bg-gray-100 hover:text-[#222222] transition">
                         Explore Features
                         <ArrowRight size="18" />
                     </button>

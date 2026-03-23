@@ -8,15 +8,15 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
   const [searchQuery, setSearchQuery] = useState("");
 
   const menuItems = [
-    { name: "Home", path: "/dashboard" },
-    { name: "Paying Guest", path: "/paying-guest" },
+    // { name: "Home", path: "/dashboard" },
+    // { name: "Paying Guest", path: "/paying-guest" },
     { name: "Tenant", path: "/tenant" },
     { name: "Asset", path: "/asset" },
     { name: "Vendor", path: "/vendor" },
     { name: "Banking", path: "/banking" },
     { name: "Bills", path: "/invoice" },
-    { name: "Bookings", path: "/booking" },
-    { name: "Recurring Bills", path: "/recurring" },
+    // { name: "Bookings", path: "/booking" },
+    // { name: "Recurring Bills", path: "/recurring" },
     { name: "Receipt", path: "/receipts" },
     { name: "Electricity", path: "/electricity" },
     { name: "Complaint", path: "/compliance" },
@@ -38,12 +38,14 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
 
     <Offcanvas
       show={showMenuModal}
-      onHide={() => setShowMenuModal(false)}
+      onHide={() => {
+        setShowMenuModal(false);
+        setSearchQuery(""); 
+      }}
       placement="end"
       backdrop="static"
-      className="w-[300px] font-gilroy border-l border-gray-200 rounded-xl bg-white"
+      className="!w-[300px] !h-[600px] font-gilroy border-l border-gray-200 rounded-xl bg-white"
     >
-      {/* Header */}
       <Offcanvas.Header className="border-b border-gray-200 px-4 py-3 flex items-center gap-2.5">
         <div className="relative flex-1">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -59,16 +61,17 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
           />
         </div>
 
-        {/* Close Icon */}
         <span
-          onClick={() => setShowMenuModal(false)}
+          onClick={() => {
+            setShowMenuModal(false);
+            setSearchQuery(""); 
+          }}
           className="text-lg text-red-500 cursor-pointer font-semibold"
         >
           ✕
         </span>
       </Offcanvas.Header>
 
-      {/* Body */}
       <Offcanvas.Body className="p-2">
         <div className="flex flex-col">
           {filteredItems.length > 0 ? (
