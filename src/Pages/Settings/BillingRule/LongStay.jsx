@@ -309,7 +309,7 @@ function LongStayRecurringModal() {
                     dueDate: Number(dueDays),
                     gracePeriodDays: Number(gracePeriod) || '',
                     reminderDays: reminderDays?.map(item => item.value),
-                    noticeDays: noticeDays
+                    noticeDays: noticeDays || ''
                 }
             })
             setFormLoading(true)
