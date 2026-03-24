@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +12,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import '../OthersComponent/BillPdfModal.css';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Select from "react-select";
+import { SearchNormal1, TextalignLeft } from "iconsax-react";
 
 function ReceiptPdfDetails() {
 
@@ -20,12 +21,12 @@ function ReceiptPdfDetails() {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [statusShowfilter, setStatusShowfilter] = useState(false);
     const { receiptId } = useParams();
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [rowDatas, setRowDatas] = useState('')
     const invoiceRefs = useRef({});
-
+    const [search, setSearch] = useState("");
 
     const { rowData } = location.state || {};
 
@@ -73,6 +74,9 @@ function ReceiptPdfDetails() {
 
 
 
+    const handleShowStatusFilter = () => {
+        setStatusShowfilter(!statusShowfilter)
+    }
 
 
 
@@ -98,178 +102,134 @@ function ReceiptPdfDetails() {
 
 
     return (
-        <Row className="p-0" style={{ width: "100%", }}>
-            <Col className="p-0"
-                lg={4}
-                md={4}
-                sm={12}
-                xs={12}
-            >
+        <div className="grid grid-cols-1 md:grid-cols-12 h-screen overflow-hidden">
+            <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto ">
 
-                <div
-                    className="container sticky-top bg-white"
-                    style={{
-                        zIndex: 0,
-                        height: 'auto',
-                        // margin: (DownloadInvoice) ? 0 : 3,
-                        paddingBottom: 0,
-                        borderBottom: "1px solid #E5E7EB",
-                        boxShadow: "initial"
-                    }}
-                >
-                    <div className="d-flex justify-content-between align-items-center flex-wrap mb-2">
-                        <div className="" style={{
-                            marginTop: 12,
-                        }}>
-                            <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Receipt</label>
+
+                <div className="sticky top-0 bg-white z-20  overflow-hidden">
+                    <div className="flex justify-between items-center flex-wrap ">
+
+                        <div className="min-h-[50px] px-1 py-2">
+                            <label className="text-[18px] text-black font-semibold font-gilroy">
+                                Receipts
+                            </label>
                         </div>
+                        {/* <div className="flex justify-between items-center gap-2 me-2">
+                            <div onClick={handleShowStatusFilter} className="cursor-pointer bg-[#F7F8FC] border border-[#9C9C9C26] rounded-md px-1 py-1">
+                                <TextalignLeft size="20" color="#4B4B4B" />
+                            </div>
 
+
+                        </div> */}
                     </div>
-                </div>
-                <div
-                    className="show-scroll p-2 mt-2"
-                    style={{ height: "90vh", overflowY: "auto" }}
-                >
-                    {state.InvoiceList.ReceiptList &&
-                        state.InvoiceList.ReceiptList?.map((item) => (
-                            <>
-                                <div key={item.transactionId} ref={(el) => (invoiceRefs.current[item.transactionId] = el)}
-                                    className="mb-3  shadow-sm rounded"
-                                    style={{
-                                        padding: "12px 12px", cursor: "pointer",
 
-                                        backgroundColor: String(selectedInvoiceId) === String(item.transactionId) ? "#E8EDFF" : "#FFFFFF"
-                                    }}
-                                >
-                                    <div className="d-flex align-items-start justify-content-between">
-                                        <div>
-                                            {
-                                                item.profilePic && item.profilePic !== "0" ? (
-                                                    <img
-                                                        src={item.profilePic}
-                                                        alt="User"
-                                                        style={{
-                                                            height: 40,
-                                                            width: 40,
-                                                            borderRadius: "50%",
-                                                            objectFit: "cover",
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <div
-                                                        style={{
-                                                            height: 40,
-                                                            width: 40,
-                                                            borderRadius: "50%",
-                                                            backgroundColor: "#E2E8F0",
-                                                            color: "#44536A",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            // color: "white",
-                                                            fontWeight: 600,
-                                                            fontSize: 14,
-                                                            textTransform: "uppercase",
-                                                        }}
-                                                    >
-                                                        {item.initials}
-                                                    </div>
-                                                )
-                                            }
+                    <div className="h-[1px] bg-gray-200 p-0"></div>
 
-                                        </div>
+                   
+                            <div className="relative w-full max-w-md p-2 mt-2 ">
 
-                                        <div className="flex-grow-1 ms-2" onClick={() => {
-                                            setSelectedInvoiceId(item.transactionId);
-                                            handleDisplayInvoiceDownload(item)
-                                        }}>
-                                            <div className="d-flex justify-content-between align-items-center mb-1">
-                                                <div
-                                                    className=" d-flex flex-wrap"
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: "14px",
-                                                        fontWeight: 600,
-                                                        color: "#1E45E1",
-                                                        cursor: "pointer",
-                                                    }}
-
-                                                >
-                                                    {item.fullName || "Unnamed"}
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: "14px",
-                                                        fontWeight: 600,
-                                                        color: "#222",
-                                                    }}
-                                                >
-                                                    ₹ {item.paidAmount || "0"}
-                                                </div>
-                                            </div>
-
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: "12px",
-                                                        fontWeight: 500,
-                                                        color: "#555",
-                                                    }}
-                                                >
-                                                    {item?.paidAt}
-                                                </div>
-                                                <span
-                                                    style={{
-                                                        fontSize: "10px",
-                                                        backgroundColor: "#D9FFD9",
-                                                        color: "#000",
-                                                        borderRadius: "14px",
-                                                        fontFamily: "Gilroy",
-                                                        padding: "4px 10px",
-                                                        height: "24px",
-                                                        lineHeight: "16px",
-                                                        display: "inline-flex",
-                                                        alignItems: "center",
-                                                    }}
-                                                >
-                                                    {item?.paymentStatus === "PAID" ? "Paid" : "Unpaid"}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
+                                    <SearchNormal1 size="18" color="#888" />
                                 </div>
 
 
+                                <input disabled
+                                    type="text"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    placeholder="Search..."
+                                    className="w-full pl-4 py-2 font-gilroy border border-[#D9D9D9] rounded-xl text-sm  outline-none"
+                                />
+                            </div>
 
-                            </>
-                        ))}
+
+
+                 
+
                 </div>
 
+                <div className="p-2 mt-2 h-[90vh] overflow-y-auto show-scrolls">
+                    {state.InvoiceList.ReceiptList?.map((item) => (
+                        <div onClick={() => {
+                            setSelectedInvoiceId(item.transactionId);
+                            handleDisplayInvoiceDownload(item);
+                        }}
+                            key={item.transactionId}
+                            ref={(el) => (invoiceRefs.current[item.transactionId] = el)}
+                            className={`mb-3 shadow-sm rounded p-3 cursor-pointer 
+        ${String(selectedInvoiceId) === String(item.transactionId)
+                                    ? "bg-[#F7F8FC]"
+                                    : "bg-white"
+                                }`}
+                        >
+                            <div className="flex items-start justify-between">
+
+
+                                <div>
+                                    {item.profilePic && item.profilePic !== "0" ? (
+                                        <img
+                                            src={item.profilePic}
+                                            alt="User"
+                                            className="h-10 w-10 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="h-10 w-10 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-sm uppercase font-gilroy">
+                                            {item.initials}
+                                        </div>
+                                    )}
+                                </div>
+
+
+                                <div
+                                    className="flex-1 ml-2"
+
+                                >
+
+                                    <div className="flex justify-between items-center mb-1">
+                                        <div className="flex flex-wrap text-sm font-semibold text-[#1E45E1] font-[Gilroy]">
+                                            {item.fullName || "Unnamed"}
+                                        </div>
+                                        <div className="text-[16px] font-semibold text-[#222] font-[Gilroy]">
+                                            ₹ {item.paidAmount || "0"}
+                                        </div>
+                                    </div>
 
 
 
-            </Col>
-
-            <Col className="p-0 m-0"
-                lg={8}
-                md={8}
-                sm={8}
-                xs={8}
-            >
-                <ReceiptPdfCard
-                    // show={showPdfModal}
-                    // handleClosed={handleClosePdfModal}
-                    rowData={rowData || rowDatas}
-                />
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex items-center gap-2 text-sm font-semibold text-[#222] font-[Gilroy] whitespace-nowrap">
+                                            <div className="text-[#4B4B4B] text-xs font-medium ">{item.invoiceNumber}</div>
+                                            <span className="inline-block h-4 w-[1px] bg-gray-400"></span>
+                                            <div className="text-[#4B4B4B] text-xs font-medium ">{item.invoiceType}</div>
+                                        </div>
+                                        <div className="text-xs font-medium text-[#555] font-[Gilroy]">
+                                            {item?.paidAt}
+                                        </div>
 
 
-            </Col>
+                                    </div>
 
 
 
-        </Row>
+                                </div>
+
+                            </div>
+                            <span className="flex my-1 items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit uppercase">
+                                <span className="h-2 w-2 rounded-full bg-[#10B981] "></span>
+                                {item?.paymentStatus}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="col-span-12 md:col-span-8">
+                <ReceiptPdfCard rowData={rowData || rowDatas} />
+            </div>
+
+
+
+        </div>
     )
 }
 

@@ -307,23 +307,11 @@ const InvoiceCard = ({ rowData, }) => {
               >{pdfDetails?.invoiceNumber}
               </label>
             </div>
+            <span className="capitalize flex my-1 items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
+              <span className="h-2 w-2 rounded-full bg-[#10B981]  capitalize"></span>
+              {rowData?.paymentStatus}
+            </span>
 
-            <div className="">
-              {rowData?.paymentStatus !== "Pending" ? <span
-                style={{
-                  fontSize: '10px',
-                  backgroundColor: '#D9FFD9', color: '#000',
-                  borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px"
-                }}>
-                Paid
-              </span> : <span
-                style={{
-                  fontSize: '10px', cursor: 'pointer',
-                  backgroundColor: '#FFF0F0', fontFamily: 'Gilroy', color: '#EB2427',
-                  borderRadius: '14px', padding: "8px 12px"
-                }}>
-                Unpaid</span>}
-            </div>
 
           </div>
 
@@ -686,7 +674,7 @@ const InvoiceCard = ({ rowData, }) => {
                           style={{
                             height: "24px",
                             width: "3px",
-                            backgroundColor: Number(pdfDetails?.invoiceAmount) > 0 ? "#00A651" : "#FF0000",
+                            backgroundColor:  "#00A651",
                           }}
                         />
                         ₹ {pdfDetails?.receiptInfo?.paidAmount}
@@ -711,60 +699,69 @@ const InvoiceCard = ({ rowData, }) => {
 
 
 
-              <div className="row justify-content-between mt-4 mb-0 px-5">
-                <div className="col-md-8 p-0">
-                  <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, ...textStyle }}>Acknowledgment</h4>
-                  <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
+              <div className="flex flex-wrap justify-between  items-center mt-4 mb-0 px-5">
+
+
+                <div className="w-full md:w-8/12 p-0">
+                  <h4 className="text-[12px] font-[Gilroy] font-semibold">
+                    Acknowledgment
+                  </h4>
+
+                  <p className="whitespace-pre-line text-[11px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[50px]">
                     {pdfDetails?.configurations?.termAndCondition}
                   </p>
                 </div>
 
-                <div className="col-md-4 d-flex flex-column justify-content-end align-items-end p-0">
+
+                <div className="w-full md:w-4/12 flex flex-col justify-end items-end p-0 mt-4 md:mt-0">
                   {pdfDetails?.configurations?.signatureUrl && (
                     <img
                       src={pdfDetails?.configurations?.signatureUrl}
-                      alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
-
+                      alt="Digital Signature"
+                      className="h-[60px] w-[130px] pl-5"
                     />
                   )}
-                  <p
-                    style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
-                  >Authorized Signature</p>
-                </div>
-              </div>
 
-
-              <div className="row justify-content-between mt-2 mb-0 px-5">
-                <div className="col-md-8 p-0">
-                  <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
-                    {pdfDetails?.configurations?.receiptNotes}
+                  <p className="text-[13px] font-[Gilroy] font-semibold text-[#2C2C2C]">
+                    Authorized Signature
                   </p>
                 </div>
 
-                <div className="col-md-4 p-0 d-flex flex-column justify-content-end align-items-end bg-white">
-
-                  {Number(pdfDetails?.invoiceAmount) > 0 ? (
-                    <p className="text-success fw-bold border-success d-inline-block">
-                      <img
-                        src={Payment}
-                        alt="payment received"
-                        className="img-fluid"
-                        style={{ transform: "rotate(0deg)" }}
-                      />
-                    </p>
-                  ) : (
-                    <p className="text-danger fw-bold border-danger d-inline-block">
-                      <img
-                        src={Refund}
-                        alt="refund"
-                        className="img-fluid"
-                        style={{ transform: "rotate(0deg)" }}
-                      />
-                    </p>
-                  )}
-
-                </div>
               </div>
+
+             <div className="flex flex-wrap justify-between mt-2 mb-0 px-5">
+
+
+  <div className="w-full md:w-8/12 p-0">
+    <p className="whitespace-pre-line  text-[11px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[150px]">
+  {pdfDetails?.configurations?.receiptNotes}
+</p>
+  </div>
+
+
+  <div className="w-full md:w-4/12 p-0 flex flex-col justify-end items-end bg-white mt-3 md:mt-0">
+
+    {Number(pdfDetails?.invoiceAmount) > 0 ? (
+      <p className="font-bold inline-block">
+        <img
+          src={Payment}
+          alt="payment received"
+          className="w-full h-auto"
+        />
+      </p>
+    ) : (
+      <p className="font-bold inline-block">
+        <img
+          src={Refund}
+          alt="refund"
+          className="w-full h-auto"
+        />
+      </p>
+    )}
+
+  </div>
+
+</div>
 
 
 
