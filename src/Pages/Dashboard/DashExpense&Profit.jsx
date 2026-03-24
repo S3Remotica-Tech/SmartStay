@@ -4,10 +4,11 @@ import {
     MoneyRecive,
     MoneySend,
     Chart2,
-    Activity,
+    TrendUp,
     ArrowRight,
     ArrowUp2, ArrowDown2,
-    Calendar
+    Calendar,
+    TrendDown
 
 } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +38,7 @@ function DashExpenseProfit() {
     const statsCards = [
         {
             title: "Revenue",
-            amount: `₹ ${ExpenseAnDProfit?.totalIncome ||  0}`,
+            amount: `₹ ${ExpenseAnDProfit?.totalIncome || 0}`,
             subtitle: "this month",
             change: `${ExpenseAnDProfit?.incomeTrend || 0} %`,
             changeColor: "#EF4444",
@@ -238,20 +239,21 @@ function DashExpenseProfit() {
 
                             <p className="mt-4 text-[28px] font-semibold text-[#101828] font-[Gilroy]">
                                 {card.amount}{" "}
-                                {/* <span className="text-sm font-normal text-[#64748B]">
-                                    {card.subtitle}
-                                </span> */}
                             </p>
 
 
                             <p
-                                className="mt-1 text-sm font-[Gilroy]"
-                                style={{ color: card.changeColor }}
+                                className="mt-1 text-sm font-[Gilroy] flex items-center gap-1"
+                                style={{ color: parseFloat(card.change) >= 0 ? "#00A63E" : "#E53935" }}
                             >
-                                <Activity
-                                    size="16"
-                                    color={`${card.changeColor}`}
-                                /> {card.change}
+                                {parseFloat(card.change) >= 0 ? (
+                                    <TrendUp size="16" color="#00A63E" />
+                                ) : (
+                                    <TrendDown size="16" color="#E53935" />
+                                )}
+
+                                {card.change}
+
                                 {card.compareText && (
                                     <span className="text-[#64748B] ml-1">
                                         {card.compareText}

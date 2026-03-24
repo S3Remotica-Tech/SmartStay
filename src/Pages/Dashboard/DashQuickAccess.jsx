@@ -11,7 +11,7 @@ import {
   ArrowUp,
   DocumentText,
   Calendar,
-  ExportSquare,
+  ExportSquare, TrendDown, TrendUp
 
 } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
@@ -381,11 +381,14 @@ function DashQuickAccess(
                 />
               </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1 flex ">
-              <ArrowUp
-                size="16"
-                color="#6A7282"
-              /> {billingSummary.trend}
+            <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+              {parseFloat(billingSummary.trend) >= 0 ? (
+                <TrendUp size="16" color="#00A63E" />
+              ) : (
+                <TrendDown size="16" color="#E53935" />
+              )}
+
+              {billingSummary.trend}
             </p>
           </div>
         </div>
