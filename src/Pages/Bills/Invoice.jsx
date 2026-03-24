@@ -1484,15 +1484,14 @@ const InvoicePage = () => {
   };
 
 
-  const labelStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-    height: "100%",
-    lineHeight: "1.4", marginTop: 5
-  };
 
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 10;
 
+  const paginatedData = sortedData.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
 
   return (
     <div className="sticky-top bg-white font-gilroy" >
@@ -1579,7 +1578,7 @@ const InvoicePage = () => {
             </div>
           </div>
 
-          <div className="mt-2 flex flex-wrap justify-start items-center ml-3 pr-2 gap-3">
+          {/* <div className="mt-2 flex flex-wrap justify-start items-center ml-3 pr-2 gap-3">
             <div className="border border-gray-300 rounded-lg w-36 z-50">
               <Select
                 options={selectOptions}
@@ -1615,7 +1614,53 @@ const InvoicePage = () => {
 
               />
             </div>
-          </div>
+          </div> */}
+          <div className="mt-4 flex flex-wrap justify-between items-center ml-3 pr-2 gap-3">
+
+  {/* 🔹 LEFT SIDE → FILTERS */}
+  <div className="flex flex-wrap items-center gap-3">
+
+    <div className="border border-gray-300 rounded-lg w-36 z-50">
+      <Select
+        options={selectOptions}
+        styles={CustomStyles}
+        disabled={!canReadInvoice}
+        onChange={(e) => handleStatusFilter(e)}
+        value={selectOptions.find((opt) => opt.value === statusfilter)}
+      />
+    </div>
+
+    <div className="flex items-center gap-3 z-50">
+      <Select
+        options={monthOptions}
+        value={selectedMonth}
+        onChange={handleMonthChange}
+        styles={CustomStyles}
+      />
+    </div>
+
+    <div
+      className="flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white"
+      onClick={() => canReadInvoice && handleShowFilterBills()}
+    >
+      <Filter size={18} />
+    </div>
+
+  </div>
+
+  {/* 🔹 RIGHT SIDE → PAGINATION */}
+  <div className="flex items-center">
+    <PaginationList
+      itemsPerPage={10}
+      onPageChange={(p) => setPage(p)}
+    >
+      {sortedData.map((item) => (
+        <div key={item.id}></div>
+      ))}
+    </PaginationList>
+  </div>
+
+</div>
           <div className={`overflow-x-hidden ${chips.length > 0 ? "overflow-y-auto h-[32rem]" : "overflow-y-hidden h-auto"}`}
           >
             {chips.length > 0 && (
@@ -1649,46 +1694,56 @@ const InvoicePage = () => {
               <div className="relative">
                 {showdeleteform && (
                   <Modal
-  show={showdeleteform}
-  onHide={handleCloseDeleteform}
-  centered
-  backdrop="static"
->
-  <Modal.Header className="!border-b-0 !flex !justify-center">
-    <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
-      Delete Billing?
-    </Modal.Title>
-  </Modal.Header>
+                    show={showdeleteform}
+                    onHide={handleCloseDeleteform}
+                    centered
+                    backdrop="static"
+                  >
+                    <Modal.Header className="!border-b-0 !flex !justify-center">
+                      <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
+                        Delete Billing?
+                      </Modal.Title>
+                    </Modal.Header>
 
-  <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
-    Are you sure you want to delete this Billing?
-  </Modal.Body>
+                    <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
+                      Are you sure you want to delete this Billing?
+                    </Modal.Body>
 
-  <Modal.Footer className="!block !border-t-0 !p-2">
-   
-    <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
-      
-      <Button
-        onClick={handleCloseDeleteform}
-        className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
-      >
-        Cancel
-      </Button>
+                    <Modal.Footer className="!block !border-t-0 !p-2">
 
-      <Button
-        disabled
-        onClick={handleBillDeleted}
-        className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
-      >
-        Coming Soon
-      </Button>
+                      <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
 
-    </div>
-  </Modal.Footer>
-</Modal>
+                        <Button
+                          onClick={handleCloseDeleteform}
+                          className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
+                        >
+                          Cancel
+                        </Button>
+
+                        <Button
+                          disabled
+                          onClick={handleBillDeleted}
+                          className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
+                        >
+                          Coming Soon
+                        </Button>
+
+                      </div>
+                    </Modal.Footer>
+                  </Modal>
                 )}
 
                 <div className="mx-auto mt-2">
+                  {/* <div className="flex justify-end mb-2">
+                    <PaginationList
+                      itemsPerPage={10}
+                      onPageChange={(p) => setPage(p)}
+                    >
+                      {sortedData.map((item) => (
+                        <div key={item.id}></div>
+                      ))}
+                    </PaginationList>
+                  </div> */}
                   <div className="overflow-x-hidden">
                     {sortedData && sortedData.length > 0 ? (
                       <div className="p-2">
@@ -1708,20 +1763,20 @@ const InvoicePage = () => {
                               </tr>
                             </thead>
                             <tbody className="relative">
-                              <PaginationList>
-                                {sortedData.map((item, index) => (
-                                  <InvoiceTable
-                                    key={item.id}
-                                    item={item}
-                                    index={index}
-                                    OnHandleshowform={handleShowForm}
-                                    OnHandleshowEditform={handleEdit}
-                                    OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                    OnHandleshowDeleteform={handleBillDelete}
-                                    DisplayInvoice={handleDisplayInvoiceDownload}
-                                  />
-                                ))}
-                              </PaginationList>
+                              {/* <PaginationList> */}
+                              {paginatedData.map((item, index) => (
+                                <InvoiceTable
+                                  key={item.id}
+                                  item={item}
+                                  index={index}
+                                  OnHandleshowform={handleShowForm}
+                                  OnHandleshowEditform={handleEdit}
+                                  OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                  OnHandleshowDeleteform={handleBillDelete}
+                                  DisplayInvoice={handleDisplayInvoiceDownload}
+                                />
+                              ))}
+                              {/* </PaginationList> */}
                             </tbody>
                           </Table>
                         </div>

@@ -8,7 +8,8 @@ function PaginationList({
   itemsPerPage = 10,
   children,
 }) {
-  const totalItems = React.Children.count(children);
+  // const totalItems = React.Children.count(children);
+  const totalItems = children?.length || 0;
   const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,6 +59,8 @@ function PaginationList({
 
   // console.log("display",display)
 
+ 
+
   return (
     <>
 
@@ -68,22 +71,37 @@ function PaginationList({
 
       {totalPages > 1 && (
         <div
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: display ? "50%" : "30%",
-            width: "100%",
-            maxWidth: display ? "500px" : "700px",
-            background: "#FFFF",
-            padding: "0px 16px",
-            display: "flex",
-            justifyContent: "start",
-            alignItems: "center",
-            gap: 24,
-            zIndex: 10,
-            fontFamily: "Gilroy",
-            // boxShadow: !display && "0 -4px 12px rgba(0, 0, 0, 0.05)",
-          }}
+          // style={{
+          //   position: "fixed",
+          //   top: "-20px",
+          //   // left: display ? "50%" : "30%",
+          //   width: "100%",
+          //   // maxWidth: display ? "500px" : "700px",
+          //   background: "#FFFF",
+          //   padding: "0px 16px",
+          //   display: "flex",
+          //   // justifyContent: "start",
+          //   justifyContent: "flex-end",
+          //   alignItems: "center",
+          //   gap: 24,
+          //   zIndex: 10,
+          //   fontFamily: "Gilroy",
+          //   // boxShadow: !display && "0 -4px 12px rgba(0, 0, 0, 0.05)",
+          // }}
+
+  style={{
+    position: "relative", // ✅ change this
+    width: "100%",
+    background: "#FFFF",
+    padding: "0px 16px",
+    display: "flex",
+    justifyContent: "flex-end", // ✅ right side
+    alignItems: "center",
+    gap: 24,
+    zIndex: 10,
+    fontFamily: "Gilroy",
+  }}
+
         >
 
           <div
@@ -135,7 +153,7 @@ function PaginationList({
                     opacity: currentPage === 1 ? "0.5" : "1",
                   }}
                 >
-                  ← Previous
+                  ← 
                 </button>
               </li>
 
@@ -196,7 +214,7 @@ function PaginationList({
                     fontWeight: 600, opacity: currentPage === totalPages ? "0.5" : "1",
                   }}
                 >
-                  Next →
+                  →
                 </button>
               </li>
             </ul>
