@@ -87,9 +87,9 @@ function SmartstayDemo() {
     { value: "61", label: "+61" }
   ];
 
-  
 
-const stateOptions = [
+
+  const stateOptions = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
@@ -287,7 +287,7 @@ const stateOptions = [
 
 
 
-          <div className="relative bg-white p-[30px] rounded-xl shadow-sm border border-[#D3D3D3] z-50 font-gilroy">
+          <div className="relative bg-white px-[20px] py-[30px] rounded-xl shadow-sm border border-[#D3D3D3] z-50 font-gilroy">
             {formLoading && (
               <div className="absolute inset-0  flex items-center bg-white/50 justify-center  z-[999]">
                 <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -296,328 +296,335 @@ const stateOptions = [
             <h2 className="text-[22px] font-semibold mb-3">
               Get your personalized Demo
             </h2>
-            <div className="max-h-[450px] overflow-y-auto show-scrolls relative">
+            <div className="max-h-[450px] overflow-y-auto  show-scrolls relative">
 
+              <div className="me-2">
+                <div className="mb-3">
+                  <label className="text-sm font-normal">
+                    Name <span className="text-red-500">*</span>
+                  </label>
 
-              <div className="mb-3">
-                <label className="text-sm font-normal">
-                  Name <span className="text-red-500">*</span>
-                </label>
+                  <input ref={nameRef}
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      const value = e.target.value;
 
-                <input ref={nameRef}
-                  type="text"
-                  value={name}
-                  onChange={(e) => {
-                    const value = e.target.value;
-
-                    if (/^[a-zA-Z\s]*$/.test(value)) {
-                      setName(value);
-                      setErrors((prev) => ({ ...prev, name: "" }));
-                    }
-                  }}
-                  placeholder="Enter Name"
-                  className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]
+                      if (/^[a-zA-Z\s]*$/.test(value)) {
+                        setName(value);
+                        setErrors((prev) => ({ ...prev, name: "" }));
+                      }
+                    }}
+                    placeholder="Enter Name"
+                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none focus:border-[#1E45E1]
     ${name ? "font-semibold text-black" : "font-normal"}
   `}
-                />
-                {errors.name && (
-                  <ErrorMessage message={errors.name} type="error" />
-                )}
-              </div>
-              <div className="mb-3">
-                <label className="text-sm font-normal">
-                  Contact Number <span className="text-red-500">*</span>
-                </label>
+                  />
+                  {errors.name && (
+                    <ErrorMessage message={errors.name} type="error" />
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label className="text-sm font-normal">
+                    Contact Number <span className="text-red-500">*</span>
+                  </label>
 
-                <div className="w-full mt-1 flex items-center border border-[#DCDCDC] rounded-md">
+                  <div className="w-full mt-1 flex items-center border border-[#DCDCDC] rounded-md">
 
-                  <div className="w-[120px]">
-                    <Select ref={countryCodeRef}
-                      options={countryOptions}
-                      // defaultValue={countryOptions[0]}
-                      onChange={(option) => setCountryCode(option?.value)}
-                      className="text-sm"
-                      placeholder="+91"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          border: "none",
-                          boxShadow: "none",
-                          minHeight: "36px",
-                          fontWeight: 600,
-                        }),
+                    <div className="w-[120px]">
+                      <Select ref={countryCodeRef}
+                        options={countryOptions}
+                        // defaultValue={countryOptions[0]}
+                        onChange={(option) => setCountryCode(option?.value)}
+                        className="text-sm"
+                        placeholder="+91"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            border: "none",
+                            boxShadow: "none",
+                            minHeight: "36px",
+                            fontWeight: 600,
+                          }),
 
-                        singleValue: (base) => ({
-                          ...base,
-                          fontWeight: 600,
-                          color: "#1E1E1E",
-                        }),
+                          singleValue: (base) => ({
+                            ...base,
+                            fontWeight: 600,
+                            color: "#1E1E1E",
+                          }),
 
-                        placeholder: (base) => ({
-                          ...base,
-                          fontWeight: 400,
-                        }),
+                          placeholder: (base) => ({
+                            ...base,
+                            fontWeight: 400,
+                          }),
 
-                        menu: (base) => ({
-                          ...base,
-                          zIndex: 9999
-                        }),
+                          menu: (base) => ({
+                            ...base,
+                            zIndex: 9999
+                          }),
 
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused ? "lightblue" : "white",
-                          color: "#000",
-                          fontFamily: "Gilroy",
-                          fontWeight: state.isSelected ? 600 : 400,
-                        }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused ? "lightblue" : "white",
+                            color: "#000",
+                            fontFamily: "Gilroy",
+                            fontWeight: state.isSelected ? 600 : 400,
+                          }),
 
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                      }}
-                    />
-                  </div>
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
+                    </div>
 
-                  <input
-                    ref={mobileRef}
-                    type="text"
-                    value={contactNumber}
-                    inputMode="numeric"
-                    maxLength={10}
-                    onChange={(e) => {
-                      let value = e.target.value;
-                      value = value.replace(/\D/g, "");
-                      if (value.length > 10) return;
-                      if (/^0+$/.test(value)) {
+                    <input
+                      ref={mobileRef}
+                      type="text"
+                      value={contactNumber}
+                      inputMode="numeric"
+                      maxLength={10}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        value = value.replace(/\D/g, "");
+                        if (value.length > 10) return;
+                        if (/^0+$/.test(value)) {
+                          setContactNumber(value);
+                          setErrors((prev) => ({
+                            ...prev,
+                            contactNumber: "Enter Valid Contact Number",
+                          }));
+                          return;
+                        }
                         setContactNumber(value);
                         setErrors((prev) => ({
                           ...prev,
-                          contactNumber: "Enter Valid Contact Number",
+                          countryCode: "",
+                          contactNumber: "",
                         }));
-                        return;
-                      }
-                      setContactNumber(value);
-                      setErrors((prev) => ({
-                        ...prev,
-                        countryCode: "",
-                        contactNumber: "",
-                      }));
-                    }}
-                    placeholder="Enter Contact Number"
-                    className={`w-full mt-1 h-10 px-3 text-sm   rounded-md bg-white text-[#808092] outline-none 
+                      }}
+                      placeholder="Enter Contact Number"
+                      className={`w-full mt-1 h-10 px-3 text-sm   rounded-md bg-white text-[#808092] outline-none 
     ${contactNumber ? "font-semibold text-black" : "font-normal"}
   `}
-                  />
-                </div>
-                {(errors.countryCode || errors.contactNumber) && (
-                  <ErrorMessage
-                    message={errors.countryCode || errors.contactNumber}
-                    type="error"
-                  />
-                )}
-              </div>
-
-
-              <div className="mb-3">
-                <label className="text-sm font-normal">Mail ID</label>
-
-                <input ref={emailRef}
-                  type="email"
-                  placeholder="Enter Mail ID"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${email ? "font-semibold text-black" : "font-normal"}
-  `}
-                />
-                {errors.email && (
-                  <ErrorMessage message={errors.email} type="error" />
-                )}
-              </div>
-
-
-              <div className="mb-3">
-                <label className="text-sm font-normal">Organization Name</label>
-
-                <input
-                  type="text"
-                  placeholder="Eg: Royal Homes"
-                  value={organizationName}
-                  onChange={(e) => setOrganizationName(e.target.value)}
-                  className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${organizationName ? "font-semibold text-black" : "font-normal"}
-  `}
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="text-sm font-normal">
-                  Number of Properties
-                </label>
-
-                <input
-                  type="number"
-                  value={noOfProperties}
-                  onChange={(e) => setNoOfProperties(e.target.value)}
-                  placeholder="Enter Properties count"
-                  className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${noOfProperties ? "font-semibold text-black" : "font-normal"}
-  `}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="text-sm font-normal">
-                  No. of Tenants Managing
-                </label>
-
-                <input
-                  type="number"
-                  value={tenants}
-                  onChange={(e) => setTenants(e.target.value)}
-                  placeholder="Enter number of tenants"
-                  className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${tenants ? "font-semibold text-black" : "font-normal"}
-  `}
-                />
-              </div>
-
-
-              <div className="grid grid-cols-2 gap-4 mb-3">
-
-                <div>
-                  <label className="text-sm font-normal">City <span className="text-red-500">*</span></label>
-
-                  <input ref={cityRef}
-                    type="text"
-                    placeholder="Enter City"
-                    value={city}
-                    onChange={(e) => {
-                      let value = e.target.value;
-                      value = value.replace(/[^a-zA-Z\s]/g, "");
-                      setCity(value);
-                      setErrors((prev) => ({ ...prev, city: "" }));
-                    }}
-                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${city ? "font-semibold text-black" : "font-normal"}
-  `}
-                  />
-                  {errors.city && (
-                    <ErrorMessage message={errors.city} type="error" />
+                    />
+                  </div>
+                  {(errors.countryCode || errors.contactNumber) && (
+                    <ErrorMessage
+                      message={errors.countryCode || errors.contactNumber}
+                      type="error"
+                    />
                   )}
                 </div>
 
-                <div>
-                  <label className="text-sm font-normal">Country</label>
+
+                <div className="mb-3">
+                  <label className="text-sm font-normal">Mail ID</label>
+
+                  <input ref={emailRef}
+                    type="email"
+                    placeholder="Enter Mail ID"
+                    value={email}
+                    onChange={handleEmailChange}
+                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${email ? "font-semibold text-black" : "font-normal"}
+  `}
+                  />
+                  {errors.email && (
+                    <ErrorMessage message={errors.email} type="error" />
+                  )}
+                </div>
+
+
+                <div className="mb-3">
+                  <label className="text-sm font-normal">Organization Name</label>
 
                   <input
                     type="text"
-                    placeholder="Enter Country"
-                    value={country}
-                    onChange={(e) => {
-                      let value = e.target.value;
-                      value = value.replace(/[^a-zA-Z\s]/g, "");
-                      setCountry(value);
-                    }}
-                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${country ? "font-semibold text-black" : "font-normal"}
+                    placeholder="Eg: Royal Homes"
+                    value={organizationName}
+                    onChange={(e) => setOrganizationName(e.target.value)}
+                    className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${organizationName ? "font-semibold text-black" : "font-normal"}
   `}
                   />
+                </div>
+
+                <div className="mb-3">
+                  <label className="text-sm font-normal">
+                    Number of Properties
+                  </label>
+
+                  <input
+                    type="number"
+                    value={noOfProperties}
+                    onChange={(e) => setNoOfProperties(e.target.value)}
+                    placeholder="Enter Properties count"
+                    className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${noOfProperties ? "font-semibold text-black" : "font-normal"}
+  `}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="text-sm font-normal">
+                    No. of Tenants Managing
+                  </label>
+
+                  <input
+                    type="number"
+                    value={tenants}
+                    onChange={(e) => setTenants(e.target.value)}
+                    placeholder="Enter number of tenants"
+                    className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${tenants ? "font-semibold text-black" : "font-normal"}
+  `}
+                  />
+                </div>
+
+
+                <div className="grid grid-cols-2 gap-4 mb-3">
+
+                  <div>
+                    <label className="text-sm font-normal">City <span className="text-red-500">*</span></label>
+
+                    <input ref={cityRef}
+                      type="text"
+                      placeholder="Enter City"
+                      value={city}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        value = value.replace(/[^a-zA-Z\s]/g, "");
+                        setCity(value);
+                        setErrors((prev) => ({ ...prev, city: "" }));
+                      }}
+                      className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${city ? "font-semibold text-black" : "font-normal"}
+  `}
+                    />
+                    {errors.city && (
+                      <ErrorMessage message={errors.city} type="error" />
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-normal">Country</label>
+
+                    <input
+                      type="text"
+                      placeholder="Enter Country"
+                      value={country}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        value = value.replace(/[^a-zA-Z\s]/g, "");
+                        setCountry(value);
+                      }}
+                      className={`w-full mt-1 h-10 px-3 text-sm border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${country ? "font-semibold text-black" : "font-normal"}
+  `}
+                    />
+
+                  </div>
 
                 </div>
 
-              </div>
-
-              <div className="mb-3">
-                <label className="text-sm font-normal">
-                  State
-                </label>
-
-                <Select
-                  options={stateOptions}
-                  onChange={(option) => setStateName(option.value)}
-                  placeholder="Select state"
-                  menuPlacement="bottom"
-                  className="mt-1 text-sm "
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      borderColor: "#DCDCDC",
-                      boxShadow: "none",
-                      minHeight: "40px",
-                      height: "40px",
-                      fontSize: "14px"
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      padding: "0 8px"
-                    }),
-                    singleValue: (base) => ({
-                      ...base,
-                      fontWeight: 600,
-                      color: "#1E1E1E"
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      fontWeight: 400
-                    })
-                  }}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4 mb-3">
-
-                <div>
+                <div className="mb-3">
                   <label className="text-sm font-normal">
-                    Demo Date <span className="text-red-500">*</span>
+                    State
                   </label>
 
-                  <div className="datepicker-wrapper relative w-full mt-px">
-                    <DatePicker
-                      ref={demoDateRef}
-                      className={`w-full mt-1 h-10 text-xs border border-[#DCDCDC] text-black rounded-md font-gilroy 
+                  <Select
+                    options={stateOptions}
+                    onChange={(option) => setStateName(option.value)}
+                    placeholder="Select state"
+                    menuPlacement="bottom"
+                    className="mt-1 text-sm "
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        borderColor: "#DCDCDC",
+                        boxShadow: "none",
+                        minHeight: "40px",
+                        height: "40px",
+                        fontSize: "14px"
+                      }),
+                      valueContainer: (base) => ({
+                        ...base,
+                        padding: "0 8px"
+                      }),
+                      singleValue: (base) => ({
+                        ...base,
+                        fontWeight: 600,
+                        color: "#1E1E1E"
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        fontWeight: 400
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#F9FAFB",
+                        border: "1px solid #E5E7EB",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+                      }),
+                    }}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4 mb-3">
+
+                  <div>
+                    <label className="text-sm font-normal">
+                      Demo Date <span className="text-red-500">*</span>
+                    </label>
+
+                    <div className="datepicker-wrapper relative w-full mt-px">
+                      <DatePicker
+                        ref={demoDateRef}
+                        className={`w-full mt-1 h-10 text-xs border border-[#DCDCDC] text-black rounded-md font-gilroy 
   ${demoDate ? "font-bold text-black" : "font-normal text-[#808092]"}
 `}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={demoDate ? dayjs(demoDate) : null}
-                      onChange={(date) => {
-                        setDemoDate(date ? date.toDate() : null);
-                        setErrors((prev) => ({ ...prev, demoDate: "" }));
-                      }}
-                      disabledDate={(current) =>
-                        current && current < dayjs().startOf("day")
-                      }
-                      getPopupContainer={() => document.body}
-                      popupStyle={{ zIndex: 2000 }}
-                      placement="bottomLeft"
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                        value={demoDate ? dayjs(demoDate) : null}
+                        onChange={(date) => {
+                          setDemoDate(date ? date.toDate() : null);
+                          setErrors((prev) => ({ ...prev, demoDate: "" }));
+                        }}
+                        disabledDate={(current) =>
+                          current && current < dayjs().startOf("day")
+                        }
+                        getPopupContainer={() => document.body}
+                        popupStyle={{ zIndex: 2000 }}
+                        placement="bottomLeft"
+                      />
+                    </div>
+
+                    {errors.demoDate && (
+                      <ErrorMessage message={errors.demoDate} type="error" />
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-normal">Demo Time</label>
+
+                    <input
+                      type="time"
+                      value={demoTime}
+                      onChange={(e) => setDemoTime(e.target.value)}
+                      className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
+    ${demoTime ? "font-semibold text-black" : "font-normal"}
+  `}
                     />
                   </div>
 
-                  {errors.demoDate && (
-                    <ErrorMessage message={errors.demoDate} type="error" />
-                  )}
-                </div>
-
-                <div>
-                  <label className="text-sm font-normal">Demo Time</label>
-
-                  <input
-                    type="time"
-                    value={demoTime}
-                    onChange={(e) => setDemoTime(e.target.value)}
-                    className={`w-full mt-1 h-10 px-3 text-sm  border border-[#DCDCDC] rounded-md bg-white text-[#808092] outline-none 
-    ${demoTime ? "font-semibold text-black" : "font-normal"}
-  `}
-                  />
                 </div>
 
               </div>
-
+              <button onClick={handleDemoReuquest} className="w-full bg-[#1E45E1] text-white py-2 rounded-md font-medium hover:opacity-90">
+                Submit
+              </button>
             </div>
-            <button onClick={handleDemoReuquest} className="w-full bg-[#1E45E1] text-white py-2 rounded-md font-medium hover:opacity-90">
-              Submit
-            </button>
-
           </div>
 
         </div>
