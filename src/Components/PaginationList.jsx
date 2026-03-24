@@ -221,6 +221,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { ArrowRight2, ArrowLeft2 } from "iconsax-react";
 
 function PaginationList({
   display,
@@ -298,84 +299,54 @@ function PaginationList({
     <>
       {paginatedChildren}
 
-      {totalItems > 10 && (
 
-        <div
-          className={`fixed bottom-1 left-0 right-0 lg:left-[260px] lg:right-14 md:left-[260px] md:right-16 
-  w-auto bg-white px-2 py-1 md:gap-24 lg:gap-96
-  flex items-center z-10 font-[Gilroy]`}
-        >
-          <div className="flex items-center gap-3 flex-shrink-0 border-0">
-            <div className="text-sm text-[#222222] font-medium">
-              Total Records : {totalItems}
+      {totalItems > 10 && (
+        <div className="fixed bottom-3 right-20 z-10 font-[Gilroy]">
+
+          <div className="flex items-stretch border border-[#E5E7EB] rounded-md overflow-hidden m-0 p-0">
+
+            <div className="bg-[#ebeef9] flex items-center px-3">
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="bg-transparent outline-none text-sm cursor-pointer h-full"
+              >
+                {options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt} / page
+                  </option>
+                ))}
+              </select>
             </div>
 
-            <select
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-              className="border border-[#E5E7EB] rounded-[6px] px-2 py-1 w-[70px] text-sm font-[Gilroy] cursor-pointer"
-            >
-              {options.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="flex items-center bg-transparent">
 
-          <ul className="flex items-center gap-3 sm:gap-5 list-none m-0 p-0 border-0 ml-auto">
-            <li>
               <button
                 onClick={() => handleChangePage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`py-[4px] px-[10px] rounded-[6px] text-[15px] font-semibold
-        ${currentPage === 1
-                    ? "cursor-not-allowed opacity-50"
-                    : "cursor-pointer"
-                  }`}
+                className="w-7 h-7 flex items-center justify-center hover:bg-blue-100 disabled:opacity-40"
               >
-                &lt;
+                <ArrowLeft2 size="16" color="#1E45E1" />
               </button>
-            </li>
 
-            {getPages().map((page, index) => (
-              <li key={index}>
-                {page === "..." ? (
-                  <span className="px-[8px] text-[#9CA3AF] text-sm">…</span>
-                ) : (
-                  <button
-                    onClick={() => handleChangePage(page)}
-                    className={`w-7 h-7 rounded-[6px] text-sm font-semibold
-            ${page === currentPage
-                        ? "bg-[#1E45E1] text-white"
-                        : "bg-transparent text-[#374151]"
-                      }`}
-                  >
-                    {page}
-                  </button>
-                )}
-              </li>
-            ))}
+              <span className="text-sm text-[#374151] whitespace-nowrap">
+                {startIndex + 1} – {Math.min(endIndex, totalItems)}
+              </span>
 
-            <li>
               <button
                 onClick={() => handleChangePage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`py-[4px] px-[10px] rounded-[6px] text-[15px] font-semibold
-        ${currentPage === totalPages
-                    ? "cursor-not-allowed opacity-50"
-                    : "cursor-pointer"
-                  }`}
+                className="w-7 h-7 flex items-center justify-center  hover:bg-blue-100 disabled:opacity-40"
               >
-                &gt;
+                <ArrowRight2 size="16" color="#1E45E1" />
               </button>
-            </li>
-          </ul>
+
+            </div>
+          </div>
         </div>
- 
       )}
     </>
   );
