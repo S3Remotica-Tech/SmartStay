@@ -46,7 +46,7 @@ function UserListInvoice(props) {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
-    canDeleteModule: canDeleteInvoice,
+    // canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
 
@@ -115,6 +115,34 @@ function UserListInvoice(props) {
 
   const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
   const isExportAllow = isValidSubscription && canReadInvoice
+
+
+  const handleInvoicepdf = (rowData) => {
+    console.log("rowData", rowData)
+    if (rowData.invoiceId) {
+      dispatch({
+        type: "INVOICEPDF",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: rowData.invoiceId,
+        },
+      });
+      setLoading(true);
+
+    }
+  };
+
+  useEffect(() => {
+    if (state.InvoiceList?.statusCodeForPDf === 200) {
+      const pdfUrl = state.InvoiceList?.invoicePDF;
+      if (!pdfUrl) return;
+      // setLoading(false);
+      // setShowLoader(false);
+      window.open(pdfUrl, "_blank");
+      dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+    }
+
+  }, [state.InvoiceList?.statusCodeForPDf]);
 
 
   return (
@@ -248,75 +276,63 @@ function UserListInvoice(props) {
                                   {activeId === view.id && (
                                     <div
                                       ref={popupRef}
-                                      className="fixed z-[1000] w-44 bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] overflow-hidden flex flex-col"
+                                    className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000]"
                                       style={{
                                         top: popupPosition.top,
                                         left: popupPosition.left - 50,
                                       }}
                                     >
 
-                                     
+ <div className="flex flex-col p-1 gap-1">
                                       {(view.invoiceMode === "Recurring" &&
                                         view?.paymentStatus === "Pending") && (
                                           <button
                                             onClick={() => canUpdateInvoice && handleEdit(view)}
                                             disabled={!canUpdateInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
-      ${canUpdateInvoice
-                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
-                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                              } rounded-t-[10px]`}
+                                            className={`flex items-center gap-2 px-3 py-2 
+        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                           >
                                             <Edit size="16" />
                                             Edit
                                           </button>
                                         )}
 
-                                      {/* Unpaid */}
+
                                       {(view.invoiceMode === "Manual" &&
                                         view?.paymentStatus === "Paid" &&
                                         view.invoiceType === "Rent") && (
                                           <button
                                             disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
-      ${canWriteInvoice
-                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
-                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                              }`}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-left 
+        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                           >
                                             <Edit size="16" />
                                             Unpaid
                                           </button>
                                         )}
 
-                                      {/* Discount */}
-                                      {(view?.invoiceAmount > 0 &&
+
+                                      {(view?.totalAmount > 0 &&
                                         view?.paymentStatus === "Pending" &&
                                         !view?.isDiscounted &&
                                         (view?.invoiceType === "Rent" ||
                                           view?.invoiceType === "Settlement")) && (
                                           <button
                                             disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
-      ${canWriteInvoice
-                                                ? "hover:bg-[#FFF4F0] text-[#ec400c]"
-                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                              }`}
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-left  
+        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                           >
                                             <DiscountCircle size="16" />
                                             Discount
                                           </button>
                                         )}
 
-                                      {/* Download */}
+
                                       <button
                                         onClick={() => isExportAllow && handleInvoicepdf(view)}
                                         disabled={!isExportAllow}
-                                        className={`flex items-center gap-2 w-full px-3 py-2 text-sm
-    ${isExportAllow
-                                            ? "hover:bg-gray-100 text-[#222]"
-                                            : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                          }`}
+                                        className={`flex items-center gap-2 px-3 py-2  
+      ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                       >
                                         <DocumentDownload size="16" />
                                         Download
@@ -324,43 +340,36 @@ function UserListInvoice(props) {
 
                                       {/* Record */}
                                       {(view.dueAmount !== 0 &&
-                                        view?.invoiceAmount > 0 &&
+                                        view?.totalAmount > 0 &&
                                         view?.paymentStatus !== "Cancelled" &&
                                         view?.paymentStatus !== "Paid") && (
                                           <button
                                             disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
-      ${canWriteInvoice
-                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
-                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                              }`}
+                                            className={`flex items-center gap-2 px-3 py-2  
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                           >
                                             <ReceiptEdit size="16" />
                                             Record
                                           </button>
                                         )}
 
-                                      {/* Refund */}
-                                      {(view?.invoiceAmount < 0 &&
-                                        view?.paymentStatus !== "Refunded" &&
+
+                                      {(view?.totalAmount < 0 &&
+                                        view?.paymentStatus !== "Refund" &&
                                         view?.paymentStatus !== "Cancelled") && (
                                           <button
                                             disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm
-      ${canWriteInvoice
-                                                ? "hover:bg-[#EDF2FF] text-[#1E45E1]"
-                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                              }`}
+                                            className={`flex items-center gap-2 px-3 py-2 
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                           >
                                             <MoneySend size="16" />
                                             Refund
                                           </button>
                                         )}
 
-                                      {/* Divider */}
-                                      <div className="h-px bg-[#EAEAEA]" />
 
-                                    
+
+
                                       {/* {(view?.paymentStatus !== "Cancelled" &&
                                         view?.paymentStatus !== "Paid") && (
                                           <button
@@ -375,7 +384,7 @@ function UserListInvoice(props) {
                                             Delete
                                           </button>
                                         )} */}
-
+ </div>
                                     </div>
                                   )}
                                 </div>

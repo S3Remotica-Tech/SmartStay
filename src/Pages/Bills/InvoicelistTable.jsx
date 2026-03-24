@@ -759,7 +759,7 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus === "Pending") && (
                       <div
                         onClick={() => canUpdateInvoice && handleEdit(props)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-t-[10px] 
+                        className={`flex items-center gap-2 px-3 py-2 rounded-t-[10px]  border-b border-[#EBEBEB]
         ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img src={Edit} alt="Edit" className={`h-4 w-4 ${!canUpdateInvoice && "grayscale"}`} />
@@ -775,7 +775,7 @@ const InvoiceTable = (props) => {
                       <button
                         disabled={!canWriteInvoice}
                         onClick={() => canWriteInvoice && handleUnpaid(props.item)}
-                        className={`flex items-center gap-2 w-full px-3 py-2 text-left
+                        className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img src={Edit} alt="Edit" className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`} />
@@ -791,7 +791,7 @@ const InvoiceTable = (props) => {
                       <button
                         disabled={!canWriteInvoice}
                         onClick={() => canWriteInvoice && handleMakeDiscount(props.item)}
-                        className={`flex items-center gap-2 w-full px-3 py-2 text-left
+                        className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                       >
                         <DiscountCircle size="16" color="#ec400c" />
@@ -804,7 +804,7 @@ const InvoiceTable = (props) => {
 
                   <div
                     onClick={() => isExportAllow && handleInvoicepdf(props.item)}
-                    className={`flex items-center gap-2 px-3 py-2
+                    className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
       ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                   >
                     <img src={Download} alt="Download" className="h-4 w-4" />
@@ -819,7 +819,7 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus !== "Paid") && (
                       <div
                         onClick={() => canWriteInvoice && handleShowform(props)}
-                        className={`flex items-center gap-2 px-3 py-2
+                        className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img src={Assign} alt="Record" className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`} />
@@ -835,7 +835,7 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus !== "Cancelled") && (
                       <div
                         onClick={() => canWriteInvoice && handleRefundAmount(props)}
-                        className={`flex items-center gap-2 px-3 py-2
+                        className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img src={Assign} alt="Refund" className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`} />
@@ -848,7 +848,7 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus !== "Paid") && (
                       <div
                         onClick={() => canDeleteInvoice && handleBillDelete(props)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-b-[10px]
+                        className={`flex items-center gap-2 px-3 py-2 rounded-b-[10px] border-b border-[#EBEBEB]
         ${canDeleteInvoice ? "cursor-pointer hover:bg-[#FFF0F0]" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img src={Delete} alt="Delete" className={`h-4 w-4 ${!canDeleteInvoice && "grayscale"}`} />

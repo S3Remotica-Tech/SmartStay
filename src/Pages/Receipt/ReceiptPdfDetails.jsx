@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import '../OthersComponent/BillPdfModal.css';
-import { useLocation, useNavigate , useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function ReceiptPdfDetails() {
 
@@ -21,14 +21,14 @@ function ReceiptPdfDetails() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-const { receiptId } = useParams();
+    const { receiptId } = useParams();
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [rowDatas, setRowDatas] = useState('')
     const invoiceRefs = useRef({});
 
 
     const { rowData } = location.state || {};
-   
+
 
     useEffect(() => {
         if (rowData.transactionId) {
@@ -38,18 +38,18 @@ const { receiptId } = useParams();
 
     }, [rowData])
 
-  useEffect(() => {
-    if (!receiptId || !state.login.selectedHostel_Id) return;
+    useEffect(() => {
+        if (!receiptId || !state.login.selectedHostel_Id) return;
 
-    dispatch({
-        type: "RECEIPTPDF_NEWCHANGES",
-        payload: {
-            hostelId: state.login.selectedHostel_Id,
-            transactionId: receiptId
-        }
-    });
+        dispatch({
+            type: "RECEIPTPDF_NEWCHANGES",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                transactionId: receiptId
+            }
+        });
 
-}, [receiptId, state.login.selectedHostel_Id]);
+    }, [receiptId, state.login.selectedHostel_Id]);
 
 
     // console.log("rowData",rowData)
