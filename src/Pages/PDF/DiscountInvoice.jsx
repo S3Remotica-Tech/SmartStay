@@ -31,19 +31,29 @@ function DiscountInvoice({ show, handleClose }) {
         setDiscountInputError('')
         setDiscountInput(e.target.value)
     }
-    
+
     const parseDate = (dateStr) => {
-        const [day, month, year] = dateStr?.split("/").map(Number);
+        if (!dateStr) return null;
+
+        const parts = dateStr.split("/");
+        if (parts.length !== 3) return null;
+
+        const [day, month, year] = parts.map(Number);
         return new Date(year, month - 1, day);
     };
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const dueDateObj = parseDate(pdfDetails?.dueDate);
-    dueDateObj.setHours(0, 0, 0, 0);
 
-    const diffTime = today - dueDateObj;
-    const overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    let overdueDays = 0;
+
+    if (dueDateObj) {
+        dueDateObj.setHours(0, 0, 0, 0);
+
+        const diffTime = today - dueDateObj;
+        overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    }
 
 
 

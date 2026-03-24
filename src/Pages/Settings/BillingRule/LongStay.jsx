@@ -58,21 +58,20 @@ function LongStayRecurringModal() {
         (_, i) => i + 1
     );
 
+    const isDisabled =
+        !state.UsersList.hotelDetailsinPg?.canModifyBilling;
+
+
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
 
-    // billing date (number → date object)
-    const billingDateObj = new Date(year, month, billingDate);
-
-    // due date = billing + (dueDays - 1)
     const dueDateObj = new Date(
         year,
         month,
         billingDate + (dueDays - 1)
     );
 
-    // only day number
     const dueDate = dueDateObj.getDate();
 
 
@@ -96,13 +95,6 @@ function LongStayRecurringModal() {
     };
 
     const endDayDate = getEndDayDate(billingDate);
-
-
-
-
-
-
-
 
 
 
@@ -261,6 +253,7 @@ function LongStayRecurringModal() {
                     : "joining_date_based";
 
             setBillingMethod(billingType);
+
             const dueDate = apiData?.billDueDate;
             const GracePeriods = apiData?.gracePeriod
             const NoticeDays = apiData?.noticePeriod
@@ -268,6 +261,10 @@ function LongStayRecurringModal() {
                 value: day,
                 label: day.toString().padStart(2, "0")
             }));
+
+            const billingModel = apiData?.billingModel?.toLowerCase().trim() === "prepaid" ? "prepaid" : "postpaid"
+
+            setBillingPeriod(billingModel)
             setReminderDays(remainder);
 
             setBillingDate(billingStart);
@@ -281,8 +278,8 @@ function LongStayRecurringModal() {
                 dueDays: dueDate,
                 gracePeriod: GracePeriods,
                 reminderDays: remainder,
-                noticeDays: NoticeDays
-                // billingModal: 
+                noticeDays: NoticeDays,
+                billingModal: billingModel
             });
         }
     }, [state?.Settings?.SettingsBillsGetRecurring]);
@@ -294,6 +291,14 @@ function LongStayRecurringModal() {
             setErrors({});
         };
     }, []);
+
+useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
+     
+    }
+  }, [state.login.selectedHostel_Id]);
+
 
 
     const handleSaveChanges = () => {
@@ -490,22 +495,10 @@ function LongStayRecurringModal() {
     };
 
 
-    // const startDay = "01";
-
-    // const endDay = gracePeriod
-    //     ? gracePeriod.toString().padStart(2, "0")
-    //     : null;
-
-    // const startFrom = gracePeriod
-    //     ? (gracePeriod + 1).toString().padStart(2, "0")
-    //     : null;
 
 
 
 
-
-    const isDisabled =
-        !state.UsersList.hotelDetailsinPg?.canModifyBilling;
 
 
 
