@@ -31,6 +31,21 @@ function DiscountInvoice({ show, handleClose }) {
         setDiscountInputError('')
         setDiscountInput(e.target.value)
     }
+    
+    const parseDate = (dateStr) => {
+        const [day, month, year] = dateStr?.split("/").map(Number);
+        return new Date(year, month - 1, day);
+    };
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const dueDateObj = parseDate(pdfDetails?.dueDate);
+    dueDateObj.setHours(0, 0, 0, 0);
+
+    const diffTime = today - dueDateObj;
+    const overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+
 
     const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
     const discount = parseFloat(discountInput) || 0;
@@ -38,6 +53,7 @@ function DiscountInvoice({ show, handleClose }) {
         discountType === "percent"
             ? Math.round((total * discount) / 100)
             : Math.round(discount);
+
     const payableAmount = Math.round(total - calculatedDiscount);
 
 
@@ -327,8 +343,8 @@ function DiscountInvoice({ show, handleClose }) {
                                     <th className="text-left px-3 py-2"> INVOICE DATE</th>
                                     <th className="text-left px-3 py-2">AMOUNT</th>
                                     <th className="text-left px-3 py-2 ">
-                                        OVERDUE ON 
-                                       </th>
+                                        OVERDUE ON
+                                    </th>
                                     <th className="text-left px-3 py-2 captitialize">
                                         {discountType === "amount" ? "AMOUNT TO APPLY (DISCOUNT)" : "PERCENTAGE TO APPLY (DISCOUNT)"}
                                     </th>
@@ -344,11 +360,15 @@ function DiscountInvoice({ show, handleClose }) {
                                     <td className="px-3 py-2 font-semibold">₹ {pdfDetails?.invoiceInfo?.totalAmount}</td>
                                     <td className="px-3 py-2 text-gray-500">
                                         <div>
-{pdfDetails?.dueDate}
+                                            {pdfDetails?.dueDate}
                                         </div>
-                                        <span className='text-[#FF9500] text-xs'>OverdueBy {}</span>
-                                        
-                                        </td>
+                                        {overdueDays > 0 && (
+                                            <span className="text-[#FF9500] text-xs">
+                                                Overdue by {overdueDays} day{overdueDays > 1 ? "s" : ""}
+                                            </span>
+                                        )}
+
+                                    </td>
 
                                     <td className="px-3 py-2">
                                         <div className="flex items-center border rounded-md overflow-hidden w-full">

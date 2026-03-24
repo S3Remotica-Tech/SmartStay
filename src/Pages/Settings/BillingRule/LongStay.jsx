@@ -44,7 +44,7 @@ function LongStayRecurringModal() {
     const days = Array.from({ length: 28 }, (_, i) => i + 1);
     const noChangeRef = useRef(null);
 
- const noticeDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
+    const noticeDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
@@ -57,6 +57,54 @@ function LongStayRecurringModal() {
         { length: dueDays || 0 },
         (_, i) => i + 1
     );
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    // billing date (number → date object)
+    const billingDateObj = new Date(year, month, billingDate);
+
+    // due date = billing + (dueDays - 1)
+    const dueDateObj = new Date(
+        year,
+        month,
+        billingDate + (dueDays - 1)
+    );
+
+    // only day number
+    const dueDate = dueDateObj.getDate();
+
+
+    const startDateObj = new Date(year, month, billingDate);
+    const endDateObj = new Date(year, month, billingDate + gracePeriod);
+    const prorateDateObj = new Date(year, month, billingDate + gracePeriod + 1);
+
+    const startDay = startDateObj.getDate();
+    const endDay = endDateObj.getDate();
+    const startFrom = prorateDateObj.getDate();
+
+    const getEndDayDate = (billingDate) => {
+        if (!billingDate) return null;
+
+        if (billingDate === 1) {
+            const now = new Date();
+            return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        }
+
+        return billingDate - 1;
+    };
+
+    const endDayDate = getEndDayDate(billingDate);
+
+
+
+
+
+
+
+
+
 
     const handleChange = (method) => {
         setErrors({})
@@ -255,7 +303,9 @@ function LongStayRecurringModal() {
         if (!dueDays) {
             newErrors.dueDate = "Please select billing due days of month";
         }
-
+        if (!noticeDays) {
+            newErrors.noticeDate = "Please select notice days";
+        }
 
         const currentData = {
             dueDays: Number(dueDays),
@@ -278,7 +328,7 @@ function LongStayRecurringModal() {
             gracePeriod: Number(data.gracePeriod),
             billingMethod: data.billingMethod,
             noticeDays: Number(data.noticeDays),
-                reminderDays: [...(data.reminderDays || [])].sort()
+            reminderDays: [...(data.reminderDays || [])].sort()
         });
         const isChanged =
             JSON.stringify(normalize(currentData)) !==
@@ -388,6 +438,7 @@ function LongStayRecurringModal() {
         if (state.Settings.SettingsRecurringAddSuccess === 200) {
             setFormLoading(false)
             dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
+            dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: "CLEAR_SETTINGSADDRECURRING_STATUS_CODE" });
             }, 100);
@@ -450,22 +501,7 @@ function LongStayRecurringModal() {
     //     : null;
 
 
-    const startDay = billingDate;
-    const endDay = billingDate + gracePeriod;
-    const startFrom = endDay + 1;
 
-    const getEndDayDate = (billingDate) => {
-        if (!billingDate) return null;
-
-        if (billingDate === 1) {
-            const now = new Date();
-            return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-        }
-
-        return billingDate - 1;
-    };
-
-    const endDayDate = getEndDayDate(billingDate);
 
 
     const isDisabled =
@@ -964,12 +1000,13 @@ function LongStayRecurringModal() {
                                     <ErrorMessage message={errors.dueDate} type="error" />
                                 )}
 
-                                {dueDays && (
-                                    <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border border-[#FFE0CC] text-[#C2410C] text-xs px-3 py-2 rounded-md">
+                                {dueDays && billingDate && (
+                                    <div className="mt-3 flex items-center gap-2 bg-[#FFF4ED] border-1 border-[#FFE0CC] text-[#C2410C] text-xs px-3 py-2 rounded-md">
                                         <span>
                                             <AiOutlineExclamationCircle color="#C2410C" size="16" />
                                         </span>
-                                        Overdue starts from {dueDays} of the month
+                                        Due date is <b>{dueDate.toString().padStart(2, "0")}</b>
+                                        Overdue starts from <b>{(dueDateObj.getDate() + 1)}</b>
                                     </div>
                                 )}
                             </div>
@@ -1092,7 +1129,7 @@ ${selected
 
                             <div className="relative" >
                                 <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
-                                    Notice period (Days)
+                                    Notice period (Days)  <span className="text-red-600 text-sm">*</span>
                                 </label>
 
                                 <div
@@ -1103,18 +1140,7 @@ ${selected
                                         {noticeDays ? noticeDays : "Select Notice Days"}
                                     </span>
                                     <div className="flex items-center gap-2">
-                                        {noticeDays && (
-                                            <span
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setNoticeDays(null);
-                                                    setErrors((prev) => ({ ...prev, noticeDate: "" }));
-                                                }}
-                                                className="cursor-pointer flex items-center"
-                                            >
-                                                <CloseCircle size="14" color="#FF0000" />
-                                            </span>
-                                        )}
+
                                         <span className="text-gray-400">
                                             {openNoticePicker ? (
                                                 <ArrowUp2 size="18" color="#1E45E1" />
