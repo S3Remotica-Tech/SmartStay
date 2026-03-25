@@ -104,7 +104,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     // canWriteModule: canWriteProfile,
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteProfile,
+    canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
 
@@ -2705,27 +2705,46 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                             {previewURL && isHovering && (
                               <div className="absolute inset-0 flex items-center justify-center rounded bg-black/40">
-                                <div className="bg-white rounded-full p-2 cursor-pointer shadow-md transition-transform
-                                 hover:scale-110" onClick={() => handleDeleteLogoGlobal()}>
-                                  <Trash size={12} className="cursor-pointer" />
+                                <div
+                                  onClick={canDeleteInvoice ? handleDeleteLogoGlobal : undefined}
+                                  className={`rounded-full p-2 shadow-md transition-transform
+    ${canDeleteInvoice
+                                      ? "bg-white cursor-pointer hover:scale-110"
+                                      : "bg-gray-200 cursor-not-allowed opacity-60"
+                                    }`}
+                                >
+                                  <Trash size={12} color={canDeleteInvoice ? "#000" : "#999"} />
                                 </div>
                               </div>
                             )}
                           </div>
 
-                          <div className="flex flex-col">
+                          <div
+                            className={`flex flex-col ${!canUpdateInvoice ? "opacity-60 pointer-events-none" : ""
+                              }`}
+                          >
                             <div>
-                              <label className="cursor-pointer font-gilroy text-sm font-normal text-[rgba(30,69,225,1)]">
+                              <label
+                                className={`font-gilroy text-sm font-normal ${canUpdateInvoice
+                                    ? "text-[rgba(30,69,225,1)] cursor-pointer"
+                                    : "text-gray-400 cursor-not-allowed"
+                                  }`}
+                                onClick={(e) => {
+                                  if (!canUpdateInvoice) e.preventDefault();
+                                }}
+                              >
                                 Choose file
                                 <input
                                   type="file"
                                   accept="image/*"
                                   className="hidden"
                                   onChange={handleFileChange}
+                                  disabled={!canUpdateInvoice}
                                 />
                               </label>
+
                               <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
-                                to Upload
+                                {" "}to Upload
                               </span>
                             </div>
 
@@ -2737,14 +2756,14 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
                       </div>
 
-                      {fieldError && (
-                        <div className="mt-0 mb-5 flex w-full justify-center">
-                          <ErrorMessage message={fieldError} type="error" />
-                        </div>
-                      )}
+
 
                     </div>
-
+                    {fieldError && (
+                      <div className="mt-0 mb-5 flex w-full justify-center">
+                        <ErrorMessage message={fieldError} type="error" />
+                      </div>
+                    )}
 
                     <div className="mb-4 -mt-5 flex flex-col md:flex-row items-center gap-2">
 
@@ -2893,8 +2912,17 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                               {isHoveringSign && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                  <div onClick={() => handleDeleteSignatureGlobal()} className="flex items-center justify-center rounded-full bg-white p-2 cursor-pointer shadow-md">
-                                    <Trash size={16} />
+                                  <div
+                                    onClick={() => {
+                                      if (canDeleteInvoice) {
+                                        handleDeleteSignatureGlobal();
+                                      }
+                                    }}
+                                    className={`flex items-center justify-center rounded-full p-2 shadow-md
+    ${canDeleteInvoice ? "bg-white cursor-pointer" : "bg-gray-200 cursor-not-allowed opacity-60"}
+  `}
+                                  >
+                                    <Trash size={16} color={canDeleteInvoice ? "#000" : "#999"} />
                                   </div>
                                 </div>
                               )}
@@ -2910,7 +2938,16 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         <div className="mt-2 flex items-center justify-between">
 
                           <div>
-                            <label className="cursor-pointer font-gilroy text-sm font-normal text-[rgba(30,69,225,1)]">
+                            <label
+                              className={`font-gilroy text-sm font-normal
+      ${canUpdateInvoice
+                                  ? "text-[rgba(30,69,225,1)] cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed"
+                                }`}
+                              onClick={(e) => {
+                                if (!canUpdateInvoice) e.preventDefault();
+                              }}
+                            >
                               Choose file
                               <input
                                 type="file"
@@ -2918,8 +2955,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 className="hidden"
                                 ref={fileInputRef}
                                 onChange={handleFileSignatureChange}
+                                disabled={!canUpdateInvoice}
                               />
                             </label>
+
                             <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
                               to Upload Image
                             </span>
