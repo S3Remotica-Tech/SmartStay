@@ -547,7 +547,7 @@ export async function SubscriptionList(hostelId) {
 }
 
 export async function PlanList() {
-  return await AxiosConfigV2.get(`/v2/plans/`);
+  return await AxiosConfigV2.get(`/v2/plans`);
 }
 
 export  function SubscriptionPdfDownload() {

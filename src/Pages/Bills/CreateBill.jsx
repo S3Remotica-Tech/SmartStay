@@ -63,13 +63,13 @@ function CreateBill() {
     const [startdate, setStartDate] = useState(null);
     const [enddate, setEndDate] = useState(null);
     const [invoicedate, setInvoiceDate] = useState(null);
-    const [invoiceduedate, setInvoiceDueDate] = useState(null);
+    // const [invoiceduedate, setInvoiceDueDate] = useState(null);
     const [totalAmount, setTotalAmount] = useState("");
     const [newRows, setNewRows] = useState([])
     const [customererrmsg, setCustomerErrmsg] = useState("");
     const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
     const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
-    const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
+    // const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
     const [allfielderrmsg, setAllFieldErrmsg] = useState("");
     // const [amenityArray, setamenityArray] = useState([]);
 
@@ -263,11 +263,11 @@ function CreateBill() {
         setStartDate("");
         setEndDate("");
         setInvoiceDate("");
-        setInvoiceDueDate("");
+        // setInvoiceDueDate("");
         setTotalAmount("");
         setCustomerErrmsg("");
         setInvoiceDateErrmsg("");
-        setInvoiceDueDateErrmsg("");
+        // setInvoiceDueDateErrmsg("");
         setAllFieldErrmsg("");
         setTableErrmsg("");
         // setamenityArray([]);
@@ -316,19 +316,19 @@ function CreateBill() {
 
 
 
-    const handleDueDate = (selectedDates) => {
-        setAllFieldErrmsg("");
-        const date = selectedDates;
-        setInvoiceDueDate(date);
-        if (!selectedDates) {
-            setInvoiceDueDateErrmsg("Please Select Date");
-        } else {
-            setInvoiceDueDateErrmsg("");
-        }
+    // const handleDueDate = (selectedDates) => {
+    //     setAllFieldErrmsg("");
+    //     const date = selectedDates;
+    //     setInvoiceDueDate(date);
+    //     if (!selectedDates) {
+    //         setInvoiceDueDateErrmsg("Please Select Date");
+    //     } else {
+    //         setInvoiceDueDateErrmsg("");
+    //     }
 
-        // const formattedDate = formatDateForPayloadmanualinvoice(date);
-        // setFormatDueDate(formattedDate);
-    };
+    //     // const formattedDate = formatDateForPayloadmanualinvoice(date);
+    //     // setFormatDueDate(formattedDate);
+    // };
 
 
 
@@ -625,12 +625,12 @@ function CreateBill() {
             setInvoiceDateErrmsg("");
         }
 
-        if (!invoiceduedate) {
-            setInvoiceDueDateErrmsg("Please Select Due Date");
-            hasError = true;
-        } else {
-            setInvoiceDueDateErrmsg("");
-        }
+        // if (!invoiceduedate) {
+        //     setInvoiceDueDateErrmsg("Please Select Due Date");
+        //     hasError = true;
+        // } else {
+        //     setInvoiceDueDateErrmsg("");
+        // }
 
 
         if (!Array.isArray(newRows) || newRows.length === 0) {
@@ -663,7 +663,7 @@ function CreateBill() {
             ).format("YYYY-MM-DD");
 
             const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-            const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+            // const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
            
             if (dayjs(formattedInvoiceDate).isBefore(formattedJoiningDate, "day")) {
@@ -672,16 +672,16 @@ function CreateBill() {
             }
 
 
-            if (dayjs(formattedDueDate).isBefore(formattedJoiningDate, "day")) {
-                setInvoiceDueDateErrmsg("Before join date not allowed");
-                hasError = true;
-            }
+            // if (dayjs(formattedDueDate).isBefore(formattedJoiningDate, "day")) {
+            //     setInvoiceDueDateErrmsg("Before join date not allowed");
+            //     hasError = true;
+            // }
 
 
-            if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate, "day")) {
-                setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-                hasError = true;
-            }
+            // if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate, "day")) {
+            //     setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+            //     hasError = true;
+            // }
         }
 
         if (hasError) {
@@ -689,7 +689,7 @@ function CreateBill() {
         }
 
         const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
-        const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
+        // const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
 
 
         dispatch({
@@ -697,7 +697,7 @@ function CreateBill() {
             payload: {
                 customerId: customername,
                 invoiceDate: formatinvoicedate,
-                dueDate: formatduedate,
+                // dueDate: formatduedate,
                 invoiceNumber: invoicenumber,
                 total_amount: totalAmount,
                 items: newRows.map((row) => ({
@@ -738,7 +738,7 @@ function CreateBill() {
         setCustomerName(billData.customerId);
         setInvoiceNumber(billData.invoiceNumber);
         setInvoiceDate(dayjs(billData.invoiceDate, "DD/MM/YYYY"));
-        setInvoiceDueDate(dayjs(billData.dueDate, "DD/MM/YYYY"));
+        // setInvoiceDueDate(dayjs(billData.dueDate, "DD/MM/YYYY"));
         setTotalAmount(billData.baseAmount);
 
 
@@ -765,7 +765,7 @@ function CreateBill() {
         setCustomerErrmsg("");
         setInvoicenumberErrmsg("");
         setInvoiceDateErrmsg("");
-        setInvoiceDueDateErrmsg("");
+        // setInvoiceDueDateErrmsg("");
         setAllFieldErrmsg("");
 
         if (!Array.isArray(newRows) || newRows.length === 0) {
@@ -825,7 +825,7 @@ function CreateBill() {
             // setNewRows([]);
             setCustomerErrmsg("");
             setInvoiceDateErrmsg("");
-            setInvoiceDueDateErrmsg("");
+            // setInvoiceDueDateErrmsg("");
             setAllFieldErrmsg("");
         }
     };
@@ -877,7 +877,7 @@ function CreateBill() {
             setStartDate("");
             setEndDate("");
             setInvoiceDate("");
-            setInvoiceDueDate("");
+            // setInvoiceDueDate("");
             setTotalAmount("");
             if (state.UsersList.userRoomfor) {
                 navigate(`/tenant/details/${id}`, {
@@ -926,7 +926,7 @@ function CreateBill() {
         if (dueRef.current) {
             dueRef.current.flatpickr.set(optionsone);
         }
-    }, [startdate, enddate, invoicedate, invoiceduedate]);
+    }, [startdate, enddate, invoicedate]);
 
 
 
@@ -1195,7 +1195,7 @@ function CreateBill() {
                     )}
                 </div>
 
-                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <p className="mt-1 mb-1" style={{
                         fontSize: 14,
                         color: "#222222",
@@ -1233,7 +1233,7 @@ function CreateBill() {
                     {invoiceduedateerrmsg.trim() !== "" && (
                         <ErrorMessage message={invoiceduedateerrmsg} type="error" />
                     )}
-                </div>
+                </div> */}
             </div>
 
             <div className="col-lg-5 col-md-3 col-sm-12 col-xs-12 mt-3">

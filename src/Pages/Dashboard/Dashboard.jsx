@@ -102,7 +102,9 @@ function Dashboard() {
       iconColor: "text-[#155DFC]",
       iconBg: "bg-[#EFF6FF]",
       stats: [
-        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`, value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
+        { label: "Total Rooms",
+          //  value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`,
+         value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
         { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds || "0"}` },
       ],
       footer: "Sharing Breakdown",
@@ -592,7 +594,7 @@ function Dashboard() {
                                 {stat?.value1}
                                 {stat?.value2 && (
                                   <span className="text-[#101828] ml-1">
-                                    / {stat?.value2}
+                                    {stat?.value2}
                                   </span>
                                 )}
                               </span>
