@@ -818,7 +818,7 @@ function Sidebar() {
                           </Tooltip>
                         }
                       >
-                        <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-pink-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 md:-ml-0.5 uppercase leading-none">
+                        <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 md:-ml-0.5 uppercase leading-none">
                           {initials}
                         </div>
                       </OverlayTrigger>
@@ -868,51 +868,49 @@ function Sidebar() {
 
                     {isDropdownOpen && (
                       <div
-                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full md:w-[50px] lg:w-full z-50 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
+                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full md:w-[50px] lg:w-full z-50 max-h-48 overflow-y-auto
+                        overflow-x-visible 
+                         show-scrolls"
                       >
                         <ul style={{ margin: 0, padding: 0 }}>
                           {hostelListDetail.map((item) => (
-                            <OverlayTrigger
+
+
+                            <li
                               key={item.id}
-                              placement="right"
-                              container={document.body}
-                              overlay={
-                                <Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>
-                                  {item.name}
-                                </Tooltip>
+                              className="relative group hover:bg-gray-100 flex items-center py-2 mx-2 px-2 rounded cursor-pointer text-blue-600  truncate align-middle"
+                              onClick={() =>
+                                handleHostelId(
+                                  item.hostelId,
+                                  item.name,
+                                  item.mainImage,
+                                  item.initials,
+                                  item.city
+                                )
                               }
                             >
+                              {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
+                                <img
+                                  src={item.mainImage}
+                                  className="w-6 h-6 md:w-7 md:h-7  rounded-full mr-2"
+                                  alt={item.initials || "Default Profile"}
+                                />
+                              ) : (
+                                <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
+                                  {item.initials}
+                                </div>
+                              )}
 
-                              <li
-                                key={item.id}
-                                className="flex items-center py-2 px-2 cursor-pointer text-blue-600 max-w-40 truncate align-middle"
-                                onClick={() =>
-                                  handleHostelId(
-                                    item.hostelId,
-                                    item.name,
-                                    item.mainImage,
-                                    item.initials,
-                                    item.city
-                                  )
-                                }
-                              >
-                                {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
-                                  <img
-                                    src={item.mainImage}
-                                    className="w-6 h-6 md:w-7 md:h-7  rounded-full mr-2"
-                                    alt={item.initials || "Default Profile"}
-                                  />
-                                ) : (
-                                  <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
-                                    {item.initials}
-                                  </div>
-                                )}
+                              <span className="hidden lg:inline-block truncate ">
+                                {item.name}
+                              </span>
+                              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 
+  hidden group-hover:block
+  bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
+                                {item.name}
+                              </div>
+                            </li>
 
-                                <span className="hidden lg:inline-block truncate">
-                                  {item.name}
-                                </span>
-                              </li>
-                            </OverlayTrigger>
                           ))}
                         </ul>
                       </div>
