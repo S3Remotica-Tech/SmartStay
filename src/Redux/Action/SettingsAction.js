@@ -534,10 +534,8 @@ export  function DeleteElectricity() {
 }
 
 
-export  async function upgradePlan(hostelId) {
-  return await AxiosConfigV2.post(`/v2/subscription/subscribe/${hostelId}`, datum, {
-    data: datum,
-  });
+export  async function upgradePlan(plan) {
+  return await AxiosConfigV2.post(`/v2/subscription/subscribe/${plan.hostelId}`, plan);
   }
 
 

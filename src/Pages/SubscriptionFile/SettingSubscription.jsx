@@ -146,20 +146,20 @@ function SettingSubscription() {
     setAmount(Number(selectedPlan) || 0);
   }, [selectedPlan]);
 
-  const handlePlanChange = (price) => {
-    setSelectedPlan(price);
-    setPlan(true);
-    setAmount(hostelCount * price);
-    handleCloseCurrentPlan();
+  // const handlePlanChange = (price) => {
+  //   setSelectedPlan(price);
+  //   setPlan(true);
+  //   setAmount(hostelCount * price);
+  //   handleCloseCurrentPlan();
 
-    if (price === 1) {
-      setPlanCode("basic_smart");
-    } else if (price === 2) {
-      setPlanCode("advance_prod");
-    } else if (price === 999) {
-      setPlanCode("smartstay_oneyear");
-    }
-  };
+  //   if (price === 1) {
+  //     setPlanCode("basic_smart");
+  //   } else if (price === 2) {
+  //     setPlanCode("advance_prod");
+  //   } else if (price === 999) {
+  //     setPlanCode("smartstay_oneyear");
+  //   }
+  // };
 
   useEffect(() => {
     setAmount(hostelCount * (Number(selectedPlan) || 0));
@@ -192,36 +192,36 @@ function SettingSubscription() {
     }
   }, [changePlan]);
 
-  const handleSubmit = () => {
-    let isValid = true;
+  // const handleSubmit = () => {
+  //   let isValid = true;
 
-    if (!selectedPlan) {
-      setSelectedPlanError("Please Select a Plan");
-      isValid = false;
-    } else {
-      setSelectedPlanError("");
-    }
+  //   if (!selectedPlan) {
+  //     setSelectedPlanError("Please Select a Plan");
+  //     isValid = false;
+  //   } else {
+  //     setSelectedPlanError("");
+  //   }
 
-    if (selectedHostels.length === 0) {
-      setHostelError("please select hostel");
-      isValid = false;
-      return;
-    }
+  //   if (selectedHostels.length === 0) {
+  //     setHostelError("please select hostel");
+  //     isValid = false;
+  //     return;
+  //   }
 
-    if (isValid && selectedHostels.length > 0) {
-      dispatch({
-        type: "NEWSUBSCRIPTION",
-        payload: {
-          // user_id: userId,
-          // customer_id: customerId,
-          plan_code: planCode,
-          amount: amount,
-          hostel_ids: hostelIds,
-          hostel_count: Number(hostelCount),
-        },
-      });
-    }
-  };
+  //   if (isValid && selectedHostels.length > 0) {
+  //     dispatch({
+  //       type: "NEWSUBSCRIPTION",
+  //       payload: {
+  //         // user_id: userId,
+  //         // customer_id: customerId,
+  //         plan_code: planCode,
+  //         amount: amount,
+  //         hostel_ids: hostelIds,
+  //         hostel_count: Number(hostelCount),
+  //       },
+  //     });
+  //   }
+  // };
 
   const handleCloseCurrentPlan = () => {
     setChangePlan(false);
@@ -231,6 +231,7 @@ function SettingSubscription() {
 
 
   const plans = state?.Settings?.planList?.map((item) => ({
+    planCode: item.planCode,
     title: `${item.planName} Plan`,
     price: `₹${item.price}`,
     period: item.frequency,
@@ -247,81 +248,21 @@ function SettingSubscription() {
   const currentPlan = state?.Settings?.currentPlanDetails
 
 
-  // const gotoPayment = async () => {
-  //   const token = cookies.get("v2-token");
+  const handleUpgradePlan = (plan) => {
+    console.log("plan", plan)
+    if (plan) {
+      dispatch({
+        type: 'UPGRADE_PLAN_SAGA', payload: {
+          hostelId: state.login.selectedHostel_Id,
+          planCode: plan?.planCode,
+          // discountAmount: ,
+          // discountPercentage: ,
 
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:8083/smartstay/payment/",
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`
-  //         },
-  //         responseType: "text"
-  //       }
-  //     );
+        }
+      })
+    }
 
-
-  //     if (response.status === 200) {
-  //         const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");  
-  //       newWindow.document.write(response.data);   
-  //       console.log("response&&&&", response.data);
-
-
-  //       // sessionStorage.setItem("payment_html", response.data);
-  //       // dispatch(setPaymentHtml(response.data));
-  //       // setTimeout(() => {
-  //       //   window.open("/payment-preview", "_blank");
-  //       // }, 200);
-
-  //       // newWindow.document.close(); 
-  //       // const blob = new Blob([response.data], { type: "text/html" });
-  //       // const url = URL.createObjectURL(blob);
-
-  //       // window.open(url, "_blank");
-  //     }
-  //   } catch (error) {
-  //     console.error("Payment Error:", error);
-  //   }
-  // };
-
-
-
-  // const gotoPayment = async () => {
-  //   const token = cookies.get("v2-token");
-
-  //   try {
-  //     const response = await axios.get("http://localhost:8083/smartstay/payment/", {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //       responseType: "text"
-  //     });
-
-  //     if (response.status === 200) {
-  //       console.log("navigated success")
-  //       window.location.href = "http://localhost:8083/smartstay/payment/", "_self";
-  //       // sessionStorage.setItem("payment_html", response.data);
-  //       // window.location.href = "/payment-preview";
-
-  //       // const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");
-  //       // newWindow.document.write(response.data);
-
-  //       //  window.open("http://localhost:8083/smartstay/payment/", "_self");
-
-  //       //    const newDoc = document.open("text/html", "replace");
-  //       // newDoc.write(response.data);
-  //       // newDoc.close();
-
-  //       // const blob = new Blob([response.data], { type: "text/html" });
-  //       // const url = URL.createObjectURL(blob);
-
-  //       // window.location.href = url;   
-  //     }
-  //   } catch (error) {
-  //     console.error("Error", error);
-  //   }
-  // };
-
-
+  }
 
 
   // const plans = [
@@ -364,7 +305,21 @@ function SettingSubscription() {
   //   }
   // ];
 
+  console.log("state", state.Settings)
 
+  useEffect(() => {
+    if (state.Settings?.statusCodeUpgradePlan === 200) {
+      const reDirectURL = state.Settings.upgradePlan;
+
+      if (reDirectURL) {
+        window.open(reDirectURL, "_blank");
+
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_UPGRADE_PLAN_REDUCER" });
+        }, 100);
+      }
+    }
+  }, [state.Settings?.statusCodeUpgradePlan]);
 
 
   return (
@@ -408,7 +363,7 @@ function SettingSubscription() {
             //  <PremiumPlan />
             // </>
             <div>
-          
+
               {/* {import.meta.env.MODE === "development" ? */}
               <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy">
 
@@ -433,7 +388,8 @@ function SettingSubscription() {
 
                         <div>
                           <span className="text-[16px] text-[#1E45E1] font-medium">
-                            {currentPlan?.numberOfDaysRemaining} days left
+                            {currentPlan?.numberOfDaysRemaining}{" "}
+                            {currentPlan?.numberOfDaysRemaining === 1 ? "day" : "days"} left
                           </span>
                         </div>
                       </div>
@@ -472,7 +428,10 @@ function SettingSubscription() {
                       </div>
 
                       <div className="flex justify-end">
-                        <button className="mt-3 bg-[#1E45E1] text-white rounded-lg px-6 py-2.5 text-sm font-normal border-none">
+                        <button disabled
+                          className="mt-3 px-6 py-2.5 text-sm rounded-lg font-normal border-none
+    bg-[#1E45E1] 
+    disabled:bg-gray-200 disabled:text-gray-700 disabled:cursor-not-allowed">
                           Upgrade to Premium
                         </button>
                       </div>
@@ -578,7 +537,7 @@ function SettingSubscription() {
                         ))}
                       </div>
 
-                      <button className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1">
+                      <button onClick={() => handleUpgradePlan(plan)} className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1">
                         Select Plan <MdArrowRightAlt className="text-white text-sm" />
                       </button>
                     </div>
