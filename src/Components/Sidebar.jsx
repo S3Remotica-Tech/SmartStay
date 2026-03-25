@@ -87,6 +87,8 @@ import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolve
 import GraphQL from "../Pages/Dashboard/GraphQL";
 import LongStayRecurringModal from "../Pages/Settings/BillingRule/LongStay";
 import BillingRuleOld from "../Pages/Settings/BillingRule/BillingRuleOld";
+import SettingsElectricityNew from "../Pages/Settings/ElectricityRule/SettingsElectricityNew";
+import ElectricityRule from "../Pages/Settings/ElectricityRule/ElectricityRule";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -954,7 +956,7 @@ function Sidebar() {
                         </span>
                       </NavLink>
                        </li> */}
-                 
+
 
                   <li className="list-none flex items-center" >
                     <NavLink
@@ -972,7 +974,7 @@ function Sidebar() {
                       </span>
                     </NavLink>
                   </li>
-                  
+
                   <li
                     className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded collapsible-header
     ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
@@ -1528,6 +1530,9 @@ function Sidebar() {
                   </div>
                 }
               />
+
+
+
               <Route
                 path="/expense/:hostelId?"
                 element={
@@ -1765,7 +1770,9 @@ function Sidebar() {
                 <Route path="security" element={<SettingSecurity />} />
                 <Route path="subscription" element={<SettingSubscription />} />
                 <Route path="integration" element={<SettingIntergration />} />
-                <Route path="electricity" element={<SettingElectricity />} />
+                <Route path="electricity" element={<SettingsElectricityNew />} />
+                <Route path="electricity-old" element={<SettingElectricity />} />
+                <Route path="electricity-rule" element={<ElectricityRule />} />
                 <Route path="billing-rule-old" element={<BillingRuleOld />} />
                 <Route path="billing-rule" element={<BillingRule />} />
                 <Route path="long-stay-recurring" element={<LongStayRecurringModal />} />
@@ -2074,7 +2081,7 @@ function Sidebar() {
               +
             </button>
 
-            
+
             <div className="flex flex-col items-center justify-start gap-4 mt-7">
 
               <div
@@ -2084,7 +2091,7 @@ function Sidebar() {
                 <img src={SearchVector} alt="Search" className="w-6 h-6" />
               </div>
 
-       
+
               <div
                 onClick={handleShowNotification}
                 onMouseEnter={() => handleMouseEnter("notification")}

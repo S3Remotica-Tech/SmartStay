@@ -558,7 +558,7 @@ function CheckOut() {
                                         <span 
                                           className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline"
                                         >
-                                          {checkout.firstName}
+                                          {checkout.fullName}
                                         </span>
                                       </div>
                                     </td>
