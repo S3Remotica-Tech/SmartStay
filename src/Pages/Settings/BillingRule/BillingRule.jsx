@@ -143,15 +143,15 @@ console.log("recurringBills",recurringBills)
 
 
   return (
-    <>
-      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
+    <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy ">
+      <div className="sticky top-0 left-0 right-0 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
         <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
           Billing Rule
         </label>
 
       </div>
 
-      <div>
+       <div className="flex-1 overflow-hidden px-4 py-3">
         {!canReadRecurring ? (
           <>
             <div className="flex flex-col items-center justify-center mt-24">
@@ -164,7 +164,7 @@ console.log("recurringBills",recurringBills)
             </div>
           </>
         ) : (
-          <div className="bg-[#FAFAFA] h-fit p-3">
+        <div className="space-y-4">
 
             <div className="grid grid-cols-12 gap-3  ">
 
@@ -301,7 +301,7 @@ console.log("recurringBills",recurringBills)
       )}
 
 
-    </>
+    </div>
   );
 }
 
