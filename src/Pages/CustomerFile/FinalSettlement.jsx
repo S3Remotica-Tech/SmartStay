@@ -174,7 +174,7 @@ function FinalSettlement() {
         }
         if (field === "amount") {
 
-            let numericValue = value.replace(/[^0-9]/g, "");
+            let numericValue = value.replace(/[^0-9.]/g, "");
 
             if (numericValue.startsWith("0")) {
                 numericValue = numericValue.replace(/^0+/, "");
@@ -193,15 +193,24 @@ function FinalSettlement() {
         updatedFields[index] = fieldData;
         setFields(updatedFields);
         setErrors(updatedErrors);
+
+        if (updatedErrors[index]) {
+            if (field === "reason_name" || field === "customReason") {
+                updatedErrors[index].reason = "";
+            }
+            if (field === "amount") {
+                updatedErrors[index].amount = "";
+            }
+        }
     };
 
     const handleRemoveField = (index) => {
         const updatedFields = [...fields];
         updatedFields.splice(index, 1);
         setFields(updatedFields);
-const updatedErrors = [...errors];
-    updatedErrors.splice(index, 1);
-    setErrors(updatedErrors);
+        const updatedErrors = [...errors];
+        updatedErrors.splice(index, 1);
+        setErrors(updatedErrors);
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
     };
 
@@ -401,9 +410,38 @@ const updatedErrors = [...errors];
 
     const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === data?.customerId || data?.tenetId);
 
+    const validateFields = () => {
+        let isValid = true;
+        const newErrors = fields.map((item) => {
+            let errorObj = {};
 
+
+            if (!item.reason_name) {
+                errorObj.reason = "Please select a reason";
+                isValid = false;
+            }
+
+
+            if (item.reason_name === "others" && !item.customReason?.trim()) {
+                errorObj.reason = "Please enter custom reason";
+                isValid = false;
+            }
+
+
+            if (!item.amount) {
+                errorObj.amount = "Please enter amount";
+                isValid = false;
+            }
+
+            return errorObj;
+        });
+
+        setErrors(newErrors);
+        return isValid;
+    };
 
     const handleClickGenerate = () => {
+        if (!validateFields()) return;
         const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
         const apiMap = new Map(
@@ -744,7 +782,7 @@ const updatedErrors = [...errors];
 
                         <div className="me-1" >
 
-                            {/* unpaid invoices */}
+
 
                             <div
                                 className="mb-2"
@@ -936,7 +974,7 @@ const updatedErrors = [...errors];
                             </div>
 
 
-                            {/* Refundable Rent */}
+
                             <div
                                 className="mb-2"
                                 style={{

@@ -775,16 +775,17 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
   useEffect(() => {
-    if (state.UsersList?.templatesImagesDeleteStatusCode === 204) {
+    if (state.UsersList?.templatesImagesDeleteStatusCode === 204 || state.UsersList?.templatesGlobalImagesDeleteStatusCode === 204) {
       dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
       setTimeout(() => {
         dispatch({ type: 'REMOVE_DELETE_TEMPLATES_IMAGES' })
+        dispatch({ type: 'REMOVE_DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER' })
       }, 100)
 
 
     }
 
-  }, [state.UsersList?.templatesImagesDeleteStatusCode])
+  }, [state.UsersList?.templatesImagesDeleteStatusCode, state.UsersList?.templatesGlobalImagesDeleteStatusCode])
 
 
   useEffect(() => {
@@ -1138,32 +1139,63 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  //   const handleDeleteImage = () => {
-  //   if (!previewURL) return;
+  const handleDeleteLogoGlobal = () => {
+    if (!previewURL) return;
 
-  //   const isLocalImage =
-  //     previewURL.startsWith("blob:") ||
-  //     previewURL.startsWith("data:");
+    const isLocalImage =
+      previewURL.startsWith("blob:") ||
+      previewURL.startsWith("data:");
 
-  //   if (isLocalImage) {
+    if (isLocalImage) {
 
-  //     setPreviewURL(null);
-  //   } else {
-  //        if (BillsTemplateList?.hostelId) {
-  //       // dispatch({
-  //       //   type: "DELETETEMPLATESIMAGES",
-  //       //   payload: {
-  //       //     hostelId: BillsTemplateList?.hostelId,
-  //       //     templateId: BillsTemplateList?.templateId,
-  //       //     templateTypeId: BillsTemplateList?.templates[1]?.typeId,
-  //       //     type: "QRCODE",
-  //       //   },
-  //       // });
-  //     }
+      setPreviewURL(null);
+    } else {
+      if (BillsTemplateList?.hostelId) {
+        dispatch({
+          type: 'DELETE_GLOBAL_TEMPLATES_IMAGES_SAGA', payload: {
+            hostelId: BillsTemplateList?.hostelId,
+            templateId: BillsTemplateList?.templateId,
+            type: "LOGO"
 
-  //        setPreviewURL(null);
-  //   }
-  // };
+          }
+        })
+      }
+
+      setPreviewURL(null);
+    }
+  };
+
+
+  const handleDeleteSignatureGlobal = () => {
+    if (!signPreview) return;
+
+    const isLocalImage =
+      signPreview.startsWith("blob:") ||
+      signPreview.startsWith("data:");
+
+    if (isLocalImage) {
+      setSignPreview(null);
+    } else {
+      if (BillsTemplateList?.hostelId) {
+        dispatch({
+          type: 'DELETE_GLOBAL_TEMPLATES_IMAGES_SAGA', payload: {
+            hostelId: BillsTemplateList?.hostelId,
+            templateId: BillsTemplateList?.templateId,
+            type: "SIGNATURE"
+
+          }
+        })
+      }
+
+      setSignPreview(null);
+    }
+  }
+
+
+
+
+
+
 
 
   const handleRemoveQr = () => {
@@ -1234,6 +1266,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
     setRentalSignaturePreview(null);
   };
+
+
+
 
 
 
@@ -2670,8 +2705,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                             {previewURL && isHovering && (
                               <div className="absolute inset-0 flex items-center justify-center rounded bg-black/40">
-                                <div className="bg-white rounded-full p-2 cursor-not-allowed shadow-md transition-transform hover:scale-110">
-                                  <Trash size={12} />
+                                <div className="bg-white rounded-full p-2 cursor-pointer shadow-md transition-transform
+                                 hover:scale-110" onClick={() => handleDeleteLogoGlobal()}>
+                                  <Trash size={12} className="cursor-pointer" />
                                 </div>
                               </div>
                             )}
@@ -2834,10 +2870,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
                       </div>
 
-                      {/* Right column */}
+
                       <div className="w-full md:w-7/12">
 
-                        {/* Upload box */}
+
                         <div
                           className="relative mt-2 flex items-center justify-center h-28 rounded border-2 border-dotted border-gray-300"
                           onMouseEnter={() => setIsHoveringSign(true)}
@@ -2857,7 +2893,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                               {isHoveringSign && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                  <div className="flex items-center justify-center rounded-full bg-white p-2 cursor-not-allowed shadow-md">
+                                  <div onClick={() => handleDeleteSignatureGlobal()} className="flex items-center justify-center rounded-full bg-white p-2 cursor-pointer shadow-md">
                                     <Trash size={16} />
                                   </div>
                                 </div>
