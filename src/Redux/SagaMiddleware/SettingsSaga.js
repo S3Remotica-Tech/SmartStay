@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { EditExpencesSubCategory,PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
+import { EditExpencesSubCategory, PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, upgradePlan, CurrentSubscriptionPlan, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -18,15 +18,15 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
+
    }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+   else if (status === 403) {
+      yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
+   }
 }
 
 
@@ -83,7 +83,7 @@ function* handleChangeRoomHostelElectricity(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      
+
    }
 }
 
@@ -95,12 +95,12 @@ function* handleGetModules() {
    try {
       const response = yield call(getModules)
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
       if (response?.status === 200) {
          yield put({ type: 'GET_MODULES', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -113,7 +113,7 @@ const hostelId = GlobalHostelId(response);
    }
    catch (error) {
       yield* handleApiError(error);
-      
+
    }
 }
 
@@ -169,7 +169,7 @@ function* handleRecurringRole(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -183,12 +183,12 @@ function* handleCategorylist(action) {
    try {
       const response = yield call(ExpencesCategorylist, action.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -210,7 +210,7 @@ const hostelId = GlobalHostelId(response);
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -249,7 +249,7 @@ function* handleCategoryAdd(params) {
             style: toastStyle
          })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
@@ -260,7 +260,7 @@ function* handleCategoryAdd(params) {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: error.response.data })
          }
-      } 
+      }
    }
 }
 
@@ -278,17 +278,17 @@ function* handleEditCategory(params) {
          })
       }
 
-    
 
-      
+
+
    }
    catch (error) {
       yield* handleApiError(error);
-       if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: error.response.data })
          }
-      } 
+      }
    }
 }
 
@@ -303,17 +303,17 @@ function* handleEditSubCategory(params) {
          toast.success("Updated Successfully", {
             position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, style: toastStyle
          })
-      
+
       }
-            
+
    }
    catch (error) {
       yield* handleApiError(error);
-       if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: error.response.data })
          }
-      } 
+      }
    }
 }
 
@@ -394,12 +394,12 @@ function* handleComplainttypelist(action) {
       const response = yield call(Complainttypelist, hostel_id);
 
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
 
@@ -433,7 +433,7 @@ const hostelId = GlobalHostelId(response);
       }
    } catch (error) {
       yield* handleApiError(error);
-      
+
    }
 }
 
@@ -642,7 +642,7 @@ function* handleDeleteComplainttype(action) {
             yield put({ type: 'ALREADY_ASSIGNCOMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
          }
 
-      } 
+      }
    }
 }
 
@@ -697,7 +697,7 @@ function* handleEBBillingUnitAdd(params) {
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -705,12 +705,12 @@ function* handleEBBillingUnitGet(action) {
    try {
       const response = yield call(GetEBBillingUnit, action.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
 
@@ -795,12 +795,12 @@ function* handleDeleteElectricity(action) {
 function* handleGetAllRoles(role) {
    try {
       const response = yield call(GetAllRoles, role.payload)
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
       if (response?.status === 200) {
          yield put({ type: 'ROLE_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -869,7 +869,7 @@ function* handleAddSettingRole(action) {
          if (error.response?.status === 400) {
             yield put({ type: 'ROLE_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 }
 
@@ -1010,7 +1010,7 @@ function* handleDeleteRolePermission(detail) {
             style: toastStyle,
          });
       }
-     
+
    }
 }
 
@@ -1065,7 +1065,7 @@ function* handleAddStaffUserPage(detail) {
          } else if (error.response.data.mobileStatus !== "") {
             yield put({ type: 'PHONE_NUM_ERROR', payload: error.response.data.mobileStatus });
          }
-      } 
+      }
    }
 }
 
@@ -1124,12 +1124,12 @@ function* handleGetAllStaffs(action) {
 
    try {
       const response = yield call(GetAllStaff, action.payload.hostelId);
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -1149,7 +1149,7 @@ const hostelId = GlobalHostelId(response);
 
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1214,14 +1214,14 @@ function* handleAddGeneralPage(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-  console.log("error General &&&", error)
+      console.log("error General &&&", error)
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.response.data.emailStatus !== "") {
             yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
          } else if (error.response.data.mobileStatus !== "") {
             yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
          }
-      } 
+      }
    }
 }
 
@@ -1267,14 +1267,14 @@ function* handleEditGeneralPage(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-          console.log("error General edit", error.status)
+      console.log("error General edit", error.status)
       if (error.status === 400) {
          if (error.response.data.emailStatus !== "") {
             yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
          } else if (error.response.data.mobileStatus !== "") {
             yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
          }
-      } 
+      }
    }
 }
 
@@ -1284,15 +1284,15 @@ function* handleGetAllGeneral() {
       const response = yield call(GetAllGeneral)
 
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
-      if (response?.status === 200 || response?.status === 204 ) {
+      if (response?.status === 200 || response?.status === 204) {
          yield put({ type: 'GET_ALL_GENERAL', payload: { response: response.data || [], statusCode: response?.status } })
       }
       else {
@@ -1304,7 +1304,7 @@ const hostelId = GlobalHostelId(response);
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1359,7 +1359,7 @@ function* handleChangePasswordinStaff(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      
+
    }
 }
 
@@ -1411,7 +1411,7 @@ function* handleCheckPassword(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1468,15 +1468,15 @@ function* handleDeleteGenerlPage(action) {
 
    catch (error) {
       yield* handleApiError(error);
-    
+
    }
 
 }
 
 
-function* handleNewSubscriptionpage(action) {
+function* handleUpgradePlan(action) {
    try {
-      const response = yield call(newSubscription, action.payload);
+      const response = yield call(upgradePlan, action.payload);
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -1495,7 +1495,7 @@ function* handleNewSubscriptionpage(action) {
 
       if (response?.status === 200) {
          yield put({
-            type: "NEW_SUBSCRIPTION",
+            type: "UPGRADE_PLAN_REDUCER",
             payload: {
                response: response.data.data,
                statusCode: response?.status,
@@ -1513,44 +1513,30 @@ function* handleNewSubscriptionpage(action) {
             style: toastStyle,
          });
       }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
 
-
-      if (response) {
-         refreshToken(response);
-      }
    }
    catch (error) {
       yield* handleApiError(error);
-     
+      if (error.status === 403 || error.status === 400) {
+         yield put({ type: 'UPGRADE_PLAN_ERROR', payload: error.response?.data });
+      }
+
    }
 }
 
 
-function* handleNewSubscriptionList(action) {
+function* handleCurrentSubscriptionPlan(action) {
    try {
-      const response = yield call(SubscriptionList, action.payload);
+      const response = yield call(CurrentSubscriptionPlan, action.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
-
-
-
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+      }
       if (response?.status === 200) {
-         yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: { response: response.data, statusCode: response?.status } })
+         yield put({ type: 'CURRENT_PLAN_REDUCER', payload: { response: response.data, statusCode: response?.status } })
       }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
+
    }
    catch (error) {
       yield* handleApiError(error);
@@ -1561,26 +1547,21 @@ function* handlePlanList(action) {
    try {
       const response = yield call(PlanList, action.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+      }
 
 
       if (response?.status === 200) {
          yield put({ type: 'NEW_PLAN_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
+
    }
    catch (error) {
       yield* handleApiError(error);
+
+
    }
 }
 
@@ -1664,7 +1645,7 @@ function* handleSettingsRecurring(action) {
 
       if (error.status === 403 || error.status === 400) {
          yield put({ type: 'BILLING_RULE_ERROR', payload: error.response.data || 'Something went wrong' });
-      } 
+      }
    }
 }
 
@@ -1712,12 +1693,12 @@ function* handleGetSettingsRecurrringBill(action) {
    try {
       const response = yield call(SettingsGetRecurring, action.payload);
 
-        const hostelId = GlobalHostelId(response);
-          if (hostelId) {
-            yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-            // const cookies = new Cookies()
-            // cookies.set('selected_hostelId', hostelId, { path: '/' });
-          }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
 
@@ -1816,12 +1797,12 @@ function* handleGetTemplatelist(action) {
    try {
       const response = yield call(getTemplateList, action.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
       if (response?.status === 200) {
          yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data, statusCode: response?.status, message: response?.data?.message } })
@@ -1846,7 +1827,7 @@ const hostelId = GlobalHostelId(response);
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1887,7 +1868,7 @@ function* handleAddIGlobalSettings(params) {
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1935,7 +1916,7 @@ function refreshToken(response) {
 
 
 function* SettingsSaga() {
-   yield takeEvery('EDITSUBCATEGORYSAGA',handleEditSubCategory)
+   yield takeEvery('EDITSUBCATEGORYSAGA', handleEditSubCategory)
    yield takeEvery('ROOMHOSTELEBCHANGE', handleChangeRoomHostelElectricity)
    yield takeEvery('GETMODULES', handleGetModules)
    yield takeEvery('EXPENCES-CATEGORY-LIST', handleCategorylist)
@@ -1965,8 +1946,8 @@ function* SettingsSaga() {
    yield takeEvery('GENERALDELETEGENERAL', handleDeleteGenerlPage)
    yield takeEvery('RECURRINGROLE', handleRecurringRole)
    yield takeEvery('CHECKPASSWORD', handleCheckPassword)
-   yield takeEvery('NEWSUBSCRIPTION', handleNewSubscriptionpage)
-   yield takeEvery('NEWSUBSCRIPTIONDETAILS', handleNewSubscriptionList)
+   yield takeEvery('UPGRADE_PLAN_SAGA', handleUpgradePlan)
+   yield takeEvery('CURRENT_PLAN_SAGA', handleCurrentSubscriptionPlan)
    yield takeEvery('NEWPLANLIST', handlePlanList)
 
    yield takeEvery('SUBSCRIPTIONPDF', handleSubscriptionPdf)
