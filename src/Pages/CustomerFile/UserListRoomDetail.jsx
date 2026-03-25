@@ -217,7 +217,7 @@ function UserListRoomDetail(props) {
 
   const amenitiesRef = useRef(null);
 
-  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay } = location.state || {};
+  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay, isBillWay ,isReceiptWay} = location.state || {};
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
@@ -2398,7 +2398,12 @@ function UserListRoomDetail(props) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
     } else if (isDashboardWay) {
       navigate(`/dashboard-new/${state.login.selectedHostel_Id}`);
-    } else {
+    } else if (isBillWay) {
+      navigate(`/invoice/${state.login.selectedHostel_Id}`)
+    }else if(isReceiptWay){
+navigate(`/receipts/${state.login.selectedHostel_Id}`)
+    }
+    else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`)
     }
 

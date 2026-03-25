@@ -18,7 +18,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import Select from "react-select";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
-import LoaderComponent from "../OthersComponent/LoaderComponent";
+// import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
 // import { Tabs, Tab } from "react-bootstrap";
@@ -31,8 +31,7 @@ import {
   InfoCircle,
   ArrowUp2,
   ArrowDown2,
-  ArrowUp,
-
+  ArrowUp,TrendUp,TrendDown
 } from "iconsax-react";
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import DashExpenseProfit from "./DashExpense&Profit";
@@ -103,7 +102,9 @@ function Dashboard() {
       iconColor: "text-[#155DFC]",
       iconBg: "bg-[#EFF6FF]",
       stats: [
-        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`, value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
+        { label: "Total Rooms",
+          //  value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`,
+         value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
         { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds || "0"}` },
       ],
       footer: "Sharing Breakdown",
@@ -125,7 +126,7 @@ function Dashboard() {
         { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds || "0"}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
-      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth || ""} from last month`,
+      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth || ""} `,
       sharingData: [
         { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
       ]
@@ -460,12 +461,12 @@ function Dashboard() {
 
         </div>
 
-        {loading && 
-        <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
-          <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
-            
-          </div>
-        </div>}
+        {loading &&
+          <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
+            <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
+
+            </div>
+          </div>}
 
         <div>
           {activeTab === "1" && (
@@ -593,7 +594,7 @@ function Dashboard() {
                                 {stat?.value1}
                                 {stat?.value2 && (
                                   <span className="text-[#101828] ml-1">
-                                    / {stat?.value2}
+                                    {stat?.value2}
                                   </span>
                                 )}
                               </span>
@@ -761,11 +762,19 @@ function Dashboard() {
 
                             {
                               card.nextMonth && (
-                                <span className="text-gray-900 font-medium my-2 flex">
-                                  <ArrowUp
-                                    size="16"
-                                    color="#6A7282"
-                                  />{card.nextMonth}
+                                <span
+                                  className="font-medium my-2 flex items-center gap-1"
+                                  style={{
+                                    color: parseFloat(card.nextMonth) >= 0 ? "#00A63E" : "#E53935",
+                                  }}
+                                >
+                                  {parseFloat(card.nextMonth) >= 0 ? (
+                                    <TrendUp size="16" color="#00A63E" />
+                                  ) : (
+                                    <TrendDown size="16" color="#E53935" />
+                                  )}
+
+                                  {card.nextMonth} <span className="text-gray-400">from last month</span>
                                 </span>
                               )
                             }

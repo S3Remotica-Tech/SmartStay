@@ -422,7 +422,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                 return (
                   <span
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-gilroy w-fit ${styles.bg}`}
+                    className={`flex items-center gap-2 px-2 py-[2px] text-[10px] rounded-full  font-gilroy w-fit ${styles.bg}`}
                   >
                     <span className={`h-2 w-2 rounded-full ${styles.dot}`} />
                     {status}
@@ -543,7 +543,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-        <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F0F4FF]   flex justify-center p-3 show-scrolls">
+        <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F7F8FC]   flex justify-center p-3 show-scrolls">
           {pdfLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
               <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -1417,26 +1417,34 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-                <div className="row justify-content-between mt-4 mb-5 px-5">
-                  <div className="col-md-8">
-                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, ...textStyle }}>Terms and Conditions</h4>
-                    <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
+                <div className="flex flex-wrap justify-between items-center mt-4 mb-5 px-5">
+
+                  
+                  <div className="w-full md:w-8/12 bg-[#F5F7FFBD] px-1 py-2 rounded">
+                    <h4 className="text-[11px] font-[Gilroy] font-semibold text-[#4B4B4B]">
+                      Terms and Conditions
+                    </h4>
+
+                    <p className="whitespace-pre-line text-[10px] font-[Gilroy] font-semibold text-[#3D3D3D] pr-[50px]">
                       {pdfDetails?.configurations?.termAndCondition}
                     </p>
                   </div>
 
-                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+                  
+                  <div className="w-full md:w-4/12 flex flex-col justify-end items-end mt-4 md:mt-0">
                     {pdfDetails?.configurations?.signatureUrl && (
                       <img
                         src={pdfDetails?.configurations?.signatureUrl}
-                        alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
-
+                        alt="Digital Signature"
+                        className="h-[60px] w-[130px] pl-5"
                       />
                     )}
-                    <p
-                      style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
-                    >Authorized Signature</p>
+
+                    <p className="text-[10px] font-[Gilroy] font-semibold text-[#2C2C2C]">
+                      Authorized Signature
+                    </p>
                   </div>
+
                 </div>
 
 

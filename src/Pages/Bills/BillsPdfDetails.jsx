@@ -666,7 +666,7 @@ function BillsPdfDetails() {
 transition-all duration-300 ease-in-out
 
 ${String(selectedInvoiceId) === String(item.invoiceId)
-                                        ? "bg-[#E8EDFF]"
+                                        ? "bg-[#F7F8FC]"
                                         : "bg-white hover:bg-gray-100"
                                     }`}
                             >
@@ -681,7 +681,7 @@ ${String(selectedInvoiceId) === String(item.invoiceId)
                                                 className="h-10 w-10 rounded-full object-cover"
                                             />
                                         ) : (
-                                            <div className="h-10 w-10 rounded-full bg-gray-100 text-[#44536A] flex items-center justify-center font-semibold text-sm uppercase font-gilroy">
+                                            <div className="h-10 w-10 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-sm uppercase font-gilroy">
                                                 {item?.initials}
                                             </div>
                                         )}
@@ -729,14 +729,14 @@ ${String(selectedInvoiceId) === String(item.invoiceId)
 
                                             {(item?.paymentStatus === "Pending" ||
                                                 item?.paymentStatus === "Partial Payment") && (
-                                                    <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-1 text-xs font-gilroy w-fit">
+                                                    <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                                                         <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
                                                         {item?.paymentStatus}
                                                     </span>
                                                 )}
 
                                             {item?.paymentStatus === "Paid" && (
-                                                <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-3 py-1 text-xs font-gilroy w-fit">
+                                                <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                                                     <span className="h-2 w-2 rounded-full bg-[#10B981]"></span>
                                                     {item?.paymentStatus}
                                                 </span>
@@ -744,21 +744,21 @@ ${String(selectedInvoiceId) === String(item.invoiceId)
 
                                             {(item?.paymentStatus === "Refunded" ||
                                                 item?.paymentStatus === "Partially Refunded") && (
-                                                    <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-3 py-1 text-xs font-gilroy w-fit">
+                                                    <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
                                                         <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
                                                         {item?.paymentStatus}
                                                     </span>
                                                 )}
 
                                             {item?.paymentStatus === "Pending Refund" && (
-                                                <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-3 py-1 text-xs font-gilroy w-fit">
+                                                <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                                                     <span className="h-2 w-2 rounded-full bg-[#FB923C]"></span>
                                                     {item?.paymentStatus}
                                                 </span>
                                             )}
 
                                             {item?.isCancelled && (
-                                                <span className="flex items-center gap-2 bg-[#F3F4F6] text-black rounded-full px-3 py-1 text-xs font-gilroy w-fit">
+                                                <span className="flex items-center gap-2 bg-[#F3F4F6] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                                                     <span className="h-2 w-2 rounded-full bg-[#6B7280]"></span>
                                                     Cancelled
                                                 </span>

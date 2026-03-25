@@ -680,7 +680,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
                     {/* <span className="invisible text-xl">*</span> */}
                   </Form.Label>
                   <Form.Control
-                    value={count > 0 ? totalPrice / count : 0}
+                   value={count > 0 ? (totalPrice / count).toFixed(2) : "0.00"}
                     disabled
                     type="text"
                     placeholder=""

@@ -177,7 +177,8 @@ const Receipt = (props) => {
         state: {
           customerId: view.customerId,
           IsOverView: true,
-          totriggerBillTap: false
+          totriggerBillTap: false,
+          isReceiptWay:true,
         },
       });
     }

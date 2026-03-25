@@ -534,20 +534,21 @@ export  function DeleteElectricity() {
 }
 
 
-export  function newSubscription() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.post("/new_subscription", types, {
-  //   data: types,
-  // });
-}
-export async function SubscriptionList(hostelId) {
-  return await AxiosConfigV2.get(`/v2/subscription/${hostelId}`);
+export  async function upgradePlan(hostelId) {
+  return await AxiosConfigV2.post(`/v2/subscription/subscribe/${hostelId}`, datum, {
+    data: datum,
+  });
+  }
+
+
+
+
+export async function CurrentSubscriptionPlan(hostelId) {
+  return await AxiosConfigV2.get(`/v2/plans/${hostelId}`);
 }
 
 export async function PlanList() {
-  return await AxiosConfigV2.get(`/v2/plans/`);
+  return await AxiosConfigV2.get(`/v2/plans`);
 }
 
 export  function SubscriptionPdfDownload() {

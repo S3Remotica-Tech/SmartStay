@@ -168,7 +168,8 @@ export const initialState = {
     tenantDocumentUploadError: "",
     tenantDocumentDeleteStatusCode: 0,
     templatesImagesDeleteStatusCode: 0,
-    
+    templatesGlobalImagesDeleteStatusCode: 0
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -208,6 +209,11 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'REMOVE_DELETE_TEMPLATES_IMAGES':
             return { ...state, templatesImagesDeleteStatusCode: 0 }
+        case 'DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER':
+            return { ...state, templatesGlobalImagesDeleteStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER':
+            return { ...state, templatesGlobalImagesDeleteStatusCode: 0 }
 
         case 'GET_INITIALIZE_CHECKOUT':
             return { ...state, initializeCheckout: action.payload.response }

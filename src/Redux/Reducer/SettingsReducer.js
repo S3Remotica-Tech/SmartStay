@@ -64,10 +64,11 @@ export const initialState = {
   roleError: "",
   roleEditError: "",
   generalDeleteError: "",
-  subscriptionNew: [],
-  statusCodeNewSubscription: 0,
-  subcripitionAllDetails: [],
-  statusCodeForSubcripitionAllDetails: 0,
+  upgradePlan: [],
+  statusCodeUpgradePlan: 0,
+  upgradePlanError: "",
+  currentPlanDetails: [],
+  statusCodeForCurrentPlanSubcripition: 0,
   toTriggerPDF: false,
   SubscriptionPDF: [],
   SubscriptionPdfSuccess: 0,
@@ -488,23 +489,29 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_ROLE_EDIT_ERROR":
       return { ...state, roleEditError: "" };
 
-    case "NEW_SUBSCRIPTION":
+    case "UPGRADE_PLAN_REDUCER":
       return {
         ...state,
-        subscriptionNew: action.payload.response,
-        statusCodeNewSubscription: action.payload.statusCode,
+        upgradePlan: action.payload.response,
+        statusCodeUpgradePlan: action.payload.statusCode,
       };
-    case "CLEAR_NEW_SUBSCRIPTION":
-      return { ...state, statusCodeNewSubscription: 0 };
+    case "CLEAR_UPGRADE_PLAN_REDUCER":
+      return { ...state, statusCodeUpgradePlan: 0 };
 
-    case "NEW_SUBSCRIPTION_LIST":
+    case 'UPGRADE_PLAN_ERROR':
+      return { ...state, upgradePlanError: action.payload };
+      case 'REMOVE_UPGRADE_PLAN_ERROR':
+      return { ...state, upgradePlanError: ''};
+
+
+    case "CURRENT_PLAN_REDUCER":
       return {
         ...state,
-        subcripitionAllDetails: action.payload.response,
-        statusCodeForSubcripitionAllDetails: action.payload.statusCode,
+        currentPlanDetails: action.payload.response,
+        statusCodeForCurrentPlanSubcripition: action.payload.statusCode,
       };
-    case "CLEAR_NEW_SUBSCRIPTION_LIST":
-      return { ...state, statusCodeForSubcripitionAllDetails: 0 };
+    case "CLEAR_CURRENT_PLAN_REDUCER":
+      return { ...state, statusCodeForCurrentPlanSubcripition: 0 };
 
     case "NEW_PLAN_LIST":
       return {

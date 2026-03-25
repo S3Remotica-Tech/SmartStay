@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Calendar } from "iconsax-react";
+import { ArrowDown, ArrowUp, Calendar, TrendDown, TrendUp } from "iconsax-react";
 
 import {
   ResponsiveContainer,
@@ -55,7 +55,7 @@ function DashCoreAnalytics() {
   // ];
 
 
-const revenueData =
+  const revenueData =
     state.PgList?.dashboardList?.revenueTrend?.map((item) => ({
       month: item.month,
       collected: item.collected,
@@ -118,8 +118,9 @@ const revenueData =
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const percentage = state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.percentageChange || 0;
 
-
+  const CollectedPercentage = state.PgList?.dashboardList?.revenueSummary?.totalCollected?.percentageChange || 0;
   // const avgOccupied = Math.round(
   //   occupancyData?.reduce((a, b) => a + b.occupied, 0) / occupancyData?.length
   // );
@@ -236,7 +237,7 @@ const revenueData =
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
                 Avg Occupied
-                </p>
+              </p>
               <p className="text-xl font-semibold text-[#16A34A] font-[Gilroy]">
                 {state.PgList?.dashboardList?.occupancyTrendSummary?.avgOccupied}
               </p>
@@ -244,9 +245,9 @@ const revenueData =
             <div>
               <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
                 Avg Vacant
-                </p>
+              </p>
               <p className="text-xl font-semibold text-[#F97316] font-[Gilroy]">
-                 {state.PgList?.dashboardList?.occupancyTrendSummary?.avgVacant}
+                {state.PgList?.dashboardList?.occupancyTrendSummary?.avgVacant}
               </p>
             </div>
           </div>
@@ -285,11 +286,11 @@ const revenueData =
 
               <YAxis
                 tick={{ fontFamily: "Gilroy", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
+                axisLine={true}
+                tickLine={true}
                 domain={[0, "dataMax + 2"]}
                 label={{
-                  value: "₹",
+                  // value: "₹",
                   angle: -90,
                   position: "insideLeft",
                   style: { fontFamily: "Gilroy", fontSize: 12 },
@@ -312,7 +313,7 @@ const revenueData =
                 radius={[6, 6, 0, 0]}
               />
 
-             
+
               <Bar
                 dataKey="outstanding"
                 fill="#F54900"
@@ -320,33 +321,51 @@ const revenueData =
                 radius={[6, 6, 0, 0]}
               />
 
-             
+
             </BarChart>
           </ResponsiveContainer>
 
           <hr className="border border-[#F3F4F5] mx-0 my-2" />
           <div className="grid grid-cols-2 ">
             <div>
-              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
+              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold mb-1">
                 Total Collected
-                </p>
-              <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy]">
-                {state.PgList?.dashboardList?.revenueSummary?.totalCollected?.amount}
               </p>
-              <p className="text-xs text-[#6A7282] font-[Gilroy] font-semibold">
-                ↓  {state.PgList?.dashboardList?.revenueSummary?.totalCollected?.percentageChange}% from last month
+              <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy] mb-1">
+                ₹ {state.PgList?.dashboardList?.revenueSummary?.totalCollected?.amount}
+              </p>
+              <p
+                className={`text-xs font-[Gilroy] font-semibold flex items-center gap-1
+  ${CollectedPercentage >= 0 ? "text-[#00A63E]" : "text-[#E53935]"}`}
+              >
+                {CollectedPercentage >= 0 ? (
+                  <TrendUp size="14" color="#00A63E" />
+                ) : (
+                  <TrendDown size="14" color="#E53935" />
+                )}
+
+                {CollectedPercentage} <span className="text-gray-500">% from last month</span>
               </p>
             </div>
 
             <div>
-              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold">
+              <p className="text-sm text-[#4A5565] font-[Gilroy] font-semibold mb-1">
                 Total Outstanding
               </p>
-              <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy]">
-                 {state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.amount}
+              <p className="text-lg font-semibold text-[#F54900] font-[Gilroy] mb-1">
+                ₹{state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.amount}
               </p>
-              <p className="text-xs text-[#6A7282] font-[Gilroy] font-semibold">
-                ↑ {state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.percentageChange}% from last month
+              <p
+                className={`text-xs font-[Gilroy] font-semibold flex items-center gap-1
+  ${percentage >= 0 ? "text-[#00A63E]" : "text-[#E53935]"}`}
+              >
+                {percentage >= 0 ? (
+                  <TrendUp size="14" color="#00A63E" />
+                ) : (
+                  <TrendDown size="14" color="#E53935" />
+                )}
+
+                {percentage} <span className="text-gray-500">% from last month</span>
               </p>
             </div>
           </div>

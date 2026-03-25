@@ -159,7 +159,8 @@ const InvoiceTable = (props) => {
         state: {
           customerId: view.customerId,
           IsOverView: true,
-          totriggerBillTap: false
+          totriggerBillTap: false,
+          isBillWay:true
         },
       });
     }

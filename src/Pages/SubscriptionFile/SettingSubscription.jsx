@@ -54,6 +54,7 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
+  const [formLoading, setFormLoading] = useState(false);
   // const cookies = new Cookies();
 
   // const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
@@ -73,7 +74,7 @@ function SettingSubscription() {
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      // setFormLoading(false)
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
       }, 1000)
@@ -83,17 +84,16 @@ function SettingSubscription() {
 
 
 
+
+
+
   useEffect(() => {
-    if (state?.createAccount?.accountList[0]?.plan_data) {
-      setGetPlanActive(state?.createAccount?.accountList[0]?.plan_data);
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "NEWPLANLIST" });
+      dispatch({ type: 'CURRENT_PLAN_SAGA', payload: state.login.selectedHostel_Id })
+      setFormLoading(true)
     }
-  }, [state?.createAccount?.accountList[0]?.plan_data]);
-
-
-  useEffect(() => {
-    dispatch({ type: "NEWPLANLIST" });
-    dispatch({ type: 'NEWSUBSCRIPTIONDETAILS', payload: state.login.selectedHostel_Id })
-  }, []);
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.Settings.statusCodeNewSubscription === 200) {
@@ -111,34 +111,17 @@ function SettingSubscription() {
 
 
 
+  useEffect(() => {
+    if (state.Settings.statusCodeForPlanList === 200 || state.Settings.statusCodeForCurrentPlanSubcripition === 200) {
+      setFormLoading(false)
+      dispatch({ type: "CLEAR_CURRENT_PLAN_REDUCER" });
+      dispatch({ type: "REMOVE_NEW_PLAN_LIST" });
 
-  const handleHostelSelect = (selectedOption) => {
-    if (!selectedOption) {
-      setHostelError("please select hostel");
-      return;
     }
 
-    setHostelError("");
-    setSelectedHostels((prev) => [...prev, selectedOption]);
-  };
-
-  const handleRemoveHostel = (valueToRemove) => {
-    const updatedList = selectedHostels.filter(
-      (item) => item.value !== valueToRemove
-    );
-    setSelectedHostels(updatedList);
-  };
+  }, [state.Settings.statusCodeForPlanList, state.Settings.statusCodeForCurrentPlanSubcripition])
 
 
-  const hostelOptions = state.UsersList.hostelListNewDetails.data
-    ?.map((item) => ({
-      label: item.Name,
-      value: item.id,
-    }))
-
-    .filter(
-      (option) => !selectedHostels.some((sel) => sel.value === option.value)
-    );
 
 
 
@@ -247,6 +230,22 @@ function SettingSubscription() {
   };
 
 
+  const plans = state?.Settings?.planList?.map((item) => ({
+    title: `${item.planName} Plan`,
+    price: `₹${item.price}`,
+    period: item.frequency,
+    features: [...new Set(item.features)],
+    bgcolor:
+      item.planName === "Basic"
+        ? "linear-gradient(to bottom, #6FA1FF, #4C5CFB)"
+        : "linear-gradient(to bottom, #FFA726, #FB8C00)",
+    color: item.planName === "Basic" ? "#fff" : "#FFF4E8",
+  }));
+
+  console.log("currentPlanDetails", state?.Settings?.currentPlanDetails)
+
+  const currentPlan = state?.Settings?.currentPlanDetails
+
 
   // const gotoPayment = async () => {
   //   const token = cookies.get("v2-token");
@@ -323,50 +322,59 @@ function SettingSubscription() {
   // };
 
 
-  const plans = [
-    {
-      title: "Basic Plan",
-      price: "₹599",
-      period: "Monthly",
-      features: [
-        "Dashboard & Property Management",
-        "Tenant & Room Management",
-        "Asset and Expenses Management",
-        "Auto Recurring Invoices",
-        "Complaint Management",
-        "Due Reminders (In-App & Email)",
-        "EB Calculation",
-        "Rent Collection Tracking",
-        "Reports & Insights"
-      ],
-      bgcolor: "linear-gradient(to bottom, #3B63FF, #1E45E1)",
-      color: "#fff"
-    },
-    {
-      title: "Premium Plan",
-      price: "₹999",
-      period: "Monthly",
-      features: [
-        "Dashboard & Property Management",
-        "Tenant & Room Management",
-        "Asset and Expenses Management",
-        "Auto Recurring Invoices",
-        "Complaint Management",
-        "Due Reminders (In-App & Email)",
-        "EB Calculation",
-        "Rent Collection Tracking",
-        "Reports & Insights",
 
-      ],
-      bgcolor: "linear-gradient(to bottom, #FF8F00, #EF6C00)",
-      color: "#FFF4E8"
-    }
-  ];
+
+  // const plans = [
+  //   {
+  //     title: "Basic Plan",
+  //     price: "₹599",
+  //     period: "Monthly",
+  //     features: [
+  //       "Dashboard & Property Management",
+  //       "Tenant & Room Management",
+  //       "Asset and Expenses Management",
+  //       "Auto Recurring Invoices",
+  //       "Complaint Management",
+  //       "Due Reminders (In-App & Email)",
+  //       "EB Calculation",
+  //       "Rent Collection Tracking",
+  //       "Reports & Insights"
+  //     ],
+  //     bgcolor: "linear-gradient(to bottom, #3B63FF, #1E45E1)",
+  //     color: "#fff"
+  //   },
+  //   {
+  //     title: "Premium Plan",
+  //     price: "₹999",
+  //     period: "Monthly",
+  //     features: [
+  //       "Dashboard & Property Management",
+  //       "Tenant & Room Management",
+  //       "Asset and Expenses Management",
+  //       "Auto Recurring Invoices",
+  //       "Complaint Management",
+  //       "Due Reminders (In-App & Email)",
+  //       "EB Calculation",
+  //       "Rent Collection Tracking",
+  //       "Reports & Insights",
+
+  //     ],
+  //     bgcolor: "linear-gradient(to bottom, #FF8F00, #EF6C00)",
+  //     color: "#FFF4E8"
+  //   }
+  // ];
+
+
 
 
   return (
     <div>
-      <div className="h-screen flex flex-col bg-white">
+      <div className="h-screen flex flex-col bg-white relative">
+        {formLoading && (
+          <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-transparent opacity-75">
+            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-r-transparent border-t-blue-700"></div>
+          </div>
+        )}
         <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center px-1.5 whitespace-nowrap">
 
           <div className="flex flex-col justify-center w-full md:w-auto mt-1">
@@ -400,718 +408,196 @@ function SettingSubscription() {
             //  <PremiumPlan />
             // </>
             <div>
-              {/* <Button disabled={!canWriteSubscription}
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                padding: 10,
-                border: "1px solid #1E45E1",
-                color: "#FFF"
-              }}
-              className=" fw-semibold fs-6 me-5"
-              // onClick={handleCurrentPlan}
-              onClick={gotoPayment}
-
-            >
-              Navigate
-            </Button> */}
-              {/* <Button disabled={!canWriteSubscription}
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                padding: 10,
-                border: "1px solid #1E45E1",
-                color: "#FFF"
-              }}
-              className=" fw-semibold fs-6"
-              onClick={handleCurrentPlan}
+          
+              {/* {import.meta.env.MODE === "development" ? */}
+              <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy">
 
 
-            >
-              Upgrade Plan
-            </Button> */}
+                {
+                  currentPlan?.planName === "Trial" && currentPlan?.numberOfDaysRemaining > 0 ?
 
-              {import.meta.env.MODE === "development" ?
-                <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scroll overflow-y-auto font-gilroy">
-
-                  <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
+                    <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
 
 
-                    <div className="flex justify-between items-center">
-                      <div className="flex flex-col items-start">
+                      <div className="flex justify-between items-center">
+                        <div className="flex flex-col items-start">
 
-                        <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1">
-                          <TbCheck /> Free Trial
+                          <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1 flex items-center gap-2">
+                            <TbCheck /> Free Trial
+                          </div>
+
+                          <h6 className="text-[16px] font-semibold text-[#222222]">
+                            You are in Free Trial
+                          </h6>
                         </div>
 
-                        <h6 className="text-[16px] font-semibold text-[#222222]">
-                          You are in Free Trial
-                        </h6>
-                      </div>
-
-                      <div>
-                        <span className="text-[16px] text-[#1E45E1] font-medium">
-                          18 days left
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                      <div className="flex gap-2 items-start">
-                        <Calendar size="16" color="#4B4B4B" />
-
-                        <div className="flex flex-col">
-                          <label className="text-[13px] font-normal text-[#4B4B4B]">
-                            Start Date
-                          </label>
-                          <label className="text-[16px] font-normal text-[#4B4B4B]">
-                            Oct 21, 2025
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="flex gap-2 items-start">
-                        <Calendar size="16" color="#4B4B4B" />
-
-                        <div className="flex flex-col">
-                          <label className="text-[13px] font-normal text-[#4B4B4B]">
-                            End Date
-                          </label>
-                          <label className="text-[16px] font-normal text-[#4B4B4B]">
-                            Oct 21, 2025
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
-                      Upgrade to continue unlimited access once your trial ends.
-                    </div>
-
-                    <div className="flex justify-end">
-                      <button className="mt-3 bg-[#1E45E1] text-white rounded-lg px-6 py-2.5 text-sm font-normal border-none">
-                        Upgrade to Premium
-                      </button>
-                    </div>
-
-                  </div>
-                  <div className="p-4 mb-4 rounded-[14px] bg-[#FFFAFA] border-2 border-[#FFB5B8]">
-
-                    <div className="grid grid-cols-12 gap-3">
-
-                      <div className="col-span-12 md:col-span-3 flex justify-center md:justify-start">
-                        <img src={Expire} alt="expire" className="w-full h-auto" />
-                      </div>
-
-                      <div className="col-span-12 md:col-span-9 flex flex-col justify-center items-start">
-                        <div className="text-left">
-                          <span className="text-[#222222] text-xl font-semibold">
-                            Your Trial Expired
-                          </span>
-                        </div>
-                        <div className="mt-1">
-                          <span className="text-[#8E8E8E] text-sm font-normal">
-                            Your free trial has ended. Subscribe now to continue accessing all features.
+                        <div>
+                          <span className="text-[16px] text-[#1E45E1] font-medium">
+                            {currentPlan?.numberOfDaysRemaining} days left
                           </span>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="mt-3 p-3 rounded-[12px] !border !border-[#FFC9C9] bg-white">
-                      <div>
-                        <span className="text-[#222222] text-sm font-semibold">Limited Access Mode</span>
-                      </div>
-                      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <div className="space-y-1">
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Dashboard & Property Management
-                          </div>
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Asset and Expenses Management
-                          </div>
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Complaint Management
-                          </div>
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> EB Calculation
+                      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div className="flex gap-2 items-start">
+                          <Calendar size="16" color="#4B4B4B" />
+
+                          <div className="flex flex-col">
+                            <label className="text-[13px] font-normal text-[#4B4B4B]">
+                              Start Date
+                            </label>
+                            <label className="text-[16px] font-normal text-[#4B4B4B]">
+                              {currentPlan?.planStartDate}
+                            </label>
                           </div>
                         </div>
 
-                        <div className="space-y-1">
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Tenant & Room Management
-                          </div>
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Auto Recurring Invoices
-                          </div>
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Due Reminders (In-App & Email)
-                          </div>
-                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                            <IoClose /> Rent Collection Tracking
+                        <div className="flex gap-2 items-start">
+                          <Calendar size="16" color="#4B4B4B" />
+
+                          <div className="flex flex-col">
+                            <label className="text-[13px] font-normal text-[#4B4B4B]">
+                              End Date
+                            </label>
+                            <label className="text-[16px] font-normal text-[#4B4B4B]">
+                              {currentPlan?.planEndDate}
+                            </label>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {plans.map((plan, idx) => (
-                      <div
-                        key={idx}
-                        className="relative p-3 mb-3 border-2 border-gray-200 rounded-lg"
-                      >
-                        <div
-                          className="absolute -top-4 right-4 z-10 px-2.5 py-3 rounded-lg font-semibold text-center flex flex-col items-center shadow"
-                          style={{
-                            background: plan.bgcolor,
-                            color: plan.color,
-                          }}
-                        >
-                          <span className="text-xs font-bold">{plan.price}</span>
-                          <span className="text-xs">{plan.period}</span>
-                        </div>
+                      <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
+                        Upgrade to continue unlimited access once your trial ends.
+                      </div>
 
-                        <h5 className="mt-6 text-lg font-bold text-[#222222]">{plan.title}</h5>
-                        <span className="text-gray-700 text-base block">
-                          Perfect for small PGs getting started
-                        </span>
-
-                        <hr className="my-2 border border-gray-200" />
-                        <span className="text-gray-700 text-xs">Which includes</span>
-
-                        <div className="mt-2 max-h-44 overflow-y-auto show-scroll pr-1">
-                          {plan.features.map((f, i) => (
-                            <div key={i} className="flex items-start mb-2 mt-1 text-sm">
-                              <FaSquareCheck className="text-[#1E45E1] mr-2 mt-0.5" />
-                              <span className="text-[#1D2127] font-normal">{f}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        <button className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1">
-                          Select Plan <MdArrowRightAlt className="text-white text-sm" />
+                      <div className="flex justify-end">
+                        <button className="mt-3 bg-[#1E45E1] text-white rounded-lg px-6 py-2.5 text-sm font-normal border-none">
+                          Upgrade to Premium
                         </button>
                       </div>
-                    ))}
-                  </div>
 
+                    </div>
+                    :
+                    currentPlan?.numberOfDaysRemaining < 0 &&
+                    <div className="p-4 mb-4 rounded-[14px] bg-[#FFFAFA] border-2 border-[#FFB5B8]">
+                      <div className="grid grid-cols-12 gap-3">
+                        <div className="col-span-12 md:col-span-3 flex justify-center md:justify-start">
+                          <img src={Expire} alt="expire" className="w-full h-auto" />
+                        </div>
+
+                        <div className="col-span-12 md:col-span-9 flex flex-col justify-center items-start">
+                          <div className="text-left">
+                            <span className="text-[#222222] text-xl font-semibold">
+                              Your Trial Expired
+                            </span>
+                          </div>
+                          <div className="mt-1">
+                            <span className="text-[#8E8E8E] text-sm font-normal">
+                              Your free trial has ended. Subscribe now to continue accessing all features.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 p-3 rounded-[12px] !border !border-[#FFC9C9] bg-white">
+                        <div>
+                          <span className="text-[#222222] text-sm font-semibold">Limited Access Mode</span>
+                        </div>
+                        <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                          <div className="space-y-1">
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Dashboard & Property Management
+                            </div>
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Asset and Expenses Management
+                            </div>
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Complaint Management
+                            </div>
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> EB Calculation
+                            </div>
+                          </div>
+
+                          <div className="space-y-1">
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Tenant & Room Management
+                            </div>
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Auto Recurring Invoices
+                            </div>
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Due Reminders (In-App & Email)
+                            </div>
+                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                              <IoClose /> Rent Collection Tracking
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                }
+
+
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {plans.map((plan, idx) => (
+                    <div
+                      key={idx}
+                      className="relative p-3 mb-3 border-2 border-gray-200 rounded-lg"
+                    >
+                      <div
+                        className="absolute -top-4 right-4 z-10 px-2.5 py-3 rounded-lg font-semibold text-center flex flex-col items-center shadow"
+                        style={{
+                          backgroundImage: plan.bgcolor,
+                          backgroundSize: "100% 100%",
+                          color: plan.color,
+                          minHeight: "60px",
+                        }}
+                      >
+                        <span className="text-xs font-bold">{plan.price}</span>
+                        <span className="text-xs">{plan.period}</span>
+                      </div>
+
+                      <h5 className="mt-6 text-lg font-bold text-[#222222]">{plan.title}</h5>
+                      <span className="text-gray-700 text-base block">
+                        Perfect for small PGs getting started
+                      </span>
+
+                      <hr className="my-2 border border-gray-200" />
+                      <span className="text-gray-700 text-xs">Which includes</span>
+
+                      <div className="mt-2 max-h-44 overflow-y-auto show-scroll pr-1">
+                        {plan.features.map((f, i) => (
+                          <div key={i} className="flex items-start mb-2 mt-1 text-sm">
+                            <FaSquareCheck className="text-[#1E45E1] mr-2 mt-0.5" />
+                            <span className="text-[#1D2127] font-normal">{f}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <button className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1">
+                        Select Plan <MdArrowRightAlt className="text-white text-sm" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
 
+              </div>
 
-                :
+
+              {/* :
                 <ComingSoon />
 
-              }
+              } */}
 
             </div>
           )
         }
 
-        <Modal
-          show={changePlan}
-          onHide={handleCloseCurrentPlan}
-          backdrop="static"
-          centered
-          size="lg"
-          className="change-plan-modal" >
 
-          <Modal.Header
-            style={{ position: "relative", paddingLeft: 40, paddingRight: 40 }}
-          >
-            <div
-              style={{
-                fontSize: 20,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
-            >
-              Change Plan
-            </div>
-
-
-
-            <CloseCircle
-              size="24"
-              color="#000"
-              onClick={handleCloseCurrentPlan}
-              style={{ cursor: "pointer" }}
-            />
-          </Modal.Header>
-
-
-          <Modal.Body className="modal-scroll-body p-2">
-
-
-
-
-
-            <div className="modal-body">
-              <div className="row g-3">
-                {state?.Settings?.planList?.map((plan, index) => (
-                  <div
-                    key={index}
-                    className="col-12 col-sm-6 col-md-6 d-flex justify-content-center"
-                  >
-                    <div
-                      // className={`card   border position-relative ${planType === plan.planName ? "border-success" : "border-secondary"
-                      //   }`}
-                      style={{
-                        borderRadius: "14px",
-                        backgroundColor: "#F8FAFC",
-                        padding: "15px",
-                      }}
-                    >
-                      <div className="card-body text-center p-0 mt-3">
-                        {/* {planType === plan.planName && (
-                        <span
-                          className="badge bg-success position-absolute start-50 translate-middle"
-                          style={{
-                            top: "-30px",
-                            padding: "5px 10px",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
-                          Current Plan
-                        </span>
-                      )} */}
-
-                        {/* Plan Name */}
-                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>
-                          {plan.planName} Plan
-                        </h4>
-
-                        <p style={{ fontFamily: "Gilroy" }}>
-                          per agent/month billed {plan.frequency}
-                        </p>
-
-                        <p
-                          className="fs-4 fw-bold pb-2 border-bottom"
-                          style={{ fontFamily: "Gilroy" }}
-                        >
-                          ₹{plan.discountedPrice || plan.price}
-                        </p>
-
-                        <p
-                          className="fw-semibold text-start mt-3"
-                          style={{ fontFamily: "Gilroy" }}
-                        >
-                          Plan Features:
-                        </p>
-
-
-                        <ul className="list-unstyled text-start px-3">
-                          {plan.features?.map((feature, i) => (
-                            <li
-                              key={i}
-                              className="d-flex align-items-center gap-2 mb-2"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              <i
-                                className="bi bi-info-circle"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title={feature}
-                              ></i>
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-
-                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
-
-                        {/* {planType === plan.planName ? (
-                        <Button
-                          className="btn btn-changeplan btn-success w-100 mt-3"
-                          onClick={() => handlePlanChange(plan.planId)}
-                          style={{ fontFamily: "Gilroy" }}
-                        >
-                          Current Plan
-                        </Button>
-                      ) : ( */}
-                        <Button disabled={!canWriteSubscription} className='w-100'
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            padding: 8,
-                            border: "1px solid #1E45E1",
-                            color: "#FFF"
-                          }}
-                          onClick={() => handlePlanChange(plan.planId)}
-
-                        >
-                          Change Plan
-                        </Button>
-                        {/* // )} */}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-
-            {/* <div style={{ textAlign: "center" }}>
-  <h4 style={{ fontFamily: "Gilroy" }}>
-    {state?.Settings?.subcripitionAllDetails?.planName?.toLowerCase() === "trial" ? (
-      "Your plan is on free trial"
-    ) : (
-      ""
-    )}
-  </h4>
-</div> */}
-            {state?.Settings?.subcripitionAllDetails && (
-              <div className="p-3">
-                <div className="table-responsive border rounded">
-                  <table
-                    className="table mb-0 "
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    <thead>
-                      <tr style={{ backgroundColor: "#e9f2ff", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Hostel</th>
-                        <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Name</th>
-                        <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Amount</th>
-                        <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Amount</th>
-                        <th
-                          style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
-                        >
-                          Plan Start Date
-                        </th>
-                        <th
-                          style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
-                        >
-                          Plan End Date
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#222" }}>
-                        <td style={{ textAlign: "center", color: "#222" }}>
-                          {" "}
-                          {getPlanActive[0]?.hostel_count}
-                        </td>
-                        <td style={{ textAlign: "center", color: "#222" }}>
-                          {state?.Settings?.subcripitionAllDetails?.planName || "-"}
-                        </td>
-                        <td style={{ textAlign: "center", color: "#222222" }}>
-                          ₹ {getPlanActive[0]?.amount}
-                        </td>
-                        <td style={{ textAlign: "center", color: "#222222" }}>
-                          ₹ {getPlanActive[0]?.amount}
-                        </td>
-                        <td style={{ textAlign: "center", color: "#222" }}>
-                          {state?.Settings?.subcripitionAllDetails?.currentPlanStartedAt || "-"}
-                        </td>
-                        <td style={{ textAlign: "center", color: "#222" }}>
-                          {state?.Settings?.subcripitionAllDetails?.currentPlanEndingAt || "-"}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
-
-
-
-
-          </Modal.Body>
-
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-
-        </Modal>
-
-        <Modal
-          show={plan}
-          onHide={handleClosePlanChange}
-          backdrop="static"
-          centered
-        >
-          <Modal.Dialog
-            style={{
-              maxWidth: 666,
-              paddingRight: "10px",
-              borderRadius: "30px",
-            }}
-            className="m-0 p-0"
-          >
-            <Modal.Body style={{ marginTop: -30 }}>
-              <div className="d-flex align-items-center">
-                <div className="container">
-                  <div className="row mb-3"></div>
-
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Manage Plan
-                    </div>
-                    <div style={{ paddingRight: 40 }}>
-                      (
-                      {planCode?.trim() === "basic_smart"
-                        ? "1 Month Plan"
-                        : planCode?.trim() === "advance_prod"
-                          ? "3 Month Plan"
-                          :
-                          planCode}{" "}
-                      - Rs.{selectedPlan})
-                    </div>
-
-
-                    <CloseCircle
-                      size="24"
-                      color="#000"
-                      onClick={handleClosePlanChange}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Modal.Header>
-
-                  <div className="row mb-3 change-plan-form">
-                    <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11 mb-3">
-                      <Form.Group
-                        className="mb-1"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 14,
-                            fontWeight: 400,
-                            color: "rgba(34, 34, 34, 1)",
-                            fontStyle: "normal",
-                            lineHeight: "normal",
-                          }}
-                        >
-                          Select PG{" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-
-                        <Select
-                          options={hostelOptions}
-                          placeholder="Select Hostel"
-                          value={null}
-                          onChange={handleHostelSelect}
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              padding: "2px",
-                              marginTop: "5px",
-                              fontSize: "16px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 400,
-                              color: "rgba(34, 34, 34, 1)",
-                              borderColor: "#ced4da",
-                              minHeight: "40px",
-                              cursor: 'pointer'
-                            }),
-                          }}
-                        />
-
-                        {selectedHostels.length > 0 && (
-                          <div className="mt-3 d-flex flex-wrap gap-2">
-                            {selectedHostels.map((hostel) => (
-                              <div
-                                key={hostel.value}
-                                className="d-flex align-items-center px-3 py-1 rounded bg-white"
-                                style={{
-                                  fontWeight: 400,
-                                  borderRadius: "8px",
-                                  border: "1px solid rgba(30, 69, 225, 1)",
-                                }}
-                              >
-                                {hostel.label}
-                                <img
-                                  className="ms-2"
-                                  src={DeleteIcon}
-                                  alt="delete"
-                                  height={14}
-                                  width={14}
-                                  onClick={() => handleRemoveHostel(hostel.value)}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </Form.Group>
-
-                      {hostelError && (
-                        <ErrorMessage message={hostelError} type="error" />
-                      )}
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group>
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Hostel Count{" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-                        <FormControl
-                          id="form-controls"
-                          placeholder="Enter Hostel Count"
-                          type="text"
-                          value={hostelCount}
-                          readOnly
-
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {hostelCountError && (
-                        <ErrorMessage message={hostelCountError} type="error" />
-                      )}
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group>
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Payment{" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Select Payment"
-                          value={amount}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {selectedPlanError && (
-                        <ErrorMessage message={selectedPlanError} type="error" />
-                      )}
-                    </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 cmt">
-                      <Form.Group>
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Comments{" "}
-                        </Form.Label>
-                        <FormControl
-                          id="form-controls"
-                          placeholder="Enter Comments"
-                          type="text"
-
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-
-                    </div>
-                  </div>
-
-                  <Button
-                    className="w-100 buy-now"
-                    style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      height: 50,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Montserrat",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    Buy Now
-                  </Button>
-                </div>
-              </div>
-            </Modal.Body>
-
-            <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-          </Modal.Dialog>
-        </Modal>
       </div>
     </div>
 
