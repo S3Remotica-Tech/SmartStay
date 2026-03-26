@@ -176,7 +176,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
               <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-2.5 pt-4 shadow-md w-[201px] h-[270px] lg:h-[270px] 2xl:h-[400px]">
                 {[
-                  ["Electricity Old", "electricity-old"],
+                  // ["Electricity Old", "electricity-old"],
                   ["Electricity", "electricity"],
                   ["Billing Rule", "billing-rule", "Billing_Rule"],
                   ["Billing Rule Old", "billing-rule-old", "Billing_Rule_Old"],

@@ -653,7 +653,7 @@ function* handleEBBillingUnitAdd(params) {
       const response = yield call(AddEBBillingUnit, params.payload);
 
       if (response?.status === 200) {
-         yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response?.status,  } })
+         yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response?.status, } })
 
 
          var toastStyle = {
@@ -684,12 +684,14 @@ function* handleEBBillingUnitAdd(params) {
             style: toastStyle
          })
       }
-      
-      
+
+
    }
    catch (error) {
       yield* handleApiError(error);
-
+      if (error.status === 403 || error.status === 400) {
+         yield put({ type: 'UPDATE_EB_RULE_ERROR', payload: error.response?.data });
+      }
    }
 }
 
@@ -700,7 +702,7 @@ function* handleEBBillingUnitGet(action) {
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-        
+
       }
       if (response?.status === 200) {
          yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data, statusCode: response?.status } })
@@ -708,7 +710,7 @@ function* handleEBBillingUnitGet(action) {
       else {
          yield put({ type: 'ERROR_EB_BILLING_UNIT_LIST', payload: { statusCode: response?.status } })
       }
-      
+
    }
    catch (error) {
       yield* handleApiError(error);
@@ -1461,7 +1463,7 @@ function* handleDeleteGenerlPage(action) {
 function* handleUpgradePlan(action) {
    try {
       const response = yield call(upgradePlan, action.payload);
-           if (response?.status === 200) {
+      if (response?.status === 200) {
          yield put({
             type: "UPGRADE_PLAN_REDUCER",
             payload: {
@@ -1469,7 +1471,7 @@ function* handleUpgradePlan(action) {
                statusCode: response?.status,
             },
          });
-               }
+      }
 
    }
    catch (error) {

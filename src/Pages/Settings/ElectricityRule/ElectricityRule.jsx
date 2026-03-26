@@ -5,11 +5,11 @@ import "../../../Pages/Settings/SettingElectricity.css";
 import ErrorMessage from '../../../Components/ErrorMessage'
 // import { useHasPermission } from '../../../Utils/Permission';
 import { useNavigate } from "react-router-dom";
-import { CloseCircle, MessageText } from "iconsax-react";
+import { Add, MessageText } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 
-function ElectricityRule({ onClose }) {
+function ElectricityRule() {
     const [selected, setSelected] = useState("room");
     const [formLoading, setFormLoading] = useState(false)
     const dispatch = useDispatch();
@@ -23,7 +23,11 @@ function ElectricityRule({ onClose }) {
 
     const rent = 5000;
     const ebCharge =
-        selectedType === "fixed" ? Number(amount || 0) : 0;
+        selected === "flat"
+            ? selectedType === "fixed"
+                ? Number(amount || 0)
+                : 0
+            : Number(costPerUnit || 0);
 
     const total = rent + ebCharge;
 
@@ -37,6 +41,7 @@ function ElectricityRule({ onClose }) {
 
 
     const handleChange = (e) => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
         let value = e.target.value.replace(/[^0-9.]/g, "");
 
         const parts = value.split(".");
@@ -65,6 +70,7 @@ function ElectricityRule({ onClose }) {
 
 
     const handleAmountChange = (e) => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
         let value = e.target.value.replace(/[^0-9.]/g, "");
 
         const parts = value.split(".");
@@ -126,6 +132,7 @@ function ElectricityRule({ onClose }) {
 
 
     const handleClose = (tabName) => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
         const hostelId = state.login?.selectedHostel_Id;
         if (hostelId) {
             navigate(`/settings/${hostelId}/${tabName}`);
@@ -139,6 +146,7 @@ function ElectricityRule({ onClose }) {
 
 
     const handleSubmit = () => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
         let newErrors = {};
 
         if (selected === "room" || selected === "hostel") {
@@ -206,7 +214,20 @@ function ElectricityRule({ onClose }) {
         }
     }, [state.Settings.addEbbillingUnitStatuscode]);
 
+    useEffect(() => {
+        if (state.Settings.ebRuleError) {
+            setFormLoading(false)
+        }
 
+    }, [state.Settings.ebRuleError])
+
+    useEffect(() => {
+        return () => {
+            dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
+            setErrors({})
+        }
+
+    }, [])
 
 
     return (
@@ -224,10 +245,10 @@ function ElectricityRule({ onClose }) {
                     Electricity Rule
                 </label>
 
-                <CloseCircle onClick={() => handleClose("electricity")}
-                    size="18"
+                <Add  onClick={() => handleClose("electricity")}
+                    size="20"
                     color="#EF4444"
-                    className="cursor-pointer"
+                    className="cursor-pointer rotate-45"
 
                 />
             </div>
@@ -253,8 +274,10 @@ function ElectricityRule({ onClose }) {
                                 return (
                                     <div
                                         key={item.id}
-                                        onClick={() => setSelected(item.id)}
-                                        className={`border-1 shadow-sm rounded-lg p-3 flex gap-3 cursor-pointer transition
+                                       onClick={() => {setSelected(item.id);
+                                            setErrors({})
+                                        }}
+                                        className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition
                       ${isActive
                                                 ? "border-[#88A0FF] bg-[#F8F9FF] ring-2 ring-[#4E61F6]/30 "
                                                 : "border-gray-200 bg-white hover:bg-gray-50"
@@ -306,15 +329,13 @@ function ElectricityRule({ onClose }) {
                             <div className="flex justify-between">
                                 <span className="text-gray-600 text-xs">
                                     Electricity{" "}
-                                    {selectedType === "fixed" ? (
-                                        <span className="bg-[#F0F0F0] px-2 py-1 rounded text-[9px] whitespace-nowrap">
-                                            Fixed Charge
-                                        </span>
-                                    ) : (
-                                        <span className="bg-[#F0F0F0] px-2 py-1 rounded text-[9px] whitespace-nowrap">
-                                            No Charge
-                                        </span>
-                                    )}
+                                    {
+                                        selected === "flat" ? (
+                                            <span className="bg-[#F0F0F0] px-2 py-1 rounded text-[9px] whitespace-nowrap">
+                                                {selectedType === "fixed" ? "Fixed Charge" : "No Charge"}
+                                            </span>
+                                        ) : null
+                                    }
                                 </span>
 
                                 <span className="font-semibold text-[#222222] text-sm">
@@ -331,7 +352,7 @@ function ElectricityRule({ onClose }) {
 
                         </div>
 
-                        <label className="text-[11px] text-gray-400 mt-3 bg-[#F9F9F9] px-3 py-3 rounded">
+                        <label className="text-[11px] text-gray-400 mt-3 bg-[#F9F9F9] px-2 py-2 rounded text-center">
                             Preview calculation based on current settings
                         </label>
                     </div>
@@ -404,7 +425,7 @@ function ElectricityRule({ onClose }) {
                                 <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#1E45E1] rounded-r-md "></div>
                                 <div
                                     onClick={() => handleTypeChange("included")}
-                                    className={`border-1 shadow-sm rounded-lg p-3 flex gap-3 cursor-pointer transition 
+                                    className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition 
             ${selectedType === "included"
                                             ? "border-[#88A0FF] bg-[#F8F9FF] ring-2 ring-[#4E61F6]/30"
                                             : "border-gray-200 bg-white hover:bg-gray-50"
@@ -430,7 +451,7 @@ function ElectricityRule({ onClose }) {
 
                                 <div
                                     onClick={() => handleTypeChange("fixed")}
-                                    className={`border-1 shadow-sm rounded-lg p-3 flex gap-3 cursor-pointer transition 
+                                    className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition 
             ${selectedType === "fixed"
                                             ? "border-[#88A0FF] bg-[#F8F9FF] ring-2 ring-[#4E61F6]/30"
                                             : "border-gray-200 bg-white hover:bg-gray-50"
@@ -508,7 +529,10 @@ function ElectricityRule({ onClose }) {
 
 
 
+                {
+                    state.Settings.ebRuleError && <ErrorMessage message={state.Settings.ebRuleError} type="error" />
 
+                }
 
 
 

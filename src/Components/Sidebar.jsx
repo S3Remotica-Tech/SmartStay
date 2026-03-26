@@ -1780,7 +1780,7 @@ function Sidebar() {
                 <Route path="subscription" element={<SettingSubscription />} />
                 <Route path="integration" element={<SettingIntergration />} />
                 <Route path="electricity" element={<SettingsElectricityNew />} />
-                <Route path="electricity-old" element={<SettingElectricity />} />
+                {/* <Route path="electricity-old" element={<SettingElectricity />} /> */}
                 <Route path="electricity-rule" element={<ElectricityRule />} />
                 <Route path="billing-rule-old" element={<BillingRuleOld />} />
                 <Route path="billing-rule" element={<BillingRule />} />
