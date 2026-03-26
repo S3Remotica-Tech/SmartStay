@@ -1,61 +1,51 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-// import Edit from '../../Assets/Images/Edit-blue.png';
-// import Delete from '../../Assets/Images/Delete_red.png';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-// import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-// import InvoicePage from "../../Invoice";
 import { useNavigate } from "react-router-dom";
 import PaginationList from "../../Components/PaginationList";
 import {
   Edit,
-  Trash,
   DiscountCircle,
   DocumentDownload,
   ReceiptEdit,
   MoneySend
 } from "iconsax-react";
 import { IoMdMore } from "react-icons/io";
+import RecordPayment from "../Bills/RecordPayment";
+// import RefundAmount from "../Bills/RefundAmount";
+// import UnPaidInvoice from "../../UnPaidInvoice";
+import DiscountInvoice from "../PDF/DiscountInvoice";
+
+
+
+
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [showform, setShowform] = useState(false);
   const popupRef = useRef(null);
-  // const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
-  // const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-  // const [tabletrue, setTableTrue] = useState(true)
-  // const [billMode, setBillMode] = useState("New Bill");
-  // const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
+  const [selectedUserId, setSelectedUserId] = useState("")
+  const [invoiceList, setInvoiceList] = useState('')
+  const CustomerOverView = state?.UsersList?.customerdetails
 
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
-
-
-
-
-  // const sortedData = React.useMemo(() => {
-  //   return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
-  // }, [invoiceFilterddata]);
-
 
 
 
@@ -87,31 +77,14 @@ function UserListInvoice(props) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  const [BillsForm, setBillsForm] = useState(false)
 
-  const handleEditBill = (item) => {
-
-    // props.handleEditItem(item)
-    // setBillsForm(false)
-
-    dispatch({ type: 'USERROOMAVAILABLETRUE' });
-
-  };
 
   const handleAddBill = () => {
 
-    navigate('/create-bill', { state: { id: state?.UsersList?.customerdetails?.customerId } });
+    navigate('/create-bill', { state: { id: CustomerOverView?.customerId } });
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
   };
 
-
-
-
-  // const handleDeleteBill = (user) => {
-  //   props.handleDeleteItem(user.id)
-  //   dispatch({ type: 'USERPROFILEBILLTRUE' });
-
-  // };
 
   const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
   const isExportAllow = isValidSubscription && canReadInvoice
@@ -136,8 +109,7 @@ function UserListInvoice(props) {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList?.invoicePDF;
       if (!pdfUrl) return;
-      // setLoading(false);
-      // setShowLoader(false);
+
       window.open(pdfUrl, "_blank");
       dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
     }
@@ -145,8 +117,74 @@ function UserListInvoice(props) {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
+  const handleRecordPayment = (item) => {
+    console.log("item *******", item)
+    setShowform(true)
+    setSelectedUserId(CustomerOverView?.customerId)
+    setInvoiceList({
+      balanceDue: item?.dueAmount,
+      invoiceId: item?.invoiceId,
+      invoiceDate: item?.invoiceGeneratedDate
+    })
+
+
+  }
+
+  const handleCloseForm = () => {
+    setShowform(false)
+  }
+
+
+  const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
+  const [discountDetails, setDiscountDetails] = useState('')
+
+  const handleMakeDiscount = (item) => {
+    setDiscountDetails(CustomerOverView)
+    setShowDiscountInvoice(true)
+
+
+    dispatch({
+      type: 'GETPARTICULARBILLSDETAILS', payload: {
+        hostelId: CustomerOverView?.hostelId,
+        invoiceId: item?.invoiceId
+      }
+    })
+  }
+
+  const handleCloseFormDiscount = () => {
+    setShowDiscountInvoice(false)
+  }
+
+
+  useEffect(() => {
+    if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
+      setShowDiscountInvoice(false)
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
+      })
+    }
+
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
+
+
+
   return (
     <>
+      {
+        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} discountDetails={discountDetails} />
+      }
+
+      {showform && (
+        <RecordPayment show={showform} handleClose={handleCloseForm}
+          selectedUserId={selectedUserId}
+          invoiceList={invoiceList}
+        />
+
+      )}
+
+
+
 
       <div className="flex justify-end w-full lg:-mt-[65px] min-h-[45px]">
         {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
@@ -174,13 +212,13 @@ function UserListInvoice(props) {
 
 
             invoiceFilterddata?.length > 0 ? (
-            <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto">
-                <Table  className="min-w-[900px]">
-                  <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-20">
+              <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto rounded">
+                <Table className="min-w-[900px]">
+                  <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-30">
                     <tr className="text-left">
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-0 bg-[#E7F1FF] z-20">Invoice Number</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-[120px] bg-[#E7F1FF] z-20 ">Invoice Type</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Date</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-0 bg-[#E7F1FF] z-40 bg-[rgba(231,241,255,1)] ">Invoice Number</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-[125px] bg-[#E7F1FF] z-30 bg-[rgba(231,241,255,1)]  ">Invoice Type</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap ">Invoice Date</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due Date</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Amount</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due</th>
@@ -192,14 +230,14 @@ function UserListInvoice(props) {
                   <tbody className="text-xs align-middle font-gilroy">
                     <PaginationList>
                       {invoiceFilterddata?.map((view) => {
-                                               return (
+                        return (
                           <tr key={view.invoiceId} className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
 
-                            <td className="text-[12px] sticky left-0 bg-white z-10 text-[13px]">
+                            <td className="text-[12px] sticky left-0 bg-white z-20 text-[13px]">
                               {view.invoiceNumber}
                             </td>
 
-                            <td className="sticky left-[120px] bg-white z-10 text-[13px]">
+                            <td className="sticky left-[125px] bg-white z-20 text-[13px]">
                               {view.invoiceType}_<span className="text-[10px]">{view.invoiceMode}</span>
                             </td>
 
@@ -229,38 +267,42 @@ function UserListInvoice(props) {
 
 
                             <td >
-                              {(view.paymentStatus === "Pending" ||
-                                view.paymentStatus === "Partial Payment" ||
-                                view.paymentStatus === "Partial payment") && (
-                                  <span className="bg-red-100 text-black px-3 py-1 rounded-[14px]">
-                                    {view.paymentStatus}
+
+                              {(view?.paymentStatus === "Pending" ||
+                                view.paymentStatus === "Partial Payment") && (
+                                  <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy">
+                                    {view?.paymentStatus}
                                   </span>
                                 )}
 
-                              {view.paymentStatus === "Paid" && (
-                                <span className="bg-green-100 text-black px-3 py-1 rounded-[14px]">
-                                  {view.paymentStatus}
+
+                              {view?.paymentStatus === "Paid" && (
+                                <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                  {view?.paymentStatus}
                                 </span>
                               )}
 
-                              {(view.paymentStatus === "Refunded" ||
-                                view.paymentStatus === "Partially Refunded") && (
-                                  <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-[14px] ">
-                                    {view.paymentStatus}
+                              {(view?.paymentStatus === "Refunded" ||
+                                view?.paymentStatus === "Partially Refunded") && (
+                                  <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                    {view?.paymentStatus}
                                   </span>
                                 )}
 
-                              {view.paymentStatus === "Refund" && (
-                                <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] ">
-                                  {view.paymentStatus}
+
+                              {view?.paymentStatus === "Pending Refund" && (
+                                <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                  {view?.paymentStatus}
                                 </span>
                               )}
+
 
                               {view?.paymentStatus === "Cancelled" && (
-                                <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px]">
+                                <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
                                   Cancelled
                                 </span>
                               )}
+
                             </td>
                             {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
                               <td className="text-left align-middle border-b border-[#E8E8E8]">
@@ -295,11 +337,11 @@ function UserListInvoice(props) {
                                                 className={`flex items-center gap-2 px-3 py-2 
         ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                               >
-                                                <Edit size="16" />
+                                                <Edit size="16" color="#1E45E1" />
                                                 Edit
                                               </button>
                                             )}
-
+                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
                                           {(view.invoiceMode === "MANUAL" &&
                                             view?.paymentStatus === "Paid" &&
@@ -309,11 +351,11 @@ function UserListInvoice(props) {
                                                 className={`flex items-center gap-2 w-full px-3 py-2 text-left 
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                               >
-                                                <Edit size="16" />
+                                                <Edit size="16" color="#1E45E1" />
                                                 Unpaid
                                               </button>
                                             )}
-
+                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
                                           {(view?.totalAmount > 0 &&
                                             view?.paymentStatus === "Pending" &&
@@ -322,41 +364,47 @@ function UserListInvoice(props) {
                                               view?.invoiceType === "Settlement")) && (
                                               <button
                                                 disabled={!canWriteInvoice}
+                                                onClick={() => canWriteInvoice && handleMakeDiscount(view)}
                                                 className={`flex items-center gap-2 w-full px-3 py-2 text-left  
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                               >
-                                                <DiscountCircle size="16" />
-                                                Discount
+                                                <DiscountCircle size="16" color="#ec400c" />
+                                                Make Discount
                                               </button>
                                             )}
 
-
+                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
                                           <button
                                             onClick={() => isExportAllow && handleInvoicepdf(view)}
                                             disabled={!isExportAllow}
-                                            className={`flex items-center gap-2 px-3 py-2  
+                                            className={`flex items-center gap-2 px-3 py-2   
       ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                           >
-                                            <DocumentDownload size="16" />
+                                            <DocumentDownload size="16" color="#1E45E1" />
                                             Download
                                           </button>
+{/* 
+                                          <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
-                                          {/* Record */}
-                                          {(view.dueAmount !== 0 &&
+                                          {(
                                             view?.totalAmount > 0 &&
                                             view?.paymentStatus !== "Cancelled" &&
                                             view?.paymentStatus !== "Paid") && (
-                                              <button
+                                              <button onClick={() => {
+                                                if (canWriteInvoice) {
+                                                  handleRecordPayment(view);
+                                                }
+                                              }}
                                                 disabled={!canWriteInvoice}
-                                                className={`flex items-center gap-2 px-3 py-2  
+                                                className={`flex items-center gap-2 px-3 py-2 
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                               >
-                                                <ReceiptEdit size="16" />
+                                                <ReceiptEdit size="16" color="#1E45E1" />
                                                 Record
                                               </button>
                                             )}
 
-
+                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
                                           {(view?.totalAmount < 0 &&
                                             view?.paymentStatus !== "Refund" &&
                                             view?.paymentStatus !== "Cancelled") && (
@@ -365,7 +413,7 @@ function UserListInvoice(props) {
                                                 className={`flex items-center gap-2 px-3 py-2 
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                               >
-                                                <MoneySend size="16" />
+                                                <MoneySend size="16" color="#1E45E1" />
                                                 Refund
                                               </button>
                                             )}
@@ -432,7 +480,6 @@ function UserListInvoice(props) {
               </div>
         }
       </div>
-
 
 
 

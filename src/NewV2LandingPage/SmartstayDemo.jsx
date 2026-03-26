@@ -289,7 +289,7 @@ function SmartstayDemo() {
 
           <div className="relative bg-white px-[20px] py-[30px] rounded-xl shadow-sm border border-[#D3D3D3] z-50 font-gilroy">
             {formLoading && (
-              <div className="absolute inset-0  flex items-center bg-white/50 justify-center  z-[999]">
+              <div className="absolute inset-0  flex items-center bg-white/50 justify-center  z-[9999]">
                 <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
               </div>
             )}
@@ -546,7 +546,8 @@ function SmartstayDemo() {
                         boxShadow: "none",
                         minHeight: "40px",
                         height: "40px",
-                        fontSize: "14px"
+                        fontSize: "14px",
+                         cursor:"pointer"
                       }),
                       valueContainer: (base) => ({
                         ...base,
@@ -567,7 +568,14 @@ function SmartstayDemo() {
                         border: "1px solid #E5E7EB",
                         borderRadius: "8px",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+                        cursor:"pointer"
                       }),
+                      menuList: (base) => ({
+      ...base,
+      maxHeight: "150px",     
+      overflowY: "auto",    
+      cursor: "pointer",
+    }),
                     }}
                   />
                 </div>
