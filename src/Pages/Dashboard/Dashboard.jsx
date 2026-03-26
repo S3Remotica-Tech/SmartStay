@@ -153,11 +153,12 @@ function Dashboard() {
       iconBg: "bg-orange-100",
       stats: [
         { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance || "0"}` },
-        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
+         { label: "Advance Holding", value1: `₹ ${dashboardList?.advanceSummary?.advanceHolding || "0"}` },
+        // { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
 
       ],
       footer: "Others",
-      footerOthers: `${dashboardList?.advanceSummary?.other || "0"}`,
+      footerOthers: `${dashboardList?.advanceSummary?.otherDeduction || "0"}`,
     },
   ];
 
@@ -698,7 +699,7 @@ function Dashboard() {
                                 </h3>
                               }
                               {
-                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other || 0}</span>
+                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.otherDeduction || 0}</span>
                               }
 
                               {card.footerValue && (

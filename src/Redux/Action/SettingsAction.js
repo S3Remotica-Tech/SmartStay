@@ -106,10 +106,19 @@ export async function DeletecomplaintType(complaintId) {
 // }
 
 
-export async function AddEBBillingUnit(type) {
-  return await AxiosConfigV2.put(`/v2/hostel/electricity/${type.hostelId}`, type, {
-    data: type,
-  });
+export async function AddEBBillingUnit({ hostelId, ebConfigs }) {
+  console.log("ebConfigs",ebConfigs)
+  return await AxiosConfigV2.put(
+    `/v2/hostel/electricity/config/${hostelId}`,
+    null,
+    {
+      params: {
+        typeofReading: ebConfigs.typeofReading,
+        charge: ebConfigs.charge,
+        shouldIncludeInRent: ebConfigs.shouldIncludeInRent,
+      },
+    }
+  );
 }
 
 // export async function GetEBBillingUnit(hostel_Id) {

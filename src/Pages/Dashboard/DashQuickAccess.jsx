@@ -44,6 +44,7 @@ function DashQuickAccess(
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
     totalAmount: QuickAccess?.billingSummary?.totalAmount || 0,
     collected: ` ${QuickAccess?.billingSummary?.totalPaid || 0}`,
+    refunded: ` ${QuickAccess?.billingSummary?.refundedAmount || 0}`,
     outstanding: `${QuickAccess?.billingSummary?.totalPending || 0}`,
     collectionRate: `${QuickAccess?.billingSummary?.collectionRate || 0}`,
     trend: `${QuickAccess?.billingSummary?.fromLastMonth || ""} from last month`,
@@ -350,7 +351,12 @@ function DashQuickAccess(
             </span>
           </div>
 
-
+ <div className="flex justify-between text-sm">
+            <span className="text-[#4A5565 font-medium text-xs">Refunded</span>
+            <span className="font-semibold text-red-600 text-base">
+              ₹{billingSummary.refunded}
+            </span>
+          </div>
 
           <div className="flex justify-between text-sm">
             <span className="flex items-center gap-1 text-[#4A5565 font-medium text-xs">

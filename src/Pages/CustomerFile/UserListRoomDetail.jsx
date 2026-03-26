@@ -2191,7 +2191,7 @@ function UserListRoomDetail(props) {
 
       if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "amount") {
-      const numericValue = value.replace(/[^0-9]/g, "");
+      let numericValue = value.replace(/[^0-9.]/g, "");
       updatedFields[index].amount = numericValue;
       if (updatedErrors[index]) updatedErrors[index].amount = "";
     }

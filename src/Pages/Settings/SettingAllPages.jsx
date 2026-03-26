@@ -41,13 +41,13 @@ function SettingAllPages({ isVisibleSidebar }) {
   useEffect(() => {
     const path = location.pathname;
     const lastSegment = path.split("/").pop();
-    console.log("lastSegment", lastSegment)
+    // console.log("lastSegment", lastSegment)
     if (lastSegment) {
       setActivePage(lastSegment);
     }
   }, [location.pathname]);
 
-  console.log("active page", activePage)
+  // console.log("active page", activePage)
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {

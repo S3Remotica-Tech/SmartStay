@@ -312,7 +312,7 @@ function SettingSubscription() {
       const reDirectURL = state.Settings.upgradePlan;
 
       if (reDirectURL) {
-        window.open(reDirectURL, "_blank");
+        window.open(reDirectURL, "_self");
 
         setTimeout(() => {
           dispatch({ type: "CLEAR_UPGRADE_PLAN_REDUCER" });

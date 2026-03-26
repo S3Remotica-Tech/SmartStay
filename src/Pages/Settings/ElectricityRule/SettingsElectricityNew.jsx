@@ -19,7 +19,7 @@ function SettingsElectricityNew() {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-      const navigate = useNavigate();
+    const navigate = useNavigate();
     const [EbList, setEbList] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -70,22 +70,22 @@ function SettingsElectricityNew() {
         if (state.Settings?.getebStatuscode === 200) {
             setLoading(false);
             setEbList(state.Settings.EBBillingUnitlist);
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_GET_EBBILLINGS_STATUS_CODE" });
-            }, 500);
+            // setTimeout(() => {
+            //     dispatch({ type: "CLEAR_GET_EBBILLINGS_STATUS_CODE" });
+            // }, 500);
         }
     }, [state.Settings?.getebStatuscode]);
 
 
 
-const handleNavigateEbRule = (tabName) =>{
-    const hostelId = state.login?.selectedHostel_Id;
-    if (hostelId) {
-      navigate(`/settings/${hostelId}/${tabName}`);
-    } else {
-      navigate(`/settings/${tabName}`);
+    const handleNavigateEbRule = (tabName) => {
+        const hostelId = state.login?.selectedHostel_Id;
+        if (hostelId) {
+            navigate(`/settings/${hostelId}/${tabName}`);
+        } else {
+            navigate(`/settings/${tabName}`);
+        }
     }
-}
 
 
 
@@ -136,9 +136,17 @@ const handleNavigateEbRule = (tabName) =>{
                                 </div>
 
 
-                                <div  onClick={()=>handleNavigateEbRule("electricity-rule")} className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs cursor-pointer hover:bg-gray-50 transition">
+                                <div onClick={() => handleNavigateEbRule("electricity-rule")} className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs cursor-pointer hover:bg-gray-50 transition">
                                     <span className="text-xs md:text-sm font-medium text-gray-700">
-                                      {EbList?.isHostelBased ? "Hostel" : "Room"}  
+                                        {
+                                            EbList?.typeOfReading === "ROOM_READING"
+                                                ? "Room"
+                                                : EbList?.typeOfReading === "HOSTEL_READING"
+                                                    ? "Hostel"
+                                                    : EbList?.typeOfReading === "FLAT_RATE"
+                                                        ? "Flat"
+                                                        : ""
+                                        }
                                     </span>
                                     <Edit size="14" color="#6B7280" />
                                 </div>

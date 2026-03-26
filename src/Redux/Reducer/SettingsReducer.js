@@ -242,7 +242,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "EB_BILLING_UNIT_ADD":
       return {
         ...state,
-        message: action.payload.message,
+        // message: action.payload.message,
         addEbbillingUnitStatuscode: action.payload.statusCode,
       };
     case "CLEAR_ADD_EB_BILLING_STATUS_CODE":
