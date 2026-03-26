@@ -52,9 +52,9 @@ function UserListInvoice(props) {
 
 
 
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
-  }, [invoiceFilterddata]);
+  // const sortedData = React.useMemo(() => {
+  //   return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
+  // }, [invoiceFilterddata]);
 
 
 
@@ -66,10 +66,10 @@ function UserListInvoice(props) {
 
 
   const handleShowDots = (item, event) => {
-    if (activeId === item.id) {
+    if (activeId === item.invoiceId) {
       setActiveId(null);
     } else {
-      setActiveId(item.id);
+      setActiveId(item.invoiceId);
     }
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
@@ -173,13 +173,13 @@ function UserListInvoice(props) {
             :
 
 
-            sortedData?.length > 0 ? (
-              <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto mt-7">
-                <Table bordered={false} className="align-middle mb-0">
-                  <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
+            invoiceFilterddata?.length > 0 ? (
+            <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto">
+                <Table  className="min-w-[900px]">
+                  <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-20">
                     <tr className="text-left">
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Number</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Type</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-0 bg-[#E7F1FF] z-20">Invoice Number</th>
+                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-[120px] bg-[#E7F1FF] z-20 ">Invoice Type</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Invoice Date</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due Date</th>
                       <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Amount</th>
@@ -191,186 +191,189 @@ function UserListInvoice(props) {
 
                   <tbody className="text-xs align-middle font-gilroy">
                     <PaginationList>
-                      {sortedData?.map((view) => (
+                      {invoiceFilterddata?.map((view) => {
+                                               return (
+                          <tr key={view.invoiceId} className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
 
-                        <tr key={view.id} className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
+                            <td className="text-[12px] sticky left-0 bg-white z-10 text-[13px]">
+                              {view.invoiceNumber}
+                            </td>
 
-                          <td className="text-[13px]">
-                            {view.invoiceNumber}
-                          </td>
+                            <td className="sticky left-[120px] bg-white z-10 text-[13px]">
+                              {view.invoiceType}_<span className="text-[10px]">{view.invoiceMode}</span>
+                            </td>
 
-                          <td>
-                            {view.invoiceType}
-                          </td>
+                            <td>
+                              <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
+                                {view?.invoiceGeneratedDate}
+                              </span>
+                            </td>
 
-                          <td>
-                            <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
-                              {view?.invoiceGeneratedDate}
-                            </span>
-                          </td>
+                            <td>
+                              <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
+                                {view?.dueDate}
+                              </span>
+                            </td>
 
-                          <td>
-                            <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
-                              {view?.dueDate}
-                            </span>
-                          </td>
+                            <td className="" >
+                              <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
+                                {view?.totalAmount}
+                              </span>
+                            </td>
 
-                          <td className="" >
-                            <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
-                              {view?.totalAmount}
-                            </span>
-                          </td>
-
-                          <td className="" >
-                            <span className="rounded-[14px] font-medium font-gilroy ">
-                              ₹{view.dueAmount}
-                            </span>
-                          </td>
+                            <td className="" >
+                              <span className="rounded-[14px] font-medium font-gilroy ">
+                                ₹{view.dueAmount}
+                              </span>
+                            </td>
 
 
-                          <td >
-                            {(view.paymentStatus === "Pending" ||
-                              view.paymentStatus === "Partial Payment" ||
-                              view.paymentStatus === "Partial payment") && (
-                                <span className="bg-red-100 text-black px-3 py-1 rounded-[14px]">
+                            <td >
+                              {(view.paymentStatus === "Pending" ||
+                                view.paymentStatus === "Partial Payment" ||
+                                view.paymentStatus === "Partial payment") && (
+                                  <span className="bg-red-100 text-black px-3 py-1 rounded-[14px]">
+                                    {view.paymentStatus}
+                                  </span>
+                                )}
+
+                              {view.paymentStatus === "Paid" && (
+                                <span className="bg-green-100 text-black px-3 py-1 rounded-[14px]">
                                   {view.paymentStatus}
                                 </span>
                               )}
 
-                            {view.paymentStatus === "Paid" && (
-                              <span className="bg-green-100 text-black px-3 py-1 rounded-[14px]">
-                                {view.paymentStatus}
-                              </span>
-                            )}
+                              {(view.paymentStatus === "Refunded" ||
+                                view.paymentStatus === "Partially Refunded") && (
+                                  <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-[14px] ">
+                                    {view.paymentStatus}
+                                  </span>
+                                )}
 
-                            {(view.paymentStatus === "Refunded" ||
-                              view.paymentStatus === "Partially Refunded") && (
-                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-[14px] ">
+                              {view.paymentStatus === "Refund" && (
+                                <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] ">
                                   {view.paymentStatus}
                                 </span>
                               )}
 
-                            {view.paymentStatus === "Refund" && (
-                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px] ">
-                                {view.paymentStatus}
-                              </span>
-                            )}
-
-                            {view?.paymentStatus === "Cancelled" && (
-                              <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px]">
-                                Cancelled
-                              </span>
-                            )}
-                          </td>
-                          {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-                            <td className="text-left align-middle border-b border-[#E8E8E8]">
-                              <div className="flex flex-wrap gap-2 py-2">
-                                <div
-                                  className={`flex justify-center items-center relative cursor-pointer 
+                              {view?.paymentStatus === "Cancelled" && (
+                                <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-[14px]">
+                                  Cancelled
+                                </span>
+                              )}
+                            </td>
+                            {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+                              <td className="text-left align-middle border-b border-[#E8E8E8]">
+                                <div className="flex flex-wrap gap-2 py-2">
+                                  <div
+                                    className={`flex justify-center items-center relative cursor-pointer 
         ${activeId === view.id ? "z-[1000]" : ""}`}
-                                  onClick={(e) => handleShowDots(view, e)}
-                                >
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleShowDots(view, e);
+                                    }}
+                                  >
 
-                                  <IoMdMore className="text-xl text-[#222222]" />
+                                    <IoMdMore className="text-xl text-[#222222]" />
 
-                                  {activeId === view.id && (
-                                    <div
-                                      ref={popupRef}
-                                    className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000]"
-                                      style={{
-                                        top: popupPosition.top,
-                                        left: popupPosition.left - 50,
-                                      }}
-                                    >
-
- <div className="flex flex-col p-1 gap-1">
-                                      {(view.invoiceMode === "Recurring" &&
-                                        view?.paymentStatus === "Pending") && (
-                                          <button
-                                            onClick={() => canUpdateInvoice && handleEdit(view)}
-                                            disabled={!canUpdateInvoice}
-                                            className={`flex items-center gap-2 px-3 py-2 
-        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                          >
-                                            <Edit size="16" />
-                                            Edit
-                                          </button>
-                                        )}
-
-
-                                      {(view.invoiceMode === "Manual" &&
-                                        view?.paymentStatus === "Paid" &&
-                                        view.invoiceType === "Rent") && (
-                                          <button
-                                            disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-left 
-        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
-                                          >
-                                            <Edit size="16" />
-                                            Unpaid
-                                          </button>
-                                        )}
-
-
-                                      {(view?.totalAmount > 0 &&
-                                        view?.paymentStatus === "Pending" &&
-                                        !view?.isDiscounted &&
-                                        (view?.invoiceType === "Rent" ||
-                                          view?.invoiceType === "Settlement")) && (
-                                          <button
-                                            disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-left  
-        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
-                                          >
-                                            <DiscountCircle size="16" />
-                                            Discount
-                                          </button>
-                                        )}
-
-
-                                      <button
-                                        onClick={() => isExportAllow && handleInvoicepdf(view)}
-                                        disabled={!isExportAllow}
-                                        className={`flex items-center gap-2 px-3 py-2  
-      ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                                    {activeId === view.invoiceId && (
+                                      <div
+                                        ref={popupRef}
+                                        className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000]"
+                                        style={{
+                                          top: popupPosition.top,
+                                          left: popupPosition.left - 50,
+                                        }}
                                       >
-                                        <DocumentDownload size="16" />
-                                        Download
-                                      </button>
 
-                                      {/* Record */}
-                                      {(view.dueAmount !== 0 &&
-                                        view?.totalAmount > 0 &&
-                                        view?.paymentStatus !== "Cancelled" &&
-                                        view?.paymentStatus !== "Paid") && (
+                                        <div className="flex flex-col p-1 gap-1">
+                                          {(view.invoiceMode === "RECURRING" &&
+                                            view?.paymentStatus === "Pending") && (
+                                              <button
+                                                onClick={() => canUpdateInvoice && handleEdit(view)}
+                                                disabled={!canUpdateInvoice}
+                                                className={`flex items-center gap-2 px-3 py-2 
+        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                                              >
+                                                <Edit size="16" />
+                                                Edit
+                                              </button>
+                                            )}
+
+
+                                          {(view.invoiceMode === "MANUAL" &&
+                                            view?.paymentStatus === "Paid" &&
+                                            view.invoiceType === "Rent") && (
+                                              <button
+                                                disabled={!canWriteInvoice}
+                                                className={`flex items-center gap-2 w-full px-3 py-2 text-left 
+        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                                              >
+                                                <Edit size="16" />
+                                                Unpaid
+                                              </button>
+                                            )}
+
+
+                                          {(view?.totalAmount > 0 &&
+                                            view?.paymentStatus === "Pending" &&
+                                            !view?.isDiscounted &&
+                                            (view?.invoiceType === "Rent" ||
+                                              view?.invoiceType === "Settlement")) && (
+                                              <button
+                                                disabled={!canWriteInvoice}
+                                                className={`flex items-center gap-2 w-full px-3 py-2 text-left  
+        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                                              >
+                                                <DiscountCircle size="16" />
+                                                Discount
+                                              </button>
+                                            )}
+
+
                                           <button
-                                            disabled={!canWriteInvoice}
+                                            onClick={() => isExportAllow && handleInvoicepdf(view)}
+                                            disabled={!isExportAllow}
                                             className={`flex items-center gap-2 px-3 py-2  
-        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+      ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                           >
-                                            <ReceiptEdit size="16" />
-                                            Record
+                                            <DocumentDownload size="16" />
+                                            Download
                                           </button>
-                                        )}
 
-
-                                      {(view?.totalAmount < 0 &&
-                                        view?.paymentStatus !== "Refund" &&
-                                        view?.paymentStatus !== "Cancelled") && (
-                                          <button
-                                            disabled={!canWriteInvoice}
-                                            className={`flex items-center gap-2 px-3 py-2 
+                                          {/* Record */}
+                                          {(view.dueAmount !== 0 &&
+                                            view?.totalAmount > 0 &&
+                                            view?.paymentStatus !== "Cancelled" &&
+                                            view?.paymentStatus !== "Paid") && (
+                                              <button
+                                                disabled={!canWriteInvoice}
+                                                className={`flex items-center gap-2 px-3 py-2  
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                          >
-                                            <MoneySend size="16" />
-                                            Refund
-                                          </button>
-                                        )}
+                                              >
+                                                <ReceiptEdit size="16" />
+                                                Record
+                                              </button>
+                                            )}
+
+
+                                          {(view?.totalAmount < 0 &&
+                                            view?.paymentStatus !== "Refund" &&
+                                            view?.paymentStatus !== "Cancelled") && (
+                                              <button
+                                                disabled={!canWriteInvoice}
+                                                className={`flex items-center gap-2 px-3 py-2 
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                                              >
+                                                <MoneySend size="16" />
+                                                Refund
+                                              </button>
+                                            )}
 
 
 
 
-                                      {/* {(view?.paymentStatus !== "Cancelled" &&
+                                          {/* {(view?.paymentStatus !== "Cancelled" &&
                                         view?.paymentStatus !== "Paid") && (
                                           <button
                                             disabled={!canDeleteInvoice}
@@ -384,15 +387,17 @@ function UserListInvoice(props) {
                                             Delete
                                           </button>
                                         )} */}
- </div>
-                                    </div>
-                                  )}
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            </td>
-                          )}
-                        </tr>
-                      ))}
+                              </td>
+                            )}
+                          </tr>
+                        )
+                      })
+                      }
                     </PaginationList>
 
                     {invoiceFilterddata?.length === 0 && (
