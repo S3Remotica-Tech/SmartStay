@@ -1016,7 +1016,7 @@ const RoomReadingTable = () => {
                               <th>TOTAL UNITS</th>
                               <th>AMOUNT</th>
                               {
-                                !isEbBased && <th>ACTIONss</th>
+                                !isEbBased && <th>ACTION</th>
 
                               }
                             </tr>

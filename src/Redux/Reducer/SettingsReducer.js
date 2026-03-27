@@ -242,7 +242,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "EB_BILLING_UNIT_ADD":
       return {
         ...state,
-        message: action.payload.message,
+        // message: action.payload.message,
         addEbbillingUnitStatuscode: action.payload.statusCode,
       };
     case "CLEAR_ADD_EB_BILLING_STATUS_CODE":
@@ -267,6 +267,10 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_GET_EBBILLINGS_STATUS_CODE":
       return { ...state, getebStatuscode: 0 };
+    case 'UPDATE_EB_RULE_ERROR':
+      return { ...state, ebRuleError: action.payload };
+    case 'REMOVE_UPDATE_EB_RULE_ERROR':
+      return { ...state, ebRuleError: "" };
 
     case "DELETE_ELECTRICITY":
       return {
@@ -500,8 +504,8 @@ const SettingsReducer = (state = initialState, action) => {
 
     case 'UPGRADE_PLAN_ERROR':
       return { ...state, upgradePlanError: action.payload };
-      case 'REMOVE_UPGRADE_PLAN_ERROR':
-      return { ...state, upgradePlanError: ''};
+    case 'REMOVE_UPGRADE_PLAN_ERROR':
+      return { ...state, upgradePlanError: '' };
 
 
     case "CURRENT_PLAN_REDUCER":

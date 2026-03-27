@@ -871,6 +871,7 @@ function Sidebar() {
                         className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full md:w-[50px] lg:w-full z-50 max-h-48 overflow-y-auto
                         overflow-x-visible 
                          show-scrolls"
+                        style={{ overflow: "visible" }}
                       >
                         <ul style={{ margin: 0, padding: 0 }}>
                           {hostelListDetail.map((item) => (
@@ -878,7 +879,7 @@ function Sidebar() {
 
                             <li
                               key={item.id}
-                              className="relative group hover:bg-gray-100 flex items-center py-2 mx-2 px-2 rounded cursor-pointer text-blue-600  truncate align-middle"
+                              className="relative group inline-block hover:bg-gray-100 flex items-center py-2 mx-2 px-2 rounded cursor-pointer text-blue-600  truncate align-middle overflow-visible"
                               onClick={() =>
                                 handleHostelId(
                                   item.hostelId,
@@ -904,9 +905,19 @@ function Sidebar() {
                               <span className="hidden lg:inline-block truncate ">
                                 {item.name}
                               </span>
-                              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 
-  hidden group-hover:block
-  bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
+                              <div
+                        //        className="absolute bottom-full ml-2 top-1/2 -translate-y-1/2 
+                        // hidden group-hover:block
+                        // bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap w-fit h-fit
+                        //     z-[9999] pointer-events-none"
+                         className="absolute left-1/2 top-full mt-1
+    -translate-x-1/2
+    hidden group-hover:block
+    bg-[#1E45E1] text-white text-xs rounded px-2 py-1 whitespace-nowrap
+    z-[9999] pointer-events-none"
+                            
+                            
+                            >
                                 {item.name}
                               </div>
                             </li>
@@ -1769,7 +1780,7 @@ function Sidebar() {
                 <Route path="subscription" element={<SettingSubscription />} />
                 <Route path="integration" element={<SettingIntergration />} />
                 <Route path="electricity" element={<SettingsElectricityNew />} />
-                <Route path="electricity-old" element={<SettingElectricity />} />
+                {/* <Route path="electricity-old" element={<SettingElectricity />} /> */}
                 <Route path="electricity-rule" element={<ElectricityRule />} />
                 <Route path="billing-rule-old" element={<BillingRuleOld />} />
                 <Route path="billing-rule" element={<BillingRule />} />

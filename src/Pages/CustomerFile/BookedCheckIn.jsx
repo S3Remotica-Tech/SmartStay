@@ -129,7 +129,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
             if (updatedErrors[index]) updatedErrors[index].reason = "";
         } else if (field === "amount") {
-            let numericValue = value.replace(/[^0-9]/g, "");
+            let numericValue = value.replace(/[^0-9.]/g, "");
 
             if (numericValue.startsWith("0")) {
                 numericValue = numericValue.replace(/^0+/, "");

@@ -313,9 +313,43 @@ const InvoiceTable = (props) => {
 
 
 
+{(props.item?.paymentStatus === "Pending" ||
+  props.item?.paymentStatus === "Partial Payment") && (
+  <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy">
+    {props.item?.paymentStatus}
+  </span>
+)}
 
 
-          {(props.item?.paymentStatus === "Pending" ||
+{props.item?.paymentStatus === "Paid" && (
+  <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+    {props.item?.paymentStatus}
+  </span>
+)}
+
+{(props.item?.paymentStatus === "Refunded" ||
+  props.item?.paymentStatus === "Partially Refunded") && (
+  <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+    {props.item?.paymentStatus}
+  </span>
+)}
+
+
+{props.item?.paymentStatus === "Pending Refund" && (
+  <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+    {props.item?.paymentStatus}
+  </span>
+)}
+
+
+{props.item?.isCancelled && (
+  <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+    Cancelled
+  </span>
+)}
+
+
+          {/* {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
               <span
                 style={{
@@ -388,7 +422,7 @@ const InvoiceTable = (props) => {
               Cancelled
             </span>
           )
-          }
+          } */}
 
 
         </td>

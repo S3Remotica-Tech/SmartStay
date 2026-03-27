@@ -153,11 +153,12 @@ function Dashboard() {
       iconBg: "bg-orange-100",
       stats: [
         { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance || "0"}` },
-        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
+         { label: "Advance Holding", value1: `₹ ${dashboardList?.advanceSummary?.advanceHolding || "0"}` },
+        // { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
 
       ],
       footer: "Others",
-      footerOthers: `${dashboardList?.advanceSummary?.other || "0"}`,
+      footerOthers: `${dashboardList?.advanceSummary?.otherDeduction || "0"}`,
     },
   ];
 
@@ -583,17 +584,17 @@ function Dashboard() {
                         <div className="space-y-2">
                           {card.stats.map((stat, index) => (
                             <div key={index} className="flex justify-between items-center">
-                              <span className="text-[#4A5565] font-[Gilroy] font-semibold text-sm">
+                              <span className="text-[#4A5565] font-[Gilroy] font-semibold text-sm whitespace-nowrap">
                                 {stat.label}
                               </span>
 
                               <span
-                                className={`font-semibold font-[Gilroy] text-xl ${stat.valueColor || "text-[#737373]"
+                                className={`font-semibold font-[Gilroy] whitespace-nowrap text-xl ${stat.valueColor || "text-[#737373]"
                                   }`}
                               >
                                 {stat?.value1}
                                 {stat?.value2 && (
-                                  <span className="text-[#101828] ml-1">
+                                  <span className="text-[#101828] ml-1 whitespace-nowrap">
                                     {stat?.value2}
                                   </span>
                                 )}
@@ -607,7 +608,7 @@ function Dashboard() {
                           <div className="mt-3 pt-3 border-t text-xs text-gray-500  font-[Gilroy]">
 
                             <div className="flex items-center justify-between mb-2">
-                              <h3 className="text-sm font-semibold text-gray-700 font-[Gilroy]">
+                              <h3 className="text-sm font-semibold text-gray-700 font-[Gilroy] whitespace-nowrap">
                                 {card.footer}
                               </h3>
                               {card.title === "Rooms & Beds" && (
@@ -698,7 +699,7 @@ function Dashboard() {
                                 </h3>
                               }
                               {
-                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other || 0}</span>
+                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm whitespace-nowrap">₹ {dashboardList?.advanceSummary?.otherDeduction || 0}</span>
                               }
 
                               {card.footerValue && (

@@ -5,23 +5,43 @@ import "../../../Pages/Settings/SettingElectricity.css";
 import ErrorMessage from '../../../Components/ErrorMessage'
 // import { useHasPermission } from '../../../Utils/Permission';
 import { useNavigate } from "react-router-dom";
-import { CloseCircle, MessageText } from "iconsax-react";
+import { Add, MessageText } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 
-function ElectricityRule({ onClose }) {
+function ElectricityRule() {
     const [selected, setSelected] = useState("room");
-
+    const [formLoading, setFormLoading] = useState(false)
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const navigate = useNavigate();
-    const [selectedType, setSelectedType] = useState("fixed");
+    const [selectedType, setSelectedType] = useState("included");
     const [amount, setAmount] = useState("");
 
     const [costPerUnit, setCostPerUnit] = useState("");
     const [errors, setErrors] = useState({});
 
+    const rent = 5000;
+    const ebCharge =
+        selected === "flat"
+            ? selectedType === "fixed"
+                ? Number(amount || 0)
+                : 0
+            : Number(costPerUnit || 0);
+
+    const total = rent + ebCharge;
+
+
+
+
+
+
+
+
+
+
     const handleChange = (e) => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
         let value = e.target.value.replace(/[^0-9.]/g, "");
 
         const parts = value.split(".");
@@ -43,43 +63,14 @@ function ElectricityRule({ onClose }) {
         setErrors("");
     };
 
-    const validate = () => {
-        let newErrors = {};
-
-        if (selected === "room" || selected === "hostel") {
-            if (!costPerUnit) {
-                newErrors.costPerUnit = "Cost per unit is required";
-            } else if (Number(costPerUnit) <= 0) {
-                newErrors.costPerUnit = "Must be greater than 0";
-            }
-        }
-
-        if (selected === "flat" && selectedType === "fixed") {
-            if (!amount) {
-                newErrors.amount = "Monthly charge is required";
-            } else if (Number(amount) <= 0) {
-                newErrors.amount = "Must be greater than 0";
-            }
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
 
 
-    const handleSubmit = () => {
-        if (!validate()) return;
 
-        const payload = {
-            costPerUnit: Number(costPerUnit),
-        };
-
-        console.log(payload);
-    };
 
 
 
     const handleAmountChange = (e) => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
         let value = e.target.value.replace(/[^0-9.]/g, "");
 
         const parts = value.split(".");
@@ -116,45 +107,149 @@ function ElectricityRule({ onClose }) {
 
 
     useEffect(() => {
-        const data = state?.Settings?.EBBillingUnitlist;
+        if (state.Settings?.getebStatuscode === 200) {
 
-        if (data) {
-            if (data.isRoomBased) {
-                setSelected("room");
-            } else if (data.isHostelBased) {
-                setSelected("hostel");
-            } else {
-                setSelected("flat");
+            const data = state?.Settings?.EBBillingUnitlist;
+
+            if (data) {
+                if (data.typeOfReading === "ROOM_READING") {
+                    setSelected("room");
+                } else if (data.typeOfReading === "HOSTEL_READING") {
+                    setSelected("hostel");
+                } else if (data?.typeOfReading === "FLAT_RATE") {
+                    setSelected("flat");
+                }
+
+                setCostPerUnit(data?.chargerPerUnit)
+                setAmount(data?.flatCharge)
+                setSelectedType(data?.shouldIncludeInRent ? "included" : "fixed")
+                dispatch({ type: "CLEAR_GET_EBBILLINGS_STATUS_CODE" });
+            }
+
+
+        }
+    }, [state.Settings?.getebStatuscode]);
+
+
+    const handleClose = (tabName) => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
+        const hostelId = state.login?.selectedHostel_Id;
+        if (hostelId) {
+            navigate(`/settings/${hostelId}/${tabName}`);
+        } else {
+            navigate(`/settings/${tabName}`);
+        }
+    }
+
+
+
+
+
+    const handleSubmit = () => {
+        dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
+        let newErrors = {};
+
+        if (selected === "room" || selected === "hostel") {
+            if (!costPerUnit) {
+                newErrors.costPerUnit = "Please Enter Cost per unit";
+            } else if (Number(costPerUnit) <= 0) {
+                newErrors.costPerUnit = "Must be greater than 0";
             }
         }
-    }, [state?.Settings?.EBBillingUnitlist]);
+
+        if (selected === "flat" && selectedType === "fixed") {
+            if (!amount) {
+                newErrors.amount = "Please Enter Monthly charge";
+            } else if (Number(amount) <= 0) {
+                newErrors.amount = "Must be greater than 0";
+            }
+        }
+
+        let chargeValue =
+            selected === "room" || selected === "hostel"
+                ? Number(costPerUnit)
+                : selectedType === "fixed"
+                    ? Number(amount)
+                    : null;
 
 
-    const handleClose = (tabName) =>{
-  const hostelId = state.login?.selectedHostel_Id;
-    if (hostelId) {
-      navigate(`/settings/${hostelId}/${tabName}`);
-    } else {
-      navigate(`/settings/${tabName}`);
-    }
-    }
+
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        setErrors({});
+
+        dispatch({
+            type: "EB-BILLING-UNIT-ADD",
+            payload: {
+                hostelId: state.login?.selectedHostel_Id,
+                ebConfigs: {
+                    typeofReading: selected,
+                    charge: chargeValue,
+                    shouldIncludeInRent: selectedType === "included",
+                },
+            },
+        });
+        setFormLoading(true)
+
+    };
+
+
+
+    useEffect(() => {
+        if (state.Settings.addEbbillingUnitStatuscode === 200) {
+            dispatch({
+                type: "EB-BILLING-UNIT-LIST",
+                payload: state.login.selectedHostel_Id,
+            });
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_ADD_EB_BILLING_STATUS_CODE" });
+            }, 100);
+
+
+        }
+    }, [state.Settings.addEbbillingUnitStatuscode]);
+
+    useEffect(() => {
+        if (state.Settings.ebRuleError) {
+            setFormLoading(false)
+        }
+
+    }, [state.Settings.ebRuleError])
+
+    useEffect(() => {
+        return () => {
+            dispatch({ type: 'REMOVE_UPDATE_EB_RULE_ERROR' })
+            setErrors({})
+        }
+
+    }, [])
+
 
     return (
         <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy relative ">
 
 
-
+            {formLoading && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
+                    <div className="h-10 w-10 rounded-full border-4 border-transparent border-t-blue-700 animate-spin"></div>
+                </div>
+            )}
 
             <div className="sticky top-0 left-0 right-0 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 font-gilroy shadow-[0_2px_6px_rgba(0,0,0,0.06)]">
-                <h2 className="text-[15px] font-semibold text-[#222]">
+                <label className="text-black font-semibold text-[18px] whitespace-nowrap">
                     Electricity Rule
-                </h2>
+                </label>
 
-                <CloseCircle onClick={()=>handleClose("electricity")}
-                    size="18"
+                <Add  onClick={() => handleClose("electricity")}
+                    size="20"
                     color="#EF4444"
-                    className="cursor-pointer"
-                    
+                    className="cursor-pointer rotate-45"
+
                 />
             </div>
 
@@ -179,8 +274,10 @@ function ElectricityRule({ onClose }) {
                                 return (
                                     <div
                                         key={item.id}
-                                        onClick={() => setSelected(item.id)}
-                                        className={`border-1 shadow-sm rounded-lg p-3 flex gap-3 cursor-pointer transition
+                                       onClick={() => {setSelected(item.id);
+                                            setErrors({})
+                                        }}
+                                        className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition
                       ${isActive
                                                 ? "border-[#88A0FF] bg-[#F8F9FF] ring-2 ring-[#4E61F6]/30 "
                                                 : "border-gray-200 bg-white hover:bg-gray-50"
@@ -221,24 +318,41 @@ function ElectricityRule({ onClose }) {
                         </p>
 
                         <div className="mt-4 space-y-2 text-[13px]">
+
                             <div className="flex justify-between">
                                 <span className="text-gray-600 text-xs">Room Rent</span>
-                                <span className="font-semibold text-[#222222] text-sm">₹5,000.00</span>
+                                <span className="font-semibold text-[#222222] text-sm">
+                                    ₹{rent.toFixed(2)}
+                                </span>
                             </div>
 
                             <div className="flex justify-between">
-                                <span className="text-gray-600 text-xs">Electricity  {" "}
-                                      {selectedType === "fixed" ? <span className="bg-[#F0F0F0] px-2 py-1 rounded text-[9px] whitespace-nowrap">Fixed Charge</span> : <span className="bg-[#F0F0F0] px-2 py-1 rounded text-[9px] whitespace-nowrap"> No Charge  </span>}  
-                                  </span>
-                                <span className="font-semibold text-[#222222] text-sm">₹320.00</span>
+                                <span className="text-gray-600 text-xs">
+                                    Electricity{" "}
+                                    {
+                                        selected === "flat" ? (
+                                            <span className="bg-[#F0F0F0] px-2 py-1 rounded text-[9px] whitespace-nowrap">
+                                                {selectedType === "fixed" ? "Fixed Charge" : "No Charge"}
+                                            </span>
+                                        ) : null
+                                    }
+                                </span>
+
+                                <span className="font-semibold text-[#222222] text-sm">
+                                    ₹{ebCharge.toFixed(2)}
+                                </span>
                             </div>
 
                             <div className="border-t pt-2 flex justify-between font-semibold text-[#1E45E1]">
                                 <span>Total</span>
-                                <span className="font-semibold text-[#1E45E1] text-[18px]">₹5,320.00</span>                            </div>
+                                <span className="font-semibold text-[#1E45E1] text-[18px]">
+                                    ₹{total.toFixed(2)}
+                                </span>
+                            </div>
+
                         </div>
 
-                        <label className="text-[11px] text-gray-400 mt-3 bg-[#F9F9F9] px-3 py-3 rounded">
+                        <label className="text-[11px] text-gray-400 mt-3 bg-[#F9F9F9] px-2 py-2 rounded text-center">
                             Preview calculation based on current settings
                         </label>
                     </div>
@@ -311,7 +425,7 @@ function ElectricityRule({ onClose }) {
                                 <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#1E45E1] rounded-r-md "></div>
                                 <div
                                     onClick={() => handleTypeChange("included")}
-                                    className={`border-1 shadow-sm rounded-lg p-3 flex gap-3 cursor-pointer transition 
+                                    className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition 
             ${selectedType === "included"
                                             ? "border-[#88A0FF] bg-[#F8F9FF] ring-2 ring-[#4E61F6]/30"
                                             : "border-gray-200 bg-white hover:bg-gray-50"
@@ -337,7 +451,7 @@ function ElectricityRule({ onClose }) {
 
                                 <div
                                     onClick={() => handleTypeChange("fixed")}
-                                    className={`border-1 shadow-sm rounded-lg p-3 flex gap-3 cursor-pointer transition 
+                                    className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition 
             ${selectedType === "fixed"
                                             ? "border-[#88A0FF] bg-[#F8F9FF] ring-2 ring-[#4E61F6]/30"
                                             : "border-gray-200 bg-white hover:bg-gray-50"
@@ -415,7 +529,10 @@ function ElectricityRule({ onClose }) {
 
 
 
+                {
+                    state.Settings.ebRuleError && <ErrorMessage message={state.Settings.ebRuleError} type="error" />
 
+                }
 
 
 
@@ -424,7 +541,7 @@ function ElectricityRule({ onClose }) {
                 <div className="flex justify-end gap-3 mt-6">
 
                     <button
-                         onClick={() =>handleClose("electricity")}
+                        onClick={() => handleClose("electricity")}
                         className="px-4 py-2 text-sm border rounded-lg bg-white hover:bg-gray-50"
                     >
                         Cancel
