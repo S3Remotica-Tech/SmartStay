@@ -980,13 +980,11 @@ const InvoicePage = () => {
       // setFormRecordLoading(false)
       setShowform(false)
       dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-
       // dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_RECORD_PAYMENT" });
-      }, 300);
+      // setTimeout(() => {
+      //   dispatch({ type: "CLEAR_RECORD_PAYMENT" });
+      // }, 300);
     }
   }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 

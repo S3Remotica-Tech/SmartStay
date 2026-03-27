@@ -167,7 +167,15 @@ function UserListInvoice(props) {
 
   }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
-
+ useEffect(() => {
+        if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+           
+          dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_RECORD_PAYMENT" });
+            }, 300);
+        }
+    }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
   return (
     <>
@@ -186,12 +194,12 @@ function UserListInvoice(props) {
 
 
 
-      <div className="flex justify-end w-full lg:-mt-[65px] min-h-[45px]">
+      <div className="flex justify-end w-full lg:-mt-[65px] ">
         {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
           <Button
             onClick={handleAddBill}
             disabled={props.customerAdd || !canWriteInvoice}
-            className="!font-gilroy text-sm text-white !font-semibold rounded-md p-2 w-36 whitespace-nowrap !bg-[#1E45E1]"
+            className="!font-gilroy text-sm text-white !font-semibold rounded-md px-4 w-36 whitespace-nowrap !bg-[#1E45E1]"
           >
             + Create Bill
           </Button>
@@ -400,7 +408,7 @@ function UserListInvoice(props) {
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                               >
                                                 <ReceiptEdit size="16" color="#1E45E1" />
-                                                Record
+                                                Record Payment
                                               </button>
                                             )}
 
@@ -414,7 +422,7 @@ function UserListInvoice(props) {
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                               >
                                                 <MoneySend size="16" color="#1E45E1" />
-                                                Refund
+                                                Refund Amount
                                               </button>
                                             )}
 
