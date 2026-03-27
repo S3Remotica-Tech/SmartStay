@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
-import { CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import Profile2 from "../../Assets/Images/New_images/bank.png";
 // import homearrow from "../../Assets/Images/New_images/bank.png";
 import { DatePicker } from 'antd';
@@ -43,7 +43,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }, [])
 
 
-
+    console.log("refundDetails", refundDetails)
 
     const bankOptions = state.InvoiceList?.refundDetails?.listBanks?.map(bank => ({
         value: bank.bankId,
@@ -77,28 +77,29 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
 
     const handleRefundDate = (date) => {
-         setRefundAmountError("");
+        setRefundAmountError("");
         setRefundDate(date);
         if (!date) setRefundDateError("Please select a date");
         else setRefundDateError("");
     };
 
     const handleRefundFrom = (selectedOption) => {
-         setRefundAmountError("");
+        setRefundAmountError("");
         setRefundFrom(selectedOption);
         if (!selectedOption) setRefundFromError("Please select a refund source");
         else setRefundFromError("");
     };
 
     const handleTransactionId = (e) => {
-         setRefundAmountError("");
+        setRefundAmountError("");
         setTransactionId(e.target.value);
 
     };
 
 
     const handleSaveInvoiceList = () => {
-         dispatch({ type: 'REMOVE_REFUNDABLE_ERROR' })
+
+        dispatch({ type: 'REMOVE_REFUNDABLE_ERROR' })
         let valid = true;
 
         if (!refundAmount || refundAmount <= 0) {
@@ -133,9 +134,9 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     useEffect(() => {
         if (state.InvoiceList?.createRefundStatusCode === 200) {
             setFormRecordLoading(false)
-                        dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId:refundDetails?.invoiceId } })
+            dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: refundDetails?.invoiceId } })
 
-       }
+        }
 
     }, [state.InvoiceList?.createRefundStatusCode])
 
@@ -178,12 +179,12 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                         }}
                     >
                         {`Refund Amount `}
-                        {refundDetails?.fullName && (
+                        {refundDetails?.fullName || state?.UsersList?.customerdetails?.fullName && (
                             <span>
                                 -
                                 <span style={{ color: "#1E45E1" }}>
                                     {" "}
-                                    {refundDetails?.fullName}
+                                    {refundDetails?.fullName || state?.UsersList?.customerdetails?.fullName}
                                 </span>{" "}
                             </span>
                         )}
@@ -207,17 +208,21 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
                 <Modal.Body>
                     <>
-                        <div className="d-flex align-items-center " >
-                            <img
-                                src={refundDetails?.profilePic ? refundDetails?.profilePic : Profile2}
-
-                                style={{ height: 55, width: 55, cursor: "pointer" }}
-                                alt="profile"
-                                className="rounded-circle me-3"
-                            />
+                        <div className="d-flex align-items-center gap-2 " >
+                            {refundDetails?.profilePic ? (
+                                <img
+                                    src={refundDetails.profilePic}
+                                    alt="profile"
+                                    className="rounded-full w-[55px] h-[55px] object-cover cursor-pointer"
+                                />
+                            ) : (
+                                <div className="w-[55px] h-[55px] rounded-full bg-[#1E45E1] flex items-center justify-center text-white font-semibold cursor-pointer">
+                                    {refundDetails?.initials || refundDetails?.customerInfo?.initials ||  state?.UsersList?.customerdetails?.initials}
+                                </div>
+                            )}
                             <div>
                                 <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">
-                                    {refundDetails?.fullName || refundDetails?.customerInfo?.fullName}                   </p>
+                                    {refundDetails?.fullName || refundDetails?.customerInfo?.fullName || state?.UsersList?.customerdetails?.fullName}                   </p>
                                 <div className="d-flex mb-2">
                                     <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
                                         {state.InvoiceList?.refundDetails?.floorName}
@@ -616,23 +621,23 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     )
 }
 RefundAmount.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
 
-  refundDetails: PropTypes.shape({
-    invoiceId: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    invoiceNumber: PropTypes.string,
-    fullName: PropTypes.string,
-    profilePic: PropTypes.string,
-    invoiceDate: PropTypes.string,
+    refundDetails: PropTypes.shape({
+        invoiceId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        invoiceNumber: PropTypes.string,
+        fullName: PropTypes.string,
+        profilePic: PropTypes.string,
+        invoiceDate: PropTypes.string,
 
-    customerInfo: PropTypes.shape({
-      fullName: PropTypes.string
-    })
-  }).isRequired
+        customerInfo: PropTypes.shape({
+            fullName: PropTypes.string
+        })
+    }).isRequired
 };
 
 

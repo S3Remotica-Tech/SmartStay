@@ -174,15 +174,7 @@ const InvoiceTable = (props) => {
     setSelectedInvoice(item);
     setShowUnpaidModal(true);
 
-    // if (item) {
-    //   dispatch({
-    //     type: "MANUAL_BILL_UPDATE_UNPAID_SAGA",
-    //     payload: {
-    //       hostelId: item.hostelId,
-    //       invoiceId: item.invoiceId
-    //     }
-    //   });
-    // }
+   
   };
 
   const handleMakeDiscount = (item) => {

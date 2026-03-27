@@ -15,12 +15,12 @@ import {
   DiscountCircle,
   DocumentDownload,
   ReceiptEdit,
-  MoneySend
+  MoneySend,Trash
 } from "iconsax-react";
 import { IoMdMore } from "react-icons/io";
 import RecordPayment from "../Bills/RecordPayment";
-// import RefundAmount from "../Bills/RefundAmount";
-// import UnPaidInvoice from "../../UnPaidInvoice";
+import RefundAmount from "../Bills/RefundAmount";
+import UnPaidInvoice from "../Bills/UnPaidInvoice";
 import DiscountInvoice from "../PDF/DiscountInvoice";
 
 
@@ -45,6 +45,7 @@ function UserListInvoice(props) {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice
   } = useHasPermission("Bills");
 
 
@@ -137,6 +138,25 @@ function UserListInvoice(props) {
 
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [discountDetails, setDiscountDetails] = useState('')
+  const [payapleform, setPayableForm] = useState(false)
+  const [refundDetails, setRefundDetails] = useState('')
+  const [showUnpaidModal, setShowUnpaidModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+
+
+const handleEdit = () => {
+    navigate('/create-bill', {
+      state: {
+        billData: CustomerOverView,
+      },
+    })
+  
+  };
+
+
+
+
+
 
   const handleMakeDiscount = (item) => {
     setDiscountDetails(CustomerOverView)
@@ -155,6 +175,42 @@ function UserListInvoice(props) {
     setShowDiscountInvoice(false)
   }
 
+  const handleRefundAmount = (details) => {
+    setRefundDetails(details)
+    setPayableForm(true)
+
+  }
+  const handleCloseRefundAmount = () => {
+    setPayableForm(false)
+  }
+
+  const handleUnpaid = (item) => {
+    setSelectedInvoice(item);
+    setShowUnpaidModal(true);
+  };
+
+
+  const handleCloseUnPaid = () => {
+    setShowUnpaidModal(false);
+  }
+
+
+
+
+
+
+
+  useEffect(() => {
+    if (state.InvoiceList.createRefundStatusCode === 200) {
+      setPayableForm(false)
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_REFUND' })
+      }, 100)
+    }
+
+  }, [state.InvoiceList.createRefundStatusCode])
+
 
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
@@ -167,18 +223,36 @@ function UserListInvoice(props) {
 
   }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
- useEffect(() => {
-        if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
-           
-          dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_RECORD_PAYMENT" });
-            }, 300);
-        }
-    }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
+  useEffect(() => {
+    if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_RECORD_PAYMENT" });
+      }, 300);
+    }
+  }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
+
+
+useEffect(() => {
+    if (state.InvoiceList.manualInvoiceUnpaidStatusCode === 200) {
+       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+
+      dispatch({ type: "REMOVE_MANUAL_BILL_UPDATE_UNPAID_REDUCER" });
+    }
+
+  }, [state.InvoiceList.manualInvoiceUnpaidStatusCode])
+
 
   return (
     <>
+
+ {showUnpaidModal && (
+        <UnPaidInvoice show={showUnpaidModal} handleClose={handleCloseUnPaid} selectedInvoice={selectedInvoice} />
+      )}
+
+
+
       {
         showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} discountDetails={discountDetails} />
       }
@@ -190,7 +264,9 @@ function UserListInvoice(props) {
         />
 
       )}
-
+      {
+        payapleform && <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
+      }
 
 
 
@@ -241,7 +317,7 @@ function UserListInvoice(props) {
                         return (
                           <tr key={view.invoiceId} className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
 
-                            <td className="text-[12px] sticky left-0 bg-white z-20 text-[13px]">
+                            <td className="text-[13px] sticky left-0 bg-white z-20 text-[13px]">
                               {view.invoiceNumber}
                             </td>
 
@@ -268,7 +344,7 @@ function UserListInvoice(props) {
                             </td>
 
                             <td className="" >
-                              <span className="rounded-[14px] font-medium font-gilroy ">
+                              <span className="rounded-[13px] font-medium font-gilroy ">
                                 ₹{view.dueAmount}
                               </span>
                             </td>
@@ -356,6 +432,7 @@ function UserListInvoice(props) {
                                             view.invoiceType === "Rent") && (
                                               <button
                                                 disabled={!canWriteInvoice}
+                                                onClick={() => canWriteInvoice && handleUnpaid(view)}
                                                 className={`flex items-center gap-2 w-full px-3 py-2 text-left 
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                               >
@@ -391,7 +468,7 @@ function UserListInvoice(props) {
                                             <DocumentDownload size="16" color="#1E45E1" />
                                             Download
                                           </button>
-{/* 
+                                          {/* 
                                           <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
                                           {(
@@ -416,7 +493,7 @@ function UserListInvoice(props) {
                                           {(view?.totalAmount < 0 &&
                                             view?.paymentStatus !== "Refund" &&
                                             view?.paymentStatus !== "Cancelled") && (
-                                              <button
+                                              <button onClick={() => canWriteInvoice && handleRefundAmount(view)}
                                                 disabled={!canWriteInvoice}
                                                 className={`flex items-center gap-2 px-3 py-2 
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
@@ -429,20 +506,20 @@ function UserListInvoice(props) {
 
 
 
-                                          {/* {(view?.paymentStatus !== "Cancelled" &&
+                                          {(view?.paymentStatus !== "Cancelled" &&
                                         view?.paymentStatus !== "Paid") && (
-                                          <button
-                                            disabled={!canDeleteInvoice}
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-b-[10px]
+                                          <button disabled
+                                           
+                                            className={`flex items-center gap-2 cursor-not-allowed w-full px-3 py-2 text-sm rounded-b-[10px]
       ${canDeleteInvoice
-                                                ? "hover:bg-[#FFF0F0] text-red-500"
+                                                ? "hover:bg-[#FFF0F0] text-red-500 "
                                                 : "opacity-50 cursor-not-allowed text-[#ccc]"
                                               }`}
                                           >
                                             <Trash size="16" />
                                             Delete
                                           </button>
-                                        )} */}
+                                        )}
                                         </div>
                                       </div>
                                     )}
