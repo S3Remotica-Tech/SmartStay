@@ -1,3 +1,8 @@
 {
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "editor.colorDecorators": false,
+  "editor.defaultColorDecorators": "never",
+  "editor.bracketPairColorization.enabled": false,
+  "editor.semanticHighlighting.enabled": false
 }
+

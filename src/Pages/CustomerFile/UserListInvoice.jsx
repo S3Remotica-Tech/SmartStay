@@ -15,7 +15,7 @@ import {
   DiscountCircle,
   DocumentDownload,
   ReceiptEdit,
-  MoneySend,Trash
+  MoneySend, Trash
 } from "iconsax-react";
 import { IoMdMore } from "react-icons/io";
 import RecordPayment from "../Bills/RecordPayment";
@@ -144,13 +144,13 @@ function UserListInvoice(props) {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
 
-const handleEdit = () => {
+  const handleEdit = (data) => {
     navigate('/create-bill', {
       state: {
-        billData: CustomerOverView,
+        billData: data,
       },
     })
-  
+
   };
 
 
@@ -234,20 +234,33 @@ const handleEdit = () => {
   }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList.manualInvoiceUnpaidStatusCode === 200) {
-       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
 
       dispatch({ type: "REMOVE_MANUAL_BILL_UPDATE_UNPAID_REDUCER" });
     }
 
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode])
 
+const handleNavigatePDF = (item) => {
 
+    if (item) {
+      dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: CustomerOverView?.hostelId, invoiceId: item.invoiceId } })
+      navigate(`/invoice/details/${item.invoiceId}`, {
+        replace: false,
+        state: {
+          rowData: item, ts: Date.now(),
+          isTenantWay:true
+        },
+      });
+
+    }
+  }
   return (
     <>
 
- {showUnpaidModal && (
+      {showUnpaidModal && (
         <UnPaidInvoice show={showUnpaidModal} handleClose={handleCloseUnPaid} selectedInvoice={selectedInvoice} />
       )}
 
@@ -296,103 +309,125 @@ useEffect(() => {
 
 
             invoiceFilterddata?.length > 0 ? (
-              <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto rounded">
-                <Table className="min-w-[900px]">
-                  <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-30">
+               <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto rounded">
+
+                <table className="min-w-[900px] w-full border-collapse">
+
+                  <thead className="bg-[#E7F1FF] sticky top-0 z-30">
                     <tr className="text-left">
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-0 bg-[#E7F1FF] z-40 bg-[rgba(231,241,255,1)] ">Invoice Number</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap sticky left-[125px] bg-[#E7F1FF] z-30 bg-[rgba(231,241,255,1)]  ">Invoice Type</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap ">Invoice Date</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due Date</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Amount</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Due</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Status</th>
-                      <th className="font-gilroy text-gray-500 font-bold text-[13px] whitespace-nowrap">Action</th>
+
+                      <th className="sticky left-0 z-40 bg-[#E7F1FF] px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        INVOICE NUMBER
+                      </th>
+
+                      <th className="sticky left-[125px] z-30 bg-[#E7F1FF] px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        INVOICE TYPE
+                      </th>
+
+                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        INVOICE DATE
+                      </th>
+
+                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        DUE DATE
+                      </th>
+
+                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        AMOUNT
+                      </th>
+
+                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        DUE
+                      </th>
+
+                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        STATUS
+                      </th>
+
+                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                        ACTION
+                      </th>
+
                     </tr>
                   </thead>
 
-                  <tbody className="text-xs align-middle font-gilroy">
+                  <tbody className="text-[14px] font-medium font-gilroy">
+
                     <PaginationList>
                       {invoiceFilterddata?.map((view) => {
                         return (
-                          <tr key={view.invoiceId} className="border-b border-[#F9FAFF] text-left font-gilroy text-[14px] font-medium" >
+                          <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
 
-                            <td className="text-[13px] sticky left-0 bg-white z-20 text-[13px]">
-                              {view.invoiceNumber}
-                            </td>
-
-                            <td className="sticky left-[125px] bg-white z-20 text-[13px]">
-                              {view.invoiceType}_<span className="text-[10px]">{view.invoiceMode}</span>
-                            </td>
-
-                            <td>
-                              <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
-                                {view?.invoiceGeneratedDate}
-                              </span>
-                            </td>
-
-                            <td>
-                              <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
-                                {view?.dueDate}
-                              </span>
-                            </td>
-
-                            <td className="" >
-                              <span className="text-[13px] rounded-[14px] font-medium font-gilroy">
-                                {view?.totalAmount}
-                              </span>
-                            </td>
-
-                            <td className="" >
-                              <span className="rounded-[13px] font-medium font-gilroy ">
-                                ₹{view.dueAmount}
-                              </span>
-                            </td>
+                             <td className="sticky left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
+                            {view.invoiceNumber}
+                          </td>
 
 
-                            <td >
+                           <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px]">
+                            {view.invoiceType}_
+                            <span className="text-[8px]">{view.invoiceMode}</span>
+                          </td>
+
+                           <td className="px-3 py-2 text-[13px]">
+                            {view?.invoiceGeneratedDate}
+                          </td>
+
+                          <td className="px-3 py-2 text-[13px]">
+                            {view?.dueDate}
+                          </td>
+
+                             <td className="px-3 py-2 text-[13px]">
+                            {view?.totalAmount}
+                          </td>
+
+                          <td className="px-3 py-2 text-[13px]">
+                            ₹{view.dueAmount}
+                          </td>
+
+
+                            <td className="px-3 py-2" >
 
                               {(view?.paymentStatus === "Pending" ||
                                 view.paymentStatus === "Partial Payment") && (
-                                  <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy">
+                                  <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
                               {view?.paymentStatus === "Paid" && (
-                                <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
                               {(view?.paymentStatus === "Refunded" ||
                                 view?.paymentStatus === "Partially Refunded") && (
-                                  <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                  <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
                               {view?.paymentStatus === "Pending Refund" && (
-                                <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
 
                               {view?.paymentStatus === "Cancelled" && (
-                                <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy">
+                                <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   Cancelled
                                 </span>
                               )}
 
                             </td>
                             {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-                              <td className="text-left align-middle border-b border-[#E8E8E8]">
+                              <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
                                 <div className="flex flex-wrap gap-2 py-2">
                                   <div
-                                    className={`flex justify-center items-center relative cursor-pointer 
+                                    className={`flex justify-center items-center relative cursor-pointer  
         ${activeId === view.id ? "z-[1000]" : ""}`}
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -405,7 +440,7 @@ useEffect(() => {
                                     {activeId === view.invoiceId && (
                                       <div
                                         ref={popupRef}
-                                        className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000]"
+                                        className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000] shadow border whitespace-nowrap"
                                         style={{
                                           top: popupPosition.top,
                                           left: popupPosition.left - 50,
@@ -507,19 +542,19 @@ useEffect(() => {
 
 
                                           {(view?.paymentStatus !== "Cancelled" &&
-                                        view?.paymentStatus !== "Paid") && (
-                                          <button disabled
-                                           
-                                            className={`flex items-center gap-2 cursor-not-allowed w-full px-3 py-2 text-sm rounded-b-[10px]
+                                            view?.paymentStatus !== "Paid") && (
+                                              <button disabled
+
+                                                className={`flex items-center gap-2 cursor-not-allowed w-full px-3 py-2 text-sm rounded-b-[10px]
       ${canDeleteInvoice
-                                                ? "hover:bg-[#FFF0F0] text-red-500 "
-                                                : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                              }`}
-                                          >
-                                            <Trash size="16" />
-                                            Delete
-                                          </button>
-                                        )}
+                                                    ? "hover:bg-[#FFF0F0] text-red-500 "
+                                                    : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                                  }`}
+                                              >
+                                                <Trash size="16" />
+                                                Delete
+                                              </button>
+                                            )}
                                         </div>
                                       </div>
                                     )}
@@ -541,7 +576,7 @@ useEffect(() => {
                       </tr>
                     )}
                   </tbody>
-                </Table>
+                </table>
 
 
 

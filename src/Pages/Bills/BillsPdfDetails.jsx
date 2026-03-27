@@ -36,7 +36,7 @@ function BillsPdfDetails() {
         canReadModule: canReadInvoice,
     } = useHasPermission("Bills");
 
-    const { rowData, isReportsInvoiceRegisterWay } = location.state || {};
+    const { rowData, isReportsInvoiceRegisterWay, isTenantWay  } = location.state || {};
 
 
     const selectOptions = [
@@ -791,6 +791,7 @@ ${String(selectedInvoiceId) === String(item.invoiceId)
                     <BillPDFModalNew
                         rowData={rowData || rowDatas}
                         isReportsInvoiceRegisterWay={isReportsInvoiceRegisterWay}
+                        isTenantWay={isTenantWay}
                     />
                 </div>
             </div>
