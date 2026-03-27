@@ -136,20 +136,25 @@ function SettingsElectricityNew() {
                                 </div>
 
 
-                                <div onClick={() => handleNavigateEbRule("electricity-rule")} className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs cursor-pointer hover:bg-gray-50 transition">
+                                <button
+                                    disabled={!canUpdateElectricity}
+                                    onClick={() => handleNavigateEbRule("electricity-rule")}
+                                    className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs transition
+             disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50
+             hover:bg-gray-50"
+                                >
                                     <span className="text-xs md:text-sm font-medium text-gray-700">
-                                        {
-                                            EbList?.typeOfReading === "ROOM_READING"
-                                                ? "Room"
-                                                : EbList?.typeOfReading === "HOSTEL_READING"
-                                                    ? "Hostel"
-                                                    : EbList?.typeOfReading === "FLAT_RATE"
-                                                        ? "Flat"
-                                                        : ""
-                                        }
+                                        {EbList?.typeOfReading === "ROOM_READING"
+                                            ? "Room"
+                                            : EbList?.typeOfReading === "HOSTEL_READING"
+                                                ? "Hostel"
+                                                : EbList?.typeOfReading === "FLAT_RATE"
+                                                    ? "Flat"
+                                                    : ""}
                                     </span>
+
                                     <Edit size="14" color="#6B7280" />
-                                </div>
+                                </button>
 
                             </div>
 

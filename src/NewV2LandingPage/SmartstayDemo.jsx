@@ -553,6 +553,12 @@ function SmartstayDemo() {
                         ...base,
                         padding: "0 8px"
                       }),
+                       option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
                       singleValue: (base) => ({
                         ...base,
                         fontWeight: 600,
