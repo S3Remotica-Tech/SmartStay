@@ -627,7 +627,7 @@ function LongStayRecurringModal() {
                         </label>
                     </div>
                     <div className="bg-[#F0FDF4] h-fit text-[#008236] gap-1 rounded-md text-xs font-medium px-4 py-1.5 flex items-center">
-                        <TiTickOutline color="#008236" /> Configured
+                        <TiTickOutline variant="Bold" color="#008236" /> Configured
                     </div>
                 </div>
 
@@ -710,7 +710,7 @@ function LongStayRecurringModal() {
 
                 </div>
 
-                <div className="">
+                <div className="mt-2">
                     <h2 className="text-lg font-semibold text-gray-800 font-gilroy ">
                         Billing Schedule
                     </h2>
@@ -809,14 +809,14 @@ function LongStayRecurringModal() {
                             onClick={handleSave}
                             className={`flex items-center gap-2 text-sm font-gilroy px-5 py-2.5 rounded-lg border
   ${state.UsersList.hotelDetailsinPg?.canModifyBilling
-                                    ? "bg-[#EEF1FF] hover:bg-[#EEF1FF] text-[#081E76] border-1 border-[#081E76] cursor-pointer"
+                                    ? "bg-[#1E45E1] hover:bg-blue-900 text-white border-1 border-[#081E76] cursor-pointer"
                                     : "bg-gray-200 text-gray-500 border-gray-200 cursor-not-allowed"
                                 }`}
                         >
                             <ArchiveBook
                                 size="16"
                                 color={
-                                    state.UsersList.hotelDetailsinPg?.canModifyBilling ? "#081E76" : "#9CA3AF"
+                                    state.UsersList.hotelDetailsinPg?.canModifyBilling ? "#FFFFFF" : "#9CA3AF"
                                 }
                             />
 

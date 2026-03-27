@@ -188,22 +188,33 @@ function SettingAllPages({ isVisibleSidebar }) {
                   ["Staff", "user", "User"],
                   ["Role", "role"],
                   ["Agreement & Policy", "agreement"],
-                ].map(([label, route, pageKey = label]) => (
-                  <div key={route}>
-                    <p
-                      onClick={() => handleSettingsNavigate(route, pageKey)}
-                      className={`flex flex-shrink-0 justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer -mt-2.5
-                      ${activePage === route ? "text-[#1E45E1]" : "text-black"}`}
-                    >
-                      {label}
-                      <img alt="image"
-                        src={activePage === route ? blueArrow : blackArrow}
-                        className="w-4 h-4"
-                      />
-                    </p>
-                    <hr className="border-white -mt-2" />
-                  </div>
-                ))}
+                ].map(([label, route, pageKey = label]) => {
+
+                  const isActive =
+                    activePage === route ||
+                    (route === "billing-rule" &&
+                      ["long-stay-recurring"].includes(activePage)) ||
+                    (route === "electricity" &&
+                      ["electricity-rule"].includes(activePage));
+
+
+                  return (
+                    <div key={route}>
+                      <p
+                        onClick={() => handleSettingsNavigate(route, pageKey)}
+                        className={`flex flex-shrink-0 justify-between items-center font-gilroy text-[15px] font-medium cursor-pointer -mt-2.5
+                      ${isActive  ? "text-[#1E45E1]" : "text-black"}`}
+                      >
+                        {label}
+                        <img alt="image"
+                          src={isActive  ? blueArrow : blackArrow}
+                          className="w-4 h-4"
+                        />
+                      </p>
+                      <hr className="border-white -mt-2" />
+                    </div>
+                  )
+                })}
               </div>
             </aside>
           )}
