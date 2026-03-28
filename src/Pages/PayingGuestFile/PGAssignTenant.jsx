@@ -910,6 +910,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 : null
                             }
                             placeholder="Select Payment"
+                            menuPlacement="bottom"
+                              menuPosition="fixed"  
                             // isDisabled={currentItem}
                             noOptionsMessage={() => "No mode available"}
                             styles={{
@@ -1351,7 +1353,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
                                   {!item.showInput ? (
-                                    <Select
+                                    <Select menuPlacement="top"
+                              // menuPosition="fixed"  
                                       options={filteredOptions}
                                       value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
                                       onChange={(selectedOption) => {
@@ -1364,7 +1367,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                         }
                                       }}
                                       isDisabled={item.reason === "maintenance"}
-                                      menuPlacement="auto"
+                                    
                                       styles={{
                                         control: (base) => ({
                                           ...base,

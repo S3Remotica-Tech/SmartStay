@@ -358,29 +358,29 @@ const handleNavigatePDF = (item) => {
                         return (
                           <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
 
-                             <td className="sticky left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
+                             <td className="sticky whitespace-nowrap left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
                             {view.invoiceNumber}
                           </td>
 
 
-                           <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px]">
+                           <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px] whitespace-nowrap">
                             {view.invoiceType}_
-                            <span className="text-[8px]">{view.invoiceMode}</span>
+                            <span className="text-[8px] whitespace-nowrap">{view.invoiceMode}</span>
                           </td>
 
-                           <td className="px-3 py-2 text-[13px]">
+                           <td className="px-3 py-2 text-[13px] whitespace-nowrap">
                             {view?.invoiceGeneratedDate}
                           </td>
 
-                          <td className="px-3 py-2 text-[13px]">
+                          <td className="px-3 py-2 text-[13px] whitespace-nowrap">
                             {view?.dueDate}
                           </td>
 
-                             <td className="px-3 py-2 text-[13px]">
+                             <td className="px-3 py-2 text-[13px] whitespace-nowrap">
                             {view?.totalAmount}
                           </td>
 
-                          <td className="px-3 py-2 text-[13px]">
+                          <td className="px-3 py-2 text-[13px] whitespace-nowrap">
                             ₹{view.dueAmount}
                           </td>
 
@@ -389,35 +389,35 @@ const handleNavigatePDF = (item) => {
 
                               {(view?.paymentStatus === "Pending" ||
                                 view.paymentStatus === "Partial Payment") && (
-                                  <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                  <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
                               {view?.paymentStatus === "Paid" && (
-                                <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
                               {(view?.paymentStatus === "Refunded" ||
                                 view?.paymentStatus === "Partially Refunded") && (
-                                  <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                  <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
                               {view?.paymentStatus === "Pending Refund" && (
-                                <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
 
                               {view?.paymentStatus === "Cancelled" && (
-                                <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="bg-[#FFE6B3] whitespace-nowrap text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   Cancelled
                                 </span>
                               )}
