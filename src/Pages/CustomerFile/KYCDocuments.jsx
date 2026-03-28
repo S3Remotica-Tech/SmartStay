@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import Documents from "../../Assets/v2Images/doc.png";
 import { Eye, DocumentDownload, Trash } from "iconsax-react";
-import DeleteTenantDocument from  "./DeleteTenantDocument"
-function KYCDocuments({ documents }) {
+import DeleteTenantDocument from "./DeleteTenantDocument";
+import {  useSelector } from "react-redux";
 
+
+function KYCDocuments({ documents }) {
+ const state = useSelector((state) => state);
   const [previewImg, setPreviewImg] = useState(null);
   const [showDeleteDoc, setShowDeleteDoc] = useState(false);
   const [showDocumentId, setDocumentId] = useState('');
@@ -16,6 +19,15 @@ function KYCDocuments({ documents }) {
   const handleDeleteDocumentClose = () => {
     setShowDeleteDoc(false)
   }
+
+
+  const isDisabledButton =
+
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
+
   return (
     <div className="w-full max-h-[200px] overflow-y-auto pr-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
@@ -87,9 +99,16 @@ function KYCDocuments({ documents }) {
                     </a>
                   )}
 
-                  <Trash size="22" onClick={() => handleDeleteDocument(doc?.documentId)}
-                    className=" cursor-pointer"
-                    color="#FF0000"
+                  <Trash
+                    size="22"
+                    onClick={() => {
+                      if (!isDisabledButton) {
+                        handleDeleteDocument(doc?.documentId);
+                      }
+                    }}
+                    className={`cursor-pointer ${isDisabledButton ? "opacity-40 cursor-not-allowed" : ""
+                      }`}
+                    color={isDisabledButton ? "#BDBDBD" : "#FF0000"}
                   />
                 </div>
               </div>

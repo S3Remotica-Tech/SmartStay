@@ -243,7 +243,7 @@ function UserListInvoice(props) {
 
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode])
 
-const handleNavigatePDF = (item) => {
+  const handleNavigatePDF = (item) => {
 
     if (item) {
       dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: CustomerOverView?.hostelId, invoiceId: item.invoiceId } })
@@ -251,7 +251,7 @@ const handleNavigatePDF = (item) => {
         replace: false,
         state: {
           rowData: item, ts: Date.now(),
-          isTenantWay:true
+          isTenantWay: true
         },
       });
 
@@ -295,7 +295,7 @@ const handleNavigatePDF = (item) => {
         )}
       </div>
 
-      <div>
+      <div className="mt-10">
         {
 
           !canReadInvoice ?
@@ -309,7 +309,7 @@ const handleNavigatePDF = (item) => {
 
 
             invoiceFilterddata?.length > 0 ? (
-               <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto rounded">
+              <div className="mx-3 bg-white shadow-md  overflow-x-auto max-h-[420px] overflow-y-auto rounded">
 
                 <table className="min-w-[900px] w-full border-collapse">
 
@@ -343,11 +343,11 @@ const handleNavigatePDF = (item) => {
                       <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
                         STATUS
                       </th>
-
-                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
-                        ACTION
-                      </th>
-
+                      {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+                        <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                          ACTION
+                        </th>
+                      )}
                     </tr>
                   </thead>
 
@@ -358,31 +358,31 @@ const handleNavigatePDF = (item) => {
                         return (
                           <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
 
-                             <td className="sticky whitespace-nowrap left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
-                            {view.invoiceNumber}
-                          </td>
+                            <td className="sticky whitespace-nowrap left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
+                              {view.invoiceNumber}
+                            </td>
 
 
-                           <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px] whitespace-nowrap">
-                            {view.invoiceType}_
-                            <span className="text-[8px] whitespace-nowrap">{view.invoiceMode}</span>
-                          </td>
+                            <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view.invoiceType}_
+                              <span className="text-[8px] whitespace-nowrap">{view.invoiceMode}</span>
+                            </td>
 
-                           <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                            {view?.invoiceGeneratedDate}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view?.invoiceGeneratedDate}
+                            </td>
 
-                          <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                            {view?.dueDate}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view?.dueDate}
+                            </td>
 
-                             <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                            {view?.totalAmount}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view?.totalAmount}
+                            </td>
 
-                          <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                            ₹{view.dueAmount}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              ₹{view.dueAmount}
+                            </td>
 
 
                             <td className="px-3 py-2" >
