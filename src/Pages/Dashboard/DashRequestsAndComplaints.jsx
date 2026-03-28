@@ -247,14 +247,14 @@ function DashRequestAndComplaints() {
                                 >
                                     <div className="w-full">
                                         <div className="flex justify-between items-center w-full">
-                                            <p className="text-base font-semibold text-[#101828] flex items-center gap-2">
+                                            <p className="text-base font-semibold text-[#101828] flex items-center gap-8">
                                                 {item.name}
- {item.roomName &&
-                                                <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center gap-1.5">
-                                                    <span className="h-2 w-2 rounded-full bg-[#98A2B3] inline-block"></span>
-                                                    {item.roomName}
-                                                </span>
-}
+                                                {item.roomName &&
+                                                    <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center gap-1.5">
+                                                        <span className="h-2 w-2 rounded-full bg-[#98A2B3] inline-block"></span>
+                                                        {item.roomName}
+                                                    </span>
+                                                }
                                             </p>
 
                                             <span
@@ -361,15 +361,15 @@ function DashRequestAndComplaints() {
                                 >
                                     <div className="w-full">
                                         <div className="flex justify-between w-full">
-                                            <p className="text-base font-semibold text-[#101828]">
+                                            <p className="text-base font-semibold text-[#101828] flex items-center gap-8">
                                                 {item.name}
                                                 {
-                                                    item.room &&  <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center">
-                                                    <span className="mx-1 h-2 w-2 bg-gray-400 rounded-full inline-block"></span>
-                                                    {item.room}
-                                                </span>
+                                                    item.room && <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center">
+                                                        <span className="mx-1 h-2 w-2 bg-gray-400 rounded-full inline-block"></span>
+                                                        {item.room}
+                                                    </span>
                                                 }
-                                               
+
                                             </p>
 
                                             {/* <span
