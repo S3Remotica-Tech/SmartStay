@@ -54,7 +54,7 @@ function UserListInvoice(props) {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-
+console.log("invoiceFilterddata",invoiceFilterddata)
 
   const handleShowDots = (item, event) => {
     if (activeId === item.invoiceId) {
@@ -353,7 +353,7 @@ function UserListInvoice(props) {
 
                   <tbody className="text-[14px] font-medium font-gilroy">
 
-                    <PaginationList>
+                    {/* <PaginationList> */}
                       {invoiceFilterddata?.map((view) => {
                         return (
                           <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
@@ -566,7 +566,7 @@ function UserListInvoice(props) {
                         )
                       })
                       }
-                    </PaginationList>
+                    {/* </PaginationList> */}
 
                     {invoiceFilterddata?.length === 0 && (
                       <tr>
