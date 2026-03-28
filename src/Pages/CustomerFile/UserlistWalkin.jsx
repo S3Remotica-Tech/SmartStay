@@ -348,6 +348,30 @@ function UserlistWalkin() {
 
   }, [state.UsersList.statusCodeForCheckInCustomer])
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
   return (
     <>
       {!canReadWalkin ? (
@@ -374,136 +398,142 @@ function UserlistWalkin() {
                 <div className="h-10 w-10 rounded-full border-4 border-r-transparent border-t-blue-700 animate-spin"></div>
               </div>
             ) : (
-              <div className="show-scrolls overflow-auto mb-5 mt-3 px-0">
+              <div className="px-0">
+               <div className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>                    
+                  <PaginationList
+                    totalItems={sortedData.length}
+                    itemsPerPage={pageSize}
+                    currentPage={page}
+                    onPageChange={(p) => setPage(p)}
+                    onPageSizeChange={(size) => setPageSize(size)}
+                  />
+                </div>
 
                 {sortedData.length > 0 && (
-                  <div>
-                    <div
-                      className="show-scrolls relative p-2"
-                    >
-                      <Table responsive="md"
-                        className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
-                        <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
-                          <tr>
-                            <th>Name</th>
-                            <th>Email ID </th>
-                            <th>Mobile No</th>
-                            <th>Action</th>
+
+                  <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                    <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                        <thead className="bg-blue-100 sticky top-0 z-20">
+                          <tr className="h-9">
+                            <th className="w-[230px] px-2">Name</th>
+                            <th className="w-[230px] px-2">Email ID </th>
+                            <th className="w-[230px] px-2">Mobile No</th>
+                            <th className="w-[230px] px-2">Action</th>
                           </tr>
                         </thead>
 
                         <tbody className="text-start">
-                          <PaginationList>
-                            {sortedData && sortedData.length > 0 && (
-                              sortedData.map((v) => (
-                                <tr key={v.customerId} className="font-gilroy border-b border-[#E8E8E8]">
+                          {paginatedData.map((v) => (
+                            <tr key={v.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-                                  <td className="align-middle">
-                                    <span className="text-sm font-medium font-gilroy">
-                                      {v.fullName}
-                                    </span>
-                                  </td>
+                              <td className="w-[230px] px-2 py-1">
+                                <span className="">
+                                  {v.fullName}
+                                </span>
+                              </td>
 
-                                  <td className="pl-2 text-start align-middle text-sm font-medium font-gilroy border-b border-gray-200">
-                                    {v.emailId || "N/A"}
-                                  </td>
+                              <td className="w-[230px] px-2 py-1">
+                                {v.emailId || "N/A"}
+                              </td>
 
-                                  <td className="pl-2 text-start align-middle text-sm font-medium font-gilroy border-b border-gray-200">
-                                    +
-                                    {v && v.countryCode}{" "}
-                                    {v.mobile}
-                                  </td>
+                              <td className="w-[230px] px-2 py-1">
+                                +
+                                {v && v.countryCode}{" "}
+                                {v.mobile}
+                              </td>
 
-                                  <td className="border-b border-gray-200">
+                              <td className="w-[230px] px-2 py-1">
+                                <div
+                                  className="relative flex justify-start items-center cursor-pointer"
+                                  onClick={(e) => handleDotsClick(v.customerId, e)}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId ? "text-blue-700" : "text-gray-500"
+                                      }`}
+                                  />
+
+                                  {dotsButton === v.customerId && (
                                     <div
-                                      className="relative flex justify-start items-center cursor-pointer"
-                                      onClick={(e) => handleDotsClick(v.customerId, e)}
+                                      ref={popupRef}
+                                      className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
+                                      style={{
+                                        top: popupPosition.top - 15,
+                                        left: popupPosition.left - 10,
+                                      }}
                                     >
-                                      <PiDotsThreeOutlineVerticalFill
-                                        className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId ? "text-blue-700" : "text-gray-500"
+
+                                      <div
+                                        onClick={() => canWriteTenant && handleCheckIn(v)}
+                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteTenant
+                                          ? "cursor-pointer hover:bg-blue-50"
+                                          : "cursor-not-allowed opacity-50"
                                           }`}
-                                      />
-
-                                      {dotsButton === v.customerId && (
-                                        <div
-                                          ref={popupRef}
-                                          className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
-                                          style={{
-                                            top: popupPosition.top - 15,
-                                            left: popupPosition.left - 10,
-                                          }}
+                                      >
+                                        <img
+                                          src={addcircle}
+                                          alt="Assign Bed"
+                                          className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
+                                        />
+                                        <label
+                                          className={`text-sm font-medium ${canWriteTenant ? "text-gray-900" : "text-gray-400"
+                                            }`}
                                         >
+                                          Check-In
+                                        </label>
+                                      </div>
 
-                                          <div
-                                            onClick={() => canWriteTenant && handleCheckIn(v)}
-                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteTenant
-                                              ? "cursor-pointer hover:bg-blue-50"
-                                              : "cursor-not-allowed opacity-50"
-                                              }`}
-                                          >
-                                            <img
-                                              src={addcircle}
-                                              alt="Assign Bed"
-                                              className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
-                                            />
-                                            <label
-                                              className={`text-sm font-medium ${canWriteTenant ? "text-gray-900" : "text-gray-400"
-                                                }`}
-                                            >
-                                              Check-In
-                                            </label>
-                                          </div>
+                                      <div
+                                        onClick={() => canWriteBooking && handleBooking(v)}
+                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteBooking
+                                          ? "cursor-pointer hover:bg-red-50"
+                                          : "cursor-not-allowed opacity-50"
+                                          }`}
+                                      >
+                                        <img
+                                          src={Addbook}
+                                          alt="Add Book"
+                                          className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
+                                        />
+                                        <label
+                                          className={`text-sm font-medium ${canWriteBooking ? "text-blue-700" : "text-gray-400"
+                                            }`}
+                                        >
+                                          Add Booking
+                                        </label>
+                                      </div>
 
-                                          <div
-                                            onClick={() => canWriteBooking && handleBooking(v)}
-                                            className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteBooking
-                                              ? "cursor-pointer hover:bg-red-50"
-                                              : "cursor-not-allowed opacity-50"
-                                              }`}
-                                          >
-                                            <img
-                                              src={Addbook}
-                                              alt="Add Book"
-                                              className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
-                                            />
-                                            <label
-                                              className={`text-sm font-medium ${canWriteBooking ? "text-blue-700" : "text-gray-400"
-                                                }`}
-                                            >
-                                              Add Booking
-                                            </label>
-                                          </div>
-
-                                          <div
-                                            onClick={() => canDeleteWalkin && handleDeleteShow(v)}
-                                            className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${canDeleteWalkin
-                                              ? "cursor-pointer hover:bg-red-50"
-                                              : "cursor-not-allowed opacity-60"
-                                              } bg-gray-50`}
-                                          >
-                                            <Trash
-                                              size={16}
-                                              color={!canDeleteWalkin ? "#A9A9A9" : "red"}
-                                            />
-                                            <label
-                                              className={`text-sm font-medium ${canDeleteWalkin ? "text-red-600" : "text-gray-400"
-                                                }`}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
-                                        </div>
-                                      )}
+                                      <div
+                                        onClick={() => canDeleteWalkin && handleDeleteShow(v)}
+                                        className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${canDeleteWalkin
+                                          ? "cursor-pointer hover:bg-red-50"
+                                          : "cursor-not-allowed opacity-60"
+                                          } bg-gray-50`}
+                                      >
+                                        <Trash
+                                          size={16}
+                                          color={!canDeleteWalkin ? "#A9A9A9" : "red"}
+                                        />
+                                        <label
+                                          className={`text-sm font-medium ${canDeleteWalkin ? "text-red-600" : "text-gray-400"
+                                            }`}
+                                        >
+                                          Delete
+                                        </label>
+                                      </div>
                                     </div>
-                                  </td>
-                                </tr>
-                              ))
-                            )}
-                          </PaginationList>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+
                         </tbody>
-                      </Table>
+                      </table>
                     </div>
+
                   </div>
+
                 )}
               </div>
             )}

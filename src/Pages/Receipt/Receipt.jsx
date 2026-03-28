@@ -129,14 +129,14 @@ function Receipt() {
 
 
     useEffect(() => {
-        if(state.InvoiceList.statusCodeForReceiptPDf === 200){       
-        if (!state.InvoiceList.ReceiptPDF) return;
-        // if (pdfOpenedRef.current) return;
-        // pdfOpenedRef.current = true;
-        setPdfLoading(false);
-        window.open(state.InvoiceList.ReceiptPDF, "_blank");
+        if (state.InvoiceList.statusCodeForReceiptPDf === 200) {
+            if (!state.InvoiceList.ReceiptPDF) return;
+            // if (pdfOpenedRef.current) return;
+            // pdfOpenedRef.current = true;
+            setPdfLoading(false);
+            window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
-        dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+            dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
         }
     }, [state.InvoiceList.statusCodeForReceiptPDf]);
 
@@ -300,6 +300,29 @@ function Receipt() {
         };
     }, [state.login.selectedHostel_Id]);
 
+ const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedDataReceipt.slice(startIndex, endIndex);
 
 
 
@@ -337,9 +360,8 @@ function Receipt() {
                     <div className="w-full p-0">
                         <div className="w-full">
                             <div className="sticky top-0 bg-white z-10 flex justify-between items-center flex-wrap h-auto border-b border-transparent shadow-none">
-
-                                <div className="mt-0">
-                                    <label className="text-[18px] text-[#222222] font-gilroy font-semibold">
+                                <div className="flex lg:justify-start justify-center items-center flex-wrap">
+                                    <label className="text-lg text-black font-semibold font-gilroy">
                                         Receipt
                                     </label>
                                 </div>
@@ -396,51 +418,43 @@ function Receipt() {
                             </div>
 
                             {sortedDataReceipt && sortedDataReceipt.length > 0 && (
-                                <div className="ms-2 me-4 pb-5">
-                                    <div
-                                        className="show-scroll overflow-auto mt-5"
-                                        style={{
-                                            height:
-                                                sortedDataReceipt.length >= 5
-                                                    ? "450px"
-                                                    : "auto",
-                                        }}
-                                    >
-                                        <Table responsive="md"
-                                            className="sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none">
-                                            <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
-                                                <tr>
-                                                    <th>Receipt No</th>
-                                                    <th><span className="ml-4">Name</span></th>
-                                                    <th>Reference_Id</th>
-                                                    <th>Invoice Number</th>
-                                                    <th>Type</th>
-                                                    <th>Payment Date</th>
-                                                    <th>Amount</th>
-                                                    <th>Payment Mode</th>
-                                                    <th>Action</th>
+                                <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                                    <div className="flex justify-end items-center mb-2 mr-2">
+                                        <PaginationList
+                                            totalItems={sortedDataReceipt.length}
+                                            itemsPerPage={pageSize}
+                                            currentPage={page}
+                                            onPageChange={(p) => setPage(p)}
+                                            onPageSizeChange={(size) => setPageSize(size)}
+                                        />
+                                    </div>
+                                    <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll mt-2">
+                                        <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                                            <thead className="bg-blue-100 sticky top-0 z-20">
+                                                <tr className="h-9">
+                                                    <th className="w-[250px] px-2 whitespace-nowrap">Receipt No</th>
+                                                    <th className="w-[250px] px-3">Name</th>
+                                                    <th className="w-[230px] px-2 whitespace-nowrap">Reference_Id</th>
+                                                    <th className="w-[230px] px-2 whitespace-nowrap">Invoice Number</th>
+                                                    <th className="w-[230px] px-2">Type</th>
+                                                    <th className="w-[230px] px-2 whitespace-nowrap">Payment Date</th>
+                                                    <th className="w-[230px] px-2">Amount</th>
+                                                    <th className="w-[230px] px-2 whitespace-nowrap">Payment Mode</th>
+                                                    <th className="w-[230px] px-2">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="text-[10px] relative min-h-[200px]">
-                                                <PaginationList
-                                                    pageSizeOptions={[
-                                                        { value: 10, label: "10" },
-                                                        { value: 50, label: "50" },
-                                                        { value: 100, label: "100" },
-                                                    ]}
-                                                >
-                                                    {sortedDataReceipt.map((item) => (
-                                                        <ReceiptList
-                                                            key={item.id}
-                                                            item={item}
-                                                            OnHandleshowInvoicePdf={handleReceiptDetail}
-                                                            onhandleEdit={handleEditReceipt}
-                                                            DisplayInvoice={handleDisplayReceiptDownload}
-                                                        />
-                                                    ))}
-                                                </PaginationList>
+                                            <tbody>
+                                                {paginatedData.map((item) => (
+                                                    <ReceiptList
+                                                        key={item.id}
+                                                        item={item}
+                                                        OnHandleshowInvoicePdf={handleReceiptDetail}
+                                                        onhandleEdit={handleEditReceipt}
+                                                        DisplayInvoice={handleDisplayReceiptDownload}
+                                                    />
+                                                ))}
                                             </tbody>
-                                        </Table>
+                                        </table>
                                     </div>
                                 </div>
                             )}

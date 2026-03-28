@@ -530,9 +530,31 @@ function Banking() {
 
   }, [state.createAccount?.networkError])
 
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedTransactions = transactionFilterddata?.slice(startIndex, endIndex);
   return (
     <>
-      <div className="h-screen overflow-hidden">
+      <div className="overflow-hidden">
 
         <div className="sticky top-0 bg-white">
           <div
@@ -951,89 +973,69 @@ function Banking() {
 
           )}
 
-          <div >
+          <div>
 
             {transactionFilterddata?.length > 0 ? (
+              <>
+               
+                <div className="mb-2 mt-3">
+                  <div className="relative h-[280px] md:h-[200px] lg:h-[290px] overflow-hidden">
+                    <div className="h-full overflow-y-auto overflow-x-auto show-scroll">
 
-              <div className="overflow-y-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px] md:h-[200px] lg:h-[260px]  thin-scrollbar">
+                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
 
-                <Table className="min-w-full border-collapse w-full font-medium font-gilroy sticky top-0 z-10]"
-                  responsive="md" >
-                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10">
-
-                    <tr >
-                      <th className="text-start align-middle ">
-                        Account Name
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Date
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Amount
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Description
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Transaction
-                      </th>
-                    </tr>
-
-                  </thead>
-
-
-                  <tbody className="text-center">
-                    <PaginationList>
-                      {transactionFilterddata?.map((user) => {
-
-
-                        return (
-
-                          <tr
-                            key={user.id}
-                            className="text-[13px] font-gilroy font-semibold text-center border-b border-[#E8E8E8]"
-                          >
-                            <td className="border-0 text-start font-semibold">
-                              {user.accountHolder}
-                            </td>
-
-                            <td className="border-0 text-start font-gilroy whitespace-nowrap">
-                              <span>
-                                {user.createdAt}
-                              </span>
-                            </td>
-
-                            <td className="border-0 text-start font-gilroy">
-                              {user.amount}
-                            </td>
-
-                            <td className="border-0 text-start font-gilroy">
-                              {user.source}
-                            </td>
-
-                            <td className="border-0 text-start font-gilroy whitespace-nowrap">
-                              <span>
-                                {user.type}
-                              </span>
-                            </td>
+                        <thead className="bg-blue-100 sticky top-0 z-20">
+                          <tr className="h-9">
+                            <th className="w-[230px] px-2">Account Name</th>
+                            <th className="w-[230px] px-2">Date</th>
+                            <th className="w-[230px] px-2">Amount</th>
+                            <th className="w-[230px] px-2">Description</th>
+                            <th className="w-[230px] px-2">Transaction</th>
                           </tr>
+                        </thead>
 
-                        );
-                      })}
-                    </PaginationList>
-                  </tbody>
+                        <tbody>
+                          {paginatedTransactions?.map((user) => (
+                            <tr
+                              key={user.id}
+                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+                            >
+                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                {user.accountHolder}
+                              </td>
+                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                {user.createdAt}
+                              </td>
+                              <td className="w-[230px] px-2 py-1">
+                                {user.amount}
+                              </td>
+                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                {user.source}
+                              </td>
+                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                {user.type}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
 
+                      </table>
 
+                    </div>
+                  </div>
+                </div>
 
+                <div className="flex justify-end mr-2">
+                  <PaginationList
+                    totalItems={transactionFilterddata.length}
+                    itemsPerPage={pageSize}
+                    currentPage={page}
+                    onPageChange={(p) => setPage(p)}
+                    onPageSizeChange={(size) => setPageSize(size)}
+                  />
+                </div>
 
-                </Table>
-
-              </div>
-
+              </>
             ) : (
 
 

@@ -194,87 +194,91 @@ const Receipt = (props) => {
 
     <>
 
-      <tr
-        // key={props.item.id} 
-        style={{
-          color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal",
-          lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
-        }} className='m-2' >
+      <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-        <td style={{ cursor: "pointer", border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div style={{ marginLeft: 7 }} onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+          <div onClick={() => handleDownload(props.item)}>{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
         </td>
 
-
-
-        <td className="table-cells " style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
-          <div className="d-flex  align-items-center">
-
-            <br />
-            <div
-              className="font-gilroy text-[13px] ml-[17px] text-[#1E45E1] font-semibold cursor-pointer text-start truncate max-w-[150px]"
-              title={props.item?.fullName}
-              onClick={() => handleNavigateTenantProfile(props.item)}
-            >
+          <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => handleNavigateTenantProfile(props.item)}
+            title={props.item?.fullName}
+          >
+            {props.item?.profilePic ? (
+              <img
+                src={props.item.profilePic}
+                alt="profile"
+                className="w-9 h-9 rounded-full"
+              />
+            ) : (
+              <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold text-[#44536A]">
+                {props.item?.initials || "-"}
+              </div>
+            )}
+            <div className="overflow-hidden text-ellipsis truncate w-[120px]">
               {props.item?.fullName}
             </div>
-
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div style={{ marginLeft: 7 }}  >{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div>
+
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap">
+          <div>{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div>
         </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div className="ps-0" style={{ marginLeft: 6 }}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+          <div className="ml-[6px]">
+            {!props.item?.invoiceNumber || props.item?.invoiceNumber === "0"
+              ? "-"
+              : props.item.invoiceNumber}
+          </div>
         </td>
 
-
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div style={{ marginLeft: 6 }}>{props.item.invoiceType}</div>
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+          <div className="ml-[6px]">
+            {props.item.invoiceType}
+          </div>
         </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-          {props.item?.paidAt}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-          {props.item?.bankName ? props.item?.bankName : "-"}</td>
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+          {props.item?.paidAt}
+        </td>
 
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+          ₹{props.item?.paidAmount !== null
+            ? props.item.paidAmount.toLocaleString('en-IN')
+            : '0'}
+        </td>
 
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{
-              cursor: "pointer",
-              // backgroundColor: showDots ? "#E7F1FF" : "white",
-              //  height: 40, width: 40, 
-              //  borderRadius: 100, 
-              //  border: "1px solid #EFEFEF", 
-              display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
-            }}
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+          {props.item?.bankName ? props.item?.bankName : "-"}
+        </td>
+
+        <td className="px-2">
+          <div className="w-full flex justify-start">
+            <div
+              className="cursor-pointer flex justify-center items-center relative"
               onClick={(e) => handleShowDots(e)}
             >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: " rotate(90deg)", color: showDots ? "#1E45E1" : "#6B7280", }} />
+              <PiDotsThreeOutlineVerticalFill
+                className={`h-[20px] w-[20px] rotate-90 ${showDots ? "text-[#1E45E1]" : "text-[#6B7280]"
+                  }`}
+              />
 
               {showDots && <>
                 <div
                   ref={popupRef}
+                  className={`cursor-pointer bg-[#F9F9F9] fixed w-[130px] border border-[#EBEBEB] rounded-[10px] flex flex-col items-start ${showDots ? "z-[1000]" : ""
+                    }`}
                   style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "fixed",
                     top: popupPosition.top,
                     left: popupPosition.left,
-                    width: 130,
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    zIndex: showDots ? 1000 : "auto",
                   }}
                 >
 
-                  <button
+                  <div>
+                    <button
                     type="button"
                     disabled
                     className="flex justify-start items-center gap-2 w-full px-3 py-2 
@@ -291,16 +295,16 @@ const Receipt = (props) => {
                       Edit
                     </span>
                   </button>
+                  </div>
+
+                  {/* {props.item.invoiceType !== "Settlement" &&
+ props.item.invoiceType !== "Refund" && ( */}
 
                   <div
-                    className="d-flex justify-content-start align-items-center gap-2"
-                    style={{
-                      cursor: canDeleteReceipt ? "pointer" : "not-allowed",
-                      opacity: canDeleteReceipt ? 1 : 0.5,
-                      padding: "8px 12px",
-                      width: "100%",
-                      backgroundColor: "transparent",
-                    }}
+                    className={`flex justify-start items-center gap-2 w-full px-3 py-2 bg-transparent ${canDeleteReceipt
+                        ? "cursor-pointer opacity-100"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
                     onClick={() => {
                       if (canDeleteReceipt) {
                         handleDeleteForm(props.item);
@@ -318,31 +322,20 @@ const Receipt = (props) => {
                     <img
                       src={Delete}
                       alt="Delete"
-                      style={{ height: 16, width: 16 }}
+                      className="h-4 w-4"
                     />
 
-                    <span
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#FF0000",
-                        cursor: canDeleteReceipt ? "pointer" : "not-allowed",
-                      }}
-                    >
+                    <span className={`text-[14px] font-medium font-gilroy text-[#FF0000] ${canDeleteReceipt ? "cursor-pointer" : "cursor-not-allowed"
+                      }`}>
                       Delete
                     </span>
                   </div>
-                  {/* )} */}
 
-                  <div
-                    className="d-flex justify-content-start align-items-center gap-2 "
-                    style={{
-                      opacity: !isExportAllow ? 0.5 : 1,
-                      cursor: !isExportAllow ? "not-allowed" : "pointer",
-                      padding: "8px 12px",
-                      width: "100%"
-                    }}
+
+                  <div className={`flex justify-start items-center gap-2 w-full px-3 py-2 ${!isExportAllow
+                      ? "opacity-50 cursor-not-allowed"
+                      : "opacity-100 cursor-pointer"
+                    }`}
                     onClick={() => {
                       if (isExportAllow) { handleInvoicepdf(props.item) }
                     }}
@@ -353,33 +346,19 @@ const Receipt = (props) => {
                       e.currentTarget.style.backgroundColor = "transparent";
                     }}
                   >
-                    <img src={Download} alt="Download" style={{ height: 16, width: 16 }} />
+                    <img src={Download} alt="Download" className="h-4 w-4" />
                     <label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#222222",
-                        cursor: !isExportAllow ? "not-allowed" : "pointer",
-                      }}
-                    >
+                      className={`text-[14px] font-medium font-gilroy text-[#222222] ${!isExportAllow ? "cursor-not-allowed" : "cursor-pointer"
+                        }`} >
                       Download
                     </label>
                   </div>
                 </div>
 
               </>}
-
-
             </div>
           </div>
         </td>
-
-
-
-
-
-
 
       </tr>
 

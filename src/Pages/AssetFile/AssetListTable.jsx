@@ -145,52 +145,41 @@ function AssetListTable(props) {
 
       <tr
         key={props.item.id}
-        className="font-gilroy border-b border-[#E8E8E8]"
+        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
       >
         <td
           title={props.item.product_name || "-"}
-          className="pl-2 text-start align-middle font-medium text-black
-               whitespace-nowrap overflow-hidden text-ellipsis leading-none"
+          className="w-[230px] py-1 whitespace-nowrap truncate px-2"
         >
           {props.item.productName || "-"}
         </td>
 
         <td
           title={props.item.serial_number || "-"}
-          className="pl-3 md:pl-3 text-start align-middle font-medium text-black
-               whitespace-nowrap overflow-hidden text-ellipsis"
+          className="w-[230px] py-1 px-2 whitespace-nowrap px-2"
         >
           {props.item.serialNumber || "-"}
         </td>
 
         <td
           title={props.item.brandName || "-"}
-          className="p-2 text-start font-medium font-gilroy
-               whitespace-nowrap"
+          className="w-[230px] py-1 whitespace-nowrap truncate"
         >
           {props.item.brandName || "-"}
         </td>
 
-        <td
-          title={props.item.asset_name}
-          className="p-0 text-start align-middle
-               whitespace-nowrap overflow-hidden text-ellipsis"
-        >
-          <div className="w-full">
-            <div
-              className="whitespace-nowrap overflow-hidden text-ellipsis
-                   font-medium font-gilroy
-                   p-1.5 rounded-full"
-            >
-              {props.item.assetName || "-"}
-            </div>
+        <td className="w-[230px] py-1 px-2">
+          <div
+            className="truncate"
+            title={props.item.assetName || "-"}
+          >
+            {props.item.assetName || "-"}
           </div>
         </td>
 
         <td
           title={props.item.price}
-          className="p-0 text-start align-middle
-               font-medium text-black font-gilroy"
+          className="w-[230px] py-1 whitespace-nowrap px-1.5"
         >
           ₹{props.item.price ? props.item.price.toLocaleString("en-IN") : "0"}
         </td>
@@ -199,18 +188,16 @@ function AssetListTable(props) {
           title={moment(props.item.purchaseDate)
             .format("DD MMM YYYY")
             .toUpperCase()}
-          className="text-start font-medium font-gilroy
-               whitespace-nowrap"
+          className="w-[230px] py-1 whitespace-nowrap px-2"
         >
           {props.item.purchaseDate}
         </td>
 
         <td
           title={props.item.hostelName || "-"}
-          className="p-0 text-start align-middle font-medium text-black font-gilroy
-             whitespace-nowrap overflow-hidden max-w-[150px]"
+          className="w-[230px] py-1 px-2"
         >
-          <div className="pl-2 overflow-hidden text-ellipsis">
+          <div className="truncate">
             {props.item.assignmentStatus === "Unassigned"
               ? "-"
               : props.item.hostelName}
@@ -218,15 +205,15 @@ function AssetListTable(props) {
         </td>
 
 
-        <td className="text-start align-middle">
+        <td className="py-1 px-2">
           <div className="w-full flex justify-start">
             <div
               onClick={(e) => handleShowDots(props.item.id, e)}
-              className="relative flex items-center justify-center rounded-full cursor-pointer ml-2"
+              className="relative flex items-center justify-center rounded-full cursor-pointer"
             >
               <PiDotsThreeOutlineVerticalFill
                 className={`w-[15px] h-[15px] rotate-90
-            ${showDots ? "text-[#1E45E1]" : "text-gray-500"}`}
+            ${showDots ? "text-[#1E45E1]" : "text-gray-800"}`}
               />
 
               {showDots && (
@@ -306,7 +293,7 @@ function AssetListTable(props) {
       {showAssignAssetModal && <AssignAsset show={showAssignAssetModal} handleClose={handleClose} currentItem={assign} />}
 
 
-      <div >
+      <div>
         <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static"
           dialogClassName="custom-delete-modal"
 
@@ -350,12 +337,11 @@ function AssetListTable(props) {
     </>
   )
 }
+
 AssetListTable.propTypes = {
-  OnEditAsset: PropTypes.func.isRequired,
-  item: PropTypes.func.isRequired,
-  // assetAddPermission: PropTypes.func.isRequired,
-  // assetEditPermission: PropTypes.func.isRequired,
-  // assetDeletePermission: PropTypes.func.isRequired
+  item: PropTypes.object.isRequired,
+  OnEditAsset: PropTypes.func,
+  disableActions: PropTypes.bool,
 };
 
 export default AssetListTable

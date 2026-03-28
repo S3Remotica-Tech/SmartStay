@@ -662,7 +662,29 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
+ const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedData.slice(startIndex, endIndex);
 
   return (
     <>
@@ -974,44 +996,57 @@ function Expenses({ allPageHostel_Id }) {
 
 
             <div>
-              <div className="show-scrolls m-2 mt-5 mb-5 relative font-gilroy
-              overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0
-              ">
+              {/* <div className="show-scrolls m-2 mb-5 relative font-gilroy
+              overflow-y-auto pr-0 pl-0
+              "> */}
+               <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3 font-gilroy">
+                <div className="flex justify-end mb-3">
+                  <div>
+                    <PaginationList
+                      totalItems={sortedData.length}
+                      itemsPerPage={pageSize}
+                      currentPage={page}
+                      onPageChange={(p) => setPage(p)}
+                      onPageSizeChange={(size) => setPageSize(size)}
+                    />
+                  </div>
+                </div>
 
-                <Table
+                {/* <Table
                   responsive="md"
                   className="mb-0 table-auto w-full text-sm text-gray-800"
                 >
 
-                  <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
-                    <tr>
-                      <th>Date</th>
-                      <th>Category</th>
-                      <th>Description</th>
-                      <th>Unit Count</th>
-                      <th>Per Unit Price</th>
-                      <th>Total Amount</th>
-                      <th>Mode of Payment</th>
-                      <th>Action</th>
+                  <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"> */}
+                  
+                   <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                        <thead className="bg-blue-100 sticky top-0 z-20">
+                          <tr className="h-9">
+                      <th className="w-[230px] px-2">Date</th>
+                      <th className="w-[230px] px-2">Category</th>
+                      <th className="w-[230px] px-2">Description</th>
+                      <th className="w-[230px] px-2 whitespace-nowrap">Unit Count</th>
+                      <th className="w-[230px] px-2 whitespace-nowrap">Per Unit Price</th>
+                      <th className="w-[230px] px-2 whitespace-nowrap">Total Amount</th>
+                      <th className="w-[230px] px-2 whitespace-nowrap">Mode of Payment</th>
+                      <th className="w-[230px] px-2">Action</th>
                     </tr>
 
                   </thead>
 
                   <tbody>
-                    <PaginationList
-
-                    >
-                      {sortedData?.map((item) => (
-                        <ExpensesListTable
-                          key={item.id}
-                          item={item}
-                          OnEditExpense={handleEditExpen}
-                          handleDelete={handleDeleteExpense}
-                        />
-                      ))}
-                    </PaginationList>
+                    {paginatedData?.map((item) => (
+                      <ExpensesListTable
+                        key={item.id}
+                        item={item}
+                        OnEditExpense={handleEditExpen}
+                        handleDelete={handleDeleteExpense}
+                      />
+                    ))}
                   </tbody>
-                </Table>
+                </table>
+                </div>
               </div>
             </div>
 

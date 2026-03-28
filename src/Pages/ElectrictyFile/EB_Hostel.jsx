@@ -372,6 +372,7 @@ const RoomReadingTable = () => {
     };
   });
 
+
   const formattedRoomReadings = roomReadingList?.map((item) => {
 
 
@@ -438,6 +439,32 @@ const RoomReadingTable = () => {
   // console.log("mathu", roomReadingList);
 
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+
+  const paginatedData = formattedRoomReadings?.slice(startIndex, endIndex);
+
+  const paginatedTenantdData = formattedReadings?.slice(startIndex, endIndex);
+
+
 
   return (
 
@@ -446,273 +473,61 @@ const RoomReadingTable = () => {
 
 
       {!roomDetail && !tenantsDetail ? (
-        <div className="sticky top-0 bg-white font-gilroy mt-3 p-1">
-          <div className="mb-3">
-            <label className="text-lg text-black font-semibold mr-4">
-              Electricity
-            </label>
-          </div>
+        <div className="sticky top-0 bg-white font-gilroy p-1">
 
           <div className="flex items-center justify-between mb-3">
-            <div
-              className="flex ml-0.5 -mt-2"
-
-            >
-              <div
-                onClick={() => setActiveTab("room")}
-                className={`cursor-pointer mr-6 pb-1.5 font-gilroy ${activeTab === "room"
-                  ? "text-black font-semibold border-b-2 border-blue-700"
-                  : "text-gray-700 font-normal border-b-2 border-transparent"
-                  }`}
-
-              >
-                {isEbBased ? "Hostel Reading" : "Room Reading"}
-              </div>
-              <div
-                onClick={() => setActiveTab("customer")}
-                className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "customer"
-                  ? "text-black font-semibold border-b-2 border-blue-700"
-                  : "text-gray-700 font-normal border-b-2 border-transparent"
-                  }`}
-
-              >
-                Tenants Reading
-              </div>
-
-
+            <div className="mb-0">
+              <label className="text-lg text-black font-semibold">
+                Electricity
+              </label>
             </div>
+
             <div className="flex items-center gap-2">
 
-              <div className="mx-auto flex items-center gap-2 mr-2">
-
-                <div className="flex gap-3 mr-2 bg-white rounded p-2 shadow-sm h-fit">
-
-                  <img
-                    // onClick={() => canReadElectricity && handleSearch()}
-                    src={searchteam}
-                    height={20}
-                    width={20}
-                    alt="search"
-                    className={`transition-opacity duration-300 ${canReadElectricity
-                      ? "cursor-pointer opacity-100 pointer-events-auto"
-                      : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
-                  />
-
-                </div>
-                {
-                  !isEbBased &&
-
-                  <div>
-
-                    <div
-                      className=" flex gap-3 mr-2 p-1.5 bg-white rounded"
-
-                      onClick={() => canReadElectricity && handleFilterShow()}
-                    >
-                      <FiFilter size={20}
-                        className={`transition-opacity duration-300 ${canReadElectricity
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
-                          }`}
-
-                      />
-                    </div>
-
-                    <Offcanvas
-                      show={filterShow}
-                      onHide={handleFilterClose}
-                      placement="end"
-                      className="w-80 font-gilroy"
-                    >
-                      <Offcanvas.Header className="flex justify-between items-center">
-                        <Offcanvas.Title className="font-semibold">Filter</Offcanvas.Title>
-                        <CloseCircle
-                          size="26"
-                          color="#000000"
-                          className="cursor-pointer"
-                          onClick={handleFilterClose}
-                        />
-                      </Offcanvas.Header>
-
-                      <Offcanvas.Body>
-                        <Form>
-
-                          <Form.Group className="mb-3 relative">
-                            <Form.Label>Datas</Form.Label>
-                            <Form.Control
-                              as="select"
-                              className="appearance-none pr-10"
-                            >
-                              <option>All</option>
-                              <option>Active</option>
-                              <option>Inactive</option>
-                            </Form.Control>
-                            <span
-                              className="absolute right-2 top-[63%] -translate-y-1/2 pointer-events-none"
-                            >
-                              <ArrowDown2 size="20" color="black" className="mt-3" />
-                            </span>
-                          </Form.Group>
-
-                          <div>
-
-                            <Form.Group className="mb-3 relative cursor-pointer"
-                              onClick={() => setIsOpen(!isOpen)}>
-                              <Form.Label
-                                className="flex justify-between items-center"
-                                onClick={() => setIsOpen(!isOpen)}
-                              >
-                                System Filter
-                                <span>
-                                  {isOpen ? <ArrowUp2 size="20" color="black" /> : <ArrowDown2 size="20" color="black" />}
-                                </span>
-                              </Form.Label>
-                            </Form.Group>
-
-                            {isOpen && (
-                              <div className="mb-3">
-
-                                <Form.Group className="mb-3 relative">
-                                  <Form.Label>Month &amp; Year</Form.Label>
-                                  <Form.Control
-                                    as="select"
-                                    className="appearance-none pr-10"
-                                  >
-                                    <option>August</option>
-                                    <option>July</option>
-                                    <option>June</option>
-                                  </Form.Control>
-                                  <span
-                                    className="absolute right-2 top-[63%] -translate-y-1/2 pointer-events-none"
-                                  >
-                                    <ArrowDown2 size="20" color="black" className="mt-3" />
-                                  </span>
-                                </Form.Group>
-
-                                <Form.Group className="mb-3">
-                                  <Form.Label>Custom Date</Form.Label>
-                                  <div className="d-flex gap-2">
-                                    <Form.Control type="date" />
-                                    <Form.Control type="date" />
-                                  </div>
-                                </Form.Group>
-
-                                <Form.Group className="mb-3 relative">
-                                  <Form.Label>Floor</Form.Label>
-                                  <Form.Control
-                                    as="select"
-                                    className="appearance-none pr-10"
-                                  >
-                                    <option>Ground Floor</option>
-                                    <option>First Floor</option>
-                                    <option>Second Floor</option>
-                                  </Form.Control>
-                                  <span className="absolute right-2 top-[63%] -translate-y-1/2 pointer-events-none"
-                                  >
-                                    <ArrowDown2 size="20" color="black" className="mt-3" />
-                                  </span>
-                                </Form.Group>
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="flex justify-between mt-4">
-                            <Button
-                              variant="secondary"
-                              onClick={handleFilterClose}
-                              className="min-w-24"
-                            >
-                              Reset
-                            </Button>
-                            <Button
-                              variant="primary"
-                              onClick={handleFilterClose}
-                              className="min-w-24 !bg-[#1e45e1]"
-                            >
-                              Apply
-                            </Button>
-                          </div>
-                        </Form>
-                      </Offcanvas.Body>
-                    </Offcanvas>
-                  </div>
-                }
-
-
-
-                {
-                  isEbBased &&
-                  <div
-                    className="flex items-center gap-2 mr-2 bg-white rounded p-0 h-fit"
-                  >
-                    <Select
-                      options={monthOptions}
-                      value={selectedMonth}
-                      onChange={handleMonthChange}
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      noOptionsMessage={() => "No options"}
-                      styles={{
-                        control: (base, state) => ({
-                          ...base,
-                          height: 40,
-                          minHeight: 40,
-                          borderRadius: 6,
-                          border: state.isFocused ? "1px solid #1E45E1" : "1px solid #ccc",
-                          boxShadow: state.isFocused ? "0 0 0 1px #1E45E1" : "none",
-                          padding: "0 5px",
-                          fontSize: 14,
-                          color: "#1E45E1",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          cursor: "pointer",
-                          width: 180,
-                          zIndex: 2,
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isFocused ? "#1E45E1" : "#fff",
-                          color: state.isFocused ? "#fff" : "#000",
-                          fontWeight: 500,
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({ display: "none" }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#000000",
-                          cursor: "pointer",
-                        }),
-                      }}
-
-                    />
-
-                    <div className="flex items-center gap-2 bg-blue-700 rounded-lg px-4 py-2 !font-gilroy">
-                      <img src={Group} alt="icon" className={`transition ${canWriteElectricity
-                        ? "brightness-0 invert opacity-100 cursor-pointer"
-                        : "grayscale brightness-75 opacity-60 cursor-default"
-                        }`} />
-                      <span className="text-white font-gilroy font-semibold">
-                        Reading
-                      </span>
-                    </div>
-                  </div>
-                }
-
-
-
-
-
+              <div className="bg-white rounded p-2 shadow-sm h-fit">
+                <img
+                  src={searchteam}
+                  height={20}
+                  width={20}
+                  alt="search"
+                  className={`transition-opacity duration-300 ${canReadElectricity
+                    ? "cursor-pointer opacity-100 pointer-events-auto"
+                    : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                />
               </div>
+
+              {!isEbBased && (
+                <div
+                  className="flex gap-3 p-1.5 bg-white rounded cursor-pointer"
+                  onClick={() => canReadElectricity && handleFilterShow()}
+                >
+                  <FiFilter size={20} className={`${canReadElectricity ? "opacity-100" : "opacity-40"}`} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6 mb-2 ml-0.5 -mt-2">
+            <div
+              onClick={() => setActiveTab("room")}
+              className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "room"
+                ? "text-black font-semibold border-b-2 border-blue-700"
+                : "text-gray-700 font-normal border-b-2 border-transparent"
+                }`}
+            >
+              {isEbBased ? "Hostel Reading" : "Room Reading"}
             </div>
 
-
+            <div
+              onClick={() => setActiveTab("customer")}
+              className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "customer"
+                ? "text-black font-semibold border-b-2 border-blue-700"
+                : "text-gray-700 font-normal border-b-2 border-transparent"
+                }`}
+            >
+              Tenants Reading
+            </div>
           </div>
 
           {filters.length > 0 && (
@@ -989,195 +804,206 @@ const RoomReadingTable = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="show-scroll overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[380px] border-t border-gray-200 mt-1 pr-0 pl-0 font-gilroy text-gray-800">
+                      <>
 
-                        <Table bordered={false} className="mb-0 table-auto w-full">
-                          <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs font-gilroy"
-                          >
-                            <tr>
+                         <div className={`flex justify-end mr-2 ${formattedRoomReadings.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
+                          <PaginationList
+                            totalItems={formattedRoomReadings.length}
+                            itemsPerPage={pageSize}
+                            currentPage={page}
+                            onPageChange={(p) => setPage(p)}
+                            onPageSizeChange={(size) => setPageSize(size)}
+                          />
+                        </div>
 
-                              <th>
-                                <div className="flex items-center gap-1">
-                                  FLOOR
-                                  <img src={arrowSwap} alt="swap" />
-                                </div>
-                              </th>
-                              <th>
-                                <div className="flex items-center gap-1">
-                                  ROOM
-                                  <img src={arrowSwap} alt="swap" />
-                                </div>
-                              </th>
+                        <div className="relative h-[calc(100vh-165px)] flex flex-col">
+                          <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                            <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                              <thead className="bg-blue-100 sticky top-0 z-20">
+                                <tr className="h-9">
 
-                              <th>OCCUPANTS</th>
-                              <th>BILLING MONTH</th>
-                              <th>FROM</th>
-                              <th>TO</th>
-                              <th>TOTAL UNITS</th>
-                              <th>AMOUNT</th>
-                              {
-                                !isEbBased && <th>ACTION</th>
+                                  <th className="w-[230px] px-2">
+                                    <div className="flex items-center gap-1">
+                                      Floor
+                                      <img src={arrowSwap} alt="swap" />
+                                    </div>
+                                  </th>
+                                  <th className="w-[230px] px-2">
+                                    <div className="flex items-center gap-1">
+                                      Room
+                                      <img src={arrowSwap} alt="swap" />
+                                    </div>
+                                  </th>
 
-                              }
-                            </tr>
-                          </thead>
-                          <tbody className="text-[13px] text-black font-gilroy" >
-                            <PaginationList>
-                              {formattedRoomReadings?.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-300 h-10">
-                                  <td>{row?.floorName}</td>
-
-                                  <td
-                                    className={`${canReadElectricity ? "!text-blue-600" : "!text-gray-300"} cursor-pointer font-semibold`}
-                                    onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
-                                  >
-                                    {row?.roomName}
-                                  </td>
-
-                                  <td>{row?.noOfTenants}</td>
-                                  <td>{row.billingMonth || "N/A"}</td>
-                                  <td>{row?.from || "N/A"}</td>
-                                  <td>{row?.to || "N/A"}</td>
-                                  <td>{row?.totalUnits}</td>
-                                  <td>{row?.totalPrice || '0'}</td>
+                                  <th className="w-[230px] px-2">Occupants</th>
+                                  <th className="w-[230px] px-2">Billing month</th>
+                                  <th className="w-[230px] px-2">From</th>
+                                  <th className="w-[230px] px-2">To</th>
+                                  <th className="w-[230px] px-2">Total units</th>
+                                  <th className="w-[230px] px-2">Amount</th>
                                   {
-                                    !isEbBased &&
-                                    <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
-                                      <PiDotsThreeOutlineVerticalFill
-                                        className={`w-5 h-5 cursor-pointer transition-transform ${showDotsRoom === i ? "text-blue-700" : "text-gray-400"
-                                          }`}
-                                        style={{ transform: "rotate(90deg)" }}
-                                        onClick={() => handleShowDotsRoomReading(row, i)}
-                                      />
-                                      {showDotsRoom === i && <>
-                                        <div
-                                          ref={popupRef}
-                                          className={`cursor-pointer bg-gray-100 border border-gray-300 rounded-[10px] flex flex-col`}
-                                          style={{
-                                            position: "fixed",
-                                            top: showAbove
-                                              ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                                              : popupPosition.top - 35,
-                                            left: popupPosition.left,
-                                            width: 130,
-                                            height: "auto",
-                                            zIndex: showDotsRoom === i ? 3000 : "auto",
-                                          }}
-                                        >
-                                          <div className="w-full">
-                                            <div
-                                              className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-t-lg 
-    ${!canWriteElectricity ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} 
-    bg-gray-100`}
-                                              onClick={() => canWriteElectricity && handleActionClick(row)}
-                                              onMouseEnter={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                                e.currentTarget.style.borderBottomLeftRadius = "10px";
-                                                e.currentTarget.style.borderBottomRightRadius = "10px";
-                                              }}
-                                              onMouseLeave={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                              }}
-                                            >
-                                              <img
-                                                src={Group}
-                                                alt="Group"
-                                                className={`w-4 h-4 ${!canWriteElectricity ? 'filter grayscale' : ''}`}
-                                              />
-                                              <label
-                                                className={`text-sm font-medium font-gilroy text-[#222] ${!canWriteElectricity ? 'cursor-not-allowed' : 'cursor-pointer'
-                                                  }`}
-                                              >
-                                                Add
-                                              </label>
-                                            </div>
-                                            {
-                                              row?.currentReading ?
-                                                <>
-                                                  <div
+                                    !isEbBased && <th className="w-[230px] px-2">Action</th>
 
-                                                    className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-t-lg bg-gray-100
-    ${!canUpdateElectricity ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                                                    onClick={() => {
-                                                      if (canUpdateElectricity) handleEditRoomReading(row);
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={Edit}
-                                                      alt="Edit"
-                                                      className={`w-4 h-4 ${!canUpdateElectricity ? 'filter grayscale' : ''}`}
-                                                    />
-                                                    <label
-                                                      className={`text-sm font-medium font-gilroy text-[#222] ${!canUpdateElectricity ? 'cursor-not-allowed' : 'cursor-pointer'
-                                                        }`}
-                                                    >
-                                                      Edit
-                                                    </label>
-                                                  </div>
-
-
-                                                  <div
-                                                    className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-b-lg 
-                                                    ${!canDeleteElectricity ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                                                    onClick={() => {
-                                                      if (canDeleteElectricity) handleReadingDelete(row);
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={Delete}
-                                                      alt="Delete"
-                                                      className={`w-4 h-4 ${!canDeleteElectricity ? 'filter grayscale' : ''}`}
-                                                    />
-                                                    <label
-                                                      className={`text-sm font-medium font-gilroy text-red-500 ${!canDeleteElectricity ? 'cursor-not-allowed' : 'cursor-pointer'
-                                                        }`}
-                                                    >
-                                                      Delete
-                                                    </label>
-                                                  </div>
-                                                </>
-                                                :
-                                                ""
-
-                                            }
-
-
-                                          </div>
-                                        </div>
-
-                                      </>}
-                                    </td>
                                   }
                                 </tr>
-                              ))}
-                            </PaginationList>
-                          </tbody>
-                        </Table>
+                              </thead>
+                              <tbody className="text-[13px] text-black font-gilroy" >
+                                {paginatedData?.map((row, i) => (
+                                  <tr key={i} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+                                    <td className="w-[230px] px-2 py-1 whitespace-nowrap">{row?.floorName}</td>
 
-                        {loading && (
-                          <div
-                            className="fixed inset-0 flex items-center justify-center bg-transparent"
-                            style={{ opacity: 0.75, zIndex: 10 }}
-                          >
-                            <div
-                              className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"
-                            ></div>
+                                    <td
+                                      className={`${canReadElectricity ? "!text-blue-600" : "!text-gray-300"} cursor-pointer font-semibold px-2 py-1`}
+                                      onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
+                                    >
+                                      {row?.roomName}
+                                    </td>
+
+                                    <td className="w-[230px] px-2 py-1">{row?.noOfTenants}</td>
+                                    <td className="w-[230px] px-2 py-1 whitespace-nowrap">{row.billingMonth || "N/A"}</td>
+                                    <td className="w-[230px] px-2 py-1 whitespace-nowrap">{row?.from || "N/A"}</td>
+                                    <td className="w-[230px] px-2 py-1 whitespace-nowrap">{row?.to || "N/A"}</td>
+                                    <td className="w-[230px] px-2 py-1">{row?.totalUnits}</td>
+                                    <td className="w-[230px] px-2 py-1">{row?.totalPrice || '0'}</td>
+                                    {
+                                      !isEbBased &&
+                                      <td className="px-2 py-1" style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
+                                        <PiDotsThreeOutlineVerticalFill
+                                          className={`w-5 h-5 cursor-pointer transition-transform ${showDotsRoom === i ? "text-blue-700" : "text-gray-500"
+                                            }`}
+                                          style={{ transform: "rotate(90deg)" }}
+                                          onClick={() => handleShowDotsRoomReading(row, i)}
+                                        />
+                                        {showDotsRoom === i && <>
+                                          <div
+                                            ref={popupRef}
+                                            className={`cursor-pointer bg-gray-100 border border-gray-300 rounded-[10px] flex flex-col`}
+                                            style={{
+                                              position: "fixed",
+                                              top: showAbove
+                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                                : popupPosition.top - 35,
+                                              left: popupPosition.left,
+                                              width: 130,
+                                              height: "auto",
+                                              zIndex: showDotsRoom === i ? 3000 : "auto",
+                                            }}
+                                          >
+                                            <div className="w-full">
+                                              <div
+                                                className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-t-lg 
+    ${!canWriteElectricity ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} 
+    bg-gray-100`}
+                                                onClick={() => canWriteElectricity && handleActionClick(row)}
+                                                onMouseEnter={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                  e.currentTarget.style.borderBottomLeftRadius = "10px";
+                                                  e.currentTarget.style.borderBottomRightRadius = "10px";
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                }}
+                                              >
+                                                <img
+                                                  src={Group}
+                                                  alt="Group"
+                                                  className={`w-4 h-4 ${!canWriteElectricity ? 'filter grayscale' : ''}`}
+                                                />
+                                                <label
+                                                  className={`text-sm font-medium font-gilroy text-[#222] ${!canWriteElectricity ? 'cursor-not-allowed' : 'cursor-pointer'
+                                                    }`}
+                                                >
+                                                  Add
+                                                </label>
+                                              </div>
+                                              {
+                                                row?.currentReading ?
+                                                  <>
+                                                    <div
+
+                                                      className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-t-lg bg-gray-100
+    ${!canUpdateElectricity ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                                                      onClick={() => {
+                                                        if (canUpdateElectricity) handleEditRoomReading(row);
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={Edit}
+                                                        alt="Edit"
+                                                        className={`w-4 h-4 ${!canUpdateElectricity ? 'filter grayscale' : ''}`}
+                                                      />
+                                                      <label
+                                                        className={`text-sm font-medium font-gilroy text-[#222] ${!canUpdateElectricity ? 'cursor-not-allowed' : 'cursor-pointer'
+                                                          }`}
+                                                      >
+                                                        Edit
+                                                      </label>
+                                                    </div>
+
+
+                                                    <div
+                                                      className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-b-lg 
+                                                    ${!canDeleteElectricity ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                                                      onClick={() => {
+                                                        if (canDeleteElectricity) handleReadingDelete(row);
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={Delete}
+                                                        alt="Delete"
+                                                        className={`w-4 h-4 ${!canDeleteElectricity ? 'filter grayscale' : ''}`}
+                                                      />
+                                                      <label
+                                                        className={`text-sm font-medium font-gilroy text-red-500 ${!canDeleteElectricity ? 'cursor-not-allowed' : 'cursor-pointer'
+                                                          }`}
+                                                      >
+                                                        Delete
+                                                      </label>
+                                                    </div>
+                                                  </>
+                                                  :
+                                                  ""
+
+                                              }
+
+
+                                            </div>
+                                          </div>
+
+                                        </>}
+                                      </td>
+                                    }
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+
+                            {loading && (
+                              <div
+                                className="fixed inset-0 flex items-center justify-center bg-transparent"
+                                style={{ opacity: 0.75, zIndex: 10 }}
+                              >
+                                <div
+                                  className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"
+                                ></div>
+                              </div>
+                            )}
+
                           </div>
-                        )}
-
-                      </div>
+                        </div>
+                      </>
                     )}
 
                   </>
@@ -1200,94 +1026,103 @@ const RoomReadingTable = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="overflow-y-auto max-h-[460px] md:max-h-[320px] lg:max-h-[430px] mt-1 pr-0 pl-0 font-gilroy text-gray-800 show-scroll"
-                    >
-                      <Table bordered={false} className="mb-0 table-auto w-full">
-                        <thead className="bg-blue-100 sticky top-0 z-10 font-medium text-xs font-gilroy" >
+                    <>
+                        <div className={`flex justify-end mr-2 ${formattedReadings.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
+                        <PaginationList
+                          totalItems={formattedReadings.length}
+                          itemsPerPage={pageSize}
+                          currentPage={page}
+                          onPageChange={(p) => setPage(p)}
+                          onPageSizeChange={(size) => setPageSize(size)}
+                        />
+                      </div>
 
+                      <div className="relative h-[calc(100vh-165px)] flex flex-col">
 
-                          <tr>
-                            <th className="text-left">
-                              <div className="pl-2">
-                                NAME
-                              </div>
-                            </th>
+                        <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                          <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                            <thead className="bg-blue-100 sticky top-0 z-20">
+                            <tr className="h-9">
+                                <th className="text-left">
+                                  <div className="pl-2">
+                                    Name
+                                  </div>
+                                </th>
 
-                            <th>BILLNG MONTH</th>
-                            <th>FROM</th>
-                            <th>TO</th>
-                            <th>
-                              <div className="flex items-center gap-1 justify-start">
-                                <img src={arrowSwap} alt="swap" className="w-4 h-4" />
-                                <span>FLOOR</span>
-                              </div>
-                            </th>
+                                <th className="w-[230px] px-2 whitespace-nowrap">Billing month</th>
+                                <th className="w-[230px] px-2">From</th>
+                                <th className="w-[230px] px-2">To</th>
+                                <th className="w-[230px] px-2">
+                                  <div className="flex items-center gap-1 justify-start">
+                                    <img src={arrowSwap} alt="swap" className="w-4 h-4" />
+                                    <span>Floor</span>
+                                  </div>
+                                </th>
 
-                            <th>
-                              <div className="flex items-center gap-1 justify-start">
-                                <img src={arrowSwap} alt="swap" className="w-4 h-4" />
-                                <span>ROOM</span>
-                              </div>
-                            </th>
-                            <th>BED</th>
-                            <th>TOTAL UNITS</th>
-                            <th>AMOUNT</th>
-
-                          </tr>
-                        </thead>
-                        <tbody className="font-gilroy text-[13px]">
-                          <PaginationList>
-                            {formattedReadings?.map((row, i) => (
-                              <tr key={i} className="!border-b !border-gray-300">
-
-                                <td
-                                  className="flex items-center gap-2 p-2 text-left cursor-pointer"
-                                  onClick={() => handleTenantsDetailsPage(row)}
-                                >
-                                  {row.profilePic ? (
-                                    <img src={row.profilePic} alt="profilepic" className="mr-3 w-10 h-10" />
-                                  ) : (
-                                    <div className="w-7 h-7 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center font-semibold font-gilroy">
-                                      {row?.initials || "-"}
-                                    </div>
-                                  )}
-
-                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 underline">
-                                    {row.fullName}
-                                  </span>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.billingMonth}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.from}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.to}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.floorName}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.roomName}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.bedName}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.totalUnits}</div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">{row.totalAmount}</div>
-                                </td>
-
-
+                                <th className="w-[230px] px-2">
+                                  <div className="flex items-center gap-1 justify-start">
+                                    <img src={arrowSwap} alt="swap" className="w-4 h-4" />
+                                    <span>Room</span>
+                                  </div>
+                                </th>
+                                <th className="w-[230px] px-2">Bed</th>
+                                <th className="w-[230px] px-2 whitespace-nowrap">Total units</th>
+                                <th className="w-[230px] px-2">Amount</th>
                               </tr>
-                            ))}
-                          </PaginationList>
-                        </tbody>
-                      </Table>
-                    </div>
+                            </thead>
+                            <tbody className="font-gilroy text-[13px]">
+                              {paginatedTenantdData?.map((row, i) => (
+                                <tr key={i} className="!border-b !border-gray-300">
+
+                                  <td
+                                    className="flex items-center gap-2 p-2 text-left cursor-pointer"
+                                    onClick={() => handleTenantsDetailsPage(row)}
+                                  >
+                                    {row.profilePic ? (
+                                      <img src={row.profilePic} alt="profilepic" className="mr-3 w-10 h-10" />
+                                    ) : (
+                                      <div className="w-7 h-7 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center font-semibold font-gilroy">
+                                        {row?.initials || "-"}
+                                      </div>
+                                    )}
+
+                                    <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 underline">
+                                      {row.fullName}
+                                    </span>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.billingMonth}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.from}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.to}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.floorName}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.roomName}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.bedName}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.totalUnits}</div>
+                                  </td>
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="mt-2">{row.totalAmount}</div>
+                                  </td>
+
+
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </>
                   )
                 )}
               </div>

@@ -315,13 +315,6 @@ function RecurringBills() {
   };
 
 
-  const labelStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-    height: "100%",
-    lineHeight: "1.4", marginTop: 5
-  };
 
 
   const handleCloseSearch = () => {
@@ -333,14 +326,38 @@ function RecurringBills() {
     setFilterInput(e.target.value);
   };
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = recurringbills.slice(startIndex, endIndex);
 
   return (
 
     <div className="relative bg-white">
-     <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap">
-        <div className="mt-0">
-          <label className="text-lg text-gray-900 font-semibold font-gilroy">
-            Recurring</label>
+      <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap">
+        <div className="flex lg:justify-start justify-center items-center flex-wrap">
+          <label className="text-lg text-black font-semibold font-gilroy">
+            Recurring
+          </label>
         </div>
 
         <div className="flex justify-between items-center flex-wrap gap-2 mt-2 mb-1">
@@ -392,62 +409,6 @@ function RecurringBills() {
 
           </div>
 
-          {/* <div style={{
-            backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-          }}>
-            <FiSearch
-              style={{
-                height: "20px",
-                width: "20px",
-                cursor: canReadRecurring ? "pointer" : "not-allowed",
-                opacity: canReadRecurring ? 1 : 0.4,
-                pointerEvents: canReadRecurring ? "auto" : "none",
-                transition: "opacity 0.3s ease"
-              }}
-              onClick={handleSearch}
-            />
-          </div>
-
-          {
-            search &&
-
-            <div className='me-3  flex flex-wrap ' style={{
-              position: 'relative', cursor: "pointer", marginTop: 0
-            }}>
-              <InputGroup
-                style={{
-                  maxWidth: "100%",
-                  flexWrap: 'nowrap', fontFamily: "Gilroy"
-                }}
-              >
-
-                <FormControl size="lg"
-                  //    value={searchQuery}
-                  //    onChange={handleInputChange}
-
-                  style={{
-                    width: "100%",
-                    maxWidth: "235px",
-                    boxShadow: "none",
-                    borderColor: "lightgray", fontFamily: "Gilroy",
-                    borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                  }}
-                  placeholder="Search..."
-                />
-                <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
-                  <CloseCircle size="24" color="#222"
-                  //    onClick={handleCloseSearch}
-                  />
-                </InputGroup.Text>
-              </InputGroup>
-
-
-
-            </div>
-
-          } */}
-
           <div className="mt-0 mr-2 cursor-pointer"
           >
             <img src={excelimg} alt='excel' width={38} height={38}
@@ -481,29 +442,41 @@ function RecurringBills() {
       ) : (
         <>
 
+          <div className="flex items-center justify-between mt-1 mb-0">
 
-          <div className="flex items-center gap-3 mt-1 mb-0">
-            <button
-              onClick={() => handleClick("long_stay")}
-              className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
-                ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
-                : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
-                }`}
-            >
-              Long Stay
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => handleClick("long_stay")}
+                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
+                  ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                  : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                  }`}
+              >
+                Long Stay
+              </button>
 
-            <button
-              onClick={() => handleClick("short_stay")}
-              className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
-                ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
-                : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
-                }`}
-            >
-              Short Stay
-            </button>
+              <button
+                onClick={() => handleClick("short_stay")}
+                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
+                  ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                  : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                  }`}
+              >
+                Short Stay
+              </button>
+            </div>
+
+            <div className="mr-2">
+              <PaginationList
+                totalItems={recurringbills.length}
+                itemsPerPage={pageSize}
+                currentPage={page}
+                onPageChange={(p) => setPage(p)}
+                onPageSizeChange={(size) => setPageSize(size)}
+              />
+            </div>
+
           </div>
-
           {!recurLoader &&
             (!recurringbills || recurringbills.length === 0) &&
             activeStay === 'long_stay' ?
@@ -541,7 +514,6 @@ function RecurringBills() {
 
 
           {!loading && recurLoader &&
-
             <div className="absolute top-[200px] left-[200px] right-0 bottom-0 flex items-center justify-center h-[50vh] bg-transparent opacity-75 z-10">
               <div
                 className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"
@@ -550,93 +522,53 @@ function RecurringBills() {
           }
 
           {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
-            <div className="booking-table-userlist  booking-table ml-2 mr-4 mt-4 pb-5">
-              <div className="overflow-y-auto !max-h-[450px] md:max-h-[320px] border-t border-gray-200 mt-2 scrollbar-thin scrollbar-thumb-gray-400 show-scroll">
-                <Table
-                  responsive="md"
-                  className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none">
-                  <thead className="bg-blue-100 sticky top-0 z-10">
-                    <tr>
-                      <th>
+
+            <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+              <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                  <thead className="bg-blue-100 sticky top-0 z-20">
+                    <tr className="h-9">
+                      <th className="w-[230px] px-2">
                         Name
                       </th>
-                      <th>
+
+                      <th className="w-[230px] px-2 whitespace-nowrap">
                         Last Invoice number
                       </th>
-                      <th>
+                      <th className="w-[230px] px-2 whitespace-nowrap">
                         Last Invoice Date
                       </th>
-                      <th>
+                      <th className="w-[230px] px-2 whitespace-nowrap">
                         Next Invoice Date
                       </th>
-                      <th>
+                      <th className="w-[230px] px-2">
                         Amount
                       </th>
                       {/* <th
                       >
                        Recurring
                       </th> */}
-                      <th>Action</th>
+                      <th className="w-[230px] px-2">Action</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <PaginationList>
-                      {recurringbills.map((item) => (
-                        <RecurringBillList
-                          key={item.customerId}
-                          item={item}
-                          checked={checkedRows[item.customerId] ?? false}
-                          onToggle={() => handleToggle(item.customerId)}
-                          handleDeleteRecurringbills={handleDeleteRecurringbills}
-                        // OnHandleshowform={handleShowForm}
-                        />
-                      ))}
-                    </PaginationList>
+                    {paginatedData.map((item) => (
+                      <RecurringBillList
+                        key={item.customerId}
+                        item={item}
+                        checked={checkedRows[item.customerId] ?? false}
+                        onToggle={() => handleToggle(item.customerId)}
+                        handleDeleteRecurringbills={handleDeleteRecurringbills}
+                      // OnHandleshowform={handleShowForm}
+                      />
+                    ))}
                   </tbody>
 
-                </Table>
+                </table>
               </div>
-              {/* ) :
-                              (
-                                <div
-                                  style={{
-                                    height: "400px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    backgroundColor: "#f2f6fc",
-                                    borderRadius: "10px",
-                                    marginTop: "20px",
-                                    marginRight: "0",
-                                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                                    border: "1px dashed #b0c4de",
-                                  }}
-                                >
-                                  <div style={{ textAlign: "center" }}>
-                                    <img
-                                      src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                                      alt="Coming Soon"
-                                      width="80"
-                                      height="80"
-                                      style={{ marginBottom: "15px", opacity: 0.7 }}
-                                    />
-      
-                                    <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
-                                  </div>
-                                </div>
-      
-      
-      
-                              )} */}
             </div>
           )}
-
-
-
-
-
-
 
         </>
       )}

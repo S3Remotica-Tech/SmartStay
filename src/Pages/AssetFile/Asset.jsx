@@ -66,7 +66,7 @@ function Asset() {
   }, [canReadAssets]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
       setTimeout(() => {
@@ -518,8 +518,29 @@ useEffect(() => {
 
 
 
+ const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
 
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedData.slice(startIndex, endIndex);
 
   return (
     <>
@@ -532,14 +553,15 @@ useEffect(() => {
           </div>
 
         }
-        <div className="flex justify-between items-center flex-wrap h-auto sticky top-0 bg-white z-10">
-          <div className="mt-0">
-            <label className="text-[18px] text-[#222222] !font-semibold !font-gilroy ml-2">
+
+        <div className="flex justify-between items-center flex-wrap">
+          <div className="flex lg:justify-start justify-center items-center flex-wrap">
+            <label className="text-lg text-black font-semibold font-gilroy">
               Assets
             </label>
           </div>
 
-          <div className=" d-flex justify-content-between align-items-center flex-wrap p-2">
+          <div className="flex justify-between items-center flex-wrap p-2">
 
             {
               !showFilterData &&
@@ -794,88 +816,70 @@ useEffect(() => {
             </>
           ) :
 
-            <div className="overflow-auto mt-5 mb-5 pr-0 pl-0 show-scrolls mx-1">
+            <div className="overflow-auto mb-5 mx-">
+              <div className="flex justify-end mt-2 mb-3 mr-2">
+                <PaginationList
+                  totalItems={sortedData.length}
+                  itemsPerPage={pageSize}
+                  currentPage={page}
+                  onPageChange={(p) => setPage(p)}
+                  onPageSizeChange={(size) => setPageSize(size)}
+                />
+              </div>
               {sortedData && sortedData.length > 0 && (
 
-                <div
-                  className='show-scrolls mr-2'>
+                <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                  <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                    <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                      <thead className="bg-blue-100 sticky top-0 z-20">
+                      
+                        <tr className="h-9">
+                          <th className="w-[230px] px-2">Product Name</th>
+                          <th className="w-[230px] px-2">Serial Number</th>
+                          <th className="w-[230px] px-2">Brand</th>
+                          <th className="w-[230px] px-2">Asset</th>
+                          <th className="w-[230px] px-2">Price</th>
+                          <th className="w-[230px] px-2">Purchase Date</th>
+                          <th className="w-[230px] px-2">Assigned</th>
+                          <th className="w-[230px] px-2">Action</th>
+                        </tr>
+                      </thead>
 
-                  <Table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10"
-                    responsive="md"
-                  >
-                         
-                    <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
-                      <tr>
-                        <th>
+                      <tbody>
+                        {
 
-                          <div className='flex gap-1 items-center'>
-                            Product Name </div>
-                        </th>
+                          sortedData && sortedData.length > 0 && (
+                            <>
 
-                        <th>
-
-                          <div className='flex gap-1 items-center'>
-                            Serial Number </div></th>
-                        <th>
-                          <div className='d-flex gap-1 align-items-center'> Brand </div> </th>
-
-                        <th>
-                          <div className='d-flex gap-1 align-items-center'>
-                            Asset </div></th>
-
-                        <th>
-                          <div className='flex gap-1 items-center'>
-                            Price
-                          </div>
-                        </th>
-
-                        <th>
-                          <div className='flex gap-1 items-center'>
-                            Purchase Date
-                          </div>
-                        </th>
-
-                        <th>
-                          <div className='flex gap-1 items-center'>
-                            Assigned
-                          </div>
-                        </th>
-
-                        <th>
-                          <div className='flex gap-1 items-center'>
-                            Action
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-
-
-
-                    <tbody >
-                      {
-
-                        sortedData && sortedData.length > 0 && (
-                          <>
-                            <PaginationList>
-                              {sortedData.map((item) => (
+                              {/* {sortedData.map((item) => (
                                 <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id}
                                   // assetEditPermission={assetEditPermission}
                                   //  assetAddPermission={assetAddPermission} 
                                   // assetDeletePermission={assetDeletePermission}
                                   disableActions={state?.login?.planStatus === 0} />
+                              ))} */}
+
+                              {paginatedData.map((item) => (
+                                <AssetListTable
+                                  item={item}
+                                  OnEditAsset={handleEditAsset}
+                                  key={item.id}
+                                  disableActions={state?.login?.planStatus === 0}
+                                />
                               ))}
-                            </PaginationList>
-                          </>
-                        )
+
+                            </>
+                          )
 
 
-                      }
-                    </tbody>
+                        }
+                      </tbody>
 
 
-                  </Table>
+                    </table>
+
+                  </div>
                 </div>
-
 
               )}
             </div>
@@ -887,7 +891,7 @@ useEffect(() => {
           <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-52">
             <div>
               <div className="flex justify-center mb-2">
-                <img src={EmptyState} alt="Empty state"/>
+                <img src={EmptyState} alt="Empty state" />
               </div>
 
               <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[rgba(75,75,75,1)]">
