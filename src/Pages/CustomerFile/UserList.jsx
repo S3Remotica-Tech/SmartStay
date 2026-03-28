@@ -2264,7 +2264,7 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+    if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
       setBookingAssignForm(false)
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
 

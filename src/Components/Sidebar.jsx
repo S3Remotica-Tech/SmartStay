@@ -879,7 +879,8 @@ function Sidebar() {
 
                             <li
                               key={item.id}
-                              className="relative group inline-block hover:bg-gray-100 flex items-center py-2 mx-2 px-2 rounded cursor-pointer text-blue-600  truncate align-middle overflow-visible"
+                              className="relative group inline-block hover:bg-gray-100 flex items-center 
+                              py-2 mx-2 px-2 rounded cursor-pointer text-blue-600  truncate align-middle overflow-visible"
                               onClick={() =>
                                 handleHostelId(
                                   item.hostelId,
@@ -906,18 +907,15 @@ function Sidebar() {
                                 {item.name}
                               </span>
                               <div
-                        //        className="absolute bottom-full ml-2 top-1/2 -translate-y-1/2 
-                        // hidden group-hover:block
-                        // bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap w-fit h-fit
-                        //     z-[9999] pointer-events-none"
-                         className="absolute left-1/2 top-full mt-1
+
+                                className="absolute left-1/2 top-full mt-1
     -translate-x-1/2
-    hidden group-hover:block
+    hidden group-hover:block transition-opacity duration-150
     bg-[#1E45E1] text-white text-xs rounded px-2 py-1 whitespace-nowrap
-    z-[9999] pointer-events-none"
-                            
-                            
-                            >
+    z-[9999] "
+
+
+                              >
                                 {item.name}
                               </div>
                             </li>

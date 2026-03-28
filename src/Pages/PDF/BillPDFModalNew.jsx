@@ -95,15 +95,18 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
 
   const handleDownload = (rowData) => {
+    console.log("rowData", rowData)
+    if (rowData) {
+      dispatch({
+        type: "INVOICEPDF",
+        payload: {
+          hostelId: rowData?.hostelId || pdfDetails?.hostelId,
+          invoiceId: rowData?.invoiceId,
+        },
+      });
+      setPdfLoading(true)
+    }
 
-    dispatch({
-      type: "INVOICEPDF",
-      payload: {
-        hostelId: rowData.hostelId,
-        invoiceId: rowData.invoiceId,
-      },
-    });
-    setPdfLoading(true)
 
   };
 
@@ -237,7 +240,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
-  console.log("pdfDetails", pdfDetails)
+
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 

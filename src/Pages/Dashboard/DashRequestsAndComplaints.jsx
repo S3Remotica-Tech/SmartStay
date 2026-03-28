@@ -46,7 +46,7 @@ function DashRequestAndComplaints() {
             id: item.requestId,
             name: item.customerName || "-",
             roomName: item.roomName || "",
-             title: item.description,
+            title: item.description,
             type: item.type,
             status: item.status,
             time: item.date
@@ -72,12 +72,27 @@ function DashRequestAndComplaints() {
             time: item.complaintDate
         })) || [];
 
+    // const statusStyle = {
+    //     Pending: "bg-orange-50 text-orange-500",
+    //     "In Progress": "bg-blue-50 text-blue-500",
+    //     Resolved: "bg-green-50 text-green-600",
+    //     OPEN: "bg-purple-50 text-purple-600",
+    // };
+
     const statusStyle = {
-        Pending: "bg-orange-50 text-orange-500",
-        "In Progress": "bg-blue-50 text-blue-500",
-        Resolved: "bg-green-50 text-green-600",
-        Open: "bg-purple-50 text-purple-600",
+        pending: "bg-orange-50 text-orange-500",
+        "in progress": "bg-blue-50 text-blue-500",
+        resolved: "bg-green-50 text-green-600",
+        open: "bg-purple-50 text-purple-600",
     };
+
+
+    const getStatusStyle = (status) => {
+        const key = status?.trim().toLowerCase();
+        return statusStyle[key] || "bg-gray-100 text-gray-500";
+    };
+
+
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -234,15 +249,16 @@ function DashRequestAndComplaints() {
                                         <div className="flex justify-between items-center w-full">
                                             <p className="text-base font-semibold text-[#101828] flex items-center gap-2">
                                                 {item.name}
-
+ {item.roomName &&
                                                 <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center gap-1.5">
                                                     <span className="h-2 w-2 rounded-full bg-[#98A2B3] inline-block"></span>
                                                     {item.roomName}
                                                 </span>
+}
                                             </p>
 
                                             <span
-                                                className={`text-xs px-2 rounded font-semibold ${statusStyle[item.status]}`}
+                                                className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
                                             >
                                                 {item.status}
                                             </span>
@@ -347,16 +363,29 @@ function DashRequestAndComplaints() {
                                         <div className="flex justify-between w-full">
                                             <p className="text-base font-semibold text-[#101828]">
                                                 {item.name}
-                                                <span className="text-xs text-[#6A7282] font-semibold">
-                                                    {" "}• {item.room}
+                                                {
+                                                    item.room &&  <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center">
+                                                    <span className="mx-1 h-2 w-2 bg-gray-400 rounded-full inline-block"></span>
+                                                    {item.room}
                                                 </span>
+                                                }
+                                               
                                             </p>
 
-                                            <span
+                                            {/* <span
                                                 className={`text-xs px-2 rounded font-semibold ${statusStyle[item.status]}`}
                                             >
                                                 {item.status}
-                                            </span>
+                                            </span> */}
+                                            {
+                                                item.status &&
+
+                                                <span
+                                                    className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
+                                                >
+                                                    {item.status}
+                                                </span>
+                                            }
                                         </div>
 
                                         <p className="text-sm text-[#4A5565] font-semibold">{item.title}</p>

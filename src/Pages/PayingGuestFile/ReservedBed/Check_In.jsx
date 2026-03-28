@@ -367,7 +367,7 @@ function CheckIn({
     }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
     useEffect(() => {
-        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
             setFormLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
@@ -460,13 +460,13 @@ function CheckIn({
                             <div className="flex flex-col space-y-2">
                                 <div className="flex justify-between items-center">
                                     <label className="text-sm text-gray-800 font-gilroy">Booking Date</label>
-                                    <label className="text-sm font-semibold text-gray-900">
+                                    <label className="text-sm font-semibold text-gray-900 font-gilroy">
                                         {bookingDate ? dayjs(bookingDate).format("DD/MM/YYYY") : ""}
                                     </label>
                                 </div>
                                 <div className="flex justify-between items-center mb-1">
                                     <label className="text-sm text-gray-800 font-gilroy">Booking Amount</label>
-                                    <label className="text-sm font-semibold text-gray-900">{bookingAmount}</label>
+                                    <label className="text-sm font-semibold text-gray-900 font-gilroy">{bookingAmount}</label>
                                 </div>
                                 <hr className="border-t border-gray-300 my-2" />
                             </div>

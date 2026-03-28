@@ -307,7 +307,7 @@ console.log("bookingDetails",bookingDetails)
 
 
     useEffect(() => {
-        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
             setFormLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })

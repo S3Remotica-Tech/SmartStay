@@ -521,7 +521,7 @@ function BedDetailsMap({ room, propsValue,
 
 
     useEffect(() => {
-        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
             setShowCheckIn(false)
             dispatch({
                 type: "GETALLBEDSLIST",
