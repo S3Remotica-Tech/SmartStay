@@ -433,14 +433,14 @@ function Receipt() {
                                             <thead className="bg-blue-100 sticky top-0 z-20">
                                                 <tr className="h-9">
                                                     <th className="w-[250px] px-2 whitespace-nowrap">Receipt No</th>
-                                                    <th className="w-[250px] px-3 whitespace-nowrap">Name</th>
+                                                    <th className="w-[250px] px-3">Name</th>
                                                     <th className="w-[230px] px-2 whitespace-nowrap">Reference_Id</th>
                                                     <th className="w-[230px] px-2 whitespace-nowrap">Invoice Number</th>
-                                                    <th className="w-[230px] px-2 whitespace-nowrap">Type</th>
+                                                    <th className="w-[230px] px-2">Type</th>
                                                     <th className="w-[230px] px-2 whitespace-nowrap">Payment Date</th>
-                                                    <th className="w-[230px] px-2 whitespace-nowrap">Amount</th>
+                                                    <th className="w-[230px] px-2">Amount</th>
                                                     <th className="w-[230px] px-2 whitespace-nowrap">Payment Mode</th>
-                                                    <th className="w-[230px] px-2 whitespace-nowrap">Action</th>
+                                                    <th className="w-[230px] px-2">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -1406,7 +1406,7 @@ const InvoicePage = () => {
 
               {(showLoader || loading) && <LoaderComponent />}
 
-              <div className="flex flex-wrap items-center gap-2 pl-">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="flex items-center">
                   {search ? (
                     <>
@@ -1489,7 +1489,8 @@ const InvoicePage = () => {
               </div>
 
               <div className="flex items-center gap-3 z-50">
-                <Select
+                <Select 
+                  isDisabled
                   options={monthOptions}
                   value={selectedMonth}
                   onChange={handleMonthChange}
@@ -1606,7 +1607,7 @@ const InvoicePage = () => {
                               <th className="w-[230px] px-2 whitespace-nowrap">Invoice Number</th>
                               <th className="w-[250px] px-2">Name</th>
                               <th className="w-[230px] px-2">Type</th>
-                              <th className="w-[230px] px-2">Invoice Date</th>
+                              <th className="w-[230px] px-2 whitespace-nowrap">Invoice Date</th>
                               <th className="w-[230px] px-2">Due Date</th>
                               <th className="w-[230px] px-2">Amount</th>
                               <th className="w-[230px] px-2">Due</th>

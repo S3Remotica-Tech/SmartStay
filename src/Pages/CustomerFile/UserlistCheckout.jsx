@@ -619,15 +619,7 @@ function CheckOut() {
                             ))}
                           </tbody>
                         </table>
-                        {/* <div className="mt-2 mb-2">
-                        <PaginationList
-                          totalItems={sortedData.length}
-                          itemsPerPage={pageSize}
-                          currentPage={page}
-                          onPageChange={(p) => setPage(p)}
-                          onPageSizeChange={(size) => setPageSize(size)}
-                        />
-                      </div> */}
+                       
                       </div>
 
                     </div>

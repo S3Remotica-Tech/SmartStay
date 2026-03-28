@@ -156,28 +156,24 @@ function AssetListTable(props) {
 
         <td
           title={props.item.serial_number || "-"}
-          className="w-[230px] py-1 px-2 whitespace-nowrap px-2 text-ellipsis"
+          className="w-[230px] py-1 px-2 whitespace-nowrap px-2"
         >
           {props.item.serialNumber || "-"}
         </td>
 
         <td
           title={props.item.brandName || "-"}
-          className="w-[230px] py-1 whitespace-nowrap px-2 whitespace-nowrap"
+          className="w-[230px] py-1 whitespace-nowrap truncate"
         >
           {props.item.brandName || "-"}
         </td>
 
-        <td
-          title={props.item.asset_name}
-          className="w-[230px] py-1 px-2 whitespace-nowrap text-ellipsis"
-        >
-          <div className="w-full">
-            <div
-              className="whitespace-nowrap "
-            >
-              {props.item.assetName || "-"}
-            </div>
+        <td className="w-[230px] py-1 px-2">
+          <div
+            className="truncate"
+            title={props.item.assetName || "-"}
+          >
+            {props.item.assetName || "-"}
           </div>
         </td>
 
@@ -199,9 +195,9 @@ function AssetListTable(props) {
 
         <td
           title={props.item.hostelName || "-"}
-          className="w-[230px] py-1 whitespace-nowrap px-2"
+          className="w-[230px] py-1 px-2"
         >
-          <div className="overflow-hidden text-ellipsis">
+          <div className="truncate">
             {props.item.assignmentStatus === "Unassigned"
               ? "-"
               : props.item.hostelName}
@@ -209,7 +205,7 @@ function AssetListTable(props) {
         </td>
 
 
-        <td className="w-[230px] py-1 whitespace-nowrap px-2">
+        <td className="py-1 px-2">
           <div className="w-full flex justify-start">
             <div
               onClick={(e) => handleShowDots(props.item.id, e)}
@@ -341,15 +337,9 @@ function AssetListTable(props) {
     </>
   )
 }
-// AssetListTable.propTypes = {
-//   OnEditAsset: PropTypes.func.isRequired,
-//   item: PropTypes.func.isRequired,
-//   // assetAddPermission: PropTypes.func.isRequired,
-//   // assetEditPermission: PropTypes.func.isRequired,
-//   // assetDeletePermission: PropTypes.func.isRequired
-// };
+
 AssetListTable.propTypes = {
-  item: PropTypes.object.isRequired, // ✅ was PropTypes.func
+  item: PropTypes.object.isRequired,
   OnEditAsset: PropTypes.func,
   disableActions: PropTypes.bool,
 };

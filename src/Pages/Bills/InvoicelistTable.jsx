@@ -240,13 +240,13 @@ const InvoiceTable = (props) => {
                 {props.item?.initials || "-"}
               </div>
             )}
-            <div className="overflow-hidden text-ellipsis truncate w-[120px]">
+            <div className="truncate w-[120px]">
               {props.item?.fullName}
             </div>
           </div>
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td className="w-[230px] py-1 px-2 truncate">
           {props.item.invoiceType}
           <span className="text-[10px] font-medium text-gray-500 mt-[2px]">
             _{props.item.invoiceMode}
@@ -269,7 +269,7 @@ const InvoiceTable = (props) => {
           ₹{Number(props.item?.dueAmount || 0).toLocaleString('en-IN')}
         </td>
 
-        <td className="w-[270px] py-1 px-2 whitespace-nowrap">
+        <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
           {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
               <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-1">

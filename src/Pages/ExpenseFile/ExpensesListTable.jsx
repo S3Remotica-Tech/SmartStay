@@ -188,13 +188,13 @@ function ExpensesListTable(props) {
 
       <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10" key={props.item.expenseId}>
 
-        <td className='w-[230px] px-2 py-1'>{props.item.transactionDate}</td>
-        <td className='w-[230px] px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.categoryName}>{props.item.categoryName}</td>
-        <td className='w-[230px] px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.description}>{props.item.description || "-"}</td>
+        <td className='w-[230px] px-2 py-1 whitespace-nowrap'>{props.item.transactionDate}</td>
+        <td className='w-[230px] px-2 py-1 truncate' title={props.item.categoryName}>{props.item.categoryName}</td>
+        <td className='w-[230px] px-2 py-1 truncate' title={props.item.description}>{props.item.description || "-"}</td>
         <td className='w-[230px] px-2 py-1'>{props.item.itemsCount}</td>
         <td className='w-[230px] px-2 py-1'>{props.item.unitPrice}</td>
-        <td className='w-[230px] px-2 py-1'> {props.item.totalAmount}  </td>
-        <td className='w-[230px] px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.accountHolderName}>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
+        <td className='w-[230px] px-2 py-1 whitespace-nowrap'> {props.item.totalAmount}  </td>
+        <td className='w-[230px] px-2 py-1 truncate' title={props.item.accountHolderName}>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
         <td className="relative cursor-pointer px-2 py-1">
           <div onClick={(e) => handleShowDots(e, props.item.expenseId)}>
             <PiDotsThreeOutlineVerticalFill

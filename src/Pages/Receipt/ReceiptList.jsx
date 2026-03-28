@@ -177,7 +177,8 @@ const Receipt = (props) => {
         state: {
           customerId: view.customerId,
           IsOverView: true,
-          totriggerBillTap: false
+          totriggerBillTap: false,
+          isReceiptWay:true,
         },
       });
     }
@@ -276,33 +277,24 @@ const Receipt = (props) => {
                   }}
                 >
 
-                  <div
-                    className={`flex justify-start items-center gap-2 w-full px-3 py-2 bg-[#F9F9F9] rounded-t-[10px] ${!canUpdateReceipt
-                      ? "cursor-not-allowed opacity-50"
-                      : "cursor-pointer"
-                      }`}
-                    onClick={() => {
-                      if (canUpdateReceipt) {
-                        handleEdit(props.item);
-                      }
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!canUpdateReceipt)
-                        e.currentTarget.style.backgroundColor = "#EDF2FF";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
+                  <div>
+                    <button
+                    type="button"
+                    disabled
+                    className="flex justify-start items-center gap-2 w-full px-3 py-2 
+             rounded-t-[10px] bg-[#F9F9F9] border-0
+             opacity-50 cursor-not-allowed
+             disabled:bg-gray-50"
                   >
-                    <img className="h-4 w-4"
+                    <img
                       src={Edit}
                       alt="Edit"
+                      className="h-4 w-4"
                     />
-                    <label
-                      className={`text-[14px] font-medium font-gilroy text-[#222222] ${!canUpdateReceipt ? "cursor-not-allowed" : "cursor-pointer"
-                        }`} >
+                    <span className="text-[14px] font-medium text-[#222222] font-gilroy">
                       Edit
-                    </label>
+                    </span>
+                  </button>
                   </div>
 
                   {/* {props.item.invoiceType !== "Settlement" &&
