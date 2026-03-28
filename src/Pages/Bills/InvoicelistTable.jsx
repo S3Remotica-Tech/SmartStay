@@ -217,7 +217,7 @@ const InvoiceTable = (props) => {
     <>
       <tr key={props.item.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer">
           <div onClick={() => handleNavigatePDF(props.item)} className="Invoice_Name">
             {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
           </div>
