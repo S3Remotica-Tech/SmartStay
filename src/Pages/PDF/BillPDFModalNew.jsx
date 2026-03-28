@@ -29,7 +29,7 @@ import DiscountInvoice from "./DiscountInvoice";
 import WaiveOFFConfirm from "./WaiveOFFConfirm"
 
 
-const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
+const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -187,6 +187,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const handleBackInvoice = () => {
     if (isReportsInvoiceRegisterWay) {
       navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+    } else if (isTenantWay) {
+      navigate(`/tenant/details/${pdfDetails?.customerInfo?.customerId}`)
+      dispatch({ type: "UPDATE_USERSLIST_TRUE" });
+
     } else {
       navigate(`/invoice/${state.login?.selectedHostel_Id}`);
     }
@@ -1419,7 +1423,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                 <div className="flex flex-wrap justify-between items-center mt-4 mb-5 px-5">
 
-                  
+
                   <div className="w-full md:w-8/12 bg-[#F5F7FFBD] px-1 py-2 rounded">
                     <h4 className="text-[11px] font-[Gilroy] font-semibold text-[#4B4B4B]">
                       Terms and Conditions
@@ -1430,7 +1434,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                     </p>
                   </div>
 
-                  
+
                   <div className="w-full md:w-4/12 flex flex-col justify-end items-end mt-4 md:mt-0">
                     {pdfDetails?.configurations?.signatureUrl && (
                       <img
@@ -1844,7 +1848,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 InvoiceCard.propTypes = {
   rowData: PropTypes.func.isRequired,
-  isReportsInvoiceRegisterWay: PropTypes.bool
+  isReportsInvoiceRegisterWay: PropTypes.bool,
+  isTenantWay: PropTypes.bool,
 };
 
 

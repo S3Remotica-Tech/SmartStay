@@ -206,7 +206,7 @@ function UserListRoomDetail(props) {
 
   } = useHasPermission("Booking");
 
-
+  console.log("documentvalue", documentvalue)
 
   const {
     canWriteModule: canWriteAmenities,
@@ -217,7 +217,7 @@ function UserListRoomDetail(props) {
 
   const amenitiesRef = useRef(null);
 
-  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay, isBillWay ,isReceiptWay} = location.state || {};
+  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay, isBillWay, isReceiptWay } = location.state || {};
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
@@ -2380,12 +2380,20 @@ function UserListRoomDetail(props) {
 
 
   const [showPreview, setShowPreview] = useState(false);
+  const [isKyc, setKyc] = useState(false);
 
 
   const handlePreview = () => {
-
+    setKyc(false)
     setShowPreview(true);
   };
+
+
+  const handlePreviewKYC = () => {
+    setKyc(true)
+    setShowPreview(true);
+  }
+
 
   const handleClosePreview = () => {
 
@@ -2400,8 +2408,8 @@ function UserListRoomDetail(props) {
       navigate(`/dashboard-new/${state.login.selectedHostel_Id}`);
     } else if (isBillWay) {
       navigate(`/invoice/${state.login.selectedHostel_Id}`)
-    }else if(isReceiptWay){
-navigate(`/receipts/${state.login.selectedHostel_Id}`)
+    } else if (isReceiptWay) {
+      navigate(`/receipts/${state.login.selectedHostel_Id}`)
     }
     else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`)
@@ -2490,7 +2498,7 @@ navigate(`/receipts/${state.login.selectedHostel_Id}`)
           </span>
         </div>
 
-        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl mt-3 p-3 mx-4">
+        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl  p-3 mx-4">
           <div
             className="flex flex-col md:flex-row items-center justify-between"
           >
@@ -2854,7 +2862,7 @@ navigate(`/receipts/${state.login.selectedHostel_Id}`)
         </div>
 
         <TabContext value={value}>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full max-h-[80px]">
             <Box
               sx={{ borderBottom: 0, borderColor: "divider" }}
             >
@@ -2895,7 +2903,7 @@ navigate(`/receipts/${state.login.selectedHostel_Id}`)
               </TabList>
             </Box>
           </div>
-          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full max-h-[320px] overflow-y-auto show-scroll">
+          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full max-h-[450px] overflow-y-auto show-scroll">
             <>
               <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">
 
@@ -3199,190 +3207,126 @@ navigate(`/receipts/${state.login.selectedHostel_Id}`)
                     </div>
                   </div>
 
+                  <div className="flex-1 bg-white relative    border border-[#E5E7EB] rounded-[20px]">
 
 
-                  <div className="flex-1 bg-white relative h-auto max-h-[200px] overflow-y-auto border border-[#E5E7EB] rounded-[20px]">
-                    <TabContext value={documentvalue}
-                      className="flex flex-col sm:flex-row justify-center items-center"
+                    <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
 
-                    >
-                      <Box
-                        sx={{ borderBottom: 0, borderColor: "divider", }}
-                        className="sticky top-0 z-[999] bg-white"
-                      >
-                        <div className="flex flex-col sm:flex-row justify-start items-center bg-white ">
-                          <TabList
-                            onChange={handleChangesupload}
-                            aria-label="custom tabs"
-                            className="d-flex justify-content-center flex-sm-row bg-white w-full"
-                            TabIndicatorProps={{ style: { display: "none", } }}
-                          >
-                            <Tab
-                              label="KYC Documents"
-                              value="1"
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
-                                borderBottom:
-                                  documentvalue === "1"
-                                    ? "2px solid #1E45E1"
-                                    : "2px solid transparent",
-                                minWidth: "auto",
 
-                              }}
-                            />
+                      <div className="flex justify-around w-full   ">
 
-                            <Tab
-                              label="Manual Documents"
-                              value="2"
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
-                                borderBottom:
-                                  documentvalue === "2"
-                                    ? "2px solid #1E45E1"
-                                    : "2px solid transparent",
-                                minWidth: "auto",
 
-                              }}
-                            />
-                            {
-                              CustomerOverView?.files?.otherDoc?.length > 0 && documentvalue === "2" &&
+                        <button
+                          onClick={() => setDocumentValue("1")}
+                          className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
+        ${documentvalue === "1"
+                              ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                              : "text-[#4B4B4B] border-b-2 border-transparent"
+                            }`}
+                        >
+                          KYC Documents
+                        </button>
 
-                              <div
-                                className="bg-green-600 absolute right-2 bottom-2 rounded-full px-2 py-2 cursor-pointer shadow-lg hover:scale-105 transition"
-                                onClick={handlePreview}
-                              >
-                                <DocumentUpload size="14" color="#FFFFFF" />
-                              </div>
-                            }
-                          </TabList>
+
+                        <button
+                          onClick={() => setDocumentValue("2")}
+                          className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
+        ${documentvalue === "2"
+                              ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                              : "text-[#4B4B4B] border-b-2 border-transparent"
+                            }`}
+                        >
+                          Manual Documents
+                        </button>
+
+                      </div>
+
+                    </div>
+
+
+                    {documentvalue === "1" &&
+                      CustomerOverView?.files?.kycDoc?.length > 0 && (
+                        <div
+                          className="bg-green-600 rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                          onClick={handlePreviewKYC}
+                        >
+                          <DocumentUpload size="14" color="#FFF" />
                         </div>
-                      </Box>
+                      )}
+
+                    {documentvalue === "2" &&
+                      CustomerOverView?.files?.otherDoc?.length > 0 && (
+                        <div
+                          className="bg-green-600 rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                          onClick={handlePreview}
+                        >
+                          <DocumentUpload size="14" color="#FFF" />
+                        </div>
+                      )}
 
 
-                      <TabPanel value="1">
-                        {CustomerOverView?.files?.kycDoc?.length > 0 ? (
-                          <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
-                        )
-
-                          : (
-                            <div className="text-center text-sm font-normal font-gilroy w-full mt-10">
-                              No KYC Documents are there!
-                            </div>
-                          )
-                        }
-                      </TabPanel>
-                      <TabPanel value="2">
-
-                        <div className="relative w-full py-2 px-2">
+                    <div className="p-3 min-h-[340px] overflow-y-auto ">
 
 
-                          <div className="flex items-center mt-3">
-                            <div className="w-full">
-                              <div className="flex flex-wrap w-full">
+                      {documentvalue === "1" && (
+                        <>
+                          {CustomerOverView?.files?.kycDoc?.length > 0 ? (
+                            <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
+                          ) : (
+                            <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
+                              <div>
+                                <p className="mb-1"> No KYC Documents are there!</p>
 
-                                {CustomerOverView?.files?.otherDoc?.length > 0 ? (
-                                  <ManualDocumentsDetails
-                                    documents={CustomerOverView?.files?.otherDoc}
-                                  />
-                                ) : (
-                                  <div className="text-center text-sm font-normal font-gilroy w-full">
-                                    No Manual Documents are there!
-
-
-                                    <button
-                                      onClick={handlePreview}
-                                      type="button"
-                                      disabled={isDisabledButton}
-                                      className="mt-2 bg-blue-700 text-white font-semibold rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
-  disabled:bg-blue-700/60 disabled:cursor-not-allowed"
-                                    >
-                                      <img src={FileAdd} alt="" />
-                                      <span>Upload Document</span>
-                                    </button>
-
-                                  </div>
-                                )}
-
+                                <button
+                                  onClick={handlePreviewKYC}
+                                  disabled={isDisabledButton}
+                                  className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                                >
+                                  <img src={FileAdd} alt="" />
+                                  <span>Upload Document</span>
+                                </button>
                               </div>
                             </div>
-                          </div>
+                          )}
+                        </>
+                      )}
 
+
+                      {documentvalue === "2" && (
+                        <div className="w-full py-2 px-2">
+
+                          {CustomerOverView?.files?.otherDoc?.length > 0 ? (
+                            <ManualDocumentsDetails
+                              documents={CustomerOverView?.files?.otherDoc}
+                            />
+                          ) : (
+                            <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
+                              <div>
+                                <p className="mb-1"> No Manual Documents are there!</p>
+
+                                <button
+                                  onClick={handlePreview}
+                                  disabled={isDisabledButton}
+                                  className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                                >
+                                  <img src={FileAdd} alt="" />
+                                  <span>Upload Document</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
 
                         </div>
+                      )}
 
-                        <Modal
-                          show={showDocModal}
-                          onHide={() => setShowDocModal(false)}
-                          size="md"
-                          centered
-                          backdrop="static"
-                        >
-                          <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
-                          >
-                            <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
-
-                              variant="light"
-                              onClick={() => setShowDocModal(false)}
-                            >
-                              &times;
-                            </Button>
-                            {/* {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                                  <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-                                ) : (
-                                  <iframe
-                                    src={https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true}
-                                    style={{ width: "100%", height: "600px", border: "none" }}
-                                    title="Document Preview"
-                                  />
-                                )} */}
-                          </Modal.Body>
-                        </Modal>
+                    </div>
 
 
-
-
-
-                        <Modal
-                          show={showDocModaldoc2}
-                          onHide={() => setShowDocModaldoc2(false)}
-                          size="lg"
-                          centered
-                          backdrop="static"
-                        >
-                          <Modal.Body className="p-5 relative flex items-center justify-center min-h-72"
-                          >
-                            <Button className="absolute top-2.5 right-2.5 border-0 text-lg z-10"
-                              variant="light"
-                              onClick={() => setShowDocModaldoc2(false)}
-                            >
-                              &times;
-                            </Button>
-                            {/* {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                                  <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-                                ) : (
-                                  <iframe
-                                    src={https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true}
-                                    style={{ width: "100%", height: "600px", border: "none" }}
-                                    title="Document Preview"
-                                  />
-                                )} */}
-                          </Modal.Body>
-                        </Modal>
-
-                      </TabPanel>
-
-
-                    </TabContext>
 
                   </div>
+
 
                 </div>
 
@@ -3590,13 +3534,13 @@ navigate(`/receipts/${state.login.selectedHostel_Id}`)
                         {additionalContact?.length > 0 ? (
                           <ParentsGuardian additionalContact={additionalContact} />
                         ) : (
-                          <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700">
-                            <p>No Contact Details are there!</p>
+                          <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
+                            <p className="mb-1">No Contact Details are there!</p>
                             <button
                               type="button"
                               disabled={isDisabledButton}
                               onClick={handleAdditionalForm}
-                              className="mt-3 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+                              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
                             >
                               <img src={FileAdd} alt="add" className="h-4 w-4" />
                               Add
@@ -5152,7 +5096,7 @@ navigate(`/receipts/${state.login.selectedHostel_Id}`)
 
 
       {
-        showPreview && <ManualDocumentsUpload show={showPreview} handleClose={handleClosePreview} />
+        showPreview && <ManualDocumentsUpload show={showPreview} handleClose={handleClosePreview} isKyc={isKyc} />
       }
 
 

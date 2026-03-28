@@ -5,7 +5,7 @@ import { CloseCircle, DocumentUpload, CloseSquare } from "iconsax-react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
-function ManualDocumentsUpload({ show, handleClose }) {
+function ManualDocumentsUpload({ show, handleClose , isKyc}) {
     const fileInputRef = useRef(null);
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -61,7 +61,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
                 customerId: CustomerOverView?.customerId,
                 files: files,
                 payload: {
-                    type: "OTHER"
+                    type: isKyc ? "KYC" : "OTHER"
                 }
             }
         });
@@ -103,7 +103,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
             <Modal.Header className="border border-[#E7E7E7]">
                 <Modal.Title className="!font-gilroy !font-semibold text-[#222222] !text-lg"
                 >
-                    Upload Document
+                   {isKyc ? "Upload KYC Document" : "Upload Manual Document"} 
                 </Modal.Title>
 
                 <CloseCircle
@@ -285,5 +285,6 @@ function ManualDocumentsUpload({ show, handleClose }) {
 ManualDocumentsUpload.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    isKyc: PropTypes.bool
 };
 export default ManualDocumentsUpload;

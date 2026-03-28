@@ -1,12 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useState, useEffect, useRef } from "react";
-import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
-import { Table } from "react-bootstrap";
-import { Form } from "react-bootstrap";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -25,7 +21,6 @@ import { CloseCircle } from "iconsax-react";
 
 
 
-
 function CreateBill() {
 
     const navigate = useNavigate();
@@ -37,25 +32,7 @@ function CreateBill() {
 
     // console.log("billData", billData,)
     const [formLoading, setFormLoading] = useState(false)
-    //    const [invoiceList, setInvoiceList] = useState({
-    //     firstName: "",
-    //     lastName: "",
-    //     phone: "",
-    //     email: "",
-    //     hostel_Name: "",
-    //     hostel_Id: "",
-    //     FloorNo: "",
-    //     RoomNo: "",
-    //     date: "",
-    //     paymentType: "",
-    //     amount: "",
-    //     balanceDue: "",
-    //     dueDate: "",
-    //     payableAmount: "",
-    //     InvoiceId: "",
-    //     invoice_type: "",
-    //     transaction: "",
-    // });
+
     const [dropdownValue, setDropdownValue] = useState("");
     // const [selectedUserId, setSelectedUserId] = useState("");
     const [customername, setCustomerName] = useState("");
@@ -122,7 +99,7 @@ function CreateBill() {
     }, [hostelId]);
 
 
-
+    console.log("billData", billData)
     useEffect(() => {
         if (billData) {
             dispatch({
@@ -252,12 +229,6 @@ function CreateBill() {
         dispatch({ type: 'REMOVE_MANUAL_INVOICE_ERROR' })
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
         setFormLoading(false)
-        // setShowManualInvoice(false);
-        // setShowRecurringBillForm(false);
-        // setReceiptFormShow(false);
-        // setShowAllBill(true);
-        // setEditvalue("");
-        // setReceiptEdit(false);
         setCustomerName("");
         setInvoiceNumber("");
         setStartDate("");
@@ -665,7 +636,7 @@ function CreateBill() {
             const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
             // const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
-           
+
             if (dayjs(formattedInvoiceDate).isBefore(formattedJoiningDate, "day")) {
                 setInvoiceDateErrmsg("Before join date not allowed");
                 hasError = true;
@@ -732,13 +703,13 @@ function CreateBill() {
             );
         });
     };
+    const CustomerOverView = state?.UsersList?.customerdetails
 
     useEffect(() => {
         if (!billData) return;
-        setCustomerName(billData.customerId);
+        setCustomerName(billData.customerId || CustomerOverView?.customerId);
         setInvoiceNumber(billData.invoiceNumber);
-        setInvoiceDate(dayjs(billData.invoiceDate, "DD/MM/YYYY"));
-        // setInvoiceDueDate(dayjs(billData.dueDate, "DD/MM/YYYY"));
+        setInvoiceDate(dayjs(billData.invoiceDate || billData?.invoiceGeneratedDate, "DD/MM/YYYY"));
         setTotalAmount(billData.baseAmount);
 
 
@@ -813,19 +784,8 @@ function CreateBill() {
 
 
 
-
-
-            // setCustomerName("");
-            // setInvoiceNumber("");
-            // setStartDate("");
-            // setEndDate("");
-            // setInvoiceDate("");
-            // setInvoiceDueDate("");
-            // setTotalAmount("");
-            // setNewRows([]);
             setCustomerErrmsg("");
             setInvoiceDateErrmsg("");
-            // setInvoiceDueDateErrmsg("");
             setAllFieldErrmsg("");
         }
     };
@@ -847,7 +807,7 @@ function CreateBill() {
 
         }
 
-    }, [state.InvoiceList.recurringEditError,state.InvoiceList.unableAddInvoiceDetailsError])
+    }, [state.InvoiceList.recurringEditError, state.InvoiceList.unableAddInvoiceDetailsError])
 
 
 
@@ -895,11 +855,11 @@ function CreateBill() {
             if (id) {
                 dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
             }
-           
+
             setTimeout(() => {
                 dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-                dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT'})
-                
+                dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT' })
+
             }, 300);
         }
     }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);
@@ -970,8 +930,9 @@ function CreateBill() {
 
 
     return (
-        <div className="mt-4" style={{ paddingLeft: 5, position: "relative" }}>
+        <div className="mt-4 pl-[5px] relative">
             <div className="sticky top-0 left-0 z-[1000] w-full h-[50px] bg-white px-[5px] py-[5px] flex items-start justify-start whitespace-nowrap">
+
                 <div className="fixed flex items-center gap-2">
                     <img
                         src={leftarrow}
@@ -984,50 +945,46 @@ function CreateBill() {
                         {billData ? "Edit Bill" : "New Bill"}
                     </span>
                 </div>
+
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                        <Form.Label
-                            style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 14,
-                                fontWeight: 500,
-                                color: "#222",
-                                fontStyle: "normal",
-                                lineHeight: "normal",
-                            }}
-                        >
-                            Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                        </Form.Label>
+            <div className="grid grid-cols-10  gap-4 mt-2">
 
+
+                <div className="col-span-4">
+                    <div className="mb-3">
+
+                        <label className="font-[Gilroy] text-[14px] font-medium text-[#222]">
+                            Customer <span className="text-red-500 text-[20px]">*</span>
+                        </label>
 
                         <Select
                             options={
                                 state.UsersList?.Users?.listCustomers?.length > 0
-                                    ? state.UsersList.Users.listCustomers.filter((u) => {
-                                        if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
-                                            return false;
-                                        }
-                                        const validBed =
-                                            u.bedId !== "undefined" &&
-                                            u.bedId !== "0" &&
-                                            typeof u.bedId === "string" &&
-                                            u.bedId.trim() !== "";
+                                    ? state.UsersList.Users.listCustomers
+                                        .filter((u) => {
+                                            if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
+                                                return false;
+                                            }
 
-                                        const validRoom =
-                                            u.roomId !== "undefined" &&
-                                            u.roomId !== "0" &&
-                                            typeof u.roomId === "string" &&
-                                            u.roomId.trim() !== "";
+                                            const validBed =
+                                                u.bedId !== "undefined" &&
+                                                u.bedId !== "0" &&
+                                                typeof u.bedId === "string" &&
+                                                u.bedId.trim() !== "";
 
-                                        if (id) {
-                                            return validBed && validRoom && u.customerId === id;
-                                        }
+                                            const validRoom =
+                                                u.roomId !== "undefined" &&
+                                                u.roomId !== "0" &&
+                                                typeof u.roomId === "string" &&
+                                                u.roomId.trim() !== "";
 
-                                        return validBed && validRoom;
-                                    })
+                                            if (id) {
+                                                return validBed && validRoom && u.customerId === id;
+                                            }
+
+                                            return validBed && validRoom;
+                                        })
                                         .map((u) => ({
                                             value: u.customerId,
                                             label: u.fullName,
@@ -1073,7 +1030,6 @@ function CreateBill() {
                                     backgroundColor: "#f8f9fa",
                                     maxHeight: "120px",
                                     padding: 0,
-                                    scrollbarWidth: "thin",
                                     overflowY: "auto",
                                     fontFamily: "Gilroy",
                                 }),
@@ -1098,126 +1054,60 @@ function CreateBill() {
                             }}
                         />
 
-
-
                         {customererrmsg.trim() !== "" && (
                             <ErrorMessage message={customererrmsg} type="error" />
                         )}
-                    </Form.Group>
+                    </div>
                 </div>
 
-                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <Form.Group className="mb-1 mt-1" controlId="exampleForm.ControlInput1">
-                        <Form.Label
-                            style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 14,
-                                fontWeight: 500,
-                                color: "#222",
-                                fontStyle: "normal",
-                                lineHeight: "normal",
-                            }}
-                        >
+
+                <div className="col-span-4">
+                    <div className="mb-1 mt-1">
+
+                        <label className="font-[Gilroy] text-[14px] font-medium text-[#222]">
                             Invoice Number
-                        </Form.Label>
-                        <Form.Control disabled={billData}
-                            style={{
-                                padding: "12px 10px",
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                lineHeight: "18.83px",
-                                fontWeight: 500,
-                                height: 48
-                            }}
+                        </label>
+
+                        <input
+                            disabled={billData}
                             type="text"
                             placeholder="Enter Invoice Number"
                             value={invoicenumber || ""}
                             onChange={handleInvoiceChange}
+                            className="w-full h-[48px] px-[10px] py-[12px] text-[16px] text-[#4B4B4B] font-[Gilroy] font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0"
                         />
+
                         {invoicenumbererrmsg.trim() !== "" && (
                             <ErrorMessage message={invoicenumbererrmsg} type="error" />
                         )}
-
-                    </Form.Group>
+                    </div>
                 </div>
+
             </div>
 
-            <div className="mb-4" style={{ display: "flex", flexDirection: "row", height: "100px" }}>
-                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-
-                    <p className="mt-1 mb-1" style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                    }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-                    <div style={{ position: "relative", width: "100%" }} className="datepicker-wrapper">
-
-                        <div
-                            className="datepicker-wrapper"
-                            style={{
-                                position: "relative",
-                                width: "100%",
-                            }}
-                        >
-                            <DatePicker disabled={billData}
-                                style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={invoicedate ? dayjs(invoicedate) : null}
-                                onChange={(date) => handleInvoiceDate(date)}
-                                getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-                                disabledDate={(current) =>
-                                    current && current > dayjs().endOf("day")
-                                }
-                                dropdownAlign={{
-                                    points: ["tl", "bl"],
-                                    offset: [0, 4],
-                                }}
-                                popupStyle={{
-                                    marginRight: 0,
-                                    minWidth: "auto",
-                                }}
-                            />
-                        </div>
+            <div className="grid grid-cols-1 md:grid-cols-10 gap-4 mb-4">
 
 
-                    </div>
+                <div className="col-span-1 md:col-span-4">
 
-                    {invoicedateerrmsg.trim() !== "" && (
-                        <ErrorMessage message={invoicedateerrmsg} type="error" />
-                    )}
-                </div>
+                    <p className="mt-1 mb-1 text-[14px] text-[#222] font-[Gilroy] font-medium">
+                        Invoice Date <span className="text-red-500 text-[20px]">*</span>
+                    </p>
 
-                {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <p className="mt-1 mb-1" style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                    }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-                    <div style={{ position: "relative", width: "100%" }}>
-
-
-                        <DatePicker disabled={billData}
-                            style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-                            }}
+                    <div className="relative w-full datepicker-wrapper">
+                        <DatePicker
+                            disabled={billData}
+                            className="w-full h-[48px] cursor-pointer font-[Gilroy]"
                             format="DD/MM/YYYY"
                             placeholder="DD/MM/YYYY"
-                            value={invoiceduedate ? dayjs(invoiceduedate) : null}
-                            onChange={(date) => handleDueDate(date)}
-                            getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-
+                            value={invoicedate ? dayjs(invoicedate) : null}
+                            onChange={(date) => handleInvoiceDate(date)}
+                            getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".datepicker-wrapper")
+                            }
+                            disabledDate={(current) =>
+                                current && current > dayjs().endOf("day")
+                            }
                             dropdownAlign={{
                                 points: ["tl", "bl"],
                                 offset: [0, 4],
@@ -1229,224 +1119,231 @@ function CreateBill() {
                         />
                     </div>
 
-
-                    {invoiceduedateerrmsg.trim() !== "" && (
-                        <ErrorMessage message={invoiceduedateerrmsg} type="error" />
+                    {invoicedateerrmsg.trim() !== "" && (
+                        <ErrorMessage message={invoicedateerrmsg} type="error" />
                     )}
-                </div> */}
+                </div>
+
+
+
             </div>
 
-            <div className="col-lg-5 col-md-3 col-sm-12 col-xs-12 mt-3">
-                <Form.Select
-                    className="border"
-                    style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        lineHeight: "18.83px",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        padding: "12px 10px ",
-                        borderRadius: 8,
-                        cursor: "pointer"
-                    }}
+            {/* <div className=" w-[40%] mt-3">
+                <select
                     value={dropdownValue}
                     onChange={(e) => handleRowTypeSelect(e.target.value)}
+                    className="w-full border border-[#D9D9D9] rounded-[8px] px-[10px] py-[12px] text-[16px] text-[#4B4B4B] font-[Gilroy] font-medium outline-none cursor-pointer"
                 >
                     <option value="" disabled>Select Item Type</option>
-                    {!billData && !selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
-                    {!isApiEBPresent && !selectedTypes.includes("EB") && <option value="EB">EB</option>}
-                    <option value="Other">Other</option>
-                </Form.Select>
 
+                    {!billData && !selectedTypes.includes("RoomRent") && (
+                        <option value="RoomRent">Room Rent</option>
+                    )}
+
+                    {!isApiEBPresent && !selectedTypes.includes("EB") && (
+                        <option value="EB">EB</option>
+                    )}
+
+                    <option value="Other">Other</option>
+                </select>
+
+                {tableErrmsg.trim() !== "" && (
+                    <ErrorMessage message={tableErrmsg} type="error" />
+                )}
+            </div> */}
+
+            <div className="w-[40%] mt-3">
+
+                <Select
+                    value={
+                        dropdownValue
+                            ? { value: dropdownValue, label: dropdownValue }
+                            : null
+                    }
+                    onChange={(selected) =>
+                        handleRowTypeSelect(selected?.value)
+                    }
+                    placeholder="Select Item Type"
+                    options={[
+                        ...(!billData && !selectedTypes.includes("RoomRent")
+                            ? [{ value: "RoomRent", label: "Room Rent" }]
+                            : []),
+
+                        ...(!isApiEBPresent && !selectedTypes.includes("EB")
+                            ? [{ value: "EB", label: "EB" }]
+                            : []),
+
+                        { value: "Other", label: "Other" },
+                    ]}
+                    isSearchable={false}
+                    classNamePrefix="custom"
+                    styles={{
+                        control: (base, state) => ({
+                            ...base,
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            padding: "4px 6px",
+                            fontSize: "16px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            color: "#4B4B4B",
+                            boxShadow: "none",
+                            cursor: "pointer",
+                        }),
+                        menu: (base) => ({
+                            ...base,
+                            zIndex: 9999, fontFamily:"Gilroy"
+                        }),
+                        option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                            color: "#000",
+                            cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({
+                            display: "none",
+                        }),
+                    }}
+                />
 
                 {tableErrmsg.trim() !== "" && (
                     <ErrorMessage message={tableErrmsg} type="error" />
                 )}
             </div>
 
-            {Array.isArray(newRows) && newRows.length > 0 && (<>
-                <div className="mt-3" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
-
-                    <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
-                        <thead style={{ backgroundColor: "#E7F1FF" }}>
-                            <tr>
-                                <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
-                                    S.No
-                                </th>
-                                <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
-                                    Description
-                                </th>
-                                <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
-                                    Total Amount
-                                </th>
-                                <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                    </Table>
+            {Array.isArray(newRows) && newRows.length > 0 && (
+                <>
+                    <div className="mt-3 w-[80%] border border-[#DCDCDC] rounded-[10px] overflow-hidden">
 
 
-                    <div style={{ maxHeight: "150px", overflowY: "auto" }}>
-                        <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
-                            <tbody>
-                                {newRows.map((u, index) => (
-                                    <tr key={index}>
-                                        <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
-                                        <td style={{ width: "40%" }}>
-                                            <Form.Control
-                                                type="text"
-                                                style={{ fontFamily: "Gilroy" }}
-                                                // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
-                                                disabled={u.isFromApi}
+                        <div className="bg-[#E7F1FF]">
+                            <div className="grid grid-cols-10 text-[14px] text-[#939393] font-[Gilroy] font-medium">
+                                <div className="col-span-1 text-center py-2">S.No</div>
+                                <div className="col-span-5 py-2">Description</div>
+                                <div className="col-span-3 py-2">Total Amount</div>
+                                <div className="col-span-1 py-2">Action</div>
+                            </div>
+                        </div>
 
-                                                value={u.am_name}
-                                                onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
-                                                placeholder="Enter Description"
-                                            />
-                                        </td>
-                                        <td style={{ width: "30%" }}>
-                                            <Form.Control
-                                                type="text"
-                                                style={{ fontFamily: "Gilroy" }}
-                                                disabled={u.isFromApi && u.am_name !== "EB"}
-                                                // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
-                                                value={u.amount !== "0" ? u.amount : ""}
-                                                placeholder="Please Enter Amount"
-                                                onChange={(e) => {
-                                                    const value = e.target.value;
-                                                    if (/^\d*\.?\d*$/.test(value)) {
-                                                        handleNewRowChange(index, "amount", value);
-                                                    }
-                                                }}
-                                            />
-                                        </td>
-                                        <td style={{ width: "15%", paddingLeft: 20 }}>
-                                            <CloseCircle
-                                                onClick={() =>
-                                                    !u.isFromApi &&
-                                                    handleDeleteNewRow(index)
+
+                        <div className="max-h-[150px] overflow-y-auto">
+                            {newRows.map((u, index) => (
+                                <div key={index} className="grid grid-cols-10 items-center border-t">
+
+
+                                    <div className="col-span-1 text-center py-2">
+                                        {index + 1}
+                                    </div>
+
+
+                                    <div className="col-span-5 px-2">
+                                        <input
+                                            type="text"
+                                            disabled={u.isFromApi}
+                                            value={u.am_name}
+                                            onChange={(e) =>
+                                                handleNewRowChange(index, "am_name", e.target.value)
+                                            }
+                                            placeholder="Enter Description"
+                                            className="w-full border border-[#D9D9D9] rounded px-2 py-1 font-[Gilroy] outline-none"
+                                        />
+                                    </div>
+
+
+                                    <div className="col-span-3 px-2">
+                                        <input
+                                            type="text"
+                                            disabled={u.isFromApi && u.am_name !== "EB"}
+                                            value={u.amount !== "0" ? u.amount : ""}
+                                            placeholder="Please Enter Amount"
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (/^\d*\.?\d*$/.test(value)) {
+                                                    handleNewRowChange(index, "amount", value);
                                                 }
-                                                style={{
-                                                    color: u.isFromApi ? "gray" : "#FF0000",
-                                                    cursor:
-                                                        !u.isFromApi ? "pointer" : "not-allowed",
-
-                                                    opacity:
-                                                        u.isFromApi
-                                                            ? 0.4
-                                                            : 1,
-                                                }}
-                                                size="24"
-
-                                            />
+                                            }}
+                                            className="w-full border border-[#D9D9D9] rounded px-2 py-1 font-[Gilroy] outline-none"
+                                        />
+                                    </div>
 
 
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                    <div className="col-span-1 flex justify-center">
+                                        <CloseCircle
+                                            onClick={() =>
+                                                !u.isFromApi && handleDeleteNewRow(index)
+                                            }
+                                            size="24"
+                                            className={`${u.isFromApi
+                                                ? "text-gray-400 cursor-not-allowed opacity-40"
+                                                : "text-red-500 cursor-pointer"
+                                                }`}
+                                        />
+                                    </div>
+
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
 
-
-                </div>
-
-
-                <div className="row mt-3">
-                    <div className="col-md-6 offset-md-6">
-                        {Array.isArray(newRows) && newRows.length > 0 && (
-                            <h5 style={{ fontFamily: "Gilroy" }}>
-                                Total Amount ₹{totalAmount}
+                    <div className="grid grid-cols-12 mt-3">
+                        <div className="col-span-2 md:col-span-4 md:col-start-7">
+                            <h5 className="font-[Gilroy] font-medium text-right text-gray-600">
+                                Total Amount :<span className="font-semibold text-black  "> ₹{totalAmount}</span>
                             </h5>
-                        )}
+                        </div>
                     </div>
-                </div>
-
-
-
-
-            </>
-
-
+                </>
             )}
 
 
 
-
             <div>
+
+
                 {allfielderrmsg.trim() !== "" && (
                     <ErrorMessage message={allfielderrmsg} type="error" />
                 )}
 
-                {
-                    state.InvoiceList.unableAddInvoiceDetailsError &&
-                    <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
-                }
-                {state.InvoiceList.recurringEditError ?
-                    <div className="d-flex justify-content-center mt-1 mb-1">
-                        <ErrorMessage message={state.InvoiceList.recurringEditError} type="error" /></div>
-                    : null}
+                {state.InvoiceList.unableAddInvoiceDetailsError && (
+                    <ErrorMessage
+                        message={state.InvoiceList.unableAddInvoiceDetailsError}
+                        type="error"
+                    />
+                )}
+
+                {state.InvoiceList.recurringEditError && (
+                    <div className="flex justify-center my-1">
+                        <ErrorMessage
+                            message={state.InvoiceList.recurringEditError}
+                            type="error"
+                        />
+                    </div>
+                )}
             </div>
 
 
+            {formLoading && (
+                <div className="absolute top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
 
-            {formLoading && <div
-                style={{
-                    position: 'absolute',
-                    top: '80%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                }}
-            >
-                <div
-                    style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                    }}
-                ></div>
-            </div>}
+                    <div className="w-[40px] h-[40px] border-t-4 border-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+
+                </div>
+            )}
 
 
+            <div className="flex justify-center mr-10 w-full">
 
-
-
-            <div style={{ float: "right", marginRight: "130px" }}>
-
-                <Button
+                <button
                     onClick={billData ? handleEditBill : handleCreateBill}
-                    className="w-100 mt-3 mb-2"
-                    style={{
-                        backgroundColor: "#1E45E1",
-                        fontWeight: 500,
-                        height: 40,
-                        borderRadius: 8,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                        marginTop: "20px"
-                    }}
+                    className="w-fit mx-8 my-2 bg-[#1E45E1] text-white px-5 font-medium h-[40px] rounded-[8px] text-[16px] font-[Gilroy]"
                 >
                     {billData ? "Save Changes" : "Create Bill"}
+                </button>
 
-                </Button>
-
-                <div className="mb-3"></div>
             </div>
+
+            <div className="mb-3"></div>
 
         </div>
     )
