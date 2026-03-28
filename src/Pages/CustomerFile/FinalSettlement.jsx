@@ -1699,7 +1699,8 @@ function FinalSettlement() {
                                                                     }
                                                                 }}
                                                                 isDisabled={item.reason_name === "maintenance" || item?.reason_name === "DueAmount"}
-                                                                menuPlacement="auto"
+                                                                menuPlacement="bottom"
+                                                                menuPosition="fixed"
                                                                 styles={{
                                                                     control: (base) => ({
                                                                         ...base,

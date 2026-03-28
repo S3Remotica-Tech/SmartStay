@@ -1780,7 +1780,7 @@ function Sidebar() {
                 <Route path="electricity" element={<SettingsElectricityNew />} />
                 {/* <Route path="electricity-old" element={<SettingElectricity />} /> */}
                 <Route path="electricity-rule" element={<ElectricityRule />} />
-                <Route path="billing-rule-old" element={<BillingRuleOld />} />
+                {/* <Route path="billing-rule-old" element={<BillingRuleOld />} /> */}
                 <Route path="billing-rule" element={<BillingRule />} />
                 <Route path="long-stay-recurring" element={<LongStayRecurringModal />} />
                 <Route path="notifications" element={<SettingsNotifications />} />

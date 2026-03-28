@@ -13,14 +13,16 @@ import Message_text_white from '../../Assets/Images/message-white.png'
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-import Payment from '../../Assets/Images/New_images/Mask-group.png'
-import Refund from '../../Assets/Images/New_images/Refund.png';
+// import Payment from '../../Assets/Images/New_images/Mask-group.png'
+// import Refund from '../../Assets/Images/New_images/Refund.png';
 import { Location, Call, Profile, DocumentDownload } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import { useHasPermission } from '../../Utils/Permission';
-
+import Book from "../../Assets/v2Images/Maskgroup.svg"
+import Refund from '../../Assets/v2Images/Refund.svg';
+import Payment from "../../Assets/v2Images/PaymentReceived.svg"
 
 const InvoiceCard = ({ rowData, }) => {
 
@@ -63,6 +65,44 @@ const InvoiceCard = ({ rowData, }) => {
     canReadModule: canReadReceipt,
   } = useHasPermission("Receipt");
 
+  const receiptConfig = {
+    rent: {
+      label: "Payment Receipt",
+      image: Payment,
+    },
+    booking: {
+      label: "Booking Receipt",
+      image: Book,
+    },
+    advance: {
+      label: "Security Deposit Receipt",
+      image: Payment,
+    },
+    final: {
+      label: "Final Settlement Receipt",
+      image: Refund,
+    },
+  };
+
+  const type = pdfDetails?.configurations?.receiptType
+    ?.trim()
+    .toLowerCase();
+
+  let currentConfig = receiptConfig[type];
+
+
+  if (!currentConfig) {
+    currentConfig = receiptConfig.final;
+  }
+
+
+  if (type !== "booking") {
+    currentConfig = {
+      ...currentConfig,
+      image:
+        Number(pdfDetails?.invoiceAmount) > 0 ? Payment : Refund,
+    };
+  }
 
 
   const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
@@ -288,7 +328,7 @@ const InvoiceCard = ({ rowData, }) => {
             <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
           </div>
         )}
-        <div
+        {/* <div
           className="d-flex justify-content-between align-items-center "
           style={{
             backgroundColor: "#fff",
@@ -432,83 +472,172 @@ const InvoiceCard = ({ rowData, }) => {
 
             </div>
           </div>
-        </div>
+        </div> */}
 
+
+        <div className="flex justify-between items-center bg-white border-b border-[#E0E0E0] h-[50px] w-full">
+
+
+          <div className="flex items-center gap-2">
+            <div className="pl-1">
+              <label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                {pdfDetails?.invoiceNumber}
+              </label>
+            </div>
+
+            <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit capitalize">
+              <span className="h-2 w-2 rounded-full bg-[#10B981]"></span>
+              {rowData?.paymentStatus}
+            </span>
+          </div>
+
+
+          <div>
+            <div className="flex gap-2 mr-3 items-center">
+
+
+              <div
+                className={`flex justify-center items-center border rounded-[8px] h-[30px] w-[30px]
+          ${isExportAllow ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
+                onClick={() => {
+                  if (isExportAllow) handleDownload(rowData);
+                }}
+              >
+                <DocumentDownload
+                  size="18"
+                  color={isExportAllow ? "#222222" : "#BDBDBD"}
+                />
+              </div>
+
+
+              <div className="relative inline-block">
+                <div
+                  className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
+                  onClick={handleShareClick}
+                >
+                  <img
+                    src={Whatsapp}
+                    alt="Share"
+                    className="h-[15px] w-[15px] brightness-0 invert"
+                  />
+                  <span className="text-[14px] font-normal font-gilroy text-white leading-none">
+                    Share
+                  </span>
+                </div>
+
+                {isOpen && (
+                  <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
+
+                    {menuItems.map((item) => {
+                      const isDisabled = !isExportAllow;
+
+                      return (
+                        <div
+                          key={item.key}
+                          className={`flex items-center mb-2 p-1 rounded z-[9999]
+                    ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                    ${hoveredItem === item.key && !isDisabled ? "bg-[#1E45E1]" : "bg-white"}
+                  `}
+                          onMouseEnter={() => !isDisabled && setHoveredItem(item.key)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                          onClick={() => {
+                            if (!isDisabled) handleMenuClick(item.key);
+                          }}
+                        >
+                          <img
+                            src={
+                              hoveredItem === item.key && !isDisabled
+                                ? item.iconWhite
+                                : item.icon
+                            }
+                            className="mr-2"
+                            alt={item.label}
+                          />
+
+                          <span
+                            className={`text-[13px] font-normal font-gilroy
+                      ${hoveredItem === item.key && !isDisabled
+                                ? "text-white"
+                                : "text-[#212529]"
+                              }`}
+                          >
+                            {item.label}
+                          </span>
+                        </div>
+                      );
+                    })}
+
+                  </div>
+                )}
+              </div>
+
+
+              <div>
+                <IoClose
+                  className="h-[20px] w-[20px] cursor-pointer text-red-500"
+                  onClick={handleBackInvoice}
+                />
+              </div>
+
+            </div>
+          </div>
+
+        </div>
 
       </div>
 
 
-      <div style={{
-        backgroundColor: "#F7F8FC", height: "90vh",
-        overflowY: "auto",
-        overflowX: 'hidden',
-      }}
-        className="d-flex justify-content-center p-3 show-scrolls" >
+      <div className="bg-[#F7F8FC] h-[90vh] overflow-y-auto overflow-x-hidden flex justify-center p-3 show-scrolls">
 
-        {isVisible &&
-          <div className=""
-            style={{
-              width: '90%', borderRadius: '8px', backgroundColor: "",
-            }}
+        {isVisible && (
+          <div className="w-[90%] rounded-[8px]">
 
-          >
-
-
-            <div ref={innerScrollRef}
-              style={{ borderRadius: "8px", backgroundColor: "#FFFFFF", marginBottom: 50, boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.08)", }}
+            <div
+              ref={innerScrollRef}
+              className="rounded-[8px] bg-white mb-[50px] shadow-[0px_2px_6px_rgba(0,0,0,0.08)]"
             >
 
-              <div className=" p-2 position-relative" style={{
-                borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
-              }}>
-                <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
-                  <div className="col-6" >
-                    <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo"
-                      style={{ height: pdfDetails?.configurations?.hostelLogo ? 50 : 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
+
+              <div className="p-2 relative rounded-t-[8px]">
+                <div className="flex justify-between items-center px-3">
 
 
-
-
+                  <div className="w-1/2">
+                    <img
+                      src={
+                        pdfDetails?.configurations?.hostelLogo
+                          ? pdfDetails?.configurations?.hostelLogo
+                          : Logo
+                      }
+                      alt="logo"
+                      className={`mt-2 max-w-[134px] rounded-[4px] object-contain ${pdfDetails?.configurations?.hostelLogo
+                          ? "h-[50px]"
+                          : "h-[25px]"
+                        }`}
+                    />
                   </div>
 
-                  <div className="mt-2 col-5 ps-4 pe-0" >
-                    <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
+                  <div className="mt-2 w-[45%] pl-4 pr-0">
+
+
+                    <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy mr-[20px]">
                       {pdfDetails?.stayInfo?.hostelName}
                     </div>
-                    <div
-                      className="d-flex flex-wrap"
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: "#4B4B4B",
-                        lineHeight: "1.2rem",
-                        width: 220,
-                        whiteSpace: "normal",
-                        wordBreak: "break-word",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 5,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
+
+
+                    <div className="text-[11px] font-medium text-[#4B4B4B] font-gilroy leading-[1.2rem] w-[220px] break-words overflow-hidden line-clamp-5">
                       {pdfDetails?.configurations?.address}
                     </div>
 
                   </div>
+
                 </div>
               </div>
 
-              <hr className="m-0"
-                style={{
-                  border: "none",
-                  height: "1px",
-                  background: templateColor,
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  borderRadius: "2px",
-                }}
-              />
+              {/* <div
+  className="h-[1px] rounded-[2px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+  style={{ background: templateColor }}
+/>
               <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                 <div className="text-center pt-2 pb-1">
                   <h5 style={{ ...textStyle, fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600 }}>
@@ -674,7 +803,7 @@ const InvoiceCard = ({ rowData, }) => {
                           style={{
                             height: "24px",
                             width: "3px",
-                            backgroundColor:  "#00A651",
+                            backgroundColor: "#00A651",
                           }}
                         />
                         ₹ {pdfDetails?.receiptInfo?.paidAmount}
@@ -694,22 +823,159 @@ const InvoiceCard = ({ rowData, }) => {
                 </div>
 
 
-              </div>
+              </div>  */}
 
 
+<div
+  className="h-[1px] rounded-[2px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+  style={{ background: templateColor }}
+/>
+
+<div className="w-full bg-white rounded-b relative font-[Gilroy]">
+
+  {/* Title */}
+  <div className="text-center pt-2 pb-1">
+    <h5 className="text-[17px] font-[Gilroy] font-semibold" style={textStyle}>
+      {
+        pdfDetails?.configurations?.receiptType === "Rent"
+          ? "Payment Receipt"
+          : pdfDetails?.configurations?.receiptType === "Booking"
+          ? "Booking Receipt"
+          : pdfDetails?.configurations?.receiptType === "Advance"
+          ? "Security Deposit Receipt"
+          : "Final Settlement Receipt"
+      }
+    </h5>
+  </div>
+
+  {/* GRID SECTION */}
+  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4 mt-1">
+
+    {/* LEFT SIDE */}
+    <div className="md:col-span-5 text-[#222] text-[13px] font-[Gilroy]">
+
+      <div className="mb-2 text-[12px] italic font-normal" style={textStyle}>
+        Receipt to :
+      </div>
+
+      <div className="flex items-center mb-1">
+        <span style={getIconStyle(templateColor)}>
+          <Profile size="16" variant="Bold" />
+        </span>
+        <span className="ml-1 text-[12px] font-semibold text-[#171717]">
+          : {pdfDetails?.customerInfo?.fullName}
+        </span>
+      </div>
+
+      <div className="flex mb-1">
+        <span style={getIconStyle(templateColor)}>
+          <Call size="16" variant="Bold" />
+        </span>
+        <span className="ml-1 text-[12px] text-[#171717]">
+          : {pdfDetails?.customerInfo?.customerMobileNo &&
+            pdfDetails.customerInfo.customerMobileNo !== "undefined"
+            ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
+            : ""}
+        </span>
+      </div>
+
+      <div className="flex mb-1">
+        <span style={getIconStyle(templateColor)}>
+          <IoBed className="text-[16px]" />
+        </span>
+        <span className="ml-1 text-[12px] flex items-center text-[#171717]">
+          {pdfDetails?.stayInfo?.floorName && (
+            <>: {pdfDetails.stayInfo.floorName}, </>
+          )}
+          {pdfDetails?.stayInfo?.roomName && (
+            <>{pdfDetails.stayInfo.roomName} </>
+          )}
+          - {pdfDetails?.stayInfo?.bedName}
+        </span>
+      </div>
+
+      <div className="flex">
+        <span style={getIconStyle(templateColor)}>
+          <Location size="16" variant="Bold" /> 
+        </span>
+        <div className="ml-1 text-[12px] text-[#171717]">
+          : {pdfDetails?.customerInfo?.fullAddress}
+        </div>
+      </div>
+    </div>
+
+    {/* RIGHT SIDE */}
+    <div className="md:col-span-7 grid grid-cols-2 gap-y-1 mt-2 md:pl-6">
+
+      {[
+        ["Receipt No :", pdfDetails?.receiptInfo?.receiptNumber],
+        ["Date :", pdfDetails?.receiptInfo?.transactionDate],
+        ["Time :", pdfDetails?.receiptInfo?.transactionTime],
+        ["Payment Mode:", pdfDetails?.accountDetails?.bankName],
+        ["Transaction ID :", pdfDetails?.receiptInfo?.transactionId],
+      ].map(([label, value], i) => (
+        <React.Fragment key={i}>
+          <div className="text-right text-[10px] text-[#4B4B4B] whitespace-nowrap overflow-hidden text-ellipsis">
+            {label}
+          </div>
+          <div className="text-left ms-2 text-[12px] font-semibold text-[#171717] whitespace-nowrap overflow-hidden text-ellipsis">
+            {value}
+          </div>
+        </React.Fragment>
+      ))}
+
+    </div>
+  </div>
+
+  
+  <div className="px-4 mt-3">
+    <div className="flex flex-col md:flex-row border border-[#E6E6E6] rounded-[10px] overflow-hidden items-center">
+
+     
+      <div className="md:w-1/3 w-full p-[10px] font-semibold text-[13px] text-black border-b md:border-b-0 md:border-r border-[#E6E6E6] capitalize">
+        {Number(pdfDetails?.invoiceAmount) > 0
+          ? "TOTAL PAID AMOUNT"
+          : "Total Refunded Amount"}
+        <br />
+
+        {(pdfDetails?.configurations?.receiptType === "Booking" ||
+          pdfDetails?.configurations?.receiptType === "Advance") && (
+          <span className="text-[11px] text-[#6D6D6D] font-[Gilroy]">
+            Security Deposit (Advance)
+          </span>
+        )}
+      </div>
+
+      
+      <div className="md:w-2/3 w-full">
+
+        <div className="flex items-center gap-2 bg-[#F1FFF5] p-[10px] text-[18px] font-semibold text-black">
+          <div className="h-[24px] w-[3px] bg-[#00A651]" />
+          ₹ {pdfDetails?.receiptInfo?.paidAmount}
+        </div>
+
+        <div className="text-[12px] text-[#4B4B4B] p-[10px]">
+          {convertNumberToWords(pdfDetails?.receiptInfo?.paidAmount || 0)}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+              <div className="flex flex-wrap justify-between  items-center mt-4 mb-4 px-5">
 
 
-              <div className="flex flex-wrap justify-between  items-center mt-4 mb-0 px-5">
-
-
-                <div className="w-full md:w-8/12 p-0">
-                  <h4 className="text-[12px] font-[Gilroy] font-semibold">
+                <div className="w-full md:w-8/12 p-0  flex items-center">
+                <div>
+                  <h4 className="text-[12px] font-[Gilroy] font-medium text-[#4B4B4B]">
                     Acknowledgment
                   </h4>
 
-                  <p className="whitespace-pre-line text-[11px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[50px]">
+                  <p className="whitespace-pre-line text-[11px] font-[Gilroy] font-semibold text-[#3D3D3D] pr-[100px] text-justify">
                     {pdfDetails?.configurations?.termAndCondition}
                   </p>
+                  </div>
                 </div>
 
 
@@ -722,46 +988,34 @@ const InvoiceCard = ({ rowData, }) => {
                     />
                   )}
 
-                  <p className="text-[13px] font-[Gilroy] font-semibold text-[#2C2C2C]">
+                  <p className="text-[10px] font-[Gilroy] font-semibold text-[#2C2C2C]">
                     Authorized Signature
                   </p>
                 </div>
 
               </div>
 
-             <div className="flex flex-wrap justify-between mt-2 mb-0 px-5">
+              <div className="flex flex-wrap justify-between mt-2 mb-0 px-5">
 
 
-  <div className="w-full md:w-8/12 p-0">
-    <p className="whitespace-pre-line  text-[11px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[150px]">
-  {pdfDetails?.configurations?.receiptNotes}
-</p>
-  </div>
+                <div className="w-full md:w-8/12 p-0 flex items-center ">
+                  <p className="whitespace-pre-line  text-[11px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[100px]">
+                    {pdfDetails?.configurations?.receiptNotes}
+                  </p>
+                </div>
 
 
-  <div className="w-full md:w-4/12 p-0 flex flex-col justify-end items-end bg-white mt-3 md:mt-0">
+                <div className="w-full md:w-4/12 flex flex-col h-fit  ">
+                  
+                    <img
+                      src={currentConfig.image}
+                      alt={currentConfig.label}
+                      className="w-full h-fit"
+                    />
+                 
+                </div>
 
-    {Number(pdfDetails?.invoiceAmount) > 0 ? (
-      <p className="font-bold inline-block">
-        <img
-          src={Payment}
-          alt="payment received"
-          className="w-full h-auto"
-        />
-      </p>
-    ) : (
-      <p className="font-bold inline-block">
-        <img
-          src={Refund}
-          alt="refund"
-          className="w-full h-auto"
-        />
-      </p>
-    )}
-
-  </div>
-
-</div>
+              </div>
 
 
 
@@ -1185,78 +1439,42 @@ const InvoiceCard = ({ rowData, }) => {
 
 
 
-              <hr className="m-0"
-                style={{
-                  border: "none",
-                  height: "1px",
-                  background: templateColor,
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  borderRadius: "2px",
-                }}
-              />
-
-              <div className="px-5 mt-2 mb-5">
-                <div
-                  className="text-center rounded-bottom d-flex justify-content-between"
-                  style={{
-                    borderTopRightRadius: '38px',
-                    borderTopLeftRadius: '38px',
-                  }}
-                >
-
-                  <p
-                    className="mb-0"
-                    style={{
-                      fontSize: '13px',
-                      fontFamily: 'Gilroy',
-                      fontWeight: 500,
-                      color: '#4B4B4B',
-                    }}
-                  >
-                    Email: {" "}
-                    <span
-                      style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 600,
-                        color: '#222222',
-                      }}
-                    >
-                      {pdfDetails?.emailId}
-                    </span>
-                  </p>
+          
+<div
+  className="h-[1px] rounded-[2px] shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+  style={{ background: templateColor }}
+/>
 
 
-                  <p
-                    className="mb-0"
-                    style={{
-                      fontSize: '13px',
-                      fontFamily: 'Gilroy',
-                      fontWeight: 500,
-                      color: '#4B4B4B',
-                    }}
-                  >
-                    Contact: {" "}
-                    <span
-                      style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 600,
-                        color: '#222222',
-                      }}
-                    >
-                      {pdfDetails?.mobile && `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
-                    </span>
-                  </p>
-                </div>
-              </div>
+<div className="px-5 mt-2 mb-5">
+  <div className="flex flex-col md:flex-row md:justify-between items-center text-center md:text-left rounded-t-[38px]">
+
+   
+    <p className="text-[13px] font-[Gilroy] font-medium text-[#4B4B4B] mb-2 md:mb-0">
+      Email:{" "}
+      <span className="text-[13px] font-[Gilroy] font-semibold text-[#222222]">
+        {pdfDetails?.emailId}
+      </span>
+    </p>
+
+    
+    <p className="text-[13px] font-[Gilroy] font-medium text-[#4B4B4B]">
+      Contact:{" "}
+      <span className="text-[13px] font-[Gilroy] font-semibold text-[#222222]">
+        {pdfDetails?.mobile &&
+          `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+      </span>
+    </p>
+
+  </div>
+</div>
 
 
             </div>
 
           </div>
 
-        }
+        )}
 
 
       </div>

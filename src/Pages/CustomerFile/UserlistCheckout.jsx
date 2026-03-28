@@ -30,25 +30,8 @@ function CheckOut() {
 
 
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id && !calledOnceRef.current) {
-  //     calledOnceRef.current = true;
-  //     // setWalkingLoader(true);
-  //     dispatch({
-  //       type: "USERLIST",
-  //       payload: { hostel_id: state.login.selectedHostel_Id, type: 'checkout' },
-  //     });
-
-  //   }
-  // }, [state.login.selectedHostel_Id]);
-  // const [activeDotsId, setActiveDotsId] = useState(null);
-  // const [modalType, setModalType] = useState(null);
-
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
-  // const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
-  // const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
-  // const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader, setCheckOutLoader] = useState(false)
   const [CheckoutProfile, setCheckoutProfile] = useState(false)
   const [checkouttableshow, setcheckoutTableShow] = useState(true);
@@ -56,10 +39,6 @@ function CheckOut() {
 
 
 
-  // const canReadCheckout = useHasPermission("Checkout", "canRead")
-  // const canWriteCheckout = useHasPermission("Checkout", "canWrite")
-  //  const canUpdateCheckout = useHasPermission("Checkout", "canUpdate")
-  //   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
 
   const {
     // canWriteModule: canWriteCheckout,
@@ -161,18 +140,7 @@ function CheckOut() {
 
   }, [state.UsersList?.checkoutcustomeEmpty])
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //       setActiveDotsId(null);
-  //     }
-  //   };
 
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   useEffect(() => {
     if (
@@ -182,7 +150,6 @@ function CheckOut() {
 
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
-      // setModalType(null);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 3000);
@@ -195,179 +162,16 @@ function CheckOut() {
     state.UsersList.addCheckoutCustomerStatusCode,
     state.UsersList.deleteCheckoutCustomerStatusCode,
   ]);
-  // const popupRef = useRef(null);
 
-  // const indexOfLastCustomer = currentPage * itemsPerPage;
-  // const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  // const currentCustomers =
-  //   props.search || props.filterStatus || props.checkoutDateRange?.length === 2
-  //     ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
-  //     : checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  // const totalPages = Math.ceil(
-  //   (props.search || props.filterStatus ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
-  // );
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setItemsPerPage(Number(selectedOption.value));
-  //   setCurrentPage(1);
-  // };
-
-
-
-
-  // const pageOptions = [
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return currentCustomers;
-
-  //   const sorted = [...currentCustomers].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === 'asc'
-  //         ? valueA - valueB
-  //         : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
-  //       return sortConfig.direction === 'asc'
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [currentCustomers, sortConfig]);
-
-  // const currentCustomers = React.useMemo(() => {
-  //   const useFiltered =
-  //     props.search ||
-  //     props.filterStatus ||
-  //     (props.checkoutDateRange?.length === 2);
-
-  //   if (useFiltered) {
-  //     return props.filteredUsers || [];
-  //   }
-
-  //   return checkOutCustomer || [];
-  // }, [
-  //   props.search,
-  //   props.filterStatus,
-  //   props.checkoutDateRange,
-  //   props.filteredUsers,
-
-  // ]);
 
 
   const sortedData = React.useMemo(() => {
     return Array.isArray(checkOutCustomer) ? checkOutCustomer : [];
   }, [checkOutCustomer]);
 
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
-  // useEffect(() => {
-  //   if (props.resetPage) {
-  //     setCurrentPage(1);
-  //     props.setResetPage(false);
-  //   }
-  // }, [props.resetPage]);
-
-  // const [checkOutEdit, setCheckOutEdit] = useState("");
-  // const [checkouteditaction, setCheckoutEditAction] = useState(false)
-  // const [checkOutconfirm, setCheckOutConfirm] = useState("");
-  // const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState("");
-  // const [checkoutaction, setCheckoutAction] = useState(false)
-  // const [conformEdit, setConformEdit] = useState(false)
+ 
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
-  // const [CheckOutDetails, setCheckOutDetails] = useState("");
-
-
-  // const handleEdit = (checkout) => {
-  //   setActiveDotsId(null);
-  //   setcheckoutForm(true);
-  //   setConfirmForm(false);
-  //   setCheckOutEdit(checkout);
-  //   setCheckoutEditAction(true)
-  //   setCheckoutAction(false)
-  //   setCheckOutDetails('')
-  // };
-
-  // const handleConformEdit = () => {
-  //   setConfirmForm(true);
-  //   setConformEdit(true)
-  // }
-
-
-
-
-  // const handleConfirmCheckout = (checkout) => {
-  //   if (checkout.customerId) {
-  //     dispatch({
-  //       type: "GETCONFIRMCHECKOUTCUSTOMER",
-  //       payload: { id: checkout.customerId, hostel_id: checkout.Hostel_Id },
-  //     });
-  //   }
-  //   setCheckOutDetails(checkout)
-  // }
-
-
-
-
-
-
-  // useEffect(() => {
-  //   if (state.UsersList.statusCodegetConfirmCheckout) {
-  //     const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
-  //     const deduction_details = state?.UsersList?.nonRefundable_details?.filter((deduction) => deduction.amount > 0);
-  //     const hasBalance =
-  //       Array.isArray(validInvoices) &&
-  //       validInvoices.some((invoice) => invoice.balance > 0);
-  //     let totaldueamount = 0;
-  //     if (validInvoices && hasBalance) {
-  //       totaldueamount = validInvoices.reduce(
-  //         (total, invoice) => total + invoice.balance,
-  //         0
-  //       );
-  //     }
-
-  //     setDueAmountDetails(totaldueamount)
-  //     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-
-
-  //     setDueCustomerShow(true)
-
-
-  //     // if (totaldueamount > 0) {
-  //     //   setDueCustomerShow(true)
-  //     //   setConfirmForm(false);
-  //     // } else {
-  //     //   setActiveDotsId(null);
-  //     //   setConfirmForm(true);
-  //     //   setCheckoutAction(true)
-  //     //   setCheckoutEditAction(false)
-  //     //   setConformEdit(false)
-  //     //   setDueCustomerShow(false)
-  //     // }
-  //   }
-  //   setTimeout(() => {
-  //     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-  //   }, 500);
-
-  // }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
-
+  
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -414,64 +218,7 @@ function CheckOut() {
   }
 
 
-  // const handleCloseConformForm = () => {
-  //   setConfirmForm(false);
-  // }
-
-  // const handleDelete = (checkout) => {
-  //   setActiveDotsId(null);
-  //   setDeleteCheckOutCustomer(checkout);
-  //   setModalType("delete");
-  // };
-
-  // const confirmDelete = () => {
-  //   if (deleteCheckOutCustomer.ID) {
-  //     dispatch({
-  //       type: "DELETECHECKOUTCUSTOMER",
-  //       payload: { user_id: deleteCheckOutCustomer.ID },
-  //     });
-  //   }
-  // };
-
-  // const handleModalClose = () => {
-  //   setModalType(null);
-  // };
-
-
-
-  // const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
-  // const toggleMoreOptions = (id, checkout, event) => {
-  //   setCheckOutConfirm(checkout)
-  //   if (activeDotsId === id) {
-  //     setActiveDotsId(null);
-  //   } else {
-  //     setActiveDotsId(id);
-  //   }
-
-
-
-  //   const { top, left, height } = event.target.getBoundingClientRect();
-  //   const popupTop = (top + height / 2) - 45;
-
-
-  //   const popupLeft = left - (checkOutconfirm.isActive === 0 || checkOutconfirm.isActive === '0' ? 250 : 290);
-
-
-  //   setPopupPosition({ top: popupTop, left: popupLeft });
-
-
-  //   setTimeout(() => {
-  //     if (popupRef.current) {
-  //       const popupWidth = popupRef.current.offsetWidth;
-  //       const popupLeft = left - popupWidth + 0;
-  //       setPopupPosition({ top: popupTop, left: popupLeft });
-  //     }
-  //   }, 0);
-
-
-
-  // };
+  
 
 
 

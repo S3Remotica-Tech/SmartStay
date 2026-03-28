@@ -682,6 +682,8 @@ function BookingModal(props) {
 
                   <Select
                     options={paymentOptions}
+                    menuPlacement="bottom"
+                              menuPosition="fixed"  
                     onChange={(selectedOption) =>
                       handleModeOfPaymentChange(selectedOption?.value)
                     }

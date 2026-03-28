@@ -12,7 +12,7 @@ import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 
 
-function UserAdditionalContact({show, handleClose}) {
+function UserAdditionalContact({ show, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -37,11 +37,11 @@ function UserAdditionalContact({show, handleClose}) {
 
   const CustomerOverView = state.UsersList?.customerdetails;
 
- 
+
 
 
   const handleUserName = (e) => {
-     dispatch({ type: "CLEAR_CONTACT_ERROR" });
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
     const value = e.target.value
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
@@ -78,7 +78,7 @@ function UserAdditionalContact({show, handleClose}) {
 
 
   const handlePhone = (e) => {
-     dispatch({ type: "CLEAR_CONTACT_ERROR" });
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
     const value = e.target.value;
     if (!/^\d{0,10}$/.test(value)) {
       return;
@@ -95,11 +95,11 @@ function UserAdditionalContact({show, handleClose}) {
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
-useEffect(() => {
-  return () => {
-    dispatch({ type: "CLEAR_CONTACT_ERROR" });
-  };
-}, []);
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "CLEAR_CONTACT_ERROR" });
+    };
+  }, []);
 
 
   const handleCloseAdditionalForm = () => {
@@ -161,7 +161,7 @@ useEffect(() => {
 
 
   const handleGuardian = (selectedOption) => {
-       dispatch({ type: "CLEAR_CONTACT_ERROR" });
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
     setFormError("");
     setGuardianError("");
     if (selectedOption?.value === "Others") {
@@ -175,7 +175,7 @@ useEffect(() => {
 
 
   const handleOccupation = (selectedOption) => {
-       dispatch({ type: "CLEAR_CONTACT_ERROR" });
+    dispatch({ type: "CLEAR_CONTACT_ERROR" });
     setOccupationError("");
 
     if (selectedOption?.value === "other") {
@@ -228,7 +228,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
       setFormLoading(false)
-             handleCloseAdditionalForm();
+      handleCloseAdditionalForm();
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
       }, 100);
@@ -322,7 +322,8 @@ useEffect(() => {
                             options={reasonOptions}
                             placeholder="Select Relationship"
                             classNamePrefix="custom"
-                            menuPlacement="auto"
+                            menuPlacement="bottom"
+                              menuPosition="fixed"   
                             noOptionsMessage={() => "No Relationship available"}
                             styles={{
                               control: (base) => ({
@@ -334,6 +335,10 @@ useEffect(() => {
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
                                 boxShadow: "none",
+                              }),
+                              menuPortal: (base) => ({
+                                ...base,
+                                zIndex: 9999,
                               }),
                               option: (base, state) => ({
                                 ...base,
@@ -400,7 +405,10 @@ useEffect(() => {
                             options={occupationOptions}
                             placeholder="Select Occupation"
                             classNamePrefix="custom"
-                            menuPlacement="auto"
+                            menuPlacement="bottom"
+                            menuPortalTarget={document.body}   
+                            menuPosition="fixed"              
+                            menuShouldScrollIntoView={false}
                             styles={{
                               control: (base) => ({
                                 ...base,
@@ -411,6 +419,10 @@ useEffect(() => {
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
                                 boxShadow: "none",
+                              }),
+                              menuPortal: (base) => ({
+                                ...base,
+                                zIndex: 9999,
                               }),
                               option: (base, state) => ({
                                 ...base,

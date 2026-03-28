@@ -243,7 +243,7 @@ function UserListInvoice(props) {
 
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode])
 
-const handleNavigatePDF = (item) => {
+  const handleNavigatePDF = (item) => {
 
     if (item) {
       dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: CustomerOverView?.hostelId, invoiceId: item.invoiceId } })
@@ -251,7 +251,7 @@ const handleNavigatePDF = (item) => {
         replace: false,
         state: {
           rowData: item, ts: Date.now(),
-          isTenantWay:true
+          isTenantWay: true
         },
       });
 
@@ -295,7 +295,7 @@ const handleNavigatePDF = (item) => {
         )}
       </div>
 
-      <div>
+      <div className="mt-10">
         {
 
           !canReadInvoice ?
@@ -309,7 +309,7 @@ const handleNavigatePDF = (item) => {
 
 
             invoiceFilterddata?.length > 0 ? (
-               <div className="mx-3 bg-white shadow-md mt-7 overflow-x-auto max-h-[420px] overflow-y-auto rounded">
+              <div className="mx-3 bg-white shadow-md  overflow-x-auto max-h-[420px] overflow-y-auto rounded">
 
                 <table className="min-w-[900px] w-full border-collapse">
 
@@ -343,11 +343,11 @@ const handleNavigatePDF = (item) => {
                       <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
                         STATUS
                       </th>
-
-                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
-                        ACTION
-                      </th>
-
+                      {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+                        <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
+                          ACTION
+                        </th>
+                      )}
                     </tr>
                   </thead>
 
@@ -358,66 +358,66 @@ const handleNavigatePDF = (item) => {
                         return (
                           <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
 
-                             <td className="sticky left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
-                            {view.invoiceNumber}
-                          </td>
+                            <td className="sticky whitespace-nowrap left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
+                              {view.invoiceNumber}
+                            </td>
 
 
-                           <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px]">
-                            {view.invoiceType}_
-                            <span className="text-[8px]">{view.invoiceMode}</span>
-                          </td>
+                            <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view.invoiceType}_
+                              <span className="text-[8px] whitespace-nowrap">{view.invoiceMode}</span>
+                            </td>
 
-                           <td className="px-3 py-2 text-[13px]">
-                            {view?.invoiceGeneratedDate}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view?.invoiceGeneratedDate}
+                            </td>
 
-                          <td className="px-3 py-2 text-[13px]">
-                            {view?.dueDate}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view?.dueDate}
+                            </td>
 
-                             <td className="px-3 py-2 text-[13px]">
-                            {view?.totalAmount}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              {view?.totalAmount}
+                            </td>
 
-                          <td className="px-3 py-2 text-[13px]">
-                            ₹{view.dueAmount}
-                          </td>
+                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
+                              ₹{view.dueAmount}
+                            </td>
 
 
                             <td className="px-3 py-2" >
 
                               {(view?.paymentStatus === "Pending" ||
                                 view.paymentStatus === "Partial Payment") && (
-                                  <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                  <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
                               {view?.paymentStatus === "Paid" && (
-                                <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
                               {(view?.paymentStatus === "Refunded" ||
                                 view?.paymentStatus === "Partially Refunded") && (
-                                  <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                  <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
                               {view?.paymentStatus === "Pending Refund" && (
-                                <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
 
                               {view?.paymentStatus === "Cancelled" && (
-                                <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="bg-[#FFE6B3] whitespace-nowrap text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   Cancelled
                                 </span>
                               )}

@@ -179,7 +179,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                   // ["Electricity Old", "electricity-old"],
                   ["Electricity", "electricity"],
                   ["Billing Rule", "billing-rule", "Billing_Rule"],
-                  ["Billing Rule Old", "billing-rule-old", "Billing_Rule_Old"],
+                  // ["Billing Rule Old", "billing-rule-old", "Billing_Rule_Old"],
                   ["Notifications", "notifications", "SettingsNotifications"],
                   ["Bill Templates", "invoice", "Invoice"],
                   ["Expenses", "expenses"],
