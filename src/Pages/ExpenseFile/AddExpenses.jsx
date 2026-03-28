@@ -680,7 +680,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
                     {/* <span className="invisible text-xl">*</span> */}
                   </Form.Label>
                   <Form.Control
-                    value={count > 0 ? totalPrice / count : 0}
+                   value={count > 0 ? (totalPrice / count).toFixed(2) : "0.00"}
                     disabled
                     type="text"
                     placeholder=""
@@ -825,7 +825,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
 
           <Modal.Footer className="!border-t-0 mt-1 pt-1">
             <Button
-              // disabled={currentItem}
+               disabled={formLoading}
               onClick={handleAddExpenses}
               className="w-100 !bg-blue-700 !font-gilroy !font-semibold rounded-xl !text-base h-12"
             >

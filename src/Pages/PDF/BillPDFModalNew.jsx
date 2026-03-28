@@ -14,22 +14,22 @@ import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, DocumentDownload, Danger } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload, Danger, RefreshSquare } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
+// import Button from "react-bootstrap/Button";
+// import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
-import { BsThreeDotsVertical } from "react-icons/bs";
+// import { BsThreeDotsVertical } from "react-icons/bs";
 import DiscountInvoice from "./DiscountInvoice";
 import WaiveOFFConfirm from "./WaiveOFFConfirm"
 
 
-const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
+const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -187,6 +187,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
   const handleBackInvoice = () => {
     if (isReportsInvoiceRegisterWay) {
       navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+    } else if (isTenantWay) {
+      navigate(`/tenant/details/${pdfDetails?.customerInfo?.customerId}`)
+      dispatch({ type: "UPDATE_USERSLIST_TRUE" });
+
     } else {
       navigate(`/invoice/${state.login?.selectedHostel_Id}`);
     }
@@ -326,13 +330,34 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
   const statusClasses = {
-    Pending: "bg-red-100 text-red-800",
-    "Partial Payment": "bg-red-100 text-red-800",
-    Paid: "bg-green-100 text-green-800",
-    Refunded: "bg-yellow-100 text-yellow-700",
-    "Partially Refunded": "bg-yellow-100 text-yellow-700",
-    "Pending Refund": "bg-orange-100 text-orange-700",
-    Cancelled: "bg-orange-100 text-orange-900",
+    Pending: {
+      bg: "bg-[#FFF1F1]",
+      dot: "bg-[#EF4444]",
+    },
+    "Partial Payment": {
+      bg: "bg-[#FFF1F1]",
+      dot: "bg-[#EF4444]",
+    },
+    Paid: {
+      bg: "bg-[#ECFDF5]",
+      dot: "bg-[#10B981]",
+    },
+    Refunded: {
+      bg: "bg-[#FFFBEB]",
+      dot: "bg-[#F59E0B]",
+    },
+    "Partially Refunded": {
+      bg: "bg-[#FFFBEB]",
+      dot: "bg-[#F59E0B]",
+    },
+    "Pending Refund": {
+      bg: "bg-[#FFF7ED]",
+      dot: "bg-[#FB923C]",
+    },
+    Cancelled: {
+      bg: "bg-[#F3F4F6]",
+      dot: "bg-[#6B7280]",
+    },
   };
 
 
@@ -380,7 +405,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
           <div className="flex items-center gap-2">
             <div className="pl-1">
-              <label className="text-sm font-medium text-[#222] font-gilroy">
+              <label className="text-[16px] text-black font-semibold font-gilroy">
                 {pdfDetails?.invoiceNumber}
               </label>
             </div>
@@ -394,11 +419,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
                 if (!status) return null;
 
+                const styles = statusClasses[status] || {
+                  bg: "bg-gray-100",
+                  dot: "bg-gray-400",
+                };
+
                 return (
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium font-gilroy ${statusClasses[status] || "bg-gray-100 text-gray-700"
-                      }`}
+                    className={`flex items-center gap-2 px-2 py-[2px] text-[10px] rounded-full  font-gilroy w-fit ${styles.bg}`}
                   >
+                    <span className={`h-2 w-2 rounded-full ${styles.dot}`} />
                     {status}
                   </span>
                 );
@@ -422,6 +452,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
                 color={isExportAllow ? "#222222" : "#BDBDBD"}
               />
             </div>
+
+            <button
+              disabled
+              className="flex items-center justify-center h-[30px] w-[30px] rounded-lg border
+             disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <RefreshSquare
+                size="18"
+                className="text-[#222222] disabled:text-gray-400"
+              />
+            </button>
 
 
             <div className="relative inline-block">
@@ -506,7 +547,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-        <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F0F4FF]   flex justify-center p-3 show-scrolls">
+        <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F7F8FC]   flex justify-center p-3 show-scrolls">
           {pdfLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
               <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -1380,26 +1421,34 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 
 
-                <div className="row justify-content-between mt-4 mb-5 px-5">
-                  <div className="col-md-8">
-                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, ...textStyle }}>Terms and Conditions</h4>
-                    <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
+                <div className="flex flex-wrap justify-between items-center mt-4 mb-5 px-5">
+
+
+                  <div className="w-full md:w-8/12 bg-[#F5F7FFBD] px-1 py-2 rounded">
+                    <h4 className="text-[11px] font-[Gilroy] font-semibold text-[#4B4B4B]">
+                      Terms and Conditions
+                    </h4>
+
+                    <p className="whitespace-pre-line text-[10px] font-[Gilroy] font-semibold text-[#3D3D3D] pr-[50px]">
                       {pdfDetails?.configurations?.termAndCondition}
                     </p>
                   </div>
 
-                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+
+                  <div className="w-full md:w-4/12 flex flex-col justify-end items-end mt-4 md:mt-0">
                     {pdfDetails?.configurations?.signatureUrl && (
                       <img
                         src={pdfDetails?.configurations?.signatureUrl}
-                        alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
-
+                        alt="Digital Signature"
+                        className="h-[60px] w-[130px] pl-5"
                       />
                     )}
-                    <p
-                      style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
-                    >Authorized Signature</p>
+
+                    <p className="text-[10px] font-[Gilroy] font-semibold text-[#2C2C2C]">
+                      Authorized Signature
+                    </p>
                   </div>
+
                 </div>
 
 
@@ -1799,7 +1848,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay }) => {
 
 InvoiceCard.propTypes = {
   rowData: PropTypes.func.isRequired,
-  isReportsInvoiceRegisterWay: PropTypes.bool
+  isReportsInvoiceRegisterWay: PropTypes.bool,
+  isTenantWay: PropTypes.bool,
 };
 
 

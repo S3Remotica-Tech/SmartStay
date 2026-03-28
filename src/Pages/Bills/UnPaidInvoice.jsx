@@ -19,13 +19,13 @@ function UnPaidInvoice({ show, handleClose, selectedInvoice }) {
     const dispatch = useDispatch();
     const [formLoading, setFormLoading] = useState(false);
 
-
+console.log("selectedInvoice",selectedInvoice)
     const confirmUnpaid = () => {
         if (selectedInvoice) {
             dispatch({
                 type: "MANUAL_BILL_UPDATE_UNPAID_SAGA",
                 payload: {
-                    hostelId: selectedInvoice.hostelId,
+                    hostelId: selectedInvoice.hostelId || state?.login?.selectedHostel_Id,
                     invoiceId: selectedInvoice.invoiceId
                 }
             });

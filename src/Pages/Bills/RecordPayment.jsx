@@ -56,7 +56,10 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         }
     }, [selectedUserId, state?.UsersList?.Users?.listCustomers]);
 
-
+    useEffect(() => {
+        if (!state.login.selectedHostel_Id) return
+        dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+    }, [])
 
     // console.log("invoiceValue",invoiceValue)
 
@@ -257,7 +260,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
             setFormRecordLoading(false)
             handleClose()
             // setShowform(false)
-            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+            // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
             if (invoiceList?.invoiceId) {
                 dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: invoiceList?.invoiceId } })

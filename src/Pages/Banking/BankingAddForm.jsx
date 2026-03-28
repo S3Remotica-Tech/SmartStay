@@ -191,11 +191,13 @@ function BankingAddForm(props) {
 
 
   const paymentOptions = Array.isArray(bankking)
-    ? bankking.map((item) => ({
-      value: String(item.bankingId),
-      label: `${item?.accountHolderName} - ${item?.accountType || ""}`,
-    }))
-    : [];
+  ? bankking
+      .filter((item) => item.accountType !== "CASH") 
+      .map((item) => ({
+        value: String(item.bankingId),
+        label: `${item?.accountHolderName} - ${item?.accountType || ""}`,
+      }))
+  : [];
 
 
   const CustomMenuList = (props) => {

@@ -18,7 +18,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import Select from "react-select";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
-import LoaderComponent from "../OthersComponent/LoaderComponent";
+// import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
 // import { Tabs, Tab } from "react-bootstrap";
@@ -31,8 +31,7 @@ import {
   InfoCircle,
   ArrowUp2,
   ArrowDown2,
-  ArrowUp,
-
+  ArrowUp,TrendUp,TrendDown
 } from "iconsax-react";
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import DashExpenseProfit from "./DashExpense&Profit";
@@ -103,7 +102,9 @@ function Dashboard() {
       iconColor: "text-[#155DFC]",
       iconBg: "bg-[#EFF6FF]",
       stats: [
-        { label: "Total Rooms", value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`, value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
+        { label: "Total Rooms",
+          //  value1: `${dashboardList?.roomsBeds?.filledRooms || "0"}`,
+         value2: `${dashboardList?.roomsBeds?.totalRooms || "0"}` },
         { label: "Total Beds", value1: `${dashboardList?.roomsBeds?.totalBeds || "0"}` },
       ],
       footer: "Sharing Breakdown",
@@ -125,7 +126,7 @@ function Dashboard() {
         { label: "Available Beds", value1: `${dashboardList?.occupancy?.availableBeds || "0"}`, valueColor: "text-red-500" },
       ],
       footer: "Occupancy Rate",
-      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth || ""} from last month`,
+      nextMonth: `${dashboardList?.occupancy?.occupancyRateFromLastMonth || ""} `,
       sharingData: [
         { percent: parseFloat(dashboardList?.occupancy?.occupancyRate) }
       ]
@@ -152,11 +153,12 @@ function Dashboard() {
       iconBg: "bg-orange-100",
       stats: [
         { label: "Total Advance", value1: `₹ ${dashboardList?.advanceSummary?.totalAdvance || "0"}` },
-        { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
+         { label: "Advance Holding", value1: `₹ ${dashboardList?.advanceSummary?.advanceHolding || "0"}` },
+        // { label: "Refunded", value1: `₹ ${dashboardList?.advanceSummary?.refunded || "0"}`, valueColor: "text-red-500" },
 
       ],
       footer: "Others",
-      footerOthers: `${dashboardList?.advanceSummary?.other || "0"}`,
+      footerOthers: `${dashboardList?.advanceSummary?.otherDeduction || "0"}`,
     },
   ];
 
@@ -460,12 +462,12 @@ function Dashboard() {
 
         </div>
 
-        {loading && 
-        <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
-          <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
-            
-          </div>
-        </div>}
+        {loading &&
+          <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
+            <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
+
+            </div>
+          </div>}
 
         <div>
           {activeTab === "1" && (
@@ -582,18 +584,18 @@ function Dashboard() {
                         <div className="space-y-2">
                           {card.stats.map((stat, index) => (
                             <div key={index} className="flex justify-between items-center">
-                              <span className="text-[#4A5565] font-[Gilroy] font-semibold text-sm">
+                              <span className="text-[#4A5565] font-[Gilroy] font-semibold text-sm whitespace-nowrap">
                                 {stat.label}
                               </span>
 
                               <span
-                                className={`font-semibold font-[Gilroy] text-xl ${stat.valueColor || "text-[#737373]"
+                                className={`font-semibold font-[Gilroy] whitespace-nowrap text-xl ${stat.valueColor || "text-[#737373]"
                                   }`}
                               >
                                 {stat?.value1}
                                 {stat?.value2 && (
-                                  <span className="text-[#101828] ml-1">
-                                    / {stat?.value2}
+                                  <span className="text-[#101828] ml-1 whitespace-nowrap">
+                                    {stat?.value2}
                                   </span>
                                 )}
                               </span>
@@ -606,7 +608,7 @@ function Dashboard() {
                           <div className="mt-3 pt-3 border-t text-xs text-gray-500  font-[Gilroy]">
 
                             <div className="flex items-center justify-between mb-2">
-                              <h3 className="text-sm font-semibold text-gray-700 font-[Gilroy]">
+                              <h3 className="text-sm font-semibold text-gray-700 font-[Gilroy] whitespace-nowrap">
                                 {card.footer}
                               </h3>
                               {card.title === "Rooms & Beds" && (
@@ -697,7 +699,7 @@ function Dashboard() {
                                 </h3>
                               }
                               {
-                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm">₹ {dashboardList?.advanceSummary?.other || 0}</span>
+                                card.title === "Advance Holding" && <span className="text-[#00A63E] font-[Gilroy] font-semibold text-sm whitespace-nowrap">₹ {dashboardList?.advanceSummary?.otherDeduction || 0}</span>
                               }
 
                               {card.footerValue && (
@@ -761,11 +763,19 @@ function Dashboard() {
 
                             {
                               card.nextMonth && (
-                                <span className="text-gray-900 font-medium my-2 flex">
-                                  <ArrowUp
-                                    size="16"
-                                    color="#6A7282"
-                                  />{card.nextMonth}
+                                <span
+                                  className="font-medium my-2 flex items-center gap-1"
+                                  style={{
+                                    color: parseFloat(card.nextMonth) >= 0 ? "#00A63E" : "#E53935",
+                                  }}
+                                >
+                                  {parseFloat(card.nextMonth) >= 0 ? (
+                                    <TrendUp size="16" color="#00A63E" />
+                                  ) : (
+                                    <TrendDown size="16" color="#E53935" />
+                                  )}
+
+                                  {card.nextMonth} <span className="text-gray-400">from last month</span>
                                 </span>
                               )
                             }

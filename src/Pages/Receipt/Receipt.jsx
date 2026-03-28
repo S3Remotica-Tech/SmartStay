@@ -476,13 +476,13 @@ function Receipt() {
                             )}
 
 
-                            {receiptformShow && (
+                            {/* {receiptformShow && (
                                 <AddReceiptForm
                                     onhandleback={handleBackBill}
                                     editvalue={editvalue}
                                     receiptedit={receiptedit}
                                 />
-                            )}
+                            )} */}
                         </div>
                     </div>
 

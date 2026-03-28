@@ -294,7 +294,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
 
 
-console.log("state.UsersList?.initializeCheckout",state.UsersList?.initializeCheckout)
+console.log("data",data)
 
 
     return (
@@ -330,7 +330,8 @@ console.log("state.UsersList?.initializeCheckout",state.UsersList?.initializeChe
 
                         <div>
                             <p className="text-lg mt-2 font-gilroy font-semibold mb-0">
-                                {data?.firstName || data?.tenantFullName}
+                                 {data?.fullName || data?.tenantFullName}
+                                
                             </p>
                             <div className="flex mb-2">
                                 <span className="rounded-full bg-yellow-400 text-gray-900 me-2 text-xs font-gilroy font-normal px-2.5 py-1">
