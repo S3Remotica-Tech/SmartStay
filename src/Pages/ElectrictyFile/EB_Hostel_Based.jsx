@@ -731,7 +731,7 @@ function EBHostelReading(props) {
                                         }}
                                         onClick={(e) => handleShowActive(v.eb_Id, e)}
                                       >
-                                        <PiDotsThreeOutlineVerticalFill
+                                        <PiDotsThreeOutlineVerticalFill className="text-gray-500"
                                           style={{ height: 20, width: 20, color: "#000000" }}
                                         />
                                         {activeRow === v.eb_Id && (

@@ -2669,7 +2669,7 @@ function UserListRoomDetail(props) {
                   }
                   className="p-1 "
                 >
-                  <PiDotsThreeOutlineVerticalFill size={18} />
+                  <PiDotsThreeOutlineVerticalFill size={18} className="text-gray-500"/>
                 </button>
 
                 {openMenu && (

@@ -341,6 +341,7 @@ function PaginationList({
 }) {
   const [options, setOptions] = useState([10, 20, 50]);
 
+  // const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
   const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
   useEffect(() => {
@@ -349,29 +350,30 @@ function PaginationList({
     }
   }, [totalPages]);
 
- 
+
   useEffect(() => {
-  const handleResize = () => {
-    if (window.innerWidth >= 1440) {
-      setOptions([20, 40, 60, 80]);
-    } else {
-      setOptions([10, 20, 50]);
-    }
-  };
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setOptions([20, 40, 60, 80]);
+      } else {
+        setOptions([10, 20, 50]);
+      }
+    };
 
-  handleResize(); 
-  window.addEventListener("resize", handleResize);
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleChangePage = (page) => {
     const p = Math.max(1, Math.min(page, totalPages));
     onPageChange?.(p);
   };
 
-  // if (totalItems === 0) return null;
-  if (totalItems <= itemsPerPage) return null;
+
+const minItemsToShowPagination = 10; 
+if (totalItems <= minItemsToShowPagination) return null;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

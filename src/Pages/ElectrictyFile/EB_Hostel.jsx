@@ -438,6 +438,7 @@ const RoomReadingTable = () => {
 
   // console.log("mathu", roomReadingList);
 
+
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
 
@@ -507,7 +508,7 @@ const RoomReadingTable = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-6 mb-3 ml-0.5 -mt-2">
+          <div className="flex items-center gap-6 mb-2 ml-0.5 -mt-2">
             <div
               onClick={() => setActiveTab("room")}
               className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "room"
@@ -805,7 +806,7 @@ const RoomReadingTable = () => {
                     ) : (
                       <>
 
-                        <div className="flex justify-end mb-4 mr-2 -mt-12">
+                         <div className={`flex justify-end mr-2 ${formattedRoomReadings.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
                           <PaginationList
                             totalItems={formattedRoomReadings.length}
                             itemsPerPage={pageSize}
@@ -868,7 +869,7 @@ const RoomReadingTable = () => {
                                       !isEbBased &&
                                       <td className="px-2 py-1" style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
                                         <PiDotsThreeOutlineVerticalFill
-                                          className={`w-5 h-5 cursor-pointer transition-transform ${showDotsRoom === i ? "text-blue-700" : "text-gray-600"
+                                          className={`w-5 h-5 cursor-pointer transition-transform ${showDotsRoom === i ? "text-blue-700" : "text-gray-500"
                                             }`}
                                           style={{ transform: "rotate(90deg)" }}
                                           onClick={() => handleShowDotsRoomReading(row, i)}
@@ -1026,7 +1027,7 @@ const RoomReadingTable = () => {
                     </div>
                   ) : (
                     <>
-                      <div className="flex justify-end mr-2 mb-4 -mt-12">
+                        <div className={`flex justify-end mr-2 ${formattedReadings.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
                         <PaginationList
                           totalItems={formattedReadings.length}
                           itemsPerPage={pageSize}

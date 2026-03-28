@@ -199,7 +199,7 @@ function ExpensesListTable(props) {
           <div onClick={(e) => handleShowDots(e, props.item.expenseId)}>
             <PiDotsThreeOutlineVerticalFill
               className={`h-5 w-5 rotate-90
-          ${showDots === props.item.expenseId ? "text-blue-600" : "text-gray-600"}`}
+          ${showDots === props.item.expenseId ? "text-blue-600" : "text-gray-500"}`}
             />
 
             {showDots === props.item.expenseId && <>

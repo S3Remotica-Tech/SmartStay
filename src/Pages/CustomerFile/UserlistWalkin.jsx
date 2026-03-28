@@ -399,7 +399,7 @@ function UserlistWalkin() {
               </div>
             ) : (
               <div className="px-0">
-                <div className="flex justify-end mr-2 -mt-8 mb-3">
+               <div className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>                    
                   <PaginationList
                     totalItems={sortedData.length}
                     itemsPerPage={pageSize}
@@ -408,7 +408,6 @@ function UserlistWalkin() {
                     onPageSizeChange={(size) => setPageSize(size)}
                   />
                 </div>
-
 
                 {sortedData.length > 0 && (
 

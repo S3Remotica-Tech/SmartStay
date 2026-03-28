@@ -546,7 +546,7 @@ function CheckOut() {
               <div>
                 {sortedData?.length > 0 ? (
                   <>
-                    <div className="flex justify-end mr-2 -mt-8 mb-3">
+                    <div className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
                       <PaginationList
                         totalItems={sortedData.length}
                         itemsPerPage={pageSize}
@@ -556,7 +556,7 @@ function CheckOut() {
                       />
                     </div>
 
-                    <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                    <div className="relative h-[calc(100vh-165px)] flex flex-col">
                       <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                         <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                           <thead className="bg-blue-100 sticky top-0 z-20">
