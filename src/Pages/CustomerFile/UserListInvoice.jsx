@@ -353,7 +353,7 @@ const handleNavigatePDF = (item) => {
 
                   <tbody className="text-[14px] font-medium font-gilroy">
 
-                    <PaginationList>
+                    {/* <PaginationList> */}
                       {invoiceFilterddata?.map((view) => {
                         return (
                           <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
@@ -566,7 +566,7 @@ const handleNavigatePDF = (item) => {
                         )
                       })
                       }
-                    </PaginationList>
+                    {/* </PaginationList> */}
 
                     {invoiceFilterddata?.length === 0 && (
                       <tr>

@@ -750,10 +750,10 @@ function CustomerReAssign(props) {
           show={true}
           onHide={handleCloseReAssign}
           backdrop="static"
-          centered dialogClassName="custom-modal-style"
+          centered
         >
           <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white">
-            <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b">
+            <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b mb-2">
               <div className="text-xl font-semibold font-gilroy">
                 Change Bed
               </div>
@@ -762,7 +762,7 @@ function CustomerReAssign(props) {
                 className="cursor-pointer" />
             </Modal.Header>
 
-            <Modal.Body className="mt-1 mr-3 pt-1 overflow-hidden">
+            <Modal.Body className="mt-2 mr-3 pt-1 overflow-hidden">
               <div className="flex items-center">
                 <div>
 
@@ -817,9 +817,9 @@ function CustomerReAssign(props) {
                     </div>
                   </div>
 
-                  <div className="overflow-y-auto max-h-[360px] md:h-[200px] lg:h-auto mt-1 pt-1 show-scroll p-2">
+                  <div className="overflow-y-auto max-h-[360px] lg:h-[320px] md:h-[200px] lg:h-auto mt-1 pt-1 show-scroll p-2">
                     <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
-                      <div>
+                      <div className="mb-1">
                         <Form.Group controlId="purchaseDate">
                           <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
                             Date <span className="text-red-500 text-[20px]">*</span>
@@ -841,9 +841,8 @@ function CustomerReAssign(props) {
                                 setDateError("");
                                 setSelectedDate(date ? date.toDate() : null);
                               }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".datepicker-wrapper")
-                              }
+                              getPopupContainer={() => document.body}
+                             
                               disabledDate={(current) => {
                                 if (!current) return false;
                                 const today = dayjs().endOf("day");
@@ -898,7 +897,7 @@ function CustomerReAssign(props) {
                         </Form.Group>
                       </div>
 
-                      <div>
+                      <div className="mb-1">
                         <Form.Group >
                           <Form.Label className="text-[14px] font-medium font-gilroy">
                             New Floor <span className="text-red-500 text-[20px]">*</span>
@@ -961,7 +960,7 @@ function CustomerReAssign(props) {
                         </Form.Group>
                       </div>
 
-                      <div className="mb-2">
+                      <div className="mb-3">
                         <Form.Group >
                           <Form.Label className="text-[14px] font-medium font-gilroy">
                             New Room <span className="text-red-500 text-[20px]">*</span>
@@ -1018,7 +1017,7 @@ function CustomerReAssign(props) {
                         </Form.Group>
                       </div>
 
-                      <div>
+                      <div className="mb-3">
                         <Form.Group >
                           <Form.Label className="text-[14px] font-medium font-gilroy">
                             New Bed <span className="text-red-500 text-[20px]">*</span>
@@ -1121,9 +1120,7 @@ function CustomerReAssign(props) {
                       </div> */}
                       <div>
                         <Form.Group>
-
-                          {/* Label + Checkbox in One Line */}
-                          <div className="flex items-center">
+                      <div className="flex items-center">
                             <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
                               New Rent Amount
                               <span className="text-red-500 text-[20px] ml-1">*</span>
@@ -1173,7 +1170,7 @@ function CustomerReAssign(props) {
 
             {state.UsersList?.changeBedError && <div className="flex justify-center mb-3">
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
-            </div>} 
+            </div>}
 
             {formLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -1181,10 +1178,8 @@ function CustomerReAssign(props) {
               </div>
             )}
 
+            <Modal.Footer className="-mt-6 border-top-0 mb-2">
 
-
-            <Modal.Footer className="-mt-6 border-top-0">
-              
               <Button disabled={formLoading}
                 className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
                 onClick={handleSaveReassignBed}
