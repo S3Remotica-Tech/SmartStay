@@ -2428,7 +2428,7 @@ function UserListRoomDetail(props) {
 
 
   useEffect(() => {
-    if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+    if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
       setBookingAssignForm(false)
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
 
@@ -3265,7 +3265,7 @@ function UserListRoomDetail(props) {
                       )}
 
 
-                    <div className="p-3 min-h-[340px] overflow-y-auto ">
+                    <div className="p-3 max-h-[300px] overflow-y-auto ">
 
 
                       {documentvalue === "1" && (

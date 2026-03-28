@@ -201,7 +201,7 @@ function DashQuickAccess(
   }
 
   useEffect(() => {
-    if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+    if (state.UsersList?.bookingToCheckinStatusCode === 200 ||  state.UsersList?.bookingToCheckinStatusCode === 201) {
       setBookingAssignForm(false)
       dispatch({
         type: "GET_DASHBOARD_SAGA",
