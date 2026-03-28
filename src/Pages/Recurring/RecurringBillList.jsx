@@ -115,28 +115,26 @@ const RecurringBillList = (props) => {
     <>
 
      
-      <tr
-        key={props.item.customerId}
-        className="m-2 text-black font-gilroy text-sm align-middle"
-      >
-        <td className="text-center whitespace-nowrap" style={{borderBottom: '1px solid #E8E8E8'}}>
-          <div className="flex items-center text-[13px] font-medium cursor-pointer">
+      <tr key={props.item.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+
+        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+          <div className="flex items-center">
               {props.item?.fullName}
           </div>
         </td>
-        <td className="text-left align-middle text-[13px] font-medium text-black" style={{borderBottom: '1px solid #E8E8E8'}}>
+        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           {props?.item?.lastInvoiceNumber || "-"}
         </td>
-        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
+        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           {props.item?.lastInvoiceDate || "-"}
         </td>
-        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
+        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           {props.item?.nextInvoiceDate || "-"}
         </td>
-        <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
+        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
         </td>
-        {/* <td className="text-left align-middle text-[13px] font-medium text-black " style={{borderBottom: '1px solid #E8E8E8'}}>
+        {/* <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           <Form.Check
             type="switch"
             id="recurring-switch"
@@ -145,7 +143,7 @@ const RecurringBillList = (props) => {
             onChange={canUpdateRecurring ? props.onToggle : undefined}
           />
         </td> */}
-        <td className="text-left" style={{borderBottom: '1px solid #E8E8E8'}}>
+        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           <div className="w-full flex justify-start">
             <div
               className="flex items-center relative rounded-full cursor-pointer"

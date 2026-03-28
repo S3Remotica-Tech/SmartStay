@@ -81,7 +81,7 @@ function Banking() {
   // const canUpdateBanking = useHasPermission("Banking", "canUpdate");
   // const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
-  console.log("transactionFilterddata", transactionFilterddata)
+
   useEffect(() => {
     if (!canReadBanking) {
       setLoader(false);
@@ -120,8 +120,6 @@ function Banking() {
     }
   }, [hostel_id]);
 
-  console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
-
   useEffect(() => {
     setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -132,7 +130,7 @@ function Banking() {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.statusCodeForGetBanking, state.bankingDetails?.bankingList]);
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
   useEffect(() => {
@@ -231,12 +229,11 @@ function Banking() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       setFormLoading(false)
-      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       handleCloseAddBalance();
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
-      }, 100);
-
+      }, 1000);
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
 
@@ -398,12 +395,12 @@ function Banking() {
   //   setSortConfig({ key, direction });
   // };
 
-  // const sortedData = React.useMemo(() => {
-  //   return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
-  // }, [transactionFilterddata]);
+  const sortedData = React.useMemo(() => {
+    return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
+  }, [transactionFilterddata]);
 
 
-  // console.log("sortedData",sortedData)
+
 
   useEffect(() => {
     if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
@@ -530,14 +527,37 @@ function Banking() {
 
   }, [state.createAccount?.networkError])
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
   return (
     <>
-      <div className="h-screen overflow-hidden">
+      <div className="overflow-hidden">
 
         <div className="sticky top-0 bg-white">
-          <div
-            className="d-flex flex-wrap justify-content-between align-items-center ml-2">
-            <div>
+          <div className="d-flex flex-wrap justify-content-between align-items-center">
+            <div className="flex lg:justify-start justify-center items-center flex-wrap">
               <label className="text-lg text-black font-semibold font-gilroy">
                 Banking
               </label>
@@ -695,34 +715,26 @@ function Banking() {
           ) : (
 
 
-            <div
-              className="
-    flex flex-row gap-4 mt-1 ml-1
-    overflow-x-auto overflow-y-hidden
-    whitespace-nowrap
-    pb-2
-    scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200
-  "
-            >
+            <div className="flex flex-row gap-4 mt-1 px-2 overflow-x-auto overflow-y-hidden">
               {bankking && bankking.length > 0 ? (
                 bankking.map((item) => {
                   return (
                     <div
                       key={item.id}
-                      className={` flex-shrink-0
+                      className="
+            flex-shrink-0
             w-[280px]
             h-[180px]
             flex flex-col justify-between
-            
+            border border-gray-300
             rounded-xl
             overflow-hidden
             relative
-           ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border border-gray-300 hover:shadow-md transition"} `}
-
-
+            bg-white
+          "
                     >
 
-                      <div className="p-4 overflow-y-auto" >
+                      <div className="p-4 overflow-y-auto">
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm font-semibold font-gilroy mb-0">
@@ -736,18 +748,11 @@ function Banking() {
 
 
                           <div
-                            className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
-    ${item.isDeleted
-                                ? "cursor-not-allowed opacity-50 "
-                                : "cursor-pointer"
-                              }
-    ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
-  `}
-                            onClick={() => {
-                              if (!item.isDeleted) {
-                                handleShowDots(item.bankingId);
-                              }
-                            }}
+                            className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${openMenuId === item.bankingId
+                              ? "bg-blue-100"
+                              : "bg-white"
+                              }`}
+                            onClick={() => handleShowDots(item.bankingId)}
                           >
                             <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                           </div>
@@ -756,62 +761,78 @@ function Banking() {
                           {openMenuId === item.bankingId && (
                             <div
                               ref={popupRef}
-                              className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
+                              className="
+                    absolute right-7 top-12
+                    w-40
+                    bg-gray-50
+                    border border-gray-200
+                    rounded-xl
+                    z-[9999]
+                  "
                             >
-
-                              <button disabled
-                                // disabled={!(canWriteBanking && !item.isDeleted)}
-                                onClick={() => handleOpenSelfTransfer(item)}
-                                className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
-    disabled:cursor-not-allowed disabled:opacity-50
-    enabled:hover:bg-blue-100"
+                              <div
+                                className={`flex items-center gap-2 px-3 py-2 rounded-t-xl ${canWriteBanking
+                                  ? "cursor-pointer hover:bg-blue-100"
+                                  : "cursor-not-allowed opacity-50"
+                                  }`}
+                                onClick={() => {
+                                  if (canWriteBanking) {
+                                    handleOpenSelfTransfer(item);
+                                  }
+                                }}
                               >
-                                <img src={transArrow} alt="transArrow" className="h-4 w-4" />
-
+                                <img
+                                  src={transArrow}
+                                  alt="transArrow"
+                                  className="h-4 w-4"
+                                />
                                 <span className="text-sm font-semibold font-gilroy">
                                   Self Transfer
                                 </span>
-                              </button>
+                              </div>
 
                               <div className="h-px bg-gray-200" />
-
-
-                              <button
-                                disabled={!(canUpdateBanking && !item.isDeleted)}
-                                onClick={() => handleEditAddBank(item)}
-                                className="flex w-full items-center gap-2 px-3 py-2
-      disabled:cursor-not-allowed disabled:opacity-50
-      enabled:hover:bg-blue-100"
+                              <div
+                                className={`flex items-center gap-2 px-3 py-2 ${canUpdateBanking
+                                  ? "cursor-pointer hover:bg-blue-100"
+                                  : "cursor-not-allowed opacity-50 pointer-events-none"
+                                  }`}
+                                onClick={() => {
+                                  if (canUpdateBanking) {
+                                    handleEditAddBank(item);
+                                  }
+                                }}
                               >
                                 <Edit
                                   size={16}
-                                  className="text-[#1E45E1] disabled:text-gray-400"
+                                  color={!canUpdateBanking ? "#A9A9A9" : "#1E45E1"}
                                 />
                                 <span className="text-sm font-semibold font-gilroy">
                                   Edit
                                 </span>
-                              </button>
+                              </div>
 
                               <div className="h-px bg-gray-200" />
-
-
-                              <button disabled
-                                // disabled={!(canDeleteBanking && !item.isDeleted)}
-                                onClick={() => handleDeleteForm(item)}
-                                className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
-    disabled:cursor-not-allowed disabled:opacity-50
-    enabled:hover:bg-red-50"
+                              <div
+                                className={`flex items-center gap-2 px-3 py-2 rounded-b-xl ${canDeleteBanking
+                                  ? "cursor-pointer hover:bg-red-50"
+                                  : "cursor-not-allowed opacity-50"
+                                  }`}
+                                onClick={() => {
+                                  if (canDeleteBanking) {
+                                    handleDeleteForm(item);
+                                  }
+                                }}
                               >
                                 <Trash
                                   size={16}
-                                  className="text-red-500 disabled:text-gray-400"
+                                  color={!canDeleteBanking ? "#A9A9A9" : "red"}
                                 />
                                 <span className="text-sm font-semibold text-red-500 font-gilroy">
                                   Delete
                                 </span>
-                              </button>
+                              </div>
                             </div>
-
                           )}
                         </div>
 
@@ -851,7 +872,7 @@ function Banking() {
 
                           <span
                             className={`text-sm font-semibold font-gilroy ${canWriteBanking
-                              ? "text-gray-400 cursor-not-allowed"
+                              ? "text-blue-600 cursor-pointer"
                               : "text-gray-400 cursor-not-allowed"
                               }`}
                           >
@@ -917,26 +938,22 @@ function Banking() {
                           Balance
                         </span>
 
-
-
                         {item.accountBalance === 0 ||
                           item.accountBalance === "" ||
                           item.accountBalance === null ? (
-
                           <span
-                            className={`text-sm font-semibold font-gilroy ${canWriteBanking && !item.isDeleted
+                            className={`text-sm font-semibold font-gilroy ${canWriteBanking
                               ? "text-blue-600 cursor-pointer"
                               : "text-gray-400 cursor-not-allowed"
                               }`}
                             onClick={() => {
-                              if (canWriteBanking && !item.isDeleted) {
+                              if (canWriteBanking) {
                                 handleShowAddBalance(item);
                               }
                             }}
                           >
                             +Add Amount
                           </span>
-
                         ) : (
                           <span className="text-sm font-semibold text-black font-gilroy">
                             ₹{item.accountBalance}
@@ -951,71 +968,63 @@ function Banking() {
 
           )}
 
-          <div >
+          <div>
+            {sortedData?.length > 0 ? (
+              <>
+                <div className="border-t border-gray-200 mt-3 mb-4 px-0 ml-1 mr-2 h-[280px] md:h-[200px] lg:h-[280px] 2xl:h-full overflow-y-auto show-scroll">
+                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                    <thead className="bg-blue-100 sticky top-0 z-20">                     
+                      <tr className="h-9">
+                        <th className="w-[230px] px-2">
+                          Account Name
+                        </th>
 
-            {transactionFilterddata?.length > 0 ? (
+                        <th className="w-[230px] px-2">
+                          Date
+                        </th>
 
-              <div className="overflow-y-auto border-t border-gray-200 mt-3 mb-5 px-0 ml-1 mr-2 h-[260px] md:h-[200px] lg:h-[260px]  thin-scrollbar">
+                        <th className="w-[230px] px-2">
+                          Amount
+                        </th>
 
-                <Table className="min-w-full border-collapse w-full font-medium font-gilroy sticky top-0 z-10]"
-                  responsive="md" >
-                  <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-10">
+                        <th className="w-[230px] px-2">
+                          Description
+                        </th>
 
-                    <tr >
-                      <th className="text-start align-middle ">
-                        Account Name
-                      </th>
+                        <th className="w-[230px] px-2">
+                          Transaction
+                        </th>
+                      </tr>
 
-                      <th className="text-start align-middle">
-                        Date
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Amount
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Description
-                      </th>
-
-                      <th className="text-start align-middle">
-                        Transaction
-                      </th>
-                    </tr>
-
-                  </thead>
+                    </thead>
 
 
-                  <tbody className="text-center">
-                    <PaginationList>
-                      {transactionFilterddata?.map((user) => {
-
-
+                    <tbody >
+                      {paginatedData?.map((user) => {
                         return (
 
                           <tr
-                            key={user.id}
-                            className="text-[13px] font-gilroy font-semibold text-center border-b border-[#E8E8E8]"
-                          >
-                            <td className="border-0 text-start font-semibold">
+                            key={user.id} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+
+                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
                               {user.accountHolder}
                             </td>
 
-                            <td className="border-0 text-start font-gilroy whitespace-nowrap">
+                            <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                               <span>
                                 {user.createdAt}
                               </span>
                             </td>
 
-                            <td className="border-0 text-start font-gilroy">
+                            <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                               {user.amount}
                             </td>
 
-                            <td className="border-0 text-start font-gilroy">
+                            <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                               {user.source}
                             </td>
 
-                            <td className="border-0 text-start font-gilroy whitespace-nowrap">
+                            <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                               <span>
                                 {user.type}
                               </span>
@@ -1024,21 +1033,30 @@ function Banking() {
 
                         );
                       })}
-                    </PaginationList>
-                  </tbody>
+                    </tbody>
+
+                  </table>
 
 
 
+                </div>
+                <div className="mr-2 flex justify-end">
+                  <PaginationList
+                    totalItems={sortedData.length}
+                    itemsPerPage={pageSize}
+                    currentPage={page}
+                    onPageChange={(p) => setPage(p)}
+                    onPageSizeChange={(size) => setPageSize(size)}
+                  />
+                </div>
+              </>
 
-                </Table>
-
-              </div>
 
             ) : (
 
 
               <div>
-                {!loader && transactionFilterddata.length === 0 && canReadBanking && (
+                {!loader && sortedData.length === 0 && canReadBanking && (
                   <div className="flex justify-center mt-24 2xl:mt-52">
                     <div>
                       <div className="text-center mb-2">

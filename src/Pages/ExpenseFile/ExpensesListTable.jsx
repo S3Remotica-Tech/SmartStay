@@ -186,20 +186,20 @@ function ExpensesListTable(props) {
   return (
     <>
 
-      <tr className="font-gilroy border-b border-gray-300 h-10 font-medium text-sm whitespace-normal" key={props.item.expenseId}>
+      <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10" key={props.item.expenseId}>
 
-        <td>{props.item.transactionDate}</td>
-        <td className='min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.categoryName}>{props.item.categoryName}</td>
-        <td className='min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.description}>{props.item.description || "-"}</td>
-        <td>{props.item.itemsCount}</td>
-        <td>{props.item.unitPrice}</td>
-        <td> {props.item.totalAmount}  </td>
-        <td className='min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.accountHolderName}>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
-        <td className="relative cursor-pointer">
+        <td className='w-[230px] px-2 py-1'>{props.item.transactionDate}</td>
+        <td className='w-[230px] px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.categoryName}>{props.item.categoryName}</td>
+        <td className='w-[230px] px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.description}>{props.item.description || "-"}</td>
+        <td className='w-[230px] px-2 py-1'>{props.item.itemsCount}</td>
+        <td className='w-[230px] px-2 py-1'>{props.item.unitPrice}</td>
+        <td className='w-[230px] px-2 py-1'> {props.item.totalAmount}  </td>
+        <td className='w-[230px] px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap' title={props.item.accountHolderName}>{props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}</td>
+        <td className="relative cursor-pointer px-2 py-1">
           <div onClick={(e) => handleShowDots(e, props.item.expenseId)}>
             <PiDotsThreeOutlineVerticalFill
               className={`h-5 w-5 rotate-90
-          ${showDots === props.item.expenseId ? "text-blue-600" : "text-gray-500"}`}
+          ${showDots === props.item.expenseId ? "text-blue-600" : "text-gray-600"}`}
             />
 
             {showDots === props.item.expenseId && <>

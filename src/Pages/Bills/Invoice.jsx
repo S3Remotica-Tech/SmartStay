@@ -1472,26 +1472,29 @@ const InvoicePage = () => {
   }
 
 
-  const headerStyle = {
-    textAlign: "start",
-    fontFamily: "Gilroy",
-    color: "rgb(147, 147, 147)",
-    fontSize: 14,
-    fontWeight: 500,
-    lineHeight: "1.4",
-    padding: 8,
-    verticalAlign: "middle",
-  };
-
-
-
   const [page, setPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const paginatedData = sortedData.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
   );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedData.slice(startIndex, endIndex);
 
   return (
     <div className="sticky-top bg-white font-gilroy" >
@@ -1503,13 +1506,15 @@ const InvoicePage = () => {
         <div className="w-full p-0">
           <div className="sticky top-0 bg-white z-20">
             <div className="flex flex-wrap justify-between items-center">
-              <div className="ml-1">
-                <label className="text-lg font-semibold text-black">Bills</label>
+              <div className="flex lg:justify-start justify-center items-center flex-wrap">
+                <label className="text-lg text-black font-semibold font-gilroy">
+                  Invoice
+                </label>
               </div>
 
               {(showLoader || loading) && <LoaderComponent />}
 
-              <div className="flex flex-wrap items-center gap-2 pl-6">
+              <div className="flex flex-wrap items-center gap-2 pl-">
                 <div className="flex items-center">
                   {search ? (
                     <>
@@ -1578,89 +1583,55 @@ const InvoicePage = () => {
             </div>
           </div>
 
-          {/* <div className="mt-2 flex flex-wrap justify-start items-center ml-3 pr-2 gap-3">
-            <div className="border border-gray-300 rounded-lg w-36 z-50">
-              <Select
-                options={selectOptions}
-                styles={CustomStyles}
-                disabled={!canReadInvoice}
-                onChange={(e) => handleStatusFilter(e)}
-                value={selectOptions.find((opt) => opt.value === statusfilter)}
-                id="statusselect"
-              />
+          <div className="mt-2 flex items-center justify-between flex-wrap gap-3 px-0">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="border border-gray-300 rounded-lg w-36 z-50">
+                <Select
+                  options={selectOptions}
+                  styles={CustomStyles}
+                  disabled={!canReadInvoice}
+                  onChange={(e) => handleStatusFilter(e)}
+                  value={selectOptions.find((opt) => opt.value === statusfilter)}
+                  id="statusselect"
+                />
+              </div>
+
+              <div className="flex items-center gap-3 z-50">
+                <Select
+                  options={monthOptions}
+                  value={selectedMonth}
+                  onChange={handleMonthChange}
+                  classNamePrefix="custom"
+                  menuPlacement="auto"
+                  noOptionsMessage={() => "No options"}
+                  styles={CustomStyles}
+                />
+              </div>
+
+              <div
+                className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                onClick={() => canReadInvoice && handleShowFilterBills()}
+              >
+                <Filter
+                  size={18}
+                  className={`transition-opacity duration-300 ${canReadInvoice
+                    ? "cursor-pointer opacity-100 pointer-events-auto"
+                    : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                />
+              </div>
             </div>
 
-            <div className="flex items-center gap-3 z-50">
-              <Select
-                options={monthOptions}
-                value={selectedMonth}
-                onChange={handleMonthChange}
-                classNamePrefix="custom"
-                menuPlacement="auto"
-                noOptionsMessage={() => "No options"}
-                styles={CustomStyles}
+            <div className="mr-2">
+              <PaginationList
+                totalItems={sortedData.length}
+                itemsPerPage={pageSize}
+                currentPage={page}
+                onPageChange={(p) => setPage(p)}
+                onPageSizeChange={(size) => setPageSize(size)}
               />
             </div>
-            <div
-              className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-              onClick={() => canReadInvoice && handleShowFilterBills()}
-            >
-              <Filter
-                size={18}
-                className={`transition-opacity duration-300 ${canReadInvoice
-                  ? "cursor-pointer opacity-100 pointer-events-auto"
-                  : "cursor-not-allowed opacity-40 pointer-events-none"
-                  }`}
-
-              />
-            </div>
-          </div> */}
-          <div className="mt-4 flex flex-wrap justify-between items-center ml-3 pr-2 gap-3">
-
-  {/* 🔹 LEFT SIDE → FILTERS */}
-  <div className="flex flex-wrap items-center gap-3">
-
-    <div className="border border-gray-300 rounded-lg w-36 z-50">
-      <Select
-        options={selectOptions}
-        styles={CustomStyles}
-        disabled={!canReadInvoice}
-        onChange={(e) => handleStatusFilter(e)}
-        value={selectOptions.find((opt) => opt.value === statusfilter)}
-      />
-    </div>
-
-    <div className="flex items-center gap-3 z-50">
-      <Select
-        options={monthOptions}
-        value={selectedMonth}
-        onChange={handleMonthChange}
-        styles={CustomStyles}
-      />
-    </div>
-
-    <div
-      className="flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white"
-      onClick={() => canReadInvoice && handleShowFilterBills()}
-    >
-      <Filter size={18} />
-    </div>
-
-  </div>
-
-  {/* 🔹 RIGHT SIDE → PAGINATION */}
-  <div className="flex items-center">
-    <PaginationList
-      itemsPerPage={10}
-      onPageChange={(p) => setPage(p)}
-    >
-      {sortedData.map((item) => (
-        <div key={item.id}></div>
-      ))}
-    </PaginationList>
-  </div>
-
-</div>
+          </div>
           <div className={`overflow-x-hidden ${chips.length > 0 ? "overflow-y-auto h-[32rem]" : "overflow-y-hidden h-auto"}`}
           >
             {chips.length > 0 && (
@@ -1733,72 +1704,58 @@ const InvoicePage = () => {
                   </Modal>
                 )}
 
-                <div className="mx-auto mt-2">
-                  {/* <div className="flex justify-end mb-2">
-                    <PaginationList
-                      itemsPerPage={10}
-                      onPageChange={(p) => setPage(p)}
-                    >
-                      {sortedData.map((item) => (
-                        <div key={item.id}></div>
-                      ))}
-                    </PaginationList>
-                  </div> */}
-                  <div className="overflow-x-hidden">
-                    {sortedData && sortedData.length > 0 ? (
-                      <div className="p-2">
-                        <div className="overflow-y-auto max-h-[32rem] border-t border-gray-200 mt-1 pr-0 pl-0 show-scroll">
-                          <Table responsive="md" className="mb-0 table-auto w-full text-sm text-gray-800">
-                            <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
-                              <tr>
-                                <th>Invoice Number</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Invoice Date</th>
-                                <th>Due Date</th>
-                                <th>Amount</th>
-                                <th>Due</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody className="relative">
-                              {/* <PaginationList> */}
-                              {paginatedData.map((item, index) => (
-                                <InvoiceTable
-                                  key={item.id}
-                                  item={item}
-                                  index={index}
-                                  OnHandleshowform={handleShowForm}
-                                  OnHandleshowEditform={handleEdit}
-                                  OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                  OnHandleshowDeleteform={handleBillDelete}
-                                  DisplayInvoice={handleDisplayInvoiceDownload}
-                                />
-                              ))}
-                              {/* </PaginationList> */}
-                            </tbody>
-                          </Table>
-                        </div>
+                <div>
+                  {sortedData && sortedData.length > 0 ? (
+                    <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                      <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                        <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                          <thead className="bg-blue-100 sticky top-0 z-20">
+                            <tr className="h-9">
+                              <th className="w-[230px] px-2 whitespace-nowrap">Invoice Number</th>
+                              <th className="w-[250px] px-2">Name</th>
+                              <th className="w-[230px] px-2">Type</th>
+                              <th className="w-[230px] px-2">Invoice Date</th>
+                              <th className="w-[230px] px-2">Due Date</th>
+                              <th className="w-[230px] px-2">Amount</th>
+                              <th className="w-[230px] px-2">Due</th>
+                              <th className="w-[270px] px-2">Status</th>
+                              <th className="w-[230px] px-2">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody className="relative">
+                            {paginatedData.map((item, index) => (
+                              <InvoiceTable
+                                key={item.id}
+                                item={item}
+                                index={index}
+                                OnHandleshowform={handleShowForm}
+                                OnHandleshowEditform={handleEdit}
+                                OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                OnHandleshowDeleteform={handleBillDelete}
+                                DisplayInvoice={handleDisplayInvoiceDownload}
+                              />
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                    ) : (
-                      !loading &&
-                      sortedData &&
-                      sortedData.length === 0 && (
-                        <div className="mt-24 2xl:mt-52 flex justify-center">
-                          <div className="text-center">
-                            <img src={Emptystate} alt="emptystate" className="mx-auto" />
-                            <div className="text-gray-700 font-semibold text-lg">
-                              No bills available
-                            </div>
-                            <div className="text-gray-600 font-medium text-sm">
-                              There are no bills added
-                            </div>
+                    </div>
+                  ) : (
+                    !loading &&
+                    sortedData &&
+                    sortedData.length === 0 && (
+                      <div className="mt-24 2xl:mt-52 flex justify-center">
+                        <div className="text-center">
+                          <img src={Emptystate} alt="emptystate" className="mx-auto" />
+                          <div className="text-gray-700 font-semibold text-lg">
+                            No bills available
+                          </div>
+                          <div className="text-gray-600 font-medium text-sm">
+                            There are no bills added
                           </div>
                         </div>
-                      )
-                    )}
-                  </div>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             )}
@@ -1813,7 +1770,7 @@ const InvoicePage = () => {
 
 
       {state.InvoiceList.unableAddInvoiceDetailsError ?
-        <div className="d-flex justify-content-center mt-5">
+        <div className="flex justify-content-center mt-5">
 
           <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
         </div>

@@ -492,7 +492,29 @@ function CheckOut() {
     setCheckoutProfile(false)
   }
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = sortedData.slice(startIndex, endIndex);
   return (
 
     <>
@@ -520,108 +542,117 @@ function CheckOut() {
               </>
             ) :
 
+
               <div>
-                <div>
-                  {sortedData?.length > 0 ? (
-                    <div>
-                      <div className="show-scrolls relative p-2 font-gilroy mt-3">
-                        {/* <Table
-                          responsive="md"
-                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
+                {sortedData?.length > 0 ? (
+                  <>
+                    <div className="flex justify-end mr-2 -mt-8 mb-3">
+                      <PaginationList
+                        totalItems={sortedData.length}
+                        itemsPerPage={pageSize}
+                        currentPage={page}
+                        onPageChange={(p) => setPage(p)}
+                        onPageSizeChange={(size) => setPageSize(size)}
+                      />
+                    </div>
 
-                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1"> */}
-
-                        <Table responsive="md"
-                          className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium sticky top-0 z-10 ">
-                          <thead className="bg-blue-100 text-gray-400 font-gilroy text-sm font-medium sticky top-0 z-1">
-                            <tr>
-                              <th>Name</th>
-                              <th><div className="-ml-1">Mobile No</div></th>
-                              <th><div className="-ml-2">Floor</div></th>
-                              <th>Room</th>
-                              <th>Bed</th>
-                              <th>Check-Out Date</th>
-                              <th>Status</th>
+                    <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                      <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                        <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                          <thead className="bg-blue-100 sticky top-0 z-20">
+                            <tr className="h-9">
+                              <th className="w-[230px] px-2">Name</th>
+                              <th className="w-[230px] px-2"><div className="-ml-1">Mobile No</div></th>
+                              <th className="w-[230px] px-2"><div className="-ml-2">Floor</div></th>
+                              <th className="w-[230px] px-2">Room</th>
+                              <th className="w-[230px] px-2">Bed</th>
+                              <th className="w-[230px] px-2">Check-Out Date</th>
+                              <th className="w-[230px] px-2">Status</th>
                             </tr>
                           </thead>
 
                           <tbody>
-                            <PaginationList>
-                              {sortedData && sortedData.length > 0 &&
-                                sortedData.map((checkout) => (
-                                  <tr key={checkout.customerId} className="font-gilroy border-b border-[#E8E8E8]">
-                                    <td
-                                      onClick={() => handleCustomerProfilePage(checkout)}
-                                      className="text-start align-middle font-medium whitespace-nowrap"
-                                    >
-                                      <div className="flex items-center">
-                                        <span 
-                                          className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline"
-                                        >
-                                          {checkout.firstName}
-                                        </span>
-                                      </div>
-                                    </td>
+                            {paginatedData.map((checkout) => (
+                              <tr
+                                key={checkout.customerId}
+                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+                              >
+                                <td
+                                  onClick={() => handleCustomerProfilePage(checkout)}
+                                  className="w-[230px] px-2 py-1 whitespace-nowrap"
+                                >
+                                  <span
+                                    className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold text-blue-700 cursor-pointer underline"
+                                  >
+                                    {checkout.firstName}
+                                  </span>
+                                </td>
 
-                                    <td className="p-0 text-sm font-medium font-gilroy align-middle border-b border-gray-300 text-[#1E45E1]">
-                                      +{checkout?.countryCode} {checkout.mobile}
-                                    </td>
+                                <td className="w-[230px] py-1 whitespace-nowrap">
+                                  +{checkout?.countryCode} {checkout.mobile}
+                                </td>
 
-                                    <td className="p-0 text-sm font-medium font-gilroy align-middle whitespace-nowrap border-b border-gray-300 text-[#1E45E1]">
-                                      {checkout.floorName || "_"}
-                                    </td>
+                                <td className="w-[230px] py-1 whitespace-nowrap">
+                                  {checkout.floorName || "_"}
+                                </td>
 
-                                    <td className="pl-4 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap text-[#1E45E1]">
-                                      {checkout.roomName || "_"}
-                                    </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {checkout.roomName || "_"}
+                                </td>
 
-                                    <td className="pl-4 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap text-[#1E45E1]">
-                                      {checkout.bedName || "_"}
-                                    </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {checkout.bedName || "_"}
+                                </td>
 
-                                    <td className="p-0 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
-                                      <span className="ml-1 inline-block px-2.5 py-1.5 rounded-full bg-gray-200 overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
-                                        {checkout.checkoutDate || "N/A"}
-                                      </span>
-                                    </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  <span className="inline-block px-2.5 py-1.5 rounded-full bg-gray-200 overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
+                                    {checkout.checkoutDate || "N/A"}
+                                  </span>
+                                </td>
 
-                                    <td className="p-0 text-start text-sm font-medium font-gilroy align-middle border-b border-[#E8E8E8] whitespace-nowrap">
-                                      <span className="inline-block px-2 py-1 rounded bg-pink-300 text-[#1E45E1]">
-                                        {checkout.currentStatus || "-"}
-                                      </span>
-                                    </td>
-
-
-                                  </tr>
-                                ))
-                              }
-                            </PaginationList>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  <span className="inline-block px-2 py-1 rounded bg-pink-300 text-[#1E45E1]">
+                                    {checkout.currentStatus || "-"}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
-                        </Table>
+                        </table>
+                        {/* <div className="mt-2 mb-2">
+                        <PaginationList
+                          totalItems={sortedData.length}
+                          itemsPerPage={pageSize}
+                          currentPage={page}
+                          onPageChange={(p) => setPage(p)}
+                          onPageSizeChange={(size) => setPageSize(size)}
+                        />
+                      </div> */}
                       </div>
 
                     </div>
+                  </>
 
-                  ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
+                ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
 
-                    <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
-                      <div>
-                        <div className="text-center">
-                          <img src={Emptystate} alt="emptystate" />
-                        </div>
+                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
+                    <div>
+                      <div className="text-center">
+                        <img src={Emptystate} alt="emptystate" />
+                      </div>
 
-                        <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[rgba(75,75,75,1)]">
-                          No Checkout Tenant available
-                        </div>
+                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[rgba(75,75,75,1)]">
+                        No Checkout Tenant available
+                      </div>
 
-                        <div className="pb-1 text-center font-medium font-gilroy text-sm text-[rgba(75,75,75,1)]">
-                          There are no checkout tenant added
-                        </div>
+                      <div className="pb-1 text-center font-medium font-gilroy text-sm text-[rgba(75,75,75,1)]">
+                        There are no checkout tenant added
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
+
 
             }
             {(checkoutForm) && (

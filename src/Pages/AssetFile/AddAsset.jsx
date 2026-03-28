@@ -505,18 +505,11 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-
-
-
-
-
-
   return (
     <div>
       <div
         className="modal show block static">
-        <Modal show={show} onHide={handleClose} backdrop="static" 
-          className="2xl:mt-24 mt-0 h-auto flex items-center justify-center">
+        <Modal show={show} onHide={handleClose} backdrop="static" centered >
           <Modal.Dialog className="m-0 p-0 w-full max-w-full">
             <Modal.Header>
               <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold" >

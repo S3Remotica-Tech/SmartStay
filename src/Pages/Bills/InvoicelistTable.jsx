@@ -219,190 +219,107 @@ const InvoiceTable = (props) => {
   }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
 
-
-
-
-
-
   return (
 
     <>
-      <tr key={props.item.invoiceId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
+      <tr key={props.item.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer", lineHeight: 'normal' }} className='ps-2'>
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
           <div onClick={() => handleNavigatePDF(props.item)} className="Invoice_Name">
             {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
           </div>
         </td>
 
-
-
-        <td className="table-cells " style={{ verticalAlign: 'middle', border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8", lineHeight: 'normal' }} >
-
-
-          <div className="Invoice_Name" style={{
-            fontFamily: 'Gilroy', fontSize: '13px', color: "#1E45E1",
-            fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer",
-            textAlign: "start", whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            maxWidth: "180px"
-          }}
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
             onClick={() => handleNavigateTenantProfile(props.item)}
             title={props.item?.fullName}
           >
-            {props.item?.fullName}
-
+            {props.item?.profilePic ? (
+              <img
+                src={props.item.profilePic}
+                alt="profile"
+                className="w-9 h-9 rounded-full"
+              />
+            ) : (
+              <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold text-[#44536A]">
+                {props.item?.initials || "-"}
+              </div>
+            )}
+            <div className="overflow-hidden text-ellipsis truncate w-[120px]">
+              {props.item?.fullName}
+            </div>
           </div>
-
-
         </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className=''>{props.item.invoiceType}
-          <span style={{
-            fontSize: 10,
-            fontWeight: 500,
-            color: "#6B7280",
-            marginTop: 2,
-            textTransform: "",
-          }}>_{props.item.invoiceMode}</span></td>
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+          {props.item.invoiceType}
+          <span className="text-[10px] font-medium text-gray-500 mt-[2px]">
+            _{props.item.invoiceMode}
+          </span>
+        </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
-          {/* <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}> */}
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
           {props.item?.invoiceDate}
-          {/* </span> */}
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
-          {/* <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}> */}
+
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
           {props.item?.dueDate}
-          {/* </span> */}
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
+
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
           ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
         </td>
 
-        <td
-          style={{
-            border: "none",
-            textAlign: 'start',
-            verticalAlign: 'middle',
-            fontSize: 13,
-            fontWeight: 500,
-            color: "#000000",
-            fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-          }}
-          className=''
-        >
+        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
           ₹{Number(props.item?.dueAmount || 0).toLocaleString('en-IN')}
         </td>
 
-        <td
-          style={{
-            border: "none",
-            textAlign: "start",
-            verticalAlign: "middle",
-            fontSize: 13,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            borderBottom: "1px solid #E8E8E8",
-          }}
-          className=""
-        >
-
-
-
-
-
-
+        <td className="w-[270px] py-1 px-2 whitespace-nowrap">
           {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
-              <span
-                style={{
-                  backgroundColor: "#FFD9D9",
-                  color: "#7A1C1C",
-                  borderRadius: "13px",
-                  fontFamily: "Gilroy",
-                  padding: "4px 12px", lineHeight: 1
-                }}
-              >
+              <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-1">
                 {props.item?.paymentStatus}
               </span>
             )}
 
 
           {props.item?.paymentStatus === "Paid" && (
-            <span
-              style={{
-                cursor: "pointer",
-                backgroundColor: "#D9FFD9",
-                fontFamily: "Gilroy",
-                color: "#065F46",
-                borderRadius: "14px",
-                padding: "4px 12px", lineHeight: 1
-              }}
-            >
+            <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-1">
               {props.item?.paymentStatus}
             </span>
           )}
 
 
           {(props.item?.paymentStatus === "Refunded" || props.item?.paymentStatus === "Partially Refunded") && (
-            <span
-              style={{
-                backgroundColor: "#FFF3CD",
-                color: "#8B8000",
-                borderRadius: "14px",
-                fontFamily: "Gilroy",
-                padding: "4px 12px", lineHeight: 1
-              }}
-            >
+            <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-1">
               {props.item?.paymentStatus}
             </span>
           )}
 
 
           {props.item?.paymentStatus === "Pending Refund" && (
-            <span
-              style={{
-                backgroundColor: "#FFE6B3",
-                color: "#b45309",
-                borderRadius: "14px",
-                fontFamily: "Gilroy",
-                padding: "4px 12px", lineHeight: 1
-              }}
-            >
+            <span className="bg-[#FFE6B3] text-[#b45309] rounded-[14px] px-3 py-1">
               {props.item?.paymentStatus}
             </span>
           )}
           {props.item?.isCancelled && (
-            <span
-              style={{
-                backgroundColor: "#FFE6B3",
-                color: "#7C2D12",
-                borderRadius: "14px",
-                fontFamily: "Gilroy",
-                padding: "4px 12px", lineHeight: 1
-              }}
-            >
+            <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-1">
               Cancelled
             </span>
-          )
-          }
-
-
+          )}
         </td>
 
 
 
-        <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-            <div style={{
-              cursor: "pointer",
-              // backgroundColor: showDots ? "#E7F1FF" : "white",
-              // height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
-              display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
-            }} >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDots ? "#1E45E1" : "#6B7280", }} onClick={(e) => handleShowDots(e)} />
+        <td className="w-[230px] py-1 px-2">
+          <div className="w-full flex justify-start">
+            <div className="cursor-pointer flex justify-center items-center relative">
+              <PiDotsThreeOutlineVerticalFill
+                className={`h-5 w-5 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-gray-500"}`}
+                onClick={(e) => handleShowDots(e)}
+              />
 
               {/* {showDots && <>
                 <div
