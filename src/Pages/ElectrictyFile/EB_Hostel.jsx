@@ -792,8 +792,8 @@ const RoomReadingTable = () => {
 
 
                     {roomReadingList?.length === 0 && !loading ? (
-                      <div className="animated-text flex items-center justify-center h-[70vh] 2xl:mt-52">
-                        <div>
+                      <div className="animated-text flex items-center justify-center h-[70vh] ">
+                        <div className="2xl:mt-24">
                           <img src={emptyimg} alt="emptystate" />
                           <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-600">
                             No Room Reading
@@ -816,7 +816,7 @@ const RoomReadingTable = () => {
                           />
                         </div>
 
-                        <div className="relative h-[calc(100vh-165px)] flex flex-col">
+                        <div className="relative h-[calc(100vh-155px)] flex flex-col">
                           <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                             <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                               <thead className="bg-blue-100 sticky top-0 z-20">
@@ -1012,12 +1012,12 @@ const RoomReadingTable = () => {
 
                 {activeTab === "customer" && (
                   customerReadingList?.length === 0 ? (
-                    <div className="animated-text flex items-center justify-center h-[70vh] 2xl:mt-52">
-                      <div>
+                    <div className="animated-text flex items-center justify-center h-[70vh]">
+                      <div className="">
                         <img src={emptyimg} alt="emptystate" />
 
                         <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-gray-600">
-                          No Tenant Reading
+                          No Tenant Readings
                         </div>
 
                         <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
@@ -1037,7 +1037,7 @@ const RoomReadingTable = () => {
                         />
                       </div>
 
-                      <div className="relative h-[calc(100vh-165px)] flex flex-col">
+                      <div className="relative h-[calc(100vh-155px)] flex flex-col ">
 
                         <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                           <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">

@@ -292,24 +292,10 @@ function ManagedUsers() {
                     </Table>
                 </div>
             }
-            {/* {
-                state.Settings?.addSettingStaffList?.length === 0 &&
-                <div className="2xl:mt-24 flex justify-center items-center animated-text ">
-                    <div className="text-center">
-                        <img src={Emptystate} alt="emptystate" />
-                        <div className="text-[18px] font-semibold text-[#4B4B4B]">
-                            No Staff
-                        </div>
-                        <div className="text-[14px] font-medium text-[#4B4B4B]">
-                            There are no staff&apos;s available
-                        </div>
-                    </div>
-                </div>
-
-            } */}
+          
             {state.Settings?.addSettingStaffList?.length === 0 && (
-                <div className="flex justify-center items-center h-[300px]">
-                    <div className="2xl:mt-24 text-center animated-text">
+                <div className="flex justify-center items-center mt-5">
+                    <div className="2xl:mt-32 text-center animated-text">
                         <img
                             src={Emptystate}
                             alt="emptystate"

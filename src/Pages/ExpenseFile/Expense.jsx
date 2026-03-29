@@ -996,10 +996,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
             <div>
-              {/* <div className="show-scrolls m-2 mb-5 relative font-gilroy
-              overflow-y-auto pr-0 pl-0
-              "> */}
-               <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3 font-gilroy">
+            <div className="relative h-[calc(100vh-88px)] flex flex-col mt-3 font-gilroy">
                 <div className="flex justify-end mb-3">
                   <div>
                     <PaginationList
@@ -1012,13 +1009,6 @@ function Expenses({ allPageHostel_Id }) {
                   </div>
                 </div>
 
-                {/* <Table
-                  responsive="md"
-                  className="mb-0 table-auto w-full text-sm text-gray-800"
-                >
-
-                  <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"> */}
-                  
                    <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                       <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                         <thead className="bg-blue-100 sticky top-0 z-20">
@@ -1058,10 +1048,10 @@ function Expenses({ allPageHostel_Id }) {
 
 
             !loading && (!filteredData || filteredData.length === 0) && canReadExpense ? (
-              <div className="animated-text flex items-center justify-center h-[85vh] 2xl:mt-52"
+              <div className="animated-text flex items-center justify-center h-[85vh] "
               >
                 <div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center 2xl:mt-24">
                     <img
                       src={EmptyState}
                       alt="Empty state"

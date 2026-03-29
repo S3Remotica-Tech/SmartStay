@@ -2480,11 +2480,11 @@ function UserListRoomDetail(props) {
 
       <div
         key={CustomerOverView?.customerId}
-        className="h-[97vh] mt-2 bgpink-200 w-full max-w-full overflow-hidden"
+        className="h-[97vh] mt-2 w-full max-w-full overflow-y-auto"
       >
 
         <div
-          className="flex items-center sticky top-0 z-[1000] bg-white py-3 px-3 sm:px-4 h-14 w-full" >
+          className="flex items-center sticky top-0 z-[1000] bg-white py-3 px-3 h-14 w-full" >
           <img
             src={leftarrow}
             alt="leftarrow"
@@ -2498,7 +2498,7 @@ function UserListRoomDetail(props) {
           </span>
         </div>
 
-        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl  p-3 mx-4">
+        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl p-3 mx-4">
           <div
             className="flex flex-col md:flex-row items-center justify-between"
           >
@@ -2669,7 +2669,7 @@ function UserListRoomDetail(props) {
                   }
                   className="p-1 "
                 >
-                  <PiDotsThreeOutlineVerticalFill size={18} className="text-gray-500"/>
+                  <PiDotsThreeOutlineVerticalFill size={18} className="text-gray-500" />
                 </button>
 
                 {openMenu && (
@@ -2903,12 +2903,12 @@ function UserListRoomDetail(props) {
               </TabList>
             </Box>
           </div>
-          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full max-h-[450px] overflow-y-auto show-scroll">
+          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full h-[450px] 2xl:h-[650px] overflow-y-auto show-scroll">
             <>
               <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">
 
                 <div className="w-full lg:w-[420px] flex flex-col gap-2">
-                  <div className="flex-1 bg-white h-auto max-h-[300px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-3">
+                  <div className="flex-1 bg-white h-auto max-h-[230px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-3">
                     <div className="flex items-center justify-between border-b border-gray-300 pb-1 mb-3">
                       <div className="text-[16px] font-gilroy font-semibold">
                         Basic Details
@@ -2950,7 +2950,7 @@ function UserListRoomDetail(props) {
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Last Name
                           </p>
-                          <p className="text-sm font-semibold font-gilroy break-words">
+                          <p className="text-sm font-semibold font-gilroy truncate hover:whitespace-normal hover:overflow-visible">
                             {CustomerOverView?.lastName || "-"}
                           </p>
                         </div>
@@ -2987,7 +2987,7 @@ function UserListRoomDetail(props) {
                   </div>
 
 
-                  <div className="show-scrol flex-1 bg-white h-auto max-h-[240px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-4">
+                  <div className="flex-1 bg-white h-auto max-h-[250px] overflow-hidden border border-[#E5E7EB] rounded-[20px] p-4">
 
                     <div className="card-header flex justify-between items-center border-0 bg-transparent" >
                       <div className="card-header p-0 border-0 bg-transparent w-full">
@@ -3038,7 +3038,7 @@ function UserListRoomDetail(props) {
                     </div>
 
 
-                    <div >
+                    <div>
                       {
                         activeTab === "manual" ?
                           <div>
@@ -3047,10 +3047,13 @@ function UserListRoomDetail(props) {
                                 <p className="text-xs font-medium font-gilroy" >
                                   House No / Apartment
                                 </p>
-                                <div className="flex items-center gap-2 -mt-3">
+                                 <div className="flex items-center gap-2 -mt-3">
                                   <House size="18" color="#1E45E1" />
-                                  <span className="text-sm font-semibold font-gilroy mt-1">
-                                    {CustomerOverView.address?.houseNo}
+                                  <span
+                                    className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
+                                    title={CustomerOverView.address?.houseNo}
+                                  >
+                                    {CustomerOverView.address?.houseNo || "-"}
                                   </span>
                                 </div>
                               </div>
@@ -3061,7 +3064,7 @@ function UserListRoomDetail(props) {
                                 </p>
                                 <div className="flex items-center gap-2 -mt-3">
                                   <img src={Areaimage} alt="area" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs"
+                                  <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
                                     title={CustomerOverView.address?.streetName}
                                   >
                                     {CustomerOverView.address?.streetName}
@@ -3077,7 +3080,7 @@ function UserListRoomDetail(props) {
                                 </p>
                                 <div className="flex items-center gap-2 -mt-3">
                                   <img src={Landamrkimage} alt="landmark" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
+                                  <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20">
                                     {CustomerOverView.address?.landmark}
                                   </span>
                                 </div>
@@ -3103,7 +3106,7 @@ function UserListRoomDetail(props) {
                                 </p>
                                 <div className="flex items-center gap-2 -mt-3">
                                   <img src={CityImage} alt="city" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
+                                  <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20">
                                     {CustomerOverView.address?.city}
                                   </span>
                                 </div>
@@ -3207,13 +3210,13 @@ function UserListRoomDetail(props) {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white relative    border border-[#E5E7EB] rounded-[20px]">
+                  <div className="flex-1 bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
 
 
                     <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
 
 
-                      <div className="flex justify-around w-full   ">
+                      <div className="flex justify-around w-full">
 
 
                         <button
@@ -3265,7 +3268,7 @@ function UserListRoomDetail(props) {
                       )}
 
 
-                    <div className="p-3 max-h-[300px] overflow-y-auto ">
+                    <div className="p-3 max-h-[300px] overflow-y-auto">
 
 
                       {documentvalue === "1" && (
@@ -3273,7 +3276,7 @@ function UserListRoomDetail(props) {
                           {CustomerOverView?.files?.kycDoc?.length > 0 ? (
                             <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
                           ) : (
-                            <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
+                            <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center min-h-[200px]">
                               <div>
                                 <p className="mb-1"> No KYC Documents are there!</p>
 
@@ -3530,7 +3533,7 @@ function UserListRoomDetail(props) {
 
                       </div>
 
-                      <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scrolls">
+                      <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scroll">
                         {additionalContact?.length > 0 ? (
                           <ParentsGuardian additionalContact={additionalContact} />
                         ) : (

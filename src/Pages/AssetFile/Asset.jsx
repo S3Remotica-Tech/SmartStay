@@ -816,7 +816,7 @@ function Asset() {
             </>
           ) :
 
-            <div className="overflow-auto mb-5 mx-">
+            <div className="overflow-auto mb-5">
               <div className="flex justify-end mt-2 mb-3 mr-2">
                 <PaginationList
                   totalItems={sortedData.length}
@@ -828,7 +828,7 @@ function Asset() {
               </div>
               {sortedData && sortedData.length > 0 && (
 
-                <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+                <div className="relative h-[calc(100vh-155px)] flex flex-col mt-3">
                   <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                     <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                       <thead className="bg-blue-100 sticky top-0 z-20">
@@ -888,7 +888,7 @@ function Asset() {
         {
           !loading && sortedData && sortedData.length === 0 &&
 
-          <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-52">
+          <div className="animated-text flex items-center justify-center h-[60vh]">
             <div>
               <div className="flex justify-center mb-2">
                 <img src={EmptyState} alt="Empty state" />

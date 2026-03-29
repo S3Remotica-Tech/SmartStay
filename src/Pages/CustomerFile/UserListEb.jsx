@@ -56,18 +56,6 @@ function UserEb(props) {
     // canDeleteModule: canDeleteElectricity,
   } = useHasPermission("Electricity");
 
-
-
-
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     if (state.login?.selectedHostel_Id && props?.id) {
       dispatch({
@@ -127,6 +115,29 @@ function UserEb(props) {
     };
   });
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = formattedTenantReadings.slice(startIndex, endIndex);
 
   return (
     <>
@@ -143,47 +154,87 @@ function UserEb(props) {
               :
 
               formattedTenantReadings?.length > 0 ? (
-                <div className="mx-3 bg-white shadow-md max-h-[320px] overflow-y-auto">
-                  <Table bordered={false} className="align-middle mb-0">
-                    <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
-                      <tr className="text-left">
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">BILLING MONTH</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">FROM</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">TO</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">FLOOR</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">ROOM</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">BED</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">TOTAL UNITS</th>
-                        <th className="font-gilroy text-gray-500 font-bold text-[13px]">AMOUNT</th>
-                      </tr>
 
-                    </thead>
-                    <tbody className="text-xs align-middle font-gilroy">
-                      <PaginationList>
+                <div className="relative flex flex-col h-[calc(100vh-245px)]">
+                  <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-0 ">
+                    <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                      <thead className="bg-blue-100 sticky top-0 z-20">
+                        <tr className="h-9">
+                          <th className="w-[230px] px-2 whitespace-nowrap">Billing month</th>
+                          <th className="w-[230px] px-2">From</th>
+                          <th className="w-[230px] px-2">To</th>
+                          <th className="w-[230px] px-2">Floor</th>
+                          <th className="w-[230px] px-2">Room</th>
+                          <th className="w-[230px] px-2">Bed</th>
+                          <th className="w-[230px] px-2 whitespace-nowrap">Total units</th>
+                          <th className="w-[230px] px-2">Amount</th>
+                        </tr>
+
+                      </thead>
+                      <tbody>
                         {formattedTenantReadings?.map((row, i) => (
-                          <tr key={i}
-                            className="border-b border-[#F9FAFF] font-gilroy text-[14px] font-medium"
-                          >
+                         
+                          <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 align-middle">
 
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.billingMonth}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.from}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.to}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.floor}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.room}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.bed}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.totalUnits}</td>
-                            <td className="p-2 text-[13px] font-medium text-gray-400 font-gilroy">{row.amount}</td>
+                            <td className="py-1 px-2">
+                              <div className="max-w-[150px] truncate" title={row.billingMonth}>
+                                {row.billingMonth}
+                              </div>
+                            </td>
+
+                            <td className="py-1 px-2">
+                              {row.from}
+                            </td>
+
+                            <td className="py-1 px-2">
+                              {row.to}
+                            </td>
+
+                            <td className="py-1 px-2">
+                              <div className="max-w-[120px] truncate" title={row.floor}>
+                                {row.floor}
+                              </div>
+                            </td>
+
+                            <td className="py-1 px-2">
+                              <div className="max-w-[120px] truncate" title={row.room}>
+                                {row.room}
+                              </div>
+                            </td>
+
+                            <td className="py-1 px-2">
+                              <div className="max-w-[120px] truncate" title={row.bed}>
+                                {row.bed}
+                              </div>
+                            </td>
+
+                            <td className="py-1 px-2">
+                              {row.totalUnits}
+                            </td>
+
+                            <td className="py-1 px-2">
+                              {row.amount}
+                            </td>
+
                           </tr>
                         ))}
-                      </PaginationList>
-                    </tbody>
-                  </Table>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="flex justify-end mr-2 mt-3.5">
+                    <PaginationList
+                      totalItems={formattedTenantReadings.length}
+                      itemsPerPage={pageSize}
+                      currentPage={page}
+                      onPageChange={(p) => setPage(p)}
+                      onPageSizeChange={(size) => setPageSize(size)}
+                    />
+                  </div>
                 </div>
               ) :
                 <div className="mt-4 flex justify-center">
-                  <div>
-
-                    <div className="text-center">
+                    <div className="flex flex-col items-center justify-center">
+                    <div className="2xl:mt-24 text-center">
                       <img src={Emptystate} alt="emptystate" />
                     </div>
 
