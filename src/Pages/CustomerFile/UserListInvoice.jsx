@@ -334,10 +334,6 @@ console.log("invoiceFilterddata",invoiceFilterddata)
 
 
             invoiceFilterddata?.length > 0 ? (
-<<<<<<< HEAD
-=======
-              <div className="mx-3 bg-white shadow-md  overflow-x-auto max-h-[420px] overflow-y-auto rounded">
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
 
               <>
                       <div className="relative flex flex-col h-[calc(100vh-285px)] mt-7 ">
@@ -369,7 +365,6 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                           Due
                         </th>
 
-<<<<<<< HEAD
                         <th className="w-[230px] px-2">
                           Status
                         </th>
@@ -377,24 +372,6 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                         <th className="w-[230px] px-2">
                           Action
                         </th>
-=======
-                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
-                        AMOUNT
-                      </th>
-
-                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
-                        DUE
-                      </th>
-
-                      <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
-                        STATUS
-                      </th>
-                      {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-                        <th className="px-3 py-2 text-[13px] font-bold text-gray-500 whitespace-nowrap font-gilroy">
-                          ACTION
-                        </th>
-                      )}
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
                     </tr>
                       </thead>
 
@@ -403,7 +380,6 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                           return (
                             <tr key={view.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-<<<<<<< HEAD
                               <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
                                 {view.invoiceNumber}
                               </td>
@@ -432,78 +408,14 @@ console.log("invoiceFilterddata",invoiceFilterddata)
 
                               <td className="w-[230px] py-1 px-2 whitespace-nowrap" >
 
-                                {(view?.paymentStatus === "Pending" ||
-                                  view.paymentStatus === "Partial Payment") && (
-                                    <span className="bg-[#FFD9D9] text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                      {view?.paymentStatus}
-                                    </span>
-                                  )}
-=======
-                    {/* <PaginationList> */}
-                      {invoiceFilterddata?.map((view) => {
-                        return (
-                          <tr key={view.invoiceId} className="border-b border-[#F1F5FF]">
-
-                            <td className="sticky whitespace-nowrap left-0 bg-white z-20 px-3 py-2 text-[13px] text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
-                              {view.invoiceNumber}
-                            </td>
-
-
-                            <td className="sticky left-[125px] bg-white z-20 px-3 py-2 text-[13px] whitespace-nowrap">
-                              {view.invoiceType}_
-                              <span className="text-[8px] whitespace-nowrap">{view.invoiceMode}</span>
-                            </td>
-
-                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                              {view?.invoiceGeneratedDate}
-                            </td>
-
-                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                              {view?.dueDate}
-                            </td>
-
-                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                              {view?.totalAmount}
-                            </td>
-
-                            <td className="px-3 py-2 text-[13px] whitespace-nowrap">
-                              ₹{view.dueAmount}
-                            </td>
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
-
-
-                                {view?.paymentStatus === "Paid" && (
-                                  <span className="cursor-pointer bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                    {view?.paymentStatus}
-                                  </span>
-                                )}
-
-<<<<<<< HEAD
-                                {(view?.paymentStatus === "Refunded" ||
-                                  view?.paymentStatus === "Partially Refunded") && (
-                                    <span className="bg-[#FFF3CD] text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                      {view?.paymentStatus}
-                                    </span>
-                                  )}
-
-
-                                {view?.paymentStatus === "Pending Refund" && (
-                                  <span className="bg-[#FFE6B3] text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-=======
                               {(view?.paymentStatus === "Pending" ||
                                 view.paymentStatus === "Partial Payment") && (
                                   <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
-<<<<<<< HEAD
-                                {view?.paymentStatus === "Cancelled" && (
-                                  <span className="bg-[#FFE6B3] text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                    Cancelled
-=======
                               {view?.paymentStatus === "Paid" && (
                                 <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
@@ -514,19 +426,10 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                 view?.paymentStatus === "Partially Refunded") && (
                                   <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
                                   </span>
                                 )}
 
-                              </td>
 
-<<<<<<< HEAD
-                              {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-                                <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
-                                  <div className="flex flex-wrap gap-2 py-2">
-                                    <div
-                                      className={`flex justify-center items-center relative cursor-pointer  
-=======
                               {view?.paymentStatus === "Pending Refund" && (
                                 <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                   {view?.paymentStatus}
@@ -540,13 +443,13 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                 </span>
                               )}
 
-                            </td>
-                            {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
-                              <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
-                                <div className="flex flex-wrap gap-2 py-2">
-                                  <div
-                                    className={`flex justify-center items-center relative cursor-pointer  
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
+                              </td>
+
+                              {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (
+                                <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
+                                  <div className="flex flex-wrap gap-2 py-2">
+                                    <div
+                                      className={`flex justify-center items-center relative cursor-pointer  
         ${activeId === view.id ? "z-[1000]" : ""}`}
                                       onClick={(e) => {
                                         e.stopPropagation();
@@ -691,16 +594,9 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                               No data found
                             </td>
                           </tr>
-<<<<<<< HEAD
                         )}
                       </tbody>
                     </table>
-=======
-                        )
-                      })
-                      }
-                    {/* </PaginationList> */}
->>>>>>> 538ed71383403e6b784e8ea2a1355db4efa64fae
 
                   </div>
 
