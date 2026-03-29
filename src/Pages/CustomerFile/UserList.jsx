@@ -2761,7 +2761,7 @@ function UserList(props) {
                         onPageSizeChange={(size) => setPageSize(size)}
                       />
                     </div>
-                    <div className="relative h-[calc(100vh-165px)] flex flex-col">
+                    <div className="relative h-[calc(100vh-140px)] flex flex-col">
                       <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                         <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                           <thead className="bg-blue-100 sticky top-0 z-20">

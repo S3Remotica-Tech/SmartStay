@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 // import LoaderComponent from "../LoaderComponent";
-import { Table } from "react-bootstrap";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PaginationList from "../../Components/PaginationList";
 import { useSelector } from "react-redux";
@@ -16,12 +16,7 @@ function TransactionHistory() {
     const state = useSelector((state) => state);
     // const dispatch = useDispatch();
 
-
-
-
     const CustomerOverView = state.UsersList?.customerdetails?.transactionList;
-
-
 
     const {
         // canWriteModule: canWriteTenant,
@@ -29,8 +24,6 @@ function TransactionHistory() {
         // canUpdateModule: canUpdateTenant,
         // canDeleteModule: canDeleteTenant,
     } = useHasPermission("Customers");
-
-
 
 
     function formatDate(dateString) {
@@ -48,6 +41,26 @@ function TransactionHistory() {
     }
 
 
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(
+        window.innerWidth >= 1440 ? 20 : 10
+    ); useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1440) {
+                setPageSize(20);
+            } else {
+                setPageSize(10);
+            }
+            setPage(1);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    const paginatedData = CustomerOverView?.slice(startIndex, endIndex);
 
 
     return (
@@ -63,11 +76,9 @@ function TransactionHistory() {
                 :
                 <div>
 
-
-
                     {CustomerOverView?.length === 0 ? (
                         <div className="mt-2 flex justify-center">
-                            <div>
+                            <div className="2xl:mt-24 text-center">
                                 <img src={emptyimg} alt="emptystate" />
                                 <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
                                     No Transaction available
@@ -80,80 +91,68 @@ function TransactionHistory() {
                             </div>
                         </div>
                     ) : (
-                        <div className="mx-3 bg-white shadow-md max-h-[420px] overflow-y-auto mt-1.5">
-                            <Table bordered={false} className="align-middle mb-0">
-                                <thead className="bg-[rgba(231,241,255,1)] sticky top-0 z-2">
-                                    <tr className="text-cenr">
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">DATE</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">BILL NAME</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">AMOUNT PAID</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">RECEIPT / REF.NO</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">RECEIVED BY</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">PAYMENT MODE</th>
-                                        <th className="font-gilroy text-gray-500 font-bold text-[12px] whitespace-nowrap">STATUS</th>
-                                    </tr>
 
-                                </thead>
-                                <tbody className="text-xs align-middle font-gilroy">
-                                    <PaginationList>
+                        <div className="relative flex flex-col h-[calc(100vh-250px)]">
+                            <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-4">
+                                <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
 
-                                        {CustomerOverView?.map((row, i) => {
-                                            // const isLast = i === CustomerOverView.length - 1;
-                                            return (
-                                                 <tr
-                                                    key={i}
-                                                    className="p-2 border-b border-[#F9FAFF] text-ceer font-gilroy text-[14px] font-medium"
-                                                > 
-                                                    <td className="p- text-[13px] font-medium text-gray-400 font-gilroy">
-                                                        {formatDate(row.transactionDate)}
-                                                    </td>
-                                                    <td className="text-[14px] font-medium text-gray-400 font-gilroy">
-                                                        {row.billName}
-                                                    </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy">
-                                                        {row.amountPaid}
-                                                    </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy">
-                                                        {row.referenceNumber || "-"}
-                                                    </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy">
-                                                        {row.paidTo}
-                                                    </td>
-                                                   <td className="text-[14px] font-medium text-gray-400 font-gilroy">
-                                                        {row.paymentMode}
-                                                    </td>
-                                                    <td>
-                                                        <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] font-gilroy px-2 py-1">
-                                                            {row.status}
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                    <thead className="bg-blue-100 sticky top-0 z-20">
+                                        <tr className="h-9">
+                                            <th className="w-[230px] px-2 py-1">Date</th>
+                                            <th className="w-[230px] px-2 py-1 whitespace-nowrap">Bill name</th>
+                                            <th className="w-[230px] px-2 py-1 whitespace-nowrap">Amount paid</th>
+                                            <th className="w-[230px] px-2 py-1 whitespace-nowrap">Receipt / ref.no</th>
+                                            <th className="w-[230px] px-2 py-1 whitespace-nowrap">Received by</th>
+                                            <th className="w-[230px] px-2 py-1 whitespace-nowrap">Payment mode</th>
+                                            <th className="w-[230px] px-2 py-1">Status</th>
+                                        </tr>
+                                    </thead>
 
-                                            );
-                                        })}
-                                    </PaginationList>
-                                </tbody>
-                            </Table>
+                                    <tbody>
+                                        {paginatedData?.map((row, i) => (
+                                            <tr key={i} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    {formatDate(row.transactionDate)}
+                                                </td>
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    {row.billName}
+                                                </td>
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    {row.amountPaid}
+                                                </td>
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    {row.referenceNumber || "-"}
+                                                </td>
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    {row.paidTo}
+                                                </td>
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    {row.paymentMode}
+                                                </td>
+                                                <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                                                    <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1">
+                                                        {row.status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
 
+                                </table>
+                            </div>
 
-
-
-
-
-
-
-
+                      <div className="flex justify-end mr-2 mt-3.5 shrink-0 bg-white">
+                                <PaginationList
+                                    totalItems={CustomerOverView.length}
+                                    itemsPerPage={pageSize}
+                                    currentPage={page}
+                                    onPageChange={(p) => setPage(p)}
+                                    onPageSizeChange={(size) => setPageSize(size)}
+                                />
+                            </div>
 
                         </div>
                     )}
-
-
-
-
-
-
-
-
                 </div>
         }</div>
     )

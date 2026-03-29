@@ -979,7 +979,7 @@ function Banking() {
               <>
                
                 <div className="mb-2 mt-3">
-                  <div className="relative h-[280px] md:h-[200px] lg:h-[290px] overflow-hidden">
+                  <div className="relative h-[280px] md:h-[200px] lg:h-[290px] 2xl:h-[600px] overflow-hidden">
                     <div className="h-full overflow-y-auto overflow-x-auto show-scroll">
 
                       <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">

@@ -50,8 +50,6 @@ const EBRoomOverview = ({ onBack, room }) => {
     }, [state.UsersList.getparticularRoomReadingStatus])
 
 
-
-
     const formattedReadings = roomReadingList?.map((item) => {
         const [, month, year] = item.entryDate.split("/").map(Number);
 
@@ -89,13 +87,6 @@ const EBRoomOverview = ({ onBack, room }) => {
             amount: item.amount,
         };
     });
-
-
-
-
-
-
-
 
     const formattedTenantReadings = tenantReadingList?.map((item) => {
 
@@ -137,11 +128,47 @@ const EBRoomOverview = ({ onBack, room }) => {
         };
     });
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1440) {
+                setRoomPageSize(20);
+                setTenantPageSize(20);
+            } else {
+                setRoomPageSize(10);
+                setTenantPageSize(10);
+            }
+
+            setRoomPage(1);
+            setTenantPage(1);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const [roomPage, setRoomPage] = useState(1);
+    const [roomPageSize, setRoomPageSize] = useState(
+        window.innerWidth >= 1440 ? 20 : 10
+    );
+
+    const [tenantPage, setTenantPage] = useState(1);
+    const [tenantPageSize, setTenantPageSize] = useState(
+        window.innerWidth >= 1440 ? 20 : 10
+    );
+
+    const roomStart = (roomPage - 1) * roomPageSize;
+    const roomEnd = roomStart + roomPageSize;
+
+    const tenantStart = (tenantPage - 1) * tenantPageSize;
+    const tenantEnd = tenantStart + tenantPageSize;
+
+    const paginatedData = (formattedReadings || []).slice(roomStart, roomEnd);
+    const paginatedTenantData = (formattedTenantReadings || []).slice(tenantStart, tenantEnd);
 
     return (
         <>
             <div>
-                <div className="mb-2 px-3">
+                <div className="mb-2 px-2">
 
                     <div
                         className="flex items-center sticky top-1 z-[1000] bg-white p-3 h-15 -ml-3.5">
@@ -158,7 +185,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                         </span>
                     </div>
 
-                    <div className="mt-3 rounded-xl sticky top-0 z-10 bg-white border border-gray-300 p-2.5 mb-3">
+                    <div className="mt-3 rounded-xl sticky top-0 z-10 bg-white border border-gray-300 p-2 mb-3">
                         <div>
                             <div className="flex items-center mb-1 md:mb-0">
                                 <div className="ml-2 pt-2">
@@ -175,7 +202,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                     </div>
                 </div>
 
-                <div className="flex items-center mb-3 mx-4">
+                <div className="flex items-center mb-3 mx-2">
                     <div className="flex">
                         <div
                             onClick={() => setActiveTab("room")}
@@ -208,8 +235,8 @@ const EBRoomOverview = ({ onBack, room }) => {
 
                 {activeTab === "room" && (
                     roomReadingList?.length === 0 ? (
-                        <div className="flex justify-center text-center mt-9">
-                            <div>
+                        <div className="flex justify-center text-center mt-9 animated-text">
+                            <div className="2xl:mt-20">
                                 <img src={emptyimg} width={240} height={240} alt="emptystate" className="mb-2" />
                                 <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
                                     No Room Reading
@@ -221,77 +248,70 @@ const EBRoomOverview = ({ onBack, room }) => {
                             </div>
                         </div>
                     ) : (
-                        <div
-                            className="table-responsive mx-2 show-scroll max-h-[310px] lg:max-h-[310px] md:max-h-[250px] overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0"
-                        >
-                            <Table bordered={false}
-                                className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none"
-                            >
-                                <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm"
-                                >
-                                    <tr>
-                                        <th>
-                                            BILLING MONTH
-                                        </th>
-                                        <th >
-                                            READING DATE
-                                        </th>
-                                        <th>
-                                            FROM
-                                        </th>
-                                        <th>
-                                            TO
-                                        </th>
-                                        <th>
-                                            READING
-                                        </th>
-                                        <th>
-                                            TOTAL UNITS
-                                        </th>
-                                        <th>
-                                            AMOUNT
-                                        </th>
 
-                                        <th>
-                                            ACTION
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm text-black">
-                                    <PaginationList>
-                                        {formattedReadings?.map((row, i) => (
-                                            <tr key={i} className="border-b border-gray-300 h-10 m-2 text-black font-gilroy text-sm align-middle">
-
-                                                <td>{row.billingMonth}</td>
-                                                <td>{row.readingDate}</td>
-                                                <td>{row.from}</td>
-                                                <td>{row.to}</td>
-                                                <td>{row.reading}</td>
-                                                <td>{row.totalUnits}</td>
-                                                <td>{row.amount}</td>
-                                                <td>
-                                                    <BiDotsVerticalRounded className="text-black text-[19px] cursor-pointer rotate-[90deg]" />
-                                                </td>
+                        <>
+                            <div className="relative flex flex-col h-[calc(100vh-225px)]">
+                                <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                                    <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                                        <thead className="bg-blue-100 sticky top-0 z-20">
+                                            <tr className="h-9">
+                                                <th className="w-[230px] px-2 whitespace-nowrap">Billing month</th>
+                                                <th className="w-[230px] px-2 whitespace-nowrap">Reading date</th>
+                                                <th className="w-[230px] px-2">From</th>
+                                                <th className="w-[230px] px-2">To</th>
+                                                <th className="w-[230px] px-2">Reading</th>
+                                                <th className="w-[230px] px-2 whitespace-nowrap">Total units</th>
+                                                <th className="w-[230px] px-2">Amount</th>
+                                                <th className="w-[230px] px-2">Action</th>
                                             </tr>
-                                        ))}
-                                    </PaginationList>
-                                </tbody>
-                            </Table>
+                                        </thead>
+                                        <tbody>
+                                            {paginatedData?.map((row, i) => (
+                                                <tr key={i} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-                            {tableLoading && (
-                                <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-                                    <div className="w-[40px] h-[40px] rounded-full border-t-[4px] border-t-blue-700 border-r-[4px] border-r-transparent animate-spin"></div>
+                                                    <td className="w-[230px] py-1 px-2 whitespace-nowrap">{row.billingMonth}</td>
+                                                    <td className="w-[230px] py-1 px-2 whitespace-nowrap">{row.readingDate}</td>
+                                                    <td className="w-[230px] py-1 px-2 whitespace-nowrap">{row.from}</td>
+                                                    <td className="w-[230px] py-1 px-2 whitespace-nowrap">{row.to}</td>
+                                                    <td className="w-[230px] py-1 px-2">{row.reading}</td>
+                                                    <td className="w-[230px] py-1 px-2">{row.totalUnits}</td>
+                                                    <td className="w-[230px] py-1 px-2">{row.amount}</td>
+                                                    <td className="w-[230px] py-1 px-2">
+                                                        <BiDotsVerticalRounded className="text-2xl text-gray-600 cursor-pointer rotate-[90deg]" />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
-                            )}
 
-                        </div>
+                                {tableLoading && (
+                                    <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+                                        <div className="w-[40px] h-[40px] rounded-full border-t-[4px] border-t-blue-700 border-r-[4px] border-r-transparent animate-spin"></div>
+                                    </div>
+                                )}
+
+                                <div className="sticky bottom-0 flex justify-end bg-white py-2 pr-2">
+                                    <div className="w-fit mr-2">
+                                        <PaginationList
+                                            totalItems={(formattedReadings || []).length}
+                                            itemsPerPage={roomPageSize}
+                                            currentPage={roomPage}
+                                            onPageChange={(p) => setRoomPage(p)}
+                                            onPageSizeChange={(size) => setRoomPageSize(size)}
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </>
                     )
                 )}
 
                 {activeTab === "customer" && (
                     tenantReadingList?.length === 0 ? (
-                        <div className="flex justify-center text-center mt-9">
-                            <div>
+                        <div className="flex justify-center text-center mt-9 animated-text">
+                            <div className="2xl:mt-20">
                                 <img src={emptyimg} width={240} height={240} alt="emptystate" className="mb-2" />
                                 <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
                                     No tenant reading
@@ -302,65 +322,79 @@ const EBRoomOverview = ({ onBack, room }) => {
                             </div>
                         </div>
                     ) : (
-                        <div className="table-responsive mx-2 show-scrolls overflow-y-auto border-t border-[#E8E8E8] mb-5 mt-2 px-0 max-h-[310px] lg:max-h-[310px] md:max-h-[230px]"
-                        >
-                            <Table bordered={false}
-                                className="min-w-full border-collapse sticky top-0 z-1 font-gilroy text-[14px] font-medium text-[#222222] not-italic rounded-none">
-                                <thead className="bg-blue-100 sticky top-0 z-10 text-gray-800 font-medium text-sm">
-                                    <tr>
-                                        <th><div className="pl-1"> NAME</div></th>
-                                        <th>
-                                            BILLING MONTH
-                                        </th>
-                                        <th>
-                                            FROM
-                                        </th>
-                                        <th>
-                                            TO
-                                        </th>
-                                        <th >
-                                            BED
-                                        </th>
-                                        <th>
-                                            TOTAL UNITS
-                                        </th>
-                                        <th>
-                                            AMOUNT
-                                        </th>
+                        <>
+                             <div className="relative flex flex-col h-[calc(100vh-225px)]">
+                                <div className="flex-1 overflow-x-auto show-scroll mb-2 pb-2">
+                                    <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                                        <thead className="bg-blue-100 sticky top-0 z-20">
+                                            <tr className="h-9">
+                                                <th className="w-[230px] px-2"><div className="pl-1"> Name</div></th>
+                                                <th className="w-[230px] px-2">
+                                                    Billing Month
+                                                </th>
+                                                <th className="w-[230px] px-2">
+                                                    From
+                                                </th>
+                                                <th className="w-[230px] px-2">
+                                                    To
+                                                </th>
+                                                <th className="w-[230px] px-2">
+                                                    Bed
+                                                </th>
+                                                <th className="w-[230px] px-2">
+                                                    Total Units
+                                                </th>
+                                                <th className="w-[230px] px-2">
+                                                    Amount
+                                                </th>
 
-
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm text-black">
-                                    <PaginationList>
-                                        {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} className="border-b border-gray-300 h-10 m-2 text-black font-gilroy text-sm align-middle">
-
-                                                <td className="p-1 d-flex align-items-center gap-2 ml-1">
-                                                    {
-                                                        formattedTenantReadings.profilePic ?
-                                                            <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" className="mr-3 w-11 h-11" />
-                                                            :
-                                                            <div
-                                                               className="w-9 h-9 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-sm font-semibold font-gilroy"> {row?.initials || "-"}
-                                                            </div>
-                                                    }
-                                                    {row.fullName}
-                                                </td>
-
-                                              <td>{row.billingMonth}</td>
-                                              <td>{row.from}</td>
-                                              <td>{row.to}</td>
-                                              <td>{row.bed}</td>
-                                              <td>{row.totalUnits}</td>
-                                              <td>{row.amount}</td>
 
                                             </tr>
-                                        ))}
-                                    </PaginationList>
-                                </tbody>
-                            </Table>
-                        </div>
+                                        </thead>
+                                        <tbody>
+                                            {paginatedTenantData?.map((row, i) => (
+                                                <tr key={i} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+
+                                                    <td className="p-1 px-1 flex items-center gap-2 max-w-[100px]">
+                                                        {
+                                                            row.profilePic ?
+                                                                <img src={row.profilePic} alt="" className="mr-2 w-8 h-8 flex-shrink-0" />
+                                                                :
+                                                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                                                                    {row?.initials || "-"}
+                                                                </div>
+                                                        }
+
+                                                        <div className="truncate whitespace-nowrap overflow-hidden">
+                                                            {row.fullName}
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="w-[230px] px-2 py-1">{row.billingMonth}</td>
+                                                    <td className="w-[230px] px-2 py-1">{row.from}</td>
+                                                    <td className="w-[230px] px-2 py-1">{row.to}</td>
+                                                    <td className="whitespace-nowrap overflow-hidden text-ellipsis">{row.bed}</td>
+                                                    <td className="w-[230px] px-2 py-1">{row.totalUnits}</td>
+                                                    <td className="w-[230px] px-2 py-1">{row.amount}</td>
+
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div className="sticky bottom-0 flex justify-end bg-white py-2 pr-2">
+
+                                    <PaginationList
+                                        totalItems={(formattedTenantReadings || []).length}
+                                        itemsPerPage={tenantPageSize}
+                                        currentPage={tenantPage}
+                                        onPageChange={(p) => setTenantPage(p)}
+                                        onPageSizeChange={(size) => setTenantPageSize(size)}
+                                    />
+                                </div>
+                            </div>
+                        </>
                     )
                 )}
             </div>

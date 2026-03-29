@@ -627,9 +627,9 @@ function CheckOut() {
 
                 ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
 
-                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
+                  <div className="animated-text flex items-center justify-center h-[75vh]">
                     <div>
-                      <div className="text-center">
+                      <div className="text-center 2xl:mt-24">
                         <img src={Emptystate} alt="emptystate" />
                       </div>
 

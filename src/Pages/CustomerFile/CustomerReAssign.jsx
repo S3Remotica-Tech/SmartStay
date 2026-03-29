@@ -819,7 +819,7 @@ function CustomerReAssign(props) {
 
                   <div className="overflow-y-auto max-h-[360px] lg:h-[320px] md:h-[200px] lg:h-auto mt-1 pt-1 show-scroll p-2">
                     <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
-                      <div className="mb-1">
+                      <div className="mb-2">
                         <Form.Group controlId="purchaseDate">
                           <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
                             Date <span className="text-red-500 text-[20px]">*</span>
@@ -897,7 +897,7 @@ function CustomerReAssign(props) {
                         </Form.Group>
                       </div>
 
-                      <div className="mb-1">
+                      <div className="mb-2">
                         <Form.Group >
                           <Form.Label className="text-[14px] font-medium font-gilroy">
                             New Floor <span className="text-red-500 text-[20px]">*</span>
@@ -1178,7 +1178,7 @@ function CustomerReAssign(props) {
               </div>
             )}
 
-            <Modal.Footer className="-mt-6 border-top-0 mb-2">
+            <Modal.Footer className="-mt-2 border-top-0 mb-2">
 
               <Button disabled={formLoading}
                 className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"

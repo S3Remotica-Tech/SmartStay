@@ -996,7 +996,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
             <div>
-            <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3 font-gilroy">
+            <div className="relative h-[calc(100vh-88px)] flex flex-col mt-3 font-gilroy">
                 <div className="flex justify-end mb-3">
                   <div>
                     <PaginationList
@@ -1048,10 +1048,10 @@ function Expenses({ allPageHostel_Id }) {
 
 
             !loading && (!filteredData || filteredData.length === 0) && canReadExpense ? (
-              <div className="animated-text flex items-center justify-center h-[85vh] 2xl:mt-52"
+              <div className="animated-text flex items-center justify-center h-[85vh] "
               >
                 <div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center 2xl:mt-24">
                     <img
                       src={EmptyState}
                       alt="Empty state"

@@ -523,7 +523,7 @@ function RecurringBills() {
 
           {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
 
-            <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
+            <div className="relative h-[calc(100vh-135px)] flex flex-col mt-3">
               <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                 <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                   <thead className="bg-blue-100 sticky top-0 z-20">

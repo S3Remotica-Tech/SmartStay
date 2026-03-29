@@ -101,19 +101,53 @@ const EBTenantOverview = ({ tenant, onBack }) => {
         };
     });
 
+    const [customerPage, setCustomerPage] = useState(1);
+    const [customerPageSize, setCustomerPageSize] = useState(
+        window.innerWidth >= 1440 ? 20 : 10
+    );
 
+    const [roomPage, setRoomPage] = useState(1);
+    const [roomPageSize, setRoomPageSize] = useState(
+        window.innerWidth >= 1440 ? 20 : 10
+    );
 
+    useEffect(() => {
+        const handleResize = () => {
+            const size = window.innerWidth >= 1440 ? 20 : 10;
 
+            setCustomerPageSize(size);
+            setRoomPageSize(size);
 
+            setCustomerPage(1);
+            setRoomPage(1);
+        };
 
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
+    useEffect(() => {
+    setCustomerPage(1);
+    setRoomPage(1);
+}, [activeTab]);
+
+const data = formattedTenantReadings || [];
+const PreviousReadingdata = billingData || [];
+
+const customerStart = (customerPage - 1) * customerPageSize;
+const customerEnd = customerStart + customerPageSize;
+const paginatedCustomerData = data.slice(customerStart, customerEnd);
+
+const roomStart = (roomPage - 1) * roomPageSize;
+const roomEnd = roomStart + roomPageSize;
+const paginatedRoomData = PreviousReadingdata.slice(roomStart, roomEnd);
 
 
     return (
         <>
             <div>
 
-                <div className="mb-4 mx-4">
+                <div className="mb-4 mx-2">
                     <div className="flex items-center -ml-11 sticky top-1 z-[1000] bg-white px-5 py-3 h-[60px]">
                         <img
                             src={leftarrow}
@@ -188,9 +222,9 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                 </div>
 
 
-                <div className="flex items-center mb-3 mx-4">
+                <div className="flex items-center mb-3 mx-2">
 
-                    <div className="flex ml-[2px] -mt-2.5">
+                    <div className="flex -mt-2.5">
                         <div
                             onClick={() => setActiveTab("customer")}
                             className={`text-[17px] font-gilroy cursor-pointer mr-6 pb-1.5 
@@ -218,9 +252,9 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                 {activeTab === "room" && (
                     billingData?.length === 0 ? (
 
-                        <div className="flex justify-center text-center mt-6">
+                        <div className="flex justify-center text-center mt-6 animated-text">
 
-                            <div>
+                            <div className="2xl:mt-20">
                                 <img
                                     src={emptyimg}
                                     width={200}
@@ -239,88 +273,105 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
                         </div>
                     ) : (
-                       <div className="mx-6 bg-white shadow-md max-h-[350px] lg:max-h-[350px] md:max-h-[230px] overflow-y-auto show-scroll border-t border-gray-200">
+                        <>
+                            <div className="flex flex-col h-[calc(100vh-230px)] px-1">
+                                <div className="flex-1 overflow-y-auto overflow-x-auto show-scroll">
+                                    <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
 
-                            <table className="w-full border-collapse">
+                                        <thead className="bg-blue-100 sticky top-0 z-20">
+                                            <tr className="h-9">
 
-                                <thead className="bg-blue-100 sticky top-0 z-10 font-gilroy">
-
-                                    <tr className="text-left">
-                                        
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            BILLING MONTH
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            FROM
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            TO
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            FLOOR
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            ROOM
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
-                                            BED
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
-                                            TOTAL UNITS
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
-                                            AMOUNT
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody className="text-[14px] text-gray-800 font-gilroy">
-                                    <PaginationList>
-                                        {billingData?.map((row, i) => (
-                                            <tr key={i} className="border-b border-gray-300 text-left">
-                                                
-                                               <td className="px-4 py-2">
-                                                    {row.billingMonth}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.from}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.to}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.floor}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.room}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.bed}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.units}
-                                                </td>
-                                               <td className="px-4 py-2">
-                                                    {row.amount}
-                                                </td>
-
+                                                <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                                                    BILLING MONTH
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                                                    FROM
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                                                    TO
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                                                    FLOOR
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                                                    ROOM
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
+                                                    BED
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
+                                                    TOTAL UNITS
+                                                </th>
+                                                <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
+                                                    AMOUNT
+                                                </th>
                                             </tr>
-                                        ))}
-                                    </PaginationList>
-                                </tbody>
+                                        </thead>
 
-                            </table>
+                                        <tbody className="text-[14px] text-gray-800 font-gilroy">
+                                            {paginatedRoomData?.map((row, i) => (
+                                                <tr key={i} className="border-b border-gray-300 text-left">
 
-                        </div>
+                                                    <td className="px-2 py-1">
+                                                        {row.billingMonth}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.from}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.to}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.floor}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.room}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.bed}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.units}
+                                                    </td>
+                                                    <td className="px-2 py-1">
+                                                        {row.amount}
+                                                    </td>
+
+                                                </tr>
+                                            ))}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <div className="flex justify-end w-full pr-2 shrink-0 bg-white">
+                                    <div className="w-fit">
+                                        <PaginationList
+                                            // totalItems={PreviousReadingdata.length}
+                                            // itemsPerPage={pageSize}
+                                            // currentPage={page}
+                                            // onPageChange={(p) => setPage(p)}
+                                            // onPageSizeChange={(size) => setPageSize(size)}
+                                            totalItems={PreviousReadingdata.length}
+                                            itemsPerPage={roomPageSize}
+                                            currentPage={roomPage}
+                                            onPageChange={(p) => setRoomPage(p)}
+                                            onPageSizeChange={(size) => setRoomPageSize(size)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+
                     )
                 )}
 
                 {activeTab === "customer" && (
                     formattedTenantReadings?.length === 0 ? (
 
-                        <div className="flex justify-center text-center mt-6">
+                        <div className="flex justify-center text-center mt-6 animated-text">
 
-                            <div>
+                            <div className="2xl:mt-20">
                                 <img
                                     src={emptyimg}
                                     width={200}
@@ -340,62 +391,69 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                         </div>
                     ) : (
 
-                        <div className="mx-6 bg-white shadow-md max-h-[350px] lg:max-h-[350px] md:max-h-[230px] overflow-y-auto show-scroll border-t border-gray-200">
+                        <>
+                            <div className="flex flex-col h-[calc(100vh-230px)] px-1">
+                                <div className="flex-1 overflow-y-auto overflow-x-auto show-scroll">
+                                    <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
 
-                            <table className="w-full border-collapse">
-
-                                <thead className="bg-blue-100 sticky top-0 z-10 font-gilroy">
-
-                                    <tr className="text-left">
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            BILLING MONTH
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            FROM
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            TO
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            FLOOR
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            ROOM
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            BED
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            TOTAL UNITS
-                                        </th>
-                                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
-                                            AMOUNT
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody className="text-[14px] text-gray-800 font-gilroy">
-                                    <PaginationList>
-                                        {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} className="border-b border-gray-300">
-
-                                                <td className="px-4 py-2">{row.billingMonth}</td>
-                                                <td className="px-4 py-2">{row.from}</td>
-                                                <td className="px-4 py-2">{row.to}</td>
-                                                <td className="px-4 py-2">{row.floor}</td>
-                                                <td className="px-4 py-2">{row.room}</td>
-                                                <td className="px-4 py-2">{row.bed}</td>
-                                                <td className="px-4 py-2">{row.totalUnits}</td>
-                                                <td className="px-4 py-2">{row.amount}</td>
-
+                                        <thead className="bg-blue-100 sticky top-0 z-20">
+                                            <tr className="h-9">
+                                                <th className="px-2 whitespace-nowrap">Billing month</th>
+                                                <th className="px-2">From</th>
+                                                <th className="px-2">To</th>
+                                                <th className="px-2">Floor</th>
+                                                <th className="px-2">Room</th>
+                                                <th className="px-2">Bed</th>
+                                                <th className="px-2 whitespace-nowrap">Total units</th>
+                                                <th className="px-2">Amount</th>
                                             </tr>
-                                        ))}
-                                    </PaginationList>
-                                </tbody>
+                                        </thead>
 
-                            </table>
+                                        <tbody>
+                                            {paginatedCustomerData?.map((row, i) => (
+                                                <tr key={i} className="border-b border-[#E8E8E8] h-10">
 
-                        </div>
+                                                    <td className="px-2 py-1 whitespace-nowrap">{row.billingMonth}</td>
+                                                    <td className="px-2 py-1 whitespace-nowrap">{row.from}</td>
+                                                    <td className="px-2 py-1 whitespace-nowrap">{row.to}</td>
+
+                                                    <td className="px-2 py-1 align-middle">
+                                                        <div className="truncate whitespace-nowrap overflow-hidden w-[120px]">
+                                                            {row.floor}
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="px-2 py-1 whitespace-nowrap">{row.room}</td>
+                                                    <td className="px-2 py-1 whitespace-nowrap">{row.bed}</td>
+                                                    <td className="px-2 py-1">{row.totalUnits}</td>
+                                                    <td className="px-2 py-1">{row.amount}</td>
+
+                                                </tr>
+                                            ))}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <div className="flex justify-end w-full pr-2 shrink-0 bg-white">
+                                    <div className="w-fit">
+                                        <PaginationList
+                                            // totalItems={data.length}
+                                            // itemsPerPage={pageSize}
+                                            // currentPage={page}
+                                            // onPageChange={(p) => setPage(p)}
+                                            // onPageSizeChange={(size) => setPageSize(size)}
+                                            totalItems={data.length}
+                                            itemsPerPage={customerPageSize}
+                                            currentPage={customerPage}
+                                            onPageChange={(p) => setCustomerPage(p)}
+                                            onPageSizeChange={(size) => setCustomerPageSize(size)}
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </>
                     )
                 )}
             </div>
