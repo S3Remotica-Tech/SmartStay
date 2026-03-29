@@ -196,7 +196,7 @@ const Receipt = (props) => {
 
       <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer">
           <div onClick={() => handleDownload(props.item)}>{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
         </td>
 

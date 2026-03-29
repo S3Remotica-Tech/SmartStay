@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
-import { Call, Sms, House,DocumentUpload } from "iconsax-react";
+import { Call, Sms, House, DocumentUpload , AddCircle} from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import PincodeImage from "../../Assets/Images/pin.png";
 import CityImage from "../../Assets/Images/buildings.png";
@@ -37,7 +37,7 @@ import TransactionHistory from "./TransactionHistory";
 // import RequestedAmenities from "./RequestedAmenities";
 import { useHasPermission } from '../../Utils/Permission';
 // import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
-// import FileAdd from '../../Assets/Images/New_images/file_add.svg';
+import FileAdd from '../../Assets/Images/New_images/file_add.svg';
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
@@ -58,8 +58,8 @@ function CustomerProfile(props) {
   // const [previewUrl2, setPreviewUrl2] = useState(null)
   const [advanceList, setAdvanceList] = useState("")
   const [documentvalue, setDocumentValue] = useState("1")
-const [activeTab, setActiveTab] = useState("kyc");
-
+  const [activeTab, setActiveTab] = useState("kyc");
+ const [additionalContact, setAdditionalContact] = useState([]);
 
   const handleChangesupload = (event, newValue) => {
     setDocumentValue(newValue);
@@ -76,8 +76,8 @@ const [activeTab, setActiveTab] = useState("kyc");
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
-  setDocuments([]); 
-}, []);
+    setDocuments([]);
+  }, []);
 
 
   const getFileName = (url) => {
@@ -111,34 +111,12 @@ const [activeTab, setActiveTab] = useState("kyc");
     }
   };
 
-  // const handleFileOpen2 = (url) => {
-  //   if (!url) return;
-
-  //   const lowerUrl = url.toLowerCase();
-
-  //   if (
-  //     lowerUrl.endsWith(".pdf") ||
-  //     lowerUrl.endsWith(".jpg") ||
-  //     lowerUrl.endsWith(".jpeg") ||
-  //     lowerUrl.endsWith(".png")
-  //   ) {
-
-  //     // setPreviewUrl2(url);
-  //     // setShowDoc2(true);
-  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-  //     window.open(viewerUrl, "_blank");
-  //   } else {
-  //     window.open(url, "_blank");
-  //   }
-  // };
-
-
+  
 
   const cleanFileName = (url) => {
     const fullName = getFileName(url);
     const parts = fullName.split("_");
-    return parts.slice(2).join("_"); // remove prefix (RADH809_12345_)
+    return parts.slice(2).join("_"); 
   };
 
 
@@ -193,8 +171,14 @@ const [activeTab, setActiveTab] = useState("kyc");
 
 
 
-  const CustomerOverView = state.UsersList.customerdetails;
+  const CustomerOverView = state?.UsersList?.customerdetails;
 
+  useEffect(() => {
+    if (CustomerOverView) {
+      setAdditionalContact(CustomerOverView?.additionalContacts)
+    }
+
+  }, [CustomerOverView])
 
 
   const {
@@ -204,7 +188,12 @@ const [activeTab, setActiveTab] = useState("kyc");
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
+  const isDisabledButton =
 
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
 
   return (
     <>
@@ -296,35 +285,29 @@ const [activeTab, setActiveTab] = useState("kyc");
                 </div>
 
 
-                <div className="d-flex align-items-center gap-2">
-                  {CustomerOverView?.hostelInfo?.currentStatus !== "Write-Off" && (
-                    <button
-                      style={{
-                        backgroundColor: "#1E45E1",
-                        color: "#fff",
-                        fontWeight: 500,
-                        height: 40,
-                        borderRadius: 10,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        border: "1px solid #1E45E1",
-                        padding: "0 14px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 8,
-                        cursor: "pointer",
-                      }}
-                    >
-                      <img
-                        src={repeat}
-                        alt="repeat"
-                        style={{ width: 18, height: 18, objectFit: "contain" }}
-                      />
-                      <span>Re Check-In</span>
-                    </button>
-                  )}
-                </div>
+               <div className="flex items-center gap-2">
+  {CustomerOverView?.hostelInfo?.currentStatus !== "Write-Off" && (
+    <button
+      disabled
+      className="
+        flex items-center justify-center gap-2
+        h-[40px] px-[14px]
+        rounded-[10px]
+        text-[16px] font-[500] font-[Gilroy]
+        border border-[#1E45E1]
+        bg-[#1E45E1] text-white
+        disabled:opacity-50 disabled:cursor-not-allowed
+      "
+    >
+      <img
+        src={repeat}
+        alt="repeat"
+        className="w-[18px] h-[18px] object-contain"
+      />
+      <span>Re Check-In</span>
+    </button>
+  )}
+</div>
 
 
 
@@ -494,273 +477,273 @@ const [activeTab, setActiveTab] = useState("kyc");
 
                   <div className="card p-3" style={{ borderRadius: 10, border: "1px solid #DCDCDC" }}>
 
-                      <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
-                                             <div className="d-flex gap-5 align-items-center justify-content-start border-0" style={{ width: "100%" }}>
-                   
-                   
-                                               <div className="d-flex align-items-center "
-                                                 onClick={() => setActiveTab("kyc")}
-                                                 style={{
-                                                   cursor: "pointer",
-                                                   padding: "6px 12px",
-                                                   borderBottom: activeTab === "kyc" ? "2px solid #1E45E1" : "2px solid transparent",
-                                                   color: activeTab === "kyc" ? "#1E45E1" : "#555",
-                                                   fontWeight: 600,
-                                                   fontFamily: "Gilroy"
-                                                 }}
-                                               >
-                                                 KYC Address
-                                               </div>
-                   
-                                               <div className="d-flex align-items-center "
-                                                 onClick={() => setActiveTab("manual")}
-                                                 style={{
-                                                   cursor: "pointer",
-                                                   padding: "6px 12px",
-                                                   borderBottom: activeTab === "manual" ? "2px solid #1E45E1" : "2px solid transparent",
-                                                   color: activeTab === "manual" ? "#1E45E1" : "#555",
-                                                   fontWeight: 600,
-                                                   fontFamily: "Gilroy"
-                                                 }}
-                                               >
-                                                 Manual Address
-                   
-                                               </div>
-                                               
-                                               {activeTab === "manual" &&
-                                                 <span
-                                                   style={{
-                                                     cursor: !canUpdateTenant ? "not-allowed" : "pointer",
-                                                     opacity: !canUpdateTenant ? 0.6 : 1,
-                                                   }}
-                                                 >
-                                                  
-                                                 </span>
-                   
-                                               }
-                                             </div>
-                                           </div>
-                                           <div className="card-body">
-                        {
-                     
-                                              activeTab === "manual" ?
-                                                <div>
-                                                  <div className="row p-0">
-                    
-                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        House No / Apartment
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <House size="18" color="#1E45E1" />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {CustomerOverView.address?.houseNo}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                    
-                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        Street / Area
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
-                                                        <span
-                                                          title={CustomerOverView.address?.streetName}
-                                                          style={{
-                                                            fontSize: 14,
-                                                            fontWeight: 600,
-                                                            fontFamily: "Gilroy",
-                                                            whiteSpace: "nowrap",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            maxWidth: "200px",
-                                                          }}
-                                                        >
-                                                          {CustomerOverView.address?.streetName}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                    
-                    
-                                                  <div className="row mt-3">
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        Landmark
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {CustomerOverView.address?.landmark}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                    
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        Pincode
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {CustomerOverView.address?.pincode}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                    
-                    
-                                                  <div className="row mt-3">
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        City
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {CustomerOverView.address?.city}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                    
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        State
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
-                                                        <span
-                                                          style={{
-                                                            fontSize: 14,
-                                                            fontWeight: 600,
-                                                            fontFamily: "Gilroy",
-                                                            whiteSpace: "nowrap",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            maxWidth: "200px",
-                                                          }}
-                                                        >
-                                                          {CustomerOverView.address?.state}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                :
-                                                <div>
-                                                  <div className="row p-0">
-                    
-                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        House No / Apartment
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <House size="18" color="#1E45E1" />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {/* {CustomerOverView.address?.houseNo} */}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                    
-                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        Street / Area
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
-                                                        <span
-                                                          // title={CustomerOverView.address?.streetName}
-                                                          style={{
-                                                            fontSize: 14,
-                                                            fontWeight: 600,
-                                                            fontFamily: "Gilroy",
-                                                            whiteSpace: "nowrap",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            maxWidth: "200px",
-                                                          }}
-                                                        >
-                                                          {/* {CustomerOverView.address?.streetName} */}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                    
-                    
-                                                  <div className="row mt-3">
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        Landmark
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {/* {CustomerOverView.address?.landmark} */}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                    
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        Pincode
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {/* {CustomerOverView.address?.pincode} */}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                    
-                    
-                                                  <div className="row mt-3">
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        City
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
-                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                          {/* {CustomerOverView.address?.city} */}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                    
-                    
-                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        State
-                                                      </p>
-                                                      <div className="d-flex align-items-center gap-2">
-                                                        <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
-                                                        <span
-                                                          style={{
-                                                            fontSize: 14,
-                                                            fontWeight: 600,
-                                                            fontFamily: "Gilroy",
-                                                            whiteSpace: "nowrap",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            maxWidth: "200px",
-                                                          }}
-                                                        >
-                                                          {/* {CustomerOverView.address?.state} */}
-                                                        </span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                            }
-                                              </div>  
+                    <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
+                      <div className="d-flex gap-5 align-items-center justify-content-start border-0" style={{ width: "100%" }}>
+
+
+                        <div className="d-flex align-items-center "
+                          onClick={() => setActiveTab("kyc")}
+                          style={{
+                            cursor: "pointer",
+                            padding: "6px 12px",
+                            borderBottom: activeTab === "kyc" ? "2px solid #1E45E1" : "2px solid transparent",
+                            color: activeTab === "kyc" ? "#1E45E1" : "#555",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy"
+                          }}
+                        >
+                          KYC Address
+                        </div>
+
+                        <div className="d-flex align-items-center "
+                          onClick={() => setActiveTab("manual")}
+                          style={{
+                            cursor: "pointer",
+                            padding: "6px 12px",
+                            borderBottom: activeTab === "manual" ? "2px solid #1E45E1" : "2px solid transparent",
+                            color: activeTab === "manual" ? "#1E45E1" : "#555",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy"
+                          }}
+                        >
+                          Manual Address
+
+                        </div>
+
+                        {activeTab === "manual" &&
+                          <span
+                            style={{
+                              cursor: !canUpdateTenant ? "not-allowed" : "pointer",
+                              opacity: !canUpdateTenant ? 0.6 : 1,
+                            }}
+                          >
+
+                          </span>
+
+                        }
+                      </div>
+                    </div>
+                    <div className="card-body">
+                      {
+
+                        activeTab === "manual" ?
+                          <div>
+                            <div className="row p-0">
+
+                              <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  House No / Apartment
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <House size="18" color="#1E45E1" />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {CustomerOverView.address?.houseNo}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Street / Area
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+                                  <span
+                                    title={CustomerOverView.address?.streetName}
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      maxWidth: "200px",
+                                    }}
+                                  >
+                                    {CustomerOverView.address?.streetName}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div className="row mt-3">
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Landmark
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {CustomerOverView.address?.landmark}
+                                  </span>
+                                </div>
+                              </div>
+
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Pincode
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {CustomerOverView.address?.pincode}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div className="row mt-3">
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  City
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {CustomerOverView.address?.city}
+                                  </span>
+                                </div>
+                              </div>
+
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  State
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+                                  <span
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      maxWidth: "200px",
+                                    }}
+                                  >
+                                    {CustomerOverView.address?.state}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          :
+                          <div>
+                            <div className="row p-0">
+
+                              <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  House No / Apartment
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <House size="18" color="#1E45E1" />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {/* {CustomerOverView.address?.houseNo} */}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Street / Area
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+                                  <span
+                                    // title={CustomerOverView.address?.streetName}
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      maxWidth: "200px",
+                                    }}
+                                  >
+                                    {/* {CustomerOverView.address?.streetName} */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div className="row mt-3">
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Landmark
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {/* {CustomerOverView.address?.landmark} */}
+                                  </span>
+                                </div>
+                              </div>
+
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Pincode
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {/* {CustomerOverView.address?.pincode} */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div className="row mt-3">
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  City
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+                                  <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    {/* {CustomerOverView.address?.city} */}
+                                  </span>
+                                </div>
+                              </div>
+
+
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  State
+                                </p>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+                                  <span
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      maxWidth: "200px",
+                                    }}
+                                  >
+                                    {/* {CustomerOverView.address?.state} */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      }
+                    </div>
                   </div>
 
                 </div>
@@ -945,7 +928,7 @@ const [activeTab, setActiveTab] = useState("kyc");
                                   }}
                                 >
 
-                                  {CustomerOverView.bookingInfo?.bookingAmount 
+                                  {CustomerOverView.bookingInfo?.bookingAmount
                                     ? `₹${CustomerOverView.bookingInfo?.bookingAmount}`
                                     : 0
                                   }
@@ -1019,137 +1002,214 @@ const [activeTab, setActiveTab] = useState("kyc");
                     </div>
                   </div>
                 </div>
-                <div className="mt-2 col-md-6 p-0" style={{ paddingLeft: 15, paddingRight: 18 }}>
-                  <div className="card mt-4" style={{ marginLeft:10, borderRadius: 10 }}>
-                    <div className="card-body">
-
-                      <TabContext value={documentvalue}>
-                        <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-                          <TabList
-                            onChange={handleChangesupload}
-                            aria-label="custom tabs"
-                            className="d-flex flex-column flex-sm-row"
-                            TabIndicatorProps={{ style: { display: "none" } }}
-                          >
-                            <Tab
-                              label="KYC Documents"
-                              value="1"
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
-                                borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
-                                minWidth: "auto",
-                              }}
-                            />
-                            <Tab
-                              label="Manual Documents"
-                              value="2"
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
-                                borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-                                minWidth: "auto",
-                              }}
-                            />
-
-                          </TabList>
-                        </Box>
-
-                        <TabPanel value="1">
-                          <KYCDocuments />
-                        </TabPanel>
-                        <TabPanel value="2">
-                          <div
-                            className="row mt-3"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-
-                            <div className="col-md-12">
-                              <div
-                                className="d-flex align-items-center"
-                                style={{ position: "relative" }}
-                              >
-                                <div className="d-flex align-items-center flex-wrap" style={{ width: "100%", }}>
-                                  {documents.length > 0 ? (
-                                    <ManualDocumentsDetails documents={documents} />
-                                  ) : (
-                                    <div
-                                      className="text-center"
-                                      style={{
-                                        fontSize: 14,
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 400,
-                                        width: "100%", backgroundColor: ""
-                                      }}
-                                    >
-                                      No Manual Documents are there!
-                                     
-                                    </div>
-                                  )}
-                                </div>
+                
+                <div className="flex-1 bg-white relative    border border-[#E5E7EB] rounded-[20px] mt-4" >
 
 
-                                {documents.length > 0 && (
-                                  <div className="d-flex" 
-                                  // onClick={() =>
-                                  //   handlePreview()
-                                  // }
-                                    style={{
-                                      position: "absolute",
-                                      bottom: 0,
-                                      right: 0,
-                                      backgroundColor: "#00A32E",
-                                      borderRadius: "50%",
-                                      padding: "12px 12px", cursor: "pointer"
-                                    }}
-                                  >
-                                    <DocumentUpload
-                                      size="20"
-                                      color="#FFFFFF"
-                                    />
-                                  </div>
-                                )}
+                  <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
 
 
-
-                              </div>
-                            </div>
+                    <div className="flex justify-around w-full   ">
 
 
+                      <button
+                        onClick={() => setDocumentValue("1")}
+                        className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
+        ${documentvalue === "1"
+                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                            : "text-[#4B4B4B] border-b-2 border-transparent"
+                          }`}
+                      >
+                        KYC Documents
+                      </button>
 
-                          </div>
-                        </TabPanel>
-                      </TabContext>
 
-
+                      <button
+                        onClick={() => setDocumentValue("2")}
+                        className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
+        ${documentvalue === "2"
+                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                            : "text-[#4B4B4B] border-b-2 border-transparent"
+                          }`}
+                      >
+                        Manual Documents
+                      </button>
 
                     </div>
 
                   </div>
+
+
+                  {documentvalue === "1" &&
+                    CustomerOverView?.files?.kycDoc?.length > 0 && (
+                      <button disabled={isDisabledButton}
+                        className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                      // onClick={handlePreviewKYC}
+                      >
+                        <DocumentUpload size="14" color="#FFF" />
+                      </button>
+                    )}
+
+                  {documentvalue === "2" &&
+                    CustomerOverView?.files?.otherDoc?.length > 0 && (
+                      <button disabled={isDisabledButton}
+                        className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                      // onClick={handlePreview}
+                      >
+                        <DocumentUpload size="14" color="#FFF" />
+                      </button>
+                    )}
+
+
+                  <div className="p-3 max-h-[300px] overflow-y-auto ">
+
+
+                    {documentvalue === "1" && (
+                      <>
+                        {CustomerOverView?.files?.kycDoc?.length > 0 ? (
+                          <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
+                        ) : (
+                          <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
+                            <div>
+                              <p className="mb-1"> No KYC Documents are there!</p>
+
+                              <button
+                                // onClick={handlePreviewKYC}
+                                disabled={isDisabledButton}
+                                className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                              >
+                                <img src={FileAdd} alt="" />
+                                <span>Upload Document</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+
+                    {documentvalue === "2" && (
+                      <div className="w-full py-2 px-2">
+
+                        {CustomerOverView?.files?.otherDoc?.length > 0 ? (
+                          <ManualDocumentsDetails
+                            documents={CustomerOverView?.files?.otherDoc}
+                          />
+                        ) : (
+                          <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
+                            <div>
+                              <p className="mb-1"> No Manual Documents are there!</p>
+
+                              <button
+                                // onClick={handlePreview}
+                                disabled={isDisabledButton}
+                                className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                              >
+                                <img src={FileAdd} alt="" />
+                                <span>Upload Document</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                      </div>
+                    )}
+
+                  </div>
+
+
+
                 </div>
-                <div
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto ms-2">
+                    <div className="w-full max-w-full px-2 sm:px-3 py-3">
+                      <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+                        <div className="font-semibold text-[16px] font-gilroy">
+                          Parent/Guardian Details
+                        </div>
+                        {
+                          additionalContact?.length > 0 && (
+                            <div className="flex items-center gap-3">
+
+
+
+                              <button disabled={isDisabledButton}
+                                type="button"
+                                // onClick={handleAdditionalForm}
+                                className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
+    ${!isDisabledButton
+                                    ? "bg-[#1E45E1] text-white cursor-pointer"
+                                    : "bg-gray-100 text-gray-400 cursor-not-allowed"}
+  `}
+
+                              >
+                                <AddCircle
+                                  size="20"
+                                  color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
+
+                                />  Additional
+                              </button>
+
+                            </div>
+                          )
+                        }
+
+
+                      </div>
+
+                      <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scrolls">
+                        {additionalContact?.length > 0 ? (
+                          <ParentsGuardian additionalContact={additionalContact} />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
+                            <p className="mb-1">No Contact Details are there!</p>
+                            <button
+                              type="button"
+                              disabled={isDisabledButton}
+                              // onClick={handleAdditionalForm}
+                              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+                            >
+                              <img src={FileAdd} alt="add" className="h-4 w-4" />
+                              Add
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                {/* <div
                   className="col-md-6"
                   style={{
                     paddingLeft: 20,
                     paddingRight: 20,
                     marginTop: 30,
-                    marginLeft:0
+                    marginLeft: 0
                   }}
                 >
                   <div
                     className="card"
                     style={{
                       borderRadius: "20px",
-                      padding: "8px",marginLeft:0
+                      padding: "8px", marginLeft: 0
                     }}
                   >
                     <div
@@ -1169,7 +1229,7 @@ const [activeTab, setActiveTab] = useState("kyc");
                       >
                         Parent/Guardian Details
                       </div>
-                   
+
 
                     </div>
 
@@ -1177,7 +1237,7 @@ const [activeTab, setActiveTab] = useState("kyc");
                       <ParentsGuardian />
                     </div>
                   </div>
-                </div>
+                </div> */}
 
 
               </div>
@@ -1259,7 +1319,7 @@ const [activeTab, setActiveTab] = useState("kyc");
 
             />
           </TabPanel>
-          <TabPanel value="3" className="px-0 mt-3">
+          <TabPanel value="3" className="px-0 mt-10">
             <UserListInvoice
 
             />

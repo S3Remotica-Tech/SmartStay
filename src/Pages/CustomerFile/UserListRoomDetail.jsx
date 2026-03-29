@@ -3249,22 +3249,22 @@ function UserListRoomDetail(props) {
 
                     {documentvalue === "1" &&
                       CustomerOverView?.files?.kycDoc?.length > 0 && (
-                        <div
-                          className="bg-green-600 rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                        <button disabled={isDisabledButton}
+                          className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                           onClick={handlePreviewKYC}
                         >
                           <DocumentUpload size="14" color="#FFF" />
-                        </div>
+                        </button>
                       )}
 
                     {documentvalue === "2" &&
                       CustomerOverView?.files?.otherDoc?.length > 0 && (
-                        <div
-                          className="bg-green-600 rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                        <button disabled={isDisabledButton}
+                          className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                           onClick={handlePreview}
                         >
                           <DocumentUpload size="14" color="#FFF" />
-                        </div>
+                        </button>
                       )}
 
 

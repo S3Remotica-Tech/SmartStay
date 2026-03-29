@@ -217,7 +217,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                                 />
                             ) : (
                                 <div className="w-[55px] h-[55px] rounded-full bg-[#1E45E1] flex items-center justify-center text-white font-semibold cursor-pointer">
-                                    {refundDetails?.initials || refundDetails?.customerInfo?.initials ||  state?.UsersList?.customerdetails?.initials}
+                                    {refundDetails?.initials || refundDetails?.customerInfo?.initials || state?.UsersList?.customerdetails?.initials}
                                 </div>
                             )}
                             <div>
@@ -404,15 +404,13 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                                                 value={refundDate ? dayjs(refundDate) : null}
                                                 onChange={handleRefundDate}
                                                 disabledDate={(current) => {
-                                                    if (!refundDetails?.invoiceDate) {
-                                                        return current && current > dayjs().endOf("day");
-                                                    }
-
-                                                    const invoiceDate = dayjs(refundDetails.invoiceDate, "DD/MM/YYYY");
                                                     const today = dayjs().endOf("day");
-
-
-                                                    return current && (current < invoiceDate.startOf("day") || current > today);
+                                                    if (!refundDetails?.invoiceDate && !refundDetails?.invoiceGeneratedDate) {
+                                                        return current && current > today;
+                                                    }
+                                                    const baseDate = refundDetails?.invoiceDate || refundDetails?.invoiceGeneratedDate;
+                                                    const invoiceDate = dayjs(baseDate, "DD/MM/YYYY").startOf("day");
+                                                    return current && (current < invoiceDate || current > today);
                                                 }}
                                                 getPopupContainer={(triggerNode) =>
                                                     triggerNode.closest(".show-scroll") || document.body
