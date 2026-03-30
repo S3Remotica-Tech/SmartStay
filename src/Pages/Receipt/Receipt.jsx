@@ -407,13 +407,13 @@ function Receipt() {
                                         />
                                     </div>
 
-                                    <Button
+                                    {/* <Button
                                         disabled={!canWriteReceipt}
                                         onClick={handleReceiptShow}
                                         className="!font-gilroy text-[14px] !bg-[#1E45E1] text-white !font-semibold rounded-lg py-2 px-2 mt-0 min-w-[150px] text-center whitespace-nowrap"
                                     >
                                         + Create Receipt
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
 

@@ -26,7 +26,7 @@ import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import { useLocation } from "react-router-dom";
 
 
 function Expenses({ allPageHostel_Id }) {
@@ -75,6 +75,18 @@ function Expenses({ allPageHostel_Id }) {
       setLoading(false);
     }
   }, [canReadExpense]);
+
+
+  const location = useLocation();
+
+  const isExpenseForm = location.state?.isExpenseForm || false;
+
+
+
+  useEffect(() => {
+    setShowModal(isExpenseForm);
+  }, [isExpenseForm]);
+
 
 
   useEffect(() => {
@@ -211,74 +223,8 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
 
-  // useEffect(() => {
-  //   setExpenceRolePermission(state.createAccount.accountList);
-  // }, [state.createAccount.accountList]);
 
 
-  // useEffect(() => {
-  //   const userType = expencerolePermission[0]?.user_details?.user_type;
-  //   const isAdmin = userType === "admin" || userType === "agent";
-  //   if (isAdmin) {
-  //     if (state?.login?.planStatus === 0) {
-  //       setExpencePermissionError("");
-  //       setExpenceAddPermission("Permission Denied");
-  //       setExpenceEditPermission("Permission Denied");
-  //       setExpenceDeletePermission("Permission Denied");
-
-  //     } else if (state?.login?.planStatus === 1) {
-  //       setExpencePermissionError("");
-  //       setExpenceAddPermission("");
-  //       setExpenceEditPermission("");
-  //       setExpenceDeletePermission("");
-  //     }
-  //   }
-
-  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, expencerolePermission])
-
-
-
-
-
-  // useEffect(() => {
-  //   const expensePermission = expencerolePermission[0]?.role_permissions?.find(
-  //     (perm) => perm.permission_name === "Expenses"
-  //   );
-
-
-  //   const isOwner = expencerolePermission[0]?.user_details?.user_type === "staff";
-  //   const planActive = state?.login?.planStatus === 1;
-
-  //   if (!expensePermission || !isOwner) return;
-
-
-  //   if (expensePermission.per_view === 1 && planActive) {
-  //     setExpencePermissionError("");
-  //   } else {
-
-  //     setExpencePermissionError("Permission Denied");
-  //   }
-
-
-  //   if (expensePermission.per_create === 1 && planActive) {
-  //     setExpenceAddPermission("");
-  //   } else {
-  //     setExpenceAddPermission("Permission Denied");
-  //   }
-
-
-  //   if (expensePermission.per_edit === 1 && planActive) {
-  //     setExpenceEditPermission("");
-  //   } else {
-  //     setExpenceEditPermission("Permission Denied");
-  //   }
-
-  //   if (expensePermission.per_delete === 1 && planActive) {
-  //     setExpenceDeletePermission("");
-  //   } else {
-  //     setExpenceDeletePermission("Permission Denied");
-  //   }
-  // }, [expencerolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
 
 
 
@@ -662,7 +608,7 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
- const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(
     window.innerWidth >= 1440 ? 20 : 10
   );
@@ -996,7 +942,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
             <div>
-            <div className="relative h-[calc(100vh-88px)] flex flex-col mt-3 font-gilroy">
+              <div className="relative h-[calc(100vh-88px)] flex flex-col mt-3 font-gilroy">
                 <div className="flex justify-end mb-3">
                   <div>
                     <PaginationList
@@ -1009,33 +955,33 @@ function Expenses({ allPageHostel_Id }) {
                   </div>
                 </div>
 
-                   <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                        <thead className="bg-blue-100 sticky top-0 z-20">
-                          <tr className="h-9">
-                      <th className="w-[230px] px-2">Date</th>
-                      <th className="w-[230px] px-2">Category</th>
-                      <th className="w-[230px] px-2">Description</th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">Unit Count</th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">Per Unit Price</th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">Total Amount</th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">Mode of Payment</th>
-                      <th className="w-[230px] px-2">Action</th>
-                    </tr>
+                <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
+                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                    <thead className="bg-blue-100 sticky top-0 z-20">
+                      <tr className="h-9">
+                        <th className="w-[230px] px-2">Date</th>
+                        <th className="w-[230px] px-2">Category</th>
+                        <th className="w-[230px] px-2">Description</th>
+                        <th className="w-[230px] px-2 whitespace-nowrap">Unit Count</th>
+                        <th className="w-[230px] px-2 whitespace-nowrap">Per Unit Price</th>
+                        <th className="w-[230px] px-2 whitespace-nowrap">Total Amount</th>
+                        <th className="w-[230px] px-2 whitespace-nowrap">Mode of Payment</th>
+                        <th className="w-[230px] px-2">Action</th>
+                      </tr>
 
-                  </thead>
+                    </thead>
 
-                  <tbody>
-                    {paginatedData?.map((item) => (
-                      <ExpensesListTable
-                        key={item.id}
-                        item={item}
-                        OnEditExpense={handleEditExpen}
-                        handleDelete={handleDeleteExpense}
-                      />
-                    ))}
-                  </tbody>
-                </table>
+                    <tbody>
+                      {paginatedData?.map((item) => (
+                        <ExpensesListTable
+                          key={item.id}
+                          item={item}
+                          OnEditExpense={handleEditExpen}
+                          handleDelete={handleDeleteExpense}
+                        />
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
