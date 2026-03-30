@@ -33,14 +33,14 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
 import RecordPayment from "./RecordPayment";
-
+import { useLocation } from "react-router-dom";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const location = useLocation();
   const [invoiceList, setInvoiceList] = useState({
     balanceDue: '',
     invoiceId: '',
@@ -616,6 +616,18 @@ const InvoicePage = () => {
 
 
 
+  const isBillsForm = location.state?.isBillsForm || false;
+
+
+
+  useEffect(() => {
+    if (isBillsForm) {
+      navigate('/create-bill')
+    }
+
+  }, [isBillsForm]);
+
+
 
 
 
@@ -1032,7 +1044,7 @@ const InvoicePage = () => {
 
 
 
-  
+
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -1489,7 +1501,7 @@ const InvoicePage = () => {
               </div>
 
               <div className="flex items-center gap-3 z-50">
-                <Select 
+                <Select
                   isDisabled
                   options={monthOptions}
                   value={selectedMonth}

@@ -30,6 +30,8 @@ import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useLocation } from "react-router-dom";
+
 
 const Compliance = () => {
 
@@ -63,7 +65,7 @@ const Compliance = () => {
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [filterStatus, setFilterStatus] = useState(false);
   const [statusfilter, setStatusfilter] = useState('')
-
+const location = useLocation();
   // const [compliancerolePermission, setComplianceRolePermission] = useState("");
 
   // const [compliancepermissionError, setCompliancePermissionError] = useState("");
@@ -118,7 +120,16 @@ const Compliance = () => {
   }, [state.UsersList?.accessRestrictionError])
 
 
+ 
 
+  const isComplaintForm = location.state?.isComplaintForm || false;
+
+
+
+  useEffect(() => {
+    setShow(isComplaintForm)
+
+  }, [isComplaintForm]);
 
 
 

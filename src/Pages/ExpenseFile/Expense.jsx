@@ -30,7 +30,7 @@ import { useLocation } from "react-router-dom";
 
 
 function Expenses({ allPageHostel_Id }) {
-
+  const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const filterRef = useRef(null);
@@ -77,7 +77,7 @@ function Expenses({ allPageHostel_Id }) {
   }, [canReadExpense]);
 
 
-  const location = useLocation();
+
 
   const isExpenseForm = location.state?.isExpenseForm || false;
 

@@ -34,7 +34,7 @@ function Vendor() {
   const [loading, setLoading] = useState(false)
   const [currentItem, setCurrentItem] = useState('')
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
+const location = useLocation();
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
 
@@ -60,7 +60,7 @@ function Vendor() {
 
 
 
-const location = useLocation();
+
 
   const isVendorForm = location.state?.isVendorForm || false;
 
