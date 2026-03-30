@@ -1312,14 +1312,14 @@ function CustomerProfile(props) {
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="2" className="px-0 mt-3">
+          <TabPanel value="2" className="px-0 mt-4">
             <UserEb
               id={state.UsersList?.customerdetails?.customerId}
 
 
             />
           </TabPanel>
-          <TabPanel value="3" className="px-0 mt-10">
+          <TabPanel value="3" className="px-0 mt-16">
             <UserListInvoice
 
             />

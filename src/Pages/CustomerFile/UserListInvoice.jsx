@@ -320,7 +320,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
         )}
       </div>
 
-      <div className="mt-10">
+      <div className="">
         {
 
           !canReadInvoice ?
@@ -336,7 +336,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
             invoiceFilterddata?.length > 0 ? (
 
               <>
-                      <div className="relative flex flex-col h-[calc(100vh-285px)] mt-7 ">
+                      <div className="relative flex flex-col h-[calc(100vh-285px)] mt-6">
                   <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-1">
                     <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                       <thead className="bg-blue-100 sticky top-0 z-20">
@@ -369,9 +369,10 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                           Status
                         </th>
 
-                        <th className="w-[230px] px-2">
+                       {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (  <th className="w-[230px] px-2">
                           Action
                         </th>
+                       )}
                     </tr>
                       </thead>
 
