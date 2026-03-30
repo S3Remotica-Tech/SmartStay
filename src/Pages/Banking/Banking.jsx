@@ -27,6 +27,9 @@ import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useLocation } from "react-router-dom";
+
+
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -67,7 +70,7 @@ function Banking() {
   const [selfTranfer, setSelfTransfer] = useState(false)
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false)
-
+  const location = useLocation();
   const {
     canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
@@ -87,6 +90,27 @@ function Banking() {
       setLoader(false);
     }
   }, [canReadBanking]);
+
+
+
+
+  const isBankingForm = location.state?.isBankingForm || false;
+
+
+
+  useEffect(() => {
+    setShowForm(isBankingForm)
+
+  }, [isBankingForm]);
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -977,7 +1001,7 @@ function Banking() {
 
             {transactionFilterddata?.length > 0 ? (
               <>
-               
+
                 <div className="mb-2 mt-3">
                   <div className="relative h-[280px] md:h-[200px] lg:h-[290px] 2xl:h-[600px] overflow-hidden">
                     <div className="h-full overflow-y-auto overflow-x-auto show-scroll">

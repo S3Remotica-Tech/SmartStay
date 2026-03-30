@@ -20,6 +20,9 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import SmarstayLogo from '../../Assets/Images/get.png'
+import { useLocation } from "react-router-dom";
+
+
 
 function Vendor() {
 
@@ -31,7 +34,7 @@ function Vendor() {
   const [loading, setLoading] = useState(false)
   const [currentItem, setCurrentItem] = useState('')
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
+const location = useLocation();
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
 
@@ -54,6 +57,33 @@ function Vendor() {
       setLoading(false);
     }
   }, [canReadVendor]);
+
+
+
+
+
+  const isVendorForm = location.state?.isVendorForm || false;
+
+
+
+  useEffect(() => {
+    setShow(isVendorForm);
+  }, [isVendorForm]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
     setLoading(false)

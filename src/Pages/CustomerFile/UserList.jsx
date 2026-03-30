@@ -59,7 +59,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Tabs, Tab } from "react-bootstrap";
 import FinalOld from "./FinalOld";
 import { FiSearch } from "react-icons/fi";
-
+import { useLocation } from "react-router-dom";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -136,7 +136,7 @@ function UserList(props) {
   const [filterStatus, setFilterStatus] = useState(false);
   const [add_bookingshow, setAddBookingsShow] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
-
+  const location = useLocation();
 
 
   const tableRef = useRef(null);
@@ -175,6 +175,18 @@ function UserList(props) {
   } = useHasPermission("Booking");
 
 
+
+
+  const isTenantForm = location.state?.isTenantForm || false;
+
+
+
+  useEffect(() => {
+    if (isTenantForm) {
+      setValue("4")
+      setShowMenu(true);
+    }
+  }, [isTenantForm]);
 
 
 

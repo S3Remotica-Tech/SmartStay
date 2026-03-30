@@ -19,6 +19,8 @@ import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useLocation } from "react-router-dom";
+
 
 function Asset() {
 
@@ -64,6 +66,17 @@ function Asset() {
       setLoading(false);
     }
   }, [canReadAssets]);
+
+ const location = useLocation();
+
+  const isAssetForm = location.state?.isAssetForm || false;
+
+
+
+  useEffect(() => {
+    setShow(isAssetForm);
+  }, [isAssetForm]);
+
 
 
   useEffect(() => {
