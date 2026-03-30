@@ -418,7 +418,7 @@ function Receipt() {
                             </div>
 
                             {sortedDataReceipt && sortedDataReceipt.length > 0 && (
-                                <div className="relative h-[calc(100vh-80px)] flex flex-col mb-2 bg-red-200">
+                                <div className="relative h-[calc(100vh-80px)] flex flex-col mb-2">
                                     <div className="flex justify-end items-center mb-2 mr-2">
                                         <PaginationList
                                             totalItems={sortedDataReceipt.length}
