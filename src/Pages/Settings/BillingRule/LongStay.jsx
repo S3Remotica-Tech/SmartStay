@@ -722,9 +722,9 @@ function LongStayRecurringModal() {
 
 
                             <div
-                                onClick={() => !isDisabled && handleChangePaid("prepaid")}
-                                className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
-    ${isDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}
+                                onClick={() =>  handleChangePaid("prepaid")}
+                                className={`cursor-pointer flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
+    
     ${billingPeriod === "prepaid"
                                         ? "border border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
                                         : "border-gray-200 bg-white shadow-sm"
@@ -735,7 +735,7 @@ function LongStayRecurringModal() {
                                     name="billingPeriod"
                                     value="prepaid"
                                     checked={billingPeriod === "prepaid"}
-                                    disabled={isDisabled}
+                                    // disabled={isDisabled}
                                     className="mt-1 accent-[#4E61F6] cursor-pointer disabled:cursor-not-allowed"
                                 />
 
@@ -743,7 +743,7 @@ function LongStayRecurringModal() {
                                     <label className="text-sm font-semibold text-[#222222] cursor-pointer">
                                         Prepaid
                                     </label>
-                                    <label className="text-xs text-gray-500">
+                                    <label className="text-xs text-gray-500 cursor-pointer">
                                         Invoices will generate at the start date of month
                                     </label>
                                 </div>
@@ -751,10 +751,9 @@ function LongStayRecurringModal() {
 
 
                             <div
-                                onClick={() => !isDisabled && handleChangePaid("postpaid")}
-                                className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
-    ${isDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}
-    ${billingPeriod === "postpaid"
+                                onClick={() => handleChangePaid("postpaid")}
+                                className={`flex items-center max-h-[150px] cursor-pointer gap-3 p-2 rounded-lg border w-full transition
+        ${billingPeriod === "postpaid"
                                         ? "border border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
                                         : "border-gray-200 bg-white shadow-sm"
                                     }`}
@@ -764,7 +763,7 @@ function LongStayRecurringModal() {
                                     name="billingPeriod"
                                     value="postpaid"
                                     checked={billingPeriod === "postpaid"}
-                                    disabled={isDisabled}
+                                    // disabled={isDisabled}
                                     className="mt-1 accent-[#1E45E1] disabled:accent-[#DBDBDB] disabled:cursor-not-allowed"
                                 />
 
@@ -772,7 +771,7 @@ function LongStayRecurringModal() {
                                     <label className="text-sm font-semibold text-[#222222]">
                                         Postpaid
                                     </label>
-                                    <label className="text-xs text-gray-500 ">
+                                    <label className="text-xs text-gray-500 cursor-pointer ">
                                         Invoices will generate at the end date of month
                                     </label>
                                 </div>
@@ -803,8 +802,7 @@ function LongStayRecurringModal() {
                         </div>
                     }
 
-                    {/* {
-                    billingMethod === "fixed" && */}
+                    
 
                     <div className="flex justify-end mt-6">
                         <button
@@ -828,7 +826,7 @@ function LongStayRecurringModal() {
                                 : "Save Configuration"}
                         </button>
                     </div>
-                    {/* } */}
+                 
 
                 </div>
 
