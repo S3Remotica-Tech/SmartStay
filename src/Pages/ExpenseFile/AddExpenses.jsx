@@ -436,30 +436,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     })
     : [];
 
-  useEffect(() => {
-    if (
-      state.ExpenseList.StatusCodeForAddExpenseSuccess === 201
-    ) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      setShowModal(false);
-      setTimeout(() => {
-
-        dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
-      }, 200);
-
-    }
-  },
-    [
-      state.ExpenseList.StatusCodeForAddExpenseSuccess,
-      state.login.selectedHostel_Id,
-
-    ]
-  );
-
-
+ 
 
 
 

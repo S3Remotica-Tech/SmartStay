@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import AddExpenses from "../Pages/ExpenseFile/AddExpenses";
@@ -18,7 +18,7 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
     { name: "Banking", path: "/banking" },
     { name: "Bills", path: "/invoice" },
     // { name: "Bookings", path: "/booking" },
-    // { name: "Recurring Bills", path: "/recurring" },
+    { name: "Recurring Bills", path: "/recurring" },
     // { name: "Receipt", path: "/receipts" },
     // { name: "Electricity", path: "/electricity" },
     { name: "Complaint", path: "/compliance" },
@@ -27,7 +27,7 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
   ];
 
 
-
+const [activePath, setActivePath] = useState("");
 
   const filteredItems = menuItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -35,6 +35,7 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
 
   const handleMenuItemClick = (name, item) => {
     setShowMenuModal(false);
+    setActivePath(name);
     navigate(hostelId ? `${name}/${hostelId}` : name, {
       state: {
         isExpenseForm: item.path === "/expense",
@@ -49,6 +50,11 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
     });
 
   };
+
+  useEffect(() => {
+  const currentPath = "/" + location.pathname.split("/")[1];
+  setActivePath(currentPath);
+}, [location.pathname]);
 
   return (
     <>
@@ -96,8 +102,12 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
                   key={index}
                   onClick={() => handleMenuItemClick(item.path, item)}
                   role="button"
-                  className={`px-3 py-2.5 text-sm font-medium text-gray-900 rounded-md cursor-pointer ${index === 0 ? "bg-indigo-50" : "bg-transparent"
-                    } hover:bg-indigo-50`}
+                  className={`px-3 py-2.5 text-sm font-medium rounded-md cursor-pointer transition-colors duration-200
+        ${
+          activePath === item.path
+            ? "bg-indigo-50 text-indigo-600"
+            : "text-gray-900 hover:bg-indigo-50 hover:text-indigo-600"
+        }`}
                 >
                   {item.name}
                 </div>
