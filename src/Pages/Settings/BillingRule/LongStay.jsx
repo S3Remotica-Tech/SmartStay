@@ -743,7 +743,7 @@ function LongStayRecurringModal() {
                                     <label className="text-sm font-semibold text-[#222222] cursor-pointer">
                                         Prepaid
                                     </label>
-                                    <label className="text-xs text-gray-500">
+                                    <label className="text-xs text-gray-500 cursor-pointer">
                                         Invoices will generate at the start date of month
                                     </label>
                                 </div>
@@ -771,7 +771,7 @@ function LongStayRecurringModal() {
                                     <label className="text-sm font-semibold text-[#222222]">
                                         Postpaid
                                     </label>
-                                    <label className="text-xs text-gray-500 ">
+                                    <label className="text-xs text-gray-500 cursor-pointer ">
                                         Invoices will generate at the end date of month
                                     </label>
                                 </div>
