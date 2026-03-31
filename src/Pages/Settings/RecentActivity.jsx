@@ -86,15 +86,15 @@ function RecentActivity() {
           isLast={index === recentActivities.length - 1}
         >
 
-          <div class="font-semibold text-base">
+          <div class="text-sm md:text-xs lg:text-base">
             {item.update}
           </div>
 
-          <div class="text-sm mt-1">
+          <div class="text-xs md:text-[11px] lg:text-sm mt-1">
             {item.description}
           </div>
 
-          <div class="text-xs mt-1">
+          <div class="text-[11px] md:text-[10px] lg:text-xs mt-1">
             Added at {item.updatedAt}, {item.updatedTime}
           </div>
 
@@ -119,10 +119,10 @@ function RecentActivity() {
                     )}
 
                     <div className="flex gap-2 pl-2">
-                      <div className="text-[12px] font-semibold">
+                      <div className="text-[11px] md:text-[10px] lg:text-[12px] font-semibold">
                         {comment.commentedBy}
                       </div>
-                      <div className="text-[12px] text-[#3E3E3E] font-normal">
+                      <div className="text-[11px] md:text-[10px] lg:text-[12px] text-[#3E3E3E] font-normal">
                         added a Comment
                       </div>
                     </div>

@@ -16,8 +16,7 @@ import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Select from "react-select";
 // import "../Pages/Settings/Settings.css";
-import "../Settings/Settings.css";
-
+// import "../Settings/Settings.css";
 import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
 // import Edit from "../../Assets/Images/Edit-blue.png";
@@ -1216,6 +1215,7 @@ function SettingGeneral() {
                 <div className="sticky top-0 bg-white z-[900] mt-2">
                   {account?.roleId === 1 && (
                     <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
+
                       <div className="flex w-full gap-4">
                         <div >
                           {
@@ -1223,7 +1223,7 @@ function SettingGeneral() {
                               <img
                                 src={account.profilePic}
                                 alt="profile"
-                                className="w-14 h-14 rounded-full object-cover"
+                                className="w-14 h-14 min-w-[56px] min-h-[56px] rounded-full object-cover"
                               />
                             ) : (
                               <div className="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-lg font-gilroy uppercase"
@@ -1340,13 +1340,22 @@ function SettingGeneral() {
                           </div>
                         </div>
 
-                        <button
-                          onClick={handleShowLogout}
-                          className="mt-2 inline-flex items-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
-                        >
-                          <LogoutCurve size={16} color="#FF0000" />
-                          Logout
-                        </button>
+                        <div className="relative group mt-2 w-fit">
+                          <button
+                            onClick={handleShowLogout}
+                            className="inline-flex items-center justify-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
+                          >
+                            <LogoutCurve size={16} color="#FF0000" />
+
+                            <span className="hidden lg:inline">Logout</span>
+                          </button>
+
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 
+    hidden group-hover:block lg:hidden
+    bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
+                            Logout
+                          </div>
+                        </div>
                       </div>
 
                     </div>
@@ -1371,7 +1380,6 @@ function SettingGeneral() {
                   </div>
                   {
                     activeTab === "masters" && (
-                      // <div className="overflow-y-auto flex-1 max-h-[calc(100vh-200px)] p-2">
                       <div
                         className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${generalFilterddata && generalFilterddata.length > 0
                           ? "overflow-y-auto"
@@ -1414,7 +1422,7 @@ function SettingGeneral() {
                                         </div>
 
                                         <div
-                                          className={`ms-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${generalEdit === item.userId ? 'z-[1000]' : ''
+                                          className={`ml-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${generalEdit === item.userId ? 'z-[1000]' : ''
                                             }`}
                                           onClick={() => handlegeneralform(item.userId)}
                                         >
@@ -1499,7 +1507,8 @@ function SettingGeneral() {
 
                                 <hr className="my-2 border border-gray-200" />
 
-                                <div className="flex justify-between w-full">
+                                {/* <div className="flex justify-between w-full"> */}
+                                <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between w-full gap-2">
                                   <div className="flex gap-4 mt-2">
                                     <div className="flex items-center gap-1.5 text-sm text-gray-600 font-gilroy">
                                       <Call size={14} color="#1E45E1" />
@@ -1516,7 +1525,7 @@ function SettingGeneral() {
                                       </span>
                                     </div>
                                   </div>
-                                  <div className="flex items-center flex-wrap">
+                                     <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
                                     <img
                                       src={img2}
                                       width={20}
@@ -1543,14 +1552,14 @@ function SettingGeneral() {
                               <img
                                 src={EmptyState}
                                 alt="emptystate"
-                                className="h-[200px] w-[200px] object-contain mt-4"
+                                className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48 2xl:h-52 2xl:w-52 object-contain mt-4"
                               />
 
-                              <div className="pb-1 font-gilroy font-semibold text-lg text-gray-600">
+                              <div className="pb-1 font-gilroy font-semibold text-base lg:text-lg text-gray-600">
                                 No Profile
                               </div>
 
-                              <div className="pb-1 font-gilroy font-medium text-sm text-gray-600">
+                              <div className="font-gilroy font-medium text-sm lg:text-lg text-gray-600">
                                 There are no Profile available.
                               </div>
                             </div>

@@ -183,7 +183,7 @@ function ManagedUsers() {
                     <Table className="align-middle">
                         <thead className="bg-[#F9FAFB] sticky top-0 z-10">
                             <tr>
-                                <th className="text-[#6B7280] text-[12px] font-semibold">USER NAME</th>
+                                <th className="text-[#6B7280] text-[12px] font-semibold whitespace-nowrap">USER NAME</th>
                                 <th className="text-[#6B7280] text-[12px] font-semibold">ROLE ASSIGN</th>
                                 <th className="text-[#6B7280] text-[12px] font-semibold">MAIL ID</th>
                                 <th className="text-[#6B7280] text-[12px] font-semibold">MOBILE NO</th>
@@ -197,35 +197,34 @@ function ManagedUsers() {
                                 state.Settings?.addSettingStaffList?.map((user, index) => (
                                     <tr key={index}>
                                         <td
-                                            className="truncate font-semibold"
+                                            className="truncate text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px]"
                                             title={`${user?.firstName} ${user?.lastName}`}
                                         >
                                             {user?.firstName} {user?.lastName}
                                         </td>
 
                                         <td className="flex items-center whitespace-nowrap">
-                                            <span className="inline-flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
+                                            <span className="inline-flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
                                                 <Shield size={14} color="#FF9900" />
                                             </span>
                                             <span
-                                                className="ms-2 truncate font-semibold inline-block align-middle max-w-[140px]"
+                                                className="text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] ml-2 truncate inline-block align-middle max-w-[140px]"
                                                 title={user.roleName}
                                             >
                                                 {user.roleName}
                                             </span>
                                         </td>
-                                        <td className="truncate font-normal" title={user.mailId}>
+                                        <td className="text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate font-normal" title={user.mailId}>
                                             {user.mailId}
                                         </td>
 
-                                        <td className="truncate font-normal" title={user.mobileNo}>
+                                        <td className="text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate font-normal" title={user.mobileNo}>
                                             + {user?.countryCode} {user?.mobileNo}
                                         </td>
 
-                                        <td className="truncate font-normal text-[#4B4B4B]" title={user.description}>
-                                            {user.description}
+                                        <td className="text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate font-normal text-[#4B4B4B]" title={user.description}>
+                                            {user.description || "-"}
                                         </td>
-
 
                                         <td className="text-center">
                                             <PiDotsThreeOutlineVerticalFill className="cursor-pointer"
@@ -282,9 +281,6 @@ function ManagedUsers() {
 
 
                                         </td>
-
-
-
 
                                     </tr>
                                 ))}

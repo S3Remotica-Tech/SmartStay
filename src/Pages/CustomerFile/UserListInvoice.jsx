@@ -470,7 +470,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                           }}
                                         >
 
-                                          <div className="flex flex-col p-1 gap-1">
+                                          <div className="flex flex-col gap-1 divide-y divide-gray-300">
                                             {(view.invoiceMode === "RECURRING" &&
                                               view?.paymentStatus === "Pending") && (
                                                 <button
