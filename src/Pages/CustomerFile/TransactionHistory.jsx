@@ -77,17 +77,18 @@ function TransactionHistory() {
                 <div>
 
                     {CustomerOverView?.length === 0 ? (
-                        <div className="mt-2 flex justify-center">
+                        <div className="mt-4 flex justify-center">
+                              <div className="flex flex-col items-center justify-center">
                             <div className="2xl:mt-24 text-center">
                                 <img src={emptyimg} alt="emptystate" />
-                                <div className="pb-1 text-center font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
+                                <div className="pb-1 text-center font-bold font-gilroy text-[16px] text-[#4B4B4B]">
                                     No Transaction available
                                 </div>
 
                                 <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
                                     There are no transaction available
                                 </div>
-
+</div>
                             </div>
                         </div>
                     ) : (

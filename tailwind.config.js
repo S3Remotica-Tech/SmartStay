@@ -32,6 +32,7 @@ export default {
         montserrat: ['Montserrat', 'sans-serif'],
         dmsans: ['"DM Sans"', 'sans-serif'],
         tasa: ['"TASA Orbiter"', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
     },
   },

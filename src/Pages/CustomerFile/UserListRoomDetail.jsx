@@ -5,7 +5,7 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
+import { Call, Sms, House, MoneyTick, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
@@ -26,11 +26,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Trash } from "iconsax-react";
+//  import { Call } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
+import { Verify } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
@@ -2466,8 +2468,6 @@ function UserListRoomDetail(props) {
 
 
   return (
-
-
     <>
 
 
@@ -2498,7 +2498,7 @@ function UserListRoomDetail(props) {
           </span>
         </div>
 
-        <div className="bg-white !border !border-[#E5E7EB] rounded-3xl p-3 mx-4">
+        {/* <div className="bg-white !border !border-[#E5E7EB] rounded-3xl p-3 mx-4">
           <div
             className="flex flex-col md:flex-row items-center justify-between"
           >
@@ -2859,6 +2859,119 @@ function UserListRoomDetail(props) {
 
             </div>
           </div>
+        </div> */}
+
+        <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 mx-4">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+
+              <div
+                className="relative w-20 h-20 shrink-0 flex items-center justify-center"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <div className="absolute inset-0 rounded-full p-[5px] bg-[conic-gradient(#22c55e_0deg_140deg,transparent_155deg_200deg,#22c55e_220deg_360deg)]">
+                  <div className="w-full h-full bg-white rounded-full p-[3px]">
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt={CustomerOverView.fullName || "profile"}
+                        className="w-full h-full rounded-full object-cover"
+                        onError={(e) => { e.currentTarget.src = Profiles; }}
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center font-semibold text-xl">
+                        {CustomerOverView?.initials || "NA"}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <span className="absolute -bottom-[4px] text-[12px] text-green-600 font-semibold">
+                  100%
+                </span>
+
+                {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
+                  <div
+                    className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
+              ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+                    onClick={() => {
+                      if (canUpdateTenant) document.getElementById("fileInput").click();
+                    }}
+                  >
+                    <img src={EditImage} className="w-5 h-5 bg-white p-1 rounded-full" />
+                  </div>
+                )}
+
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    if (canUpdateTenant) handleImageUpload(e);
+                  }}
+                />
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-[17px] font-semibold truncate max-w-[180px]">
+                    {CustomerOverView.fullName}
+                  </h2>
+                  <div className="inline-flex items-center mb-1">
+                    <Verify size={18} variant="Bold" color="#038c3d" />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
+                  <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
+                    Ground Floor
+                  </span>
+                  <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
+                    G005 - B03
+                  </span>
+                </div>
+                <hr className="w-full my-1 pb-1 text-gray-600" />
+
+                <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
+                  <div className="flex items-center gap-1 text-xs text-blue-600">
+                    <Call size={16} color="#1E45E1" variant="Bold" /> +91 98765 43210
+                  </div>
+
+                  <span className="flex items-center gap-1">
+                    <MoneyTick size={16} color="#1E45E1" />
+                    ₹7,000<span className="text-[10px]">/pm</span>
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              {/* <button className="text-gray-500 hover:text-black">⤴</button> */}
+
+              <div className="relative">
+                <button
+                  onClick={() => setOpenMenu(!openMenu)}
+                  className="text-gray-500 hover:text-black"
+                >
+                  <PiDotsThreeOutlineVerticalFill />
+                </button>
+
+                {/* {openMenu && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-md z-50">
+                    <button className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100">
+                      Action 1
+                    </button>
+                    <button className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100">
+                      Action 2
+                    </button>
+                  </div>
+                )} */}
+              </div>
+            </div>
+          </div>
         </div>
 
         <TabContext value={value}>
@@ -3047,7 +3160,7 @@ function UserListRoomDetail(props) {
                                 <p className="text-xs font-medium font-gilroy" >
                                   House No / Apartment
                                 </p>
-                                 <div className="flex items-center gap-2 -mt-3">
+                                <div className="flex items-center gap-2 -mt-3">
                                   <House size="18" color="#1E45E1" />
                                   <span
                                     className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
@@ -3825,7 +3938,7 @@ function UserListRoomDetail(props) {
                                   className={`border border-gray-300 rounded-l-lg h-12
               text-base text-gray-600 font-gilroy
               shadow-none bg-white
-              max-w-[90px] pr-2
+              max-w-[95px] pr-2
               ${countryCode ? "font-semibold" : "font-medium"}`}
                                 >
                                   <option> +{countryCode}</option>
@@ -5182,3 +5295,11 @@ UserListRoomDetail.propTypes = {
   onDeleteRoomItem: PropTypes.func,
 };
 export default withErrorBoundary(UserListRoomDetail);
+
+
+
+
+
+
+
+
