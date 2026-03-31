@@ -4047,7 +4047,7 @@ function UserListRoomDetail(props) {
                                   className={`border border-gray-300 rounded-l-lg h-12
               text-base text-gray-600 font-gilroy
               shadow-none bg-white
-              max-w-[95px] pr-2
+              max-w-[90px] pr-2
               ${countryCode ? "font-semibold" : "font-medium"}`}
                                 >
                                   <option> +{countryCode}</option>
