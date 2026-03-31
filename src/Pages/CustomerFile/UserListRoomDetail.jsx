@@ -5,7 +5,7 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, MoneyTick, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
+import { Call, Sms, House, MoneyTick, ExportCurve, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
@@ -2949,12 +2949,14 @@ function UserListRoomDetail(props) {
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
-              {/* <button className="text-gray-500 hover:text-black">⤴</button> */}
+              <div className="mb-1.5">
+                <ExportCurve size="20" color="black" variant="Outline"/>
+              </div>
 
               <div className="relative">
                 <button
                   onClick={() => setOpenMenu(!openMenu)}
-                  className="text-gray-500 hover:text-black"
+                  className="text-gray-700 hover:text-black"
                 >
                   <PiDotsThreeOutlineVerticalFill />
                 </button>

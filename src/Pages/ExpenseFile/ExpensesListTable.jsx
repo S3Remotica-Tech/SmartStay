@@ -192,7 +192,7 @@ function ExpensesListTable(props) {
         <td className='w-[230px] px-2 py-1 truncate block mt-1.5' title={props.item.categoryName}>{props.item.categoryName}</td>
         <td className="w-[230px] px-2 py-1">
           <div
-            className="block w-[210px] truncate"
+            className="block w-[130px] truncate"
             title={props.item.description || "-"}
           >
             {props.item.description || "-"}
