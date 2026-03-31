@@ -342,7 +342,7 @@ console.log("rowData Tenant Overview",rowData)
         //         <div
         //             className="show-scroll p-2 mt-2"
         //             style={{
-        //                 height: "calc(100vh - 60px)", // header height
+        //                 height: "(100vh - 60px)", // header height
         //                 overflowY: "auto",
         //             }}
         //         // style={{ height: "90vh", overflowY: "auto" }}

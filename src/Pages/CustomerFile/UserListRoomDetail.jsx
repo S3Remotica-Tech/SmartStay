@@ -5,7 +5,7 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
+import { Call, Sms, House, MoneyTick, ExportCurve, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
@@ -26,11 +26,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Trash } from "iconsax-react";
+//  import { Call } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
+import { Verify } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
@@ -72,6 +74,9 @@ import BookedCheckIn from "./BookedCheckIn";
 import CustomerCheckout from "./CustomerCheckout";
 import CustomerReAssign from "./CustomerReAssign";
 import MakeAsInactive from "./MakeAsInactive";
+import icon from "../../Assets/Images/New_images/Icon (1).svg";
+
+
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -185,6 +190,22 @@ function UserListRoomDetail(props) {
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   // const canDeleteTenant = useHasPermission("Customers", "canDelete")
   // const canWriteTenant = useHasPermission("Customers", "canWrite")
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  //  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsPopupOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const {
     canWriteModule: canWriteTenant,
@@ -2466,8 +2487,6 @@ function UserListRoomDetail(props) {
 
 
   return (
-
-
     <>
 
 
@@ -2483,20 +2502,116 @@ function UserListRoomDetail(props) {
         className="h-[97vh] mt-2 w-full max-w-full overflow-y-auto"
       >
 
-        <div
-          className="flex items-center sticky top-0 z-[1000] bg-white py-3 px-3 h-14 w-full" >
+        {/* <div className="flex items-center justify-between sticky top-0 z-[1000] bg-white py-3 px-6 h-14 w-full">
+          <div className="flex items-center">
+            <img
+              src={leftarrow}
+              alt="leftarrow"
+              width={20}
+              height={20}
+              onClick={() => handleNavigateTenant()}
+              className="cursor-pointer"
+            />
+            <span className="font-semibold text-lg pl-2.5 font-gilroy">
+              Tenant Profile
+            </span>
+          </div>
+
           <img
-            src={leftarrow}
-            alt="leftarrow"
+            src={icon}
+            alt="icon"
             width={20}
             height={20}
-            onClick={() => handleNavigateTenant()}
-            className="cursor-pointer"
+            className="cursor-pointer mr-3"
           />
-          <span className="font-semibold text-lg pl-2.5 font-gilroy">
-            Tenant Profile
-          </span>
-        </div>
+        </div> */}
+        <>
+
+          <div className="flex items-center justify-between sticky top-0 z-[1000] bg-white py-3 px-4 h-14 w-full">
+            <div className="flex items-center">
+              <img
+                src={leftarrow}
+                alt="leftarrow"
+                width={20}
+                height={20}
+                onClick={() => handleNavigateTenant()}
+                className="cursor-pointer"
+              />
+              <span className="font-semibold text-lg pl-2.5 font-gilroy">
+                Tenant Profile
+              </span>
+            </div>
+            <div className="relative">
+              <img
+                src={icon}
+                alt="icon"
+                width={24}
+                height={24}
+                className="cursor-pointer mr-2"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+              />
+
+              {isPopupOpen && (
+
+                <div
+                  ref={menuRef}
+                  className="absolute right-12 w-52 h-24 rounded-md bg-white shadow-inner border border-gray-200 z-20"
+                  style={{boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.5)' }}
+                >
+                  <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
+                    Created by
+                  </div>
+                  <div className="flex items-center gap-3 p-2">
+
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                      {imageUrl ? (
+                        <img
+                          src={imageUrl}
+                          alt={CustomerOverView?.fullName || "profile"}
+                          className="w-10 h-10 rounded-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "/default-profile.png";
+                          }}
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-base text-gray-700">
+                          {CustomerOverView?.initials || "NA"}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-gilroy font-semibold text-sm mb-1">Rajesh R</span>
+                      <span className="text-xs text-gray-500 ont-gilroy font-medium">
+                        04-Feb-2026 10:34 AM
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              )}
+            </div>
+          </div>
+
+          {/* {isPopupOpen && (
+                  <div ref={menuRef} className="absolute right-24 w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20 top-2">
+ <div className="text-sm text-gray-500 mb-2">Created by</div>
+            <div className="flex items-center gap-3">
+              <img
+                src="/path/to/profile.jpg" 
+                alt="profile"
+                className="w-10 h-10 rounded-full"
+              />
+              <div className="flex flex-col">
+                <span className="font-medium text-gray-900">Rajesh R</span>
+                <span className="text-xs text-gray-500">
+                  04-Feb-2026 10:34 AM
+                </span>
+              </div>
+            </div>
+                  </div>
+                )} */}
+        </>
+
 
         <div className="bg-white !border !border-[#E5E7EB] rounded-3xl p-3 mx-4">
           <div
@@ -2506,160 +2621,162 @@ function UserListRoomDetail(props) {
               className="flex items-center py-0 md:py-2"
             >
 
-              <div
-                className="relative w-12 h-12 mr-2.5"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt={CustomerOverView.fullName || "Default Profile"}
-                    className="w-12 h-12 rounded-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = Profiles;
-                    }}
-                  />
-                ) : (
+              <div className="flex items-center gap-3 min-w-0">
 
-                  <div
-                    className="flex w-12 h-12 rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xl font-semibold font-gilroy"
-                  >
-                    {CustomerOverView?.initials
-                      ? CustomerOverView.initials
-                      : CustomerOverView?.fullName
-                        ? CustomerOverView.fullName
-                          .split(" ")
-                          .map((w) => w[0]?.toUpperCase())
-                          .join("")
-                        : "NA"}
-                  </div>
-                )}
-
-                {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
-                  <div
-                    className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 
-    ${canUpdateTenant ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
-                    onClick={() => {
-                      if (canUpdateTenant && !state.UsersList?.KycCustomerDetails?.pic) {
-                        document.getElementById("fileInput").click();
-                      }
-                    }}
-                  >
-                    <div className="bg-white rounded-full p-1.5 flex items-center justify-center">
-                      <img
-                        src={EditImage}
-                        alt="Edit"
-                        className="w-4 h-4"
-                      />
+                <div
+                  className="relative w-24 h-24 shrink-0 flex items-center justify-center"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
+                  <div className="absolute inset-0 rounded-full p-[5px] bg-[conic-gradient(#22c55e_0deg_140deg,transparent_155deg_200deg,#22c55e_220deg_360deg)]">
+                    <div className="w-full h-full bg-white rounded-full p-[3px]">
+                      {imageUrl ? (
+                        <img
+                          src={imageUrl}
+                          alt={CustomerOverView.fullName || "profile"}
+                          className="w-full h-full rounded-full object-cover"
+                          onError={(e) => { e.currentTarget.src = Profiles; }}
+                        />
+                      ) : (
+                        <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center font-semibold text-xl">
+                          {CustomerOverView?.initials || "NA"}
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
 
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    if (canUpdateTenant) {
-                      handleImageUpload(e);
-                    }
-                  }}
-                />
+                  <span className="absolute -bottom-[4px] text-[12px] text-green-600 font-semibold">
+                    100%
+                  </span>
+
+                  {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
+                    <div
+                      className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
+              ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+                      onClick={() => {
+                        if (canUpdateTenant) document.getElementById("fileInput").click();
+                      }}
+                    >
+                      <img src={EditImage} className="w-5 h-5 bg-white p-1 rounded-full" />
+                    </div>
+                  )}
+
+                  <input
+                    id="fileInput"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      if (canUpdateTenant) handleImageUpload(e);
+                    }}
+                  />
+                </div>
+
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h2 className="text-[15px] font-semibold truncate max-w-[180px]">
+                      {CustomerOverView.fullName}
+                    </h2>
+                    <div className="inline-flex items-center mb-1">
+                      <Verify size={18} variant="Bold" color="#038c3d" />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
+                    <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
+                      Ground Floor
+                    </span>
+                    <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
+                      G005 - B03
+                    </span>
+                  </div>
+                  <hr className="w-full my-1 pb-1 text-gray-600" />
+
+                  <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
+                    <div className="flex items-center gap-1 text-xs text-blue-600">
+                      <Call size={16} color="#1E45E1" variant="Bold" /> +91 98765 43210
+                    </div>
+
+                    <span className="flex items-center gap-1">
+                      <MoneyTick size={16} color="#1E45E1" />
+                      ₹7,000<span className="text-[10px]">/pm</span>
+                    </span>
+                  </div>
+
+                </div>
               </div>
 
+              {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
+                <>
+                  <Button
+                    disabled={!canWriteTenant}
+                    type="primary"
+                    className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm"
+                  >
+                    KYC Verified
+                  </Button>
+                </>
+              }
 
+              {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
+                <>
+                  <Button
+                    className="rounded-2xl bg-amber-500 border-0 px-4 h-8 flex items-center text-sm text-white"
+                  >
+                    <img src={timehalf} alt="time" className="w-4 mr-2" />
+                    Pending
+                  </Button>
+                  <p
 
+                    className="text-sm font-normal font-gilroy mt-1"
+                  >
+                    Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                  </p>
+                </>
+              }
 
+              {state.UsersList?.KycCustomerDetails?.retry_completed === true &&
+                <>
+                  <Button
+                    onClick={handleKYCSubmit}
 
+                    className="rounded-xl bg-blue-600 border-0 px-4 h-8 flex items-center text-sm text-white"
 
+                  >
+                    <img src={Retry} alt="time" className="w-4 mr-2" />
+                    Retry KYC
+                  </Button>
+                  <p className="text-sm font-normal font-gilroy mt-1"
+                  >
+                    Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                  </p>
+                </>
+              }
 
-              <div className="ml-2.5">
+              {
+                state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
+                <>
+                  <Button
+                    disabled={!canWriteTenant}
+                    type="primary"
+                    className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm font-gilroy"
+                    onClick={handleKYCSubmit}
+                  >
+                    Verify KYC <RightOutlined className="text-xs ml-1.5 font-gilroy" />
+                  </Button>
+                  <p className="text-sm font-normal font-gilroy mt-1"
+                  >
+                    Verify your Customer KYC Details via DigiLocker.
+                  </p>
+                </>
+              }
 
-                <span
-                  className="text-xl font-semibold font-gilroy mb-0 block truncate max-w-[200px] cursor-pointer"
-                  title={CustomerOverView.fullName}
-                >
-                  {CustomerOverView.fullName}
-                </span>
-
-
-                {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
-                  <>
-                    <Button
-                      disabled={!canWriteTenant}
-                      type="primary"
-                      className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm"
-                    >
-                      KYC Verified
-                    </Button>
-                  </>
-                }
-
-
-
-                {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
-                  <>
-                    <Button
-                      className="rounded-2xl bg-amber-500 border-0 px-4 h-8 flex items-center text-sm text-white"
-                    >
-                      <img src={timehalf} alt="time" className="w-4 mr-2" />
-                      Pending
-                    </Button>
-                    <p
-
-                      className="text-sm font-normal font-gilroy mt-1"
-                    >
-                      Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
-                    </p>
-                  </>
-                }
-
-                {state.UsersList?.KycCustomerDetails?.retry_completed === true &&
-                  <>
-                    <Button
-                      onClick={handleKYCSubmit}
-
-                      className="rounded-xl bg-blue-600 border-0 px-4 h-8 flex items-center text-sm text-white"
-
-                    >
-                      <img src={Retry} alt="time" className="w-4 mr-2" />
-                      Retry KYC
-                    </Button>
-                    <p className="text-sm font-normal font-gilroy mt-1"
-                    >
-                      Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
-                    </p>
-                  </>
-                }
-
-                {
-                  state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
-                  <>
-                    <Button
-                      disabled={!canWriteTenant}
-                      type="primary"
-                      className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm font-gilroy"
-                      onClick={handleKYCSubmit}
-                    >
-                      Verify KYC <RightOutlined className="text-xs ml-1.5 font-gilroy" />
-                    </Button>
-                    <p className="text-sm font-normal font-gilroy mt-1"
-                    >
-                      Verify your Customer KYC Details via DigiLocker.
-                    </p>
-                  </>
-                }
-
-
-
-
-              </div>
             </div>
 
-
             <div className="flex gap-4 items-center">
+              <div className="mb-1.5" onClick={() => setShowPdf(true)}>
+                <ExportCurve size="20" color="black" variant="Outline" />
+              </div>
 
 
               <div className="relative font-gilroy">
@@ -2861,6 +2978,111 @@ function UserListRoomDetail(props) {
           </div>
         </div>
 
+        {/* <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 mx-4">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+
+              <div
+                className="relative w-20 h-20 shrink-0 flex items-center justify-center"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <div className="absolute inset-0 rounded-full p-[5px] bg-[conic-gradient(#22c55e_0deg_140deg,transparent_155deg_200deg,#22c55e_220deg_360deg)]">
+                  <div className="w-full h-full bg-white rounded-full p-[3px]">
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt={CustomerOverView.fullName || "profile"}
+                        className="w-full h-full rounded-full object-cover"
+                        onError={(e) => { e.currentTarget.src = Profiles; }}
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center font-semibold text-xl">
+                        {CustomerOverView?.initials || "NA"}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <span className="absolute -bottom-[4px] text-[12px] text-green-600 font-semibold">
+                  100%
+                </span>
+
+                {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
+                  <div
+                    className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
+              ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+                    onClick={() => {
+                      if (canUpdateTenant) document.getElementById("fileInput").click();
+                    }}
+                  >
+                    <img src={EditImage} className="w-5 h-5 bg-white p-1 rounded-full" />
+                  </div>
+                )}
+
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    if (canUpdateTenant) handleImageUpload(e);
+                  }}
+                />
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-[17px] font-semibold truncate max-w-[180px]">
+                    {CustomerOverView.fullName}
+                  </h2>
+                  <div className="inline-flex items-center mb-1">
+                    <Verify size={18} variant="Bold" color="#038c3d" />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
+                  <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
+                    Ground Floor
+                  </span>
+                  <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
+                    G005 - B03
+                  </span>
+                </div>
+                <hr className="w-full my-1 pb-1 text-gray-600" />
+
+                <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
+                  <div className="flex items-center gap-1 text-xs text-blue-600">
+                    <Call size={16} color="#1E45E1" variant="Bold" /> +91 98765 43210
+                  </div>
+
+                  <span className="flex items-center gap-1">
+                    <MoneyTick size={16} color="#1E45E1" />
+                    ₹7,000<span className="text-[10px]">/pm</span>
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="mb-1.5">
+                <ExportCurve size="20" color="black" variant="Outline"/>
+              </div>
+
+              <div className="relative">
+                <button
+                  onClick={() => setOpenMenu(!openMenu)}
+                  className="text-gray-700 hover:text-black"
+                >
+                  <PiDotsThreeOutlineVerticalFill />
+                </button>
+
+              </div>
+            </div>
+          </div>
+        </div> */}
+
         <TabContext value={value}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full max-h-[80px]">
             <Box
@@ -3047,7 +3269,7 @@ function UserListRoomDetail(props) {
                                 <p className="text-xs font-medium font-gilroy" >
                                   House No / Apartment
                                 </p>
-                                 <div className="flex items-center gap-2 -mt-3">
+                                <div className="flex items-center gap-2 -mt-3">
                                   <House size="18" color="#1E45E1" />
                                   <span
                                     className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
@@ -5142,10 +5364,6 @@ function UserListRoomDetail(props) {
 
 
 
-
-
-
-
     </>
 
   );
@@ -5181,4 +5399,11 @@ UserListRoomDetail.propTypes = {
   onDeleteHostelItem: PropTypes.func,
   onDeleteRoomItem: PropTypes.func,
 };
+
 export default withErrorBoundary(UserListRoomDetail);
+
+
+
+
+
+

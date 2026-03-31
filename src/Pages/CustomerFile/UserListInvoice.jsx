@@ -463,7 +463,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                       {activeId === view.invoiceId && (
                                         <div
                                           ref={popupRef}
-                                          className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000] shadow border whitespace-nowrap"
+                                          className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000] border whitespace-nowrap"
                                           style={{
                                             top: popupPosition.top,
                                             left: popupPosition.left - 50,
