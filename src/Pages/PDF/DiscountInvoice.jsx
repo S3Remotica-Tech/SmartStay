@@ -9,7 +9,7 @@ import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../Components/ErrorMessage'
 import Select from "react-select";
-import { Trash } from "iconsax-react";
+import {Add } from "iconsax-react";
 
 
 function DiscountInvoice({ show, handleClose }) {
@@ -248,8 +248,12 @@ function DiscountInvoice({ show, handleClose }) {
                                         type="text"
                                         value={customReason}
                                         onChange={(e) => {
-                                            setCustomReason(e.target.value);
-                                            setReasonError('');
+                                            const value = e.target.value;
+                                          
+                                            if (/^[A-Za-z\s]*$/.test(value)) {
+                                                setCustomReason(value);
+                                                setReasonError('');
+                                            }
                                         }}
                                         placeholder="Enter custom reason"
                                         className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
@@ -264,7 +268,7 @@ function DiscountInvoice({ show, handleClose }) {
                                         }}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
                                     >
-                                        <Trash size={18} />
+                                        <Add size={18}  className="rotate-45 "/>
                                     </button>
 
                                 </div>

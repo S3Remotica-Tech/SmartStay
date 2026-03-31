@@ -23,8 +23,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const customContainerRef = useRef();
-  // const [assetName, setAssetName] = useState("");
-  // const [vendorName, setVendorName] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
@@ -39,7 +37,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  // const [netPaymentError, setNetPaymentError] = useState("")
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const calendarRef = useRef(null);
@@ -50,7 +47,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     selectedDate: "",
     totalPrice: "",
     category: "",
-    subCategory:"",
+    subCategory: "",
     modeOfPayment: "",
     description: "",
     count: "",
@@ -99,14 +96,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
       setInitialState({
-      selectedDate: formattedDate,
-      totalPrice: currentItem.totalAmount || "",
-      category: currentItem.categoryId || "",
-      subCategory: currentItem.subCategoryId || "",
-      modeOfPayment: Number(currentItem.bankId) || "",
-      description: currentItem.description || "",
-      count: currentItem.itemsCount || "",
-    });
+        selectedDate: formattedDate,
+        totalPrice: currentItem.totalAmount || "",
+        category: currentItem.categoryId || "",
+        subCategory: currentItem.subCategoryId || "",
+        modeOfPayment: Number(currentItem.bankId) || "",
+        description: currentItem.description || "",
+        count: currentItem.itemsCount || "",
+      });
     }
   }, [currentItem]);
 
@@ -228,7 +225,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   };
 
   const handleAddExpenses = () => {
-dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
     setCategoryError("");
     setDateError("");
     setCountError("");
@@ -291,17 +288,17 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
 
 
     if (currentItem) {
-     const isChanged =
-  (initialState.selectedDate &&
-    selectedDate &&
-    moment(initialState.selectedDate).format("YYYY-MM-DD") !==
-      moment(selectedDate).format("YYYY-MM-DD")) ||
-  Number(initialState.totalPrice) !== Number(totalPrice) ||
-  initialState.category !== category ||
-  Number(initialState.subCategory || 0) !== Number(subCategory || 0) ||
-  Number(initialState.modeOfPayment) !== Number(modeOfPayment) ||
-  initialState.description !== description ||
-  Number(initialState.count) !== Number(count);
+      const isChanged =
+        (initialState.selectedDate &&
+          selectedDate &&
+          moment(initialState.selectedDate).format("YYYY-MM-DD") !==
+          moment(selectedDate).format("YYYY-MM-DD")) ||
+        Number(initialState.totalPrice) !== Number(totalPrice) ||
+        initialState.category !== category ||
+        Number(initialState.subCategory || 0) !== Number(subCategory || 0) ||
+        Number(initialState.modeOfPayment) !== Number(modeOfPayment) ||
+        initialState.description !== description ||
+        Number(initialState.count) !== Number(count);
 
       if (!isChanged) {
         setIsChangedError("No Changes Detected");
@@ -359,7 +356,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
     setSubCategoryError("");
     setGeneralError("");
     setIsChangedError("");
-    
+
   };
 
 
@@ -439,11 +436,21 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
     })
     : [];
 
+ 
+
+
+
+
+
+
+
+
+
   return (
-    
-   <div className="fixed inset-0 z-50 flex items-center justify-center font-gilroy">
+
+    <div className="fixed inset-0 z-50 flex items-center justify-center font-gilroy">
       <Modal show={show} onHide={handleClose} dialogClassName="custom-modals-style" backdrop="static" >
-         <Modal.Dialog className="m-0 p-0 max-h-[80vh] w-full max-w-lg">
+        <Modal.Dialog className="m-0 p-0 max-h-[80vh] w-full max-w-lg">
           <Modal.Header className="flex items-center justify-between">
             <Modal.Title className="!text-lg !font-semibold text-[#222222] !font-gilroy">
               {currentItem ? "Edit Expense" : "Add Expense"}
@@ -464,7 +471,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
             <ErrorMessage message={generalError} type="error" />
           )}
 
-            <Modal.Body className="overflow-y-auto p-3 max-h-[70vh] show-scroll">
+          <Modal.Body className="overflow-y-auto p-3 max-h-[70vh] show-scroll">
             <div className="grid grid-cols-12 gap-3">
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
@@ -680,7 +687,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
                     {/* <span className="invisible text-xl">*</span> */}
                   </Form.Label>
                   <Form.Control
-                   value={count > 0 ? (totalPrice / count).toFixed(2) : "0.00"}
+                    value={count > 0 ? (totalPrice / count).toFixed(2) : "0.00"}
                     disabled
                     type="text"
                     placeholder=""
@@ -825,7 +832,7 @@ dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
 
           <Modal.Footer className="!border-t-0 mt-1 pt-1">
             <Button
-               disabled={formLoading}
+              disabled={formLoading}
               onClick={handleAddExpenses}
               className="w-100 !bg-blue-700 !font-gilroy !font-semibold rounded-xl !text-base h-12"
             >

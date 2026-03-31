@@ -181,7 +181,7 @@ function ExpensesListTable(props) {
   }));
 
 
-  console.log("props", props)
+  
 
   return (
     <>

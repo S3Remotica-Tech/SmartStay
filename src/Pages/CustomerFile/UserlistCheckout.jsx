@@ -352,13 +352,13 @@ function CheckOut() {
                                 </td>
 
                                 <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <span className="inline-block px-2.5 py-1.5 rounded-full bg-gray-200 overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
+                                  <span className="inline-block  rounded-full  overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
                                     {checkout.checkoutDate || "N/A"}
                                   </span>
                                 </td>
 
                                 <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <span className="inline-block px-2 py-1 rounded bg-pink-300 text-[#1E45E1]">
+                                  <span className="inline-block px-2 py-1 rounded-md bg-red-100 text-red-600">
                                     {checkout.currentStatus || "-"}
                                   </span>
                                 </td>
