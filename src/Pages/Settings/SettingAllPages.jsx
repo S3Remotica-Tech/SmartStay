@@ -110,7 +110,7 @@ function SettingAllPages({ isVisibleSidebar }) {
   return (
     <>
 
-      <div className="px-1 py-1">
+      {/* <div className="px-1 py-1">
 
         <div className="relative flex gap-0 h-[calc(100vh-20px)]">
           <div className="block md:hidden p-2.5">
@@ -232,8 +232,123 @@ function SettingAllPages({ isVisibleSidebar }) {
           </main>
 
         </div>
-      </div>
+      </div> */}
 
+      <div className="px-1 py-1">
+        <div className="relative flex gap-0 h-[calc(100vh-20px)]">
+             <div className="block md:hidden p-2.5">
+            <button
+              onClick={handleToggleSidebar}
+              className="bg-[#1E45E1] border border-[#1E45E1] rounded-full p-1 text-white"
+            >
+              {isSidebarOpen ? (
+                <ArrowRight2 size="22" color="#FFF" />
+              ) : (
+                <ArrowLeft2 size="22" color="#FFF" />
+              )}
+            </button>
+          </div>
+
+          {!isInvoiceAddMode && (
+            <aside
+              className={`
+          px-3 transition-all duration-300 sticky top-0 z-10
+          bg-white h-full
+          ${isSidebarOpen ? "block w-[22%] md:w-[23%]" : "hidden md:block md:w-[22%]"}
+        `}
+            >
+              <div className="sticky top-2">
+                <label className="font-gilroy text-lg font-semibold text-black whitespace-nowrap">
+                  Settings
+                </label>
+              </div>
+
+              <div className="show-scrolls bg-[#E7F1FF] rounded-lg p-2.5 mt-3 mb- shadow-md w-[100%] h-[226px] md:h-[200px] lg:h-[226px] 2xl:h-[250px]">
+                {[
+                  ["General", "general"],
+                  ["Manage PG", "manage-pg"],
+                  ["Security", "security"],
+                  ["Subscription", "subscription"],
+                  ["Integration", "integration"],
+                ].map(([label, key]) => (
+                  <div key={key}>
+                    <p
+                      onClick={() => handleSettingsNavigate(key, label)}
+                      className={`flex justify-between items-center font-gilroy font-medium cursor-pointer mb-2.5  text-[13px] md:text-[13px] lg:text-[15px] xl:text-[15px] 2xl:text-[17px]
+                  ${activePage === key ? "text-[#1E45E1]" : "text-black"}
+                `}
+                    >
+                      {label}
+                      <img
+                        src={activePage === key ? blueArrow : blackArrow}
+                        className="w-4 h-4"
+                        alt="arrow"
+                      />
+                    </p>
+                    <hr className="border-white -mt-2" />
+                  </div>
+                ))}
+              </div>
+
+              <div className="font-gilroy font-semibold mt-3 mb-2
+                text-[13px] md:text-[13px] lg:text-[15px] xl:text-[16px] 2xl:text-[17px]">
+                PG Based Setting
+              </div>
+
+              <div className="show-scrolls bg-[#E7F1FF] rounded-[11px] p-2.5 pt-4 shadow-md w-[100%] h-[270px] md:h-[210px] lg:h-[270px] 2xl:h-[400px]">
+                {[
+                  ["Electricity", "electricity"],
+                  ["Billing Rule", "billing-rule", "Billing_Rule"],
+                  ["Notifications", "notifications", "SettingsNotifications"],
+                  ["Bill Templates", "invoice", "Invoice"],
+                  ["Expenses", "expenses"],
+                  ["Complaints", "complaints"],
+                  ["Amenities", "amenities"],
+                  ["Staff", "user", "User"],
+                  ["Role", "role"],
+                  ["Agreement & Policy", "agreement"],
+                ].map(([label, route, pageKey = label]) => {
+                  const isActive =
+                    activePage === route ||
+                    (route === "billing-rule" &&
+                      ["long-stay-recurring"].includes(activePage)) ||
+                    (route === "electricity" &&
+                      ["electricity-rule"].includes(activePage));
+
+                  return (
+                    <div key={route}>
+                      <p
+                        onClick={() => handleSettingsNavigate(route, pageKey)}
+                        className={`flex flex-shrink-0 justify-between items-center font-gilroy font-medium cursor-pointer -mt-2.5  text-[13px] md:text-[13px] lg:text-[15px] xl:text-[15px] 2xl:text-[17px]
+                    ${isActive ? "text-[#1E45E1]" : "text-black"}
+                  `}
+                      >
+                        {label}
+                        <img
+                          alt="arrow"
+                          src={isActive ? blueArrow : blackArrow}
+                          className="w-4 h-4"
+                        />
+                      </p>
+                      <hr className="border-white -mt-2" />
+                    </div>
+                  );
+                })}
+              </div>
+            </aside>
+          )}
+
+          <main
+            className={`
+        m-0 p-0 overflow-y-auto h-full
+        ${isInvoiceAddMode ? "w-full" : "md:w-[78%] lg:w-[75%]"}
+        ${isSidebarOpen ? "hidden md:block" : ""}
+      `}
+          >
+            <Outlet />
+          </main>
+        </div>
+      </div>
 
 
     </>

@@ -2839,7 +2839,7 @@ function UserList(props) {
                                   {user.bedName || "-"}
                                 </td>
 
-                                <td className="w-[230px] px-2  py-1">
+                                <td className="w-[230px] px-2 py-1">
                                   <div
                                     className="relative mt-1 flex cursor-pointer items-center justify-start"
                                     onClick={(e) => handleShowDots(user.customerId, e)}
@@ -2861,6 +2861,7 @@ function UserList(props) {
                                             : popupPosition.top - 35,
                                           left: popupPosition.left,
                                         }}
+                                     
                                       >
                                         <div className="flex flex-col divide-y divide-gray-300">
                                           {!user.bedId &&
@@ -2868,7 +2869,7 @@ function UserList(props) {
                                               user.currentStatus === "un-assigned") && (
                                               <div
                                                 onClick={() => canWriteTenant && handleShowAssignBed(user)}
-                                                className={`border-b border-gray-700 flex items-center gap-2 rounded-md px-3  py-1 transition 
+                                                className={`border-b border-gray-700 flex items-center gap-2 rounded-md px-3 py-2 transition 
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img
@@ -2889,7 +2890,7 @@ function UserList(props) {
                                             user.currentStatus === "Inactive") && (
                                               <div
                                                 onClick={() => canWriteBooking && handleAddBookings(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                 ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img
@@ -2907,7 +2908,7 @@ function UserList(props) {
                                             user.currentStatus === "Inactive") && (
                                               <div
                                                 onClick={() => canDeleteTenant && handleDeleteShow(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                 ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <Trash size={16} color={canDeleteTenant ? "red" : "#A9A9A9"} />
@@ -2924,7 +2925,7 @@ function UserList(props) {
                                             <>
                                               <div
                                                 onClick={() => canWriteCheckout && handleCustomerCheckout(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                   ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img src={addcircle} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
@@ -2933,7 +2934,7 @@ function UserList(props) {
 
                                               <div
                                                 onClick={() => canWriteTenant && handleCustomerReAssign(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
@@ -2946,7 +2947,7 @@ function UserList(props) {
                                             <>
                                               <div
                                                 onClick={() => canWriteTenant && handleBacktoCheckout(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
@@ -2955,7 +2956,7 @@ function UserList(props) {
 
                                               <div
                                                 onClick={() => canWriteCheckout && handleCheckoutGenrateNew(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                   ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
@@ -2965,21 +2966,24 @@ function UserList(props) {
                                           )}
 
                                           {user.bedId && user.currentStatus === "Settlement Generated" && (
-                                            <div
+                                             <div
                                               onClick={() => canWriteCheckout && handleConformCheckout(user)}
-                                              className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                              className={`flex items-center gap-2 rounded-md px-3 py-2 transition min-w-[150px]
                 ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                            >
+                 style={{ marginLeft: 12 }} 
+                 >
                                               <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
                                               <span className="text-sm font-medium font-gilroy">Check-Out</span>
                                             </div>
+                                           
                                           )}
+                                         
 
                                           {user.currentStatus === "Booked" && (
                                             <>
                                               <div
                                                 onClick={() => canWriteTenant && handleBookingAssign(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img src={addcircle} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
@@ -2988,7 +2992,7 @@ function UserList(props) {
 
                                               <div
                                                 onClick={() => canWriteBooking && handleInActive(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
+                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
                   ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img src={Addbook} className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`} />
