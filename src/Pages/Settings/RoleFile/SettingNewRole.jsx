@@ -19,8 +19,8 @@ import ErrorMessage from '../../../Components/ErrorMessage'
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import Emptystate from "../../../Assets/Images/Empty-State-svg.svg";
 import { IoMdMore } from 'react-icons/io';
-import { AddCircle } from 'iconsax-react';
-
+import { AddCircle, Profile2User, Shield } from 'iconsax-react';
+import PaginationList from '../../../Components/PaginationList';
 function SettingNewRole() {
 
 
@@ -195,6 +195,30 @@ function SettingNewRole() {
     setEditRoleDetails(view)
   }
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = roleList.slice(startIndex, endIndex);
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -243,9 +267,13 @@ function SettingNewRole() {
 
 
   return (
-    <div className="min-h-full flex flex-col bg-[#FBFBFB] font-gilroy ">
+    <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy relative">
 
-
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center z-50 bg-transparent">
+          <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
         <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
@@ -255,18 +283,31 @@ function SettingNewRole() {
         </div>
 
 
-        <div className="w-full flex justify-center md:justify-end">
-          <button
-            onClick={handleAddRole}
-            disabled={!canWriteRole}
-            className={`h-[38px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex justify-center items-center gap-1
+
+        <div className="w-full flex justify-center md:justify-end items-center">
+          <div className='flex items-center gap-2'>
+            <div className="">
+              <PaginationList
+                totalItems={roleList?.length}
+                itemsPerPage={pageSize}
+                currentPage={page}
+                onPageChange={(p) => setPage(p)}
+                onPageSizeChange={(size) => setPageSize(size)}
+              />
+            </div>
+
+            <button
+              onClick={handleAddRole}
+              disabled={!canWriteRole}
+              className={`h-[38px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex justify-center items-center gap-1
         ${canWriteRole
-                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-          >
-            <AddCircle color="#FFFFFF" size="16" /> Create Role
-          </button>
+                  ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+            >
+              <AddCircle color="#FFFFFF" size="16" /> Create Role
+            </button>
+          </div>
         </div>
       </div>
       <div className="flex-1 overflow-hidden px-4 py-3">
@@ -278,155 +319,61 @@ function SettingNewRole() {
               <ErrorMessage message={['You do not have access to view Role']} type="warning" />
             </div>
           ) : (
-            // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mx-2 mt-2 mb-3 !max-h-[475px] overflow-auto">
-            //   {roleList.length > 0 ? (
-            //     roleList.map((view, index) => (
-            //       <div key={index} className="border rounded flex items-center justify-between p-3 h-16 w-full bg-white">
-            //         <div className="flex items-center">
-            //           <img src={role} width={24} height={24} alt="Role Icon" />
-            //           <span className="ml-3 !text-base !font-medium !font-gilroy text-gray-900 truncate">
-            //             {view.name}
-            //           </span>
-            //         </div>
 
-            //         <div
-            //           className="flex items-center justify-center border rounded-full !h-[35px] !w-[35px] cursor-pointer relative"
-            //           onClick={(e) => handleShowDots(e, index)}
-            //         >
-            //           <PiDotsThreeOutlineVerticalFill className="!h-5 !w-5 rotate-90 text-gray-500" />
-            //           {showDots === index && view.editable && (
-            //             <div
-            //               ref={popupRef}
-            //               className="pg-card !bg-white !fixed !border !border-gray-200 !rounded-lg !shadow-md !w-[140px] !z-[1000]"
-            //               style={{
-            //                 top: popupPosition.top,
-            //                 left: popupPosition.left,
-            //               }}
-            //             >
-            //               <div
-            //                 className={`flex items-center gap-2 px-3 py-2 w-full transition-colors ${view.editable && canUpdateRole
-            //                   ? 'cursor-pointer hover:bg-blue-50 opacity-100'
-            //                   : 'cursor-not-allowed opacity-50'
-            //                   }`}
-            //                 onClick={() => {
-            //                   if (view.editable && canUpdateRole) handleEditForm(view);
-            //                 }}
-            //               >
-            //                 <img
-            //                   src={Edit}
-            //                   width={16}
-            //                   height={16}
-            //                   alt="Edit"
-            //                   className={view.editable && canUpdateRole ? '' : 'filter grayscale'}
-            //                 />
-            //                 <span
-            //                   className={`!text-sm !font-medium !font-gilroy ${view.editable && canUpdateRole ? 'text-blue-700' : 'text-gray-400'
-            //                     }`}
-            //                 >
-            //                   Edit
-            //                 </span>
-            //               </div>
+            <div className="mx-2 mt-2 mb-3 bg-white rounded-lg border  font-gilroy overflow-hidden">
+              <div className="max-h-[500px] overflow-y-auto show-scrolls">
+                <table className="w-full text-left">
 
-            //               <div className="h-px !bg-gray-200 m-0" />
 
-            //               <div
-            //                 className={`flex items-center gap-2 px-3 py-2 w-full transition-colors ${view.editable && canDeleteRole
-            //                   ? 'cursor-pointer hover:bg-blue-50 opacity-100'
-            //                   : 'cursor-not-allowed opacity-50'
-            //                   }`}
-            //                 onClick={() =>
-            //                   view.editable && canDeleteRole && handleDeleteForm(view)
-            //                 }
-            //               >
-            //                 <img
-            //                   src={Delete}
-            //                   width={16}
-            //                   height={16}
-            //                   alt="Delete"
-            //                   className={view.editable && canDeleteRole ? '' : 'filter grayscale'}
-            //                 />
-            //                 <span
-            //                   className={`!text-sm !font-medium !font-gilroy ${view.editable && canDeleteRole ? 'text-red-600' : 'text-gray-400'
-            //                     }`}
-            //                 >
-            //                   Delete
-            //                 </span>
-            //               </div>
-            //             </div>
-            //           )}
-            //         </div>
-            //       </div>
-            //     ))
-            //   ) : (
-            //     !loading && (
-            //       <div className="flex items-center justify-center w-full mt-24 2xl:mt-52 2xl:ml-80 ml-64">
-            //         <div className="text-center">
-            //           <div className="flex justify-center mb-2">
-            //             <img src={EmptyState} alt="Empty state" />
-            //           </div>
-
-            //           <div className="text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
-            //             No Roles
-            //           </div>
-
-            //           <div className="text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
-            //             There are no Roles available
-            //           </div>
-            //         </div>
-            //       </div>
-            //     )
-            //   )}
-            // </div>
-
-            <div className="mx-2 mt-2 mb-3 bg-white rounded-lg border overflow-hidden font-gilroy">
-              <div className="max-h-[475px] overflow-auto">
-                <table className="w-full text-left border-collapse">
-
-                  {/* Header */}
-                  <thead className="bg-gray-50 text-gray-500 text-xs uppercase font-semibold">
+                  <thead className="bg-gray-50 text-[#6B7280] text-xs uppercase font-semibold sticky top-0 z-10">
                     <tr>
-                      <th className="px-4 py-3">Role Name</th>
-                      <th className="px-4 py-3">Description</th>
-                      <th className="px-4 py-3">Users</th>
-                      <th className="px-4 py-3">Created</th>
-                      <th className="px-4 py-3 text-right">Action</th>
+                      <th className="px-4 py-2.5">Role Name</th>
+                      <th className="px-4 py-2.5">Description</th>
+                      <th className="px-4 py-2.5">Users</th>
+                      <th className="px-4 py-2.5">Created</th>
+                      <th className="px-4 py-2.5 text-right">Action</th>
                     </tr>
                   </thead>
 
-                  {/* Body */}
-                  <tbody className="text-sm text-gray-700">
-                    {roleList.length > 0 ? (
-                      roleList.map((view, index) => (
-                        <tr key={index} className="border-t hover:bg-gray-50">
 
-                          {/* Role Name */}
-                          <td className="px-4 py-3 flex items-center gap-2">
-                            <img src={role} alt="role" className="w-5 h-5" />
-                            <span className="font-medium text-gray-900">
+                  <tbody className="text-sm text-gray-700">
+                    {paginatedData.length > 0 ? (
+                      paginatedData.map((view, index) => (
+                        <tr key={index} className="border-t ">
+
+
+                          <td className="px-4 py-2 flex items-center gap-2 whitespace-nowrap">
+                            <span className="inline-flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
+                              <Shield size={14} color="#FF9900" />
+                            </span>
+                            <span className="font-semibold text-[#111928] text-[14px]">
                               {view.name}
                             </span>
                           </td>
 
-                          {/* Description */}
-                          <td className="px-4 py-3 text-gray-500">
+
+                          <td className="px-4 py-2 text-[#4B4B4B] font-medium text-[14px]">
                             {view.description || "-"}
                           </td>
 
-                          {/* Users */}
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-1 text-gray-600">
-                              <i className="isax isax-user text-sm"></i>
-                              {view.usersCount || 1}
+
+                          <td className="px-4 py-2 text-[#6F767E] font-medium text-[14px]">
+                            <div className="flex items-center  rounded bg-[#F8F9FC]">
+                              <span className="inline-flex items-center text-gray-600 bg-[#F8F9FC]  px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
+                                <Profile2User color="#6F767E" size={14} />
+                              </span>
+                              {view.usersCount}
+
                             </div>
                           </td>
 
-                          {/* Created */}
-                          <td className="px-4 py-3 text-gray-600">
+
+                          <td className="px-4 py-2 text-[#111928] font-medium text-[14px]">
                             {view.createdDate || "-"}
                           </td>
 
-                          {/* Action */}
-                          <td className="px-4 py-3 text-right relative">
+
+                          <td className="px-4 py-2 text-right relative">
                             <div
                               className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
                               onClick={(e) => handleShowDots(e, index)}
@@ -434,7 +381,7 @@ function SettingNewRole() {
                               <IoMdMore className='text-black text-xl' />
                             </div>
 
-                            {/* Dropdown */}
+
                             {showDots === index && view.editable && (
                               <div
                                 ref={popupRef}
@@ -444,11 +391,11 @@ function SettingNewRole() {
                                   left: popupPosition.left,
                                 }}
                               >
-                                {/* Edit */}
+
                                 <div
                                   className={`flex items-center gap-2 px-3 py-2 ${view.editable && canUpdateRole
-                                      ? "cursor-pointer hover:bg-blue-50"
-                                      : "opacity-50 cursor-not-allowed"
+                                    ? "cursor-pointer hover:bg-blue-50"
+                                    : "opacity-50 cursor-not-allowed"
                                     }`}
                                   onClick={() => {
                                     if (view.editable && canUpdateRole)
@@ -463,11 +410,11 @@ function SettingNewRole() {
 
                                 <div className="h-px bg-gray-200" />
 
-                                {/* Delete */}
+
                                 <div
                                   className={`flex items-center gap-2 px-3 py-2 ${view.editable && canDeleteRole
-                                      ? "cursor-pointer hover:bg-blue-50"
-                                      : "opacity-50 cursor-not-allowed"
+                                    ? "cursor-pointer hover:bg-blue-50"
+                                    : "opacity-50 cursor-not-allowed"
                                     }`}
                                   onClick={() =>
                                     view.editable && canDeleteRole &&
@@ -504,16 +451,23 @@ function SettingNewRole() {
                   </tbody>
                 </table>
               </div>
+
+
+
+
+
+
+
+
+
+
+
             </div>
           )
         }
       </div>
 
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-transparent">
-          <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
+
 
       {
         showRole && <AddRole showRole={showRole} addRole={addRole} hostelid={state.login.selectedHostel_Id} editRoleDetails={editRoleDetails} setShowRole={setShowRole} />

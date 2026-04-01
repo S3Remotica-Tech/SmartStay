@@ -739,13 +739,17 @@ function LongStayRecurringModal() {
                                     className="mt-1 accent-[#4E61F6] cursor-pointer disabled:cursor-not-allowed"
                                 />
 
-                                <div>
+                                <div >
+                                    <div>
                                     <label className="text-sm font-semibold text-[#222222] cursor-pointer">
                                         Prepaid
                                     </label>
+                                    </div>
+                                    <div>
                                     <label className="text-xs text-gray-500 cursor-pointer">
                                         Invoices will generate at the start date of month
                                     </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -768,12 +772,16 @@ function LongStayRecurringModal() {
                                 />
 
                                 <div>
+                                    <div>
                                     <label className="text-sm font-semibold text-[#222222]">
                                         Postpaid
                                     </label>
+                                    </div>
+                                    <div>
                                     <label className="text-xs text-gray-500 cursor-pointer ">
                                         Invoices will generate at the end date of month
                                     </label>
+                                    </div>
                                 </div>
                             </div>
 

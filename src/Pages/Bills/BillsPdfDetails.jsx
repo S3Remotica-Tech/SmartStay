@@ -53,7 +53,7 @@ function BillsPdfDetails() {
     }
 
 
-console.log("rowData Tenant Overview",rowData)
+    console.log("rowData Tenant Overview", rowData)
 
 
 
@@ -601,7 +601,7 @@ console.log("rowData Tenant Overview",rowData)
                             </label>
                         </div>
                         <div className="flex justify-between items-center gap-2">
-                            <div onClick={handleShowStatusFilter} className="cursor-pointer bg-[#F7F8FC] border border-[#9C9C9C26] rounded-md px-1 py-1">
+                            <div className="cursor-not-allowed bg-[#F7F8FC] border border-[#9C9C9C26] rounded-md px-1 py-1">
                                 <TextalignLeft size="20" color="#4B4B4B" />
                             </div>
 
@@ -613,30 +613,29 @@ console.log("rowData Tenant Overview",rowData)
 
                     <div className="h-[1px] bg-gray-200 p-0"></div>
 
-                    {
-                        statusShowfilter && <div
-                            className={` transition-all duration-300 ease-in-out
-    ${statusShowfilter ? "max-h-[200px] opacity-100 mt-2 scale-100" : "max-h-0 opacity-0 scale-95"}
+                    <div
+                        className={` transition-all duration-300 ease-in-out
+    max-h-[200px] opacity-100 mt-2 scale-100
   `}
-                        >
-                            <div className="relative w-full max-w-md p-2 mt-2 ">
+                    >
+                        <div className="relative w-full max-w-md p-2 mt-2 ">
 
-                                <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
-                                    <SearchNormal1 size="18" color="#888" />
-                                </div>
-
-
-                                <input
-                                    type="text"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="Search..."
-                                    className="w-full pl-4 py-2 font-gilroy border border-[#D9D9D9] rounded-xl text-sm  outline-none"
-                                />
+                            <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
+                                <SearchNormal1 size="18" color="#888" />
                             </div>
 
 
-                            <div className="w-full max-w-md p-2 mt-2 ">
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Search..."
+                                className="w-full pl-4 py-2 font-gilroy border border-[#D9D9D9] rounded-xl text-sm  outline-none"
+                            />
+                        </div>
+
+
+                        {/* <div className="w-full max-w-md p-2 mt-2 ">
                                 <Select
                                     options={selectOptions}
                                     styles={CustomStyles}
@@ -646,9 +645,9 @@ console.log("rowData Tenant Overview",rowData)
                                     id="statusselect"
                                     menuPlacement="top"
                                 />
-                            </div>
-                        </div>
-                    }
+                            </div> */}
+                    </div>
+
 
                 </div>
 
@@ -663,11 +662,10 @@ console.log("rowData Tenant Overview",rowData)
                                 key={item.invoiceId}
                                 ref={(el) => (invoiceRefs.current[item.invoiceId] = el)}
                                 className={`mb-3 shadow-sm rounded p-[10px_16px] cursor-pointer  
-transition-all duration-300 ease-in-out
-
+transition-all duration-300 ease-in-out  hover:bg-gray-100
 ${String(selectedInvoiceId) === String(item.invoiceId)
                                         ? "bg-[#F7F8FC]"
-                                        : "bg-white hover:bg-gray-100"
+                                        : "bg-white hover:bg-gray-100 "
                                     }`}
                             >
                                 <div className="flex items-start justify-between">
@@ -704,7 +702,7 @@ ${String(selectedInvoiceId) === String(item.invoiceId)
 
                                             <span className="absolute hidden group-hover:block top-full left-0  mb-1
                                                  font-gilroy 
-      bg-gray-300 text-black text-xs rounded px-2 py-1 whitespace-nowrap z-[9999]">
+      bg-gray-300 text-black text-xs rounded px-2 py-1 whitespace-nowrap z-[9999] ">
                                                 {item.fullName}
                                             </span>
 
