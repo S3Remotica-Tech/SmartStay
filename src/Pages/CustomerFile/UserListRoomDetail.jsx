@@ -244,6 +244,8 @@ function UserListRoomDetail(props) {
   const CustomerOverView = state.UsersList.customerdetails;
 
 
+  // console.log("CustomerOverView?.isJoiningDateEditable",CustomerOverView?.isJoiningDateEditable)
+
   useEffect(() => {
     if (isDashboardWay) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customerId } });
@@ -3627,7 +3629,7 @@ function UserListRoomDetail(props) {
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
                             <p className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                               Joined Date
-                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
+                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" &&  CustomerOverView?.isJoiningDateEditable &&(
                                 <img
                                   onClick={handleUpdateJoiningChange}
                                   src={EditImage}
