@@ -236,7 +236,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
       <div className="px-1 py-1">
         <div className="relative flex gap-0 h-[calc(100vh-20px)]">
-             <div className="block md:hidden p-2.5">
+          <div className="block md:hidden p-2.5">
             <button
               onClick={handleToggleSidebar}
               className="bg-[#1E45E1] border border-[#1E45E1] rounded-full p-1 text-white"

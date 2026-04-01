@@ -180,13 +180,26 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     };
 
+    console.log("invoiceList", invoiceList)
+
+    const convertToYMD = (dateStr) => {
+        const [day, month, year] = dateStr.split("/");
+         return `${year}-${month}-${day}`;
+    };
 
 
     const handleSaveInvoiceList = () => {
+
+
         dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
         const formatpaiddate = formatDateForPayload(selectedDate);
-        const billDate = new Date(invoiceList?.invoiceDate);
-        const paidDate = new Date(formatpaiddate);
+
+
+        const billDate = convertToYMD(invoiceList?.invoiceDate);
+        const paidDate = formatpaiddate;
+
+        console.log("billDate", billDate)
+        console.log("paidDate", paidDate)
 
         if (!payableAmount) {
             setAmountErrmsg("Please Enter Amount");
@@ -284,7 +297,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         const month = String(localDate.getMonth() + 1).padStart(2, "0");
         const year = localDate.getFullYear();
 
-        return `${day}-${month}-${year}`;
+        return `${year}-${month}-${day}`;
     };
 
 

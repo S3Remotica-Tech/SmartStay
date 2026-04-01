@@ -244,6 +244,8 @@ function UserListRoomDetail(props) {
   const CustomerOverView = state.UsersList.customerdetails;
 
 
+  // console.log("CustomerOverView?.isJoiningDateEditable",CustomerOverView?.isJoiningDateEditable)
+
   useEffect(() => {
     if (isDashboardWay) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customerId } });
@@ -2555,7 +2557,7 @@ function UserListRoomDetail(props) {
 
                 <div
                   ref={menuRef}
-                  className="absolute right-12 w-52 h-24 rounded-md bg-white shadow-inner border border-gray-200 z-20"
+                  className="absolute right-12 w-52 h-24 rounded-md bg-white shadow-inner border border-gray-200 z-20 font-gilroy"
                   style={{boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.5)' }}
                 >
                   <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
@@ -2672,9 +2674,9 @@ function UserListRoomDetail(props) {
                   />
                 </div>
 
-                <div className="min-w-0">
+                <div className="min-w-0 font-gilroy">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-[15px] font-semibold truncate max-w-[180px]">
+                    <h2 className="text-[15px] font-semibold truncate max-w-[180px] ">
                       {CustomerOverView.fullName}
                     </h2>
                     <div className="inline-flex items-center mb-1">
@@ -2684,22 +2686,22 @@ function UserListRoomDetail(props) {
 
                   <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
                     <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
-                      Ground Floor
-                    </span>
+                     {CustomerOverView?.hostelInfo?.floorName}                     
+                     </span>
                     <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
-                      G005 - B03
+                     {CustomerOverView?.hostelInfo?.roomName} - {CustomerOverView?.hostelInfo?.bedName}
                     </span>
                   </div>
                   <hr className="w-full my-1 pb-1 text-gray-600" />
 
                   <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
                     <div className="flex items-center gap-1 text-xs text-blue-600">
-                      <Call size={16} color="#1E45E1" variant="Bold" /> +91 98765 43210
+                      <Call size={16} color="#1E45E1" variant="Bold" /> + {CustomerOverView?.countryCode} {CustomerOverView?.mobileNo}
                     </div>
 
                     <span className="flex items-center gap-1">
                       <MoneyTick size={16} color="#1E45E1" />
-                      ₹7,000<span className="text-[10px]">/pm</span>
+                      ₹ {CustomerOverView?.hostelInfo?.monthlyRent}<span className="text-[10px]">/pm</span>
                     </span>
                   </div>
 
@@ -3627,7 +3629,7 @@ function UserListRoomDetail(props) {
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
                             <p className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                               Joined Date
-                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
+                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" &&  CustomerOverView?.isJoiningDateEditable &&(
                                 <img
                                   onClick={handleUpdateJoiningChange}
                                   src={EditImage}
