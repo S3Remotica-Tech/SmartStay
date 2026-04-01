@@ -288,6 +288,7 @@ const InvoiceTable = (props) => {
 
         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
           ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
+          {/* <span>Discount Applied : ₹{props.item.isDiscounted ? props.item.isDiscounted}</span> */}
         </td>
 
         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
