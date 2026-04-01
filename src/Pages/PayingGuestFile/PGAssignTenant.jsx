@@ -757,14 +757,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                             Tenant <span className="text-red-600 text-xl">*</span>
                           </Form.Label>
                           <Select
-                            options={
-                              state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
-                              state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                                value: u.customerId,
-                                label: u.fullName,
-                              }))
-
-                            }
+                         options={
+  state.UsersList?.UnAssignCustomerDetails?.length > 0
+    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
+        value: u.customerId,
+        label: u.fullName,
+      }))
+    : []
+}
                             onChange={handleBookingCustomerName}
                             value={
                               booking_customername
@@ -779,7 +779,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                             placeholder="Select Tenant"
                             classNamePrefix="custom"
                             menuPlacement="auto"
-                            noOptionsMessage={() => "No customers available"}
+                            noOptionsMessage={() => "No Tenants available"}
                             styles={{
                               control: (base) => ({
                                 ...base,
@@ -911,7 +911,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                             }
                             placeholder="Select Payment"
                             menuPlacement="bottom"
-                              menuPosition="fixed"  
+                            menuPosition="fixed"
                             // isDisabled={currentItem}
                             noOptionsMessage={() => "No mode available"}
                             styles={{
@@ -1080,12 +1080,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               </Form.Label>
                               <Select
                                 options={
-                                  state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
-                                  state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                                    value: u.customerId,
-                                    label: u.fullName,
-                                  }))
-
+                                  state.UsersList?.UnAssignCustomerDetails?.length > 0
+                                    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
+                                      value: u.customerId,
+                                      label: u.fullName,
+                                    }))
+                                    : []
                                 }
                                 onChange={handleCheckinCustomerName}
                                 value={
@@ -1101,7 +1101,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 placeholder="Select Tenant"
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
-                                noOptionsMessage={() => "No customers available"}
+                                noOptionsMessage={() => "No Tenants available"}
                                 styles={{
                                   control: (base) => ({
                                     ...base,
@@ -1354,7 +1354,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                                   {!item.showInput ? (
                                     <Select menuPlacement="top"
-                              // menuPosition="fixed"  
+                                      // menuPosition="fixed"  
                                       options={filteredOptions}
                                       value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
                                       onChange={(selectedOption) => {
@@ -1367,7 +1367,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                         }
                                       }}
                                       isDisabled={item.reason === "maintenance"}
-                                    
+
                                       styles={{
                                         control: (base) => ({
                                           ...base,

@@ -225,9 +225,10 @@ const InvoiceTable = (props) => {
 
         <td className="w-[250px] py-1 px-2 relative">
           <div
-            className="flex items-center gap-2 cursor-pointer group w-fit"
+            className="flex items-center gap-2 cursor-pointer w-fit  group"
             onClick={() => handleNavigateTenantProfile(props.item)}
           >
+
 
             {props.item?.profilePic ? (
               <img
@@ -242,15 +243,14 @@ const InvoiceTable = (props) => {
             )}
 
 
-            <div className="truncate w-[120px]">
+            <div className="truncate w-[120px] text-[#1E45E1] hover:underline ">
               {props.item?.fullName}
+
             </div>
-
-
             <span
-              className="absolute opacity-0 group-hover:opacity-100 transition 
-      bottom-full left-0 mt-1 bg-gray-700 text-white text-xs rounded px-2 py-1 
-      whitespace-nowrap z-50 pointer-events-none"
+              className="absolute hidden group-hover:block left-full left-[140px] mt-1
+      bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
+      z-50"
             >
               {props.item?.fullName}
             </span>
@@ -270,8 +270,8 @@ const InvoiceTable = (props) => {
 
 
             <span className="absolute hidden group-hover:block left-full left-0 mt-1
-      bg-gray-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
-      z-50 pointer-events-none">
+      bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
+      z-50 ">
               {props.item.invoiceMode}
             </span>
 
