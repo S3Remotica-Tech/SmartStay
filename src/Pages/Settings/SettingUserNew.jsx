@@ -220,12 +220,32 @@ function SettingNewUser() {
 
 
 
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(usersFilterddata) ? usersFilterddata : [];
-  }, [usersFilterddata]);
+  
 
 
+const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(
+    window.innerWidth >= 1440 ? 20 : 10
+  );
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = usersFilterddata?.slice(startIndex, endIndex);
 
   return (
     <div >
@@ -239,6 +259,18 @@ function SettingNewUser() {
 
 
         <div className="w-full flex justify-center md:justify-end">
+
+ <div className='flex items-center gap-2'>
+            <div className="">
+                <PaginationList
+                  totalItems={usersFilterddata?.length}
+                  itemsPerPage={pageSize}
+                  currentPage={page}
+                  onPageChange={(p) => setPage(p)}
+                  onPageSizeChange={(size) => setPageSize(size)}
+                />
+              </div>
+
           <button
             disabled={!canWriteUser}
             onClick={handleOpenAddUser}
@@ -250,6 +282,7 @@ function SettingNewUser() {
           >
             + Staff
           </button>
+           </div>
         </div>
       </div>
 
@@ -269,10 +302,10 @@ function SettingNewUser() {
           :
           (
             <div className="mt-2">
-              {sortedData?.length > 0 ? (
+              {usersFilterddata?.length > 0 ? (
                 <div className="ml-2"
                 >
-                  <div className={`show-scrolls overflow-auto overflow-x-hidden border-t border-gray-200 mx-2 font-gilroy ${sortedData?.length >= 5 ? "h-[450px]" : "h-auto"
+                  <div className={`show-scrolls overflow-auto overflow-x-hidden border-t border-gray-200 mx-2 font-gilroy ${usersFilterddata?.length >= 5 ? "h-[450px]" : "h-auto"
                     }`}
                   >
                     <Table
@@ -290,8 +323,8 @@ function SettingNewUser() {
                         </tr>
                       </thead>
                       <tbody className="text-[13px] text-black font-gilroy">
-                        <PaginationList display={true}>
-                          {sortedData?.map((item, index) => {
+                     
+                          {paginatedData?.map((item, index) => {
                             return (
                               <tr className="border-b border-gray-200">
 
@@ -394,7 +427,7 @@ function SettingNewUser() {
                               </tr>
                             );
                           })}
-                        </PaginationList>
+                       
                       </tbody>
                     </Table>
                   </div>

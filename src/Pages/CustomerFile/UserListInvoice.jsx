@@ -379,17 +379,36 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                       <tbody>
                         {paginatedData?.map((view) => {
                           return (
-                            <tr key={view.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+                            <tr key={view.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 hover:bg-gray-100">
 
                               <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] hover:underline cursor-pointer" onClick={() => handleNavigatePDF(view)} >
                                 {view.invoiceNumber}
                               </td>
 
+ <td className="w-[230px] py-1 px-2 relative">
+          <div className="flex items-center gap-2 group w-fit">
 
-                              <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+            <span className="truncate max-w-[150px]">
+              {view.invoiceType}
+            </span>
+
+            {(view.invoiceMode === "Manual" && view.invoiceType === "Rent") && (
+              <ReceiptEdit size="14" className="text-gray-500" />
+            )}
+
+
+            <span className="absolute hidden group-hover:block top-full left-0 mt-1
+      bg-gray-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
+      z-50 pointer-events-none">
+              {view.invoiceMode}
+            </span>
+
+          </div>
+        </td>
+                              {/* <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                                 {view.invoiceType}_
                                 <span className="text-[8px]">{view.invoiceMode}</span>
-                              </td>
+                              </td> */}
 
                               <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                                 {view?.invoiceGeneratedDate}

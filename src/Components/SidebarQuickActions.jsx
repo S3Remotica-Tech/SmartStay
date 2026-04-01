@@ -10,20 +10,20 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
   const [searchQuery, setSearchQuery] = useState("");
 
   const menuItems = [
-    { name: "Home", path: "/dashboard-new" },
-    { name: "Paying Guest", path: "/paying-guest" },
+    // { name: "Home", path: "/dashboard-new" },
+    // { name: "Paying Guest", path: "/paying-guest" },
     { name: "Tenant", path: "/tenant" },
     { name: "Asset", path: "/asset" },
     { name: "Vendor", path: "/vendor" },
     { name: "Banking", path: "/banking" },
     { name: "Bills", path: "/invoice" },
-    { name: "Bookings", path: "/booking" },
-    { name: "Recurring Bills", path: "/recurring" },
-    { name: "Receipt", path: "/receipts" },
-    { name: "Electricity", path: "/electricity" },
+    // { name: "Bookings", path: "/booking" },
+    // { name: "Recurring Bills", path: "/recurring" },
+    // { name: "Receipt", path: "/receipts" },
+    // { name: "Electricity", path: "/electricity" },
     { name: "Complaint", path: "/compliance" },
     { name: "Expense", path: "/expense" },
-    { name: "Reports", path: "/reports" },
+    // { name: "Reports", path: "/reports" },
   ];
 
 

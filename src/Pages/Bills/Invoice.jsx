@@ -151,12 +151,6 @@ const InvoicePage = () => {
   };
 
 
-
-
-
-
-
-
   useEffect(() => {
 
     if (state.login.selectedHostel_Id) {

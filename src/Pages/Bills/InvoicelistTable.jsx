@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RefundAmount from "../Bills/RefundAmount";
 import { useNavigate } from "react-router-dom";
 import UnPaidInvoice from "./UnPaidInvoice";
-import { DiscountCircle } from 'iconsax-react';
+import { DiscountCircle, ReceiptEdit } from 'iconsax-react';
 import DiscountInvoice from "../PDF/DiscountInvoice";
 
 const InvoiceTable = (props) => {
@@ -160,7 +160,7 @@ const InvoiceTable = (props) => {
           customerId: view.customerId,
           IsOverView: true,
           totriggerBillTap: false,
-          isBillWay:true
+          isBillWay: true
         },
       });
     }
@@ -174,7 +174,7 @@ const InvoiceTable = (props) => {
     setSelectedInvoice(item);
     setShowUnpaidModal(true);
 
-   
+
   };
 
   const handleMakeDiscount = (item) => {
@@ -215,7 +215,7 @@ const InvoiceTable = (props) => {
   return (
 
     <>
-      <tr key={props.item.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
+      <tr key={props.item.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8]  hover:bg-gray-50">
 
         <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer">
           <div onClick={() => handleNavigatePDF(props.item)} className="Invoice_Name">
@@ -223,12 +223,12 @@ const InvoiceTable = (props) => {
           </div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+        <td className="w-[250px] py-1 px-2 relative">
           <div
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer group w-fit"
             onClick={() => handleNavigateTenantProfile(props.item)}
-            title={props.item?.fullName}
           >
+
             {props.item?.profilePic ? (
               <img
                 src={props.item.profilePic}
@@ -240,17 +240,42 @@ const InvoiceTable = (props) => {
                 {props.item?.initials || "-"}
               </div>
             )}
+
+
             <div className="truncate w-[120px]">
               {props.item?.fullName}
             </div>
+
+
+            <span
+              className="absolute opacity-0 group-hover:opacity-100 transition 
+      bottom-full left-0 mt-1 bg-gray-700 text-white text-xs rounded px-2 py-1 
+      whitespace-nowrap z-50 pointer-events-none"
+            >
+              {props.item?.fullName}
+            </span>
           </div>
         </td>
 
-        <td className="w-[230px] py-1 px-2 truncate">
-          {props.item.invoiceType}
-          <span className="text-[10px] font-medium text-gray-500 mt-[2px]">
-            _{props.item.invoiceMode}
-          </span>
+        <td className="w-[230px] py-1 px-2 relative">
+          <div className="flex items-center gap-2 group w-fit">
+
+            <span className="truncate max-w-[150px]">
+              {props.item.invoiceType}
+            </span>
+
+            {(props.item.invoiceMode === "Manual" && props.item.invoiceType === "Rent") && (
+              <ReceiptEdit size="14" className="text-gray-500" />
+            )}
+
+
+            <span className="absolute hidden group-hover:block left-full left-0 mt-1
+      bg-gray-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
+      z-50 pointer-events-none">
+              {props.item.invoiceMode}
+            </span>
+
+          </div>
         </td>
 
         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
@@ -314,345 +339,6 @@ const InvoiceTable = (props) => {
                 onClick={(e) => handleShowDots(e)}
               />
 
-              {/* {showDots && <>
-                <div
-                  ref={popupRef}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "fixed",
-                    top: showAbove
-                      ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                      : popupPosition.top - 35,
-                    left: popupPosition.left,
-                    width: 170,
-                    height: "auto",
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    zIndex: showDots ? 3000 : "auto",
-                  }}
-                >
-                  <div style={{ width: "100%" }}>
-
-                    {
-                      (props.item.invoiceMode === "Recurring" && props.item?.paymentStatus === "Pending") &&
-
-
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          backgroundColor: "#F9F9F9",
-                          padding: "8px 12px",
-                          opacity: !canUpdateInvoice ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          if (canUpdateInvoice) handleEdit(props);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Edit}
-                          alt="Edit"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#222",
-                            cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Edit
-                        </label>
-                      </div>
-
-                    }
-<span className="block w-full h-[1px] bg-gray-300"></span>
-                    {
-                      (props.item.invoiceMode === "Manual" && props.item?.paymentStatus === "Paid" && props.item.invoiceType === "Rent") &&
-
-
-                      <button
-                        disabled={!canWriteInvoice}
-                        onClick={() => {
-                          if (canWriteInvoice) handleUnpaid(props.item);
-                        }}
-                        className={`flex items-center gap-2 w-full text-left px-3 py-2 
-    bg-[#F9F9F9] rounded-t-md
-    ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}
-  `}
-                      >
-                        <img
-                          src={Edit}
-                          alt="Edit"
-                          className={`h-4 w-4 ${!canWriteInvoice ? "grayscale" : ""}`}
-                        />
-
-                        <span className="text-sm font-medium font-[Gilroy,sans-serif] text-[#222]">
-                          Unpaid
-                        </span>
-                      </button>
-
-                    }
-
-                    {
-                      props.item?.invoiceAmount > 0 &&
-                      props.item?.paymentStatus === "Pending" &&
-                      props.item?.isDiscounted === false &&
-                      (
-                        props.item?.invoiceType === "Rent" ||
-                        props.item?.invoiceType === "Settlement"
-                      ) && (
-                        props.item?.invoiceType === "Rent" ||
-                        props.item?.invoiceType === "Settlement"
-                      ) &&
-                      <>
-
-                        <button
-                          disabled={!canWriteInvoice}
-                          onClick={() => {
-                            if (canWriteInvoice) handleMakeDiscount(props.item);
-                          }}
-                          className={`flex items-center gap-2 w-full text-left px-2 py-2 
-    bg-[#F9F9F9] rounded-t-md
-    ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}
-  `}
-                        >
-                          <DiscountCircle
-                            size="16"
-                            color="#ec400c"
-                          />
-
-
-                          <span className="text-sm font-medium font-[Gilroy,sans-serif] text-[#222]">
-                            Make Discount
-                          </span>
-                        </button>
-                      </>
-
-
-
-                    }
-<span className="block w-full h-[1px] bg-gray-300"></span>
-                    <div
-                      className="d-flex justify-content-start align-items-center gap-2 "
-                      onClick={() => { if (isExportAllow) { handleInvoicepdf(props.item) } }}
-                      style={{
-                        cursor: !isExportAllow ? "not-allowed" : "pointer",
-                        padding: "8px 12px",
-                        opacity: !isExportAllow ? 0.5 : 1,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "#EDF2FF"
-                      }}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                    >
-                      <img src={Download} alt="Download" style={{ height: 16, width: 16 }} />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: "#222",
-                          cursor: !isExportAllow ? "not-allowed" : "pointer",
-                        }}
-                      >
-                        Download
-                      </label>
-                    </div>
-<span className="block w-full h-[1px] bg-gray-300"></span>
-
-                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 && props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") && (
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2  ${!canWriteInvoice ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          padding: "8px 12px",
-                          opacity: !canWriteInvoice ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          if (canWriteInvoice) handleShowform(props);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Assign}
-                          alt="Record"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#222",
-                            cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Record Payment
-                        </label>
-                      </div>
-                    )}
-                    <span className="block w-full h-[1px] bg-gray-300"></span>
-                    {props.item?.invoiceAmount < 0 && props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" && (
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          padding: "8px 12px",
-                          opacity: !canWriteInvoice ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          if (canWriteInvoice) handleRefundAmount(props);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Assign}
-                          alt="Record"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#222",
-                            cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Refund Amount
-                        </label>
-                      </div>
-                    )}
-                   
-                    {
-                      props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" &&
-                      <></>
-                      // <div
-                      //   className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
-
-                      //   style={{
-                      //     cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                      //     padding: "8px 12px",
-                      //     opacity: !canWriteInvoice ? 0.5 : 1,
-                      //   }}
-                      //   // onClick={() => {
-                      //   //   if (canWriteInvoice) handleWriteOffFrom(props.item);
-                      //   // }}
-                      //   onMouseEnter={(e) => {
-                      //     e.currentTarget.style.backgroundColor = "#EDF2FF";
-                      //   }}
-                      //   onMouseLeave={(e) => {
-                      //     e.currentTarget.style.backgroundColor = "#F9F9F9";
-                      //   }}
-                      // >
-                      //   <img
-                      //     src={Assign}
-                      //     alt="Record"
-                      //     style={{
-                      //       height: 16,
-                      //       width: 16,
-                      //       filter: !canWriteInvoice ? "grayscale(100%)" : "none",
-                      //     }}
-                      //   />
-                      //   <label
-                      //     style={{
-                      //       fontSize: 14,
-                      //       fontWeight: 500,
-                      //       fontFamily: "Gilroy, sans-serif",
-                      //       color: "#222",
-                      //       cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                      //     }}
-                      //   >
-                      //     Write_Off
-                      //   </label>
-                      // </div>
-
-                    }
-                   
-                    {
-                      (props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") &&
-
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-                          padding: "8px 12px",
-                          opacity: !canDeleteInvoice ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          if (canDeleteInvoice) handleBillDelete(props);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#FFF0F0";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Delete}
-                          alt="Delete"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#FF0000",
-                            cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Delete
-                        </label>
-                      </div>
-                    }
-                  </div>
-                </div>
-
-              </>} */}
               {showDots && (
                 <div
                   ref={popupRef}
