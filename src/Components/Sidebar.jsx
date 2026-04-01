@@ -41,7 +41,7 @@ import SettingExpenses from "../Pages/Settings/SettingExpenses";
 import SettingCompliance from "../Pages/Settings/SettingCompliance";
 import SettingAmenities from "../Pages/Settings/SettingAmenities";
 import SettingNewUser from "../Pages/Settings/SettingUserNew";
-import SettingNewRole from "../Pages/Settings/SettingNewRole";
+import SettingNewRole from "../Pages/Settings/RoleFile/SettingNewRole";
 import SettingsNotifications from "../Pages/Settings/SettingsNotifications";
 import SettingAgreement from "../Pages/Settings/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";

@@ -560,9 +560,12 @@ function FinalSettlement() {
         pendingEbList.length === 0;
 
 
-
-
-
+const UnpaidInvoices =
+  Array.isArray(finalSettlementList?.unpaidInvoiceInfo?.listUnpaidInvoices)
+    ? finalSettlementList.unpaidInvoiceInfo?.listUnpaidInvoices
+    : Array.isArray(finalSettlementList?.unpaidInvoices)
+    ? finalSettlementList.unpaidInvoices
+    : [];
 
 
 
@@ -782,7 +785,7 @@ function FinalSettlement() {
 
                         <div className="me-1" >
 
-
+{/* unpaid invoice */}
 
                             <div
                                 className="mb-2"
@@ -827,7 +830,7 @@ function FinalSettlement() {
 
                                     <span style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>
                                         ₹{
-                                            finalSettlementList?.unpaidInvoices?.reduce(
+                                            UnpaidInvoices?.reduce(
                                                 (sum, inv) => sum + Number(inv.payableAmount || 0),
                                                 0
                                             ) || 0
@@ -896,9 +899,9 @@ function FinalSettlement() {
 
                                                     <tbody>
 
-                                                        {Array.isArray(finalSettlementList?.unpaidInvoices) && finalSettlementList.unpaidInvoices.length > 0 ? (
-                                                            finalSettlementList?.unpaidInvoices.map((user) => (
-                                                                <tr key={user.invoiceid}>
+                                                        {Array.isArray(UnpaidInvoices) && UnpaidInvoices?.length > 0 ? (
+                                                            UnpaidInvoices.map((user) => (
+                                                                <tr key={user.invoiceNumber}>
                                                                     <td
                                                                         className=" text-decoration-underline px-2 py-2"
 
@@ -955,7 +958,7 @@ function FinalSettlement() {
                                                             </td>
                                                             <td className=" text-end px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
                                                                 ₹{
-                                                                    finalSettlementList?.unpaidInvoices?.reduce(
+                                                                    UnpaidInvoices?.reduce(
                                                                         (sum, inv) => sum + Number(inv.payableAmount || 0),
                                                                         0
                                                                     ) || 0
@@ -1879,10 +1882,14 @@ function FinalSettlement() {
 
                                     <div className="flex justify-between">
                                         <p className="text-sm text-gray-600">
-                                            Refundable Rent
-                                        </p>
+                                           {finalSettlementList?.settlementInfo?.label} 
+                                                                                  </p>
                                         <p className="text-sm font-medium text-gray-900">
-                                            ₹ {finalSettlementList?.settlementInfo?.refundableRent}
+                                            ₹ { finalSettlementList?.settlementInfo?.isRefundable 
+                                            ? finalSettlementList?.settlementInfo?.refundableRent :
+                                            finalSettlementList?.settlementInfo?.payableAmount}
+                                            
+                                             {/* {finalSettlementList?.settlementInfo?.refundableRent} */}
                                         </p>
                                     </div>
 

@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { CloseCircle } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import PropTypes from "prop-types";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from '../../../Components/ErrorMessage'
 
 
 function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
