@@ -351,12 +351,12 @@ function DashQuickAccess(
             </span>
           </div>
 
- <div className="flex justify-between text-sm">
+ {/* <div className="flex justify-between text-sm">
             <span className="text-[#4A5565 font-medium text-xs">Refunded</span>
             <span className="font-semibold text-red-600 text-base">
               ₹{billingSummary.refunded}
             </span>
-          </div>
+          </div> */}
 
           <div className="flex justify-between text-sm">
             <span className="flex items-center gap-1 text-[#4A5565 font-medium text-xs">

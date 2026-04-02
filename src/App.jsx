@@ -220,7 +220,7 @@ if(!token){
             message={notification.message}
             image={notification.image}
             time={notification.time}
-            // onClose={() => setNotification(null)}
+            
           />
         </div>
       )}

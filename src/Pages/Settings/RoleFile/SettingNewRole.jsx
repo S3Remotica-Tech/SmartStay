@@ -339,41 +339,41 @@ function SettingNewRole() {
                   <tbody className="text-sm text-gray-700">
                     {paginatedData.length > 0 ? (
                       paginatedData.map((view, index) => (
-                        <tr key={index} className="border-t ">
+                        <tr key={index} className="border-t max-h-fit ">
 
 
-                          <td className="px-4 py-2 flex items-center gap-2 whitespace-nowrap">
-                            <span className="inline-flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
-                              <Shield size={14} color="#FF9900" />
-                            </span>
-                            <span className="font-semibold text-[#111928] text-[14px]">
-                              {view.name}
-                            </span>
-                          </td>
-
-
-                          <td className="px-4 py-2 text-[#4B4B4B] font-medium text-[14px]">
-                            {view.description || "-"}
-                          </td>
-
-
-                          <td className="px-4 py-2 text-[#6F767E] font-medium text-[14px]">
-                            <div className="flex items-center  rounded bg-[#F8F9FC]">
-                              <span className="inline-flex items-center text-gray-600 bg-[#F8F9FC]  px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
-                                <Profile2User color="#6F767E" size={14} />
+                          <td className="px-4 py-1 whitespace-nowrap">
+                            <div className="flex items-center gap-2">
+                              <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
+                                <Shield size={14} color="#FF9900" />
                               </span>
-                              {view.usersCount}
 
+                              <span className="font-semibold text-[#111928] text-[14px]">
+                                {view.name}
+                              </span>
                             </div>
                           </td>
 
 
-                          <td className="px-4 py-2 text-[#111928] font-medium text-[14px]">
+                          <td className="px-4 py-1 text-[#4B4B4B] font-medium text-[14px]">
+                            {view.description || "-"}
+                          </td>
+
+
+                          <td className="px-4 py-1 text-[13px] text-[#6F767E]">
+                            <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
+                              <Profile2User size={12} />
+                              {view.usersCount || 0}
+                            </div>
+                          </td>
+
+
+                          <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
                             {view.createdDate || "-"}
                           </td>
 
 
-                          <td className="px-4 py-2 text-right relative">
+                          <td className="px-4 py-1 text-right relative">
                             <div
                               className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
                               onClick={(e) => handleShowDots(e, index)}
