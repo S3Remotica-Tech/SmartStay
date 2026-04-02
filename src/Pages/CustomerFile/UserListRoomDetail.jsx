@@ -2558,7 +2558,7 @@ function UserListRoomDetail(props) {
                 <div
                   ref={menuRef}
                   className="absolute right-12 w-52 h-24 rounded-md bg-white shadow-inner border border-gray-200 z-20 font-gilroy"
-                  style={{boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.5)' }}
+                  style={{ boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.5)' }}
                 >
                   <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
                     Created by
@@ -2686,10 +2686,10 @@ function UserListRoomDetail(props) {
 
                   <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
                     <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
-                     {CustomerOverView?.hostelInfo?.floorName}                     
-                     </span>
+                      {CustomerOverView?.hostelInfo?.floorName}
+                    </span>
                     <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
-                     {CustomerOverView?.hostelInfo?.roomName} - {CustomerOverView?.hostelInfo?.bedName}
+                      {CustomerOverView?.hostelInfo?.roomName} - {CustomerOverView?.hostelInfo?.bedName}
                     </span>
                   </div>
                   <hr className="w-full my-1 pb-1 text-gray-600" />
@@ -3129,10 +3129,13 @@ function UserListRoomDetail(props) {
           </div>
           <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full h-[450px] 2xl:h-[650px] overflow-y-auto show-scroll">
             <>
-              <div className="flex flex-col lg:flex-row w-full gap-4 items-stretch mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 items-stretch">
 
-                <div className="w-full lg:w-[420px] flex flex-col gap-2">
-                  <div className="flex-1 bg-white h-auto max-h-[230px] overflow-y-auto border border-[#E5E7EB] rounded-[20px] p-3">
+
+
+               
+                <div >
+                  <div className=" bg-white border border-[#E5E7EB] rounded-[20px] p-4 flex flex-col mb-4 ">
                     <div className="flex items-center justify-between border-b border-gray-300 pb-1 mb-3">
                       <div className="text-[16px] font-gilroy font-semibold">
                         Basic Details
@@ -3209,9 +3212,8 @@ function UserListRoomDetail(props) {
                       </div>
                     </div>
                   </div>
-
-
-                  <div className="flex-1 bg-white h-auto max-h-[250px] overflow-hidden border border-[#E5E7EB] rounded-[20px] p-4">
+                
+                  <div className=" bg-white  overflow-hidden border border-[#E5E7EB] rounded-[20px] p-4">
 
                     <div className="card-header flex justify-between items-center border-0 bg-transparent" >
                       <div className="card-header p-0 border-0 bg-transparent w-full">
@@ -3434,134 +3436,13 @@ function UserListRoomDetail(props) {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
-
-
-                    <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
-
-
-                      <div className="flex justify-around w-full">
-
-
-                        <button
-                          onClick={() => setDocumentValue("1")}
-                          className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
-        ${documentvalue === "1"
-                              ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                              : "text-[#4B4B4B] border-b-2 border-transparent"
-                            }`}
-                        >
-                          KYC Documents
-                        </button>
-
-
-                        <button
-                          onClick={() => setDocumentValue("2")}
-                          className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
-        ${documentvalue === "2"
-                              ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                              : "text-[#4B4B4B] border-b-2 border-transparent"
-                            }`}
-                        >
-                          Manual Documents
-                        </button>
-
-                      </div>
-
-                    </div>
-
-
-                    {documentvalue === "1" &&
-                      CustomerOverView?.files?.kycDoc?.length > 0 && (
-                        <button disabled={isDisabledButton}
-                          className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
-                          onClick={handlePreviewKYC}
-                        >
-                          <DocumentUpload size="14" color="#FFF" />
-                        </button>
-                      )}
-
-                    {documentvalue === "2" &&
-                      CustomerOverView?.files?.otherDoc?.length > 0 && (
-                        <button disabled={isDisabledButton}
-                          className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
-                          onClick={handlePreview}
-                        >
-                          <DocumentUpload size="14" color="#FFF" />
-                        </button>
-                      )}
-
-
-                    <div className="p-3 max-h-[300px] overflow-y-auto">
-
-
-                      {documentvalue === "1" && (
-                        <>
-                          {CustomerOverView?.files?.kycDoc?.length > 0 ? (
-                            <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
-                          ) : (
-                            <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center min-h-[200px]">
-                              <div>
-                                <p className="mb-1"> No KYC Documents are there!</p>
-
-                                <button
-                                  onClick={handlePreviewKYC}
-                                  disabled={isDisabledButton}
-                                  className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
-              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
-                                >
-                                  <img src={FileAdd} alt="" />
-                                  <span>Upload Document</span>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )}
-
-
-                      {documentvalue === "2" && (
-                        <div className="w-full py-2 px-2">
-
-                          {CustomerOverView?.files?.otherDoc?.length > 0 ? (
-                            <ManualDocumentsDetails
-                              documents={CustomerOverView?.files?.otherDoc}
-                            />
-                          ) : (
-                            <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
-                              <div>
-                                <p className="mb-1"> No Manual Documents are there!</p>
-
-                                <button
-                                  onClick={handlePreview}
-                                  disabled={isDisabledButton}
-                                  className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
-              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
-                                >
-                                  <img src={FileAdd} alt="" />
-                                  <span>Upload Document</span>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-
-                        </div>
-                      )}
-
-                    </div>
-
-
-
-                  </div>
-
-
                 </div>
+             
 
-
-                <div className="flex-1 flex flex-col gap-2">
+                <div className=" gap-2">
 
                   <div className="flex flex-col w-full md:mb-0 px-2 sm:px-0">
-                    <div className="bg-white border border-[#E5E7EB] rounded-[20px] p-4 sm:p-[20px] w-full mx-0 sm:ml-[10px] sm:mr-0 h-auto max-h-[500px] overflow-y-auto">
+                    <div className="bg-white border border-[#E5E7EB] rounded-[20px] p-4 sm:p-[20px] w-full mx-0 sm:ml-[10px] sm:mr-0  min-h-[500px] overflow-y-auto">
                       <div className="flex flex-col justify-between border-0 p-1 bg-transparent">
 
                         <div className="flex flex-row justify-between">
@@ -3629,7 +3510,7 @@ function UserListRoomDetail(props) {
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
                             <p className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                               Joined Date
-                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" &&  CustomerOverView?.isJoiningDateEditable &&(
+                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && CustomerOverView?.isJoiningDateEditable && (
                                 <img
                                   onClick={handleUpdateJoiningChange}
                                   src={EditImage}
@@ -3721,123 +3602,195 @@ function UserListRoomDetail(props) {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto ">
-                    <div className="w-full max-w-full px-2 sm:px-3 py-3">
-                      <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-                        <div className="font-semibold text-[16px] font-gilroy">
-                          Parent/Guardian Details
-                        </div>
-                        {
-                          additionalContact?.length > 0 && (
-                            <div className="flex items-center gap-3">
 
 
-
-                              <button disabled={isDisabledButton}
-                                type="button"
-                                onClick={handleAdditionalForm}
-                                className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
-    ${!isDisabledButton
-                                    ? "bg-[#1E45E1] text-white cursor-pointer"
-                                    : "bg-gray-100 text-gray-400 cursor-not-allowed"}
-  `}
-
-                              >
-                                <AddCircle
-                                  size="20"
-                                  color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
-
-                                />  Additional
-                              </button>
-
-                            </div>
-                          )
-                        }
+                </div>
+               
+                <div className=" bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
 
 
-                      </div>
+                  <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
 
-                      <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scroll">
-                        {additionalContact?.length > 0 ? (
-                          <ParentsGuardian additionalContact={additionalContact} />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
-                            <p className="mb-1">No Contact Details are there!</p>
-                            <button
-                              type="button"
-                              disabled={isDisabledButton}
-                              onClick={handleAdditionalForm}
-                              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
-                            >
-                              <img src={FileAdd} alt="add" className="h-4 w-4" />
-                              Add
-                            </button>
-                          </div>
-                        )}
-                      </div>
+
+                    <div className="flex justify-around w-full">
+
+
+                      <button
+                        onClick={() => setDocumentValue("1")}
+                        className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
+        ${documentvalue === "1"
+                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                            : "text-[#4B4B4B] border-b-2 border-transparent"
+                          }`}
+                      >
+                        KYC Documents
+                      </button>
+
+
+                      <button
+                        onClick={() => setDocumentValue("2")}
+                        className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
+        ${documentvalue === "2"
+                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                            : "text-[#4B4B4B] border-b-2 border-transparent"
+                          }`}
+                      >
+                        Manual Documents
+                      </button>
 
                     </div>
+
                   </div>
 
+
+                  {documentvalue === "1" &&
+                    CustomerOverView?.files?.kycDoc?.length > 0 && (
+                      <button disabled={isDisabledButton}
+                        className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                        onClick={handlePreviewKYC}
+                      >
+                        <DocumentUpload size="14" color="#FFF" />
+                      </button>
+                    )}
+
+                  {documentvalue === "2" &&
+                    CustomerOverView?.files?.otherDoc?.length > 0 && (
+                      <button disabled={isDisabledButton}
+                        className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
+                        onClick={handlePreview}
+                      >
+                        <DocumentUpload size="14" color="#FFF" />
+                      </button>
+                    )}
+
+
+                  <div className="p-3 max-h-[300px] overflow-y-auto">
+
+
+                    {documentvalue === "1" && (
+                      <>
+                        {CustomerOverView?.files?.kycDoc?.length > 0 ? (
+                          <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
+                        ) : (
+                          <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center min-h-[200px]">
+                            <div>
+                              <p className="mb-1"> No KYC Documents are there!</p>
+
+                              <button
+                                onClick={handlePreviewKYC}
+                                disabled={isDisabledButton}
+                                className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                              >
+                                <img src={FileAdd} alt="" />
+                                <span>Upload Document</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+
+                    {documentvalue === "2" && (
+                      <div className="w-full py-2 px-2">
+
+                        {CustomerOverView?.files?.otherDoc?.length > 0 ? (
+                          <ManualDocumentsDetails
+                            documents={CustomerOverView?.files?.otherDoc}
+                          />
+                        ) : (
+                          <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
+                            <div>
+                              <p className="mb-1"> No Manual Documents are there!</p>
+
+                              <button
+                                onClick={handlePreview}
+                                disabled={isDisabledButton}
+                                className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
+              disabled:bg-blue-700/60 disabled:cursor-not-allowed"
+                              >
+                                <img src={FileAdd} alt="" />
+                                <span>Upload Document</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                      </div>
+                    )}
+
+                  </div>
+
+
+
+                </div>
+
+
+               
+                <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2  ">
+                  <div className="w-full max-w-full px-2 sm:px-3 py-3">
+                    <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+                      <div className="font-semibold text-[16px] font-gilroy">
+                        Parent/Guardian Details
+                      </div>
+                      {
+                        additionalContact?.length > 0 && (
+                          <div className="flex items-center gap-3">
+
+
+
+                            <button disabled={isDisabledButton}
+                              type="button"
+                              onClick={handleAdditionalForm}
+                              className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
+    ${!isDisabledButton
+                                  ? "bg-[#1E45E1] text-white cursor-pointer"
+                                  : "bg-gray-100 text-gray-400 cursor-not-allowed"}
+  `}
+
+                            >
+                              <AddCircle
+                                size="20"
+                                color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
+
+                              />  Additional
+                            </button>
+
+                          </div>
+                        )
+                      }
+
+
+                    </div>
+
+                    <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scroll">
+                      {additionalContact?.length > 0 ? (
+                        <ParentsGuardian additionalContact={additionalContact} />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
+                          <p className="mb-1">No Contact Details are there!</p>
+                          <button
+                            type="button"
+                            disabled={isDisabledButton}
+                            onClick={handleAdditionalForm}
+                            className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+                          >
+                            <img src={FileAdd} alt="add" className="h-4 w-4" />
+                            Add
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
                 </div>
 
               </div>
 
 
 
-              {/* <div className="row ms-1">
-                <div className="col-12 mt-7">
-                  <div className="bg-white rounded-[14px] border border-gray-200">
 
-
-                    <div className="flex justify-between items-center px-4 border-b border-gray-300" style={{ backgroundColor: "transparent" }}>
-                      <div className="font-gilroy font-semibold text-black text-[16px] leading-[40px]">
-                        Amenities provided
-                      </div>
-
-                      <div className="flex justify-start ms-3 p-2">
-                        <button
-                          disabled={
-                            !canWriteAmenities ||
-                            state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-                            state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-                            state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
-                            state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"
-                          }
-                          onClick={() => handleShowAssignAmenities()}
-                          className={`flex items-center gap-1.5 font-gilroy font-semibold text-[14px] h-[35px] rounded-[12px] px-3 ${!canWriteAmenities ? "bg-blue-600/60 cursor-not-allowed" : "bg-blue-600"} text-white`}
-                        >
-                          <AddSquare size="18" color="#FFFFFF" variant="Bold" />
-                          Assign
-                        </button>
-                      </div>
-                    </div>
-
-
-                    <div className="p-4 font-gilroy">
-                      <div>
-                        <UserListAmenities
-                          id={props.id}
-                          setcustomerUser_Id={props?.setcustomerUser_Id}
-                          customerUser_Id={customerId}
-                          setHostelIds={props.setHostelIds}
-                          hostelIds={props.hostelIds}
-                          hostelName={props.hostelName}
-                          sethosName={props.sethosName}
-                          statusAmni={props.statusAmni}
-                          customerAdd={props.customerAddPermission}
-                          customerEdit={props.customerEditPermission}
-                          customerDelete={props.customerDeletePermission}
-                        />
-                      </div>
-
-                      <div ref={amenitiesRef} className="mt-1">
-                        <RequestedAmenities />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
 
               <div className="row">
                 <div className="col-12">
