@@ -1165,13 +1165,9 @@ function SettingGeneral() {
         showOpenAdminProfileEdit && <AdminProfileEdit show={showOpenAdminProfileEdit} handleClose={handleCloseAdminEdit} />
       }
 
-      {loading && (
-        <div className="fixed inset-0 w-screen h-screen flex items-center justify-center z-[1050] bg-transparent">
-          <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
 
-      <div>
+
+      <div className="relative">
 
         <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
 
@@ -1197,6 +1193,11 @@ function SettingGeneral() {
         </div>
 
         <div className="relative overflow-y-auto mt-0 p-0 font-gilroy" style={{ height: "calc(100vh - 70px)" }}>
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
+              <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
 
           {
             !canReadProfile ? (
@@ -1525,7 +1526,7 @@ function SettingGeneral() {
                                       </span>
                                     </div>
                                   </div>
-                                     <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
+                                  <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
                                     <img
                                       src={img2}
                                       width={20}

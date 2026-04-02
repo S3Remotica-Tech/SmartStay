@@ -3127,7 +3127,7 @@ function UserListRoomDetail(props) {
               </TabList>
             </Box>
           </div>
-          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full h-[450px] 2xl:h-[650px] overflow-y-auto show-scroll">
+          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full h-[450px] 2xl:h-[650px] overflow-y-auto show-scrolls">
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 items-stretch">
 

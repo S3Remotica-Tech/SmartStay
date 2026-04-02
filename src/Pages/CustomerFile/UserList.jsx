@@ -2792,14 +2792,25 @@ function UserList(props) {
                             {paginatedData.map((user) => (
                               <tr key={user.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
 
-                                <td className="w-[230px] py-1 whitespace-nowrap">
-                                  <span
-                                    className="pl-1 w-[230px] px-2 py-1 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline"
-                                    title={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`}
-                                    onClick={() => handleRoomDetailsPage(user)}
-                                  >
-                                    {user?.firstName} {user?.lastName}
-                                  </span>
+                                <td className="w-[150px] py-1 whitespace-nowrap">
+                                  <div className="relative group w-[230px]">
+
+                                    <span
+                                      className="pl-1 px-2 py-1 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline block"
+                                      onClick={() => handleRoomDetailsPage(user)}
+                                    >
+                                      {user?.firstName} {user?.lastName}
+                                    </span>
+
+
+                                    <div className="absolute left-full left-[10px]
+        hidden group-hover:block
+       bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
+        z-[9999] pointer-events-none">
+                                      {user?.firstName} {user?.lastName}
+                                    </div>
+
+                                  </div>
                                 </td>
 
                                 <td className="w-[230px] px-2 py-1">
@@ -2861,7 +2872,7 @@ function UserList(props) {
                                             : popupPosition.top - 35,
                                           left: popupPosition.left,
                                         }}
-                                     
+
                                       >
                                         <div className="flex flex-col divide-y divide-gray-300">
                                           {!user.bedId &&
@@ -2966,18 +2977,18 @@ function UserList(props) {
                                           )}
 
                                           {user.bedId && user.currentStatus === "Settlement Generated" && (
-                                             <div
+                                            <div
                                               onClick={() => canWriteCheckout && handleConformCheckout(user)}
                                               className={`flex items-center gap-2 rounded-md px-3 py-2 transition min-w-[150px]
                 ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                 style={{ marginLeft: 12 }} 
-                 >
+                                              style={{ marginLeft: 12 }}
+                                            >
                                               <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
                                               <span className="text-sm font-medium font-gilroy">Check-Out</span>
                                             </div>
-                                           
+
                                           )}
-                                         
+
 
                                           {user.currentStatus === "Booked" && (
                                             <>
