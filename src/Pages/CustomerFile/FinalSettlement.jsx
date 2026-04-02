@@ -1592,8 +1592,7 @@ const UnpaidInvoices =
                                 style={{
                                     border: "1px solid #E5E7EB",
                                     borderRadius: 8,
-                                    // backgroundColor: "#E7F1FF",
-                                    fontFamily: "Gilroy",
+                                                                      fontFamily: "Gilroy",
                                 }}
                             >
 
