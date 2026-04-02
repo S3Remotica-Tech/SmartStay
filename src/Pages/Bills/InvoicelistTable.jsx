@@ -287,8 +287,17 @@ const InvoiceTable = (props) => {
         </td>
 
         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-          ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
-          {/* <span>Discount Applied : ₹{props.item.isDiscounted ? props.item.isDiscounted}</span> */}
+          <div className="flex flex-col">
+            <span>
+              ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
+            </span>
+
+            {props.item.isDiscounted && (
+              <span className="text-[11px] text-[#64748B] mt-1">
+                Discount Applied : ₹{Number(props.item?.discountAmount || 0).toLocaleString('en-IN')}
+              </span>
+            )}
+          </div>
         </td>
 
         <td className="w-[230px] py-1 px-2 whitespace-nowrap">

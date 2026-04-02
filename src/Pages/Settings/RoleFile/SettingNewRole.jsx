@@ -339,16 +339,19 @@ function SettingNewRole() {
                   <tbody className="text-sm text-gray-700">
                     {paginatedData.length > 0 ? (
                       paginatedData.map((view, index) => (
-                        <tr key={index} className="border-t ">
+                        <tr key={index} className="border-t max-h-fit ">
 
 
-                          <td className="px-4 py-1 flex items-center  gap-2 whitespace-nowrap">
-                            <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
-                              <Shield size={14} color="#FF9900" />
-                            </span>
-                            <span className="font-semibold text-[#111928] text-[14px]">
-                              {view.name}
-                            </span>
+                          <td className="px-4 py-1 whitespace-nowrap">
+                            <div className="flex items-center gap-2">
+                              <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
+                                <Shield size={14} color="#FF9900" />
+                              </span>
+
+                              <span className="font-semibold text-[#111928] text-[14px]">
+                                {view.name}
+                              </span>
+                            </div>
                           </td>
 
 
@@ -357,12 +360,12 @@ function SettingNewRole() {
                           </td>
 
 
-                         <td className="px-4 py-1 text-[13px] text-[#6F767E]">
-    <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
-      <Profile2User size={12} />
-      {view.usersCount || 0}
-    </div>
-  </td>
+                          <td className="px-4 py-1 text-[13px] text-[#6F767E]">
+                            <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
+                              <Profile2User size={12} />
+                              {view.usersCount || 0}
+                            </div>
+                          </td>
 
 
                           <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">

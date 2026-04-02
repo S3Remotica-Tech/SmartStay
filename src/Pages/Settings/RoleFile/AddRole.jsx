@@ -18,6 +18,8 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     const dispatch = useDispatch();
     const [permissionRole, setPermissionRole] = useState([])
     const [roleName, setRoleName] = useState('')
+    const [description, setDescription] = useState("");
+
     const [errorForm, setErrorForm] = useState("")
     const [errorPermission, setErrorPermission] = useState("")
     const [errorIsChanged, setErrorIsChanged] = useState("");
@@ -42,6 +44,10 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     //         )
     //     }));
     // };
+
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    };
 
     const handleCheckboxChange = (rowName, index) => {
         setErrorIsChanged("");
@@ -227,9 +233,9 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     }, [state.Settings.roleEditError])
 
 
-   const renderRow = (rowName, label) => (
+    const renderRow = (rowName, label) => (
         <tr key={rowName}>
-            <td  className="px-4 py-1">{label}</td>
+            <td className="px-4 py-1">{label}</td>
             {checkboxValues[rowName]?.map((checked, index) => (
                 <td className='text-center' key={index}>
                     <input
@@ -400,7 +406,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                     <Modal.Body className="max-h-96 show-scroll overflow-y-scroll pt-0 mt-1 mr-3">
 
                         <div className="w-full">
-                            <div className="mb-4">
+                            <div className="mb-2">
                                 <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
                                     Role Name{" "}
                                     <span className="text-red-500 text-[20px]">*</span>
@@ -411,16 +417,37 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                                     placeholder="Enter Role"
                                     value={roleName}
                                     onChange={(e) => handleRoleName(e)}
-                                    className="w-full h-[50px] px-3 text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                                    className="w-full h-[45px] px-3 text-[14px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                 />
+                                 {errorForm && <ErrorMessage message={errorForm} type="error" />}
+
                                 {roleError && <ErrorMessage message={roleError} type="error" />}
                                 {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
-                                {errorForm && <ErrorMessage message={errorForm} type="error" />}
+
                             </div>
 
 
                         </div>
 
+                        <div className="w-full">
+                            <div className="mb-2">
+                                <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
+                                    Role Description{" "}
+                                    
+                                </label>
+                                <textarea
+                                    value={description}
+                                    onChange={handleDescriptionChange}
+                                    placeholder="Enter description"
+                                    className="w-full border rounded px-3 py-2 text-sm font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                                />
+
+
+                            </div>
+
+
+                        </div>
+                       
                         <div className="border border-gray-300 rounded-2xl max-h-[272px] overflow-y-auto">
                             <table className="min-w-full border-collapse mb-0">
                                 <thead className="bg-[#E7F1FF] sticky top-0 z-10">
@@ -438,14 +465,14 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                                 </thead>
 
                                 <tbody className="text-[#4B4B4B] font-gilroy font-semibold text-base">
-                                  
+
 
                                     {modules.map(module => {
                                         const formattedName = module.moduleName.replace(/\s+/g, '');
                                         return renderRow(formattedName, module.moduleName);
                                     })}
 
-                                                                    </tbody>
+                                </tbody>
                             </table>
                         </div>
                     </Modal.Body>
