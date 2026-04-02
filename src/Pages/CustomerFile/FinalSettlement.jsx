@@ -1887,6 +1887,7 @@ const UnpaidInvoices =
                                         <p className="text-sm font-medium text-gray-900">
                                             ₹ {finalSettlementList?.settlementInfo?.payableAmount}
                                             
+                                            
                                              {/* {finalSettlementList?.settlementInfo?.refundableRent} */}
                                         </p>
                                     </div>
