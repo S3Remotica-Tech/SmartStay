@@ -560,12 +560,12 @@ function FinalSettlement() {
         pendingEbList.length === 0;
 
 
-const UnpaidInvoices =
-  Array.isArray(finalSettlementList?.unpaidInvoiceInfo?.listUnpaidInvoices)
-    ? finalSettlementList.unpaidInvoiceInfo?.listUnpaidInvoices
-    : Array.isArray(finalSettlementList?.unpaidInvoices)
-    ? finalSettlementList.unpaidInvoices
-    : [];
+    const UnpaidInvoices =
+        Array.isArray(finalSettlementList?.unpaidInvoiceInfo?.listUnpaidInvoices)
+            ? finalSettlementList.unpaidInvoiceInfo?.listUnpaidInvoices
+            : Array.isArray(finalSettlementList?.unpaidInvoices)
+                ? finalSettlementList.unpaidInvoices
+                : [];
 
 
 
@@ -785,50 +785,37 @@ const UnpaidInvoices =
 
                         <div className="me-1" >
 
-{/* unpaid invoice */}
+                            {/* unpaid invoice */}
 
-                            <div
-                                className="mb-2"
-                                style={{
-                                    border: "1px solid #E5E7EB",
-                                    borderRadius: 8,
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Gilroy",
-                                }}
-                            >
 
-                                <div
 
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        padding: "10px 14px",
+                            <div className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy">
 
-                                    }}
-                                >
+                                <div className="flex justify-between items-center px-[14px] py-[10px]">
 
-                                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                        <span
-                                            style={{
-                                                borderRadius: 5,
-                                                padding: 4,
-                                                display: "flex", cursor: "pointer",
-                                            }}
-                                        >
+                                    <div className="flex items-center gap-2">
+                                        <span className="rounded-[5px] p-1 flex cursor-pointer">
                                             {showInvoices ? (
-                                                <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowInvoices(false)} />
+                                                <ArrowUp2
+                                                    size="16"
+                                                    color="#1E45E1"
+                                                    onClick={() => setShowInvoices(false)}
+                                                />
                                             ) : (
-                                                <ArrowDown2 size="16" color="#1E45E1" onClick={() => setShowInvoices(true)} />
+                                                <ArrowDown2
+                                                    size="16"
+                                                    color="#1E45E1"
+                                                    onClick={() => setShowInvoices(true)}
+                                                />
                                             )}
                                         </span>
 
-                                        <span className="text-sm font-semibold text-[#111827]">
+                                        <span className="text-sm font-semibold text-gray-900">
                                             Unpaid Invoices
                                         </span>
                                     </div>
 
-                                    <span style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>
+                                    <span className="text-base font-semibold text-gray-900">
                                         ₹{
                                             UnpaidInvoices?.reduce(
                                                 (sum, inv) => sum + Number(inv.payableAmount || 0),
@@ -839,124 +826,73 @@ const UnpaidInvoices =
                                 </div>
 
 
-                                {showInvoices && (
-                                    <hr style={{ margin: 0, borderColor: "#DFDFDF" }} />
-                                )}
+                                {showInvoices && <hr className="m-0 border-gray-300" />}
+
 
                                 <div
-                                    style={{
-                                        maxHeight: showInvoices ? "500px" : "0",
-                                        overflow: "hidden",
-                                        transition: "max-height 0.3s ease",
-                                    }}
+                                    className={`overflow-hidden transition-all duration-300 ${showInvoices ? "max-h-[500px]" : "max-h-0"
+                                        }`}
                                 >
                                     {showInvoices && (
-                                        <div style={{ padding: "8px 10px" }}>
-                                            <div className="table-responsive border border-gray rounded">
-                                                <table className="table table-sm align-middle mb-0" style={{ fontFamily: "Gilroy", }}>
+                                        <div className="px-[10px] py-2">
+
+                                            <div className="border border-gray-300 rounded">
+                                                <table className="w-full text-sm align-middle mb-0 font-gilroy">
+
                                                     <thead>
                                                         <tr>
-                                                            <th
-                                                                className="px-2 py-2 text-start"
-                                                                style={{
-                                                                    fontSize: 14,
-                                                                    color: "#00092F",
-                                                                    fontFamily: "Gilroy",
-                                                                    fontWeight: 600,
-                                                                    verticalAlign: "middle",
-                                                                }}
-                                                            >
+                                                            <th className="px-2 py-2 text-start text-[14px] font-semibold text-[#00092F]">
                                                                 Invoice No
                                                             </th>
 
-                                                            <th
-                                                                className="px-2 py-2 text-start"
-                                                                style={{
-                                                                    fontSize: 14,
-                                                                    color: "#00092F",
-                                                                    fontFamily: "Gilroy",
-                                                                    fontWeight: 600,
-                                                                    verticalAlign: "middle",
-                                                                }}
-                                                            >
+                                                            <th className="px-2 py-2 text-start text-[14px] font-semibold text-[#00092F]">
                                                                 Type
                                                             </th>
 
-                                                            <th
-                                                                className="px-2 py-2 text-end"
-                                                                style={{
-                                                                    fontSize: 14,
-                                                                    color: "#00092F",
-                                                                    fontFamily: "Gilroy",
-                                                                    fontWeight: 600,
-                                                                    verticalAlign: "middle",
-                                                                }}
-                                                            >
+                                                            <th className="px-2 py-2 text-end text-[14px] font-semibold text-[#00092F]">
                                                                 Invoice Amount
                                                             </th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
-
-                                                        {Array.isArray(UnpaidInvoices) && UnpaidInvoices?.length > 0 ? (
+                                                        {Array.isArray(UnpaidInvoices) &&
+                                                            UnpaidInvoices?.length > 0 ? (
                                                             UnpaidInvoices.map((user) => (
                                                                 <tr key={user.invoiceNumber}>
-                                                                    <td
-                                                                        className=" text-decoration-underline px-2 py-2"
 
-                                                                        style={{
-                                                                            fontFamily: "Gilroy",
-                                                                            fontSize: "14px",
-                                                                            // paddingTop: "1rem", 
-                                                                            color: "#1E45E1", fontWeight: 400
-                                                                        }}
-                                                                    >
+                                                                    <td className="px-2 py-2 text-[14px] text-[#1E45E1] font-normal underline">
                                                                         {user.invoiceNumber}
                                                                     </td>
-                                                                    <td
-                                                                        className=" px-2 py-2"
-                                                                        style={{
-                                                                            fontFamily: "Gilroy",
-                                                                            fontSize: "14px",
-                                                                            color: "#1E1E1E", fontWeight: 400
-                                                                            // paddingTop: "1rem"
-                                                                        }}
-                                                                    >
+
+                                                                    <td className="px-2 py-2 text-[14px] text-gray-800 font-normal">
                                                                         {user.type}
                                                                     </td>
-                                                                    <td
-                                                                        className="text-end px-2 py-2"
-                                                                        style={{
-                                                                            fontFamily: "Gilroy",
-                                                                            fontSize: "14px",
-                                                                            color: "#1E1E1E",
-                                                                            fontWeight: 500,
 
-                                                                            // paddingTop: "1rem"
-                                                                        }}
-                                                                    >
+                                                                    <td className="px-2 py-2 text-[14px] text-gray-800 font-medium text-end">
                                                                         ₹{user.payableAmount}
                                                                     </td>
+
                                                                 </tr>
                                                             ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td
+                                                                    colSpan={3}
+                                                                    className="text-center px-2 py-2 text-sm text-gray-500"
+                                                                >
+                                                                    No pending invoices
+                                                                </td>
+                                                            </tr>
+                                                        )}
 
-                                                        )
-                                                            :
-                                                            (
-                                                                <tr>
-                                                                    <td colSpan={3} className="text-center px-2 py-2" style={{ color: "#6B7280", fontSize: 14 }}>
-                                                                        No pending invoices
-                                                                    </td>
-                                                                </tr>
-                                                            )
 
-                                                        }
-                                                        <tr style={{ backgroundColor: "#F9F9F9" }}>
-                                                            <td colSpan={2} className=" text-start px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
+                                                        <tr className="bg-gray-50">
+                                                            <td colSpan={2} className="px-2 py-2 text-start text-sm text-gray-800">
                                                                 Total
                                                             </td>
-                                                            <td className=" text-end px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
+
+                                                            <td className="px-2 py-2 text-end text-sm text-gray-800">
                                                                 ₹{
                                                                     UnpaidInvoices?.reduce(
                                                                         (sum, inv) => sum + Number(inv.payableAmount || 0),
@@ -965,45 +901,24 @@ const UnpaidInvoices =
                                                                 }
                                                             </td>
                                                         </tr>
-
-
                                                     </tbody>
+
                                                 </table>
                                             </div>
+
                                         </div>
                                     )}
                                 </div>
-
                             </div>
 
 
-{/* refundable rent */}
-                            <div
-                                className="mb-2"
-                                style={{
-                                    border: "1px solid #E5E7EB",
-                                    borderRadius: 8,
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Gilroy",
-                                }}
-                            >
+                            {/* refundable rent */}
 
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    padding: "10px 14px",
 
-                                }}
-                                >
-                                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                        <span
-                                            style={{
-                                                borderRadius: 5,
-                                                padding: 4,
-                                                display: "flex", cursor: "pointer",
-                                            }}
-                                        >
+                            <div className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy">
+                                <div className="flex justify-between items-center px-[14px] py-[10px]">
+                                    <div className="flex items-center gap-2">
+                                        <span className="rounded-[5px] p-1 flex cursor-pointer">
                                             {showRentDetails ? (
                                                 <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowRentDetails(false)} />
                                             ) : (
@@ -1011,194 +926,97 @@ const UnpaidInvoices =
                                             )}
                                         </span>
 
-                                        <span
-                                            className="text-sm font-semibold text-[#111827]"
-                                        >
+                                        <span className="text-sm font-semibold text-gray-900">
                                             Refundable Rent
                                         </span>
                                     </div>
-                                    <span
-                                        style={{
-                                            fontSize: 16,
-                                            color: "black",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 600,
-                                        }}
-                                    >
+
+                                    <span className="text-base font-semibold text-black">
                                         ₹{finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount}
                                     </span>
                                 </div>
 
-                                {
-                                    showRentDetails &&
-                                    <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
-                                }
-                                {
-                                    showRentDetails &&
-                                    <div style={{ padding: "8px 10px" }}>
 
-                                        <div className="d-flex justify-content-between py-2">
-                                            <span
-                                                style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 14,
-                                                    color: "black",
-                                                }}
-                                            >
-                                                Last Rent Paid (30 Days)
-                                            </span>
+                                {showRentDetails && <hr className="m-0 border-gray-300" />}
 
-                                            <span
-                                                style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 14,
-                                                    color: "black",
-                                                }}
-                                            >
+
+                                {showRentDetails && (
+                                    <div className="px-[10px] py-2">
+
+
+                                        <div className="flex justify-between py-2 text-sm text-black">
+                                            <span>Last Rent Paid (30 Days)</span>
+                                            <span>
                                                 ₹{finalSettlementList?.currentMonthRentInfo?.currentRentPaid || 0}
                                             </span>
                                         </div>
 
-                                        <div className="d-flex justify-content-between  align-items-start">
 
-                                            <div className="d-flex gap-3">
-                                                <div
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                        cursor: "pointer",
-                                                        userSelect: "none"
-                                                    }}
+                                        <div className="flex justify-between items-start">
+                                            <div className="flex gap-3">
 
-                                                >
+                                                <div className="text-sm text-black cursor-pointer select-none">
                                                     Actual Stay Days (Rent) (
                                                     {(() => {
                                                         const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
                                                         return `${d} ${d === 1 ? "day" : "days"}`;
                                                     })()}
-
                                                     )
                                                 </div>
 
-                                                <div className="d-flex" style={{}} onClick={() => setShowDetails(!showDetails)} >
-                                                    {showDetails ? (
-                                                        <span
-                                                            style={{
-                                                                backgroundColor: "#E7F1FF",
-                                                                borderRadius: 5,
-                                                                padding: 4,
-
-
-                                                            }}
-                                                        >
+                                                <div onClick={() => setShowDetails(!showDetails)} className="flex cursor-pointer">
+                                                    <span className="bg-blue-100 rounded-[5px] p-1">
+                                                        {showDetails ? (
                                                             <ArrowUp2 size="16" color="#1E45E1" />
-                                                        </span>
-                                                    ) : (
-                                                        <span
-                                                            style={{
-                                                                backgroundColor: "#E7F1FF",
-                                                                borderRadius: 5,
-                                                                padding: 4,
-
-                                                            }}
-                                                        >
+                                                        ) : (
                                                             <ArrowDown2 size="16" color="#1E45E1" />
-                                                        </span>
-                                                    )}
+                                                        )}
+                                                    </span>
                                                 </div>
-
-
 
                                             </div>
 
-
-
-                                            <div
-                                                style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 14,
-                                                    color: "black",
-                                                }}
-                                            >
+                                            <div className="text-sm text-black">
                                                 ₹{finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
                                             </div>
                                         </div>
 
+
                                         {showDetails &&
                                             finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
-                                                <div key={index} style={{ marginTop: 8 }}>
+                                                <div key={index} className="mt-2">
 
-
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between",
-                                                            alignItems: "center",
-                                                            fontFamily: "Gilroy",
-                                                            fontSize: 12,
-                                                            color: "#1E45E1",
-                                                            width: "100%",
-                                                            backgroundColor: "#F9F9F9", padding: 10, borderRadius: 8
-                                                        }}
-                                                    >
-
-                                                        <div style={{ whiteSpace: "nowrap" }}>
+                                                    <div className="flex justify-between items-center text-xs text-blue-600 bg-gray-50 p-2.5 rounded-lg w-full">
+                                                        <div className="whitespace-nowrap">
                                                             {item.floorName} | {item.roomName} - {item.bedName}
                                                         </div>
 
-
-                                                        <div style={{ whiteSpace: "nowrap", color: "#222" }}>
+                                                        <div className="whitespace-nowrap text-gray-800">
                                                             ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rentPerDay} = {item.totalRent})
                                                         </div>
                                                     </div>
 
-
                                                     {index !== finalSettlementList.currentMonthRentInfo.rentLists.length - 1 && (
-                                                        <div
-                                                            style={{
-                                                                borderBottom: "1px dashed #CBD5E1",
-                                                                marginTop: 6,
-                                                            }}
-                                                        />
+                                                        <div className="border-b border-dashed border-gray-300 mt-1.5" />
                                                     )}
                                                 </div>
                                             ))}
 
 
-
-                                        {
-                                            finalSettlementList?.currentMonthRentInfo?.otherItemAmount > 0 &&
+                                        {finalSettlementList?.currentMonthRentInfo?.otherItemAmount > 0 && (
                                             <>
+                                                <div className="flex justify-between items-start mt-2">
 
-
-                                                <div className="d-flex justify-content-between align-items-start mt-2">
-
-                                                    <div className="d-flex gap-3">
-                                                        <div
-                                                            style={{
-                                                                fontFamily: "Gilroy",
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                cursor: "pointer",
-                                                                userSelect: "none"
-                                                            }}
-                                                        >
+                                                    <div className="flex gap-3">
+                                                        <div className="text-sm text-black cursor-pointer select-none">
                                                             Other Charges
-
                                                         </div>
 
                                                         <div
-                                                            className="d-flex"
+                                                            className="flex cursor-pointer"
                                                             onClick={() => setShowOtherCharges(!showOtherCharges)}
                                                         >
-                                                            <span
-                                                                style={{
-                                                                    backgroundColor: "#E7F1FF",
-                                                                    borderRadius: 5,
-                                                                    padding: 4,
-                                                                }}
-                                                            >
+                                                            <span className="bg-blue-100 rounded-[5px] p-1">
                                                                 {showOtherCharges ? (
                                                                     <ArrowUp2 size="16" color="#1E45E1" />
                                                                 ) : (
@@ -1208,91 +1026,48 @@ const UnpaidInvoices =
                                                         </div>
                                                     </div>
 
-                                                    <div
-                                                        style={{
-                                                            fontFamily: "Gilroy",
-                                                            fontSize: 14,
-                                                            color: "black",
-                                                        }}
-                                                    >
-                                                        {finalSettlementList?.currentMonthRentInfo?.otherItemAmount ? (
-                                                            <>₹{finalSettlementList.currentMonthRentInfo.otherItemAmount}</>
-                                                        ) : null}
+                                                    <div className="text-sm text-black">
+                                                        ₹{finalSettlementList?.currentMonthRentInfo?.otherItemAmount}
                                                     </div>
                                                 </div>
 
+
                                                 {showOtherCharges &&
                                                     finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems?.map((item, index) => (
-                                                        <div key={index} style={{ marginTop: 8 }}>
-                                                            <div
-                                                                style={{
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between",
-                                                                    alignItems: "center",
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: 12,
-                                                                    color: "#1E45E1",
-                                                                    width: "100%",
-                                                                    backgroundColor: "#F9F9F9",
-                                                                    padding: 10,
-                                                                    borderRadius: 8
-                                                                }}
-                                                            >
-                                                                <div style={{ whiteSpace: "nowrap" }}>
+                                                        <div key={index} className="mt-2">
+
+                                                            <div className="flex justify-between items-center text-xs text-blue-600 bg-gray-50 p-2.5 rounded-lg w-full">
+                                                                <div className="whitespace-nowrap">
                                                                     {item.item}
                                                                 </div>
 
-                                                                <div style={{ whiteSpace: "nowrap", color: "#222" }}>
+                                                                <div className="whitespace-nowrap text-gray-800">
                                                                     ₹{item.amount}
                                                                 </div>
                                                             </div>
 
-                                                            {index !== finalSettlementList?.otherChargesInfo?.chargeLists?.length - 1 && (
-                                                                <div
-                                                                    style={{
-                                                                        borderBottom: "1px dashed #CBD5E1",
-                                                                        marginTop: 6,
-                                                                    }}
-                                                                />
+                                                            {index !== finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems?.length - 1 && (
+                                                                <div className="border-b border-dashed border-gray-300 mt-1.5" />
                                                             )}
                                                         </div>
                                                     ))}
-
-
                                             </>
-                                        }
-
-
-
+                                        )}
 
                                     </div>
-                                }
+                                )}
                             </div>
 
 
 
- {/* Missed EB */}
+                            {/* Missed EB */}
 
-                            <div
-                                className="mb-2"
-                                style={{
-                                    border: "1px solid #E5E7EB",
-                                    borderRadius: 10,
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Gilroy",
-                                }}
-                            >
+                            <div className="mb-2 border border-gray-200 rounded-[10px] bg-white font-gilroy">
 
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        padding: "12px 16px",
-                                    }}
-                                >
-                                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                        <span style={{ cursor: "pointer" }}>
+
+                                <div className="flex justify-between items-center px-4 py-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="cursor-pointer">
                                             {showEbMissed ? (
                                                 <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowEbMissed(false)} />
                                             ) : (
@@ -1300,194 +1075,135 @@ const UnpaidInvoices =
                                             )}
                                         </span>
 
-                                        <span className="text-sm font-semibold text-[#111827]">
+                                        <span className="text-sm font-semibold text-gray-900">
                                             Electricity Bill
                                         </span>
                                     </div>
 
-                                    <span style={{ fontSize: 16, fontWeight: 600 }}>
+                                    <span className="text-base font-semibold">
                                         ₹{finalSettlementList?.ebInfo?.pendingEbAmount}
                                     </span>
                                 </div>
 
-                                {showEbMissed && (
-                                    <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
-                                )}
+
+                                {showEbMissed && <hr className="m-0 border-gray-300" />}
 
 
                                 {showEbMissed && (
-                                    <>
-
-                                        <div className="px-4 py-3"
-                                        >
+                                    <div className="px-4 py-3">
 
 
-                                            {
-                                                !finalSettlementList?.ebInfo?.isHostelReading &&
-                                                finalSettlementList?.ebInfo?.missedEb.length > 0 &&
+                                        {!finalSettlementList?.ebInfo?.isHostelReading &&
+                                            finalSettlementList?.ebInfo?.missedEb?.length > 0 && (
                                                 <>
-                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy mb-2">Missed Electricity </label>
-                                                    <hr className="m-0 mb-2" style={{ border: "1px solid #DFDFDF" }} />
+                                                    <label className="text-sm font-semibold text-gray-800 mb-2 block">
+                                                        Missed Electricity
+                                                    </label>
+                                                    <hr className="m-0 mb-2 border-gray-300" />
                                                 </>
-                                            }
-
-                                            {!finalSettlementList?.ebInfo?.isHostelReading &&
-                                                finalSettlementList?.ebInfo?.missedEb?.map((item, index) => (
-                                                    <div key={index} style={{ marginBottom: 14 }}>
-
-
-                                                        <div
-                                                            style={{
-                                                                display: "flex",
-                                                                justifyContent: "space-between",
-                                                                alignItems: "center",
-                                                                fontSize: 13,
-                                                                // fontWeight: 600,
-                                                            }}
-                                                        >
-                                                            <div
-                                                                style={{
-                                                                    display: "flex",
-                                                                    alignItems: "center",
-                                                                    gap: 8,
-                                                                }}
-                                                            >
-                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.floorName || "Floor Name"}</span>
-
-
-                                                                <span
-                                                                    style={{
-                                                                        width: 1,
-                                                                        height: 14,
-                                                                        backgroundColor: "#D9D9D9",
-                                                                        display: "inline-block",
-                                                                    }}
-                                                                />
-
-                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
-
-
-                                                                <span className="px-2 py-1 rounded-lg text-xs font-medium" style={{ color: "#AA6805", fontWeight: 600, fontSize: 12, backgroundColor: "#FFF5EE" }}> {item.fromDate} - {item.toDate}</span>
-                                                            </div>
-
-
-
-
-                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={() => handleRoomReading(item)}>
-                                                                <AddCircle
-                                                                    size="18"
-                                                                    color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
-                                                                />
-                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500, cursor: "pointer" }}> Add</label>
-
-
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            style={{
-                                                                display: "flex",
-                                                                justifyContent: "space-between",
-                                                                alignItems: "center",
-
-                                                            }}
-                                                        >
-
-
-                                                        </div>
-
-
-
-                                                    </div>
-                                                ))}
-
-
-                                            {
-                                                !finalSettlementList?.ebInfo?.isHostelReading &&
-                                                finalSettlementList?.ebInfo?.pendingEb.length > 0 &&
-                                                <>
-                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy pb-1">Pending Invoices  </label>
-                                                    <hr className="m-0 mb-2" style={{ border: "1px solid #DFDFDF" }} />
-                                                </>
-                                            }
-
-                                            {!finalSettlementList?.ebInfo?.isHostelReading &&
-                                                finalSettlementList?.ebInfo?.pendingEb?.map((item, index) => (
-                                                    <div key={index} style={{ marginBottom: 14 }}>
-
-                                                        <div
-                                                            style={{
-                                                                display: "flex",
-                                                                justifyContent: "space-between",
-                                                                alignItems: "center",
-                                                                fontSize: 13,
-                                                                fontWeight: 600,
-                                                            }}
-                                                        >
-                                                            <div
-                                                                style={{
-                                                                    display: "flex",
-                                                                    alignItems: "center",
-                                                                    gap: 8,
-                                                                }}
-                                                            >
-                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.floorName || "Floor Name"}</span>
-
-
-                                                                <span
-                                                                    style={{
-                                                                        width: 1,
-                                                                        height: 14,
-                                                                        backgroundColor: "#D9D9D9",
-                                                                        display: "inline-block",
-                                                                    }}
-                                                                />
-
-                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
-
-
-                                                                <span className="px-2 py-1 rounded-lg text-xs font-medium" style={{ color: "#1447E6", fontWeight: 600, fontSize: 12, backgroundColor: "#F0F6FF" }}> {item.fromDate} - {item.toDate}</span>
-                                                            </div>
-
-
-
-
-                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
-                                                                <span style={{ whiteSpace: "nowrap" }}>
-                                                                    ({item.units} Units) &nbsp; ₹{item.amount}
-                                                                </span>
-
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                ))}
-
-
-
-                                            {showNoEbMessage && (
-                                                <div
-                                                    style={{
-                                                        padding: "12px",
-                                                        textAlign: "center",
-                                                        fontSize: 13,
-                                                        fontWeight: 500,
-                                                        color: "#AA6805",
-                                                        backgroundColor: "#FFF5EE",
-
-                                                    }}
-                                                >
-                                                    EB reading not calculated yet
-                                                </div>
                                             )}
 
+                                        {!finalSettlementList?.ebInfo?.isHostelReading &&
+                                            finalSettlementList?.ebInfo?.missedEb?.map((item, index) => (
+                                                <div key={index} className="mb-3.5">
 
-                                        </div>
-                                    </>
+                                                    <div className="flex justify-between items-center text-sm">
+
+
+                                                        <div className="flex items-center gap-2">
+
+                                                            <span className="text-gray-800 text-sm font-medium">
+                                                                {item.floorName || "Floor Name"}
+                                                            </span>
+
+                                                            <span className="w-[1px] h-[14px] bg-gray-300 inline-block" />
+
+                                                            <span className="text-gray-800 text-sm font-medium">
+                                                                {item.roomName || "Room Name"} - {item.bedName || "Bed Name"}
+                                                            </span>
+
+                                                            <span className="px-2 py-1 rounded-lg text-xs font-semibold text-[#AA6805] bg-[#FFF5EE]">
+                                                                {item.fromDate} - {item.toDate}
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <div
+                                                            className="flex items-center gap-1 cursor-pointer"
+                                                            onClick={() => handleRoomReading(item)}
+                                                        >
+                                                            <AddCircle size="18" color="#1E45E1" variant="Bold" />
+                                                            <label className="text-[13px] text-gray-800 font-medium cursor-pointer">
+                                                                Add
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            ))}
+
+
+                                        {!finalSettlementList?.ebInfo?.isHostelReading &&
+                                            finalSettlementList?.ebInfo?.pendingEb?.length > 0 && (
+                                                <>
+                                                    <label className="text-sm font-semibold text-gray-800 pb-1 block">
+                                                        Pending Invoices
+                                                    </label>
+                                                    <hr className="m-0 mb-2 border-gray-300" />
+                                                </>
+                                            )}
+
+                                        {!finalSettlementList?.ebInfo?.isHostelReading &&
+                                            finalSettlementList?.ebInfo?.pendingEb?.map((item, index) => (
+                                                <div key={index} className="mb-3.5">
+
+                                                    <div className="flex justify-between items-center text-sm font-semibold">
+
+
+                                                        <div className="flex items-center gap-2">
+
+                                                            <span className="text-gray-800 text-sm font-medium">
+                                                                {item.floorName || "Floor Name"}
+                                                            </span>
+
+                                                            <span className="w-[1px] h-[14px] bg-gray-300 inline-block" />
+
+                                                            <span className="text-gray-800 text-sm font-medium">
+                                                                {item.roomName || "Room Name"} - {item.bedName || "Bed Name"}
+                                                            </span>
+
+                                                            <span className="px-2 py-1 rounded-lg text-xs font-semibold text-blue-600 bg-blue-50">
+                                                                {item.fromDate} - {item.toDate}
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <div className="flex items-center gap-1">
+                                                            <span className="whitespace-nowrap">
+                                                                ({item.units} Units) ₹{item.amount}
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            ))}
+
+
+                                        {showNoEbMessage && (
+                                            <div className="px-3 py-3 text-center text-[13px] font-medium text-[#AA6805] bg-[#FFF5EE]">
+                                                EB reading not calculated yet
+                                            </div>
+                                        )}
+
+                                    </div>
                                 )}
-
-
                             </div>
+
+
+
+                            {/* Wallet */}
 
                             <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
 
@@ -1575,8 +1291,8 @@ const UnpaidInvoices =
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-4 py-6 text-center text-sm text-gray-400">
-                                                No wallet transactions available
+                                            <div className="px-6 py-2 text-center  h-fit flex items-center justify-center">
+                                                <span className=" text-[13px] px-3 py-1  font-medium text-[#AA6805] bg-[#FFF5EE] rounded-md">No wallet transactions available</span>
                                             </div>
                                         )}
                                     </div>
@@ -1586,34 +1302,15 @@ const UnpaidInvoices =
                             </div>
 
 
+                            {/* deductions */}
 
-                            <div
-                                className="mt-3"
-                                style={{
-                                    border: "1px solid #E5E7EB",
-                                    borderRadius: 8,
-                                                                      fontFamily: "Gilroy",
-                                }}
-                            >
+                            <div className="mt-3 border border-gray-200 rounded-lg font-gilroy">
 
 
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    padding: "10px 14px",
-                                    cursor: "pointer",
-                                }}
-                                >
-                                    <div className="d-flex align-items-center gap-2"  >
-                                        <span
-                                            style={{
-                                                // backgroundColor: "#E7F1FF",
-                                                borderRadius: 5,
-                                                padding: 4,
-                                                display: "flex",
-                                            }}
-                                        >
+                                <div className="flex justify-between items-center px-[14px] py-[10px] cursor-pointer">
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="rounded-[5px] p-1 flex">
                                             {showDeductions ? (
                                                 <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowDeductions(false)} />
                                             ) : (
@@ -1621,76 +1318,77 @@ const UnpaidInvoices =
                                             )}
                                         </span>
 
-                                        <span
-                                            className="text-sm font-semibold text-[#111827]"
-                                        >
+                                        <span className="text-sm font-semibold text-gray-900">
                                             Deductions
                                         </span>
                                     </div>
-                                    <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={handleAddField}>
-                                        <AddCircle
-                                            size="18"
-                                            color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
-                                        />
-                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500, cursor: "pointer" }}> Add</label>
 
-
+                                    <div
+                                        className="flex items-center gap-1 cursor-pointer"
+                                        onClick={handleAddField}
+                                    >
+                                        <AddCircle size="18" color="#1E45E1" variant="Bold" />
+                                        <label className="text-[13px] text-gray-800 font-medium cursor-pointer">
+                                            Add
+                                        </label>
                                     </div>
                                 </div>
 
+
+                                {showDeductions && <hr className="m-0 border-gray-300" />}
+
+
                                 {showDeductions && (
-                                    <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
-                                )}
-                                {showDeductions && (
-                                    <div style={{ padding: "8px 10px" }} >
+                                    <div className="px-[10px] py-2">
+
 
                                         {fields.length === 0 && (
-                                            <div
-                                                style={{
-                                                    padding: "14px",
-                                                    textAlign: "center",
-                                                    fontSize: 13,
-                                                    fontWeight: 500,
-                                                    color: "#6B7280",
-                                                    backgroundColor: "#F9FAFB",
-                                                    borderRadius: 6,
-                                                    margin: "8px 12px",
-                                                }}
-                                            >
+                                            <div className="px-4 py-[14px] mx-3 my-2 text-center text-[13px] font-medium text-gray-500 bg-gray-50 rounded-md">
                                                 No deductions available
                                             </div>
                                         )}
+
+
                                         {fields.map((item, index) => {
                                             const filteredOptions = (() => {
                                                 let options = [...reasonOptions];
 
-
                                                 if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
                                                     options.push({
                                                         value: item.reason_name,
-                                                        label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1)
+                                                        label:
+                                                            item.reason_name.charAt(0).toUpperCase() +
+                                                            item.reason_name.slice(1),
                                                     });
                                                 }
 
+                                                const isMaintenanceSelected = fields.some(
+                                                    field => field.reason === "maintenance"
+                                                );
 
-                                                const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
                                                 return options.map(opt => ({
                                                     ...opt,
-                                                    isDisabled: opt.value === "maintenance" && isMaintenanceSelected && item.reason !== "maintenance"
+                                                    isDisabled:
+                                                        opt.value === "maintenance" &&
+                                                        isMaintenanceSelected &&
+                                                        item.reason !== "maintenance",
                                                 }));
                                             })();
 
-
-
                                             return (
-                                                <div className="row px-4 mb-3" key={index}>
-                                                    <div className="col-md-6">
+                                                <div key={index} className="flex gap-3 px-4 mb-3">
 
+
+                                                    <div className="w-1/2">
 
                                                         {!item.showInput ? (
                                                             <Select
                                                                 options={filteredOptions}
-                                                                value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                                                value={
+                                                                    filteredOptions.find(
+                                                                        opt => opt.value === item.reason_name
+                                                                    ) || null
+                                                                }
                                                                 onChange={(selectedOption) => {
                                                                     const selectedValue = selectedOption.value;
 
@@ -1700,7 +1398,10 @@ const UnpaidInvoices =
                                                                         handleInputChange(index, "reason_name", selectedValue);
                                                                     }
                                                                 }}
-                                                                isDisabled={item.reason_name === "maintenance" || item?.reason_name === "DueAmount"}
+                                                                isDisabled={
+                                                                    item.reason_name === "maintenance" ||
+                                                                    item?.reason_name === "DueAmount"
+                                                                }
                                                                 menuPlacement="bottom"
                                                                 menuPosition="fixed"
                                                                 styles={{
@@ -1726,23 +1427,8 @@ const UnpaidInvoices =
                                                                         backgroundColor: "#f8f9fa",
                                                                         maxHeight: "120px",
                                                                         padding: 0,
-                                                                        scrollbarWidth: "thin",
                                                                         overflowY: "auto",
-                                                                        fontFamily: "Gilroy",
-                                                                    }),
-                                                                    placeholder: (base) => ({
-                                                                        ...base,
-                                                                        color: "#555",
-                                                                    }),
-                                                                    dropdownIndicator: (base) => ({
-                                                                        ...base,
-                                                                        color: "#555",
-                                                                        display: "inline-block",
-                                                                        fill: "currentColor",
-                                                                        lineHeight: 1,
-                                                                        stroke: "currentColor",
-                                                                        strokeWidth: 0,
-                                                                        cursor: "pointer",
+                                                                        scrollbarWidth: "thin",
                                                                     }),
                                                                     indicatorSeparator: () => ({
                                                                         display: "none",
@@ -1760,86 +1446,66 @@ const UnpaidInvoices =
                                                                 }}
                                                             />
                                                         ) : (
-                                                            <>
-                                                                <input disabled={item.isSystemGenerated}
-                                                                    type="text"
-                                                                    className="form-control"
-
-                                                                    placeholder="Enter custom reason"
-                                                                    value={item.customReason}
-                                                                    onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
-                                                                    style={{
-                                                                        fontSize: 16,
-                                                                        color: "#4B4B4B",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                        boxShadow: "none",
-                                                                        border: "1px solid #D9D9D9",
-                                                                        height: 50,
-                                                                        borderRadius: 8,
-                                                                    }}
-                                                                />
-                                                            </>
+                                                            <input
+                                                                disabled={item.isSystemGenerated}
+                                                                type="text"
+                                                                placeholder="Enter custom reason"
+                                                                value={item.customReason}
+                                                                onChange={(e) =>
+                                                                    handleInputChange(index, "customReason", e.target.value)
+                                                                }
+                                                                className="w-full h-[50px] px-3 text-base text-gray-700 border border-gray-300 rounded-lg font-medium outline-none"
+                                                            />
                                                         )}
+
                                                         {errors[index]?.reason && (
                                                             <ErrorMessage message={errors[index]?.reason} type="error" />
                                                         )}
                                                     </div>
 
 
-                                                    <div className="col-md-5">
-
+                                                    <div className="w-[40%]">
                                                         <input
                                                             type="text"
                                                             placeholder="Enter amount"
                                                             value={item.amount}
                                                             disabled={
                                                                 apiDeductions.some(
-                                                                    (apiItem) => apiItem.type?.toLowerCase() === item.reason_name?.toLowerCase()
-                                                                ) && item.isSystemGenerated}
-                                                            onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                                            className="form-control"
-                                                            style={{
-                                                                fontSize: 16,
-                                                                color: "#4B4B4B",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                                boxShadow: "none",
-                                                                border: "1px solid #D9D9D9",
-                                                                height: 50,
-                                                                borderRadius: 8,
-                                                            }}
-
+                                                                    (apiItem) =>
+                                                                        apiItem.type?.toLowerCase() ===
+                                                                        item.reason_name?.toLowerCase()
+                                                                ) && item.isSystemGenerated
+                                                            }
+                                                            onChange={(e) =>
+                                                                handleInputChange(index, "amount", e.target.value)
+                                                            }
+                                                            className="w-full h-[50px] px-3 text-base text-gray-700 border border-gray-300 rounded-lg font-medium outline-none"
                                                         />
+
                                                         {errors[index]?.amount && (
                                                             <ErrorMessage message={errors[index]?.amount} type="error" />
                                                         )}
                                                     </div>
 
 
-                                                    <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-
-                                                        {(!item.isSystemGenerated) && (
+                                                    <div className="w-[10%] flex justify-center items-center p-0">
+                                                        {!item.isSystemGenerated && (
                                                             <Trash
                                                                 size="20"
                                                                 color="red"
                                                                 variant="Bold"
-                                                                style={{ cursor: "pointer" }}
+                                                                className="cursor-pointer"
                                                                 onClick={() => handleRemoveField(index)}
                                                             />
                                                         )}
-
-
                                                     </div>
+
                                                 </div>
                                             );
                                         })}
                                     </div>
                                 )}
-
-
                             </div>
-
 
 
                             <div className="mx-3 my-3 flex items-center justify-between">
@@ -1881,12 +1547,12 @@ const UnpaidInvoices =
 
                                     <div className="flex justify-between">
                                         <p className="text-sm text-gray-600">
-                                           {finalSettlementList?.settlementInfo?.label} 
-                                                                                  </p>
+                                            {finalSettlementList?.settlementInfo?.label}
+                                        </p>
                                         <p className="text-sm font-medium text-gray-900">
                                             ₹ {finalSettlementList?.settlementInfo?.payableAmount}
-                                                                                       
-                                             {/* {finalSettlementList?.settlementInfo?.refundableRent} */}
+
+                                            {/* {finalSettlementList?.settlementInfo?.refundableRent} */}
                                         </p>
                                     </div>
 
