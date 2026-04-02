@@ -1271,7 +1271,7 @@ const UnpaidInvoices =
 
 
 
-                            {/* Missed EB */}
+ {/* Missed EB */}
 
                             <div
                                 className="mb-2"
