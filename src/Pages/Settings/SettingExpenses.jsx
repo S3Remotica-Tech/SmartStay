@@ -381,11 +381,7 @@ function SettingExpenses() {
   return (
     <>
 
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-transparent z-50">
-          <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
+    
 
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
@@ -425,13 +421,19 @@ function SettingExpenses() {
         ) : (
 
           <div
-            className={`mt-2 px-3 py-4 rounded-lg show-scrolls
+            className={`mt-2 px-3 py-4 rounded-lg show-scrolls relative
     ${expensesFilterddata.length === 0
                 ? "bg-[#FFFFFF] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
                 : "bg-[#F9FAFB] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
               }
   `}
           >
+
+  {loading && (
+       <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
+          <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+       )} 
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
 

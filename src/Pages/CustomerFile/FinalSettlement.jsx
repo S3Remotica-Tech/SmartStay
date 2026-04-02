@@ -125,6 +125,7 @@ function FinalSettlement() {
             dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE" })
         }
     }, [state.UsersList.StatusCodeForDateUpdate])
+    
     useEffect(() => {
         if (state.UsersList?.finalError) {
             setFormLoading(false)
@@ -132,7 +133,11 @@ function FinalSettlement() {
 
     }, [state.UsersList?.finalError])
 
-
+    useEffect(() => {
+        return () => {
+            dispatch({ type: "REMOVE_FINAL_GENERATE_ERROR" });
+        };
+    }, []);
 
     const reasonOptions = [
         { value: "DueAmount", label: "Due Amount" },

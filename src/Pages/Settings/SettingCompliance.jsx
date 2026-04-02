@@ -436,11 +436,7 @@ function SettingCompliance() {
 
       </div>
 
-      {loading && (
-        <div className="absolute top-[130px] left-[40px] right-0 bottom-0 flex h-[50vh] items-center justify-center bg-transparent opacity-75 z-10">
-          <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
-        </div>
-      )}
+    
       {
 
         !canReadComplaints ? (
@@ -456,6 +452,12 @@ function SettingCompliance() {
           <div className="complainttype mt-2">
             {complianceFilterddata && complianceFilterddata.length > 0 && (
               <div className="container show-scrolls relative max-h-[475px] overflow-y-auto">
+  
+{loading && (
+       <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
+          <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
+        </div>
+      )} 
 
                 <div className="flex flex-wrap -mx-2">
                   {complianceFilterddata.map((u, i) => (
