@@ -88,6 +88,8 @@
     "rsuite": "^5.40.0",
     "rxjs": "^7.8.2",
     "slick-carousel": "^1.8.1",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.11",
     "sweetalert": "^2.1.2",

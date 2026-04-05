@@ -5,6 +5,9 @@ import { configDefaults } from 'vitest/config';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    global: 'globalThis',
+  },
   server: {
     historyApiFallback: true,
   },
