@@ -34,7 +34,7 @@ import { IoClose } from "react-icons/io5";
 // import BasicPlan from '../SubscriptionFile/BasicPlan'
 // import PremiumPlan from './PremiumPlan';
 import ComingSoon from '../../Utils/ComingSoon';
-
+import { Connect } from '../../WebService/SocketConfig';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -307,13 +307,25 @@ function SettingSubscription() {
 
   console.log("state", state.Settings)
 
+  const onMessageReceived = (message) => {
+     
+      console.log("Payment update:", message);
+      if (message.body === 'success') {
+        window.location.reload();
+      }
+
+     
+    };
+
+
   useEffect(() => {
     if (state.Settings?.statusCodeUpgradePlan === 200) {
-      const reDirectURL = state.Settings.upgradePlan;
+      const reDirectURL = state.Settings.upgradePlan?.paymentLink;
 
       if (reDirectURL) {
-        window.open(reDirectURL, "_self");
-
+        Connect(onMessageReceived, state.Settings.upgradePlan?.paymentLinkId);
+        // window.open(reDirectURL, "_self");
+        window.open(reDirectURL, "_blank");
         setTimeout(() => {
           dispatch({ type: "CLEAR_UPGRADE_PLAN_REDUCER" });
         }, 100);
