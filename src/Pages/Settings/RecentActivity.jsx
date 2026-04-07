@@ -1,43 +1,26 @@
 import React from 'react';
-import { Row, Col, Image } from "react-bootstrap";
 import { RiMessage2Fill } from "react-icons/ri";
 import PropTypes from "prop-types";
 function RecentActivity() {
 
   const StepItem = ({ children, isLast }) => {
     return (
-      <Row className="mb-3">
-        <Col xs="auto" className="d-flex flex-column align-items-center">
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: "50%",
-              background: "#E2E8F0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <RiMessage2Fill color="#73839B" size={20} />
-          </div>
 
-          {!isLast && (
-            <div
-              style={{
-                width: 2,
-                flex: 1,
-                background: "#D1D5DB",
-                marginTop: 4
-              }}
-            />
-          )}
-        </Col>
+       <div className="flex mb-3"> 
+      <div className="flex flex-col items-center mr-3">
+        <div className="w-10 h-10 rounded-full bg-[#E2E8F0] flex items-center justify-center">
+          <RiMessage2Fill color="#73839B" size={20} />
+        </div>
 
-        <Col style={{ paddingBottom: 20 }}>
-          {children}
-        </Col>
-      </Row>
+        {!isLast && (
+          <div className="w-[2px] flex-1 bg-[#D1D5DB] mt-1"></div>
+        )}
+      </div>
+
+      <div className="pb-3 w-full">
+        {children}
+      </div>
+    </div>
     );
   }
   StepItem.propTypes = {
@@ -79,7 +62,8 @@ function RecentActivity() {
   ];
 
   return (
-    <div class="mt-2 w-full overflow-x-hidden overflow-y-auto max-h-[400px]">
+    // <div class="mt-2 w-full overflow-x-hidden overflow-y-auto max-h-[400px]">
+    <div className="mt-2 w-full h-full overflow-y-auto overflow-x-hidden">
       {recentActivities.map((item, index) => (
         <StepItem
           key={index}

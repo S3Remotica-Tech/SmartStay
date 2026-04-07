@@ -48,7 +48,7 @@ function AdminProfileEdit({ show, handleClose }) {
     };
 
     const handleFirstNameChange = (e) => {
-          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         setFirstName(e.target.value);
         setErrors((prev) => ({ ...prev, firstName: "" }));
@@ -56,14 +56,14 @@ function AdminProfileEdit({ show, handleClose }) {
     };
 
     const handleLastNameChange = (e) => {
-          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         setLastName(e.target.value);
         setErrors((prev) => ({ ...prev, noChange: "" }));
     };
 
     const handleMobileChange = (e) => {
-          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         let value = e.target.value;
 
@@ -79,7 +79,7 @@ function AdminProfileEdit({ show, handleClose }) {
     };
 
     const handleEmailChange = (e) => {
-          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         setEmail(e.target.value);
         setErrors((prev) => ({ ...prev, email: "" }));
@@ -102,7 +102,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
     const handleSubmit = () => {
-          dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
         setErrors((prev) => ({ ...prev, noChange: "" }));
         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
         if (!validate()) return;
@@ -137,8 +137,8 @@ function AdminProfileEdit({ show, handleClose }) {
 
 
     const handleImageUpload = (e) => {
-         dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
-            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
+        dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
         setErrors((prev) => ({ ...prev, noChange: "" }));
 
         const file = e.target.files[0];
@@ -158,7 +158,7 @@ function AdminProfileEdit({ show, handleClose }) {
     useEffect(() => {
         if (state.createAccount?.statuscodeforUpdateprofile) {
             dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
-            dispatch({ type:'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR'})
+            dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
             dispatch({ type: "ACCOUNTDETAILS" });
             setFormLoading(false)
             handleClose()
@@ -193,9 +193,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] font-['Gilroy']">
-
-            <div className="relative w-[520px] bg-white rounded-2xl p-4 shadow-xl">
-
+            <div className="relative w-[520px] md:w-[460px] lg:w-[520px] bg-white rounded-2xl p-4 md:p-3 lg:p-5 shadow-xl">
                 {formLoading && (
                     <div className="absolute inset-0  flex items-center justify-center rounded-2xl z-50">
                         <div className="w-12 h-12 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -203,15 +201,12 @@ function AdminProfileEdit({ show, handleClose }) {
                 )}
                 <div className="flex items-center gap-2 mb-2">
                     <Edit2 size="20" color="#111827" />
-                    <h2 className="text-[20px] font-semibold text-gray-800">
+                    <h2 className="text-[20px] font-semibold text-gray-800 mt-1">
                         Edit Profile
                     </h2>
                 </div>
 
-                <div className="overflow-y-auto h-[450px] show-scrolls">
-
-
-
+                <div className="overflow-y-auto h-[450px] md:h-[350px] lg:h-[430px] pr-2 show-scroll">
                     <div className="flex justify-center mb-2">
                         <div
                             className="relative w-[70px] h-[70px] rounded-full overflow-hidden border border-gray-200"
@@ -296,7 +291,7 @@ function AdminProfileEdit({ show, handleClose }) {
                             <ErrorMessage message={errors.mobile} type="error" />
                         )}
                         {
-                            state.createAccount?.profileUpdateMobileError && 
+                            state.createAccount?.profileUpdateMobileError &&
                             <ErrorMessage message={state.createAccount?.profileUpdateMobileError} type="error" />
                         }
                     </div>
