@@ -1324,14 +1324,16 @@ function SettingGeneral() {
 
                       <hr className="my-2 border border-gray-200" />
 
-                      <div className="flex justify-between mt-2">
-                        <div className="flex gap-4 mt-2">
+                      <div className="flex flex-col lg:flex-row lg:justify-between mt-2">
+
+                        <div className="flex flex-wrap gap-4 mt-2">
                           <div className="flex items-center gap-1.5 text-sm text-gray-600">
                             <Call size={14} color="#1E45E1" />
                             + {account.countryCode} {account.mobileNo}
                           </div>
 
-                          <div className="w-px h-7 bg-gray-300" />
+                          <div className="hidden md:block w-px h-7 bg-gray-300" />
+
                           <div className="flex items-center gap-1.5 text-sm text-blue-600">
                             <Sms size={14} color="#1E45E1" />
                             {account.mailId}
@@ -1341,22 +1343,23 @@ function SettingGeneral() {
                           </div>
                         </div>
 
-                        <div className="relative group mt-2 w-fit">
+                        <div className="relative group mt-3 lg:mt-2 w-full lg:w-fit flex justify-start lg:justify-end">
                           <button
                             onClick={handleShowLogout}
                             className="inline-flex items-center justify-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
                           >
                             <LogoutCurve size={16} color="#FF0000" />
 
-                            <span className="hidden lg:inline">Logout</span>
+                            <span className="inline lg:inline">Logout</span>
                           </button>
 
                           <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 
-    hidden group-hover:block lg:hidden
-    bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
+      hidden group-hover:block lg:hidden
+      bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
                             Logout
                           </div>
                         </div>
+
                       </div>
 
                     </div>
@@ -1921,7 +1924,7 @@ function SettingGeneral() {
         onHide={() => handleClose()}
         backdrop="static"
         centered
-      // dialogClassName="custom-modal"
+        dialogClassName="md:!h-[75vh]"
       >
 
         <Modal.Header className="relative mb-2 flex items-center justify-between">
@@ -1984,9 +1987,8 @@ function SettingGeneral() {
             </div>
           </div>
         </div>
-
-        <Modal.Body className="font-gilroy show-scroll mt-0 mr-3 max-h-80 overflow-y-auto">
-
+ 
+      <Modal.Body className="font-gilroy show-scroll mt-0 mr-3 max-h-80 md:!max-h-[50vh] overflow-y-auto">
           <div className="grid grid-cols-12 gap-x-4">
             <div className="col-span-12 md:col-span-6">
               <Form.Group>

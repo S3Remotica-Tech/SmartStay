@@ -171,20 +171,16 @@ function ManagedUsers() {
 
 
     return (
-        // <div className="w-full overflow-x-hidden overflow-auto max-h-[400px]">
-        <div className="w-full overflow-x-hidden max-h-[400px]">
+         <div className="w-full overflow-x-hidden max-h-[400px]">
             {
                 state.Settings?.addSettingStaffList?.length > 0 &&
 
-                // <div
-                //     className="font-gilroy mt-2 border border-gray-300 rounded-lg max-h-[320px] overflow-y-auto">
-                //     <Table className="align-middle">
                 <div className="font-gilroy mt-2 border border-gray-300 rounded-lg max-h-[400px] overflow-y-auto">
                     <Table className="align-middle">
                         <thead className="bg-[#F9FAFB] sticky top-0 z-10">
                             <tr>
                                 <th className="text-[#6B7280] text-[12px] font-semibold whitespace-nowrap">USER NAME</th>
-                                <th className="text-[#6B7280] text-[12px] font-semibold">ROLE ASSIGN</th>
+                                <th className="text-[#6B7280] text-[12px] font-semibold whitespace-nowrap">ROLE ASSIGN</th>
                                 <th className="text-[#6B7280] text-[12px] font-semibold">MAIL ID</th>
                                 <th className="text-[#6B7280] text-[12px] font-semibold">MOBILE NO</th>
                                 <th className="text-[#6B7280] text-[12px] font-semibold">DESCRIPTION</th>
