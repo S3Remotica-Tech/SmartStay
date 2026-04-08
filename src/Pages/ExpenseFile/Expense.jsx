@@ -955,20 +955,20 @@ function Expenses({ allPageHostel_Id }) {
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
+                 <div className="w-full overflow-x-auto md:scroll-smooth">
+                   <table className="min-w-[900px] border-collapse font-gilroy text-gray-900 text-sm font-medium">
                     <thead className="bg-blue-100 sticky top-0 z-20">
                       <tr className="h-9">
-                        <th className="w-[230px] px-2">Date</th>
-                        <th className="w-[230px] px-2">Category</th>
-                        <th className="w-[230px] px-2">Description</th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">Unit Count</th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">Per Unit Price</th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">Total Amount</th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">Mode of Payment</th>
-                        <th className="w-[230px] px-2">Action</th>
+                        <th className="px-2 text-left w-[70px]">Date</th>
+                        <th className="px-2 text-left w-[70px]">Category</th>
+                        <th className="px-2 text-left w-[90px] whitespace-nowrap">Sub Category</th>
+                        <th className="px-2 text-left min-w-[80px]">Description</th>
+                        <th className="px-2 text-left min-w-[60px] whitespace-nowrap">Unit Count</th>
+                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">Per Unit Price</th>
+                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">Total Amount</th>
+                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">Mode of Payment</th>
+                        <th className="px-2 text-left min-w-[70px] whitespace-nowrap">Action</th>
                       </tr>
-
                     </thead>
 
                     <tbody>

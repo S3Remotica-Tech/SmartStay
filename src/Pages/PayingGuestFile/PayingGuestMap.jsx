@@ -181,7 +181,7 @@ function PayingGuestMap(props) {
         </>
       ) : (
         <Card
-          className="animated-text ms-0 h-100 p-0"
+          className="animated-text h-100 p-0"
           key={props.hostel && props.hostel.hostelId}
           style={{
             borderRadius: 16,
@@ -192,15 +192,15 @@ function PayingGuestMap(props) {
                 : "1px solid #E6E6E6",
             transition: "border 0.3s ease",
             height: "auto",
-            // backgroundColor: props.hostel?.isSubscriptionValid  ? "#FFF" : "#dcdcdc"
-          }}
+              }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <Card.Body style={{ padding: 10 }}>
-            <div className="d-flex justify-content-between align-items-center flex-wrap">
-              <div className="d-flex gap-1 align-items-center">
-                <div className="">
+           
+                <div className="flex justify-between items-center flex-wrap">
+  <div className="flex gap-1 items-center">
+    <div>
                   {
                     props.hostel &&
                       props.hostel.mainImage !== undefined &&
@@ -210,26 +210,13 @@ function PayingGuestMap(props) {
                       <Image
                         src={props.hostel.mainImage}
                         roundedCircle
-                        style={{ height: "60px", width: "60px", objectFit: "cover" }}
+                        className="h-[60px] w-[60px] object-cover"
                       />
 
                     ) : (
 
                       <div
-                        style={{
-                          height: 50,
-                          width: 50,
-                          borderRadius: "50%",
-                          backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          // color: "white",
-                          fontWeight: 600,
-                          fontSize: 16,
-                          textTransform: "uppercase",
-                        }}
+                       className="h-[50px] w-[50px] rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-[16px] uppercase"
                       >
                         {props.hostel?.initials}
                       </div>
@@ -247,22 +234,12 @@ function PayingGuestMap(props) {
                   //     : null
                   // }
                   >
-
                     <label
-                      // className={`${!props.hostel?.isSubscriptionValid ? "" : "hover-hostel-name"}`}
-                      style={{
-                        fontSize: 14,
-                        color: !props.hostel?.isSubscriptionValid ? "grey" : "#1E45E1",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        // textDecoration: "underline",
-                        display: "inline-block",
-                        maxWidth: "150px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        verticalAlign: "middle",
-                      }}
+                     className={`text-[14px] font-semibold font-[Gilroy] inline-block max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis align-middle ${
+  !props.hostel?.isSubscriptionValid
+    ? "text-gray-500"
+    : "text-[#1E45E1]"
+}`}
                       title={props?.hostel?.name}
                     >
                       {props?.hostel?.name}
@@ -270,17 +247,8 @@ function PayingGuestMap(props) {
 
                   </div>
                   <div>
-                    <div
-                      style={{
-                        backgroundColor: "rgba(255, 239, 207, 1)",
-                        fontWeight: 500,
-                        width: "fit-content",
-                        padding: 5,
-                        borderRadius: 10,
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        color: "rgba(34, 34, 34, 1)",
-                      }}
+                    <div className="bg-[rgba(255,239,207,1)] font-medium w-fit p-[5px] rounded-[10px] text-[12px] font-[Gilroy] text-[rgba(34,34,34,1)]"
+                     
                     >
                       Paying Guest
                     </div>
@@ -290,33 +258,18 @@ function PayingGuestMap(props) {
 
               <div>
                 <div
-                  style={{
-                    backgroundColor: showDots ? "#E7F1FF" : "#fff",
-                    cursor: "pointer",
-                    height: 40,
-                    width: 40,
-                    borderRadius: 100,
-                    border: "1px solid #EFEFEF",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    position: "relative",
-                    zIndex: showDots ? 1000 : "auto",
-                  }}
+                  className={`h-[40px] w-[40px] rounded-full border border-[#EFEFEF] flex justify-center items-center relative cursor-pointer ${showDots ? "bg-[#E7F1FF] z-[1000]" : "bg-white"
+                    }`}
                   onClick={handleDotsClick}
                 >
-                  <PiDotsThreeOutlineVerticalFill
-                    style={{ height: 20, width: 20 }}
-                  />
+                  <PiDotsThreeOutlineVerticalFill className="h-[20px] w-[20px]" />
 
                   {showDots && (
                     <>
                       <div
                         ref={popupRef}
+                        className="absolute bg-white w-[140px] border border-[#E0E0E0] rounded-[10px] flex flex-col items-start z-[1050] cursor-pointer top-0"
                         style={{
-                          cursor: "pointer",
-                          backgroundColor: "#fff",
-                          position: "absolute",
                           right:
                             window.innerWidth <= 331
                               ? "auto"
@@ -326,34 +279,19 @@ function PayingGuestMap(props) {
                                   ? 30
                                   : 50,
                           left: window.innerWidth <= 331 ? 10 : "auto",
-                          top: 0,
-                          width: 140,
-                          border: "1px solid #E0E0E0",
-                          borderRadius: 10,
-                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-start",
-                          zIndex: 1050,
                         }}
                       >
 
-                        <div
-                          className="d-flex gap-2 align-items-center w-100"
+                        <div className={`flex gap-2 items-center w-full px-3 py-2 rounded-tl-[10px] rounded-tr-[10px] transition-colors duration-200 ease-in-out ${!canUpdatePayingGuests
+                          ? "opacity-50 cursor-not-allowed"
+                          : "opacity-100 cursor-pointer"
+                          }`}
                           onClick={
                             canUpdatePayingGuests && props.hostel?.isSubscriptionValid
                               ? () => handleEdit(props.hostel)
                               : undefined
                           }
-                          style={{
-                            padding: "8px 12px",
-                            width: "100%",
-                            borderTopLeftRadius: 10,
-                            borderTopRightRadius: 10,
-                            opacity: !canUpdatePayingGuests ? 0.5 : 1,
-                            cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
-                            transition: "background 0.2s ease-in-out",
-                          }}
+
                           onMouseEnter={(e) =>
 
                             (e.currentTarget.style.backgroundColor = "#F0F4FF")
@@ -366,40 +304,27 @@ function PayingGuestMap(props) {
                             size="16"
                             color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"}
                           />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
-                              cursor: "pointer",
-                              marginBottom: 0,
-                            }}
+                          <label className={`text-[14px] font-semibold font-[Gilroy] mb-0 cursor-pointer ${!canUpdatePayingGuests ? "text-[#A0A0A0]" : "text-[#1E45E1]"
+                            }`}
+
                           >
                             Edit
                           </label>
                         </div>
 
+                        <div className="h-[1px] bg-[#F0F0F0] w-full" />
 
-                        <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
+                        <div className={`flex gap-2 items-center w-full px-3 py-2 rounded-bl-[10px] rounded-br-[10px] transition-colors duration-200 ease-in-out ${!canDeletePayingGuests
+                          ? "opacity-50 cursor-not-allowed"
+                          : "opacity-100 cursor-pointer"
+                          }`}
 
-
-                        <div
-                          className="d-flex gap-2 align-items-center w-100"
                           onClick={
                             canDeletePayingGuests && props.hostel?.isSubscriptionValid
                               ? () => handleDelete(props.hostel)
                               : undefined
                           }
-                          style={{
-                            padding: "8px 12px",
-                            width: "100%",
-                            borderBottomLeftRadius: 10,
-                            borderBottomRightRadius: 10,
-                            opacity: !canDeletePayingGuests ? 0.5 : 1,
-                            cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                            transition: "background 0.2s ease-in-out",
-                          }}
+
                           onMouseEnter={(e) =>
                             (e.currentTarget.style.backgroundColor = "#FFF3F3")
                           }
@@ -411,15 +336,10 @@ function PayingGuestMap(props) {
                             size="16"
                             color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"}
                           />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
-                              cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                              marginBottom: 0,
-                            }}
+                          <label className={`text-[14px] font-semibold font-[Gilroy] pt-1 ${!canDeletePayingGuests
+                            ? "text-[#A0A0A0] cursor-not-allowed"
+                            : "text-[#FF0000] cursor-pointer"
+                            }`}
                           >
                             Delete
                           </label>
@@ -431,134 +351,69 @@ function PayingGuestMap(props) {
                 </div>
               </div>
             </div>
-            <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
+            <hr className="border border-[#E7E7E7] my-2" />
 
-            <div className="row g-2  d-flex justify-content-between m-0">
-              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
-                <Card
-                  className="pt-2 ps-3  m-0"
-                  style={{
-                    border: "1px solid  rgba(220, 220, 220, 1)",
-                    borderRadius: 12,
-                  }}
-                >
-                  <label
-                    style={{
-                      color: "#222",
-                      fontSize: 12,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+            <div className="flex flex-col lg:flex-row gap-2 m-0">
+              <div className="w-full lg:w-1/3">
+                <Card className="pt-2 pl-3 m-0 border border-[#DCDCDC] !rounded-xl">
+
+                  <label className="text-[#222] text-[12px] font-medium font-gilroy">
                     Available Beds
                   </label>
-                  <div className="">
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                      }}
-                    >
+
+                  <div>
+                    <label className="text-[#222222] text-[20px] font-semibold font-gilroy text-left block">
                       {props.hostel?.noOfAvailableBeds || "0"}
                     </label>
                   </div>
+
                 </Card>
               </div>
-              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
-                <Card
-                  className="pt-2 ps-3 m-0"
-                  style={{
-                    border: "1px solid  rgba(220, 220, 220, 1)",
-                    borderRadius: 12,
-                  }}
-                >
-                  <label
-                    style={{
-                      color: "#222",
-                      fontSize: 12,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+
+              <div className="w-full lg:w-1/3">
+                <Card className="pt-2 pl-3 m-0 border border-[#DCDCDC] !rounded-xl">
+
+                  <label className="text-[#222] text-[12px] font-medium font-gilroy">
                     Total Rooms
                   </label>
-                  <div className="">
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                      }}
-                    >
+
+                  <div>
+                    <label className="text-[#222222] text-[20px] font-semibold font-gilroy text-left block">
                       {props.hostel?.noOfRooms || "0"}
                     </label>
                   </div>
+
                 </Card>
               </div>
-              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
-                <Card
-                  className="pt-2 ps-3 m-0"
-                  style={{
-                    border: "1px solid  rgba(220, 220, 220, 1)",
-                    borderRadius: 12,
-                  }}
-                >
-                  <label
-                    style={{
-                      color: "#222",
-                      fontSize: 12,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+
+              <div className="w-full lg:w-1/3">
+                <Card className="pt-2 pl-3 m-0 border border-[#DCDCDC] !rounded-xl">
+
+                  <label className="text-[#222] text-[12px] font-medium font-gilroy">
                     Occupied Beds
                   </label>
-                  <div className="">
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        textAlign: "center",
-                      }}
-                    >
-                      {" "}
+
+                  <div>
+                    <label className="text-[#222222] text-[20px] font-semibold font-gilroy text-left  block">
                       {props.hostel?.noOfOccupiedBeds || "0"}
                     </label>
                   </div>
+
                 </Card>
               </div>
+
             </div>
 
-            <div className="d-flex justify-content-between align-items-center mb-1 mt-1 ms-2 flex-wrap">
-              <div className="pb-1" style={{ lineHeight: 1 }}>
-                <div className="pb-1">
-                  <label
-                    style={{
-                      color: "#000000",
-                      fontSize: 11,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Email ID{" "}
+            <div className="flex justify-between items-center flex-wrap mb-1 mt-1 ml-2">
+              <div className="pb-1 leading-[1]">
+                <div>
+                  <label className="text-black text-[11px] font-medium font-gilroy">
+                    Email ID
                   </label>
                 </div>
+
                 <div>
-                  <label
-                    style={{
-                      color: "#222222",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+                  <label className="text-[#222222] text-[14px] font-semibold font-gilroy">
                     {props.hostel.emailId &&
                       props.hostel.emailId !== "undefined"
                       ? props.hostel.emailId
@@ -567,59 +422,29 @@ function PayingGuestMap(props) {
                 </div>
               </div>
 
-              <div className="pb-1" style={{ lineHeight: 1 }}>
-                <div className="">
-                  <label
-                    style={{
-                      color: "#000000",
-                      fontSize: 11,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
+              <div className="pb-1 leading-[1]">
+                <div>
+                  <label className="text-black text-[11px] font-medium font-gilroy">
                     Floor
                   </label>
                 </div>
+
                 <div className="text-center">
-                  <label
-                    style={{
-                      color: "#222222",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {" "}
+                  <label className="text-[#222222] text-[14px] font-semibold font-gilroy">
                     {props.hostel?.noOfFloors || "0"}
                   </label>
                 </div>
               </div>
-              <div className="pb-1 ms-2" style={{ lineHeight: 1 }}>
-                <div className="">
-                  <label
-                    style={{
-                      color: "#000000",
-                      fontSize: 11,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      textAlign: "center",
-                    }}
-                  >
+
+              <div className="pb-1 leading-[1]">
+                <div>
+                  <label className="text-black text-[11px] font-medium font-gilroy">
                     Contact Number
                   </label>
                 </div>
-                <div>
-                  <label
-                    style={{
-                      color: "#222222",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      textAlign: "center",
-                      marginRight: 5,
-                    }}
-                  >
 
+                <div className="text-center">
+                  <label className="text-[#222222] text-[14px] font-semibold font-gilroy">
                     {props.hostel &&
                       String(props.hostel.mobile).slice(
                         0,
@@ -633,32 +458,15 @@ function PayingGuestMap(props) {
 
             </div>
 
-            <div className="mb-2 col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 ms-2" style={{ lineHeight: 1 }}>
-              <div className="mb-1" style={{}}>
-                <label
-                  style={{
-                    color: "#000000",
-                    fontSize: 11,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {" "}
+            <div className="mb-2 w-full ml-2 leading-[1]">
+              <div className="mb-1">
+                <label className="text-black text-[11px] font-medium font-[Gilroy]">
                   Address
                 </label>
               </div>
 
               <div
-                style={{
-                  lineHeight: 1.5,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  display: "block",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
+                className="leading-[1.5] overflow-hidden text-ellipsis whitespace-nowrap block text-[14px] font-semibold font-[Gilroy]"
                 title={[
                   props.hostel?.houseNo,
                   props.hostel?.street,
@@ -687,8 +495,18 @@ function PayingGuestMap(props) {
 
                   return (
                     <>
-                      {addressParts.length > 0 && <>{addressParts.join(", ")}<br /></>}
-                      {cityStatePin.length > 0 && <>{cityStatePin.join(" ")}<br /></>}
+                      {addressParts.length > 0 && (
+                        <>
+                          {addressParts.join(", ")}
+                          <br />
+                        </>
+                      )}
+                      {cityStatePin.length > 0 && (
+                        <>
+                          {cityStatePin.join(" ")}
+                          <br />
+                        </>
+                      )}
                     </>
                   );
                 })()}

@@ -520,10 +520,10 @@ function LongStayRecurringModal() {
             <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
                 <div>
                     <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap flex gap-2 items-center">
-                        <ArrowLeft size={24} color="#292D32" className="cursor-pointer"
+                        <ArrowLeft size={24} color="#292D32" className="cursor-pointer -ml-1"
                             onClick={() => handleNavigateBillingRule("billing-rule")} /> Billing Rule
                     </label>
-                    <div>
+                    <div className="-ml-1">
                         <label className="text-[#7C7C7C] font-medium text-sm">Billing Rule / </label>
                         <span className="text-[#4A4A4A] text-sm  font-semibold"> Long Stay Recurring </span>
                     </div>
@@ -607,7 +607,8 @@ function LongStayRecurringModal() {
                                 <label className="text-sm font-semibold text-[#222222] cursor-pointer ">
                                     Tenant Joining Based
                                 </label>
-                                <label className="text-xs text-gray-500 cursor-pointer whitespace-nowrap">
+                               
+                                <label className="text-xs text-gray-500 cursor-pointer lg:whitespace-nowrap">
                                     Invoices are generated based on each tenant's join date.
                                 </label>
                             </div>
@@ -722,7 +723,7 @@ function LongStayRecurringModal() {
 
 
                             <div
-                                onClick={() =>  handleChangePaid("prepaid")}
+                                onClick={() => handleChangePaid("prepaid")}
                                 className={`cursor-pointer flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
     
     ${billingPeriod === "prepaid"
@@ -741,14 +742,14 @@ function LongStayRecurringModal() {
 
                                 <div >
                                     <div>
-                                    <label className="text-sm font-semibold text-[#222222] cursor-pointer">
-                                        Prepaid
-                                    </label>
+                                        <label className="text-sm font-semibold text-[#222222] cursor-pointer">
+                                            Prepaid
+                                        </label>
                                     </div>
                                     <div>
-                                    <label className="text-xs text-gray-500 cursor-pointer">
-                                        Invoices will generate at the start date of month
-                                    </label>
+                                        <label className="text-xs text-gray-500 cursor-pointer">
+                                            Invoices will generate at the start date of month
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -773,14 +774,14 @@ function LongStayRecurringModal() {
 
                                 <div>
                                     <div>
-                                    <label className="text-sm font-semibold text-[#222222]">
-                                        Postpaid
-                                    </label>
+                                        <label className="text-sm font-semibold text-[#222222]">
+                                            Postpaid
+                                        </label>
                                     </div>
                                     <div>
-                                    <label className="text-xs text-gray-500 cursor-pointer ">
-                                        Invoices will generate at the end date of month
-                                    </label>
+                                        <label className="text-xs text-gray-500 cursor-pointer ">
+                                            Invoices will generate at the end date of month
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -810,13 +811,13 @@ function LongStayRecurringModal() {
                         </div>
                     }
 
-                    
+
 
                     <div className="flex justify-end mt-6">
                         <button
                             disabled={!state.UsersList.hotelDetailsinPg?.canModifyBilling}
                             onClick={handleSave}
-                            className={`flex items-center gap-2 text-sm font-gilroy px-5 py-2.5 rounded-lg border
+                            className={`flex items-center gap-2 text-sm font-gilroy px-4 py-2.5 rounded-lg border
   ${state.UsersList.hotelDetailsinPg?.canModifyBilling
                                     ? "bg-[#1E45E1] hover:bg-blue-900 text-white border-1 border-[#081E76] cursor-pointer"
                                     : "bg-gray-200 text-gray-500 border-gray-200 cursor-not-allowed"
@@ -828,13 +829,13 @@ function LongStayRecurringModal() {
                                     state.UsersList.hotelDetailsinPg?.canModifyBilling ? "#FFFFFF" : "#9CA3AF"
                                 }
                             />
-
-                            {state?.Settings?.SettingsBillsGetRecurring?.billStartDate
+                            Save Configuration
+                            {/* {state?.Settings?.SettingsBillsGetRecurring?.billStartDate
                                 ? "Edit Configuration"
-                                : "Save Configuration"}
+                                : "Save Configuration"} */}
                         </button>
                     </div>
-                 
+
 
                 </div>
 

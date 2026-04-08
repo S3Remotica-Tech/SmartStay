@@ -315,7 +315,7 @@ const [page, setPage] = useState(1);
                       <thead className="font-gilroy bg-blue-100 sticky top-0 z-10 font-medium text-sm text-black sticky top-0 z-1"
                       >
                         <tr>
-                          <th>Staff Name</th>
+                          <th className="whitespace-nowrap">Staff Name</th>
                           <th>Email</th>
                           <th>Mobile No</th>
                           <th>Roles</th>

@@ -12,7 +12,7 @@ function SettingIntergration() {
         </label>
       </div>
 
-      <div className="h-[calc(100vh-50px)] flex justify-center items-start -translate-y-10 overflow-hidden">
+      <div className="h-[calc(100vh-70px)] flex justify-center items-start -translate-y-10 overflow-hidden">
         <ComingSoon />
       </div>
     </div>

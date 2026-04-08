@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowRight2,  } from 'iconsax-react';
+import { ArrowRight2, } from 'iconsax-react';
 import { useHasPermission } from '../../../Utils/Permission';
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../../Components/ErrorMessage';
@@ -15,8 +15,8 @@ function BillingRule() {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-   const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
   const [shortStayChecked, setShortStayChecked] = useState(false);
@@ -26,7 +26,7 @@ function BillingRule() {
 
   const handleShowLongStay = (tabName) => {
     // setShowLongStay(true)
-const hostelId = state.login?.selectedHostel_Id;
+    const hostelId = state.login?.selectedHostel_Id;
     if (hostelId) {
       navigate(`/settings/${hostelId}/${tabName}`);
     } else {
@@ -36,7 +36,7 @@ const hostelId = state.login?.selectedHostel_Id;
 
   };
 
-console.log("recurringBills",recurringBills)
+  console.log("recurringBills", recurringBills)
 
   // const handleCloseLongStay = () => {
   //   dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
@@ -143,15 +143,15 @@ console.log("recurringBills",recurringBills)
 
 
   return (
-    <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy ">
+    <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy">
       <div className="sticky top-0 left-0 right-0 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
-        <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
+        <label className="text-black font-semibold text-[18px] font-gilroy -ml-2">
           Billing Rule
         </label>
 
       </div>
 
-       <div className="flex-1 overflow-hidden px-4 py-3">
+      <div className="flex-1 overflow-hidden px-4 py-3">
         {!canReadRecurring ? (
           <>
             <div className="flex flex-col items-center justify-center mt-24">
@@ -164,11 +164,15 @@ console.log("recurringBills",recurringBills)
             </div>
           </>
         ) : (
-        <div className="space-y-4">
+          <div className="space-y-4">
 
-            <div className="grid grid-cols-12 gap-3  ">
-
-              <div className="col-span-12 md:col-span-12">
+            <div className="grid grid-cols-12 gap-3">
+              <div
+                className={`col-span-12 md:col-span-12 cursor-pointer`}
+                onClick={() => {
+                  if (canWriteBills) handleShowLongStay("long-stay-recurring");
+                }}
+              >
                 <div className="h-full rounded-lg  shadow-md bg-white">
                   <div className="px-[10px] py-[10px] flex  items-center justify-between">
 
@@ -212,14 +216,12 @@ console.log("recurringBills",recurringBills)
                         <ArrowRight2
                           color="#28303F"
                           size="14"
-                          // variant="Bold"
                           className={`${!canWriteBills ? "opacity-40 cursor-not-allowed pointer-events-none" : "cursor-pointer"
                             }`}
-                         onClick={canWriteBills ? () => handleShowLongStay("long-stay-recurring") : undefined}
                         />
                       </div>
                     </div>
-                   
+
                   </div>
                 </div>
               </div>
@@ -235,42 +237,27 @@ console.log("recurringBills",recurringBills)
                       </div>
 
                       <div>
-                        <div className="mb-1 font-gilroy font-semibold text-base text-gray-900">
+                        <div className="mb- font-gilroy font-semibold text-base text-gray-900">
                           Short Stay Recurring
                         </div>
 
-                        <div className="text-gray-600 text-[13px] font-gilroy mb-1">
+                        {/* <div className="text-gray-600 text-[13px] font-gilroy mb-1">
                           Fill the template form with details you'd like to customize.
-                        </div>
+                        </div> */}
+
                       </div>
                     </div>
 
                     <div className="flex gap-4 items-center">
-                      <div className="flex items-center">
-
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={shortStayChecked}
-                            onChange={(e) => setShortStayChecked(e.target.checked)}
-                            disabled
-                            className="sr-only peer"
-                          />
-
-                          <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-700 after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4 peer-disabled:opacity-50"></div>
-                        </label>
-
-                        <span className="text-sm font-gilroy leading-none ml-2">
-                          {shortStayChecked ? "On" : "Off"}
-                        </span>
+                      <div>
+                        <button
+                          disabled
+                          className="w-full sm:w-auto sm:min-w-[140px] h-10 rounded-lg bg-blue-600 text-white font-semibold border-0 font-gilroy
+               disabled:bg-blue-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                        >
+                          Coming Soon
+                        </button>
                       </div>
-
-                      {/* <div>
-                        <ArrowRight2 color="#28303F" size="14" varient="bold"
-                          disabled={!canWriteBills}
-                          onClick={handleShowLongStay} />
-                      </div> */}
-
                     </div>
 
 

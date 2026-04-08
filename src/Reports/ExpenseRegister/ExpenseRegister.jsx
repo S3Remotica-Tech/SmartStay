@@ -764,16 +764,12 @@ function ExpenseRegister() {
                   <th className="px-4 py-2.5 text-left font-semibold sticky left-[150px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
                     Category
                   </th>
-
-
-
-
-
+                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[150px] z-30 bg-[#F9FAFB] w-[200px]  uppercase whitespace-nowrap">
+                    Sub Category
+                  </th>
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     Description
                   </th>
-
-
                   <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] whitespace-nowrap">
                     <div className="flex justify-center items-center gap-1">
                       unit count
@@ -801,8 +797,6 @@ function ExpenseRegister() {
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
-
-
                   <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] rounded-tr-xl whitespace-nowrap">
                     Debited from
                   </th>
@@ -865,9 +859,37 @@ function ExpenseRegister() {
                       </div>
                     </td>
 
+                    {/* <td className="px-4 py-2.5 text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+                      {row.expenseSubCategory || "-"}
+                    </td> */}
 
+                    <td className="px-4 py-2.5 text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <span
+                          onMouseEnter={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setPosition({
+                              top: rect.top + rect.height / 2,
+                              left: rect.right + 10,
+                            });
+                            setCategoryTooltip(`sub-${i}`);
+                          }}
+                          onMouseLeave={() => setCategoryTooltip(null)}
+                          className="truncate whitespace-nowrap"
+                        >
+                          {row.expenseSubCategory || "-"}
 
-
+                          {categoryTooltip === `sub-${i}` && row.expenseSubCategory && (
+                            <div
+                              style={{ top: position.top, left: position.left }}
+                              className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800 border-gray-200 text-xs px-3 py-1.5 rounded-md max-w-[220px] whitespace-normal break-words pointer-events-none"
+                            >
+                              {row.expenseSubCategory}
+                            </div>
+                          )}
+                        </span>
+                      </div>
+                    </td>
 
                     <td
                       onMouseEnter={(e) => {
