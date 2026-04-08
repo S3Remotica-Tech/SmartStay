@@ -403,7 +403,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
                     </Modal.Header>
 
-                    <Modal.Body className="max-h-96 show-scroll overflow-y-scroll pt-0 mt-1 mr-3">
+                    <Modal.Body className="max-h-60 md:max-h-80 sm:max-h-72 show-scroll overflow-y-scroll pt-0 mt-1 mr-3">
 
                         <div className="w-full">
                             <div className="mb-2">
@@ -419,7 +419,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                                     onChange={(e) => handleRoleName(e)}
                                     className="w-full h-[45px] px-3 text-[14px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
                                 />
-                                 {errorForm && <ErrorMessage message={errorForm} type="error" />}
+                                {errorForm && <ErrorMessage message={errorForm} type="error" />}
 
                                 {roleError && <ErrorMessage message={roleError} type="error" />}
                                 {editRoleError && <ErrorMessage message={editRoleError} type="error" />}
@@ -433,7 +433,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                             <div className="mb-2">
                                 <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
                                     Role Description{" "}
-                                    
+
                                 </label>
                                 <textarea
                                     value={description}
@@ -447,7 +447,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
                         </div>
-                       
+
                         <div className="border border-gray-300 rounded-2xl max-h-[272px] overflow-y-auto">
                             <table className="min-w-full border-collapse mb-0">
                                 <thead className="bg-[#E7F1FF] sticky top-0 z-10">

@@ -729,7 +729,7 @@ function SettingManage() {
               </div>
             </>
           ) :
-            
+
             <div className="mt-4 h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
               {filteredData?.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8">
@@ -750,19 +750,25 @@ function SettingManage() {
               ) : (
                 !loading &&
                 filteredData.length === 0 && (
-                  <div className="flex-1 flex flex-col items-center justify-center w-full 2xl:mt-32">
-                    <img src={EmptyState} alt="Empty state" className="mb-4" />
-                    <div className="pb-1 text-center font-gilroy font-semibold !text-lg text-[#4B4B4B] mt-2">
-                      No Paying Guest available
-                    </div>
-                    <div className="pb-1 text-center font-gilroy !font-medium !text-sm text-[#4B4B4B]">
+                 
+                  <div className="flex items-center justify-center w-full mt-24 2xl:mt-52">
+                    <div className="text-center">
+                      <div className="flex justify-center mb-2">
+                        <img src={EmptyState} alt="Empty state" />
+                      </div>
+
+                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                        No Paying Guest available
+                      </div>
+                      <div className="text-center font-gilroy !font-medium !text-sm text-[#4B4B4B]">
                       There are no Paying Guest added.
+                    </div>
                     </div>
                   </div>
                 )
               )}
             </div>
-         }
+          }
 
         </>
       )}

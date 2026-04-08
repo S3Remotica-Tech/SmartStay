@@ -1294,7 +1294,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
           <div className="grid grid-cols-12 h-screen">
             <div className="col-span-12 md:col-span-4">
               <div className="bg-white sticky top-0 z-10 pb-2 h-[75px]">
-                <h4 className="mb-2 pt-2 font-gilroy text-[22px] text-[#222222] font-semibold whitespace-nowrap">
+                <h4 className="mb-2 pt-2 font-gilroy text-[22px] md:text-lg text-[#222222] font-semibold whitespace-nowrap">
                   Customize Bill Templates
                 </h4>
 
@@ -1334,7 +1334,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                     </button>
                   ))}
                 </div> */}
-                <div className="bg-white flex justify-center gap-3 mb-4">
+                {/* <div className="bg-white flex justify-center gap-3 mb-4"> */}
+                <div className="bg-white flex flex-wrap justify-center md:justify-start gap-2 md:gap-3 mb-4">
                   {PdfOptions.map((option) => (
                     <button
                       key={option.value}
@@ -1343,9 +1344,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         setEditFormErrMessage("");
                       }}
                       className={`
-        rounded-full py-1.5 px-4 font-gilroy text-[12px] font-semibold leading-[100%] tracking-[0%] 
-        text-center
-        border
+         font-gilroy text-[12px] font-semibold leading-[100%] tracking-[0%] 
+        text-center rounded-full py-1.5 px-3 md:px-4 whitespace-nowrap
+        border  md:mb-2
         ${selectedTab === option.value
                           ? "bg-[#1E45E1] border-[#0d6efd] text-white"
                           : "bg-transparent border-[#6c757d] text-[#6c757d]"}
@@ -2051,7 +2052,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           />
                         </div>
 
-                        <div className="flex justify-between mt-3">
+                        {/* <div className="flex justify-between mt-3"> */}
+                        <div className="flex flex-wrap justify-center gap-2 mt-3">
                           <input
                             value={hexValue}
                             readOnly
@@ -2621,10 +2623,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
             {global ?
-              <div className="h-[600px] flex flex-col overflow-hidden py-2 w-full">
-
+              <div className="h-[580px] lg:h-[580px] 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
                 <div className="bg-white sticky top-0 z-10 pb-2 h-20">
-
                   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
                     <label className="font-gilroy text-[18px] text-[#222] font-semibold">
                       Bill Template Manager
@@ -2655,19 +2655,19 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                     </p>
                   </div>
 
-                  <div className="mb-5 -mt-7">
-                    <div className="mb-5 flex flex-col md:flex-row items-center gap-2">
+                  <div className="-mt-7 mb-4 md:mb-3">
+                    <div className="mb-5 flex flex-col md:flex-col lg:flex-row items-start gap-2">
 
-                      <div className="w-full md:w-1/3">
+                      <div className="w-full flex flex-col md:flex-col lg:w-1/3 gap-1">
                         <label className="block font-gilroy text-lg font-semibold text-gray-900">
                           Hostel/PG Logo
                         </label>
 
-                        <div className="mt-1 text-xs font-gilroy text-gray-600 whitespace-nowrap">
+                        <div className="text-xs font-gilroy text-gray-600 whitespace-nowrap">
                           This will appear in Bill Template
                         </div>
 
-                        <div className="mt-2 flex items-start gap-2">
+                        <div className="flex items-start gap-2 mt-1">
                           <input
                             type="checkbox"
                             id="customizeLogo"
@@ -2678,15 +2678,16 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                           <label
                             htmlFor="customizeLogo"
-                            className="text-xs font-gilroy italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap -mt-1"
+                            className="text-xs font-gilroy italic font-semibold text-[rgba(30,69,225,1)] -mt-1"
+
                           >
                             Customize in Specific Templates
                           </label>
                         </div>
                       </div>
 
-                      <div className="w-full md:w-7/12">
-                        <div className="flex items-center justify-center gap-4 p-3 border rounded bg-gray-50">
+                      <div className="w-full md:w-full lg:w-7/12">
+                        <div className="flex flex-col md:flex-col lg:flex-row items-start lg:items-center justify-center gap-4 p-3 border rounded bg-gray-50">
 
                           <div
                             className="relative inline-block"
@@ -2726,8 +2727,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             <div>
                               <label
                                 className={`font-gilroy text-sm font-normal ${canUpdateInvoice
-                                    ? "text-[rgba(30,69,225,1)] cursor-pointer"
-                                    : "text-gray-400 cursor-not-allowed"
+                                  ? "text-[rgba(30,69,225,1)] cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed"
                                   }`}
                                 onClick={(e) => {
                                   if (!canUpdateInvoice) e.preventDefault();
@@ -2755,24 +2756,21 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                         </div>
                       </div>
-
-
-
                     </div>
+
                     {fieldError && (
                       <div className="mt-0 mb-5 flex w-full justify-center">
                         <ErrorMessage message={fieldError} type="error" />
                       </div>
                     )}
 
-                    <div className="mb-4 -mt-5 flex flex-col md:flex-row items-center gap-2">
-
+                    <div className="mb-4 -mt-5 flex flex-col md:flex-col lg:flex-row items-start md:items-start gap-2">
                       <div className="w-full md:w-1/3">
                         <label className="block font-gilroy text-base font-semibold text-gray-900 mb-1">
                           Contact Number
                         </label>
 
-                        <div className=" flex items-start gap-2">
+                        <div className="flex items-start gap-2 md:mb-0">
                           <input
                             type="checkbox"
                             id="customizeContact"
@@ -2789,12 +2787,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
                       </div>
 
-                      <div className="w-full md:w-7/12">
-                        <div className="flex items-center h-11 overflow-hidden rounded-xl border border-gray-200">
+                      <div className="w-full md:w-full lg:w-7/12">
+                        <div className="flex items-center h-11 overflow-hidden rounded-md border border-gray-200">
 
                           <select
                             defaultValue="+91"
-                            className="w-16 bg-transparent font-gilroy text-xs font-normal text-gray-600 appearance-none focus:outline-none px-2"
+                            className="bg-transparent font-gilroy text-xs font-normal text-gray-600 appearance-none focus:outline-none px-2"
                           >
                             <option value="+91">+91</option>
                             <option value="+1">+1</option>
@@ -2820,8 +2818,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                     </div>
 
-                    <div className="mb-4 flex flex-col md:flex-row items-center gap-2">
-
+                    <div className="mb-4 flex flex-col md:flex-col lg:flex-row items-start gap-2">
                       <div className="w-full md:w-1/3">
                         <label className="mb-1 block font-gilroy text-base font-semibold text-gray-900">
                           E-Mail Address
@@ -2844,7 +2841,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
                       </div>
 
-                      <div className="w-full md:w-7/12">
+                      <div className="w-full md:w-full lg:w-7/12">
                         <input
                           type="email"
                           placeholder="example@email.com"
@@ -2861,10 +2858,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                     </div>
 
-                    <div className="mb-2 flex flex-col md:flex-row items-center gap-2">
-
-                      <div className="w-full md:w-1/3 mb-5 -mt-2.5">
-                        <label className="block font-gilroy text-base font-semibold text-gray-900">
+                    <div className="mb-2 flex flex-col md:flex-col lg:flex-row items-start gap-2">
+                      <div className="w-full md:w-1/3">
+                        <label className="block font-gilroy text-base font-semibold text-gray-900 whitespace-nowrap">
                           Digital Signature Upload
                         </label>
 
@@ -2890,9 +2886,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                       </div>
 
 
-                      <div className="w-full md:w-7/12">
-
-
+                      <div className="w-full md:w-full lg:w-7/12">
                         <div
                           className="relative mt-2 flex items-center justify-center h-28 rounded border-2 border-dotted border-gray-300"
                           onMouseEnter={() => setIsHoveringSign(true)}
@@ -2934,7 +2928,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           )}
                         </div>
 
-                        {/* Actions */}
                         <div className="mt-2 flex items-center justify-between">
 
                           <div>
@@ -3076,7 +3069,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <h6 className="mb-1 text-[17px] font-semibold text-[#222] whitespace-nowrap font-gilroy">
                             Templates
                           </h6>
-                          <p className="text-xs font-semibold text-gray-500 whitespace-nowrap font-gilroy">
+                          <p className="text-xs font-semibold text-gray-500 lg:whitespace-nowrap font-gilroy">
                             Fill the template form with details you like to customize.
                           </p>
                         </div>

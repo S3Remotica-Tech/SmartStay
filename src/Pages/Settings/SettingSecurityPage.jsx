@@ -126,28 +126,24 @@ const Profile_Security = () => {
 
   return (
 
-    <div>
-      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center mt-2 whitespace-nowrap">
-        <label className="text-black font-gilroy font-semibold text-lg whitespace-nowrap">
+    <div className="overflow-hidden w-full">
+
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center mt-2 w-full">
+        <label className="text-black font-gilroy font-semibold text-lg w-full md:w-auto">
           Security
         </label>
       </div>
 
-      <div className="flex justify-between cardnewsubs">
-
-        <div className="w-1/2">
-          <h6 className="text-[#222222] font-gilroy font-semibold text-[16px] leading-normal">
+      <div className="flex flex-col md:flex-row justify-between w-full mt-2">
+        <div className="w-full md:w-2/3">
+          <h6 className="text-[#222222] font-gilroy font-semibold text-[16px] md:text-[14px] lg:text-[16px] leading-normal">
             Enable Two-factor Authentication
           </h6>
-          <p
-            className={`font-montserrat font-medium text-[#4B4B4B] leading-[19.6px] text-[${isSmallScreen ? 10 : 14}px]`}
-          >
+          <p className="font-montserrat font-medium text-[#4B4B4B] leading-[19.6px] text-[14px] md:text-[12px] lg:text-[14px]">
             Enhance your account security by enabling two-factor authentication. This adds an extra layer of protection, ensuring only you can access your account.
           </p>
         </div>
-
-        {/* Switch - 16.66% width */}
-        <div className="w-1/6 flex items-center">
+        <div className="w-full md:w-1/6 flex items-center mt-2 md:mt-0">
           <Form.Check
             type="switch"
             id="custom-switch"
@@ -157,19 +153,16 @@ const Profile_Security = () => {
         </div>
       </div>
 
-      <div className="flex justify-between cardnewsubs">
-        <div className="w-1/2">
-          <h6 className="text-[#222222] font-gilroy font-semibold text-[16px] leading-normal">
+      <div className="flex flex-col md:flex-row justify-between w-full mt-2">
+        <div className="w-full md:w-2/3">
+          <h6 className="text-[#222222] font-gilroy font-semibold text-[16px] md:text-[14px] lg:text-[16px] leading-normal">
             Email Setup
           </h6>
-          <p
-            className={`font-montserrat font-medium text-[#4B4B4B] leading-[19.6px] text-[${isSmallScreen ? 10 : 14}px]`}
-          >
+          <p className="font-montserrat font-medium text-[#4B4B4B] leading-[19.6px] text-[14px] md:text-[12px] lg:text-[14px]">
             Configure email authentication to receive security notifications and verification codes directly in your inbox.
           </p>
         </div>
-
-        <div className="w-1/6 flex items-center">
+        <div className="w-full md:w-1/6 flex items-center mt-2 md:mt-0">
           <Form.Check
             type="switch"
             id="custom-switch-email"
@@ -179,19 +172,16 @@ const Profile_Security = () => {
         </div>
       </div>
 
-      <div className="flex justify-between cardnewsubs">
-        <div className="w-1/2">
-          <h6 className="text-[#222222] font-gilroy font-semibold text-[16px] leading-normal">
+      <div className="flex flex-col md:flex-row justify-between w-full mt-2">
+        <div className="w-full md:w-2/3">
+          <h6 className="text-[#222222] font-gilroy font-semibold text-[16px] md:text-[14px] lg:text-[16px] leading-normal">
             SMS Setup
           </h6>
-          <p
-            className={`font-montserrat font-medium text-[#4B4B4B] leading-[19.6px] text-[${isSmallScreen ? 10 : 14}px]`}
-          >
+          <p className="font-montserrat font-medium text-[#4B4B4B] leading-[19.6px] text-[14px] md:text-[12px] lg:text-[14px]">
             Set up SMS authentication to receive security alerts and verification codes via text messages for added account protection.
           </p>
         </div>
-
-        <div className="w-1/6 flex items-center">
+        <div className="w-full md:w-1/6 flex items-center mt-2 md:mt-0">
           <Form.Check
             type="switch"
             id="custom-switch-sms"
@@ -201,7 +191,7 @@ const Profile_Security = () => {
         </div>
       </div>
 
-      <div className="flex justify-start mt-3 mb-2">
+      <div className="flex justify-start mt-3 mb-2 w-full">
         <Button
           onClick={handleTwoStepVerify}
           disabled={!isChanged}
@@ -211,8 +201,6 @@ const Profile_Security = () => {
         </Button>
       </div>
     </div>
-
-
   )
 }
 export default withErrorBoundary(Profile_Security);
