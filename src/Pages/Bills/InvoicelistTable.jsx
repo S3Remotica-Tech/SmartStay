@@ -389,7 +389,7 @@ const InvoiceTable = (props) => {
                       </button>
                     )}
 
-                  {(props.item?.invoiceAmount > 0 &&
+                  {/* {(props.item?.invoiceAmount > 0 &&
                     props.item?.paymentStatus === "Pending" &&
                     !props.item?.isDiscounted &&
                     (props.item?.invoiceType === "Rent" ||
@@ -403,8 +403,24 @@ const InvoiceTable = (props) => {
                         <DiscountCircle size="16" color="#ec400c" />
                         <span className="text-sm font-medium text-[#222]">Make Discount</span>
                       </button>
-                    )}
+                    )} */}
 
+                  {(props.item?.invoiceAmount > 0 &&
+                    props.item?.paymentStatus === "Pending" &&
+                    !props.item?.isDiscounted &&
+                    (props.item?.invoiceType === "Rent" ||
+                      props.item?.invoiceType === "Settlement" ||
+                      props.item?.invoiceType === "Reassign-Rent")) && (
+                      <button
+                        disabled={!canWriteInvoice}
+                        onClick={() => canWriteInvoice && handleMakeDiscount(props.item)}
+                        className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
+      ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                      >
+                        <DiscountCircle size="16" color="#ec400c" />
+                        <span className="text-sm font-medium text-[#222]">Make Discount</span>
+                      </button>
+                    )}
 
 
 

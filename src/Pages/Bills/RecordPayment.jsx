@@ -182,10 +182,19 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
     console.log("invoiceList", invoiceList)
 
+    // const convertToYMD = (dateStr) => {
+    //     const [day, month, year] = dateStr.split("/");
+    //      return `${year}-${month}-${day}`;
+    // };
+
     const convertToYMD = (dateStr) => {
-        const [day, month, year] = dateStr.split("/");
-         return `${year}-${month}-${day}`;
-    };
+    if (!dateStr) return null;
+
+    const parsedDate = dayjs(dateStr, ["DD/MM/YYYY", "YYYY-MM-DD"], true);
+    if (!parsedDate.isValid()) return null;
+
+    return parsedDate.format("YYYY-MM-DD");
+};
 
 
     const handleSaveInvoiceList = () => {
