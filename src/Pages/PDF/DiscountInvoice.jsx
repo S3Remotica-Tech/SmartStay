@@ -1,4 +1,3 @@
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import { CloseCircle, DocumentText } from 'iconsax-react';
 import React, {
@@ -9,13 +8,14 @@ import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../Components/ErrorMessage'
 import Select from "react-select";
-import {Add } from "iconsax-react";
+import { Add } from "iconsax-react";
 
 
-function DiscountInvoice({ show, handleClose }) {
+function DiscountInvoice({ show, handleClose, isEdit = false, editData }) {
 
 
     const state = useSelector((state) => state);
+
     const [discountInput, setDiscountInput] = useState("");
     const [discountInputError, setDiscountInputError] = useState("");
     const [reasonError, setReasonError] = useState("")
@@ -25,6 +25,8 @@ function DiscountInvoice({ show, handleClose }) {
     const [discountType, setDiscountType] = useState("amount");
     const [selectedReason, setSelectedReason] = useState(null);
     const [customReason, setCustomReason] = useState("");
+    const [noChangesError, setNoChangesError] = useState("");
+
     const handleDiscountChange = (e) => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
         dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
@@ -56,8 +58,12 @@ function DiscountInvoice({ show, handleClose }) {
     }
 
 
-
-    const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
+    // const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
+    const total = parseFloat(
+        isEdit
+            ? pdfDetails?.invoiceInfo?.subTotal
+            : pdfDetails?.invoiceInfo?.totalAmount
+    ) || 0;
     const discount = parseFloat(discountInput) || 0;
     const calculatedDiscount =
         discountType === "percent"
@@ -77,76 +83,189 @@ function DiscountInvoice({ show, handleClose }) {
     ];
 
 
+    // const handleApplyInvoices = () => {
+
+    //     dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+    //       dispatch({
+    //         type: isEdit
+    //             ? 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR'
+    //             : 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR'
+    //     });
+
+    //     let hasError = false;
+
+    //     const finalReason =
+    //         selectedReason?.value === "other"
+    //             ? customReason
+    //             : selectedReason?.label;
+
+    //     const discountValue = parseFloat(discountInput) || 0;
+    //     const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
+
+
+    //     setDiscountInputError('');
+    //     setReasonError('');
+
+
+    //     if (!discountInput) {
+    //         setDiscountInputError("Please Enter Discount");
+    //         hasError = true;
+    //     }
+
+    //     if (!finalReason) {
+    //         setReasonError("Please select or enter reason");
+    //         hasError = true;
+    //     }
+
+    //     if (discountType === "percent" && discountValue > 100) {
+    //         setDiscountInputError("Percentage cannot exceed 100");
+    //         hasError = true;
+    //     }
+
+    //     if (discountType === "amount" && discountValue > total) {
+    //         setDiscountInputError("Discount cannot exceed total amount");
+    //         hasError = true;
+    //     }
+
+
+    //     if (hasError) return;
+
+
+
+
+    //     let payload = {
+    //         hostelId: state.login?.selectedHostel_Id,
+    //         invoiceId: pdfDetails?.invoiceId,
+    //         reason: finalReason,
+    //     };
+
+    //     console.log("DISCOUNT PAYLOAD:", payload);
+
+    //     if (discountType === "amount") {
+    //         payload.discountAmount = discountValue;
+    //     } else {
+    //         payload.discountPercentage = discountValue;
+    //     }
+
+    //     // dispatch({
+    //     //     type: 'INVOICE_DISCOUNT_SAGA',
+    //     //     payload
+    //     // });
+    //     dispatch({
+    //         type: isEdit
+    //             ? 'EDIT_INVOICE_DISCOUNT'
+    //             : 'INVOICE_DISCOUNT',
+    //         payload
+    //     });
+
+    //     setFormLoading(true);
+    // };
+
+  
+
     const handleApplyInvoices = () => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+        setFormLoading(true);
+        let errorFound = false;
 
-        let hasError = false;
+        setDiscountInputError("");
+        setReasonError("");
 
-        const finalReason =
-            selectedReason?.value === "other"
-                ? customReason
-                : selectedReason?.label;
-
-        const discountValue = parseFloat(discountInput) || 0;
-        const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
-
-
-        setDiscountInputError('');
-        setReasonError('');
-
-
-        if (!discountInput) {
-            setDiscountInputError("Please Enter Discount");
-            hasError = true;
+        if (!discountInput || parseFloat(discountInput) <= 0) {
+            setDiscountInputError("Please enter discount");
+            errorFound = true;
         }
 
-        if (!finalReason) {
-            setReasonError("Please select or enter reason");
-            hasError = true;
+        if (!selectedReason || (selectedReason?.value === "other" && !customReason)) {
+            setReasonError("Please enter reason");
+            errorFound = true;
         }
 
-        if (discountType === "percent" && discountValue > 100) {
-            setDiscountInputError("Percentage cannot exceed 100");
-            hasError = true;
+        if (errorFound) {
+            setFormLoading(false);
+            return;
         }
 
-        if (discountType === "amount" && discountValue > total) {
-            setDiscountInputError("Discount cannot exceed total amount");
-            hasError = true;
+        if (isEdit && editData) {
+            const originalDiscount = parseFloat(editData?.discountAmount) || 0;
+            const originalReason = editData?.discountReason || "";
+
+            const currentDiscount = parseFloat(discountInput) || 0;
+            const currentReason =
+                selectedReason?.value === "other"
+                    ? customReason
+                    : selectedReason?.label || "";
+
+            if (currentDiscount === originalDiscount && currentReason === originalReason) {
+                setDiscountInputError("No changes detected");
+                setFormLoading(false);
+                return; 
+            }
         }
 
-
-        if (hasError) return;
-
-
-        let payload = {
-            hostelId: state.login?.selectedHostel_Id,
+        const payload = {
             invoiceId: pdfDetails?.invoiceId,
-            reason: finalReason,
+            hostelId: pdfDetails?.hostelId,
+            discountAmount: parseFloat(discountInput),
+            discountType,
+            discountReason:
+                selectedReason?.value === "other" ? customReason : selectedReason?.label,
         };
 
-        if (discountType === "amount") {
-            payload.discountAmount = discountValue;
+        if (isEdit) {
+            dispatch({ type: "EDIT_INVOICE_DISCOUNT", payload });
         } else {
-            payload.discountPercentage = discountValue;
+            dispatch({ type: "ADD_INVOICE_DISCOUNT", payload });
         }
-
-        dispatch({
-            type: 'INVOICE_DISCOUNT_SAGA',
-            payload
-        });
-
-        setFormLoading(true);
     };
 
     useEffect(() => {
-        if (state.InvoiceList?.makeDiscountError) {
-            setFormLoading(false)
+        if (state.InvoiceList?.makeDiscountError || state.InvoiceList?.editDiscountError) {
+            setFormLoading(false);
         }
+    }, [state.InvoiceList?.makeDiscountError, state.InvoiceList?.editDiscountError]);
+
+    // useEffect(() => {
+    //     if (
+    //         state.InvoiceList?.makeInvoiceDiscountStatus === 200 ||
+    //         state.InvoiceList?.editInvoiceDiscountStatus === 200
+    //     ) {
+    //         setFormLoading(false);
+    //         handleClose();
+
+    //         dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' });
+    //         dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER' });
+    //     }
+    // }, [
+    //     state.InvoiceList?.makeInvoiceDiscountStatus,
+    //     state.InvoiceList?.editInvoiceDiscountStatus
+    // ]);
 
 
-    }, [state.InvoiceList?.makeDiscountError])
+    useEffect(() => {
+        const status = state.InvoiceList?.makeInvoiceDiscountStatus || state.InvoiceList?.editInvoiceDiscountStatus;
+        if (status === 200) {
+            setFormLoading(false);
+
+            dispatch({
+                type: 'GETPARTICULARBILLSDETAILS',
+                payload: {
+                    hostelId: pdfDetails?.hostelId,
+                    invoiceId: pdfDetails?.invoiceId
+                }
+            });
+
+            setTimeout(() => {
+                handleClose();
+
+                dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' });
+                dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER' });
+            }, 100);
+        }
+    }, [
+        state.InvoiceList?.makeInvoiceDiscountStatus,
+        state.InvoiceList?.editInvoiceDiscountStatus
+    ]);
+
 
     useEffect(() => {
         if (state.createAccount?.networkError) {
@@ -165,11 +284,31 @@ function DiscountInvoice({ show, handleClose }) {
             setReasonError('');
             dispatch({ type: 'CLEAR_NETWORK_ERROR' })
             dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
+            dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' })
         }
     }, [])
 
 
+    useEffect(() => {
+        if (isEdit && editData) {
+            setDiscountInput(editData?.discountAmount || "");
 
+            // set discount type
+            setDiscountType("amount");
+
+            const matched = reasonOptions.find(
+                (r) => r.label === editData?.discountReason
+            );
+
+            if (matched) {
+                setSelectedReason(matched);
+                setCustomReason("");
+            } else {
+                setSelectedReason({ value: "other", label: "Other" });
+                setCustomReason(editData?.discountReason || "");
+            }
+        }
+    }, [isEdit, editData]);
 
 
 
@@ -183,7 +322,7 @@ function DiscountInvoice({ show, handleClose }) {
             )}
             <div className="flex justify-between items-center px-4 pt-4 py-2 ">
                 <h2 className="text-lg font-semibold text-gray-800">
-                    Discount Invoice
+                    {isEdit ? "Edit Discount" : "Discount Invoice"}
                 </h2>
 
                 <button onClick={handleClose} className="text-red-500 text-xl">
@@ -223,7 +362,14 @@ function DiscountInvoice({ show, handleClose }) {
                     <div className="flex items-center gap-2 font-semibold">
 
                         <div>
-                            <label className='text-[#222222] text-[18px] font-semibold'>₹ {pdfDetails?.invoiceInfo?.totalAmount}</label>
+                           
+                            <div>
+                                <label className='text-[#222222] text-[18px] font-semibold'>
+                                    ₹ {isEdit
+                                        ? pdfDetails?.invoiceInfo?.subTotal
+                                        : pdfDetails?.invoiceInfo?.totalAmount}
+                                </label>
+                            </div>
                         </div>
 
                     </div>
@@ -249,7 +395,7 @@ function DiscountInvoice({ show, handleClose }) {
                                         value={customReason}
                                         onChange={(e) => {
                                             const value = e.target.value;
-                                          
+
                                             if (/^[A-Za-z\s]*$/.test(value)) {
                                                 setCustomReason(value);
                                                 setReasonError('');
@@ -268,7 +414,7 @@ function DiscountInvoice({ show, handleClose }) {
                                         }}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
                                     >
-                                        <Add size={18}  className="rotate-45 "/>
+                                        <Add size={18} className="rotate-45 " />
                                     </button>
 
                                 </div>
@@ -371,7 +517,12 @@ function DiscountInvoice({ show, handleClose }) {
                                         {pdfDetails?.invoiceNumber}
                                     </td>
                                     <td className="px-3 py-2 text-gray-500">{pdfDetails?.invoiceDate}</td>
-                                    <td className="px-3 py-2 font-semibold">₹ {pdfDetails?.invoiceInfo?.totalAmount}</td>
+                                  
+                                    <td className="px-3 py-2 font-semibold">
+                                        ₹ {isEdit
+                                            ? pdfDetails?.invoiceInfo?.subTotal
+                                            : pdfDetails?.invoiceInfo?.totalAmount}
+                                    </td>
                                     <td className="px-3 py-2 text-gray-500">
                                         <div>
                                             {pdfDetails?.dueDate}
@@ -430,8 +581,17 @@ function DiscountInvoice({ show, handleClose }) {
                     }
 
                     {
-                        state.InvoiceList?.makeDiscountError &&
-                        <ErrorMessage message={state.InvoiceList?.makeDiscountError} type="error" />
+                        (isEdit
+                            ? state.InvoiceList?.editDiscountError
+                            : state.InvoiceList?.makeDiscountError) &&
+                        <ErrorMessage
+                            message={
+                                isEdit
+                                    ? state.InvoiceList?.editDiscountError
+                                    : state.InvoiceList?.makeDiscountError
+                            }
+                            type="error"
+                        />
                     }
 
                 </div>
@@ -444,8 +604,11 @@ function DiscountInvoice({ show, handleClose }) {
                         <span className="text-[#4B4B4B] break-words">
                             Invoice Amount ({pdfDetails?.invoiceNumber})
                         </span>
+
                         <span className="font-semibold text-right whitespace-nowrap">
-                            ₹ {pdfDetails?.invoiceInfo?.totalAmount}
+                            ₹ {isEdit
+                                ? pdfDetails?.invoiceInfo?.subTotal
+                                : pdfDetails?.invoiceInfo?.totalAmount}
                         </span>
 
 
@@ -471,6 +634,11 @@ function DiscountInvoice({ show, handleClose }) {
             </div>
 
             <div className="flex justify-end gap-3 px-5 py-3 border-t">
+                {noChangesError && (
+                    <div className="mb-2">
+                        <ErrorMessage message={noChangesError} type="error" />
+                    </div>
+                )}
                 <button
                     onClick={handleClose}
                     className="px-4 py-2 text-sm border rounded-md bg-gray-100 hover:bg-gray-200"
@@ -479,7 +647,7 @@ function DiscountInvoice({ show, handleClose }) {
                 </button>
 
                 <button disabled={formLoading} onClick={handleApplyInvoices} className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-md hover:bg-blue-700 flex items-center gap-2">
-                    <DocumentText size={18} />  Save Changes
+                    <DocumentText size={18} />  {isEdit ? "Update Discount" : "Save Changes"}
                 </button>
             </div>
 
