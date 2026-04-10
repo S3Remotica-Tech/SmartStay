@@ -420,20 +420,55 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         type: 'INVOICESLISTFILTER',
         payload: { hostelId: state.login.selectedHostel_Id }
       });
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER' })
+      }, 100)
+
     }
-  }, [state.InvoiceList?.editInvoiceDiscountStatus]);    
+  }, [state.InvoiceList?.editInvoiceDiscountStatus]);
 
   useEffect(() => {
     if (state.InvoiceList?.refuseDiscountStatus === 204) {
+      setShowRefuseModal(false);
+      dispatch({
+        type: 'GETPARTICULARBILLSDETAILS', payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId
+        }
+      })
+
       dispatch({
         type: 'INVOICESLISTFILTER',
         payload: { hostelId: state.login.selectedHostel_Id }
       });
+      setTimeout(() => {
+        dispatch({ type: 'REFUSE_DISCOUNT_REDUCER_CLEAR' })
+      }, 100)
+
+
     }
-  }, [state.InvoiceList?.refuseDiscountStatus]);  
-  
-  
-   
+  }, [state.InvoiceList?.refuseDiscountStatus]);
+
+
+  const handleRefuse = () => {
+
+    const payload = {
+      hostelId: pdfDetails?.hostelId,
+      invoiceId: pdfDetails?.invoiceId,
+    };
+    if (pdfDetails?.hostelId && pdfDetails?.invoiceId) {
+      dispatch({
+        type: "REFUSE_DISCOUNT",
+        payload
+      });
+    }
+  }
+
+
+
+
+
 
   return (
     <div className="relative">
@@ -1510,8 +1545,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       font-gilroy text-[14px] font-normal leading-[150%] tracking-normal"
 
                             onClick={() => {
-                              setIsEdit(true);
-                              setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
+                              // setIsEdit(true);
+                              // setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
                               setShowDiscountInvoice(true);
                               setOpenMenu(false);
                             }}
@@ -1525,14 +1560,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                           <div
 
-                            className="mb-1 px-3 py-1.5 text-sm bg-[#F7FAFF] text-black hover:bg-red-50 cursor-pointer flex items-center gap-2 whitespace-nowrap border-l-[3px] border-blue-600"
+                            className="mb-1 px-3 py-1.5 text-sm  font-gilroy bg-[#F7FAFF] text-black hover:bg-red-50 cursor-pointer flex items-center gap-2 whitespace-nowrap border-l-[3px] border-blue-600"
                             onClick={() => {
                               setShowRefuseModal(true);
                               setOpenMenu(false);
                               setSelectedInvoice(pdfDetails);
                             }}
                           >
-                            <IoClose size={18} className="text-red-500" />
+                            <IoClose size={18} className="text-red-500 " />
                             Refuse with invoice
                           </div>
 
@@ -1921,8 +1956,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           <DiscountInvoice
             show={showDiscountInvoice}
             handleClose={handleCloseFormDiscount}
-            isEdit={isEdit}
-            editData={editData || {}}
+                        editData={pdfDetails}
           />
         )
       }
@@ -1965,37 +1999,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowRefuseModal(false)}
-                className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3]"
+                className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3] font-gilroy"
               >
                 Cancel
               </button>
 
-              {/* <button
-                onClick={() => {
-                  setShowRefuseModal(false);
-                }}
-                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white"
-              >
-                Yes, Refuse
-              </button> */}
+
 
               <button
-                onClick={() => {
-                  const payload = {
-                    hostelId: pdfDetails?.hostelId,
-                    invoiceId: pdfDetails?.invoiceId,
-                  };
-
-                  console.log("REFUSE payload:", payload);
-
-                  dispatch({
-                    type: "REFUSE_DISCOUNT",
-                    payload
-                  });
-
-                  setShowRefuseModal(false);
-                }}
-                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white"
+                onClick={handleRefuse}
+                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white font-gilroy"
               >
                 Yes, Refuse
               </button>

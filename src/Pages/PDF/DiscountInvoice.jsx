@@ -10,7 +10,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import Select from "react-select";
 import { Add } from "iconsax-react";
 
-function DiscountInvoice({ show, handleClose, isEdit = false, editData = null }) {
+function DiscountInvoice({ show, handleClose,  editData = null }) {
 
 
     const state = useSelector((state) => state);
@@ -176,7 +176,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
 
 
     useEffect(() => {
-        if (isEdit && editData) {
+        if ( editData) {
             setDiscountInput(editData?.discountAmount || "");
             setDiscountType("amount");
 
@@ -192,26 +192,24 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
                 setCustomReason(editData?.discountReason || "");
             }
         }
-    }, [isEdit, editData]);
+    }, [ editData]);
 
     useEffect(() => {
-        if (!show && !isEdit) {
+        if (!show ) {
             setDiscountInput("");
             setSelectedReason(null);
             setCustomReason("");
             setDiscountType("amount");
         }
-    }, [show, isEdit]);
+    }, [show, ]);
 
 
     const handleApplyInvoices = () => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-
-        if (isEdit) {
+      
             dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' });
-        } else {
-            dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
-        }
+                    dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+        
 
         let hasError = false;
 
@@ -249,7 +247,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
 
         if (hasError) return;
 
-        if (isEdit) {
+        if (editData) {
             const oldDiscount =
                 editData?.discountAmount || editData?.discountPercentage || 0;
 
@@ -276,7 +274,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
             payload.discountPercentage = discountValue;
         }
 
-        if (isEdit) {
+        if (editData) {
             dispatch({
                 type: 'EDIT_INVOICE_DISCOUNT',
                 payload
@@ -292,7 +290,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
     };
 
     useEffect(() => {
-        const status = isEdit
+        const status = editData
             ? state.InvoiceList?.editInvoiceDiscountStatus
             : state.InvoiceList?.makeInvoiceDiscountStatus;
 
@@ -317,8 +315,10 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
     }, [
         state.InvoiceList?.makeInvoiceDiscountStatus,
         state.InvoiceList?.editInvoiceDiscountStatus,
-        isEdit
+        
     ]);
+
+    
     return (
         <Modal show={show} onHide={handleClose} centered size="lg" className='font-gilroy'>
 
@@ -330,7 +330,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
             <div className="flex justify-between items-center px-4 pt-4 py-2 ">
 
                 <h2 className="text-lg font-semibold text-gray-800">
-                    {isEdit ? "Edit Discount Invoice" : "Discount Invoice"}
+                    {editData ? "Edit Discount Invoice" : "Discount Invoice"}
                 </h2>
 
                 <button onClick={handleClose} className="text-red-500 text-xl">
@@ -371,7 +371,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
 
                         <div>
                             <label className='text-[#222222] text-[18px] font-semibold'>
-                                ₹ {isEdit
+                                ₹ {editData
                                     ? editData?.subTotal
                                     : pdfDetails?.invoiceInfo?.totalAmount}
                             </label>
@@ -526,9 +526,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
                                     <td className="px-3 py-2 text-gray-500">{pdfDetails?.invoiceDate}</td>
 
                                     <td className="px-3 py-2 font-semibold">
-                                        ₹ {isEdit
-                                            ? editData?.subTotal
-                                            : pdfDetails?.invoiceInfo?.totalAmount}
+                                        ₹ {pdfDetails?.invoiceInfo?.totalAmount}
                                     </td>
                                     <td className="px-3 py-2 text-gray-500">
                                         <div>
@@ -589,12 +587,12 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
                     }
 
                     {
-                        (isEdit
+                        (editData
                             ? state.InvoiceList?.editDiscountError
                             : state.InvoiceList?.makeDiscountError) &&
                         <ErrorMessage
                             message={
-                                isEdit
+                                editData
                                     ? state.InvoiceList?.editDiscountError
                                     : state.InvoiceList?.makeDiscountError
                             }
@@ -614,7 +612,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
                         </span>
 
                         <span className="font-semibold text-right whitespace-nowrap">
-                            ₹ {isEdit
+                            ₹ {editData
                                 ? pdfDetails?.invoiceInfo?.subTotal
                                 : pdfDetails?.invoiceInfo?.totalAmount}
                         </span>
@@ -635,9 +633,7 @@ function DiscountInvoice({ show, handleClose, isEdit = false, editData = null })
                         </span>
 
                         <span className="font-semibold text-right whitespace-nowrap">
-                            ₹ {isEdit
-                                ? pdfDetails?.invoiceInfo?.totalAmount
-                                : payableAmount}
+                            ₹ { payableAmount}
                         </span>
 
 

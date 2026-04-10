@@ -573,7 +573,7 @@ const InvoiceReducer = (state = initialState, action) => {
             };
 
         case 'REFUSE_DISCOUNT_REDUCER_ERROR':
-            console.log("REDUCER → ERROR", action.payload);
+           
             return {
                 ...state,
                 refuseDiscountError: action.payload,
