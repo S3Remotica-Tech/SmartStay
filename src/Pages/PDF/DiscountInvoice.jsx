@@ -169,9 +169,9 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
         return () => {
             setDiscountInputError('')
             setReasonError('');
-             dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-        dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' });
-        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+            dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+            dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' });
+            dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
         }
     }, [])
 
@@ -279,13 +279,11 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
         }
 
         if (editData !== "") {
-            console.log("callled edit")
             dispatch({
                 type: 'EDIT_INVOICE_DISCOUNT',
                 payload
             });
         } else {
-             console.log("called add")
             dispatch({
                 type: 'INVOICE_DISCOUNT_SAGA',
                 payload
@@ -530,7 +528,7 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
                                     <td className="px-3 py-2 text-gray-500">{pdfDetails?.invoiceDate}</td>
 
                                     <td className="px-3 py-2 font-semibold">
-                                        ₹ {pdfDetails?.invoiceInfo?.totalAmount}
+                                        ₹ {Amount}
                                     </td>
                                     <td className="px-3 py-2 text-gray-500">
                                         <div>
