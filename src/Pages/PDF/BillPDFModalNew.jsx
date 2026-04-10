@@ -80,9 +80,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [showRefuseModal, setShowRefuseModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  // const [showEditModal, setShowEditModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const handleCloseForm = () => {
 
@@ -141,6 +142,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state?.InvoiceList?.invoicePDF;
@@ -413,14 +415,61 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     return () => window.removeEventListener("click", handleClickOutside);
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList?.editInvoiceDiscountStatus === 200) {
-        dispatch({
-            type: 'INVOICESLISTFILTER',
-            payload: { hostelId: state.login.selectedHostel_Id }
-        });
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: { hostelId: state.login.selectedHostel_Id }
+      });
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER' })
+      }, 100)
+
     }
-}, [state.InvoiceList?.editInvoiceDiscountStatus]);
+  }, [state.InvoiceList?.editInvoiceDiscountStatus]);
+
+  useEffect(() => {
+    if (state.InvoiceList?.refuseDiscountStatus === 204) {
+      setShowRefuseModal(false);
+      dispatch({
+        type: 'GETPARTICULARBILLSDETAILS', payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId
+        }
+      })
+
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: { hostelId: state.login.selectedHostel_Id }
+      });
+      setTimeout(() => {
+        dispatch({ type: 'REFUSE_DISCOUNT_REDUCER_CLEAR' })
+      }, 100)
+
+
+    }
+  }, [state.InvoiceList?.refuseDiscountStatus]);
+
+
+  const handleRefuse = () => {
+
+    const payload = {
+      hostelId: pdfDetails?.hostelId,
+      invoiceId: pdfDetails?.invoiceId,
+    };
+    if (pdfDetails?.hostelId && pdfDetails?.invoiceId) {
+      dispatch({
+        type: "REFUSE_DISCOUNT",
+        payload
+      });
+    }
+  }
+
+
+
+
+
 
   return (
     <div className="relative">
@@ -1043,7 +1092,7 @@ useEffect(() => {
                               {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
                                 <tr key={index}
                                   style={{
-                                   backgroundColor: "#fff",
+                                    backgroundColor: "#fff",
                                   }}
                                 >
                                   <td
@@ -1096,7 +1145,7 @@ useEffect(() => {
                                     textAlign: "left",
                                     padding: "10px 14px",
                                     fontSize: "13px",
-                                   color: "#000",
+                                    color: "#000",
                                   }}
                                 >
                                   Total
@@ -1512,13 +1561,14 @@ useEffect(() => {
 
                           <div
 
-                            className="mb-1 px-3 py-1.5 text-sm bg-[#F7FAFF] text-black hover:bg-red-50 cursor-pointer flex items-center gap-2 whitespace-nowrap border-l-[3px] border-blue-600"
+                            className="mb-1 px-3 py-1.5 text-sm  font-gilroy bg-[#F7FAFF] text-black hover:bg-red-50 cursor-pointer flex items-center gap-2 whitespace-nowrap border-l-[3px] border-blue-600"
                             onClick={() => {
                               setShowRefuseModal(true);
                               setOpenMenu(false);
+                              setSelectedInvoice(pdfDetails);
                             }}
                           >
-                            <IoClose size={18} className="text-red-500" />
+                            <IoClose size={18} className="text-red-500 " />
                             Refuse with invoice
                           </div>
 
@@ -1907,8 +1957,8 @@ useEffect(() => {
           <DiscountInvoice
             show={showDiscountInvoice}
             handleClose={handleCloseFormDiscount}
-            isEdit={isEdit}
-            editData={editData || {}}
+            // isEdit={isEdit}
+            editData={isEdit ? editData : ""}
           />
         )
       }
@@ -1951,16 +2001,16 @@ useEffect(() => {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowRefuseModal(false)}
-                className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3]"
+                className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3] font-gilroy"
               >
                 Cancel
               </button>
 
+
+
               <button
-                onClick={() => {
-                  setShowRefuseModal(false);
-                }}
-                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white"
+                onClick={handleRefuse}
+                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white font-gilroy"
               >
                 Yes, Refuse
               </button>
