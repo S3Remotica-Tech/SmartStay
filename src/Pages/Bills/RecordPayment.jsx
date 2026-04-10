@@ -181,10 +181,31 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     };
 
     console.log("invoiceList", invoiceList)
+    useEffect(() => {
+        if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+            setPayableAmount("")
+            setBalance("")
+            setTransactionId('')
+            setSelectedDate(null);
+            setFormRecordLoading(false)
+            handleClose()
+            // setShowform(false)
+            // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
+            if (invoiceList?.invoiceId) {
+                dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: invoiceList?.invoiceId } })
+
+            }
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_RECORD_PAYMENT" });
+            }, 300);
+        }
+    }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
     const convertToYMD = (dateStr) => {
         const [day, month, year] = dateStr.split("/");
-         return `${year}-${month}-${day}`;
+        return `${year}-${month}-${day}`;
     };
 
 
@@ -198,9 +219,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         const billDate = convertToYMD(invoiceList?.invoiceDate);
         const paidDate = formatpaiddate;
 
-        console.log("billDate", billDate)
-        console.log("paidDate", paidDate)
-
+       
         if (!payableAmount) {
             setAmountErrmsg("Please Enter Amount");
         } else {
@@ -252,7 +271,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                     invoiceId: invoiceList?.invoiceId,
                     data: {
                         bankId: modeOfPayment,
-                        paymentDate: formatpaiddate,
+                        paymentDate: convertYMDToDMY(formatpaiddate),
                         referenceId: transactionId,
                         amount: payableAmount
                     }
@@ -263,28 +282,11 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     };
 
 
-
-    useEffect(() => {
-        if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
-            setPayableAmount("")
-            setBalance("")
-            setTransactionId('')
-            setSelectedDate(null);
-            setFormRecordLoading(false)
-            handleClose()
-            // setShowform(false)
-            // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-            if (invoiceList?.invoiceId) {
-                dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: invoiceList?.invoiceId } })
-
-            }
-
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_RECORD_PAYMENT" });
-            }, 300);
-        }
-    }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
+    const convertYMDToDMY = (ymd) => {
+        if (!ymd) return null;
+        const [year, month, day] = ymd.split("-");
+        return `${day}-${month}-${year}`;
+    };
 
 
 

@@ -393,7 +393,7 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus === "Pending" &&
                     !props.item?.isDiscounted &&
                     (props.item?.invoiceType === "Rent" ||
-                      props.item?.invoiceType === "Settlement")) && (
+                      props.item?.invoiceType === "Settlement" || props.item?.invoiceType === "Reassign-Rent")) && (
                       <button
                         disabled={!canWriteInvoice}
                         onClick={() => canWriteInvoice && handleMakeDiscount(props.item)}
