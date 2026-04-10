@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
-// import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
 import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'
 import Whatsapp_white from '../../Assets/Images/whatsapp_white.png'
@@ -18,17 +17,14 @@ import { Location, Call, Profile, DocumentDownload, Edit, RefreshSquare } from '
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-// import Button from "react-bootstrap/Button";
-// import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
-// import { BsThreeDotsVertical } from "react-icons/bs";
 import DiscountInvoice from "./DiscountInvoice";
 import WaiveOFFConfirm from "./WaiveOFFConfirm";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import EditDiscountInvoiceModal from "./EditDiscountInvoiceModal";
+
 
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
@@ -156,7 +152,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
-// Add and Edit
+  // Add and Edit
   useEffect(() => {
     if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError || state.InvoiceList?.sharePdfError) {
       setPdfLoading(false)
@@ -171,19 +167,19 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
-        setShowDiscountInvoice(false)
-        dispatch({
-            type: 'GETPARTICULARBILLSDETAILS',
-            payload: {
-                hostelId: pdfDetails?.hostelId,
-                invoiceId: pdfDetails?.invoiceId
-            }
-        })
-        setTimeout(() => {
-            dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
-        })
+      setShowDiscountInvoice(false)
+      dispatch({
+        type: 'GETPARTICULARBILLSDETAILS',
+        payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId
+        }
+      })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
+      })
     }
-}, [state.InvoiceList?.makeInvoiceDiscountStatus])
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
   useEffect(() => {
     if (state.InvoiceList.sharePdfSuccess) {
@@ -416,7 +412,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     return () => window.removeEventListener("click", handleClickOutside);
   }, []);
 
-
+useEffect(() => {
+    if (state.InvoiceList?.editInvoiceDiscountStatus === 200) {
+        dispatch({
+            type: 'INVOICESLISTFILTER',
+            payload: { hostelId: state.login.selectedHostel_Id }
+        });
+    }
+}, [state.InvoiceList?.editInvoiceDiscountStatus]);
 
   return (
     <div className="relative">
@@ -1039,8 +1042,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
                                 <tr key={index}
                                   style={{
-                                    // borderBottom: "1px solid #dee2e6",
-                                    backgroundColor: "#fff",
+                                   backgroundColor: "#fff",
                                   }}
                                 >
                                   <td
@@ -1093,8 +1095,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                     textAlign: "left",
                                     padding: "10px 14px",
                                     fontSize: "13px",
-                                    // borderTop: "1px solid #dee2e6",
-                                    color: "#000",
+                                   color: "#000",
                                   }}
                                 >
                                   Total
@@ -1104,7 +1105,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                     textAlign: "right",
                                     padding: "10px 14px",
                                     fontSize: "13px",
-                                    // borderTop: "1px solid #dee2e6",
                                     color: "#000",
                                   }}
                                 >
@@ -1462,7 +1462,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                 </div>
 
-               {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 && !showDiscountInvoice && (
+                {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 && !showDiscountInvoice && (
                   <div className="fixed bottom-16 right-5 z-[9999] animate-slideIn">
 
                     <div className="relative flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-md shadow-lg min-w-[220px]">
@@ -1494,14 +1494,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           <div
                             className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2
       font-gilroy text-[14px] font-normal leading-[150%] tracking-normal"
-                            // onClick={() => {
-                            //   setShowEditModal(true);
-                            //   setOpenMenu(false);
-                            // }}
+
                             onClick={() => {
-                              setIsEdit(true);  
-                              setEditData(pdfDetails?.invoiceInfo);  
-                              setShowDiscountInvoice(true);  
+                              setIsEdit(true);
+                              setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
+                              setShowDiscountInvoice(true);
                               setOpenMenu(false);
                             }}
                           >
@@ -1910,7 +1907,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             show={showDiscountInvoice}
             handleClose={handleCloseFormDiscount}
             isEdit={isEdit}
-            editData={editData|| {}}
+            editData={editData || {}}
           />
         )
       }
@@ -1983,7 +1980,3 @@ InvoiceCard.propTypes = {
 
 
 export default withErrorBoundary(InvoiceCard);
-
-
-
-
