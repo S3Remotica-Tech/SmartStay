@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
    InvoiceDiscount,EditInvoiceDiscount,
-   // RefuseInvoiceDiscount,
+    RefuseInvoiceDiscount,
    getInitializeEditRecurring, shareWhatsappPDF, shareWhatsappPDFReceipt, UpdateManualUnPaid,
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
@@ -143,7 +143,66 @@ function* handleEditInvoiceDiscount(action) {
 }
 
 
+function* handleRefuseInvoiceDiscount(action) {
+   try {
+      console.log("SAGA START → REFUSE_DISCOUNT action:", action.payload);
 
+      const response = yield call(RefuseInvoiceDiscount, action.payload);
+
+      if (response?.status === 200 || response?.status === 204) {
+         yield put({
+            type: 'REFUSE_DISCOUNT_REDUCER',
+            payload: {
+               response: response.data,
+               statusCode: response?.status
+            }
+         });
+
+         console.log("REDUX UPDATED → REFUSE_DISCOUNT_REDUCER");
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+         };
+
+         toast.success(response.data || "Discount Refused Successfully", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            style: toastStyle
+         });
+      }
+
+      if (response) {
+         refreshToken(response);
+      }
+
+   } catch (error) {
+      console.log("ERROR → REFUSE_DISCOUNT:", error);
+
+      yield* handleApiError(error);
+
+      if (error?.status === 400 || error?.status === 403) {
+         yield put({
+            type: 'REFUSE_DISCOUNT_REDUCER_ERROR',
+            payload: error.response?.data
+         });
+
+         console.log("REDUX ERROR → REFUSE_DISCOUNT_REDUCER_ERROR");
+      }
+   }
+}
 
 
 
@@ -2288,7 +2347,8 @@ function* InvoiceSaga() {
    yield takeEvery('RECEIPTPDF_NEWCHANGES', handleReceiptPdfNewChanges)
    yield takeEvery('CUSTOMERRECURRINGENABLEDISABLE', handleCustomerRecurringEnableDisable)
    yield takeEvery("EDIT_INVOICE_DISCOUNT", handleEditInvoiceDiscount);
-   // yield takeEvery("REFUSE_INVOICE_DISCOUNT", handleRefuseInvoiceDiscount);
+   yield takeEvery("REFUSE_DISCOUNT", handleRefuseInvoiceDiscount);
+ 
 
 
 

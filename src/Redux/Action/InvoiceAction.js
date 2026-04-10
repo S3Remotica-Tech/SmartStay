@@ -397,19 +397,20 @@ export async function InvoiceDiscount(discount) {
   return await AxiosConfigV2.post(`/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`, discount, {
   })
 }
-  //  EDIT DISCOUNT
-// export async function EditInvoiceDiscount(discount) {
-//   return await AxiosConfigV2.put(
-//     `/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`,
-//     discount,{    
-//     }
-//   );
-// }   
+   
 export async function EditInvoiceDiscount(discount) {
   return await AxiosConfigV2.put(
     `/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`,
     discount,
     {}
+  );
+}
+
+export async function RefuseInvoiceDiscount(data) {
+  console.log("API CALL → RefuseInvoiceDiscount payload:", data);
+
+  return await AxiosConfigV2.delete(
+    `/v2/bills/discount/${data.hostelId}/${data.invoiceId}`
   );
 }
 
