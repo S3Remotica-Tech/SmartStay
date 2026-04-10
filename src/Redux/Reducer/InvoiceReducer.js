@@ -104,7 +104,12 @@ export const initialState = {
     unPaidError: '',
     makeInvoiceDiscountStatus: 0,
     makeDiscountError: "",
-
+    // EDIT DISCOUNT
+    editInvoiceDiscountStatus: 0,
+    editDiscountError: "",
+// REFUSE
+refuseDiscountStatus: 0,
+refuseDiscountError: '',
 
 
 
@@ -536,6 +541,31 @@ const InvoiceReducer = (state = initialState, action) => {
         default:
             return state;
 
+        case 'EDIT_INVOICE_DISCOUNT_REDUCER':
+             return {                                            
+                ...state,
+                editInvoiceDiscountStatus: action.payload.statusCode
+            };
+
+        case 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER':
+            return {
+                ...state,
+                editInvoiceDiscountStatus: 0
+            };
+
+        case 'EDIT_INVOICE_DISCOUNT_REDUCER_ERROR':
+              return {
+                ...state,
+                editDiscountError: action.payload
+            };
+
+        case 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR':
+            return {
+                ...state,
+                editDiscountError: ""
+            };
+
+          
     }
 
 

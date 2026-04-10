@@ -397,6 +397,23 @@ export async function InvoiceDiscount(discount) {
   return await AxiosConfigV2.post(`/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`, discount, {
   })
 }
+  //  EDIT DISCOUNT
+// export async function EditInvoiceDiscount(discount) {
+//   return await AxiosConfigV2.put(
+//     `/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`,
+//     discount,{    
+//     }
+//   );
+// }   
+export async function EditInvoiceDiscount(discount) {
+  return await AxiosConfigV2.put(
+    `/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`,
+    discount,
+    {}
+  );
+}
+
+
 
 // v1 
 // export async function AssignAmenities(datum) {

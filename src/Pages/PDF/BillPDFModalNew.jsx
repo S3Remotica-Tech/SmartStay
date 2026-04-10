@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
-// import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
 import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'
 import Whatsapp_white from '../../Assets/Images/whatsapp_white.png'
@@ -14,19 +13,18 @@ import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, DocumentDownload, Danger, RefreshSquare } from 'iconsax-react'
+import { Location, Call, Profile, DocumentDownload, Edit, RefreshSquare } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-// import Button from "react-bootstrap/Button";
-// import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from '../../Utils/Permission';
-// import { BsThreeDotsVertical } from "react-icons/bs";
 import DiscountInvoice from "./DiscountInvoice";
-import WaiveOFFConfirm from "./WaiveOFFConfirm"
+import WaiveOFFConfirm from "./WaiveOFFConfirm";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+
 
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
@@ -80,6 +78,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   });
 
+  const [openMenu, setOpenMenu] = useState(false);
+  const [showRefuseModal, setShowRefuseModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editData, setEditData] = useState(null);
 
   const handleCloseForm = () => {
 
@@ -149,7 +152,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
-
+  // Add and Edit
   useEffect(() => {
     if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError || state.InvoiceList?.sharePdfError) {
       setPdfLoading(false)
@@ -161,6 +164,22 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       }, 100);
     }
   }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError, state.InvoiceList?.sharePdfError]);
+
+  useEffect(() => {
+    if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
+      setShowDiscountInvoice(false)
+      dispatch({
+        type: 'GETPARTICULARBILLSDETAILS',
+        payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId
+        }
+      })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
+      })
+    }
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
   useEffect(() => {
     if (state.InvoiceList.sharePdfSuccess) {
@@ -329,9 +348,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   }
 
 
-
-
-
   const statusClasses = {
     Pending: {
       bg: "bg-[#FFF1F1]",
@@ -390,16 +406,41 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
+  useEffect(() => {
+    const handleClickOutside = () => setOpenMenu(false);
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, []);
 
-
-
-
-
-
+useEffect(() => {
+    if (state.InvoiceList?.editInvoiceDiscountStatus === 200) {
+        dispatch({
+            type: 'INVOICESLISTFILTER',
+            payload: { hostelId: state.login.selectedHostel_Id }
+        });
+    }
+}, [state.InvoiceList?.editInvoiceDiscountStatus]);
 
   return (
     <div className="relative">
+      <style>
+        {`
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
+.animate-slideIn {
+  animation: slideInRight 0.4s ease-out;
+}
+`}
+      </style>
 
 
       <div className="border-l border-gray-200">
@@ -719,13 +760,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       </div>
                     </div>
                   </div>
-
-
-
-
-
-
-
                 </div>
 
 
@@ -1008,8 +1042,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
                                 <tr key={index}
                                   style={{
-                                    // borderBottom: "1px solid #dee2e6",
-                                    backgroundColor: "#fff",
+                                   backgroundColor: "#fff",
                                   }}
                                 >
                                   <td
@@ -1062,8 +1095,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                     textAlign: "left",
                                     padding: "10px 14px",
                                     fontSize: "13px",
-                                    // borderTop: "1px solid #dee2e6",
-                                    color: "#000",
+                                   color: "#000",
                                   }}
                                 >
                                   Total
@@ -1073,7 +1105,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                     textAlign: "right",
                                     padding: "10px 14px",
                                     fontSize: "13px",
-                                    // borderTop: "1px solid #dee2e6",
                                     color: "#000",
                                   }}
                                 >
@@ -1085,40 +1116,40 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             </tbody>
                           </table>
 
- <div className="my-3 w-full flex justify-end">
-                          <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
+                          <div className="my-3 w-full flex justify-end">
+                            <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
 
-                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                Grand Total
-                              </span>
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
-                              </span>
-                            </div>
+                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Grand Total
+                                </span>
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
+                                </span>
+                              </div>
 
-                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                Payment Made
-                              </span>
-                              <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
-                                ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
-                              </span>
-                            </div>
-                          
-                            <div className="flex justify-between items-center text-[12px] font-semibold">
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                Balance Due
-                              </span>
-                              <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                                ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
-                              </span>
-                            </div>
+                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Payment Made
+                                </span>
+                                <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                                </span>
+                              </div>
 
+                              <div className="flex justify-between items-center text-[12px] font-semibold">
+                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                  Balance Due
+                                </span>
+                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                  ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
+                                </span>
+                              </div>
+
+                            </div>
                           </div>
-                        </div>
 
-                        
+
 
                         </div>
 
@@ -1325,10 +1356,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </div>
 
 
-
-
-
-
                 <div className="px-5 mt-1">
                   <div className="row">
                     <div className="col-md-6 mb-1">
@@ -1405,8 +1432,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   </div>
                 </div>
 
-
-
                 <div className="flex flex-wrap justify-between items-center mt-4 mb-5 px-5">
 
 
@@ -1437,6 +1462,72 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                 </div>
 
+                {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 && !showDiscountInvoice && (
+                  <div className="fixed bottom-16 right-5 z-[9999] animate-slideIn">
+
+                    <div className="relative flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-md shadow-lg min-w-[220px]">
+
+                      <div className="flex items-center gap-2">
+                        <span className="h-5 w-5 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                          ✓
+                        </span>
+
+                        <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                          Discount Applied
+                        </span>
+                      </div>
+
+                      <PiDotsThreeOutlineVerticalFill
+                        className="cursor-pointer text-gray-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenu(!openMenu);
+                        }}
+                      />
+
+                      {openMenu && (
+                        <div
+                          className="absolute right-0 bottom-12 w-44 bg-white border rounded-md shadow-md z-50 animate-fadeIn"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+
+                          <div
+                            className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2
+      font-gilroy text-[14px] font-normal leading-[150%] tracking-normal"
+
+                            onClick={() => {
+                              setIsEdit(true);
+                              setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
+                              setShowDiscountInvoice(true);
+                              setOpenMenu(false);
+                            }}
+                          >
+                            <Edit
+                              size="16"
+                              color={"#222222"}
+                            /> Edit
+                          </div>
+
+
+                          <div
+
+                            className="mb-1 px-3 py-1.5 text-sm bg-[#F7FAFF] text-black hover:bg-red-50 cursor-pointer flex items-center gap-2 whitespace-nowrap border-l-[3px] border-blue-600"
+                            onClick={() => {
+                              setShowRefuseModal(true);
+                              setOpenMenu(false);
+                            }}
+                          >
+                            <IoClose size={18} className="text-red-500" />
+                            Refuse with invoice
+                          </div>
+
+
+                        </div>
+                      )}
+
+                    </div>
+                  </div>
+                )}
 
                 <hr className="mb-2"
                   style={{
@@ -1447,8 +1538,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     borderRadius: "2px",
                   }}
                 />
-
-
                 <div className="px-5">
                   <div
                     className="text-center rounded-bottom d-flex justify-content-between"
@@ -1530,12 +1619,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
 
             {pdfDetails?.paymentHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount > 0
-              ? <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500"> No Payments made yet!</span>
+              ? <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black"> No Payments made yet!</span>
               : pdfDetails?.refundHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount < 0
                 ? <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">No Refund made yet!</span>
                 : ""}
-
-
 
             <div className="flex items-center gap-2">
 
@@ -1811,8 +1898,18 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         />
       }
 
-      {
+      {/* {
         showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
+      } */}
+      {
+        showDiscountInvoice && (
+          <DiscountInvoice
+            show={showDiscountInvoice}
+            handleClose={handleCloseFormDiscount}
+            isEdit={isEdit}
+            editData={editData || {}}
+          />
+        )
       }
 
       {showform && (
@@ -1828,6 +1925,49 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
 
       }
+
+      {/* {showEditModal && (
+        <EditDiscountInvoiceModal
+          show={showEditModal}
+          handleClose={() => setShowEditModal(false)}
+        />
+      )} */}
+
+
+      {showRefuseModal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30">
+
+          <div className="bg-white shadow-lg rounded-lg w-[90%] max-w-md p-4">
+
+            <h2 className="text-black font-gilroy font-gilroy text-[17.24px] font-semibold leading-[24.9px] tracking-normal">
+              Refuse Discount !
+            </h2>
+
+            <p className="text-[#646464] font-gilroy mb-4 text-[13.41px] font-normal leading-[19.15px] tracking-normal">
+              Are you sure you want to refuse this discount?
+            </p>
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowRefuseModal(false)}
+                className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3]"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowRefuseModal(false);
+                }}
+                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white"
+              >
+                Yes, Refuse
+              </button>
+
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -1840,7 +1980,3 @@ InvoiceCard.propTypes = {
 
 
 export default withErrorBoundary(InvoiceCard);
-
-
-
-
