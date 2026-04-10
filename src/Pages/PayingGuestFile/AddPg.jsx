@@ -581,6 +581,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
       const formattedImages = currentItem?.images?.map((img) => ({
+        id: img.id,
         name:
           img.image !== "0" && typeof img.image === "string" ? img.name : "",
         image:
@@ -594,6 +595,7 @@ function AddPg({ show, handleClose, currentItem }) {
         .map((_, i) => ({
           image: formattedImages[i]?.image || null,
           isChanged: false,
+          id: formattedImages[i]?.id || null
         }));
 
       setImages(finalImages);
@@ -667,29 +669,33 @@ function AddPg({ show, handleClose, currentItem }) {
     setDisplayLayer(null);
   };
 
-  const handleDeleteImages = (
-    // ImageName, 
-    index) => {
-    // const imageObj = images[index];
+  const handleDeleteImages = (imageId, index) => {
+        if (imageId) {
+      if (imageId) {
+        dispatch({
+          type: "DELETEHOSTELIMAGES",
+          payload: {
+            imageId: imageId,
+            hostelId: currentItem?.hostelId,
+          },
+        });
+      }
+    } else {
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages];
 
-    // if (currentItem.id && imageObj?.isChanged !== true && ImageName) {
-    //   dispatch({
-    //     type: "DELETEHOSTELIMAGES",
-    //     payload: {
-    //       hostel_id: currentItem.id,
-    //       image_name: ImageName,
-    //     },
-    //   });
-    // }
+        updatedImages[index] = {
+          ...updatedImages[index],
+          image: null,
+          file: null,
+          id: null,
+          isChanged: true,
+        };
 
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages[index] = {
-        image: null,
-        isChanged: true,
-      };
-      return updatedImages;
-    });
+        return updatedImages;
+      });
+    }
+
   };
 
 
@@ -700,6 +706,10 @@ function AddPg({ show, handleClose, currentItem }) {
   }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode])
 
 
+ 
+
+
+
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
@@ -707,7 +717,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   }, [state.createAccount?.networkError])
 
-
+  console.log("images", images)
 
   return (
     <div className="modal show block static">
@@ -1254,7 +1264,7 @@ function AddPg({ show, handleClose, currentItem }) {
                                 color="#FFF"
                                 className="cursor-pointer"
                                 onClick={() => {
-                                  handleDeleteImages(img.name, index);
+                                  handleDeleteImages(img.id, index);
                                 }}
                               />
                             </div>

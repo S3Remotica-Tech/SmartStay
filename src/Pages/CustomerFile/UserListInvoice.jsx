@@ -523,7 +523,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                               view?.paymentStatus === "Pending" &&
                                               !view?.isDiscounted &&
                                               (view?.invoiceType === "Rent" ||
-                                                view?.invoiceType === "Settlement")) && (
+                                                view?.invoiceType === "Settlement" || view?.invoiceType === "Reassign Rent")) && (
                                                 <button
                                                   disabled={!canWriteInvoice}
                                                   onClick={() => canWriteInvoice && handleMakeDiscount(view)}

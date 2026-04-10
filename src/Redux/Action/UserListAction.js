@@ -884,8 +884,7 @@ export async function bookingToCheckIn(customer) {
 
 export async function GenerateDetails(customerId, data) {
   return await AxiosConfigV2.post(`/v2/customers/settlement/${customerId}`, data, {
-    // data: generate
-  })
+      })
 }
 
 export async function conformCheckout(customer) {

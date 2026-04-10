@@ -65,6 +65,9 @@ function LongStayRecurringModal() {
         !state.UsersList.hotelDetailsinPg?.canModifyBilling;
 
 
+
+
+
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
@@ -79,8 +82,9 @@ function LongStayRecurringModal() {
 
 
     const startDateObj = new Date(year, month, billingDate);
-    const endDateObj = new Date(year, month, billingDate + gracePeriod);
-    const prorateDateObj = new Date(year, month, billingDate + gracePeriod + 1);
+    const endDateObj = new Date(year, month, billingDate + gracePeriod - 1);
+    const prorateDateObj = new Date(year, month, billingDate + gracePeriod);
+
 
     const startDay = startDateObj.getDate();
     const endDay = endDateObj.getDate();
@@ -607,7 +611,7 @@ function LongStayRecurringModal() {
                                 <label className="text-sm font-semibold text-[#222222] cursor-pointer ">
                                     Tenant Joining Based
                                 </label>
-                               
+
                                 <label className="text-xs text-gray-500 cursor-pointer lg:whitespace-nowrap">
                                     Invoices are generated based on each tenant's join date.
                                 </label>
@@ -756,11 +760,19 @@ function LongStayRecurringModal() {
 
 
                             <div
-                                onClick={() => handleChangePaid("postpaid")}
-                                className={`flex items-center max-h-[150px] cursor-pointer gap-3 p-2 rounded-lg border w-full transition
+                                onClick={() => {
+                                    if (billingMethod !== "joining_date_based") {
+                                        handleChangePaid("postpaid");
+                                    }
+                                }}
+                                className={`flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
         ${billingPeriod === "postpaid"
-                                        ? "border border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
+                                        ? "border-[#88A0FF] bg-white shadow-[0_0_6px_#869EFF]"
                                         : "border-gray-200 bg-white shadow-sm"
+                                    }
+        ${billingMethod === "joining_date_based"
+                                        ? "cursor-not-allowed opacity-60"
+                                        : "cursor-pointer"
                                     }`}
                             >
                                 <input
@@ -768,7 +780,7 @@ function LongStayRecurringModal() {
                                     name="billingPeriod"
                                     value="postpaid"
                                     checked={billingPeriod === "postpaid"}
-                                    // disabled={isDisabled}
+                                    disabled={billingMethod === "joining_date_based"}
                                     className="mt-1 accent-[#1E45E1] disabled:accent-[#DBDBDB] disabled:cursor-not-allowed"
                                 />
 
