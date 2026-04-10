@@ -383,6 +383,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           invoiceId: pdfDetails?.invoiceId
         }
       })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
       setTimeout(() => {
         dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
       })

@@ -63,7 +63,7 @@ function FinalSettlement() {
     const [tempDiscount, setTempDiscount] = useState(discount);
 
     const handleSet = () => {
-        setDiscount(tempDiscount);
+        setDiscount(tempDiscount === '' ? 0 : Number(tempDiscount));
         setIsEditing(false);
     };
 
@@ -377,9 +377,17 @@ function FinalSettlement() {
                     : amountTobePaid + totalUserDeductions;
             }
 
+            const appliedDiscount = Number(discount) || 0;
+
+            if (finalAmount < 0) {
+                finalAmount = finalAmount + appliedDiscount;
+            } else {
+                finalAmount = finalAmount - appliedDiscount;
+            }
+
             setReturnAmount(finalAmount);
         }
-    }, [finalSettlementList, fields]);
+    }, [finalSettlementList, fields, discount]);
 
 
 
@@ -1535,47 +1543,55 @@ function FinalSettlement() {
 
                             {/* discount */}
 
+                            {
+                                finalSettlementList?.currentMonthRentInfo?.isDiscountApplied &&
+
+                                <div className="mt-3 border border-gray-200 rounded-lg font-gilroy">
+                                    <div className="flex justify-between items-center px-[14px] py-[10px] cursor-pointer">
+                                        <span className="text-sm font-semibold text-gray-900">
+                                            Discount (Current Month)
+                                        </span>
+
+                                        <div className="flex items-center gap-3 border rounded-md px-1 py-1">
+                                            {isEditing ? (
+                                                <input
+                                                    type="number"
+                                                    value={tempDiscount}
+                                                    onChange={(e) => setTempDiscount(e.target.value)}
+                                                    className="w-24  px-3 py-1 text-sm focus:outline-none  "
+                                                />
+                                            ) : (
+                                                <div className=" px-2 py-1 text-sm font-medium bg-white">
+                                                    ₹ {discount}
+                                                </div>
+                                            )}
+                                            <button
+
+                                                onClick={() => {
+                                                    if (isEditing) {
+                                                        handleSet();
+                                                    } else {
+                                                        setTempDiscount(discount);
+                                                        setIsEditing(true);
+                                                    }
+                                                }}
+                                                className={`
+        px-2 py-1 rounded-md text-sm font-medium flex items-center gap-1
+        disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-white
+        ${isEditing
+                                                        ? "text-[#03543F] border border-[#DEF7EC] bg-[#DEF7EC]"
+                                                        : "text-[#1E429F] border border-[#E1EFFE] bg-[#E1EFFE]"
+                                                    }
+    `}
+                                            >
+                                                {!isEditing && <Edit2 size={14} />}
+                                                {isEditing ? "SET" : "Edit"}
+                                            </button>
+                                        </div>
+                                    </div></div>
 
 
-                            <div className="mt-3 border border-gray-200 rounded-lg font-gilroy">
-                                <div className="flex justify-between items-center px-[14px] py-[10px] cursor-pointer">
-                                    <span className="text-sm font-semibold text-gray-900">
-                                        Discount (Current Month)
-                                    </span>
-
-                                    <div className="flex items-center gap-3 border rounded-md px-1 py-1">
-                                        {isEditing ? (
-                                            <input
-                                                type="number"
-                                                value={tempDiscount}
-                                                onChange={(e) => setTempDiscount(e.target.value)}
-                                                className="w-24  px-3 py-1 text-sm focus:outline-none  "
-                                            />
-                                        ) : (
-                                            <div className=" px-2 py-1 text-sm font-medium bg-white">
-                                                ₹ {discount}
-                                            </div>
-                                        )}
-
-                                        <button
-                                            onClick={() => {
-                                                if (isEditing) {
-                                                    handleSet();
-                                                } else {
-                                                    setTempDiscount(discount);
-                                                    setIsEditing(true);
-                                                }
-                                            }}
-                                            className={` ${isEditing ? "text-[#03543F] border-1 border-[#DEF7EC] bg-[#DEF7EC]" : "text-[#1E429F] border-1 border-[#E1EFFE] bg-[#E1EFFE]"} px-2 py-1 rounded-md text-sm font-medium  flex items-center gap-1`}
-                                        >
-                                            {!isEditing && <Edit2 size={14} />}
-                                            {isEditing ? "SET" : "Edit"}
-                                        </button>
-                                    </div>
-                                </div></div>
-
-
-
+                            }
 
 
 
