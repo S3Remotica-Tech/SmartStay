@@ -407,9 +407,7 @@ export async function EditInvoiceDiscount(discount) {
 }
 
 export async function RefuseInvoiceDiscount(data) {
-  console.log("API CALL → RefuseInvoiceDiscount payload:", data);
-
-  return await AxiosConfigV2.delete(
+    return await AxiosConfigV2.delete(
     `/v2/bills/discount/${data.hostelId}/${data.invoiceId}`
   );
 }

@@ -147,12 +147,12 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
     // };
 
     useEffect(() => {
-        if (state.InvoiceList?.makeDiscountError) {
+        if (state.InvoiceList?.makeDiscountError || state.InvoiceList?.editDiscountError) {
             setFormLoading(false)
         }
 
 
-    }, [state.InvoiceList?.makeDiscountError])
+    }, [state.InvoiceList?.makeDiscountError, state.InvoiceList?.editDiscountError])
 
     useEffect(() => {
         if (state.createAccount?.networkError) {
@@ -169,8 +169,9 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
         return () => {
             setDiscountInputError('')
             setReasonError('');
-            dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-            dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
+             dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+        dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' });
+        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
         }
     }, [])
 
@@ -180,7 +181,7 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
 
 
     useEffect(() => {
-        if (editData) {
+        if (editData && pdfDetails?.invoiceInfo?.isDiscounted) {
             setDiscountInput(discountType === "amount" ? editData?.discountAmount : editData?.discountPercentage);
 
             const matched = reasonOptions.find(
@@ -277,12 +278,14 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
             payload.discountPercentage = discountValue;
         }
 
-        if (editData) {
+        if (editData !== "") {
+            console.log("callled edit")
             dispatch({
                 type: 'EDIT_INVOICE_DISCOUNT',
                 payload
             });
         } else {
+             console.log("called add")
             dispatch({
                 type: 'INVOICE_DISCOUNT_SAGA',
                 payload
@@ -333,7 +336,7 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
             <div className="flex justify-between items-center px-4 pt-4 py-2 ">
 
                 <h2 className="text-lg font-semibold text-gray-800">
-                    {editData ? "Edit Discount Invoice" : "Discount Invoice"}
+                    {pdfDetails?.invoiceInfo?.isDiscounted ? "Edit Discount Invoice" : "Discount Invoice"}
                 </h2>
 
                 <button onClick={handleClose} className="text-red-500 text-xl">

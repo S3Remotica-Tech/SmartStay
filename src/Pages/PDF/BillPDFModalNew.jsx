@@ -1957,7 +1957,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             show={showDiscountInvoice}
             handleClose={handleCloseFormDiscount}
             // isEdit={isEdit}
-            editData={editData || {}}
+            editData={isEdit ? editData : ""}
           />
         )
       }
