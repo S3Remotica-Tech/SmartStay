@@ -940,15 +940,25 @@ function* handleDeleteHostelImages(action) {
       });
 
 
-    } else {
-      yield put({ type: "ERROR", payload: response?.data?.message });
-    }
-    if (response) {
-      refreshToken(response);
     }
   }
   catch (error) {
     yield* handleApiError(error);
+      if (error.status === 400) {
+        toast.error(`${error.response.data}`, {
+          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeButton: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+
+        });
+        
+      }
   }
 }
 

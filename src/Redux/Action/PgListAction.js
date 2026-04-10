@@ -390,14 +390,12 @@ export async function OccupiedCustomer(datum) {
   });
 }
 
-export function deleteHostelImages() {
-  new Promise((resolve) => {
-    resolve({ status: 200 });
-  })
-  // return await AxiosConfig.post("/delete_hostel_image", datum, {
-  //   data: datum,
-  // });
+export async function deleteHostelImages(img) {
+   return await AxiosConfigV2.delete(`/v2/hostel/${img.hostelId}/additional-images/${img.imageId}`);
 }
+
+
+
 export function editElectricity() {
   new Promise((resolve) => {
     resolve({ status: 200 });
