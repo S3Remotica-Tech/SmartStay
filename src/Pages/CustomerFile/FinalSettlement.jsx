@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import { ArrowDown2, ArrowUp2, ArrowLeft } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, ArrowLeft, Edit2 } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
@@ -54,6 +54,24 @@ function FinalSettlement() {
     const [checkoutDate, setCheckoutDate] = useState(dayjs())
     const [selectedRowDetails, setSelectedRowDetails] = useState('')
     const { data, pgDetails, isPGWay } = location.state || {};
+
+
+
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [discount, setDiscount] = useState(300);
+  const [tempDiscount, setTempDiscount] = useState(discount);
+
+  const handleSet = () => {
+    setDiscount(tempDiscount);
+    setIsEditing(false);
+  };
+
+
+
+
+
+
 
 
     const handleRoomReading = (item) => {
@@ -1511,6 +1529,53 @@ function FinalSettlement() {
                                     </div>
                                 )}
                             </div>
+
+
+{/* discount */}
+
+
+
+<div className="mt-3 border border-gray-200 rounded-lg font-gilroy">
+     <div className="flex justify-between items-center px-[14px] py-[10px] cursor-pointer">
+     <span className="text-sm font-semibold text-gray-900">
+        Discount (Current Month)
+      </span>
+
+      <div className="flex items-center gap-3 border rounded-md px-1 py-1">
+        {isEditing ? (
+          <input
+            type="number"
+            value={tempDiscount}
+            onChange={(e) => setTempDiscount(e.target.value)}
+            className="w-24  px-3 py-1 text-sm focus:outline-none  "
+          />
+        ) : (
+          <div className=" px-2 py-1 text-sm font-medium bg-white">
+            ₹ {discount}
+          </div>
+        )}
+
+        <button
+          onClick={() => {
+            if (isEditing) {
+              handleSet();
+            } else {
+              setTempDiscount(discount);
+              setIsEditing(true);
+            }
+          }}
+          className={` ${isEditing ? "text-[#03543F] border-1 border-[#DEF7EC] bg-[#DEF7EC]" : "text-[#1E429F] border-1 border-[#E1EFFE] bg-[#E1EFFE]"} px-2 py-1 rounded-md text-sm font-medium  flex items-center gap-1`}
+        >
+          {!isEditing && <Edit2 size={14} />}
+          {isEditing ? "SET" : "Edit"}
+        </button>
+      </div>
+    </div></div>
+
+
+
+
+
 
 
                             <div className="mx-3 my-3 flex items-center justify-between">
