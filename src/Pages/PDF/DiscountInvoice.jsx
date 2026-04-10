@@ -10,7 +10,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import Select from "react-select";
 import { Add } from "iconsax-react";
 
-function DiscountInvoice({ show, handleClose,  editData = null }) {
+function DiscountInvoice({ show, handleClose, editData = null }) {
 
 
     const state = useSelector((state) => state);
@@ -57,9 +57,13 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
         overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     }
 
+    console.log("pdfDetails", pdfDetails)
+
+    const Amount = pdfDetails?.invoiceInfo?.subTotal || pdfDetails?.invoiceInfo?.totalAmount
 
 
-    const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
+
+    const total = parseFloat(Amount) || 0;
     const discount = parseFloat(discountInput) || 0;
     const calculatedDiscount =
         discountType === "percent"
@@ -171,14 +175,13 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
     }, [])
 
 
-    // EDIT DISCOUNT CODE
+
 
 
 
     useEffect(() => {
-        if ( editData) {
-            setDiscountInput(editData?.discountAmount || "");
-            setDiscountType("amount");
+        if (editData) {
+            setDiscountInput(discountType === "amount" ? editData?.discountAmount : editData?.discountPercentage);
 
             const matched = reasonOptions.find(
                 (r) => r.label === editData?.discountReason
@@ -192,24 +195,24 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
                 setCustomReason(editData?.discountReason || "");
             }
         }
-    }, [ editData]);
+    }, [editData, discountType]);
 
     useEffect(() => {
-        if (!show ) {
+        if (!show) {
             setDiscountInput("");
             setSelectedReason(null);
             setCustomReason("");
             setDiscountType("amount");
         }
-    }, [show, ]);
+    }, [show,]);
 
 
     const handleApplyInvoices = () => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-      
-            dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' });
-                    dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
-        
+
+        dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER_ERROR' });
+        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+
 
         let hasError = false;
 
@@ -257,7 +260,7 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
                 discountValue === oldDiscount &&
                 finalReason === oldReason
             ) {
-                setNoChangesError("NoChangesDetected");
+                setNoChangesError("No Changes Detected");
                 return;
             }
         }
@@ -315,10 +318,10 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
     }, [
         state.InvoiceList?.makeInvoiceDiscountStatus,
         state.InvoiceList?.editInvoiceDiscountStatus,
-        
+
     ]);
 
-    
+
     return (
         <Modal show={show} onHide={handleClose} centered size="lg" className='font-gilroy'>
 
@@ -371,9 +374,7 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
 
                         <div>
                             <label className='text-[#222222] text-[18px] font-semibold'>
-                                ₹ {editData
-                                    ? editData?.subTotal
-                                    : pdfDetails?.invoiceInfo?.totalAmount}
+                                ₹ {Amount}
                             </label>
                         </div>
 
@@ -612,9 +613,7 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
                         </span>
 
                         <span className="font-semibold text-right whitespace-nowrap">
-                            ₹ {editData
-                                ? pdfDetails?.invoiceInfo?.subTotal
-                                : pdfDetails?.invoiceInfo?.totalAmount}
+                            ₹ {Amount}
                         </span>
 
 
@@ -633,7 +632,7 @@ function DiscountInvoice({ show, handleClose,  editData = null }) {
                         </span>
 
                         <span className="font-semibold text-right whitespace-nowrap">
-                            ₹ { payableAmount}
+                            ₹ {payableAmount}
                         </span>
 
 

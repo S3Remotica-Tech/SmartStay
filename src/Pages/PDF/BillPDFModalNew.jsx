@@ -1545,8 +1545,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       font-gilroy text-[14px] font-normal leading-[150%] tracking-normal"
 
                             onClick={() => {
-                              // setIsEdit(true);
-                              // setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
+                              setIsEdit(true);
+                              setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
                               setShowDiscountInvoice(true);
                               setOpenMenu(false);
                             }}
@@ -1956,7 +1956,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           <DiscountInvoice
             show={showDiscountInvoice}
             handleClose={handleCloseFormDiscount}
-                        editData={pdfDetails}
+            // isEdit={isEdit}
+            editData={editData || {}}
           />
         )
       }
