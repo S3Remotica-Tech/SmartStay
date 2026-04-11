@@ -26,28 +26,58 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     const [customReason, setCustomReason] = useState("");
     const [noChangesError, setNoChangesError] = useState("");
 
-    const handleDiscountChange = (e) => {
-        const value = e.target.value;
 
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+    const [discountAmount, setDiscountAmount] = useState(0);
+    const [discountPercent, setDiscountPercent] = useState(0);
 
-        setDiscountInputError('');
-        setNoChangesError('');
 
-        if (value === "") {
-            setDiscountInput("");
-            return;
-        }
+   const handleDiscountChange = (e) => {
+  const value = e.target.value;
 
-        setDiscountInput(parseFloat(value));
-    };
+  dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+  dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
 
-    const handleTypeChange = (type) => {
-              setDiscountType(type);
-       
-    };
+  setDiscountInputError('');
+  setNoChangesError('');
 
+
+  if (value === "") {
+    setDiscountInput("");
+    setDiscountAmount(0);
+    setDiscountPercent(0);
+    return;
+  }
+
+  const numValue = parseFloat(value);   
+
+  setDiscountInput(numValue);
+
+  if (baseAmount === 0) return;
+
+  if (discountType === "percent") {
+    setDiscountPercent(numValue);  
+    setDiscountAmount((numValue / 100) * baseAmount);
+  } else {
+    setDiscountAmount(numValue);
+    setDiscountPercent((numValue / baseAmount) * 100);
+  }
+};
+
+   const handleTypeChange = (type) => {
+  if (type === discountType) return;
+
+  setDiscountType(type);
+
+  if (type === "percent") {
+    setDiscountInput(
+      discountPercent ? Math.round(discountPercent) : 0
+    );
+  } else {
+    setDiscountInput(
+      discountAmount ? Math.round(discountAmount) : 0
+    );
+  }
+};
 
 
     const parseDate = (dateStr) => {
@@ -140,7 +170,8 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
             const matched = reasonOptions.find(
                 (r) => r.label === editData?.discountReason
             );
-
+setDiscountAmount(editData?.discountAmount)
+setDiscountPercent(editData?.discountPercentage)
             if (matched) {
                 setSelectedReason(matched);
                 setCustomReason("");
@@ -149,7 +180,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
                 setCustomReason(editData?.discountReason || "");
             }
         }
-    }, [editData]);
+    }, [editData,]);
 
     useEffect(() => {
         if (!show) {
