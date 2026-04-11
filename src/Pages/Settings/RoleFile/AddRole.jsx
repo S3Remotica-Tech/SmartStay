@@ -141,7 +141,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     useEffect(() => {
         if (editRoleDetails) {
-
+setDescription(editRoleDetails?.description)
             setRoleName(editRoleDetails.name ? editRoleDetails.name.trim() : '');
 
             const updatedCheckboxValues = { ...checkboxValues };
@@ -328,12 +328,15 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                 hostelId: state.login.selectedHostel_Id,
                 roleName: roleName?.trim(),
                 permissionList: formattedPermissionList,
+                description:description,
+                isActive:true
             };
         } else {
             payload = {
                 hostelId: state.login.selectedHostel_Id,
                 roleName: roleName.trim(),
                 permissionList: formattedPermissionList,
+                 description:description
             };
         }
 

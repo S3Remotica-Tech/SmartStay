@@ -343,6 +343,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const handleMakeDiscount = () => {
     setOpen(false)
     setShowDiscountInvoice(true)
+    setIsEdit(false)
   }
 
   const handleCloseFormDiscount = () => {
@@ -1957,7 +1958,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           <DiscountInvoice
             show={showDiscountInvoice}
             handleClose={handleCloseFormDiscount}
-            // isEdit={isEdit}
+            isEdit={isEdit}
             editData={isEdit ? editData : ""}
           />
         )

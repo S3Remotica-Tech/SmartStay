@@ -2557,19 +2557,26 @@ function UserListRoomDetail(props) {
 
                 <div
                   ref={menuRef}
-                  className="absolute right-12 w-52 h-24 rounded-md bg-white shadow-inner border border-gray-200 z-20 font-gilroy"
-                  style={{ boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.5)' }}
+                  className="
+    absolute right-2 sm:right-12
+    w-[90vw] sm:w-80 md:w-80
+        px-4 sm:px-3 py-3 sm:py-2
+    rounded-md bg-white
+    shadow-inner border border-gray-200
+    z-20 font-gilroy
+  "
+                  style={{ boxShadow: "inset 0 2px 6px rgba(255, 255, 255, 0.5)" }}
                 >
                   <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
                     Created by
                   </div>
                   <div className="flex items-center gap-3 p-2">
 
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                    {/* <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
                       {imageUrl ? (
                         <img
                           src={imageUrl}
-                          alt={CustomerOverView?.fullName || "profile"}
+                          alt={CustomerOverView?.createdByName || "profile"}
                           className="w-10 h-10 rounded-full object-cover"
                           onError={(e) => {
                             e.currentTarget.src = "/default-profile.png";
@@ -2577,14 +2584,14 @@ function UserListRoomDetail(props) {
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-base text-gray-700">
-                          {CustomerOverView?.initials || "NA"}
+                          {"-"}
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     <div className="flex flex-col">
-                      <span className="font-gilroy font-semibold text-sm mb-1">Rajesh R</span>
+                      <span className="font-gilroy font-semibold text-sm mb-1">{CustomerOverView?.createdByName}</span>
                       <span className="text-xs text-gray-500 ont-gilroy font-medium">
-                        04-Feb-2026 10:34 AM
+                        {CustomerOverView?.createdAt}
                       </span>
                     </div>
                   </div>
@@ -3133,7 +3140,7 @@ function UserListRoomDetail(props) {
 
 
 
-               
+
                 <div >
                   <div className=" bg-white border border-[#E5E7EB] rounded-[20px] p-4 flex flex-col mb-4 ">
                     <div className="flex items-center justify-between border-b border-gray-300 pb-1 mb-3">
@@ -3212,7 +3219,7 @@ function UserListRoomDetail(props) {
                       </div>
                     </div>
                   </div>
-                
+
                   <div className=" bg-white  overflow-hidden border border-[#E5E7EB] rounded-[20px] p-4">
 
                     <div className="card-header flex justify-between items-center border-0 bg-transparent" >
@@ -3437,7 +3444,7 @@ function UserListRoomDetail(props) {
                   </div>
 
                 </div>
-             
+
 
                 <div className=" gap-2">
 
@@ -3605,7 +3612,7 @@ function UserListRoomDetail(props) {
 
 
                 </div>
-               
+
                 <div className=" bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
 
 
@@ -3727,7 +3734,7 @@ function UserListRoomDetail(props) {
                 </div>
 
 
-               
+
                 <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2  ">
                   <div className="w-full max-w-full px-2 sm:px-3 py-3">
                     <div className="flex justify-between items-center border-b border-gray-300 pb-2">

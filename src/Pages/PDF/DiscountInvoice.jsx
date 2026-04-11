@@ -10,7 +10,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import Select from "react-select";
 import { Add } from "iconsax-react";
 
-function DiscountInvoice({ show, handleClose, editData = null }) {
+function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
 
     const state = useSelector((state) => state);
@@ -251,7 +251,7 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
 
         if (hasError) return;
 
-        if (editData) {
+        if (isEdit) {
             const oldDiscount =
                 editData?.discountAmount || editData?.discountPercentage || 0;
 
@@ -278,12 +278,14 @@ function DiscountInvoice({ show, handleClose, editData = null }) {
             payload.discountPercentage = discountValue;
         }
 
-        if (editData !== "") {
+        if (isEdit) {
+            console.log("called edit")
             dispatch({
                 type: 'EDIT_INVOICE_DISCOUNT',
                 payload
             });
         } else {
+             console.log("called add")
             dispatch({
                 type: 'INVOICE_DISCOUNT_SAGA',
                 payload
