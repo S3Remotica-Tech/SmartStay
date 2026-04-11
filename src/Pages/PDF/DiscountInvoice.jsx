@@ -27,12 +27,28 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     const [noChangesError, setNoChangesError] = useState("");
 
     const handleDiscountChange = (e) => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' })
-        setDiscountInputError('')
-        setNoChangesError('')
-        setDiscountInput(e.target.value)
-    }
+        const value = e.target.value;
+
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+
+        setDiscountInputError('');
+        setNoChangesError('');
+
+        if (value === "") {
+            setDiscountInput("");
+            return;
+        }
+
+        setDiscountInput(parseFloat(value));
+    };
+
+    const handleTypeChange = (type) => {
+              setDiscountType(type);
+       
+    };
+
+
 
     const parseDate = (dateStr) => {
         if (!dateStr) return null;
@@ -61,16 +77,16 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
     const Amount = pdfDetails?.invoiceInfo?.subTotal || pdfDetails?.invoiceInfo?.totalAmount
 
-
+    const baseAmount = Amount;
 
     const total = parseFloat(Amount) || 0;
     const discount = parseFloat(discountInput) || 0;
     const calculatedDiscount =
         discountType === "percent"
-            ? Math.round((total * discount) / 100)
-            : Math.round(discount);
+            ? (total * discount) / 100
+            : discount;
 
-    const payableAmount = Math.round(total - calculatedDiscount);
+    const payableAmount = total - calculatedDiscount;
 
 
     const reasonOptions = [
@@ -83,68 +99,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     ];
 
 
-    // const handleApplyInvoices = () => {
-    //     dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-    //     dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
-
-    //     let hasError = false;
-
-    //     const finalReason =
-    //         selectedReason?.value === "other"
-    //             ? customReason
-    //             : selectedReason?.label;
-
-    //     const discountValue = parseFloat(discountInput) || 0;
-    //     const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
-
-
-    //     setDiscountInputError('');
-    //     setReasonError('');
-
-
-    //     if (!discountInput) {
-    //         setDiscountInputError("Please Enter Discount");
-    //         hasError = true;
-    //     }
-
-    //     if (!finalReason) {
-    //         setReasonError("Please select or enter reason");
-    //         hasError = true;
-    //     }
-
-    //     if (discountType === "percent" && discountValue > 100) {
-    //         setDiscountInputError("Percentage cannot exceed 100");
-    //         hasError = true;
-    //     }
-
-    //     if (discountType === "amount" && discountValue > total) {
-    //         setDiscountInputError("Discount cannot exceed total amount");
-    //         hasError = true;
-    //     }
-
-
-    //     if (hasError) return;
-
-
-    //     let payload = {
-    //         hostelId: state.login?.selectedHostel_Id,
-    //         invoiceId: pdfDetails?.invoiceId,
-    //         reason: finalReason,
-    //     };
-
-    //     if (discountType === "amount") {
-    //         payload.discountAmount = discountValue;
-    //     } else {
-    //         payload.discountPercentage = discountValue;
-    //     }
-
-    //     dispatch({
-    //         type: 'INVOICE_DISCOUNT_SAGA',
-    //         payload
-    //     });
-
-    //     setFormLoading(true);
-    // };
 
     useEffect(() => {
         if (state.InvoiceList?.makeDiscountError || state.InvoiceList?.editDiscountError) {
@@ -183,7 +137,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     useEffect(() => {
         if (editData && pdfDetails?.invoiceInfo?.isDiscounted) {
             setDiscountInput(discountType === "amount" ? editData?.discountAmount : editData?.discountPercentage);
-
             const matched = reasonOptions.find(
                 (r) => r.label === editData?.discountReason
             );
@@ -196,7 +149,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
                 setCustomReason(editData?.discountReason || "");
             }
         }
-    }, [editData, discountType]);
+    }, [editData]);
 
     useEffect(() => {
         if (!show) {
@@ -279,13 +232,11 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
         }
 
         if (isEdit) {
-            console.log("called edit")
             dispatch({
                 type: 'EDIT_INVOICE_DISCOUNT',
                 payload
             });
         } else {
-             console.log("called add")
             dispatch({
                 type: 'INVOICE_DISCOUNT_SAGA',
                 payload
@@ -558,7 +509,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
                                             <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
                                                 <button
                                                     type="button"
-                                                    onClick={() => setDiscountType("amount")}
+                                                    onClick={() => handleTypeChange("amount")}
                                                     className={`px-3 py-1 text-sm rounded ${discountType === "amount"
                                                         ? "bg-[#1E45E1] text-white"
                                                         : "bg-[#E7F1FF]"
@@ -569,7 +520,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
                                                 <button
                                                     type="button"
-                                                    onClick={() => setDiscountType("percent")}
+                                                    onClick={() => handleTypeChange("percent")}
                                                     className={`px-3 text-sm rounded ${discountType === "percent"
                                                         ? "bg-[#1E45E1] text-white"
                                                         : "bg-[#E7F1FF]"
@@ -625,7 +576,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
                         </span>
                         <span className="font-semibold text-right whitespace-nowrap">
                             {discountType === "amount" ? "₹ " : ""}
-                            {calculatedDiscount ? calculatedDiscount : "0.00"}
+                            {calculatedDiscount ? Math.round(calculatedDiscount) : "0.00"}
                             {discountType === "percent" && ` (${discountInput || 0}%)`}
                         </span>
 
@@ -635,7 +586,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
                         </span>
 
                         <span className="font-semibold text-right whitespace-nowrap">
-                            ₹ {payableAmount}
+                            ₹ {Math.round(payableAmount)}
                         </span>
 
 
