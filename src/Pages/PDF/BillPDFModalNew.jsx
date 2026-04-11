@@ -252,6 +252,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
+    canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
   const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
@@ -1520,7 +1522,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                       <div className="flex items-center gap-3">
                         <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                            <span className="text-[16px]">✓</span>
+                          <span className="text-[16px]">✓</span>
                         </span>
 
                         <div className="flex flex-col">
@@ -1529,7 +1531,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           </span>
 
                           <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
-                             ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)} 
+                            ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
                             <span className="pl-2">Were applied on this invoice</span>
                           </span>
                         </div>
@@ -1545,46 +1547,52 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                       {openMenu && (
                         <div
-                          className="absolute right-0 bottom-16 w-44 bg-white border rounded-md shadow-md z-50 animate-fadeIn"
+                          className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
                           onClick={(e) => e.stopPropagation()}
                         >
 
-                          <div
-                            className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2
-      font-gilroy text-[14px] font-normal leading-[150%] tracking-normal"
 
+                          <button disabled={!canUpdateInvoice}
                             onClick={() => {
                               setIsEdit(true);
                               setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
                               setShowDiscountInvoice(true);
                               setOpenMenu(false);
                             }}
-                          >
-                            <Edit
-                              size="16"
-                              color={"#222222"}
-                            /> Edit
-                          </div>
+                            className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${canUpdateInvoice
+                                ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"}
+  `}                          >
+                            <Edit size={16} className={canUpdateInvoice ? "" : "opacity-50"} />
+                            Edit
+                          </button>
 
 
-                          <div
+                          <div className="h-px bg-gray-200 mx-2" />
 
-                            className="mb-1 px-2.5 py-1.5 bg-[#F7FAFF] hover:bg-red-50 cursor-pointer flex items-center gap-2 border-l-[3px] border-blue-600"
+
+                          <button
+                            disabled={!canDeleteInvoice}
                             onClick={() => {
                               setShowRefuseModal(true);
                               setOpenMenu(false);
                               setSelectedInvoice(pdfDetails);
                             }}
+                            className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${canDeleteInvoice
+                                ? "text-red-600 hover:bg-red-50 cursor-pointer"
+                                : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"}
+  `}
                           >
-                            <span><IoClose className="!h-5 !w-5 text-red-500 cursor-pointer" /></span>
-                           <span className="text-[14px] font-gilroy text-black whitespace-nowrap "> Refuse with invoice</span>
-                           
-                          </div>
-
+                            <IoClose className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`} />
+                            Refuse with invoice
+                          </button>
 
                         </div>
                       )}
-
                     </div>
                   </div>
                 )}
@@ -1669,7 +1677,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
         <div className="sticky bottom-0 left-0 right-0 z-[1000] bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
 
-          {/* Header */}
+
           <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
             <span className="font-semibold text-[16px] text-[#222]">
               {pdfDetails?.invoiceInfo?.totalAmount > 0
@@ -1721,10 +1729,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   {open && (
                     <div className="absolute right-0 top-[-100px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-xl z-50">
 
-                      <button
+                      <button disabled
                         onClick={handleWaiveOff}
-                        disabled={!canWriteInvoice}
-                        className={`w-full text-left px-4 py-2 text-sm
+                        // disabled={!canWriteInvoice}
+                        className={`w-full text-left px-4 py-2 text-sm disabled:cursor-not-allowed disabled:text-gray-200
               ${canWriteInvoice ? "hover:bg-gray-100" : "opacity-50 cursor-not-allowed"}
             `}
                       >
@@ -1894,58 +1902,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             </div>
           )}
 
-          {/* {
-            pdfDetails?.invoiceInfo?.totalAmount > 0 &&
 
-            <div className="relative inline-block w-full border-t" ref={menuRef}>
-              <div className="flex justify-between items-center mx-4 my-1">
-                <div className="flex justify-between gap-2 items-center">
-                  <Danger size="20" color="#F59E0B" />
-                  <label className="text-sm text-[#4B4B4B] font-medium">Late Fee Detected : ₹</label>
-                </div>
-                <div className="flex justify-between gap-2 items-center">
-                  <label className="text-sm text-[#1E45E1] font-medium cursor-pointer" onClick={() => handleMakeDiscount()}>Create Invoice</label>
-                  <button
-                    onClick={() => setOpen(!open)}
-                    className="p-2 rounded-md hover:bg-gray-300 bg-gray-100"
-                  >
-                    <BsThreeDotsVertical />
-                  </button>
-                </div>
-              </div>
-
-              {open && (
-                <div ref={menuRef} className="absolute top-[-80px] right-[80px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                  <div className="py-1 text-sm text-gray-700">
-
-
-                    <button
-                      onClick={handleWaiveOff}
-                      disabled={!canWriteInvoice}
-                      className={`w-full text-left px-4 py-2 flex items-center gap-2
-    ${canWriteInvoice ? "hover:bg-gray-100 cursor-pointer" : "opacity-50 cursor-not-allowed"}
-  `}
-                    >
-                      Waive Off
-                    </button>
-
-                    <button
-                      onClick={handleMakeDiscount}
-                      disabled={!canWriteInvoice}
-                      className={`w-full text-left px-4 py-2 flex items-center gap-2
-    ${canWriteInvoice ? "hover:bg-blue-50 text-[#4B4B4B] cursor-pointer" : "opacity-50 cursor-not-allowed text-gray-400"}
-  `}
-                    >
-                      Make Discount
-                    </button>
-
-                  </div>
-                </div>
-              )}
-
-            </div>
-          }
- */}
 
 
         </div>
@@ -1985,7 +1942,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
 
       }
-  
+
       {showRefuseModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30">
 

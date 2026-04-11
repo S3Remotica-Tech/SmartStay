@@ -462,12 +462,7 @@ function Dashboard() {
 
         </div>
 
-        {loading &&
-          <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
-            <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
-
-            </div>
-          </div>}
+       
 
         <div>
           {activeTab === "1" && (
@@ -483,8 +478,13 @@ function Dashboard() {
 
               </div>
             ) : (
-              <div className="max-h-[calc(100vh-120px)] overflow-y-auto">
+              <div className="max-h-[calc(100vh-120px)] overflow-y-auto relative">
+ {loading &&
+          <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !z-10">
+            <div className="!w-10 !h-10 !border-[4px] !border-blue-700 !border-t-transparent !rounded-full animate-spin">
 
+            </div>
+          </div>}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mt-[10px]">
                   {dashboardCards.map((card) => {
