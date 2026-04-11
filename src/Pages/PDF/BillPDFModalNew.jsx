@@ -1516,16 +1516,23 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 && !showDiscountInvoice && (
                   <div className="fixed bottom-16 right-5 z-[9999] animate-slideIn">
 
-                    <div className="relative flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-md shadow-lg min-w-[220px]">
+                    <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
 
-                      <div className="flex items-center gap-2">
-                        <span className="h-5 w-5 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                          ✓
+                      <div className="flex items-center gap-3">
+                        <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                            <span className="text-[16px]">✓</span>
                         </span>
 
-                        <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                          Discount Applied
-                        </span>
+                        <div className="flex flex-col">
+                          <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                            Discount Applied
+                          </span>
+
+                          <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
+                             ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)} 
+                            <span className="pl-2">Were applied on this invoice</span>
+                          </span>
+                        </div>
                       </div>
 
                       <PiDotsThreeOutlineVerticalFill
@@ -1538,7 +1545,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                       {openMenu && (
                         <div
-                          className="absolute right-0 bottom-12 w-44 bg-white border rounded-md shadow-md z-50 animate-fadeIn"
+                          className="absolute right-0 bottom-16 w-44 bg-white border rounded-md shadow-md z-50 animate-fadeIn"
                           onClick={(e) => e.stopPropagation()}
                         >
 
@@ -1562,15 +1569,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                           <div
 
-                            className="mb-1 px-3 py-1.5 text-sm  font-gilroy bg-[#F7FAFF] text-black hover:bg-red-50 cursor-pointer flex items-center gap-2 whitespace-nowrap border-l-[3px] border-blue-600"
+                            className="mb-1 px-2.5 py-1.5 bg-[#F7FAFF] hover:bg-red-50 cursor-pointer flex items-center gap-2 border-l-[3px] border-blue-600"
                             onClick={() => {
                               setShowRefuseModal(true);
                               setOpenMenu(false);
                               setSelectedInvoice(pdfDetails);
                             }}
                           >
-                            <IoClose size={18} className="text-red-500 " />
-                            Refuse with invoice
+                            <span><IoClose className="!h-5 !w-5 text-red-500 cursor-pointer" /></span>
+                           <span className="text-[14px] font-gilroy text-black whitespace-nowrap "> Refuse with invoice</span>
+                           
                           </div>
 
 
@@ -1977,21 +1985,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
 
       }
-
-      {/* {showEditModal && (
-        <EditDiscountInvoiceModal
-          show={showEditModal}
-          handleClose={() => setShowEditModal(false)}
-        />
-      )} */}
-
-
+  
       {showRefuseModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30">
 
           <div className="bg-white shadow-lg rounded-lg w-[90%] max-w-md p-4">
 
-            <h2 className="text-black font-gilroy font-gilroy text-[17.24px] font-semibold leading-[24.9px] tracking-normal">
+            <h2 className="text-black font-gilroy text-[17.24px] font-semibold leading-[24.9px] tracking-normal">
               Refuse Discount !
             </h2>
 
@@ -2006,7 +2006,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               >
                 Cancel
               </button>
-
 
 
               <button
