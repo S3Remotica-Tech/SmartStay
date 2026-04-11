@@ -363,13 +363,13 @@ function SettingNewRole() {
                           <td className="px-4 py-1 text-[13px] text-[#6F767E]">
                             <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
                               <Profile2User size={12} />
-                              {view.usersCount || 0}
+                              {view.userCount || 0}
                             </div>
                           </td>
 
 
                           <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
-                            {view.createdDate || "-"}
+                            {view.createdAt || "-"}
                           </td>
 
 
