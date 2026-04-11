@@ -1705,9 +1705,9 @@ function FinalSettlement() {
                                         type="text"
                                         name="Advance"
                                         id="Advance"
-                                        value={ReturnAmount}
+                                        value={Math.round(ReturnAmount).toLocaleString("en-IN")}
                                         placeholder="Amount"
-                                        required
+                                        readOnly
                                         className={`mt-1 h-[50px] w-full rounded-[8px] border border-[#D9D9D9]
     px-3 text-[16px] font-semibold font-gilroy shadow-none outline-none
     focus:border-[#1E45E1] focus:ring-0
@@ -1765,33 +1765,34 @@ function FinalSettlement() {
                                         : "text-gray-700"
                                     }`}
                             >
-                                ₹ {ReturnAmount}
+                               
+                                ₹ {Math.round(ReturnAmount).toLocaleString("en-IN")}
                             </div>
 
                         </div>
 
 
-                        <div className="flex items-center gap-3 h-fit">
-                            <Button
+                        <div className="flex items-center gap-6 h-fit">
+                            <button
                                 variant=""
                                 onClick={handleClose}
                                 className="text-base font-normal font-gilroy"
                             >
                                 Cancel
-                            </Button>
+                            </button>
 
-                            <Button
+                            <button
                                 disabled={formLoading}
                                 onClick={handleClickGenerate}
                                 className="
-        bg-[#1E45E1] text-white
+        bg-[#1E45E1] text-white  w-full flex items-center gap-3 px-4 py-2.5 rounded   transition
         text-base font-normal font-gilroy
        
         
       "
                             >
                                 Generate Bill
-                            </Button>
+                            </button>
                         </div>
                     </div>
 

@@ -641,31 +641,18 @@ const location = useLocation();
   }
 
 
-  function parseDMY(dateStr) {
-    if (!dateStr || typeof dateStr !== "string") {
-      return null;
-    }
-
-    const parts = dateStr.split("/");
-    if (parts.length !== 3) {
-      return null;
-    }
-
-    const [day, month, year] = parts;
-    return new Date(`${year}-${month}-${day}`);
-  }
 
 
 
+  
+const current = selectedDate ? dayjs(selectedDate) : null;
+const initial = initialValuesRef.current.selectedDate
+  ? dayjs(initialValuesRef.current.selectedDate)
+  : null;
 
-
-  const currentDate = parseDMY(selectedDate);
-  const initialDate = parseDMY(initialValuesRef.current.selectedDate);
-
-
-  let hasChanges =
-    description !== initialValuesRef?.current?.Description ||
-    currentDate?.getTime() !== initialDate?.getTime();
+ const hasChanges =
+  description !== initialValuesRef.current.description ||
+  !current?.isSame(initial, "day");
 
 
 
@@ -703,7 +690,7 @@ const location = useLocation();
 
 
     // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
-    const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
+    const formattedDate = selectedDate ? selectedDate.format("DD-MM-YYYY") : null
     const payload = {
       customerId: userid,
       complaintTypeId: Complainttype,
@@ -745,7 +732,7 @@ const location = useLocation();
 
 
   const handleEditcomplaint = (Complaintdata) => {
-
+console.log("Complaintdata",Complaintdata)
     setEdit(true)
 
     dispatch({ type: "USERLIST", payload: { hostel_id: hosId } });
@@ -778,11 +765,12 @@ const location = useLocation();
       setStatus(Complaintdata.Status)
 
 
-      initialValuesRef.current = {
-        Description: Complaintdata.description,
-        selectedDate: parseDMY(Complaintdata.complaintDate)
-      };
-
+     initialValuesRef.current = {
+  description: Complaintdata.description,
+  selectedDate: Complaintdata.complaintDate
+    ? dayjs(Complaintdata.complaintDate, "DD/MM/YYYY")
+    : null
+};
     }
   }
 
