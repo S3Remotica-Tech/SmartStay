@@ -1516,7 +1516,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </div>
 
                 {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 && !showDiscountInvoice && (
-                  <div className="fixed bottom-16 right-5 z-[9999] animate-slideIn">
+                  <div className="fixed bottom-16 right-5 z-[999] animate-slideIn">
 
                     <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
 
