@@ -229,7 +229,7 @@ setDiscountPercent(editData?.discountPercentage)
         }
 
         if (discountType === "amount" && discountValue > Amount) {
-            setDiscountInputError("Discount cannot exceed total amount");
+            setDiscountInputError("Discount cannot exceed invoice amount");
             hasError = true;
         }
 
