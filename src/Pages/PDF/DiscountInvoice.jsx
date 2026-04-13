@@ -103,9 +103,14 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
         overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     }
 
-    // console.log("pdfDetails", pdfDetails)
+    console.log("pdfDetails", pdfDetails)
 
-    const Amount = pdfDetails?.invoiceInfo?.subTotal || pdfDetails?.invoiceInfo?.totalAmount
+    // const Amount = 
+    // pdfDetails?.invoiceInfo?.subTotal || 
+    // pdfDetails?.invoiceInfo?.totalAmount
+
+
+    const Amount = pdfDetails?.invoiceInfo?.invoiceItems?.reduce((sum, item)=> sum + item.amount, 0)
 
     const baseAmount = Amount;
 
