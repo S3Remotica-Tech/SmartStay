@@ -1003,7 +1003,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               </span>
                             </div>
                             {
-                              pdfDetails?.invoiceInfo?.totalAmount > 0 &&
+                              pdfDetails?.invoiceInfo?.isDiscounted &&
 
                               <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
                                 <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
@@ -1680,9 +1680,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
           <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
             <span className="font-semibold text-[16px] text-[#222]">
-              {pdfDetails?.invoiceInfo?.totalAmount > 0
-                ? "Payments Made"
-                : "Refund Made"}
+              {pdfDetails?.invoiceInfo?.totalAmount < 0
+                ? "Refund Made" : "Payments Made"
+                 }
             </span>
 
 

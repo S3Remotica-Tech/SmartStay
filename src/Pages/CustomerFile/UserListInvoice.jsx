@@ -54,19 +54,28 @@ function UserListInvoice(props) {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-console.log("invoiceFilterddata",invoiceFilterddata)
+  console.log("invoiceFilterddata", invoiceFilterddata)
 
   const handleShowDots = (item, event) => {
-    if (activeId === item.invoiceId) {
-      setActiveId(null);
-    } else {
-      setActiveId(item.invoiceId);
-    }
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 150;
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  };
+  if (activeId === item.invoiceId) {
+    setActiveId(null);
+    return;
+  }
+
+  setActiveId(item.invoiceId);
+
+  const rect = event.currentTarget.getBoundingClientRect();
+
+  const popupHeight = 180; 
+  const spaceBelow = window.innerHeight - rect.bottom;
+
+  const isBottom = spaceBelow < popupHeight;
+
+  setPopupPosition({
+    top: isBottom ? rect.top - popupHeight : rect.bottom,
+    left: rect.left - 120, 
+  });
+};
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setActiveId(null);
@@ -336,44 +345,44 @@ console.log("invoiceFilterddata",invoiceFilterddata)
             invoiceFilterddata?.length > 0 ? (
 
               <>
-                      <div className="relative flex flex-col h-[calc(100vh-285px)] mt-6">
-                  <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-1">
+                <div className="relative flex flex-col h-[calc(100vh-355px)] mt-6 overflow-y-scroll overflow-x-auto show-scrolls pb-1">
+                  <div className="flex-1  ">
                     <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                       <thead className="bg-blue-100 sticky top-0 z-20">
-                         <tr className="h-9">
-                        <th className="w-[230px] px-2 whitespace-nowrap">
-                          Invoice number
-                        </th>
+                        <tr className="h-9">
+                          <th className="w-[230px] px-2 whitespace-nowrap">
+                            Invoice number
+                          </th>
 
-                        <th className="w-[230px] px-2 whitespace-nowrap">
-                          Invoice type
-                        </th>
+                          <th className="w-[230px] px-2 whitespace-nowrap">
+                            Invoice type
+                          </th>
 
-                        <th className="w-[230px] px-2 whitespace-nowrap">
-                          Invoice date
-                        </th>
+                          <th className="w-[230px] px-2 whitespace-nowrap">
+                            Invoice date
+                          </th>
 
-                        <th className="w-[230px] px-2 whitespace-nowrap">
-                          Due date
-                        </th>
+                          <th className="w-[230px] px-2 whitespace-nowrap">
+                            Due date
+                          </th>
 
-                        <th className="w-[230px] px-2">
-                          Amount
-                        </th>
+                          <th className="w-[230px] px-2">
+                            Amount
+                          </th>
 
-                        <th className="w-[230px] px-2">
-                          Due
-                        </th>
+                          <th className="w-[230px] px-2">
+                            Due
+                          </th>
 
-                        <th className="w-[230px] px-2">
-                          Status
-                        </th>
+                          <th className="w-[230px] px-2">
+                            Status
+                          </th>
 
-                       {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (  <th className="w-[230px] px-2">
-                          Action
-                        </th>
-                       )}
-                    </tr>
+                          {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && (<th className="w-[230px] px-2">
+                            Action
+                          </th>
+                          )}
+                        </tr>
                       </thead>
 
                       <tbody>
@@ -385,26 +394,26 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                 {view.invoiceNumber}
                               </td>
 
- <td className="w-[230px] py-1 px-2 relative">
-          <div className="flex items-center gap-2 group w-fit">
+                              <td className="w-[230px] py-1 px-2 relative">
+                                <div className="flex items-center gap-2 group w-fit">
 
-            <span className="truncate max-w-[150px]">
-              {view.invoiceType}
-            </span>
+                                  <span className="truncate max-w-[150px]">
+                                    {view.invoiceType}
+                                  </span>
 
-            {(view.invoiceMode === "Manual" && view.invoiceType === "Rent") && (
-              <ReceiptEdit size="14" className="text-gray-500" />
-            )}
+                                  {(view.invoiceMode === "Manual" && view.invoiceType === "Rent") && (
+                                    <ReceiptEdit size="14" className="text-gray-500" />
+                                  )}
 
 
-            <span className="absolute hidden group-hover:block top-full left-0 mt-1
+                                  <span className="absolute hidden group-hover:block top-full left-0 mt-1
       bg-gray-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
       z-50 pointer-events-none">
-              {view.invoiceMode}
-            </span>
+                                    {view.invoiceMode}
+                                  </span>
 
-          </div>
-        </td>
+                                </div>
+                              </td>
                               {/* <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                                 {view.invoiceType}_
                                 <span className="text-[8px]">{view.invoiceMode}</span>
@@ -428,40 +437,40 @@ console.log("invoiceFilterddata",invoiceFilterddata)
 
                               <td className="w-[230px] py-1 px-2 whitespace-nowrap" >
 
-                              {(view?.paymentStatus === "Pending" ||
-                                view.paymentStatus === "Partial Payment") && (
-                                  <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                {(view?.paymentStatus === "Pending" ||
+                                  view.paymentStatus === "Partial Payment") && (
+                                    <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                      {view?.paymentStatus}
+                                    </span>
+                                  )}
+
+
+                                {view?.paymentStatus === "Paid" && (
+                                  <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                    {view?.paymentStatus}
+                                  </span>
+                                )}
+
+                                {(view?.paymentStatus === "Refunded" ||
+                                  view?.paymentStatus === "Partially Refunded") && (
+                                    <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                      {view?.paymentStatus}
+                                    </span>
+                                  )}
+
+
+                                {view?.paymentStatus === "Pending Refund" && (
+                                  <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
                                     {view?.paymentStatus}
                                   </span>
                                 )}
 
 
-                              {view?.paymentStatus === "Paid" && (
-                                <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                  {view?.paymentStatus}
-                                </span>
-                              )}
-
-                              {(view?.paymentStatus === "Refunded" ||
-                                view?.paymentStatus === "Partially Refunded") && (
-                                  <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                    {view?.paymentStatus}
+                                {view?.paymentStatus === "Cancelled" && (
+                                  <span className="bg-[#FFE6B3] whitespace-nowrap text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                    Cancelled
                                   </span>
                                 )}
-
-
-                              {view?.paymentStatus === "Pending Refund" && (
-                                <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                  {view?.paymentStatus}
-                                </span>
-                              )}
-
-
-                              {view?.paymentStatus === "Cancelled" && (
-                                <span className="bg-[#FFE6B3] whitespace-nowrap text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                  Cancelled
-                                </span>
-                              )}
 
                               </td>
 
@@ -482,7 +491,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                       {activeId === view.invoiceId && (
                                         <div
                                           ref={popupRef}
-                                          className="fixed w-[170px] bg-[#F9F9F9] rounded-[10px] z-[3000] border whitespace-nowrap"
+                                          className="fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
                                           style={{
                                             top: popupPosition.top,
                                             left: popupPosition.left - 50,
@@ -535,7 +544,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
                                                 </button>
                                               )}
 
-                                             <button
+                                            <button
                                               onClick={() => isExportAllow && handleInvoicepdf(view)}
                                               disabled={!isExportAllow}
                                               className={`flex items-center gap-2 px-3 py-2   
@@ -623,7 +632,7 @@ console.log("invoiceFilterddata",invoiceFilterddata)
 
                 </div>
 
-               <div className="flex justify-end shrink-0 bg-white mt-3.5 2xl:mt-2">
+                <div className="flex justify-end shrink-0 bg-white mt-3.5 2xl:mt-2">
                   <PaginationList
                     totalItems={invoiceFilterddata.length}
                     itemsPerPage={pageSize}
