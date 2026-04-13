@@ -191,7 +191,6 @@ setDiscountPercent(editData?.discountPercentage)
         }
     }, [show,]);
 
-        console.log("discountValue0",discountInput, "oldDiscount",editData?.discountReason, "editData?.discountReason",editData?.discountReason )
 
     const handleApplyInvoices = () => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' });
