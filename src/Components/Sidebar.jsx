@@ -201,7 +201,7 @@ function Sidebar() {
       if (lastPage) {
         navigate(lastPage, { replace: true })
       } else {
-        navigate(`/dashboard`)
+        navigate(`/dashboard-new`)
       }
 
     }

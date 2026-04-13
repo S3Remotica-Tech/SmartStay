@@ -160,24 +160,30 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
 
     const handleAmount = (e) => {
-        setAmountErrmsg('')
+        setAmountErrmsg('');
+
         let value = e.target.value;
 
+
+        if (value.includes('.')) {
+            return;
+        }
+
         if (value !== "") {
-            let numValue = Number(value);
+            let numValue = parseInt(value, 10);
+
             if (numValue > (invoiceList?.balanceDue || 0)) {
                 numValue = invoiceList?.balanceDue || 0;
             }
+
             value = numValue;
             setBalance((invoiceList?.balanceDue || 0) - numValue);
         } else {
-
             setBalance(invoiceList?.balanceDue || 0);
         }
 
         setPayableAmount(value);
-        // setPayableAmountError("")
-        dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+        dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' });
     };
 
     console.log("invoiceList", invoiceList)
@@ -219,7 +225,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         const billDate = convertToYMD(invoiceList?.invoiceDate);
         const paidDate = formatpaiddate;
 
-       
+
         if (!payableAmount) {
             setAmountErrmsg("Please Enter Amount");
         } else {

@@ -378,7 +378,7 @@ function FinalSettlement() {
             }
 
             const appliedDiscount = Number(discount) || 0;
-            finalAmount -= appliedDiscount;
+            finalAmount += appliedDiscount;
           
             setReturnAmount(finalAmount);
         }
@@ -960,7 +960,7 @@ function FinalSettlement() {
                                         </span>
 
                                         <span className="text-sm font-semibold text-gray-900">
-                                            Refundable Rent
+                                           {finalSettlementList?.settlementInfo?.label}
                                         </span>
                                     </div>
 
