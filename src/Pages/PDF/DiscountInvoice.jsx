@@ -191,6 +191,7 @@ setDiscountPercent(editData?.discountPercentage)
         }
     }, [show,]);
 
+        console.log("discountValue0",discountInput, "oldDiscount",editData?.discountReason, "editData?.discountReason",editData?.discountReason )
 
     const handleApplyInvoices = () => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' });
@@ -235,20 +236,22 @@ setDiscountPercent(editData?.discountPercentage)
 
         if (hasError) return;
 
-        if (isEdit) {
-            const oldDiscount =
-                editData?.discountAmount || editData?.discountPercentage || 0;
+        // if (isEdit) {
+        //     const oldDiscount =
+        //         editData?.discountAmount || editData?.discountPercentage || 0;
 
-            const oldReason = editData?.discountReason;
+        //     const oldReason = editData?.discountReason;
 
-            if (
-                discountValue === oldDiscount &&
-                finalReason === oldReason
-            ) {
-                setNoChangesError("No Changes Detected");
-                return;
-            }
-        }
+        //     if (
+        //         discountValue === oldDiscount &&
+        //         finalReason === oldReason
+        //     ) {
+        //         setNoChangesError("No Changes Detected");
+        //         return;
+        //     }
+        // }
+
+
 
         let payload = {
             hostelId: state.login?.selectedHostel_Id,
