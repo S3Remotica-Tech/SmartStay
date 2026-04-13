@@ -103,7 +103,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
         overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     }
 
-    console.log("pdfDetails", pdfDetails)
+    // console.log("pdfDetails", pdfDetails)
 
     const Amount = pdfDetails?.invoiceInfo?.subTotal || pdfDetails?.invoiceInfo?.totalAmount
 
@@ -228,27 +228,29 @@ setDiscountPercent(editData?.discountPercentage)
             hasError = true;
         }
 
-        if (discountType === "amount" && discountValue > total) {
-            setDiscountInputError("Discount cannot exceed total amount");
+        if (discountType === "amount" && discountValue > Amount) {
+            setDiscountInputError("Discount cannot exceed invoice amount");
             hasError = true;
         }
 
         if (hasError) return;
 
-        if (isEdit) {
-            const oldDiscount =
-                editData?.discountAmount || editData?.discountPercentage || 0;
+        // if (isEdit) {
+        //     const oldDiscount =
+        //         editData?.discountAmount || editData?.discountPercentage || 0;
 
-            const oldReason = editData?.discountReason;
+        //     const oldReason = editData?.discountReason;
 
-            if (
-                discountValue === oldDiscount &&
-                finalReason === oldReason
-            ) {
-                setNoChangesError("No Changes Detected");
-                return;
-            }
-        }
+        //     if (
+        //         discountValue === oldDiscount &&
+        //         finalReason === oldReason
+        //     ) {
+        //         setNoChangesError("No Changes Detected");
+        //         return;
+        //     }
+        // }
+
+
 
         let payload = {
             hostelId: state.login?.selectedHostel_Id,
