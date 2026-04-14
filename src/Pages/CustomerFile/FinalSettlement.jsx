@@ -378,7 +378,13 @@ function FinalSettlement() {
             }
 
             const appliedDiscount = Number(discount) || 0;
-            finalAmount += appliedDiscount;
+            finalAmount -= appliedDiscount; 
+            //  if (amountTobePaid < 0) {
+            //     finalAmount  = finalAmount;
+            // } else {
+            //    finalAmount = finalAmount - appliedDiscount
+            // }
+
           
             setReturnAmount(finalAmount);
         }
