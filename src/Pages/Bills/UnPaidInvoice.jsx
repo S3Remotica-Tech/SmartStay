@@ -19,7 +19,7 @@ function UnPaidInvoice({ show, handleClose, selectedInvoice }) {
     const dispatch = useDispatch();
     const [formLoading, setFormLoading] = useState(false);
 
-console.log("selectedInvoice",selectedInvoice)
+// console.log("selectedInvoice",selectedInvoice)
     const confirmUnpaid = () => {
         if (selectedInvoice) {
             dispatch({
@@ -85,7 +85,7 @@ console.log("selectedInvoice",selectedInvoice)
                     Cancel
                 </Button>
 
-                <Button
+                <Button disabled={formLoading}
                     className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
                     onClick={confirmUnpaid}
                 >
