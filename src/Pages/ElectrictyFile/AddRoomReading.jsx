@@ -330,7 +330,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                     <Button className="bg-transparent !text-black !font-gilroy !border-none" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button className="!bg-[#1E45E1] !font-gilroy !w-32" onClick={handleSubmit}>
+                    <Button   disabled={loading} className="!bg-[#1E45E1] !font-gilroy !w-32" onClick={handleSubmit}>
                         {editRoomReading ? "Update" : "Add"}
                     </Button>
                 </Modal.Footer>

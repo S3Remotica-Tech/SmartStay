@@ -608,7 +608,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                         <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
                             Cancel
                         </Button>
-                        <Button
+                        <Button disabled={formRecordLoading}
                             style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
                             onClick={handleSaveInvoiceList}
                         >Refund</Button>

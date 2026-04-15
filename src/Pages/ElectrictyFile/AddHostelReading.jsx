@@ -278,7 +278,7 @@ function AddHostelReading({ show, handleClose
                      onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button className="!bg-blue-700 w-[130px] !font-gilroy"
+                    <Button      disabled={loading} className="!bg-blue-700 w-[130px] !font-gilroy"
                     onClick={handleSubmit}>
                         {editHostelReading ? "Update" : "Add"}
                     </Button>

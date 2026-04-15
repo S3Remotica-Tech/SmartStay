@@ -60,6 +60,13 @@ import { Tabs, Tab } from "react-bootstrap";
 import FinalOld from "./FinalOld";
 import { FiSearch } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
+import {
+  Filter,
+  Export, ArrowLeft,
+  ArrowSwapVertical, Setting3, SearchNormal1,
+  ArrowDown2
+
+} from "iconsax-react";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -76,7 +83,7 @@ function UserList(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
-
+  const [open, setOpen] = useState(false);
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -208,7 +215,14 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
+  const options = [
+    { key: "Email ID", label: "Email ID", checked: true },
+    { key: "Booking Date", label: "Booking Date", checked: true },
+    { key: "Monthly Rent", label: "Monthly Rent", checked: true },
+    { key: "Advance", label: "Advance", checked: false },
+    { key: "Booking amount", label: "Booking amount", checked: true },
 
+  ];
 
 
   useEffect(() => {
@@ -2452,6 +2466,27 @@ function UserList(props) {
   const endIndex = startIndex + pageSize;
 
   const paginatedData = sortedData.slice(startIndex, endIndex);
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const handleRowSelect = (id) => {
+    setSelectedRows((prev) =>
+      prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedRows.length === paginatedData.length) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(paginatedData.map((item) => item.customerId));
+    }
+  };
+
+
+
+
 
   return (
     <div className="sticky-top bg-white font-gilroy">
@@ -2773,37 +2808,74 @@ function UserList(props) {
                         onPageSizeChange={(size) => setPageSize(size)}
                       />
                     </div>
-                    <div className="relative h-[calc(100vh-140px)] flex flex-col">
-                      <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                        <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                          <thead className="bg-blue-100 sticky top-0 z-20">
+                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+
+                      <div className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl">
+                        <table className=" w-full font-gilroy">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
                             <tr className="h-9">
-                              <th className="w-[230px] px-2">Name</th>
-                              <th className="w-[230px] px-2">Status</th>
-                              <th className="w-[230px] px-2 whitespace-nowrap">Joining Date</th>
-                              <th className="w-[230px] px-2 whitespace-nowrap">Mobile No</th>
-                              <th className="w-[230px] px-2">Floor</th>
-                              <th className="w-[230px] px-2">Room</th>
-                              <th className="w-[230px] px-2">Bed</th>
-                              <th className="w-[230px] px-2">Action</th>
+
+
+                              <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
+                                <div className="flex items-center gap-2">
+                                  <Setting3
+                                    onClick={() => setOpen(!open)}
+                                    className="cursor-pointer"
+                                    size="18"
+                                    color="#4B4B4B"
+                                  />
+                                  <input
+                                    type="checkbox"
+                                    className="rounded cursor-pointer"
+                                    checked={selectedRows.length === paginatedData.length && paginatedData.length > 0}
+                                    onChange={handleSelectAll}
+                                  />
+                                </div>
+                              </th>
+
+
+                              <th className="px-4 py-2.5 sticky left-[80px] z-40 bg-[#F9FAFB] w-[100px] uppercase ">
+                                Name
+                              </th>
+
+                              <th className="px-4 py-2.5 uppercase">Status</th>
+                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">Joining Date</th>
+                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">Mobile No</th>
+                              <th className="px-4 py-2.5 uppercase">Floor</th>
+                              <th className="px-4 py-2.5 uppercase">Room</th>
+                              <th className="px-4 py-2.5 uppercase">Bed</th>
+                              <th className="px-4 py-2.5 uppercase">Action</th>
+
                             </tr>
                           </thead>
                           <tbody>
                             {paginatedData.map((user) => (
-                              <tr key={user.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
-
-                                <td className="w-[150px] py-1 whitespace-nowrap">
-                                  <div className="relative group w-[230px]">
+                              <tr key={user.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group  hover:bg-gray-50" onClick={() => handleRoomDetailsPage(user)}>
+                                <td className="px-4 sticky left-0 z-50   w-[80px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] bg-white group-hover:bg-gray-50  [backface-visibility:hidden]">
+                                  <div className="flex items-center justify-end">
+                                    <input
+                                      type="checkbox"
+                                      className="rounded cursor-pointer"
+                                      checked={selectedRows.includes(user.customerId)}
+                                      onClick={(e) => e.stopPropagation()} 
+                                      onChange={(e) => {
+                                                                               handleRowSelect(user.customerId);
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="px-4 sticky left-[80px] z-40  w-[100px] shadow-[2px_0_5px_rgba(0,0,0,0.05)]  bg-white group-hover:bg-gray-50  [backface-visibility:hidden]">
+                                  <div className="relative group w-[100px]   ">
 
                                     <span
-                                      className="pl-1 px-2 py-1 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline block"
-                                      onClick={() => handleRoomDetailsPage(user)}
+                                      className="truncate whitespace-nowrap text-sm font-semibold font-gilroy text-[#1E45E1] cursor-pointer block"
+
                                     >
                                       {user?.firstName} {user?.lastName}
                                     </span>
 
 
-                                    <div className="absolute left-full left-[10px]
+                                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none">
@@ -2813,13 +2885,13 @@ function UserList(props) {
                                   </div>
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1">
+                                <td className=" px-4 ">
                                   <span className="inline-block whitespace-nowrap rounded-lg bg-[#EDD3D8] px-2 text-sm">
                                     {user.currentStatus}
                                   </span>
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 truncate whitespace-nowrap">
+                                <td className=" px-4 py-1 truncate whitespace-nowrap">
                                   {user?.actualJoining && user.actualJoining !== "0000-00-00"
                                     ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
                                     : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
@@ -2829,11 +2901,11 @@ function UserList(props) {
                                         : "-"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className=" px-4 py-1 whitespace-nowrap">
                                   +{user?.countryCode} {user?.mobile}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
                                   {user.currentStatus === "Booked" ||
                                     user.currentStatus === "Checked In" ||
                                     user.currentStatus === "Notice Period" ||
@@ -2842,18 +2914,21 @@ function UserList(props) {
                                     : "-"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
                                   {user.roomName || "-"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
                                   {user.bedName || "-"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1">
+                                <td className=" px-4 py-1">
                                   <div
-                                    className="relative mt-1 flex cursor-pointer items-center justify-start"
-                                    onClick={(e) => handleShowDots(user.customerId, e)}
+                                    className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleShowDots(user.customerId, e);
+                                    }}
                                   >
                                     <PiDotsThreeOutlineVerticalFill
                                       className={`h-5 w-5 rotate-90 ${activeRow === user.customerId ? "text-[#1E45E1]" : "text-gray-500"
@@ -3022,6 +3097,76 @@ function UserList(props) {
                           </tbody>
 
                         </table>
+                        {open && (
+                          <>
+
+                            <div
+                              className="fixed inset-0 bg-black/20 z-50 "
+                              onClick={() => setOpen(false)}
+                            />
+
+
+                            <div
+                              className={`
+        fixed top-[250px] left-[250px] h-fit w-[280px]
+        bg-white z-50
+        border-r border-[#E5E7EB]
+        shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
+        transform transition-transform duration-300 ease-in-out
+        ${open ? "translate-x-0" : "-translate-x-full"}
+      `}
+                            >
+
+
+
+
+
+                              <div className="p-3 border-b">
+                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                  <SearchNormal1 size={16} color="#98A2B3" />
+                                  <input
+                                    placeholder="Search"
+                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                  />
+                                </div>
+                              </div>
+
+
+                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                {options.map((item) => (
+                                  <label
+                                    key={item.key}
+                                    className="flex items-center gap-3 text-sm cursor-pointer"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      defaultChecked={item.checked}
+                                      className="w-4 h-4 accent-[#1E45E1] rounded"
+                                    />
+                                    <span className="text-[#101828]">
+                                      {item.label}
+                                    </span>
+                                  </label>
+                                ))}
+                              </div>
+
+
+                              <div className="p-3 border-t flex gap-2">
+                                <button
+                                  className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                                >
+                                  Reset
+                                </button>
+                                <button
+                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                                >
+                                  Apply Filters
+                                </button>
+                              </div>
+
+                            </div>
+                          </>
+                        )}
 
                       </div>
                     </div>

@@ -910,6 +910,7 @@ function StaticExample({ show, setShow, currentItem }) {
              <div className="col-span-12 px-3 pb-4">
 
               <Button
+                 disabled={formLoading}
                 onClick={handleAddAsset}
                 className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[17px] !font-gilroy p-3 mt-2"
                

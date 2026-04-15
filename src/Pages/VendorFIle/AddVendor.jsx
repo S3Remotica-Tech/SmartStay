@@ -1293,7 +1293,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
           <Modal.Footer className="border-0">
-            <Button
+            <Button  disabled={formLoading}
             className="w-100 !bg-[#1E45E1] !rounded-[12px] !text-[16px] !font-gilroy !font-bold p-3"
               onClick={handleAddVendor}
             >

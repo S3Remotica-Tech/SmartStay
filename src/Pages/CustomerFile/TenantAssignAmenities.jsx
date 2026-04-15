@@ -676,7 +676,7 @@ useEffect(() => {
             Cancel
           </Button>
           <Button
-            disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+            disabled={formLoading || !canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
             className="bg-[#1E45E1] !font-semibold h-[40px] rounded-[12px] text-[16px] !font-gilroy"
 
             onClick={() => {

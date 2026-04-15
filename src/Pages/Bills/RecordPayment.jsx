@@ -460,7 +460,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                                             value={payableAmount}
                                             onChange={handleAmount}
                                             onKeyDown={(e) => {
-                                                if (e.key === "-" || e.key === "e") {
+                                                if (e.key === "-" || e.key === "e" || e.key === '.') {
                                                     e.preventDefault();
                                                 }
                                             }}
@@ -883,7 +883,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                             <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
                                 Cancel
                             </Button>
-                            <Button
+                            <Button disabled={formRecordLoading}
                                 style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
                                 onClick={handleSaveInvoiceList}
                             >Record</Button>

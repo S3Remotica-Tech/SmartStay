@@ -28,7 +28,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [initialValues, setInitialValues] = useState(null);
     const [isChanged, setIsChanged] = useState("")
     const [emailError, setEmailError] = useState("")
-
+    const [loading, setLoading] = useState(false)
 
 
     const handleFirstNameChange = (e) => {
@@ -118,6 +118,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
     useEffect(() => {
         if (state.createAccount?.networkError) {
+            setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
             }, 3000)
@@ -131,7 +132,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
 
 
-console.log("basicDetails",basicDetails)
+    // console.log("basicDetails",basicDetails)
 
     const handleSubmit = () => {
         dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
@@ -229,10 +230,15 @@ console.log("basicDetails",basicDetails)
                 profilePic: basicDetails?.profilePic || "",
             },
         });
+        setLoading(true)
 
     };
 
-
+    useEffect(() => {
+        if (state.UsersList.editBasicSuccessStatusCode === 200 || state.UsersList?.alreadyMobileBasicError) {
+            setLoading(false)
+        }
+    }, [state.UsersList.editBasicSuccessStatusCode , state.UsersList?.alreadyMobileBasicError]);
 
     return (
         <div className="modal show block static" >
@@ -366,6 +372,11 @@ console.log("basicDetails",basicDetails)
                                 }
                             </div>
                         </div>
+                        {loading && (
+                            <div className="absolute inset-x-0 top-24 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                                <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
+                            </div>
+                        )}
                     </Modal.Body>
 
                     {isChanged ?
@@ -384,7 +395,7 @@ console.log("basicDetails",basicDetails)
                                 Cancel
                             </Button>
 
-                            <Button
+                            <Button disabled={loading}
                                 onClick={handleSubmit}
                                 className="!bg-[#1E45E1] !font-semibold !text-base !font-gilroy rounded-xl py-2 px-10 w-100 mt-1"
                             >

@@ -1192,7 +1192,7 @@ function CreateBill() {
                         }),
                         menu: (base) => ({
                             ...base,
-                            zIndex: 9999, fontFamily:"Gilroy"
+                            zIndex: 9999, fontFamily: "Gilroy"
                         }),
                         option: (base, state) => ({
                             ...base,
@@ -1334,9 +1334,11 @@ function CreateBill() {
 
             <div className="flex justify-center mr-10 w-full">
 
-                <button
+                <button disabled={formLoading}
                     onClick={billData ? handleEditBill : handleCreateBill}
-                    className="w-fit mx-8 my-2 bg-[#1E45E1] text-white px-5 font-medium h-[40px] rounded-[8px] text-[16px] font-[Gilroy]"
+                    className="w-fit mx-8 my-2 bg-[#1E45E1] text-white px-5 font-medium h-[40px] 
+                    rounded-[8px] text-[16px] font-[Gilroy] 
+                     disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"
                 >
                     {billData ? "Save Changes" : "Create Bill"}
                 </button>

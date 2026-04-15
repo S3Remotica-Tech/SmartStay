@@ -2336,7 +2336,7 @@ function SettingGeneral() {
 
         <Modal.Footer className="flex justify-center border-0">
 
-          <Button
+          <Button disabled={formLoading}
             className="!w-full !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"
             onClick={handleSave}
           >
