@@ -1375,7 +1375,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
               />
             </div>
 
-            <div className="flex justify-between mt-3">
+             <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-between">
               <input
                 value={hexValue}
                 readOnly
@@ -1403,7 +1403,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
               />
             </div>
 
-            <div className="flex justify-between text-[12px] text-gray-600 mt-1 mb-3">
+              <div className="flex flex-wrap gap-2 justify-center md:justify-between text-[12px] text-gray-600 mt-1 mb-3">
               <span className="w-20 text-center">Hex</span>
               <span className="w-10 text-center">R</span>
               <span className="w-10 text-center">G</span>
@@ -1411,7 +1411,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
               <span className="w-10 text-center">A</span>
             </div>
 
-            <div className="grid grid-cols-9 gap-2 justify-center">
+            <div className="flex flex-wrap gap-2 justify-center">
               {presetColors.map((preset, index) => (
                 <div
                   key={index}

@@ -2052,7 +2052,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           />
                         </div>
 
-                        {/* <div className="flex justify-between mt-3"> */}
                         <div className="flex flex-wrap justify-center gap-2 mt-3">
                           <input
                             value={hexValue}
@@ -2088,7 +2087,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <span className="w-10 text-center">A</span>
                         </div>
 
-                        <div className="grid grid-cols-9 gap-2 justify-center">
+                         <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-9 gap-2 justify-center">
                           {presetColors.map((preset, index) => (
                             <div
                               key={index}

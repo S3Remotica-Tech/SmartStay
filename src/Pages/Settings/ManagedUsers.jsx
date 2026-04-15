@@ -171,7 +171,7 @@ function ManagedUsers() {
 
 
     return (
-         <div className="w-full overflow-x-hidden max-h-[400px]">
+        <div className="w-full overflow-x-hidden max-h-[400px]">
             {
                 state.Settings?.addSettingStaffList?.length > 0 &&
 
@@ -284,23 +284,20 @@ function ManagedUsers() {
                     </Table>
                 </div>
             }
-          
+
             {state.Settings?.addSettingStaffList?.length === 0 && (
-                <div className="flex justify-center items-center mt-5">
-                    <div className="2xl:mt-32 text-center animated-text">
-                        <img
-                            src={Emptystate}
-                            alt="emptystate"
-                            className="h-[200px] w-[200px] object-contain"
-                        />
 
-                        <div className="text-[18px] font-semibold text-[#4B4B4B]">
-                            No Staff
-                        </div>
-
-                        <div className="text-[14px] font-medium text-[#4B4B4B]">
-                            There are no staff&apos;s available
-                        </div>
+                <div className="flex flex-col items-center text-center animated-text 2xl:mt-24 h-[280p]">
+                    <img
+                        src={Emptystate}
+                        alt="emptystate"
+                        className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48 2xl:h-52 2xl:w-52 object-contain mt-3"
+                    />
+                    <div className="font-gilroy font-semibold text-base lg:text-lg text-gray-600">
+                        No Staff
+                    </div>
+                    <div className="font-gilroy font-medium text-sm lg:text-lg md:text-md text-gray-600">
+                        There are no staff&apos;s available
                     </div>
                 </div>
             )}

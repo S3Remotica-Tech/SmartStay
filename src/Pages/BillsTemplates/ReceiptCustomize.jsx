@@ -871,35 +871,39 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
                 style={{ width: "100%" }}
               />
             </div>
-            <div className="flex justify-between mt-3">
+
+           
+
+            <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-between">
               <input
                 value={hexValue}
                 readOnly
-                className="w-20 text-center border border-gray-300 rounded"
+                className="w-[70px] md:w-20 text-center border border-gray-300 rounded"
               />
               <input
                 value={color.r}
                 readOnly
-                className="w-10 text-center border border-gray-300 rounded"
+                className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
               <input
                 value={color.g}
                 readOnly
-                className="w-10 text-center border border-gray-300 rounded"
+                className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
               <input
                 value={color.b}
                 readOnly
-                className="w-10 text-center border border-gray-300 rounded"
+                className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
               <input
                 value={alphaValue}
                 readOnly
-                className="w-10 text-center border border-gray-300 rounded"
+                className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
+              
             </div>
 
-            <div className="flex justify-between text-[12px] text-gray-600 mt-1 mb-3">
+            <div className="flex flex-wrap gap-2 justify-center md:justify-between text-[12px] text-gray-600 mt-1 mb-3">
               <span className="w-20 text-center">Hex</span>
               <span className="w-10 text-center">R</span>
               <span className="w-10 text-center">G</span>
@@ -907,7 +911,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList, onTemplateReceiptChange }
               <span className="w-10 text-center">A</span>
             </div>
 
-            <div className="grid grid-cols-9 gap-2 justify-center">
+              <div className="flex flex-wrap gap-2 justify-center">
               {presetColors.map((preset, index) => {
                 const r = parseInt(preset.substr(1, 2), 16);
                 const g = parseInt(preset.substr(3, 2), 16);
