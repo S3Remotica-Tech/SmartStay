@@ -228,7 +228,7 @@ function StaticExample({
 
 
           <Modal.Footer className="border-0 p-3 mt-1">
-            <Button
+            <Button  disabled={formLoading}
               onClick={handleCreateFloor}
               className="w-100 m-0 !bg-[#1e45e1] !font-semibold !rounded-xl !py-3 !font-gilroy"
             >

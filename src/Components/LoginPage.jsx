@@ -339,33 +339,39 @@ const MyComponent = () => {
 
             <div className="flex justify-center pt-2">
               <button
-                onClick={() => handleLogin()}
-                className="w-full h-[42px] rounded-[10px] bg-[#1E45E1] text-white text-[16px] font-semibold font-montserrat cursor-pointer">
-                Sign in
+                disabled={loading}
+                onClick={handleLogin}
+                className={`w-full h-[42px] rounded-[10px] text-[16px] font-semibold font-montserrat 
+  ${loading
+                    ? 'bg-gray-300 cursor-not-allowed opacity-70 text-gray-500'
+                    : 'bg-[#1E45E1] text-white cursor-pointer hover:bg-[#1639c3]'
+                  }`}
+              >
+               Sign in
               </button>
             </div>
           </div>
-           <div className='flex flex-wrap w-full justify-center lg:justify-start mt-6 gap-1'>
-          <p className="font-montserrat font-normal text-[16px] lg:ml-0 2xl:ml-0 text-center lg:text-left">
-            Don&apos;t have an account?
-          </p><span className="font-montserrat font-semibold text-[16px] text-[#1E45E1] cursor-pointer hover:underline" onClick={handleCreateAccount}>Create an account</span>
-        </div>
+          <div className='flex flex-wrap w-full justify-center lg:justify-start mt-6 gap-1'>
+            <p className="font-montserrat font-normal text-[16px] lg:ml-0 2xl:ml-0 text-center lg:text-left">
+              Don&apos;t have an account?
+            </p><span className="font-montserrat font-semibold text-[16px] text-[#1E45E1] cursor-pointer hover:underline" onClick={handleCreateAccount}>Create an account</span>
+          </div>
 
           {loading && <div className="absolute top-[120px] inset-x-0 bottom-0 flex items-center justify-center h-[50vh] opacity-75 z-10"><div className="w-10 h-10 border-4 border-[#1E45E1] border-t-transparent rounded-full animate-spin"></div></div>}
         </div>
 
-         <div className="w-full lg:w-1/2 mt-6 lg:mt-16 flex justify-center lg:pl-20 2xll:pl-20">
+        <div className="w-full lg:w-1/2 mt-6 lg:mt-16 flex justify-center lg:pl-20 2xll:pl-20">
           <div className='w-full max-w-[450px] md:max-w-[600px] mx-auto'>
-          <img src={Loginimage} alt='LoginImg' className="w-full h-auto" />
+            <img src={Loginimage} alt='LoginImg' className="w-full h-auto" />
           </div>
         </div>
-        </div>
+      </div>
 
 
       <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
 
     </div>
-    
+
 
     // <div className="max-w-[1100px] mx-auto h-full px-4">
     //   <div className="flex flex-wrap items-center justify-center p-3 md:mt-4 2xl:mt-36 w-full fade-in">

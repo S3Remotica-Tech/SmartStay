@@ -208,6 +208,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
           <Modal.Footer className="border-0 p-3 mt-1">
             <Button
+             disabled={formLoading}
               onClick={handleCreateRoom}
              className="w-100 m-0 !bg-[#1e45e1] !font-semibold !rounded-xl !py-3 !font-gilroy"
             >

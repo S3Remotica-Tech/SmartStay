@@ -1652,13 +1652,10 @@ ${selected
                             Discard
                         </button> */}
 
-                        <button onClick={handleSaveChanges}
-                            className="flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
+                        <button onClick={handleSaveChanges} disabled={formLoading}
+                            className="disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"
                         >
-                            <ArchiveBook
-                                size="16"
-                                color="#FFFFFF"
-                            />  Save Changes
+                           <ArchiveBook size="16" color={formLoading ? "#9CA3AF" : "#FFFFFF"} />  Save Changes
                         </button>
                     </div>
 

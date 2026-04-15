@@ -460,7 +460,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                                             value={payableAmount}
                                             onChange={handleAmount}
                                             onKeyDown={(e) => {
-                                                if (e.key === "-" || e.key === "e") {
+                                                if (e.key === "-" || e.key === "e" || e.key === '.') {
                                                     e.preventDefault();
                                                 }
                                             }}

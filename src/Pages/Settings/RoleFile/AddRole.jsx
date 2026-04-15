@@ -501,7 +501,7 @@ setDescription(editRoleDetails?.description)
                     )}
 
                     <Modal.Footer className="border-0">
-                        <Button
+                        <Button disabled={formLoading}
                             onClick={handleSubmit}
                             className="w-full !cursor-pointer !bg-[#1E45E1] !font-semibold !py-3 !rounded-lg !text-[16px] !font-gilroy"
                         >

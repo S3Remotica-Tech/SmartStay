@@ -696,10 +696,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
           <Modal.Footer className="!mt-[-10px] !border-0 !px-3">
             
-            <button
+            <button  disabled={formLoading}
               onClick={handleSubmit}
-              className="!w-full !cursor-pointer !bg-[#1E45E1] !font-semibold !p-3 !rounded-lg !text-sm !font-gilroy !text-white"
-            >
+ className="!w-full !bg-[#1E45E1] !font-semibold !p-3 !rounded-lg !text-sm !font-gilroy !text-white 
+  !cursor-pointer hover:!bg-[#1639c3] active:!scale-95
+  disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"            >
               {edit ? "Save Changes" : " + Staff"}
             </button>
           </Modal.Footer>

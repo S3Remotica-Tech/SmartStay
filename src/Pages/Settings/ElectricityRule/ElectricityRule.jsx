@@ -547,9 +547,9 @@ function ElectricityRule() {
                         Cancel
                     </button>
 
-                    <button
+                    <button  disabled={formLoading}
                         onClick={handleSubmit}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-white bg-[#1E45E1] rounded-lg hover:bg-[#1639c9]"
+                        className="disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 flex items-center gap-2 px-4 py-2 text-sm text-white bg-[#1E45E1] rounded-lg hover:bg-[#1639c9]"
                     >
                         <MessageText size="16" />
                         Save Changes

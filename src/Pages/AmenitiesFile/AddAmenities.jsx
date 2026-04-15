@@ -291,9 +291,11 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             )}
 
             <Modal.Footer className="!border-none !pt-1">
-              <button
+              <button disabled={formLoading}
                 onClick={handleSubmit}
-                className="!w-full !bg-[#1E45E1] !font-gilroy !font-semibold !text-base !rounded-lg !py-3 text-white"
+                className="!w-full !bg-[#1E45E1] !font-gilroy !font-semibold !text-base !rounded-lg !py-3 text-white 
+                disabled:!bg-gray-300  
+                disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 "
               >
                 {editDetails ? "Save Changes" : "Add Amenities"}
               </button>

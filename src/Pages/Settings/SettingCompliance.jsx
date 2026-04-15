@@ -614,7 +614,7 @@ function SettingCompliance() {
             </div>
           )}
 
-          <Button
+          <Button disabled={formLoading}
             onClick={handleEditType}
             className="!w-full !mt-2 !h-12 !bg-[#1E45E1] !text-white !font-montserrat !font-semibold !text-base !rounded-lg"
           >
@@ -692,9 +692,9 @@ function SettingCompliance() {
         )}
 
         <Modal.Footer className="!flex !justify-center !pt-0 !border-t-0">
-          <button
+          <button disabled={formLoading}
             onClick={handleAddComplaintType}
-            className="!w-full !h-12 !px-4 !py-3 !rounded-lg !bg-[#1E45E1] !text-white !font-montserrat !font-semibold !text-sm"
+            className=" disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 !w-full !h-12 !px-4 !py-3 !rounded-lg !bg-[#1E45E1] !text-white !font-montserrat !font-semibold !text-sm"
           >
             + Complaint Type
           </button>

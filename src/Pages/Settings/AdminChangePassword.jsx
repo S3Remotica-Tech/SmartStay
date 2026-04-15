@@ -276,9 +276,11 @@ function AdminChangePassword({ show, handleClose }) {
                         Cancel
                     </button>
 
-                    <button
+                    <button disabled={formLoading}
                         onClick={handleSubmit}
-                        className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition"
+                        className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition
+                         disabled:!bg-gray-300 
+                        disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"
                     >
                         Save Changes
                     </button>
