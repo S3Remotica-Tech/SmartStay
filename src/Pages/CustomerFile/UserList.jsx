@@ -2850,7 +2850,7 @@ function UserList(props) {
                           </thead>
                           <tbody>
                             {paginatedData.map((user) => (
-                              <tr key={user.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group bg-white hover:bg-gray-50" onClick={() => handleRoomDetailsPage(user)}>
+                              <tr key={user.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group  hover:bg-gray-50" onClick={() => handleRoomDetailsPage(user)}>
                                 <td className="px-4 sticky left-0 z-50   w-[80px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] bg-white group-hover:bg-gray-50  [backface-visibility:hidden]">
                                   <div className="flex items-center justify-end">
                                     <input
