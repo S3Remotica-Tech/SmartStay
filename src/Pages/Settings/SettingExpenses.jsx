@@ -18,6 +18,8 @@ import AddSubCategory from '../Settings/AddSubCategory';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+
+
 function SettingExpenses() {
 
   const state = useSelector(state => state)
@@ -381,7 +383,7 @@ function SettingExpenses() {
   return (
     <>
 
-    
+
 
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
@@ -420,20 +422,28 @@ function SettingExpenses() {
           </div>
         ) : (
 
+          //         <div
+          //           className={`mt-2 px-3 py-4 rounded-lg show-scrolls relative
+          //   ${expensesFilterddata.length === 0
+          //               ? "bg-[#FFFFFF] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
+          //               : "bg-[#F9FAFB] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
+          //             }
+          // `}
+          //         >
           <div
-            className={`mt-2 px-3 py-4 rounded-lg show-scrolls relative
+            className={`mt-2 px-3 py-4 rounded-lg relative h-[calc(100vh-140px)]
     ${expensesFilterddata.length === 0
-                ? "bg-[#FFFFFF] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
-                : "bg-[#F9FAFB] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
+                ? "bg-[#FFFFFF] flex items-center justify-center overflow-hidden"
+                : "bg-[#F9FAFB] overflow-y-auto"
               }
-  `}
+`}
           >
 
-  {loading && (
-       <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
-          <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-       )} 
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
+                <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
 
@@ -590,13 +600,19 @@ function SettingExpenses() {
 
             {!loading && expensesFilterddata.length === 0 && (
 
-              <div className="w-full flex justify-center items-center mt-24 2xl:mt-52">
-                <div className="text-center">
-                  <img src={EmptyState} alt="emptystate" className="max-w-xs mx-auto" />
-                  <div className="pb-1 text-center font-gilroy font-semibold !text-lg text-[#4B4B4B] mt-2">
-                    No Expense available
-                  </div>
+
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+
+                <img
+                  src={EmptyState}
+                  alt="emptystate"
+                  className="object-contain mt-24"
+                />
+
+                <div className="mt-3 font-gilroy font-semibold text-base md:text-lg text-[#4B4B4B]">
+                  No Expense available
                 </div>
+
               </div>
             )}
 

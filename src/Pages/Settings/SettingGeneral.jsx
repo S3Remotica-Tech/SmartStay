@@ -1192,7 +1192,8 @@ function SettingGeneral() {
           </div>
         </div>
 
-        <div className="relative overflow-y-auto mt-0 p-0 font-gilroy" style={{ height: "calc(100vh - 70px)" }}>
+        {/* <div className="relative overflow-y-auto mt-0 p-0 font-gilroy" style={{ height: "calc(100vh - 70px)" }}> */}
+        <div className="flex flex-col h-[calc(100vh-70px)] overflow-hidden font-gilroy">
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
               <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
@@ -1213,21 +1214,22 @@ function SettingGeneral() {
               </div>
             )
               : (
-                <div className="sticky top-0 bg-white z-[900] mt-2">
+                // <div className="sticky top-0 bg-white z-[900] ">
+                <div className="sticky top-0 bg-white z-[900] flex flex-col h-full">
                   {account?.roleId === 1 && (
-                    <div className="bg-white rounded-lg border border-gray-300 p-4 font-gilroy">
-
-                      <div className="flex w-full gap-4">
-                        <div >
+                     <div className="bg-white rounded-lg border border-gray-300 p-4 md:p-2 font-gilroy">
+                       <div className="flex w-full gap-4 md:gap-3">
+                        <div>
                           {
                             account?.profilePic ? (
                               <img
                                 src={account.profilePic}
                                 alt="profile"
-                                className="w-14 h-14 min-w-[56px] min-h-[56px] rounded-full object-cover"
+                                 className="w-14 h-14 min-w-[56px] min-h-[56px] md:w-12 md:h-12 md:min-w-[48px] md:min-h-[48px] rounded-full object-cover -mt-2"
                               />
                             ) : (
-                              <div className="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-lg font-gilroy uppercase"
+                              <div
+                              className="w-14 h-14 md:w-12 md:h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-lg md:text-base font-gilroy uppercase"
                               >
                                 {account?.initial}
                               </div>
@@ -1237,7 +1239,7 @@ function SettingGeneral() {
                         <div className="w-full">
                           <div className="flex justify-between items-center">
 
-                            <div className="w-full">
+                            <div className="w-full -mt-4">
                               <span
                                 className="text-lg font-semibold text-gray-900 capitalize block truncate"
                                 title={`${account.firstName} ${account.lastName}`}
@@ -1246,7 +1248,7 @@ function SettingGeneral() {
                               </span>
                             </div>
 
-                            <div class="relative">
+                            <div class="relative -mt-4">
                               <div
                                 onClick={() => setOpenMenu(!openMenu)}
                                 className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
@@ -1302,13 +1304,9 @@ function SettingGeneral() {
                                 )}
                               </div>
                             </div>
-
                           </div>
 
-
-
-
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-between items-center -mt-2">
                             <div className="flex items-center gap-1.5 text-xs text-yellow-500 bg-yellow-50 px-2 py-0.5 rounded-full font-gilroy w-max">
                               {account?.roleName} <Crown1 size={14} color="#FF9900" />
                             </div>
@@ -1322,11 +1320,10 @@ function SettingGeneral() {
                         </div>
                       </div>
 
-                      <hr className="my-2 border border-gray-200" />
+                         <hr className="my-2 md:my-1 border border-gray-200" />
 
-                      <div className="flex flex-col lg:flex-row lg:justify-between mt-2">
-
-                        <div className="flex flex-wrap gap-4 mt-2">
+                         <div className="flex flex-col lg:flex-row lg:justify-between mt-2 md:mt-1">
+                           <div className="flex flex-wrap gap-4 md:gap-3 mt-2 md:mt-1">
                           <div className="flex items-center gap-1.5 text-sm text-gray-600">
                             <Call size={14} color="#1E45E1" />
                             + {account.countryCode} {account.mobileNo}
@@ -1552,18 +1549,16 @@ function SettingGeneral() {
                           })
                         ) :
                           !loading && (
-                            <div className="flex flex-col items-center text-center animated-text 2xl:mt-24 h-[280px]">
+                            <div className="flex flex-col items-center text-center animated-text 2xl:mt-24 h-[280p]">
                               <img
                                 src={EmptyState}
                                 alt="emptystate"
-                                className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48 2xl:h-52 2xl:w-52 object-contain mt-4"
+                                className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48 2xl:h-52 2xl:w-52 object-contain mt-3"
                               />
-
-                              <div className="pb-1 font-gilroy font-semibold text-base lg:text-lg text-gray-600">
+                              <div className="font-gilroy font-semibold text-base lg:text-lg text-gray-600">
                                 No Profile
                               </div>
-
-                              <div className="font-gilroy font-medium text-sm lg:text-lg text-gray-600">
+                              <div className="font-gilroy font-medium text-sm lg:text-lg md:text-md text-gray-600">
                                 There are no Profile available.
                               </div>
                             </div>

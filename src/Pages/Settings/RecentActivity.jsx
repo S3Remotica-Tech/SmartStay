@@ -62,23 +62,23 @@ function RecentActivity() {
   ];
 
   return (
-    // <div class="mt-2 w-full overflow-x-hidden overflow-y-auto max-h-[400px]">
-    <div className="mt-2 w-full h-full overflow-y-auto overflow-x-hidden">
+
+    //  <div className="mt-2 w-full h-full overflow-y-auto overflow-x-hidden">
+    <div className="mt-2 w-full max-h-[calc(100vh-220px)] overflow-y-auto overflow-x-hidden">
       {recentActivities.map((item, index) => (
         <StepItem
           key={index}
           isLast={index === recentActivities.length - 1}
         >
-
           <div class="text-sm md:text-xs lg:text-base">
             {item.update}
           </div>
 
-          <div class="text-xs md:text-[11px] lg:text-sm mt-1">
+          <div class="text-xs md:text-[11px] lg:text-sm">
             {item.description}
           </div>
 
-          <div class="text-[11px] md:text-[10px] lg:text-xs mt-1">
+          <div class="text-[11px] md:text-[10px] lg:text-xs">
             Added at {item.updatedAt}, {item.updatedTime}
           </div>
 
