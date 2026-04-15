@@ -30,54 +30,64 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     const [discountAmount, setDiscountAmount] = useState(0);
     const [discountPercent, setDiscountPercent] = useState(0);
 
-
-   const handleDiscountChange = (e) => {
-  const value = e.target.value;
-
-  dispatch({ type: 'CLEAR_NETWORK_ERROR' });
-  dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
-
-  setDiscountInputError('');
-  setNoChangesError('');
+    console.log("discountAmount", discountAmount)
+    console.log("discountPercent", discountPercent)
+    console.log("discountInput", discountInput)
 
 
-  if (value === "") {
-    setDiscountInput("");
-    setDiscountAmount(0);
-    setDiscountPercent(0);
-    return;
-  }
 
-  const numValue = parseFloat(value);   
 
-  setDiscountInput(numValue);
 
-  if (baseAmount === 0) return;
 
-  if (discountType === "percent") {
-    setDiscountPercent(numValue);  
-    setDiscountAmount((numValue / 100) * baseAmount);
-  } else {
-    setDiscountAmount(numValue);
-    setDiscountPercent((numValue / baseAmount) * 100);
-  }
-};
 
-   const handleTypeChange = (type) => {
-  if (type === discountType) return;
 
-  setDiscountType(type);
 
-  if (type === "percent") {
-    setDiscountInput(
-      discountPercent ? Math.round(discountPercent) : 0
-    );
-  } else {
-    setDiscountInput(
-      discountAmount ? Math.round(discountAmount) : 0
-    );
-  }
-};
+    const handleDiscountChange = (e) => {
+        const value = e.target.value;
+
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' });
+        dispatch({ type: 'RMOVE_INVOICE_DISCOUNT_REDUCER_ERROR' });
+
+        setDiscountInputError('');
+        setNoChangesError('');
+
+        if (value === "") {
+            setDiscountInput("");
+            setDiscountAmount(0);
+            setDiscountPercent(0);
+            return;
+        }
+
+        const numValue = parseFloat(value);
+
+        console.log("numValue", numValue)
+        setDiscountInput(numValue);
+
+        if (baseAmount === 0) return;
+
+        if (discountType === "percent") {
+            setDiscountPercent(numValue);
+            setDiscountAmount((numValue / 100) * baseAmount);
+        } else {
+            setDiscountAmount(numValue);
+            setDiscountPercent((numValue / baseAmount) * 100);
+        }
+    };
+
+    const handleTypeChange = (type) => {
+        if (type === discountType) return;
+
+        setDiscountType(type);
+
+        if (type === "percent") {
+            const percent = discountPercent || 0;
+            setDiscountInput(Number(percent.toFixed(2)));
+        } else {
+            const amount = discountAmount || 0;
+            setDiscountInput(Number(amount.toFixed(2)));
+        }
+
+    };
 
 
     const parseDate = (dateStr) => {
@@ -110,7 +120,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     // pdfDetails?.invoiceInfo?.totalAmount
 
 
-    const Amount = pdfDetails?.invoiceInfo?.invoiceItems?.reduce((sum, item)=> sum + item.amount, 0)
+    const Amount = pdfDetails?.invoiceInfo?.invoiceItems?.reduce((sum, item) => sum + item.amount, 0)
 
     const baseAmount = Amount;
 
@@ -118,11 +128,15 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     const discount = parseFloat(discountInput) || 0;
     const calculatedDiscount =
         discountType === "percent"
-            ? (total * discount) / 100
-            : discount;
+            ? (total * discountPercent) / 100
+            : discountAmount;
 
     const payableAmount = total - calculatedDiscount;
-
+    const displayPercent =
+        discountPercent < 1
+            ? discountPercent.toFixed(2)
+            : Math.round(discountPercent);
+    console.log("calculatedDiscount", calculatedDiscount)
 
     const reasonOptions = [
         { value: "loyalty", label: "Loyalty Discount" },
@@ -175,8 +189,8 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
             const matched = reasonOptions.find(
                 (r) => r.label === editData?.discountReason
             );
-setDiscountAmount(editData?.discountAmount)
-setDiscountPercent(editData?.discountPercentage)
+            setDiscountAmount(editData?.discountAmount)
+            setDiscountPercent(editData?.discountPercentage)
             if (matched) {
                 setSelectedReason(matched);
                 setCustomReason("");
@@ -614,8 +628,10 @@ setDiscountPercent(editData?.discountPercentage)
                         </span>
                         <span className="font-semibold text-right whitespace-nowrap">
                             {discountType === "amount" ? "₹ " : ""}
-                            {calculatedDiscount ? Math.round(calculatedDiscount) : "0.00"}
-                            {discountType === "percent" && ` (${discountInput || 0}%)`}
+                            {calculatedDiscount
+                                ? Math.round(calculatedDiscount)
+                                : 0}
+                            {discountType === "percent" && `(${displayPercent}%)`}
                         </span>
 
 
