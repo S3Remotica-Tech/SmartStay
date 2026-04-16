@@ -200,7 +200,15 @@ function FinalSettlement() {
         if (field === "amount") {
 
             let numericValue = value.replace(/[^0-9.]/g, "");
-
+ if (!/^\d*\.?\d*$/.test(numericValue)) {
+    return; 
+  }
+  if (numericValue.startsWith(".")) {
+    return;
+  }
+  if (/^0\d+/.test(numericValue)) {
+    numericValue = numericValue.replace(/^0+/, "0");
+  }
             if (numericValue.startsWith("0")) {
                 numericValue = numericValue.replace(/^0+/, "");
             }
