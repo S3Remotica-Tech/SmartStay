@@ -37,7 +37,7 @@ import Calendars from "../../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import moment from 'moment';
+import moment from "moment";
 import Filters from "../../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -50,10 +50,10 @@ import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
 // import FinalSettlement from "./FinalSettlement";
-import PaginationList from '../../Components/PaginationList';
-import ErrorMessage from '../../Components/ErrorMessage'
+import PaginationList from "../../Components/PaginationList";
+import ErrorMessage from "../../Components/ErrorMessage";
 import BackToCheckIn from "./BackToCheckIn";
-import { useHasPermission } from '../../Utils/Permission';
+import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Tabs, Tab } from "react-bootstrap";
@@ -62,11 +62,26 @@ import { FiSearch } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import {
   Filter,
-  Export, ArrowLeft,
-  ArrowSwapVertical, Setting3, SearchNormal1,
-  ArrowDown2
-
+  Export,
+  ArrowLeft,
+  ArrowUp2,
+  ArrowSwapVertical,
+  Setting3,
+  SearchNormal1,
+  Buildings,
+  ArrowDown2,
 } from "iconsax-react";
+import Select from "react-select";
+import { IoMdMenu } from "react-icons/io";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { TiTick } from "react-icons/ti";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -141,15 +156,21 @@ function UserList(props) {
   const [billsAddshow, setBillsAddShow] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
-  const [add_bookingshow, setAddBookingsShow] = useState(false)
-  const [formLoading, setFormLoading] = useState(false)
+  const [add_bookingshow, setAddBookingsShow] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const [view, setView] = useState("List");
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
-
+  const listRef = useRef(null);
   const tableRef = useRef(null);
-
-
-
+  console.log("isScrolling", isScrolling);
   const {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
@@ -157,57 +178,35 @@ function UserList(props) {
     // canUpdateModule: canUpdateTenant
   } = useHasPermission("Customers");
 
+  const { canWriteModule: canWriteWalkin, canReadModule: canReadWalkin } =
+    useHasPermission("Walk in");
 
-
-  const {
-    canWriteModule: canWriteWalkin,
-    canReadModule: canReadWalkin,
-
-  } = useHasPermission("Walk in");
-
-
-
-
-  const {
-    canReadModule: canReadCheckout,
-    canWriteModule: canWriteCheckout
-
-  } = useHasPermission("Checkout");
-
+  const { canReadModule: canReadCheckout, canWriteModule: canWriteCheckout } =
+    useHasPermission("Checkout");
 
   const {
     canWriteModule: canWriteBooking,
     // canReadModule: canReadBooking,
-
   } = useHasPermission("Booking");
-
-
-
 
   const isTenantForm = location.state?.isTenantForm || false;
 
-
-
   useEffect(() => {
     if (isTenantForm) {
-      setValue("4")
+      setValue("4");
       setShowMenu(true);
     }
   }, [isTenantForm]);
 
-
-
   const handleInvoiceNumber = (e) => {
-    setInvoiceNumber(e.target.value)
-  }
+    setInvoiceNumber(e.target.value);
+  };
 
   useEffect(() => {
     if (state.AssetList.accessRestricted) {
       setLoading(false);
     }
-
-  }, [state.AssetList.accessRestricted])
-
+  }, [state.AssetList.accessRestricted]);
 
   useEffect(() => {
     if (!canReadTenant) {
@@ -216,48 +215,69 @@ function UserList(props) {
   }, [canReadTenant]);
 
   const options = [
-    { key: "Email ID", label: "Email ID", checked: true },
-    { key: "Booking Date", label: "Booking Date", checked: true },
-    { key: "Monthly Rent", label: "Monthly Rent", checked: true },
-    { key: "Advance", label: "Advance", checked: false },
-    { key: "Booking amount", label: "Booking amount", checked: true },
-
+    { key: "Name", label: "Name" },
+    { key: "Status", label: "Status" },
+    { key: "Mobile No", label: "Mobile No" },
+    { key: "Joining Date", label: "Joining Date" },
+    { key: "Floor", label: "Floor" },
+    { key: "Room", label: "Room" },
+    { key: "Bed", label: "Bed" },
+    { key: "Email ID", label: "Email ID" },
+    { key: "Booking Date", label: "Booking Date" },
+    { key: "Monthly Rent", label: "Monthly Rent" },
+    { key: "Advance", label: "Advance" },
+    { key: "Booking amount", label: "Booking amount" },
   ];
-
+  const [customizeItems, setCustomizeItems] = useState(options);
+  const allSelected = customizeItems.every((i) => i.checked);
+  const ListOptions = [
+    { key: "List", label: "List", img: Setting3 },
+    { key: "Room", label: "Room", img: Buildings },
+  ];
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 100)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
+  }, [state.UsersList?.accessRestrictionError]);
 
-  }, [state.UsersList?.accessRestrictionError])
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (listRef.current && !listRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
 
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-        setLoading(true)
-
-      }
-      else if (value === "3") {
+        setLoading(true);
+      } else if (value === "3") {
         dispatch({
           type: "CHECKOUTCUSTOMERLIST",
           payload: { hostelId: state.login.selectedHostel_Id },
         });
-      }
-      else if (value === "4") {
+      } else if (value === "4") {
         dispatch({
           type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+          payload: {
+            hostel_id: state.login.selectedHostel_Id,
+            type: "Inactive",
+          },
         });
       }
     }
@@ -271,8 +291,6 @@ function UserList(props) {
       });
     }
   }, [id, billsAddshow]);
-
-
 
   const handleRowTypeSelect = (type) => {
     let newRow = { am_name: "", amount: "0" };
@@ -288,7 +306,6 @@ function UserList(props) {
       setSelectedTypes((prev) => [...prev, type]);
     }
 
-
     setAllFieldErrmsg("");
     setTableErrmsg("");
 
@@ -296,12 +313,10 @@ function UserList(props) {
   };
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
-
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -320,7 +335,6 @@ function UserList(props) {
             amount: invoice.totalAmount.toString(),
           });
         }
-
       });
 
       setNewRows(mappedRows);
@@ -352,7 +366,6 @@ function UserList(props) {
     // setTimeout(() => {
     //   setCurrentView(details);
     // }, 0);
-
   };
 
   // useEffect(() => {
@@ -376,7 +389,7 @@ function UserList(props) {
   useEffect(() => {
     if (isreader) {
       const matchingFloor = state?.UsersList?.hosteldetailslist?.find(
-        (item) => item.floor_name === isreader.floor_name
+        (item) => item.floor_name === isreader.floor_name,
       );
 
       if (matchingFloor) {
@@ -384,7 +397,7 @@ function UserList(props) {
       }
 
       const matchingRoom = state?.UsersList?.roomdetails?.find(
-        (item) => String(item.Room_Id) === String(isreader.Room_Id)
+        (item) => String(item.Room_Id) === String(isreader.Room_Id),
       );
 
       if (matchingRoom) {
@@ -412,7 +425,9 @@ function UserList(props) {
 
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
-      prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
+      prevRows.map((row, i) =>
+        i === index ? { ...row, [field]: value } : row,
+      ),
     );
     setAllFieldErrmsg("");
     setTableErrmsg("");
@@ -460,7 +475,7 @@ function UserList(props) {
     }
     if (!Array.isArray(newRows) || newRows.length === 0) {
       setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill"
+        "Please Add At Least One Item Row Before Generating The Bill",
       );
       hasError = true;
     } else if (
@@ -471,21 +486,20 @@ function UserList(props) {
           row.amount === null ||
           row.amount === undefined ||
           isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0
+          parseFloat(row.amount) <= 0,
       )
     ) {
       setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill"
+        "Please Fill All Details & Amount > 0 Before Generating The Bill",
       );
       hasError = true;
     } else {
       setTableErrmsg("");
     }
 
-
-    const selectedUser = state.UsersList.Users?.listCustomers?.find(item => item.ID === customername);
-
-
+    const selectedUser = state.UsersList.Users?.listCustomers?.find(
+      (item) => item.ID === customername,
+    );
 
     if (selectedUser) {
       const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
@@ -558,9 +572,6 @@ function UserList(props) {
     //       );
     //     });
 
-
-
-
     //   return (
     //     userChanged ||
     //     // invoiceChanged ||
@@ -578,7 +589,7 @@ function UserList(props) {
     if (isValid) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
-        dueDateObject.getMonth() + 1
+        dueDateObject.getMonth() + 1,
       ).padStart(2, "0")}-${String(dueDateObject.getDate()).padStart(2, "0")}`;
 
       const dateObject = new Date(invoicedate);
@@ -586,7 +597,7 @@ function UserList(props) {
       const month = dateObject.getMonth() + 1;
       const day = dateObject.getDate();
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-        day
+        day,
       ).padStart(2, "0")}`;
 
       dispatch({
@@ -600,7 +611,7 @@ function UserList(props) {
         },
       });
 
-      setBillLoading(true)
+      setBillLoading(true);
       // setCustomerName("");
       setInvoiceNumber("");
 
@@ -618,9 +629,6 @@ function UserList(props) {
     }
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
-
-
-
 
   const handleCreateBill = () => {
     let hasError = false;
@@ -648,7 +656,7 @@ function UserList(props) {
 
     if (!Array.isArray(newRows) || newRows.length === 0) {
       setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill"
+        "Please Add At Least One Item Row Before Generating The Bill",
       );
       hasError = true;
     } else if (
@@ -659,23 +667,20 @@ function UserList(props) {
           row.amount === null ||
           row.amount === undefined ||
           isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0
+          parseFloat(row.amount) <= 0,
       )
     ) {
       setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill"
+        "Please Fill All Details & Amount > 0 Before Generating The Bill",
       );
       hasError = true;
     } else {
       setTableErrmsg("");
     }
 
-
-    const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === customername);
-
-
-
-
+    const selectedUser = state.UsersList.Users.listCustomers?.find(
+      (item) => item.customerId === customername,
+    );
 
     if (selectedUser) {
       const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
@@ -696,7 +701,9 @@ function UserList(props) {
     //   .filter((row) => row.am_name?.toLowerCase() === "room rent")
     //   .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
     const rentAmount = newRows
-      .filter((row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent")
+      .filter(
+        (row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent",
+      )
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
     const ebAmount = newRows
@@ -707,14 +714,14 @@ function UserList(props) {
       .filter(
         (row) =>
           row.am_name?.toLowerCase() !== "room rent" &&
-          row.am_name?.toLowerCase() !== "eb"
+          row.am_name?.toLowerCase() !== "eb",
       )
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
     if (hasError) {
       return;
     }
-    setBillLoading(true)
+    setBillLoading(true);
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
@@ -735,21 +742,18 @@ function UserList(props) {
         amenityAmount: amenityAmount,
       },
     });
-
-
-
   };
   useEffect(() => {
     if (billsAddshow && id) {
-      const customeraId = state.UsersList?.Users?.listCustomers?.find((u) => u.customerId === id);
-
+      const customeraId = state.UsersList?.Users?.listCustomers?.find(
+        (u) => u.customerId === id,
+      );
 
       if (customeraId) {
         setCustomerName(customeraId.customerId);
       }
     }
   }, [billsAddshow]);
-
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
@@ -778,8 +782,8 @@ function UserList(props) {
     }
     const formatDateForPayloadmanualinvoice = (date) => {
       const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
       const year = d.getFullYear();
 
       return `${day}-${month}-${year}`;
@@ -801,8 +805,8 @@ function UserList(props) {
 
     const formatDateForPayloadmanualinvoice = (date) => {
       const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
       const year = d.getFullYear();
 
       return `${day}-${month}-${year}`;
@@ -810,7 +814,6 @@ function UserList(props) {
 
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatDueDate(formattedDate);
-
   };
 
   const handleDeleteNewRow = (index) => {
@@ -821,11 +824,11 @@ function UserList(props) {
       const name = deletedRow.am_name?.toLowerCase().replace(/\s/g, "");
       if (name === "roomrent") {
         setSelectedTypes((prevTypes) =>
-          prevTypes.filter((type) => type !== "RoomRent")
+          prevTypes.filter((type) => type !== "RoomRent"),
         );
       } else if (name === "eb") {
         setSelectedTypes((prevTypes) =>
-          prevTypes.filter((type) => type !== "EB")
+          prevTypes.filter((type) => type !== "EB"),
         );
       }
 
@@ -865,72 +868,13 @@ function UserList(props) {
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
 
-
-
-  // useEffect(() => {
-  //   if (currentView && billsAddshow) {
-  //     setCustomerName(currentView.hos_user_id);
-  //     setInvoiceNumber(currentView.Invoices);
-  //     if (currentView.DueDate) {
-  //       const parsedDate = new Date(currentView.DueDate);
-  //       if (!isNaN(parsedDate.getTime())) {
-  //         setInvoiceDueDate(parsedDate);
-  //       }
-  //     }
-
-  //     if (currentView.Date) {
-  //       const parsedDate = new Date(currentView.Date);
-  //       if (!isNaN(parsedDate.getTime())) {
-  //         setInvoiceDate(parsedDate);
-  //       }
-  //     }
-
-  //     setTotalAmount(currentView.Amount);
-
-
-  //     if (currentView.amenity && Array.isArray(currentView.amenity)) {
-  //       setNewRows(currentView.amenity);
-
-  //       const types = [];
-  //       currentView.amenity.forEach((item) => {
-  //         const name = item.am_name?.toLowerCase().replace(/\s/g, "");
-  //         if (name === "roomrent") types.push("RoomRent");
-  //         if (name === "eb") types.push("EB");
-  //       });
-
-  //       setSelectedTypes(types);
-  //     }
-  //   }
-  // }, [currentView]);
-
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 500);
-
     }
-  }, [state.UsersList?.CustomerdetailsgetStatuscode])
-
-  // useEffect(() => {
-  //   if (newRows) {
-  //     const allRows = newRows
-  //       .map((detail) => ({
-  //         am_name: detail.am_name,
-  //         amount: Number(detail.amount),
-  //       }))
-  //       .filter((detail) => detail.am_name && detail.amount);
-
-  //     setamenityArray(allRows);
-
-  //     const Total_amout = allRows.reduce(
-  //       (sum, item) => sum + parseFloat(item.amount || 0),
-  //       0
-  //     );
-
-  //     setTotalAmount(Total_amout);
-  //   }
-  // }, [newRows]);
+  }, [state.UsersList?.CustomerdetailsgetStatuscode]);
 
   useEffect(() => {
     if (isReading) {
@@ -944,21 +888,17 @@ function UserList(props) {
     setUniqostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-
-
   const [userListDetail, setUserListDetail] = useState([]);
-
 
   useEffect(() => {
     if (state.UsersList?.Users?.listCustomers) {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }, [state.UsersList?.Users?.listCustomers])
+  }, [state.UsersList?.Users?.listCustomers]);
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-      setLoading(false)
+      setLoading(false);
       setUserListDetail(state.UsersList.Users.listCustomers);
 
       setTimeout(() => {
@@ -966,9 +906,6 @@ function UserList(props) {
       }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
-
-  // console.log("state.UsersList",state.UsersList.UserListStatusCode)
-
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -987,20 +924,15 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
-
       setIsDeleting(true);
       setRoomDetail(true);
       dispatch({ type: "USERPROFILEBILLFALSE" });
     }
   }, [state.UsersList.userProfilebill]);
 
-
-
-
-
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-      setBillLoading(false)
+      setBillLoading(false);
 
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
@@ -1014,43 +946,27 @@ function UserList(props) {
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
 
-  // useEffect(() => {
-  //   if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
-  //     setBillLoading(false)
-  //     // handleBackBill();
-  //     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-  //     }, 1000);
-  //   }
-  // }, [
-  //   state.InvoiceList.manualInvoiceAddStatusCode,
-  //   state.InvoiceList.ManualInvoices,
-  // ]);
-
-
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate(`/tenant/details/${customername}`)
+      navigate(`/tenant/details/${customername}`);
       if (customername) {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
+        dispatch({
+          type: "CUSTOMERDETAILS",
+          payload: { customerId: customername },
+        });
       }
-      // dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+
       setBillLoading(false);
       handleBackBill();
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
         setLoading(false);
-
       }, 300);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
-
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
       setLoading(false);
 
@@ -1137,7 +1053,10 @@ function UserList(props) {
 
   const handleCustomerReAssign = (reuser) => {
     if (reuser?.customerId) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: reuser?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: reuser?.customerId },
+      });
     }
     setReasignDetail(reuser);
     setCustomerReAssign(true);
@@ -1147,10 +1066,7 @@ function UserList(props) {
     setCustomerCheckoutData(item);
   };
 
-
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
-
-
 
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
@@ -1181,7 +1097,6 @@ function UserList(props) {
     }
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
-
   useEffect(() => {
     if (state.UsersList?.NoUserListStatusCode === 201) {
       setUserListDetail([]);
@@ -1197,8 +1112,6 @@ function UserList(props) {
   //     dispatch({ type: "REMOVE_STATUS_CODE_USER" });
   //   }
   // }, [state.UsersList?.UserListStatusCode]);
-
-
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -1227,7 +1140,6 @@ function UserList(props) {
   //       payload: { hostel_id: state.login.selectedHostel_Id },
   //     });
 
-
   //   }
   // }, [state.login.selectedHostel_Id]);
 
@@ -1242,25 +1154,23 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
-
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-      setBacktoCheckInForm(false)
+      setBacktoCheckInForm(false);
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
-      }, 100)
+        dispatch({ type: "REMOVE_CANCEL_CHECKOUT" });
+      }, 100);
     }
-
-  }, [state.UsersList.cancelCheckoutStatusCode])
+  }, [state.UsersList.cancelCheckoutStatusCode]);
 
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
         ? userListDetail?.filter((item) =>
-          item.firstName.toLowerCase().includes(filterInput.toLowerCase())
-        )
+            item.firstName.toLowerCase().includes(filterInput.toLowerCase()),
+          )
         : [];
 
       setFilteredUsers(FilterUser);
@@ -1269,10 +1179,11 @@ function UserList(props) {
     if (value === "2") {
       const FilterUsertwo = Array.isArray(customerBooking)
         ? customerBooking?.filter((item) => {
-          const fullName = `${item.first_name || ""} ${item.last_name || ""
+            const fullName = `${item.first_name || ""} ${
+              item.last_name || ""
             }`.toLowerCase();
-          return fullName.includes(filterInput.toLowerCase());
-        })
+            return fullName.includes(filterInput.toLowerCase());
+          })
         : [];
 
       setFilteredUsers(FilterUsertwo);
@@ -1281,8 +1192,10 @@ function UserList(props) {
     if (value === "3") {
       const FilterUsertwo = Array.isArray(checkOutCustomer)
         ? checkOutCustomer?.filter((item) => {
-          return item.firstName.toLowerCase().includes(filterInput?.toLowerCase());
-        })
+            return item.firstName
+              .toLowerCase()
+              .includes(filterInput?.toLowerCase());
+          })
         : [];
 
       setFilteredUsers(FilterUsertwo);
@@ -1290,10 +1203,10 @@ function UserList(props) {
     if (value === "4") {
       const FilterUsertwo = Array.isArray(walkingCustomer)
         ? walkingCustomer?.filter((item) => {
-          return item.first_name
-            ?.toLowerCase()
-            .includes(filterInput?.toLowerCase() || "");
-        })
+            return item.first_name
+              ?.toLowerCase()
+              .includes(filterInput?.toLowerCase() || "");
+          })
         : [];
 
       setFilteredUsers(FilterUsertwo);
@@ -1335,13 +1248,12 @@ function UserList(props) {
     }
   };
 
-
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user?.firstName || "");
     } else if (value === "2") {
       setFilterInput(
-        [user?.firstName, user?.last_name].filter(Boolean).join(" ")
+        [user?.firstName, user?.last_name].filter(Boolean).join(" "),
       );
     } else if (value === "3") {
       setFilterInput(user?.Name || "");
@@ -1352,8 +1264,6 @@ function UserList(props) {
     setFilteredUsers([]);
     setDropdownVisible(false);
   };
-
-
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1382,9 +1292,7 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
 
-
   const handleShowDots = (id, event) => {
-
     if (activeRow === id) {
       setActiveRow(null);
     } else {
@@ -1393,19 +1301,17 @@ function UserList(props) {
     setSearch(false);
 
     const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
+    const popupTop = top + height / 2;
     const popupLeft = left - 210;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
-
 
   useEffect(() => {
     if (popupRef.current) {
       const popupHeight = popupRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
       const spaceBelow = windowHeight - popupPosition.top;
-
 
       setShowAbove(spaceBelow < popupHeight + 20);
     }
@@ -1424,11 +1330,6 @@ function UserList(props) {
     };
   }, []);
 
-
-
-
-
-
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       //  handleCloseBooking()
@@ -1439,17 +1340,12 @@ function UserList(props) {
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
-
   const [search, setSearch] = useState(false);
 
-
   const sortedData = React.useMemo(() => {
-    const items = (search || filterStatus) ? filteredUsers : userListDetail;
+    const items = search || filterStatus ? filteredUsers : userListDetail;
     return Array.isArray(items) ? items : [];
   }, [search, filterStatus, filteredUsers, userListDetail]);
-
-
-
 
   // const sortedData = React.useMemo(() => {
   //   if (!sortConfig.key) return currentItems;
@@ -1472,11 +1368,9 @@ function UserList(props) {
   //   });
   // }, [currentItems, sortConfig]);
 
-
   // const handleSort = (key, direction) => {
   //   setSortConfig({ key, direction });
   // };
-
 
   // const pageOptions = [
   //   { value: 10, label: "10" },
@@ -1488,7 +1382,6 @@ function UserList(props) {
   //   setItemsPerPage(Number(selectedOption.value));
   //   setCurrentPage(1);
   // };
-
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -1529,14 +1422,11 @@ function UserList(props) {
     // if(String(newValue) === "3"){
     //   navigate(`/checkout/${state.login.selectedHostel_Id}`)
     // }
-
-
-
   };
 
   useEffect(() => {
     if (state.UsersList?.NoUserListStatusCode) {
-      setLoading(false)
+      setLoading(false);
       setUserDetails([]);
       setFilteredUsers([]);
       setTimeout(() => {
@@ -1551,11 +1441,11 @@ function UserList(props) {
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [advanceForm, setAdvanceForm] = useState(false);
-  const [userDatafull, setUserData] = useState("")
+  const [userDatafull, setUserData] = useState("");
 
   const handleRoomDetailsPage = (userData) => {
     setHostelIds(userData.Hostel_Id);
-    setUserData(userData)
+    setUserData(userData);
     setId(userData?.customerId);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.customerId);
@@ -1572,24 +1462,22 @@ function UserList(props) {
   };
 
   const [userDetail, setUserDetail] = useState({});
-  const [bookingDet, setBookingDet] = useState("")
+  const [bookingDet, setBookingDet] = useState("");
   const handleAddBookings = (userData) => {
     setHostelIds(userData.Hostel_Id);
-    setBookingDet(userData)
+    setBookingDet(userData);
     setId(userData.customerId);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setAddBookingsShow(true);
-    setUserDetail(userData)
+    setUserDetail(userData);
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
   const handleCloseAddBooking = () => {
     setAddBookingsShow(false);
     setUserList(true);
-  }
-
-
+  };
 
   const handleShowAddBed = (u) => {
     setEdit("Edit");
@@ -1604,13 +1492,12 @@ function UserList(props) {
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(false);
-    setShowAssignMenu(true)
+    setShowAssignMenu(true);
     setAdvanceForm(false);
     setAddCheckoutForm(false);
     setAddBasicDetail(false);
     setEditObj(u);
   };
-
 
   const [hostelIds, setHostelIds] = useState("");
 
@@ -1624,27 +1511,32 @@ function UserList(props) {
     });
 
     setUserDetails(ParticularUserDetails);
-  }, [customerUser_Id, state.UsersList?.Users?.listCustomers, state.InvoiceList?.Invoice]);
+  }, [
+    customerUser_Id,
+    state.UsersList?.Users?.listCustomers,
+    state.InvoiceList?.Invoice,
+  ]);
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-      handleCloseAddCustomer()
+    if (
+      state.UsersList?.statusCodeForAddUser === 201 ||
+      state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
+    ) {
+      handleCloseAddCustomer();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
       });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
+        dispatch({ type: "REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO" });
       }, 2000);
     }
-  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
-
-
-
-
-
+  }, [
+    state.UsersList?.statusCodeForAddUser,
+    state.UsersList?.statusCodeForAddCustomerSaveInfo,
+  ]);
 
   const handleBack = () => {
     setUserList(true);
@@ -1664,7 +1556,6 @@ function UserList(props) {
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const [resetPage, setResetPage] = useState(false);
-
 
   const handleDateRangeChangeBooking = (dates) => {
     setBookingDateRange(dates);
@@ -1690,8 +1581,6 @@ function UserList(props) {
     setResetPage(true);
   };
 
-
-
   const handleDateRangeChangeCheckIn = (dates) => {
     setCheckInDateRange(dates);
 
@@ -1704,7 +1593,8 @@ function UserList(props) {
     const [start, end] = dates;
 
     const filtered = userListDetail?.filter((item) => {
-      if (!item.joining_Date || item.joining_Date === "0000-00-00") return false;
+      if (!item.joining_Date || item.joining_Date === "0000-00-00")
+        return false;
 
       const itemDate = dayjs(item.joining_Date);
       return (
@@ -1718,10 +1608,6 @@ function UserList(props) {
     setFilterStatus(true);
     // setCurrentPage(1);
   };
-
-
-
-
 
   const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
 
@@ -1738,7 +1624,7 @@ function UserList(props) {
       setFilterStatus(true);
     } else if (searchTerm === "0" || searchTerm === "1") {
       const filtered = checkOutCustomer?.filter(
-        (item) => item.isActive?.toString() === searchTerm
+        (item) => item.isActive?.toString() === searchTerm,
       );
       setFilteredUsers(filtered);
       setFilterStatus(true);
@@ -1808,7 +1694,6 @@ function UserList(props) {
     }
   }, [id]);
 
-
   useEffect(() => {
     if (id) {
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
@@ -1825,10 +1710,16 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204 && value === "1") {
-      setFormLoading(false)
+    if (
+      state.UsersList?.deleteCustomerSuccessStatusCode === 204 &&
+      value === "1"
+    ) {
+      setFormLoading(false);
       setDeleteShow(false);
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
 
       setDeleteDetails({ room: null, bed: null, user: null });
 
@@ -1838,16 +1729,17 @@ function UserList(props) {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-
-
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
       dispatch({
         type: "DELETECUSTOMER",
-        payload: { customerId: deleteDetails?.user?.customerId, hostelId: state.login.selectedHostel_Id },
+        payload: {
+          customerId: deleteDetails?.user?.customerId,
+          hostelId: state.login.selectedHostel_Id,
+        },
       });
     }
-    setFormLoading(true)
+    setFormLoading(true);
   };
 
   const handleDeleteBill = () => {
@@ -1949,7 +1841,7 @@ function UserList(props) {
         //   borderBottom: "5px solid red",
         //   fontFamily: "Gilroy",
         // },
-        className: "text-black font-gilroy border-b-[5px] border-red-500"
+        className: "text-black font-gilroy border-b-[5px] border-red-500",
       });
       return;
     }
@@ -1995,9 +1887,6 @@ function UserList(props) {
   //   setWalkinForm(true);
   // };
 
-
-
-
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
   };
@@ -2009,8 +1898,14 @@ function UserList(props) {
   }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 201 && value === "1") {
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    if (
+      state.UsersList.addCheckoutCustomerStatusCode === 201 &&
+      value === "1"
+    ) {
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       setcheckoutForm(false);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
@@ -2026,7 +1921,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.exportBookingDetails?.response?.fileUrl) {
       setExcelDownloadBooking(
-        state.UsersList?.exportBookingDetails?.response?.fileUrl
+        state.UsersList?.exportBookingDetails?.response?.fileUrl,
       );
     }
   }, [state.UsersList?.exportBookingDetails?.response?.fileUrl]);
@@ -2034,7 +1929,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.exportCheckoutDetails?.response?.fileUrl) {
       setExcelDownloadCheckout(
-        state.UsersList?.exportCheckoutDetails?.response?.fileUrl
+        state.UsersList?.exportCheckoutDetails?.response?.fileUrl,
       );
     }
   }, [state.UsersList?.exportCheckoutDetails?.response?.fileUrl]);
@@ -2042,7 +1937,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.exportWalkinDetails?.response?.fileUrl) {
       setExcelDownloadChecIn(
-        state.UsersList?.exportWalkinDetails?.response?.fileUrl
+        state.UsersList?.exportWalkinDetails?.response?.fileUrl,
       );
     }
   }, [state.UsersList?.exportWalkinDetails?.response?.fileUrl]);
@@ -2176,17 +2071,18 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-
   useEffect(() => {
     if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-      setShowAssignMenu(false)
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      setShowAssignMenu(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
-      }, 2000)
+        dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
+      }, 2000);
     }
-
-  }, [state.UsersList.statusCodeForCheckInCustomer])
+  }, [state.UsersList.statusCodeForCheckInCustomer]);
 
   const customDateInput = (props) => {
     return (
@@ -2212,17 +2108,13 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setBillLoading(false)
-      setLoading(false)
+      setBillLoading(false);
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
-
+  }, [state.createAccount?.networkError]);
 
   // const [bookingDate, setBookingDate] = useState(null);
 
@@ -2239,164 +2131,145 @@ function UserList(props) {
 
   // }, [props.makeasinactive])
 
+  const [inActiveDetails, setInactiveDetails] = useState("");
 
-
-
-  const [inActiveDetails, setInactiveDetails] = useState("")
-
-  const [inactiveForm, setInActiveForm] = useState(false)
+  const [inactiveForm, setInActiveForm] = useState(false);
 
   // const [bookingId, setBookingId] = useState("")
 
   const handleInActive = (item) => {
-
-    setInActiveForm(true)
+    setInActiveForm(true);
     // setBookingId(item.booking_id)
-    setInactiveDetails(item)
+    setInactiveDetails(item);
     // const bookingDateStr = item?.booking_booking_date; // from API
     // const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
     // setBookingDate(bookingDatevalue)
-  }
+  };
 
   const handleCloseInActive = () => {
     if (typeof props?.handleCloseBed === "function") {
       props.handleCloseBed();
     }
-    dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
+    dispatch({ type: "REMOVE_ERROR_MAKEASINACTIVE" });
 
-    setInActiveForm(false)
+    setInActiveForm(false);
     // setIsACtiveDateError("")
     // setInActiveComments("")
     // setInActiveDate("")
-
-  }
-
-
-
+  };
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
-      setFormLoading(false)
-      handleCloseInActive()
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setFormLoading(false);
+      handleCloseInActive();
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_BOOKING_InActive' })
-      }, 1000)
-
+        dispatch({ type: "CLEAR_BOOKING_InActive" });
+      }, 1000);
     }
-
-  }, [state.Booking.StatusCodeInactiveCode])
-
-
+  }, [state.Booking.StatusCodeInactiveCode]);
 
   useEffect(() => {
-    if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
-      setBookingAssignForm(false)
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    if (
+      state.UsersList?.bookingToCheckinStatusCode === 200 ||
+      state.UsersList?.bookingToCheckinStatusCode === 201
+    ) {
+      setBookingAssignForm(false);
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
-      }, 100)
+        dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
+      }, 100);
     }
+  }, [state.UsersList?.bookingToCheckinStatusCode]);
 
-  }, [state.UsersList?.bookingToCheckinStatusCode])
-
-
-
-
-
-  const [BookingAssignForm, setBookingAssignForm] = useState(false)
-
+  const [BookingAssignForm, setBookingAssignForm] = useState(false);
 
   const handleCloseBooking = () => {
-    setBookingAssignForm(false)
-    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
-  }
+    setBookingAssignForm(false);
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+  };
 
   const handleBookingAssign = (book) => {
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(false);
-    setBookingAssignForm(true)
+    setBookingAssignForm(true);
     setAdvanceForm(false);
     setAddCheckoutForm(false);
     setAddBasicDetail(false);
     setEditObj(book);
-
-  }
-  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+  };
+  const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
 
   const handleCloseAddCustomer = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    setShowMenu(false)
-  }
+    setShowMenu(false);
+  };
 
   const handleCloseBackToCheckIn = () => {
-    dispatch({ type: 'REMOVE_CANCEL_CHECKOUT_ERROR' })
-    setBacktoCheckInForm(false)
-  }
-
-
-
-
-
+    dispatch({ type: "REMOVE_CANCEL_CHECKOUT_ERROR" });
+    setBacktoCheckInForm(false);
+  };
 
   const handleBacktoCheckout = (item) => {
-
     handleMenuClick();
     setShowMenu(false);
-    setBookingAssignForm(false)
+    setBookingAssignForm(false);
     setAdvanceForm(false);
     setAddCheckoutForm(false);
     setAddBasicDetail(false);
     setEditObj(item);
-    setBacktoCheckInForm(true)
-
-  }
-  const [DueCustomerShow, setDueCustomerShow] = useState(false)
+    setBacktoCheckInForm(true);
+  };
+  const [DueCustomerShow, setDueCustomerShow] = useState(false);
   const [CheckOutDetails, setCheckOutDetails] = useState("");
-  const [finalsettlepage, setFinalSettlePage] = useState(false)
-  const [finalsettledData, setFinalsettledData] = useState("")
+  const [finalsettlepage, setFinalSettlePage] = useState(false);
+  const [finalsettledData, setFinalsettledData] = useState("");
 
   const handleConformCheckout = (item) => {
-    setDueCustomerShow(true)
-    setCheckOutDetails(item)
-    setFinalSettlePage(false)
+    setDueCustomerShow(true);
+    setCheckOutDetails(item);
+    setFinalSettlePage(false);
 
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       payload: { id: item.ID, hostel_id: item.Hostel_Id },
     });
-  }
+  };
   const handleCloseDuePopup = () => {
-    setDueCustomerShow(false)
-  }
+    setDueCustomerShow(false);
+  };
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      setDueCustomerShow(false)
+      setDueCustomerShow(false);
 
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
-      }, 1000)
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 1000);
     }
-
-  }, [state.UsersList.statusCodeAddConfirmCheckout])
+  }, [state.UsersList.statusCodeAddConfirmCheckout]);
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
       // setDueCustomerShow(true);
-
     }
 
     setTimeout(() => {
       dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
-
-
-
 
   // const handleCheckoutGenrate = (item) => {
   //   setFinalsettledData(item)
@@ -2410,43 +2283,30 @@ function UserList(props) {
   //   });
   // }
 
-
-
   const handleCheckoutGenrateNew = (item) => {
     navigate(`/tenant/final-settlement/${item?.customerId}`, {
       state: {
-        data: item
-      }
+        data: item,
+      },
     });
-  }
+  };
 
   const handleClosefinal = () => {
-    setFinalSettlePage(false)
-
-  }
+    setFinalSettlePage(false);
+  };
   const handleSearch = () => {
     setSearch(!search);
-
-
   };
 
   useEffect(() => {
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
-      setBillLoading(false)
-      setLoading(false)
+      setBillLoading(false);
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-      }, 3000)
-
+        dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
+      }, 3000);
     }
-
-  }, [state.InvoiceList.unableAddInvoiceDetailsError])
-
-
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(
-    window.innerWidth >= 1440 ? 20 : 10
-  );
+  }, [state.InvoiceList.unableAddInvoiceDetailsError]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -2462,17 +2322,15 @@ function UserList(props) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+  const handleChangeSelectOptions = (e) => {
+    setView(e.target.value);
+  };
 
   const paginatedData = sortedData.slice(startIndex, endIndex);
-  const [selectedRows, setSelectedRows] = useState([]);
 
   const handleRowSelect = (id) => {
     setSelectedRows((prev) =>
-      prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -2484,20 +2342,80 @@ function UserList(props) {
     }
   };
 
+  useEffect(() => {
+    const container = document.getElementById("tableContainer");
 
+    let timeout;
 
+    const handleScroll = () => {
+      setIsScrolling(true);
+    };
 
+    container?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      container?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const statusStyles = {
+    "Checked In": {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+    Booked: {
+      bg: "#E7F1FFB2",
+      text: "#1E45E1",
+    },
+    "Notice Period": {
+      bg: "#FFF4E5",
+      text: "#F79009",
+    },
+    "Settlement Generated": {
+      bg: "#FEE4E2",
+      text: "#D92D20",
+    },
+  };
+
+  const SortableItem = ({ item }) => {
+    const { attributes, listeners, setNodeRef, transform, transition } =
+      useSortable({ id: item.key });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+    };
+
+    return (
+      <label
+        ref={setNodeRef}
+        style={style}
+        className="flex items-center gap-3 text-sm cursor-pointer bg-white"
+      >
+        <span {...attributes} {...listeners}>
+          <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
+        </span>
+
+        <input
+          type="checkbox"
+          defaultChecked={item.checked}
+          className="w-4 h-4 accent-[#1E45E1] rounded"
+          onChange={() => {
+            setCustomizeItems((prev) =>
+              prev.map((i) =>
+                i.key === item.key ? { ...i, checked: !i.checked } : i,
+              ),
+            );
+          }}
+        />
+
+        <span className="text-[#101828]">{item.label}</span>
+      </label>
+    );
+  };
 
   return (
     <div className="sticky-top bg-white font-gilroy">
-      {/* <Addbooking
-        show={showbookingForm}
-        handleClose={closeModal}
-        setShowbookingForm={setShowbookingForm}
-        uniqueostel_Id={uniqueostel_Id}
-        setUniqostel_Id={setUniqostel_Id}
-      /> */}
-
       <CheckOutForm
         show={checkoutForm}
         handleClose={checkoutcloseModal}
@@ -2510,7 +2428,6 @@ function UserList(props) {
       <UserlistWalkinForm
         show={walkInForm}
         handleClose={walkinFormcloseModal}
-        // customerrolePermission={customerrolePermission}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
       />
@@ -2518,7 +2435,6 @@ function UserList(props) {
       {userList && (
         <div>
           <div>
-
             <div className="flex justify-between items-center flex-wrap">
               <div className="flex lg:justify-start justify-center items-center flex-wrap">
                 <label className="text-lg text-black font-semibold font-gilroy">
@@ -2527,22 +2443,19 @@ function UserList(props) {
               </div>
 
               <div className="flex flex-wrap items-center ml-auto gap-3">
-
                 <div className="flex items-center">
                   {search ? (
                     <>
-                      <div className="relative min-w-[160px] max-w-[250px] z-[3000]"
-                      >
-                        <div
-                          className="input-group p-0 mr-5"
-                        >
-                          <span className="input-group-text bg-white" >
+                      <div className="relative min-w-[160px] max-w-[250px] z-[3000]">
+                        <div className="input-group p-0 mr-5">
+                          <span className="input-group-text bg-white">
                             <Image
                               src={searchteam}
-                              className={`h-5 w-5 transition-opacity duration-300 ${canReadTenant
-                                ? "cursor-pointer opacity-100 pointer-events-auto"
-                                : "cursor-not-allowed opacity-40 pointer-events-none"
-                                }`}
+                              className={`h-5 w-5 transition-opacity duration-300 ${
+                                canReadTenant
+                                  ? "cursor-pointer opacity-100 pointer-events-auto"
+                                  : "cursor-not-allowed opacity-40 pointer-events-none"
+                              }`}
                             />
                           </span>
                           <input
@@ -2568,24 +2481,23 @@ function UserList(props) {
                     <>
                       <div className=" border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
                         <FiSearch
-                          className={`h-6 w-5 transition-opacity duration-300 ${canReadTenant
-                            ? "cursor-pointer opacity-100 pointer-events-auto"
-                            : "cursor-not-allowed opacity-40 pointer-events-none"
-                            }`}
-
+                          className={`h-6 w-5 transition-opacity duration-300 ${
+                            canReadTenant
+                              ? "cursor-pointer opacity-100 pointer-events-auto"
+                              : "cursor-not-allowed opacity-40 pointer-events-none"
+                          }`}
                           onClick={handleSearch}
                         />
                       </div>
                     </>
                   )}
-
                 </div>
                 <div className="">
                   <Image
                     src={Filters}
                     roundedCircle
                     className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
-                      ${canReadTenant ? 'cursor-pointer opacity-100 pointer-events-auto' : 'cursor-not-allowed opacity-40 pointer-events-none'}`}
+                      ${canReadTenant ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}`}
                     onClick={handleFilterd}
                   />
                 </div>
@@ -2597,10 +2509,11 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      className={`transition-opacity duration-300 ${canReadTenant
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
+                      className={`transition-opacity duration-300 ${
+                        canReadTenant
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
                       onClick={() => {
                         if (canReadTenant) handleCustomerExcel();
                       }}
@@ -2613,10 +2526,11 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      className={`transition-opacity duration-300 ${canReadTenant
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
+                      className={`transition-opacity duration-300 ${
+                        canReadTenant
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
                       onClick={handleBookingExcel}
                     />
                   )}
@@ -2627,10 +2541,11 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      className={`transition-opacity duration-300 ${canReadCheckout
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
+                      className={`transition-opacity duration-300 ${
+                        canReadCheckout
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
                       onClick={handlecheckoutExcel}
                     />
                   )}
@@ -2641,10 +2556,11 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      className={`transition-opacity duration-300 ${canReadWalkin
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
+                      className={`transition-opacity duration-300 ${
+                        canReadWalkin
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
                       onClick={handlewalkinExcel}
                     />
                   )}
@@ -2662,32 +2578,23 @@ function UserList(props) {
                   )}
                 </div>
               </div>
-
             </div>
           </div>
 
           {filterInput && (
             <div className="container ms-4 mb-4 mt-5 font-semibold text-base">
               {filteredUsers.length > 0 ? (
-                <span
-                  className="text-center font-semibold font-gilroy text-base text-gray-500"
-                >
+                <span className="text-center font-semibold font-gilroy text-base text-gray-500">
                   {filteredUsers.length} result
                   {filteredUsers.length > 1 ? "s" : ""} found for{" "}
-                  <span
-                    className="text-center font-semibold font-gilroy text-base text-gray-800"
-                  >
+                  <span className="text-center font-semibold font-gilroy text-base text-gray-800">
                     &quot;{filterInput}&quot;
                   </span>
                 </span>
               ) : (
-                <span
-                  className="text-center font-semibold font-gilroy text-base text-gray-500"
-                >
+                <span className="text-center font-semibold font-gilroy text-base text-gray-500">
                   No results found for{" "}
-                  <span
-                    className="text-center font-semibold font-gilroy text-base text-gray-800"
-                  >
+                  <span className="text-center font-semibold font-gilroy text-base text-gray-800">
                     &quot;{filterInput}&quot;
                   </span>
                 </span>
@@ -2695,18 +2602,14 @@ function UserList(props) {
             </div>
           )}
           <div className="font-gilroy font-medium text-base">
-
-
             {loading && (
               <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
                 <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
               </div>
             )}
 
-            <TabContext value={value} className="p-0" >
-
+            <TabContext value={value} className="p-0">
               <div className="flex items-center justify-between">
-
                 <TabContext value={value} className="p-0">
                   <Tabs
                     activeKey={value}
@@ -2719,10 +2622,11 @@ function UserList(props) {
                       title={
                         <span
                           className={`capitalize text-[16px] font-gilroy font-medium pb-1 inline-block
-            ${value === "1"
-                              ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                              : "text-[#4B4B4B] border-b-2 border-transparent"
-                            }`}
+            ${
+              value === "1"
+                ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                : "text-[#4B4B4B] border-b-2 border-transparent"
+            }`}
                         >
                           Tenants
                         </span>
@@ -2734,10 +2638,11 @@ function UserList(props) {
                       title={
                         <span
                           className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
-            ${value === "4"
-                              ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                              : "text-[#4B4B4B] border-b-2 border-transparent"
-                            }`}
+            ${
+              value === "4"
+                ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                : "text-[#4B4B4B] border-b-2 border-transparent"
+            }`}
                         >
                           Walk-in
                         </span>
@@ -2749,10 +2654,11 @@ function UserList(props) {
                       title={
                         <span
                           className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
-            ${value === "3"
-                              ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                              : "text-[#4B4B4B] border-b-2 border-transparent"
-                            }`}
+            ${
+              value === "3"
+                ? "text-[#222222] border-b-2 border-[#1E45E1]"
+                : "text-[#4B4B4B] border-b-2 border-transparent"
+            }`}
                         >
                           Check-out
                         </span>
@@ -2762,44 +2668,106 @@ function UserList(props) {
                 </TabContext>
               </div>
 
-
               <TabPanel value="1">
-
                 {!canReadTenant ? (
                   <div className="flex flex-col items-center justify-center mt-24">
-                    <img
-                      src={Emptystate}
-                      alt="Empty State"
-
+                    <img src={Emptystate} alt="Empty State" />
+                    <ErrorMessage
+                      message={["You do not have access to view Tenant"]}
+                      type="warning"
                     />
-                    <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
-                ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
-
+                ) : !loading &&
+                  Array.isArray(sortedData) &&
+                  sortedData.length === 0 ? (
                   <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
                     <div>
                       <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
                       </div>
 
-                      <div
-                        className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]"
-                      >
+                      <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
                         No Tenant available
                       </div>
 
-                      <div
-                        className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]"
-                      >
+                      <div className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]">
                         There are no tenant added.
                       </div>
                     </div>
                   </div>
                 ) : null}
 
-                {canReadTenant && sortedData && sortedData.length > 0 &&
+                {canReadTenant && sortedData && sortedData.length > 0 && (
                   <>
-                    <div className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
+                    <div
+                      className={`flex justify-end gap-2 mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}
+                    >
+                      <div className="relative">
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsOpen(!isOpen);
+                          }}
+                          className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-white w-fit cursor-pointer"
+                        >
+                          {(() => {
+                            const SelectedIcon = ListOptions.find(
+                              (item) => item.key === view,
+                            )?.img;
+                            return SelectedIcon ? (
+                              <SelectedIcon size="18" color="#4B4B4B" />
+                            ) : null;
+                          })()}
+
+                          <span className="text-sm text-gray-700">{view}</span>
+
+                          <ArrowDown2
+                            size="16"
+                            color="#4B4B4B"
+                            className={`transition-transform duration-200 ${
+                              isOpen ? "rotate-180" : ""
+                            }`}
+                          />
+                        </div>
+
+                        {isOpen && (
+                          <div
+                            ref={listRef}
+                            className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
+                          >
+                            {ListOptions.map((item) => {
+                              const Icon = item.img;
+
+                              return (
+                                <div
+                                  key={item.key}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setView(item.key);
+                                    setIsOpen(false);
+                                  }}
+                                  className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
+                                    view === item.key
+                                      ? "bg-[#F7FAFF] font-medium "
+                                      : ""
+                                  }`}
+                                >
+                                  <div
+                                    className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                                      view === item.key
+                                        ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                        : ""
+                                    }`}
+                                  >
+                                    <Icon size="16" color="#4B4B4B" />
+                                    {item.label}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
                       <PaginationList
                         totalItems={sortedData.length}
                         itemsPerPage={pageSize}
@@ -2808,14 +2776,15 @@ function UserList(props) {
                         onPageSizeChange={(size) => setPageSize(size)}
                       />
                     </div>
+
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-
-                      <div className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl">
+                      <div
+                        id="tableContainer"
+                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl"
+                      >
                         <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
                             <tr className="h-9">
-
-
                               <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
                                 <div className="flex items-center gap-2">
                                   <Setting3
@@ -2827,102 +2796,166 @@ function UserList(props) {
                                   <input
                                     type="checkbox"
                                     className="rounded cursor-pointer"
-                                    checked={selectedRows.length === paginatedData.length && paginatedData.length > 0}
+                                    checked={
+                                      selectedRows.length ===
+                                        paginatedData.length &&
+                                      paginatedData.length > 0
+                                    }
                                     onChange={handleSelectAll}
                                   />
                                 </div>
                               </th>
-
 
                               <th className="px-4 py-2.5 sticky left-[80px] z-40 bg-[#F9FAFB] w-[100px] uppercase ">
                                 Name
                               </th>
 
                               <th className="px-4 py-2.5 uppercase">Status</th>
-                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">Joining Date</th>
-                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">Mobile No</th>
+                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">
+                                Joining Date
+                              </th>
+                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">
+                                Mobile No
+                              </th>
                               <th className="px-4 py-2.5 uppercase">Floor</th>
                               <th className="px-4 py-2.5 uppercase">Room</th>
                               <th className="px-4 py-2.5 uppercase">Bed</th>
-                              <th className="px-4 py-2.5 uppercase">Action</th>
-
+                              <th className="px-4 py-2.5 uppercase sticky right-0 z-50 bg-[#F9FAFB]">
+                                Action
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
                             {paginatedData.map((user) => (
-                              <tr key={user.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group  hover:bg-gray-50" onClick={() => handleRoomDetailsPage(user)}>
-                                <td className="px-4 sticky left-0 z-50   w-[80px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] bg-white group-hover:bg-gray-50  [backface-visibility:hidden]">
+                              <tr
+                                key={user.customerId}
+                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group  hover:bg-gray-50"
+                                onClick={() => handleRoomDetailsPage(user)}
+                              >
+                                <td
+                                  className={`px-4 sticky left-0 z-20 w-[80px]
+
+${isScrolling ? "bg-white" : "bg-inherit"}
+hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                                >
                                   <div className="flex items-center justify-end">
                                     <input
                                       type="checkbox"
                                       className="rounded cursor-pointer"
-                                      checked={selectedRows.includes(user.customerId)}
-                                      onClick={(e) => e.stopPropagation()} 
+                                      checked={selectedRows.includes(
+                                        user.customerId,
+                                      )}
+                                      onClick={(e) => e.stopPropagation()}
                                       onChange={(e) => {
-                                                                               handleRowSelect(user.customerId);
+                                        handleRowSelect(user.customerId);
                                       }}
                                     />
                                   </div>
                                 </td>
-                                <td className="px-4 sticky left-[80px] z-40  w-[100px] shadow-[2px_0_5px_rgba(0,0,0,0.05)]  bg-white group-hover:bg-gray-50  [backface-visibility:hidden]">
-                                  <div className="relative group w-[100px]   ">
+                                <td
+                                  className={`px-4 sticky left-[80px] z-30 w-[100px]
 
-                                    <span
-                                      className="truncate whitespace-nowrap text-sm font-semibold font-gilroy text-[#1E45E1] cursor-pointer block"
+${isScrolling ? "bg-white" : "bg-inherit"}
+hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                                >
+                                  <div className="relative group w-[100px] flex items-center gap-1  ">
+                                    {user.profilePic ? (
+                                      <img
+                                        src={user.profilePic}
+                                        className="w-8 h-8 rounded-full"
+                                      />
+                                    ) : (
+                                      <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs flex-shrink-0">
+                                        {user.initials}
+                                      </div>
+                                    )}
 
-                                    >
+                                    <span className="truncate whitespace-nowrap text-sm font-semibold font-gilroy text-[#111928] cursor-pointer block">
                                       {user?.firstName} {user?.lastName}
                                     </span>
 
-
-                                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                    <div
+                                      className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
-        z-[9999] pointer-events-none">
+        z-[9999] pointer-events-none"
+                                    >
                                       {user?.firstName} {user?.lastName}
                                     </div>
-
                                   </div>
                                 </td>
 
-                                <td className=" px-4 ">
-                                  <span className="inline-block whitespace-nowrap rounded-lg bg-[#EDD3D8] px-2 text-sm">
+                                <td className="px-4">
+                                  <span
+                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-sm text-[#222222]"
+                                    style={{
+                                      backgroundColor:
+                                        statusStyles[user.currentStatus]?.bg ||
+                                        "#EEE",
+                                    }}
+                                  >
+                                    <span
+                                      className="h-2 w-2 rounded-full"
+                                      style={{
+                                        backgroundColor:
+                                          statusStyles[user.currentStatus]
+                                            ?.text || "#333",
+                                      }}
+                                    ></span>
+
                                     {user.currentStatus}
                                   </span>
                                 </td>
 
-                                <td className=" px-4 py-1 truncate whitespace-nowrap">
-                                  {user?.actualJoining && user.actualJoining !== "0000-00-00"
-                                    ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
-                                    : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
-                                      ? moment(user.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
-                                      : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
-                                        ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
+                                <td className=" px-4 py-1 truncate whitespace-nowrap text-[#6B7280] font-medium">
+                                  {user?.actualJoining &&
+                                  user.actualJoining !== "0000-00-00"
+                                    ? moment(
+                                        user.actualJoining,
+                                        "DD/MM/YYYY",
+                                      ).format("D MMMM YYYY")
+                                    : user?.expectedJoiningDate &&
+                                        user.expectedJoiningDate !==
+                                          "0000-00-00"
+                                      ? moment(
+                                          user.expectedJoiningDate,
+                                          "DD/MM/YYYY",
+                                        ).format("D MMMM YYYY")
+                                      : user?.RecheckIn_Date &&
+                                          user.RecheckIn_Date !== "0000-00-00"
+                                        ? moment(user.RecheckIn_Date).format(
+                                            "D MMMM YYYY",
+                                          )
                                         : "-"}
                                 </td>
 
-                                <td className=" px-4 py-1 whitespace-nowrap">
+                                <td className=" px-4 py-1 whitespace-nowrap text-[#111928]">
                                   +{user?.countryCode} {user?.mobile}
                                 </td>
 
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
                                   {user.currentStatus === "Booked" ||
-                                    user.currentStatus === "Checked In" ||
-                                    user.currentStatus === "Notice Period" ||
-                                    user.currentStatus === "Settlement Generated"
+                                  user.currentStatus === "Checked In" ||
+                                  user.currentStatus === "Notice Period" ||
+                                  user.currentStatus === "Settlement Generated"
                                     ? user.floorName || "-"
                                     : "-"}
                                 </td>
 
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
                                   {user.roomName || "-"}
                                 </td>
 
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
                                   {user.bedName || "-"}
                                 </td>
 
-                                <td className=" px-4 py-1">
+                                <td
+                                  className={`${
+                                    isScrolling ? "bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                >
+                                  {" "}
                                   <div
                                     className="relative mt-1 flex cursor-pointer items-center justify-center"
                                     onClick={(e) => {
@@ -2931,31 +2964,40 @@ function UserList(props) {
                                     }}
                                   >
                                     <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${activeRow === user.customerId ? "text-[#1E45E1]" : "text-gray-500"
-                                        }`}
+                                      className={`h-5 w-5 rotate-90 ${
+                                        activeRow === user.customerId
+                                          ? "text-[#1E45E1]"
+                                          : "text-gray-500"
+                                      }`}
                                     />
 
                                     {activeRow === user.customerId && (
                                       <div
                                         ref={popupRef}
-                                        className="fixed z-[1000] rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9]"
-                                        style={{
-                                          top: showAbove
-                                            ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight || 100) -
-                                            20
-                                            : popupPosition.top - 35,
-                                          left: popupPosition.left,
-                                        }}
-
+                                        className="absolute top-4 right-20 rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md"
+                                        style={
+                                          {
+                                            // top: showAbove
+                                            //   ? popupPosition.top -
+                                            //   (popupRef.current?.offsetHeight || 100) -
+                                            //   20
+                                            //   : popupPosition.top - 35,
+                                            // left: popupPosition.left,
+                                          }
+                                        }
                                       >
-                                        <div className="flex flex-col divide-y divide-gray-300">
+                                        <div className="flex flex-col divide-y divide-gray-200">
                                           {!user.bedId &&
-                                            (user.currentStatus === "Inactive" ||
-                                              user.currentStatus === "un-assigned") && (
+                                            (user.currentStatus ===
+                                              "Inactive" ||
+                                              user.currentStatus ===
+                                                "un-assigned") && (
                                               <div
-                                                onClick={() => canWriteTenant && handleShowAssignBed(user)}
-                                                className={`border-b border-gray-700 flex items-center gap-2 rounded-md px-3 py-2 transition 
+                                                onClick={() =>
+                                                  canWriteTenant &&
+                                                  handleShowAssignBed(user)
+                                                }
+                                                className={`border-b border-gray-200 flex items-center gap-2  px-3 py-2 transition 
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
                                               >
                                                 <img
@@ -2963,126 +3005,205 @@ function UserList(props) {
                                                   alt="Assign Bed"
                                                   className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
                                                 />
-                                                <span className={`text-sm font-medium font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}>
+                                                <span
+                                                  className={`text-sm font-medium whitespace-nowrap font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}
+                                                >
                                                   Check-In
                                                 </span>
                                               </div>
-
                                             )}
 
-
-
-                                          {(user.currentStatus === "un-assigned" ||
-                                            user.currentStatus === "Inactive") && (
-                                              <div
-                                                onClick={() => canWriteBooking && handleAddBookings(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                                          {(user.currentStatus ===
+                                            "un-assigned" ||
+                                            user.currentStatus ===
+                                              "Inactive") && (
+                                            <div
+                                              onClick={() =>
+                                                canWriteBooking &&
+                                                handleAddBookings(user)
+                                              }
+                                              className={`flex items-center gap-2  px-3 py-2 transition
                 ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
+                                            >
+                                              <img
+                                                src={Addbook}
+                                                alt="Add Booking"
+                                                className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                              />
+                                              <span
+                                                className={`text-sm font-medium  whitespace-nowrap font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}
+                                              >
+                                                Add Booking
+                                              </span>
+                                            </div>
+                                          )}
+
+                                          {(user.currentStatus ===
+                                            "un-assigned" ||
+                                            user.currentStatus ===
+                                              "Inactive") && (
+                                            <div
+                                              onClick={() =>
+                                                canDeleteTenant &&
+                                                handleDeleteShow(user)
+                                              }
+                                              className={`flex items-center gap-2  px-3 py-2 transition
+                ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
+                                            >
+                                              <Trash
+                                                size={16}
+                                                color={
+                                                  canDeleteTenant
+                                                    ? "red"
+                                                    : "#A9A9A9"
+                                                }
+                                              />
+                                              <span
+                                                className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}
+                                              >
+                                                Delete
+                                              </span>
+                                            </div>
+                                          )}
+
+                                          {user.bedId &&
+                                            user.currentStatus ===
+                                              "Checked In" && (
+                                              <>
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteCheckout &&
+                                                    handleCustomerCheckout(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={addcircle}
+                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Move to Notice Period
+                                                  </span>
+                                                </div>
+
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteTenant &&
+                                                    handleCustomerReAssign(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Change Bed
+                                                  </span>
+                                                </div>
+                                              </>
+                                            )}
+
+                                          {user.bedId &&
+                                            user.currentStatus ===
+                                              "Notice Period" && (
+                                              <>
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteTenant &&
+                                                    handleBacktoCheckout(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Cancel Check-Out
+                                                  </span>
+                                                </div>
+
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteCheckout &&
+                                                    handleCheckoutGenrateNew(
+                                                      user,
+                                                    )
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={logout}
+                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy">
+                                                    Generate
+                                                  </span>
+                                                </div>
+                                              </>
+                                            )}
+
+                                          {user.bedId &&
+                                            user.currentStatus ===
+                                              "Settlement Generated" && (
+                                              <div
+                                                onClick={() =>
+                                                  canWriteCheckout &&
+                                                  handleConformCheckout(user)
+                                                }
+                                                className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
+                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                style={{ marginLeft: 12 }}
                                               >
                                                 <img
-                                                  src={Addbook}
-                                                  alt="Add Booking"
-                                                  className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                  src={logout}
+                                                  className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
                                                 />
-                                                <span className={`text-sm font-medium font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}>
-                                                  Add Booking
+                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                  Check-Out
                                                 </span>
                                               </div>
                                             )}
-
-                                          {(user.currentStatus === "un-assigned" ||
-                                            user.currentStatus === "Inactive") && (
-                                              <div
-                                                onClick={() => canDeleteTenant && handleDeleteShow(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <Trash size={16} color={canDeleteTenant ? "red" : "#A9A9A9"} />
-                                                <span className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}>
-                                                  Delete
-                                                </span>
-                                              </div>
-                                            )}
-
-
-
-
-                                          {user.bedId && user.currentStatus === "Checked In" && (
-                                            <>
-                                              <div
-                                                onClick={() => canWriteCheckout && handleCustomerCheckout(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={addcircle} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Move to Notice Period</span>
-                                              </div>
-
-                                              <div
-                                                onClick={() => canWriteTenant && handleCustomerReAssign(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Change Bed</span>
-                                              </div>
-                                            </>
-                                          )}
-
-                                          {user.bedId && user.currentStatus === "Notice Period" && (
-                                            <>
-                                              <div
-                                                onClick={() => canWriteTenant && handleBacktoCheckout(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Cancel Check-Out</span>
-                                              </div>
-
-                                              <div
-                                                onClick={() => canWriteCheckout && handleCheckoutGenrateNew(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Generate</span>
-                                              </div>
-                                            </>
-                                          )}
-
-                                          {user.bedId && user.currentStatus === "Settlement Generated" && (
-                                            <div
-                                              onClick={() => canWriteCheckout && handleConformCheckout(user)}
-                                              className={`flex items-center gap-2 rounded-md px-3 py-2 transition min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              style={{ marginLeft: 12 }}
-                                            >
-                                              <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
-                                              <span className="text-sm font-medium font-gilroy">Check-Out</span>
-                                            </div>
-
-                                          )}
-
 
                                           {user.currentStatus === "Booked" && (
                                             <>
                                               <div
-                                                onClick={() => canWriteTenant && handleBookingAssign(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                                                onClick={() =>
+                                                  canWriteTenant &&
+                                                  handleBookingAssign(user)
+                                                }
+                                                className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
                                               >
-                                                <img src={addcircle} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Check-In</span>
+                                                <img
+                                                  src={addcircle}
+                                                  className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                />
+                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                  Check-In
+                                                </span>
                                               </div>
 
                                               <div
-                                                onClick={() => canWriteBooking && handleInActive(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3 py-2 transition
+                                                onClick={() =>
+                                                  canWriteBooking &&
+                                                  handleInActive(user)
+                                                }
+                                                className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                               >
-                                                <img src={Addbook} className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Make as Inactive</span>
+                                                <img
+                                                  src={Addbook}
+                                                  className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                />
+                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                  Make as Inactive
+                                                </span>
                                               </div>
                                             </>
                                           )}
@@ -3092,23 +3213,19 @@ function UserList(props) {
                                   </div>
                                 </td>
                               </tr>
-
                             ))}
                           </tbody>
-
                         </table>
                         {open && (
                           <>
-
                             <div
                               className="fixed inset-0 bg-black/20 z-50 "
                               onClick={() => setOpen(false)}
                             />
 
-
                             <div
                               className={`
-        fixed top-[250px] left-[250px] h-fit w-[280px]
+        fixed top-[180px] left-[280px] h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
         shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
@@ -3116,12 +3233,36 @@ function UserList(props) {
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
                             >
-
-
-
-
-
                               <div className="p-3 border-b">
+                                <div className="flex items-center gap-2 justify-between mb-2">
+                                  <div className="text-[16px] text-[#333333] font-semibold ">
+                                    Customize Tabs{" "}
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      const allSelected = customizeItems.every(
+                                        (i) => i.checked,
+                                      );
+
+                                      setCustomizeItems((prev) =>
+                                        prev.map((i) => ({
+                                          ...i,
+                                          checked: !allSelected,
+                                        })),
+                                      );
+                                    }}
+                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                  >
+                                    {" "}
+                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                    <span>
+                                      {allSelected
+                                        ? "Unselect all"
+                                        : "Select all"}
+                                    </span>
+                                  </div>
+                                </div>
+
                                 <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                                   <SearchNormal1 size={16} color="#98A2B3" />
                                   <input
@@ -3131,48 +3272,59 @@ function UserList(props) {
                                 </div>
                               </div>
 
+                              <DndContext
+                                collisionDetection={closestCenter}
+                                onDragEnd={(event) => {
+                                  const { active, over } = event;
 
-                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                {options.map((item) => (
-                                  <label
-                                    key={item.key}
-                                    className="flex items-center gap-3 text-sm cursor-pointer"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      defaultChecked={item.checked}
-                                      className="w-4 h-4 accent-[#1E45E1] rounded"
-                                    />
-                                    <span className="text-[#101828]">
-                                      {item.label}
-                                    </span>
-                                  </label>
-                                ))}
-                              </div>
+                                  if (active.id !== over?.id) {
+                                    const oldIndex = customizeItems.findIndex(
+                                      (i) => i.key === active.id,
+                                    );
+                                    const newIndex = customizeItems.findIndex(
+                                      (i) => i.key === over.id,
+                                    );
 
+                                    setCustomizeItems(
+                                      arrayMove(
+                                        customizeItems,
+                                        oldIndex,
+                                        newIndex,
+                                      ),
+                                    );
+                                  }
+                                }}
+                              >
+                                <SortableContext
+                                  items={customizeItems.map((i) => i.key)}
+                                  strategy={verticalListSortingStrategy}
+                                >
+                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                    {customizeItems?.map((item) => (
+                                      <SortableItem
+                                        key={item.key}
+                                        item={item}
+                                      />
+                                    ))}
+                                  </div>
+                                </SortableContext>
+                              </DndContext>
 
                               <div className="p-3 border-t flex gap-2">
-                                <button
-                                  className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
-                                >
+                                <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                                   Reset
                                 </button>
-                                <button
-                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
-                                >
-                                  Apply Filters
+                                <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                                  Save
                                 </button>
                               </div>
-
                             </div>
                           </>
                         )}
-
                       </div>
                     </div>
                   </>
-                }
-
+                )}
 
                 {customerReassign === true ? (
                   <CustomerReAssign
@@ -3191,345 +3343,6 @@ function UserList(props) {
                   />
                 ) : null}
               </TabPanel>
-
-              {/* <div className="flex flex-col h-[calc(100vh-150px)] mt-2">
-
-                <TabPanel value="1">
-
-                  {!canReadTenant ? (
-                    <div className="flex flex-col items-center justify-center mt-24">
-                      <img src={Emptystate} alt="Empty State" />
-                      <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
-                    </div>
-                  ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
-
-                    <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
-                      <div className="text-center">
-                        <img src={Emptystate} alt="emptystate" />
-                        <div className="pb-1 font-gilroy font-semibold text-lg text-[#4B4B4B]">
-                          No Tenant available
-                        </div>
-                        <div className="pb-1 font-gilroy font-medium text-sm text-[#4B4B4B]">
-                          There are no tenant added.
-                        </div>
-                      </div>
-                    </div>
-
-                  ) : canReadTenant && sortedData && sortedData.length > 0 ? (
-
-                    <div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden">
-                      <div className="flex items-center justify-between mb-2">
-
-                        <TabContext value={value} className="p-0">
-                          <Tabs
-                            activeKey={value}
-                            onSelect={(k) => handleChange(null, k)}
-                            id="custom-tabs"
-                            className="flex gap-5 p-0 border-0"
-                          >
-                            <Tab
-                              eventKey="1"
-                              title={
-                                <span
-                                  className={`capitalize text-[16px] font-gilroy font-medium pb-1 inline-block
-            ${value === "1"
-                                      ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                                      : "text-[#4B4B4B] border-b-2 border-transparent"
-                                    }`}
-                                >
-                                  Tenants
-                                </span>
-                              }
-                            />
-
-                            <Tab
-                              eventKey="4"
-                              title={
-                                <span
-                                  className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
-            ${value === "4"
-                                      ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                                      : "text-[#4B4B4B] border-b-2 border-transparent"
-                                    }`}
-                                >
-                                  Walk-in
-                                </span>
-                              }
-                            />
-
-                            <Tab
-                              eventKey="3"
-                              title={
-                                <span
-                                  className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
-            ${value === "3"
-                                      ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                                      : "text-[#4B4B4B] border-b-2 border-transparent"
-                                    }`}
-                                >
-                                  Check-out
-                                </span>
-                              }
-                            />
-                          </Tabs>
-                        </TabContext>
-                        <div>
-                          <PaginationList
-                            totalItems={sortedData.length}
-                            itemsPerPage={pageSize}
-                            currentPage={page}
-                            onPageChange={(p) => setPage(p)}
-                            onPageSizeChange={(size) => setPageSize(size)}
-                          />
-                        </div>
-
-
-                      </div>
-
-                      <div className="overflow-auto mt-2 show-scroll">
-                        <table className="min-w-full table-fixed text-sm font-gilroy">
-                          <thead className="bg-blue-100 text-gray-400 sticky top-0 z-10">
-                            <tr className="h-9">
-                              <th className="w-[180px] px-2 text-left">Name</th>
-                              <th className="w-[200px] px-2 text-left">Status</th>
-                              <th className="w-[140px] px-2 text-left">Joining Date</th>
-                              <th className="w-[170px] px-2 text-left">Mobile No</th>
-                              <th className="w-[130px] px-2 text-left">Floor</th>
-                              <th className="w-[130px] px-2 text-left">Room</th>
-                              <th className="w-[130px] px-2 text-left">Bed</th>
-                              <th className="w-[120px] px-2 text-left">Action</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {paginatedData.map((user) => (
-                              <tr key={user.customerId} className="border-b border-[#E8E8E8] h-10 font-gilroy">
-
-                                <td className="w-[180px] px-2  py-1 truncate whitespace-nowrap">
-                                  <span
-                                    className="block truncate text-sm font-semibold font-gilroy text-blue-700 cursor-pointer underline"
-                                    title={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`}
-                                    onClick={() => handleRoomDetailsPage(user)}
-                                  >
-                                    {user?.firstName} {user?.lastName}
-                                  </span>
-                                </td>
-
-                                <td className="w-[200px] px-2  py-1">
-                                  <span className="inline-block whitespace-nowrap rounded-lg bg-[#EDD3D8] px-2 text-sm">
-                                    {user.currentStatus}
-                                  </span>
-                                </td>
-
-
-                                <td className="whitespace-nowrap w-[140px] px-2">
-                                  {user?.actualJoining && user.actualJoining !== "0000-00-00"
-                                    ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
-                                    : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
-                                      ? moment(user.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
-                                      : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
-                                        ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
-                                        : "-"}
-                                </td>
-
-                                <td className="w-[170px] px-1">
-                                  +{user?.countryCode} {user?.mobile}
-                                </td>
-
-                                <td className="w-[130px] px-2 whitespace-nowrap">
-                                  {user.currentStatus === "Booked" ||
-                                    user.currentStatus === "Checked In" ||
-                                    user.currentStatus === "Notice Period" ||
-                                    user.currentStatus === "Settlement Generated"
-                                    ? user.floorName || "-"
-                                    : "-"}
-                                </td>
-
-                                <td className="w-[130px] px-2">
-                                  {user.roomName || "-"}
-                                </td>
-
-                                <td className="w-[130px] px-2">
-                                  {user.bedName || "-"}
-                                </td>
-
-                                <td className="w-[120px] px-2">
-                                  <div
-                                    className="relative mt-1 flex cursor-pointer items-center justify-start"
-                                    onClick={(e) => handleShowDots(user.customerId, e)}
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${activeRow === user.customerId ? "text-[#1E45E1]" : "text-gray-500"
-                                        }`}
-                                    />
-
-                                    {activeRow === user.customerId && (
-                                      <div
-                                        ref={popupRef}
-                                        className="fixed z-[1000] rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9]"
-                                        style={{
-                                          top: showAbove
-                                            ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight || 100) -
-                                            20
-                                            : popupPosition.top - 20,
-                                          left: popupPosition.left,
-                                        }}
-                                      >
-                                        <div className="flex flex-col divide-y divide-gray-300">
-                                          {!user.bedId &&
-                                            (user.currentStatus === "Inactive" ||
-                                              user.currentStatus === "un-assigned") && (
-                                              <div
-                                                onClick={() => canWriteTenant && handleShowAssignBed(user)}
-                                                className={`border-b border-gray-700 flex items-center gap-2 rounded-md px-3  py-1 transition 
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={addcircle}
-                                                  alt="Assign Bed"
-                                                  className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                />
-                                                <span className={`text-sm font-medium font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}>
-                                                  Check-In
-                                                </span>
-                                              </div>
-
-                                            )}
-
-
-
-                                          {(user.currentStatus === "un-assigned" ||
-                                            user.currentStatus === "Inactive") && (
-                                              <div
-                                                onClick={() => canWriteBooking && handleAddBookings(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={Addbook}
-                                                  alt="Add Booking"
-                                                  className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                                />
-                                                <span className={`text-sm font-medium font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}>
-                                                  Add Booking
-                                                </span>
-                                              </div>
-                                            )}
-
-                                          {(user.currentStatus === "un-assigned" ||
-                                            user.currentStatus === "Inactive") && (
-                                              <div
-                                                onClick={() => canDeleteTenant && handleDeleteShow(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <Trash size={16} color={canDeleteTenant ? "red" : "#A9A9A9"} />
-                                                <span className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}>
-                                                  Delete
-                                                </span>
-                                              </div>
-                                            )}
-
-
-
-
-                                          {user.bedId && user.currentStatus === "Checked In" && (
-                                            <>
-                                              <div
-                                                onClick={() => canWriteCheckout && handleCustomerCheckout(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={addcircle} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Move to Notice Period</span>
-                                              </div>
-
-                                              <div
-                                                onClick={() => canWriteTenant && handleCustomerReAssign(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Change Bed</span>
-                                              </div>
-                                            </>
-                                          )}
-
-                                          {user.bedId && user.currentStatus === "Notice Period" && (
-                                            <>
-                                              <div
-                                                onClick={() => canWriteTenant && handleBacktoCheckout(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={Addbook} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Cancel Check-Out</span>
-                                              </div>
-
-                                              <div
-                                                onClick={() => canWriteCheckout && handleCheckoutGenrateNew(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Generate</span>
-                                              </div>
-                                            </>
-                                          )}
-
-                                          {user.bedId && user.currentStatus === "Settlement Generated" && (
-                                            <div
-                                              onClick={() => canWriteCheckout && handleConformCheckout(user)}
-                                              className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img src={logout} className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`} />
-                                              <span className="text-sm font-medium font-gilroy">Check-Out</span>
-                                            </div>
-                                          )}
-
-                                          {user.currentStatus === "Booked" && (
-                                            <>
-                                              <div
-                                                onClick={() => canWriteTenant && handleBookingAssign(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={addcircle} className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Check-In</span>
-                                              </div>
-
-                                              <div
-                                                onClick={() => canWriteBooking && handleInActive(user)}
-                                                className={`flex items-center gap-2 rounded-md px-3  py-1 transition
-                  ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img src={Addbook} className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`} />
-                                                <span className="text-sm font-medium font-gilroy">Make as Inactive</span>
-                                              </div>
-                                            </>
-                                          )}
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-
-                              </tr>
-                            ))}
-                          </tbody>
-
-                        </table>
-                      </div>
-
-                    </div>
-
-                  ) : null}
-
-                </TabPanel>
-
-              </div> */}
 
               <TabPanel value="2">
                 <UserlistBookings
@@ -3553,8 +3366,6 @@ function UserList(props) {
               </TabPanel>
 
               <TabPanel value="3">
-
-
                 {/* <Route
                 path="/checkout/:hostelId"
                 element={
@@ -3643,32 +3454,34 @@ function UserList(props) {
         >
           Are you sure you want to delete this Tenant?
         </Modal.Body>
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: 70,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
+        {formLoading && (
           <div
             style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
+              position: "absolute",
+              top: 70,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              opacity: 0.75,
+              zIndex: 10,
             }}
-          ></div>
-        </div>}
+          >
+            <div
+              style={{
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
+              }}
+            ></div>
+          </div>
+        )}
 
         <Modal.Footer
           className="d-flex justify-content-center"
@@ -3713,12 +3526,16 @@ function UserList(props) {
         </Modal.Footer>
       </Modal>
 
-      {
-        inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails} />}
+      {inactiveForm && (
+        <MakeAsInactive
+          show={inactiveForm}
+          handleCloseInActive={handleCloseInActive}
+          inActiveDetails={inActiveDetails}
+        />
+      )}
 
       {roomDetail === true ? (
         <UserListRoomDetail
-
           onEditItem={handleEditItem}
           userData={userDatafull}
           onAddItem={handleAddItems}
@@ -3832,7 +3649,6 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-
                     value={Floor}
                     onChange={(e) => handleFloor(e)}
                     style={{
@@ -3881,7 +3697,6 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-
                     value={Rooms}
                     onChange={(e) => handleRoom(e)}
                     style={{
@@ -3909,7 +3724,6 @@ function UserList(props) {
                     <ErrorMessage message={roomError} type="error" />
                   )}
                 </div>
-
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-3">
                     <Form.Label
@@ -3947,7 +3761,8 @@ function UserList(props) {
                   {readingError && (
                     <ErrorMessage message={readingError} type="error" />
                   )}
-                </div>s
+                </div>
+                s
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-2" controlId="purchaseDate">
                     <Form.Label
@@ -3982,9 +3797,7 @@ function UserList(props) {
                 </div>
               </div>
             </Modal.Body>
-            {formError && (
-              <ErrorMessage message={formError} type="error" />
-            )}
+            {formError && <ErrorMessage message={formError} type="error" />}
             <Modal.Footer className="d-flex justify-content-center">
               <Button
                 className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -4093,8 +3906,6 @@ function UserList(props) {
                       }}
                     />
                   </Form.Group>
-
-
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4169,9 +3980,7 @@ function UserList(props) {
                 </div>
               </div>
             </Modal.Body>
-            {formError && (
-              <ErrorMessage message={formError} type="error" />
-            )}
+            {formError && <ErrorMessage message={formError} type="error" />}
             <Modal.Footer className="d-flex justify-content-center">
               <Button
                 className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -4184,7 +3993,6 @@ function UserList(props) {
                   fontFamily: "Montserrat, sans-serif",
                   marginTop: 10,
                 }}
-
               >
                 Save Changes
               </Button>
@@ -4368,7 +4176,12 @@ function UserList(props) {
       {isEditing && (
         <div
           className="mt-4 "
-          style={{ paddingLeft: 25, height: "90vh", overflowY: "auto", position: "relative" }}
+          style={{
+            paddingLeft: 25,
+            height: "90vh",
+            overflowY: "auto",
+            position: "relative",
+          }}
         >
           <div
             className="d-flex align-items-center"
@@ -4437,17 +4250,18 @@ function UserList(props) {
                 <option value="">Select Customer</option>
                 {state.UsersList?.Users?.listCustomers &&
                   state.UsersList?.Users?.listCustomers?.length > 0 &&
-                  state?.UsersList?.Users?.listCustomers?.filter(
-                    (u) =>
-                      u.bedId !== "undefined" &&
-                      u.bedId !== "0" &&
-                      typeof u.bedId === "string" &&
-                      u.bedId.trim() !== "" &&
-                      u.roomId !== "undefined" &&
-                      u.roomId !== "0" &&
-                      typeof u.roomId === "string" &&
-                      u.roomId.trim() !== ""
-                  )
+                  state?.UsersList?.Users?.listCustomers
+                    ?.filter(
+                      (u) =>
+                        u.bedId !== "undefined" &&
+                        u.bedId !== "0" &&
+                        typeof u.bedId === "string" &&
+                        u.bedId.trim() !== "" &&
+                        u.roomId !== "undefined" &&
+                        u.roomId !== "0" &&
+                        typeof u.roomId === "string" &&
+                        u.roomId.trim() !== "",
+                    )
                     .map((u) => (
                       <option value={u.customerId} key={u.customerId}>
                         {u.firstName}
@@ -4513,9 +4327,6 @@ function UserList(props) {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-
-
-
                   <DatePicker
                     style={{
                       width: "100%",
@@ -4529,7 +4340,9 @@ function UserList(props) {
                     onChange={(date) =>
                       handleInvoiceDate(date ? date.toDate() : null)
                     }
-                    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
                     disabledDate={(current) =>
                       current && current > dayjs().endOf("day")
                     }
@@ -4567,7 +4380,6 @@ function UserList(props) {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-
                   <DatePicker
                     style={{
                       width: "100%",
@@ -4581,8 +4393,9 @@ function UserList(props) {
                     onChange={(date) =>
                       handleDueDate(date ? date.toDate() : null)
                     }
-                    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
                     dropdownAlign={{
                       points: ["tl", "bl"],
                       offset: [0, 4],
@@ -4605,42 +4418,99 @@ function UserList(props) {
             <ErrorMessage message={allfielderrmsg} type="error" />
           )}
 
-
           {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="mt-1" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
-
-              <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+            <div
+              className="mt-1"
+              style={{
+                width: "80%",
+                borderRadius: "10px",
+                border: "1px solid #DCDCDC",
+              }}
+            >
+              <Table
+                responsive
+                className="m-0"
+                style={{ tableLayout: "fixed" }}
+              >
                 <thead style={{ backgroundColor: "#E7F1FF" }}>
                   <tr>
-                    <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
+                    <th
+                      className="text-center"
+                      style={{
+                        width: "10%",
+                        color: "#939393",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        borderTopLeftRadius: 10,
+                      }}
+                    >
                       S.No
                     </th>
-                    <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                    <th
+                      style={{
+                        width: "45%",
+                        color: "#939393",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
                       Description
                     </th>
-                    <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                    <th
+                      style={{
+                        width: "30%",
+                        color: "#939393",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
                       Total Amount
                     </th>
-                    <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
+                    <th
+                      style={{
+                        width: "15%",
+                        color: "#939393",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        borderTopRightRadius: 10,
+                      }}
+                    >
                       Action
                     </th>
                   </tr>
                 </thead>
               </Table>
 
-
               <div style={{ maxHeight: "150px", overflowY: "auto" }}>
-                <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                <Table
+                  responsive
+                  className="m-0"
+                  style={{ tableLayout: "fixed" }}
+                >
                   <tbody>
                     {newRows.map((u, index) => (
                       <tr key={index}>
-                        <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
+                        <td style={{ width: "10%" }} className="text-center">
+                          {index + 1}
+                        </td>
                         <td style={{ width: "40%" }}>
                           <Form.Control
                             type="text"
                             style={{ fontFamily: "Gilroy" }}
                             value={u.am_name}
-                            onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                            onChange={(e) =>
+                              handleNewRowChange(
+                                index,
+                                "am_name",
+                                e.target.value,
+                              )
+                            }
                             placeholder="Enter Description"
                           />
                         </td>
@@ -4674,15 +4544,7 @@ function UserList(props) {
                 </Table>
               </div>
             </div>
-
-
-
-
-
-
           )}
-
-
 
           <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-2">
             <Form.Select
@@ -4717,42 +4579,51 @@ function UserList(props) {
             )}
           </div>
 
-
-          {state.InvoiceList.unableAddInvoiceDetailsError ?
+          {state.InvoiceList.unableAddInvoiceDetailsError ? (
             <div className="d-flex justify-content-center mt-5">
-
-              <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
+              <ErrorMessage
+                message={state.InvoiceList.unableAddInvoiceDetailsError}
+                type="error"
+              />
             </div>
-            : null}
+          ) : null}
 
-          {billLoading && <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
+          {billLoading && (
             <div
               style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "transparent",
+                opacity: 0.75,
+                zIndex: 10,
               }}
-            ></div>
-          </div>}
-          <div style={{ float: "right", marginRight: "130px", fontFamily: "Gilroy" }}>
+            >
+              <div
+                style={{
+                  borderTop: "4px solid #1E45E1",
+                  borderRight: "4px solid transparent",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  animation: "spin 1s linear infinite",
+                }}
+              ></div>
+            </div>
+          )}
+          <div
+            style={{
+              float: "right",
+              marginRight: "130px",
+              fontFamily: "Gilroy",
+            }}
+          >
             {Array.isArray(newRows) && newRows.length > 0 && (
-              <h5 >Total Amount ₹{totalAmount}</h5>
+              <h5>Total Amount ₹{totalAmount}</h5>
             )}
             <Button
               onClick={isAddMode ? handleCreateBill : handleEditBill}
@@ -4864,21 +4735,25 @@ function UserList(props) {
         </>
       )}
 
+      {showMenu && (
+        <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
+      )}
 
-      {
-        showMenu && <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
-      }
+      {BookingAssignForm && (
+        <BookedCheckIn
+          BookingAssignForm={BookingAssignForm}
+          handleClose={handleCloseBooking}
+          bookingDetails={EditObj}
+        />
+      )}
 
-      {
-        BookingAssignForm && <BookedCheckIn BookingAssignForm={BookingAssignForm}
-          handleClose={handleCloseBooking} bookingDetails={EditObj} />
-      }
-
-      {
-        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={EditObj} />
-
-      }
-
+      {bactocheckinForm && (
+        <BackToCheckIn
+          show={bactocheckinForm}
+          handleClose={handleCloseBackToCheckIn}
+          checkInDetails={EditObj}
+        />
+      )}
 
       {(advanceForm || showAssignMenu) && (
         <UserlistForm
@@ -4906,24 +4781,35 @@ function UserList(props) {
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
 
-        // bactocheckinForm={bactocheckinForm}
-        // setBacktoCheckInForm={setBacktoCheckInForm}
+          // bactocheckinForm={bactocheckinForm}
+          // setBacktoCheckInForm={setBacktoCheckInForm}
         />
       )}
 
+      {finalsettlepage && (
+        <FinalOld
+          show={finalsettlepage}
+          data={finalsettledData}
+          handleClose={handleClosefinal}
+        />
+      )}
 
-      {
-        finalsettlepage && <FinalOld show={finalsettlepage}
-          data={finalsettledData} handleClose={handleClosefinal} />
-      }
-
-
-      {
-        add_bookingshow && <Addbooking add_bookingshow={add_bookingshow} userDetail={userDetail} setAddBookingsShow={setAddBookingsShow} handleCloseAddBooking={handleCloseAddBooking} bookingDet={bookingDet} />
-      }
-      {
-        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
-      }
+      {add_bookingshow && (
+        <Addbooking
+          add_bookingshow={add_bookingshow}
+          userDetail={userDetail}
+          setAddBookingsShow={setAddBookingsShow}
+          handleCloseAddBooking={handleCloseAddBooking}
+          bookingDet={bookingDet}
+        />
+      )}
+      {DueCustomerShow && (
+        <DueCustomerConfirmCheckout
+          show={DueCustomerShow}
+          data={CheckOutDetails}
+          handleClose={handleCloseDuePopup}
+        />
+      )}
     </div>
   );
 }
