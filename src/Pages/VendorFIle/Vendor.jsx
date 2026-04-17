@@ -422,9 +422,8 @@ useEffect(() => {
             </>
           ) :
 
-            // <div className="relative overflow-y-auto pr-5 show-scroll h-[calc(100vh-80px)]">
-            // <div className="relative h-[calc(100vh-80px)]">
-            <div className="relative flex flex-col h-[calc(100vh-80px)]">
+              // <div className="relative flex flex-col h-[calc(100vh-80px)]">
+              <div className="relative flex flex-col flex-1 min-h-0">
              
               {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
@@ -439,11 +438,8 @@ useEffect(() => {
                 </div>
               )}
 
-
-
-              {/* <div className='row row-gap-3 '> */}
-              {/* <div className="overflow-y-auto h-full pr-5 row row-gap-3"> */}
-              <div className="flex-1 overflow-y-auto pr-5 row row-gap-3">
+  {/* <div className="flex-1 overflow-y-auto pr-5 row row-gap-3"> */}
+  <div className="flex-1 min-h-0 overflow-y-auto pr-5 row row-gap-3">
                 {filteredData && filteredData.length > 0 && filteredData.map((vendor) => (
                   <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                     <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
@@ -457,17 +453,18 @@ useEffect(() => {
                 }
 
                 {!loading && filteredData?.length === 0 && (
-                   <div className="animated-text flex flex-col items-center justify-center flex-1">
+                  //  <div className="animated-text flex flex-col items-center justify-center flex-1">
+                  <div className="animated-text flex flex-col items-center justify-center lg:h-[85vh]">
                     <div clasame="flex justify-center 2xl:mt-24">
                       <img
                         src={EmptyState}
                         alt="Empty state"
                           />
                     </div>
-                    <div className="text-center font-gilroy font-semibold text-lg text-[#4B4B4B] pb-1">
+                    <div className="text-center font-gilroy font-semibold text-lg text-gray-700 pb-1">
                       No vendor available
                     </div>
-                    <div className="text-center font-gilroy font-medium text-base text-[#4B4B4B] pb-1">
+                    <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                       There are no Vendors added.
                     </div>
                   </div>

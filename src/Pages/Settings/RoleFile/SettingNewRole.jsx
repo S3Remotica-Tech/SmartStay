@@ -267,7 +267,7 @@ function SettingNewRole() {
 
 
   return (
-    <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy relative">
+    <div className="flex flex-col bg-[#F9FAFF] font-gilroy relative">
 
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center z-50 bg-transparent">
@@ -310,7 +310,8 @@ function SettingNewRole() {
           </div>
         </div>
       </div>
-      <div className="flex-1 overflow-hidden px-4 py-3">
+     
+        <div className="flex flex-col items-center justify-center">
         {
           !canReadRole ? (
 
@@ -320,140 +321,137 @@ function SettingNewRole() {
             </div>
           ) : (
 
-            <div className="mx-2 mt-2 mb-3 bg-white rounded-lg border  font-gilroy overflow-hidden">
-              <div className="max-h-[500px] overflow-y-auto show-scrolls">
-                <table className="w-full text-left">
+            // <div className="mx-2 mt-2 mb-3 bg-white rounded-lg border  font-gilroy overflow-hidden">
+            //   <div className="max-h-[500px] overflow-y-auto show-scrolls">
+            //     <table className="w-full text-left">
 
 
-                  <thead className="bg-gray-50 text-[#6B7280] text-xs uppercase font-semibold sticky top-0 z-10">
-                    <tr>
-                      <th className="px-4 py-2.5">Role Name</th>
-                      <th className="px-4 py-2.5">Description</th>
-                      <th className="px-4 py-2.5">Users</th>
-                      <th className="px-4 py-2.5">Created</th>
-                      <th className="px-4 py-2.5 text-right">Action</th>
-                    </tr>
-                  </thead>
+            //       <thead className="bg-gray-50 text-[#6B7280] text-xs uppercase font-semibold sticky top-0 z-10">
+            //         <tr>
+            //           <th className="px-4 py-2.5">Role Name</th>
+            //           <th className="px-4 py-2.5">Description</th>
+            //           <th className="px-4 py-2.5">Users</th>
+            //           <th className="px-4 py-2.5">Created</th>
+            //           <th className="px-4 py-2.5 text-right">Action</th>
+            //         </tr>
+            //       </thead>
 
 
-                  <tbody className="text-sm text-gray-700">
-                    {paginatedData.length > 0 ? (
-                      paginatedData.map((view, index) => (
-                        <tr key={index} className="border-t max-h-fit ">
+            //       <tbody className="text-sm text-gray-700">
+            //         {paginatedData.length > 0 ? (
+            //           paginatedData.map((view, index) => (
+            //             <tr key={index} className="border-t max-h-fit ">
 
 
-                          <td className="px-4 py-1 whitespace-nowrap">
-                            <div className="flex items-center gap-2">
-                              <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
-                                <Shield size={14} color="#FF9900" />
-                              </span>
+            //               <td className="px-4 py-1 whitespace-nowrap">
+            //                 <div className="flex items-center gap-2">
+            //                   <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
+            //                     <Shield size={14} color="#FF9900" />
+            //                   </span>
 
-                              <span className="font-semibold text-[#111928] text-[14px]">
-                                {view.name}
-                              </span>
-                            </div>
-                          </td>
-
-
-                          <td className="px-4 py-1 text-[#4B4B4B] font-medium text-[14px]">
-                            {view.description || "-"}
-                          </td>
+            //                   <span className="font-semibold text-[#111928] text-[14px]">
+            //                     {view.name}
+            //                   </span>
+            //                 </div>
+            //               </td>
 
 
-                          <td className="px-4 py-1 text-[13px] text-[#6F767E]">
-                            <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
-                              <Profile2User size={12} />
-                              {view.userCount || 0}
-                            </div>
-                          </td>
+            //               <td className="px-4 py-1 text-[#4B4B4B] font-medium text-[14px]">
+            //                 {view.description || "-"}
+            //               </td>
 
 
-                          <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
-                            {view.createdAt || "-"}
-                          </td>
+            //               <td className="px-4 py-1 text-[13px] text-[#6F767E]">
+            //                 <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
+            //                   <Profile2User size={12} />
+            //                   {view.userCount || 0}
+            //                 </div>
+            //               </td>
 
 
-                          <td className="px-4 py-1 text-right relative">
-                            <div
-                              className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
-                              onClick={(e) => handleShowDots(e, index)}
-                            >
-                              <IoMdMore className='text-black text-xl' />
-                            </div>
+            //               <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
+            //                 {view.createdAt || "-"}
+            //               </td>
 
 
-                            {showDots === index && view.editable && (
-                              <div
-                                ref={popupRef}
-                                className="fixed bg-white border border-gray-200 rounded-lg shadow-md w-[140px] z-[1000]"
-                                style={{
-                                  top: popupPosition.top,
-                                  left: popupPosition.left,
-                                }}
-                              >
-
-                                <div
-                                  className={`flex items-center gap-2 px-3 py-2 ${view.editable && canUpdateRole
-                                    ? "cursor-pointer hover:bg-blue-50"
-                                    : "opacity-50 cursor-not-allowed"
-                                    }`}
-                                  onClick={() => {
-                                    if (view.editable && canUpdateRole)
-                                      handleEditForm(view);
-                                  }}
-                                >
-                                  <i className="isax isax-edit text-blue-600"></i>
-                                  <span className="text-sm font-medium text-blue-700">
-                                    Edit
-                                  </span>
-                                </div>
-
-                                <div className="h-px bg-gray-200" />
+            //               <td className="px-4 py-1 text-right relative">
+            //                 <div
+            //                   className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
+            //                   onClick={(e) => handleShowDots(e, index)}
+            //                 >
+            //                   <IoMdMore className='text-black text-xl' />
+            //                 </div>
 
 
-                                <div
-                                  className={`flex items-center gap-2 px-3 py-2 ${view.editable && canDeleteRole
-                                    ? "cursor-pointer hover:bg-blue-50"
-                                    : "opacity-50 cursor-not-allowed"
-                                    }`}
-                                  onClick={() =>
-                                    view.editable && canDeleteRole &&
-                                    handleDeleteForm(view)
-                                  }
-                                >
-                                  <i className="isax isax-trash text-red-600"></i>
-                                  <span className="text-sm font-medium text-red-600">
-                                    Delete
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      !loading && (
-                        <tr>
-                          <td colSpan="5" className="text-center py-16">
-                            <div className="flex flex-col items-center">
-                              <img src={EmptyState} alt="empty" className="mb-2" />
-                              <div className="font-semibold text-lg text-gray-700">
-                                No Roles
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                There are no Roles available
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
-              </div>
+            //                 {showDots === index && view.editable && (
+            //                   <div
+            //                     ref={popupRef}
+            //                     className="fixed bg-white border border-gray-200 rounded-lg shadow-md w-[140px] z-[1000]"
+            //                     style={{
+            //                       top: popupPosition.top,
+            //                       left: popupPosition.left,
+            //                     }}
+            //                   >
+
+            //                     <div
+            //                       className={`flex items-center gap-2 px-3 py-2 ${view.editable && canUpdateRole
+            //                         ? "cursor-pointer hover:bg-blue-50"
+            //                         : "opacity-50 cursor-not-allowed"
+            //                         }`}
+            //                       onClick={() => {
+            //                         if (view.editable && canUpdateRole)
+            //                           handleEditForm(view);
+            //                       }}
+            //                     >
+            //                       <i className="isax isax-edit text-blue-600"></i>
+            //                       <span className="text-sm font-medium text-blue-700">
+            //                         Edit
+            //                       </span>
+            //                     </div>
+
+            //                     <div className="h-px bg-gray-200" />
 
 
-
+            //                     <div
+            //                       className={`flex items-center gap-2 px-3 py-2 ${view.editable && canDeleteRole
+            //                         ? "cursor-pointer hover:bg-blue-50"
+            //                         : "opacity-50 cursor-not-allowed"
+            //                         }`}
+            //                       onClick={() =>
+            //                         view.editable && canDeleteRole &&
+            //                         handleDeleteForm(view)
+            //                       }
+            //                     >
+            //                       <i className="isax isax-trash text-red-600"></i>
+            //                       <span className="text-sm font-medium text-red-600">
+            //                         Delete
+            //                       </span>
+            //                     </div>
+            //                   </div>
+            //                 )}
+            //               </td>
+            //             </tr>
+            //           ))
+            //         ) : (
+            //           !loading && (
+            //             <tr>
+            //               <td colSpan="5" className="text-center py-16">
+            //                 <div className="flex flex-col items-center">
+            //                   <img src={EmptyState} alt="empty" className="mb-2" />
+            //                   <div className="font-semibold text-lg text-gray-700">
+            //                     No Roles
+            //                   </div>
+            //                   <div className="text-sm text-gray-500">
+            //                     There are no Roles available
+            //                   </div>
+            //                 </div>
+            //               </td>
+            //             </tr>
+            //           )
+            //         )}
+            //       </tbody>
+            //     </table>
+            //   </div>
 
 
 
@@ -462,7 +460,61 @@ function SettingNewRole() {
 
 
 
-            </div>
+
+
+
+            // </div>
+
+            <div className="mx-2 mt-2 mb-3 font-gilroy">
+
+  {paginatedData.length > 0 ? (
+
+    // ✅ TABLE
+    <div className="bg-white rounded-lg border overflow-hidden">
+      <div className="max-h-[500px] overflow-y-auto show-scrolls">
+        <table className="w-full text-left">
+
+          <thead className="bg-gray-50 text-[#6B7280] text-xs uppercase font-semibold sticky top-0 z-10">
+            <tr>
+              <th className="px-4 py-2.5">Role Name</th>
+              <th className="px-4 py-2.5">Description</th>
+              <th className="px-4 py-2.5">Users</th>
+              <th className="px-4 py-2.5">Created</th>
+              <th className="px-4 py-2.5 text-right">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {paginatedData.map((view, index) => (
+              <tr key={index} className="border-t">
+                <td className="px-4 py-2">{view.name}</td>
+                <td className="px-4 py-2">{view.description}</td>
+                <td className="px-4 py-2">{view.userCount}</td>
+                <td className="px-4 py-2">{view.createdAt}</td>
+                <td className="px-4 py-2 text-right">...</td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  ) : (
+
+   <div className="flex flex-col items-center justify-center flex-1 min-h-[calc(100vh-120px)] animated-text">
+      <img src={EmptyState} alt="empty" className="mb-3 mt-28 md:mt-16 2xl:-mt-16" />
+      <div className="font-semibold text-lg text-gray-700">
+        No Roles
+      </div>
+      <div className="text-sm text-gray-500">
+        There are no Roles available
+      </div>
+    </div>
+
+  )}
+
+</div>
           )
         }
       </div>

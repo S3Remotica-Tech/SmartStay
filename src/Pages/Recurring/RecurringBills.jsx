@@ -486,10 +486,10 @@ function RecurringBills() {
                 <div className="text-center">
                   <img src={Emptystate} alt="emptystate" />
                 </div>
-                <div className="pb-1 font-semibold text-[18px] text-[#4B4B4B] font-gilroy">
+                <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                   No {activeStay} Recuring bills available
                 </div>
-                <div className="pb-1 font-medium text-[14px] text-[#4B4B4B] font-gilroy">
+                <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                   There are no Recuring bills added
                 </div>
               </div>

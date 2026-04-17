@@ -1,3 +1,5 @@
+
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -431,7 +433,7 @@ function SettingExpenses() {
           // `}
           //         >
           <div
-            className={`mt-2 px-3 py-4 rounded-lg relative h-[calc(100vh-140px)]
+            className={`mt-2 px-3 py-4 rounded-lg relative h-[calc(100vh-85px)]
     ${expensesFilterddata.length === 0
                 ? "bg-[#FFFFFF] flex items-center justify-center overflow-hidden"
                 : "bg-[#F9FAFB] overflow-y-auto"
@@ -601,15 +603,16 @@ function SettingExpenses() {
             {!loading && expensesFilterddata.length === 0 && (
 
 
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center animated-text">
+                <div className='mt-8 md:mt-4 2xl:-mt-24'>
                 <img
                   src={EmptyState}
                   alt="emptystate"
-                  className="object-contain mt-24"
+                  className="object-contain"
                 />
+                </div>
 
-                <div className="mt-3 font-gilroy font-semibold text-base md:text-lg text-[#4B4B4B]">
+                <div className="mt-3 pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                   No Expense available
                 </div>
 

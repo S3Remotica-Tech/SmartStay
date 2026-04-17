@@ -462,13 +462,13 @@ function Receipt() {
                             {!receiptLoader && sortedDataReceipt?.length === 0 && (
                                 <div className="flex justify-center">
                                     <div>
-                                        <div className="text-center mt-24 2xl:mt-52">
+                                        <div className="text-center mt-[120px] 2xl:mt-64">
                                             <img src={Emptystate} alt="emptystate" />
                                         </div>
-                                        <div className="pb-1 text-center text-[18px] font-gilroy font-semibold text-[#4B4B4B]">
+                                        <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                                             No Receipt available
                                         </div>
-                                        <div className="pb-1 text-center text-[14px] font-gilroy font-medium text-[#4B4B4B]">
+                                        <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                                             There are no receipt added
                                         </div>
                                     </div>

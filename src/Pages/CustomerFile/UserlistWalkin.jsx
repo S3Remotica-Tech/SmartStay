@@ -540,14 +540,14 @@ function UserlistWalkin() {
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
               <div className="animated-text flex items-center justify-center h-[55vh]">
-                <div className="text-center 2xl:mt-24">
+                <div className="text-center mt-20 2xl:mt-24">
                   <img src={Emptystate} alt="emptystate" className="mx-auto" />
 
-                  <div className="pb-1 font-semibold text-gray-700 text-lg font-gilroy">
+                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                     No Walk-in available
                   </div>
 
-                  <div className="pb-1 font-medium text-gray-700 text-sm font-gilroy">
+                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                     There are no Walk-in added.
                   </div>
                 </div>

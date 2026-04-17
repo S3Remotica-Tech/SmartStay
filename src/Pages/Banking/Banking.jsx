@@ -1065,7 +1065,7 @@ function Banking() {
 
               <div>
                 {!loader && transactionFilterddata.length === 0 && canReadBanking && (
-                  <div className="flex justify-center mt-24 2xl:mt-52">
+                  <div className="flex justify-center mt-[105px] 2xl:mt-60">
                     <div>
                       <div className="text-center mb-2">
                         <img
@@ -1073,12 +1073,12 @@ function Banking() {
                           alt="emptystate"
                         />
                       </div>
-
-                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                                     
+                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
                         No Transaction
                       </div>
 
-                      <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
+                      <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
                         There are no Transaction available.
                       </div>
                     </div>

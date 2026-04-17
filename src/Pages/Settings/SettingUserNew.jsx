@@ -434,17 +434,17 @@ const [page, setPage] = useState(1);
                 </div>
               ) : (
                 !loading && (
-                  <div className="flex items-center justify-center w-full mt-24 2xl:mt-52">
+                  <div className="flex items-center justify-center w-full lg:mt-[140px] md:mt-[90px] 2xl:mt-52 animated-text">
                     <div className="text-center">
                       <div className="flex justify-center mb-2">
                         <img src={emptyimg} alt="Empty state" />
                       </div>
 
-                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                         No Staff 
                       </div>
 
-                      <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
+                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                         There are no staff's available
                       </div>
                     </div>

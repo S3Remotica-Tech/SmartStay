@@ -734,8 +734,7 @@ function PgList() {
         </div>
       }
 
-      {/* <div className="sticky top-0 bg-white z-40 p-2"> */}
-      <div className="bg-white z-40 p-2 h-screen flex flex-col overflow-hidden">
+      <div className="bg-white z-40 p-2 flex flex-col overflow-hidden">
 
         {state.login.isTrigger && (
           <>
@@ -1021,9 +1020,9 @@ function PgList() {
             )
               :
               (!loading) && (
-                <div className="w-full flex flex-col items-center justify-center animated-text">
+               <div className="w-full flex flex-col items-center justify-center animated-text">
                   <div>
-                    <div className="flex justify-center mt-28 2xl:mt-52">
+                    <div className="flex justify-center lg:mt-28 md:mt-16 2xl:mt-60">
                       <img
                         src={EmptyState}
                         alt="Empty state"
@@ -1037,7 +1036,7 @@ function PgList() {
                     </div>
 
                   </div>
-                </div>
+                </div> 
 
               )}
           </div>

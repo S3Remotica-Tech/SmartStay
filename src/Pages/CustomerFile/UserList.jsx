@@ -2680,17 +2680,17 @@ function UserList(props) {
                 ) : !loading &&
                   Array.isArray(sortedData) &&
                   sortedData.length === 0 ? (
-                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
+                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-2">
                     <div>
                       <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
                       </div>
 
-                      <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
+                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                         No Tenant available
                       </div>
-
-                      <div className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]">
+                              
+                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                         There are no tenant added.
                       </div>
                     </div>

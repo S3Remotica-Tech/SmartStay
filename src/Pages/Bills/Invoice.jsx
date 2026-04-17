@@ -1642,13 +1642,13 @@ const InvoicePage = () => {
                     !loading &&
                     sortedData &&
                     sortedData.length === 0 && (
-                      <div className="mt-24 2xl:mt-52 flex justify-center">
+                      <div className="mt-[68px] 2xl:mt-52 flex justify-center animated-text">
                         <div className="text-center">
                           <img src={Emptystate} alt="emptystate" className="mx-auto" />
-                          <div className="text-gray-700 font-semibold text-lg">
+                          <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                             No bills available
                           </div>
-                          <div className="text-gray-600 font-medium text-sm">
+                          <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                             There are no bills added
                           </div>
                         </div>

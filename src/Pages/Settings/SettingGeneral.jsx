@@ -1549,16 +1549,16 @@ function SettingGeneral() {
                           })
                         ) :
                           !loading && (
-                            <div className="flex flex-col items-center text-center animated-text 2xl:mt-24 h-[280p]">
+                            <div className="flex flex-col items-center text-center animated-text 2xl:-mt-44">
                               <img
                                 src={EmptyState}
                                 alt="emptystate"
-                                className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48 2xl:h-52 2xl:w-52 object-contain mt-3"
+                                className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48  object-contain lg:mt-3 "
                               />
-                              <div className="font-gilroy font-semibold text-base lg:text-lg text-gray-600">
+                              <div className="pb-1 mt-1 text-center font-gilroy font-semibold lg:text-lg 2xl:text-lg md:text-base text-gray-700">
                                 No Profile
                               </div>
-                              <div className="font-gilroy font-medium text-sm lg:text-lg md:text-md text-gray-600">
+                              <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                                 There are no Profile available.
                               </div>
                             </div>
