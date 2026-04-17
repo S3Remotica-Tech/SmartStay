@@ -12,12 +12,12 @@ import { CloseCircle } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import ErrorMessage from '../../Components/ErrorMessage';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import ErrorMessage from "../../Components/ErrorMessage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { customSelectStyles } from "../../Utils/SelectStyles"
+import { customSelectStyles } from "../../Utils/SelectStyles";
 
 function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
@@ -37,8 +37,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
-  const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
+  const [formLoading, setFormLoading] = useState(false);
   const calendarRef = useRef(null);
   const [subCategory, setSubCategory] = useState("");
   const [subCategoryError, setSubCategoryError] = useState("");
@@ -55,19 +55,15 @@ function StaticExample({ show, currentItem, setShowModal }) {
     account: "",
   });
 
-
-
   useEffect(() => {
     if (state.ExpenseList.insufficiantFundError) {
-      setFormLoading(false)
+      setFormLoading(false);
     }
-  }, [state.ExpenseList.insufficiantFundError])
-
-
+  }, [state.ExpenseList.insufficiantFundError]);
 
   useEffect(() => {
     const closeButton = document.querySelector(
-      'button[aria-label="close-button"]'
+      'button[aria-label="close-button"]',
     );
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
@@ -81,7 +77,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   useEffect(() => {
     if (currentItem) {
-
       const formattedDate = currentItem?.transactionDate
         ? moment(currentItem.transactionDate, "DD/MM/YYYY", true).toDate()
         : null;
@@ -93,7 +88,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
       setModeOfPayment(Number(currentItem.bankId) || "");
       setDescription(currentItem.description || "");
       setCount(currentItem.itemsCount || "");
-
 
       setInitialState({
         selectedDate: formattedDate,
@@ -107,12 +101,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
     }
   }, [currentItem]);
 
-
-
-
-
-
-
   useEffect(() => {
     if (customContainerRef.current && calendarRef.current) {
       calendarRef.current.flatpickr.set({
@@ -122,7 +110,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
       });
     }
   }, [customContainerRef.current, selectedDate]);
-
 
   const handleCountChange = (e) => {
     setGeneralError("");
@@ -134,12 +121,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
     }
   };
 
-
-
-
-
   const handleCategoryChange = (selectedOption) => {
-    setCategory(selectedOption?.value || '');
+    setCategory(selectedOption?.value || "");
     setGeneralError("");
     setCategoryError("");
     setIsChangedError("");
@@ -148,18 +131,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   useEffect(() => {
     if (category) {
-      const selectedCat = state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
-        (cat) => cat.categoryId === category
-      );
+      const selectedCat =
+        state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+          (cat) => cat.categoryId === category,
+        );
 
       setSubCategoryList(
         selectedCat?.subCategories?.map((sub) => ({
           value: sub.subCategoryId,
           label: sub.subCategoryName,
-        })) || []
+        })) || [],
       );
       const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
-
 
       if (categoryHasSubCategory && !subCategory) {
         setSubCategoryError("Please Select SubCategory");
@@ -169,14 +152,11 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
       // setSubCategory("");
     }
-
-  }, [category])
-
-
+  }, [category]);
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
-    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setModeOfPayment(selectedOption);
     setGeneralError("");
     setPaymentError("");
@@ -185,15 +165,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
-
-
-
-
-
-
-
   const handlePriceChange = (e) => {
-    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const value = e.target.value;
     setGeneralError("");
     setPriceError("");
@@ -204,8 +177,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
       setTotalPrice(value);
     }
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "." || e.key === "e" || e.key === "-") {
+      e.preventDefault();
+    }
+  };
 
-  console.log("currentItem", currentItem)
+  // console.log("currentItem", currentItem)
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -240,24 +218,23 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    const selectedCategoryObj = state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
-      (cat) => cat.categoryId === category
-    );
+    const selectedCategoryObj =
+      state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+        (cat) => cat.categoryId === category,
+      );
 
-    const categoryHasSubCategory = selectedCategoryObj?.subCategories?.length > 0;
+    const categoryHasSubCategory =
+      selectedCategoryObj?.subCategories?.length > 0;
 
     if (categoryHasSubCategory && !subCategory) {
       setSubCategoryError("Please Select SubCategory");
       hasError = true;
     }
 
-
     if (!selectedDate) {
       setDateError("Please Select Purchase Date");
       hasError = true;
     }
-
-
 
     if (!currentItem && !modeOfPayment) {
       setPaymentError("Please Select Mode Of Transaction");
@@ -272,8 +249,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-
-
     if (count !== "" && (isNaN(count) || Number(count) <= 0)) {
       setCountError("Unit Count Must be a Positive Number");
       hasError = true;
@@ -285,14 +260,12 @@ function StaticExample({ show, currentItem, setShowModal }) {
       return;
     }
 
-
-
     if (currentItem) {
       const isChanged =
         (initialState.selectedDate &&
           selectedDate &&
           moment(initialState.selectedDate).format("YYYY-MM-DD") !==
-          moment(selectedDate).format("YYYY-MM-DD")) ||
+            moment(selectedDate).format("YYYY-MM-DD")) ||
         Number(initialState.totalPrice) !== Number(totalPrice) ||
         initialState.category !== category ||
         Number(initialState.subCategory || 0) !== Number(subCategory || 0) ||
@@ -325,7 +298,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
           hostelId: state.login.selectedHostel_Id,
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     } else {
       dispatch({
         type: "ADDEXPENSE",
@@ -340,78 +313,63 @@ function StaticExample({ show, currentItem, setShowModal }) {
           hostelId: state.login.selectedHostel_Id,
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     }
-
-
-
-
-
   };
-
-
 
   const handleSubCategoryChange = (selectedOption) => {
     setSubCategory(selectedOption?.value || "");
     setSubCategoryError("");
     setGeneralError("");
     setIsChangedError("");
-
   };
 
-
-
-
-
-
   const handleClose = () => {
-    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setShowModal(false);
     // setNetPaymentError("")
-    setJoingDateErrmsg("")
+    setJoingDateErrmsg("");
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-
-  }
+  };
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
+  }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    dispatch({ type: 'INITIALIZEEXPENSESLIST', payload: state.login.selectedHostel_Id })
-  }, [])
+    dispatch({
+      type: "INITIALIZEEXPENSESLIST",
+      payload: state.login.selectedHostel_Id,
+    });
+  }, []);
 
   const hasShownToast = useRef(false);
 
   useEffect(() => {
     if (state.ExpenseList?.getInitializeExpenseStatusCode === 200) {
-      const expenses = state.ExpenseList?.getInitializeExpenseList?.listExpenses || [];
+      const expenses =
+        state.ExpenseList?.getInitializeExpenseList?.listExpenses || [];
       if (expenses?.length === 0 && !hasShownToast.current) {
-
         toast.error(
           "Please add a Category option in Settings, accessible after adding an expense",
           {
             style: {
               fontFamily: "Gilroy, sans-serif",
             },
-          });
+          },
+        );
         hasShownToast.current = true;
-
       }
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_INITIALIZE_EXPENSES_LIST' })
-      }, 100)
+        dispatch({ type: "REMOVE_INITIALIZE_EXPENSES_LIST" });
+      }, 100);
     }
   }, [state.ExpenseList?.getInitializeExpenseStatusCode]);
-
 
   const expenseOptions =
     state.ExpenseList?.getInitializeExpenseList?.listExpenses?.map((item) => ({
@@ -419,37 +377,32 @@ function StaticExample({ show, currentItem, setShowModal }) {
       label: item.categoryName,
     })) || [];
 
-
-
-
-
-
-
-  const paymentOptions = Array.isArray(state.ExpenseList?.getInitializeExpenseList?.banks)
+  const paymentOptions = Array.isArray(
+    state.ExpenseList?.getInitializeExpenseList?.banks,
+  )
     ? state.ExpenseList.getInitializeExpenseList.banks.map((item) => {
-      const typeLabelMap = { bank: "Bank", upi: "UPI", card: "Card", cash: "Cash" };
-      return {
-        value: item.bankId,
-        label: `${item.holderName} - ${item.bankName || typeLabelMap[item.type]}`,
-        type: item.type,
-      };
-    })
+        const typeLabelMap = {
+          bank: "Bank",
+          upi: "UPI",
+          card: "Card",
+          cash: "Cash",
+        };
+        return {
+          value: item.bankId,
+          label: `${item.holderName} - ${item.bankName || typeLabelMap[item.type]}`,
+          type: item.type,
+        };
+      })
     : [];
 
- 
-
-
-
-
-
-
-
-
-
   return (
-
     <div className="fixed inset-0 z-50 flex items-center justify-center font-gilroy">
-      <Modal show={show} onHide={handleClose} dialogClassName="custom-modals-style" backdrop="static" >
+      <Modal
+        show={show}
+        onHide={handleClose}
+        dialogClassName="custom-modals-style"
+        backdrop="static"
+      >
         <Modal.Dialog className="m-0 p-0 max-h-[80vh] w-full max-w-lg">
           <Modal.Header className="flex items-center justify-between">
             <Modal.Title className="!text-lg !font-semibold text-[#222222] !font-gilroy">
@@ -464,26 +417,15 @@ function StaticExample({ show, currentItem, setShowModal }) {
             />
           </Modal.Header>
 
-
-
-
-          {generalError && (
-            <ErrorMessage message={generalError} type="error" />
-          )}
+          {generalError && <ErrorMessage message={generalError} type="error" />}
 
           <Modal.Body className="overflow-y-auto p-3 max-h-[70vh] show-scroll">
             <div className="grid grid-cols-12 gap-3">
-
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-
-                    Category {" "}
+                    Category{" "}
                     <span className="text-red-600 inline-block text-xl">*</span>
-
                   </Form.Label>
 
                   <Select
@@ -492,7 +434,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     onChange={handleCategoryChange}
                     value={
                       category
-                        ? expenseOptions?.find((opt) => opt.value === category) || null
+                        ? expenseOptions?.find(
+                            (opt) => opt.value === category,
+                          ) || null
                         : null
                     }
                     placeholder="Select a Category"
@@ -500,8 +444,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     styles={customSelectStyles(category)}
                     noOptionsMessage={() => "No category available"}
                   />
-
-
                 </Form.Group>
                 {categoryError && (
                   <ErrorMessage message={categoryError} type="error" />
@@ -509,20 +451,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mt-1">
-
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-
-                    SubCategory {" "}{
-                      subCategoryList.length > 0 ?
-
-                        <span className="text-red-600 inline-block text-xl">*</span>
-
-                        :
-                        <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
-                    }
+                    SubCategory{" "}
+                    {subCategoryList.length > 0 ? (
+                      <span className="text-red-600 inline-block text-xl">
+                        *
+                      </span>
+                    ) : (
+                      <span style={{ visibility: "hidden", fontSize: 20 }}>
+                        *
+                      </span>
+                    )}
                   </Form.Label>
 
                   <Select
@@ -530,7 +470,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     onChange={handleSubCategoryChange}
                     value={
                       subCategory
-                        ? subCategoryList?.find((opt) => opt.value === subCategory) || null
+                        ? subCategoryList?.find(
+                            (opt) => opt.value === subCategory,
+                          ) || null
                         : null
                     }
                     placeholder="Select a Category"
@@ -545,7 +487,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         border: "1px solid #D9D9D9",
                         borderRadius: "8px",
                         boxShadow: "none",
-                        height: "50px"
+                        height: "50px",
                       }),
                       menu: (base) => ({
                         ...base,
@@ -569,12 +511,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       dropdownIndicator: (base) => ({
                         ...base,
                         color: "#555",
-                        cursor: "pointer"
+                        cursor: "pointer",
                       }),
                       option: (base, state) => ({
                         ...base,
                         cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        backgroundColor: state.isFocused
+                          ? "lightblue"
+                          : "white",
                         color: "#000",
                       }),
                       indicatorSeparator: () => ({
@@ -583,26 +527,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     }}
                     noOptionsMessage={() => "No sub category available"}
                   />
-
-
                 </Form.Group>
                 {subCategoryError && (
                   <ErrorMessage message={subCategoryError} type="error" />
                 )}
               </div>
 
-
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
-
                 <Form.Group controlId="purchaseDate">
                   <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-
-                    Purchase Date {" "}
+                    Purchase Date{" "}
                     <span className="text-red-600 inline-block text-xl">*</span>
-
                   </Form.Label>
-
-
 
                   <div className="datepicker-wrapper relative w-full">
                     <DatePicker
@@ -614,37 +550,35 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         setGeneralError("");
                         setDateError("");
                         setIsChangedError("");
-                        setJoingDateErrmsg("")
+                        setJoingDateErrmsg("");
                         setSelectedDate(date ? date.toDate() : null);
                       }}
-                      disabledDate={(current) => current && current > dayjs().endOf("day")}
-                      getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf("day")
+                      }
+                      getPopupContainer={(triggerNode) =>
+                        triggerNode.closest(".datepicker-wrapper")
+                      }
                     />
                   </div>
                 </Form.Group>
-                {dateError && (
-                  <ErrorMessage message={dateError} type="error" />
-                )}
+                {dateError && <ErrorMessage message={dateError} type="error" />}
 
                 {joiningDateErrmsg.trim() !== "" && (
                   <ErrorMessage message={joiningDateErrmsg} type="error" />
                 )}
               </div>
 
-
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
-
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium" >
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                     Total Amount{" "}
                     <span className="text-red-600 inline-block text-xl">*</span>
                   </Form.Label>
                   <Form.Control
                     value={totalPrice}
                     onChange={handlePriceChange}
+                    onKeyDown={handleKeyDown}
                     type="text"
                     placeholder="Enter Total Amount"
                     className={`text-base text-gray-700 font-gilroy ${totalPrice ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
@@ -656,12 +590,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium" >
-                    Unit Count {" "}
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Unit Count{" "}
                   </Form.Label>
                   <Form.Control
                     value={count}
@@ -678,10 +609,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                     Per Unit Amount
                     {/* <span className="invisible text-xl">*</span> */}
@@ -695,29 +623,26 @@ function StaticExample({ show, currentItem, setShowModal }) {
                   />
                 </Form.Group>
               </div>
-              {
-                !currentItem &&
-
+              {!currentItem && (
                 <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 -mt-1">
-
-                  <Form.Group
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  <Form.Group controlId="exampleForm.ControlInput1">
                     <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                      Mode Of Transaction {" "}
-                      <span className="text-red-600 inline-block text-xl">*</span>
+                      Mode Of Transaction{" "}
+                      <span className="text-red-600 inline-block text-xl">
+                        *
+                      </span>
                     </Form.Label>
-
 
                     <Select
                       options={paymentOptions}
                       onChange={(selectedOption) =>
                         handleModeOfPaymentChange(selectedOption?.value)
                       }
-
                       value={
                         modeOfPayment
-                          ? paymentOptions?.find((opt) => opt.value === modeOfPayment) || null
+                          ? paymentOptions?.find(
+                              (opt) => opt.value === modeOfPayment,
+                            ) || null
                           : null
                       }
                       placeholder="Select Payment"
@@ -763,7 +688,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         option: (base, state) => ({
                           ...base,
                           cursor: "pointer",
-                          backgroundColor: state.isFocused ? "lightblue" : "white",
+                          backgroundColor: state.isFocused
+                            ? "lightblue"
+                            : "white",
                           color: "#000",
                           fontFamily: "Gilroy",
                         }),
@@ -773,22 +700,20 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       }}
                       noOptionsMessage={() => "No mode available"}
                     />
-
                   </Form.Group>
                   {paymentError && (
                     <ErrorMessage message={paymentError} type="error" />
                   )}
                 </div>
-              }
+              )}
 
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-
-                    Description {" "} <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
+                    Description{" "}
+                    <span style={{ visibility: "hidden", fontSize: 20 }}>
+                      *
+                    </span>
                   </Form.Label>
                   <Form.Control
                     value={description}
@@ -797,7 +722,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     placeholder="Enter description"
                     className={`text-base text-gray-700 font-gilroy ${description ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
                   />
-
                 </Form.Group>
               </div>
             </div>
@@ -807,7 +731,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
-
 
           {formLoading && (
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -821,14 +744,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
             </div>
           )}
 
-
           {state.ExpenseList.insufficiantFundError && (
             <div className="flex items-center justify-center  mb-2 mt-2">
-              <ErrorMessage message={state.ExpenseList.insufficiantFundError} type="error" />
+              <ErrorMessage
+                message={state.ExpenseList.insufficiantFundError}
+                type="error"
+              />
             </div>
           )}
-
-
 
           <Modal.Footer className="!border-t-0 mt-1 pt-1">
             <Button

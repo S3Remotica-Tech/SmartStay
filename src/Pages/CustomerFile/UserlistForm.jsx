@@ -1312,6 +1312,11 @@ function UserlistForm(props) {
                                 type="text"
                                 placeholder="Enter amount"
                                 value={item.amount}
+                                onKeyDown={(e) => {
+    if (e.key === "." || e.key === "e" || e.key === "-") {
+      e.preventDefault();
+    }
+  }}
                                 onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                 className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
 

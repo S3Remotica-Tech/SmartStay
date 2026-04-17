@@ -167,7 +167,8 @@ function UserList(props) {
   const [view, setView] = useState("List");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-
+  const tableContainerRef = useRef(null);
+  const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
   console.log("isScrolling", isScrolling);
@@ -2343,18 +2344,34 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    const container = document.getElementById("tableContainer");
-
-    let timeout;
+    const container = tableContainerRef.current;
+    if (!container) return;
 
     const handleScroll = () => {
-      setIsScrolling(true);
+      const current = container.scrollLeft;
+          if (current === 0) {
+        setIsScrolling(false);
+        lastScrollLeftRef.current = current;
+        return;
+      }
+    
+      if (Math.abs(current - lastScrollLeftRef.current) < 2) {
+        return;
+      }
+      if (current > lastScrollLeftRef.current) {
+               setIsScrolling(true);
+      } else {
+       
+        setIsScrolling(true);
+      }
+
+      lastScrollLeftRef.current = current;
     };
 
-    container?.addEventListener("scroll", handleScroll);
+    container.addEventListener("scroll", handleScroll);
 
     return () => {
-      container?.removeEventListener("scroll", handleScroll);
+      container.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -2434,149 +2451,147 @@ function UserList(props) {
 
       {userList && (
         <div>
-          <div>
-            <div className="flex justify-between items-center flex-wrap">
-              <div className="flex lg:justify-start justify-center items-center flex-wrap">
-                <label className="text-lg text-black font-semibold font-gilroy">
-                  Tenants
-                </label>
+          <div className=" sticky top-0 flex justify-between items-center flex-wrap">
+            <div className="flex lg:justify-start justify-center items-center flex-wrap">
+              <label className="text-lg text-black font-semibold font-gilroy">
+                Tenants
+              </label>
+            </div>
+
+            <div className="flex flex-wrap items-center ml-auto gap-3">
+              <div className="flex items-center">
+                {search ? (
+                  <>
+                    <div className="relative min-w-[160px] max-w-[250px] z-[3000]">
+                      <div className="input-group p-0 mr-5">
+                        <span className="input-group-text bg-white">
+                          <Image
+                            src={searchteam}
+                            className={`h-5 w-5 transition-opacity duration-300 ${
+                              canReadTenant
+                                ? "cursor-pointer opacity-100 pointer-events-auto"
+                                : "cursor-not-allowed opacity-40 pointer-events-none"
+                            }`}
+                          />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5  py-1 font-gilroy"
+                          placeholder="Search"
+                          value={filterInput}
+                          onChange={(e) => handlefilterInput(e)}
+                          disabled={!canReadTenant}
+                        />
+                        <span className="input-group-text bg-white border-start-0">
+                          <img
+                            src={closecircle}
+                            alt="close"
+                            onClick={() => handleCloseSearch()}
+                            className="h-5 w-5 cursor-pointer"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className=" border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
+                      <FiSearch
+                        className={`h-6 w-5 transition-opacity duration-300 ${
+                          canReadTenant
+                            ? "cursor-pointer opacity-100 pointer-events-auto"
+                            : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
+                        onClick={handleSearch}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="">
+                <Image
+                  src={Filters}
+                  roundedCircle
+                  className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
+                      ${canReadTenant ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}`}
+                  onClick={handleFilterd}
+                />
               </div>
 
-              <div className="flex flex-wrap items-center ml-auto gap-3">
-                <div className="flex items-center">
-                  {search ? (
-                    <>
-                      <div className="relative min-w-[160px] max-w-[250px] z-[3000]">
-                        <div className="input-group p-0 mr-5">
-                          <span className="input-group-text bg-white">
-                            <Image
-                              src={searchteam}
-                              className={`h-5 w-5 transition-opacity duration-300 ${
-                                canReadTenant
-                                  ? "cursor-pointer opacity-100 pointer-events-auto"
-                                  : "cursor-not-allowed opacity-40 pointer-events-none"
-                              }`}
-                            />
-                          </span>
-                          <input
-                            type="text"
-                            className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5  py-1 font-gilroy"
-                            placeholder="Search"
-                            value={filterInput}
-                            onChange={(e) => handlefilterInput(e)}
-                            disabled={!canReadTenant}
-                          />
-                          <span className="input-group-text bg-white border-start-0">
-                            <img
-                              src={closecircle}
-                              alt="close"
-                              onClick={() => handleCloseSearch()}
-                              className="h-5 w-5 cursor-pointer"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className=" border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
-                        <FiSearch
-                          className={`h-6 w-5 transition-opacity duration-300 ${
-                            canReadTenant
-                              ? "cursor-pointer opacity-100 pointer-events-auto"
-                              : "cursor-not-allowed opacity-40 pointer-events-none"
-                          }`}
-                          onClick={handleSearch}
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className="">
-                  <Image
-                    src={Filters}
-                    roundedCircle
-                    className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
-                      ${canReadTenant ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}`}
-                    onClick={handleFilterd}
+              <div className="flex items-center">
+                {value === "1" && (
+                  <img
+                    src={excelimg}
+                    alt="excel"
+                    width={38}
+                    height={38}
+                    className={`transition-opacity duration-300 ${
+                      canReadTenant
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                    onClick={() => {
+                      if (canReadTenant) handleCustomerExcel();
+                    }}
                   />
-                </div>
+                )}
 
-                <div className="flex items-center">
-                  {value === "1" && (
-                    <img
-                      src={excelimg}
-                      alt="excel"
-                      width={38}
-                      height={38}
-                      className={`transition-opacity duration-300 ${
-                        canReadTenant
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
-                      onClick={() => {
-                        if (canReadTenant) handleCustomerExcel();
-                      }}
-                    />
-                  )}
+                {value === "2" && (
+                  <img
+                    src={excelimg}
+                    alt="excel"
+                    width={38}
+                    height={38}
+                    className={`transition-opacity duration-300 ${
+                      canReadTenant
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                    onClick={handleBookingExcel}
+                  />
+                )}
 
-                  {value === "2" && (
-                    <img
-                      src={excelimg}
-                      alt="excel"
-                      width={38}
-                      height={38}
-                      className={`transition-opacity duration-300 ${
-                        canReadTenant
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
-                      onClick={handleBookingExcel}
-                    />
-                  )}
+                {value === "3" && (
+                  <img
+                    src={excelimg}
+                    alt="excel"
+                    width={38}
+                    height={38}
+                    className={`transition-opacity duration-300 ${
+                      canReadCheckout
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                    onClick={handlecheckoutExcel}
+                  />
+                )}
 
-                  {value === "3" && (
-                    <img
-                      src={excelimg}
-                      alt="excel"
-                      width={38}
-                      height={38}
-                      className={`transition-opacity duration-300 ${
-                        canReadCheckout
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
-                      onClick={handlecheckoutExcel}
-                    />
-                  )}
+                {value === "4" && (
+                  <img
+                    src={excelimg}
+                    alt="excel"
+                    width={38}
+                    height={38}
+                    className={`transition-opacity duration-300 ${
+                      canReadWalkin
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                    onClick={handlewalkinExcel}
+                  />
+                )}
+              </div>
 
-                  {value === "4" && (
-                    <img
-                      src={excelimg}
-                      alt="excel"
-                      width={38}
-                      height={38}
-                      className={`transition-opacity duration-300 ${
-                        canReadWalkin
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
-                      onClick={handlewalkinExcel}
-                    />
-                  )}
-                </div>
-
-                <div className="mt-2 me-lg-10 text-center">
-                  {value === "4" && (
-                    <Button
-                      disabled={!canWriteWalkin}
-                      onClick={handleShow}
-                      className="!font-gilroy text-sm !bg-[#1E45E1] text-white font-semibold rounded-lg w-36 whitespace-nowrap"
-                    >
-                      + Walk-In
-                    </Button>
-                  )}
-                </div>
+              <div className="mt-2 me-lg-10 text-center">
+                {value === "4" && (
+                  <Button
+                    disabled={!canWriteWalkin}
+                    onClick={handleShow}
+                    className="!font-gilroy text-sm !bg-[#1E45E1] text-white font-semibold rounded-lg w-36 whitespace-nowrap"
+                  >
+                    + Walk-In
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -2609,7 +2624,7 @@ function UserList(props) {
             )}
 
             <TabContext value={value} className="p-0">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between sticky top-0">
                 <TabContext value={value} className="p-0">
                   <Tabs
                     activeKey={value}
@@ -2780,7 +2795,8 @@ function UserList(props) {
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
-                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl"
+                        ref={tableContainerRef}
+                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
@@ -2835,8 +2851,8 @@ function UserList(props) {
                                 <td
                                   className={`px-4 sticky left-0 z-20 w-[80px]
 
-${isScrolling ? "bg-white" : "bg-inherit"}
-hover:!bg-gray-50 group-hover:!bg-gray-50`}
+${isScrolling ? "!bg-white" : "!bg-transparent"}
+hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                                 >
                                   <div className="flex items-center justify-end">
                                     <input
@@ -2855,8 +2871,8 @@ hover:!bg-gray-50 group-hover:!bg-gray-50`}
                                 <td
                                   className={`px-4 sticky left-[80px] z-30 w-[100px]
 
-${isScrolling ? "bg-white" : "bg-inherit"}
-hover:!bg-gray-50 group-hover:!bg-gray-50`}
+${isScrolling ? "!bg-white" : "bg-transparent"}
+hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                                 >
                                   <div className="relative group w-[100px] flex items-center gap-1  ">
                                     {user.profilePic ? (
