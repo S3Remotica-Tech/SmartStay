@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +15,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { CloseCircle } from "iconsax-react";
 import {
   // ArrowUp2, ArrowDown2,
-  Calendar
+  Calendar,
 } from "iconsax-react";
 // import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 // import PaginationList from '../../Components/PaginationList';
-import ErrorMessage from '../../Components/ErrorMessage';
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import Cookies from 'universal-cookie';
@@ -31,10 +31,11 @@ import { TbCheck } from "react-icons/tb";
 import { FaSquareCheck } from "react-icons/fa6";
 import { MdArrowRightAlt } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-// import BasicPlan from '../SubscriptionFile/BasicPlan'
-// import PremiumPlan from './PremiumPlan';
-import ComingSoon from '../../Utils/ComingSoon';
-import { Connect } from '../../WebService/SocketConfig';
+import BasicPlan from "../SubscriptionFile/BasicPlan";
+import PremiumPlan from "./PremiumPlan";
+import ComingSoon from "../../Utils/ComingSoon";
+import { Connect } from "../../WebService/SocketConfig";
+import AllPlans from "./AllPlans";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -59,11 +60,6 @@ function SettingSubscription() {
 
   // const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
-
-
-
-
-
   const {
     canWriteModule: canWriteSubscription,
     canReadModule: canReadSubscription,
@@ -71,27 +67,23 @@ function SettingSubscription() {
     // canDeleteModule: canDeleteSubscription,
   } = useHasPermission("Subscription");
 
-
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
-
-
-
-
-
+  }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "NEWPLANLIST" });
-      dispatch({ type: 'CURRENT_PLAN_SAGA', payload: state.login.selectedHostel_Id })
-      setFormLoading(true)
+      dispatch({
+        type: "CURRENT_PLAN_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
+      setFormLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -108,25 +100,19 @@ function SettingSubscription() {
     }
   }, [state.Settings.statusCodeNewSubscription]);
 
-
-
-
   useEffect(() => {
-    if (state.Settings.statusCodeForPlanList === 200 || state.Settings.statusCodeForCurrentPlanSubcripition === 200) {
-      setFormLoading(false)
+    if (
+      state.Settings.statusCodeForPlanList === 200 ||
+      state.Settings.statusCodeForCurrentPlanSubcripition === 200
+    ) {
+      setFormLoading(false);
       dispatch({ type: "CLEAR_CURRENT_PLAN_REDUCER" });
       dispatch({ type: "REMOVE_NEW_PLAN_LIST" });
-
     }
-
-  }, [state.Settings.statusCodeForPlanList, state.Settings.statusCodeForCurrentPlanSubcripition])
-
-
-
-
-
-
-
+  }, [
+    state.Settings.statusCodeForPlanList,
+    state.Settings.statusCodeForCurrentPlanSubcripition,
+  ]);
 
   useEffect(() => {
     if (selectedHostels) {
@@ -182,141 +168,39 @@ function SettingSubscription() {
   //   setChangePlan(true);
   // };
 
-
-
-
   useEffect(() => {
     if (changePlan) {
       handleClosePlanChange();
-
     }
   }, [changePlan]);
-
-  // const handleSubmit = () => {
-  //   let isValid = true;
-
-  //   if (!selectedPlan) {
-  //     setSelectedPlanError("Please Select a Plan");
-  //     isValid = false;
-  //   } else {
-  //     setSelectedPlanError("");
-  //   }
-
-  //   if (selectedHostels.length === 0) {
-  //     setHostelError("please select hostel");
-  //     isValid = false;
-  //     return;
-  //   }
-
-  //   if (isValid && selectedHostels.length > 0) {
-  //     dispatch({
-  //       type: "NEWSUBSCRIPTION",
-  //       payload: {
-  //         // user_id: userId,
-  //         // customer_id: customerId,
-  //         plan_code: planCode,
-  //         amount: amount,
-  //         hostel_ids: hostelIds,
-  //         hostel_count: Number(hostelCount),
-  //       },
-  //     });
-  //   }
-  // };
 
   const handleCloseCurrentPlan = () => {
     setChangePlan(false);
     setHostelCountError("");
-
   };
 
-
-  const plans = state?.Settings?.planList?.map((item) => ({
-    planCode: item.planCode,
-    title: `${item.planName} Plan`,
-    price: `₹${item.price}`,
-    period: item.frequency,
-    features: [...new Set(item.features)],
-    bgcolor:
-      item.planName === "Basic"
-        ? "linear-gradient(to bottom, #6FA1FF, #4C5CFB)"
-        : "linear-gradient(to bottom, #FFA726, #FB8C00)",
-    color: item.planName === "Basic" ? "#fff" : "#FFF4E8",
-  }));
-
-  console.log("currentPlanDetails", state?.Settings?.currentPlanDetails)
-
-  const currentPlan = state?.Settings?.currentPlanDetails
-
+  const currentPlan = state?.Settings?.currentPlanDetails;
 
   const handleUpgradePlan = (plan) => {
-    console.log("plan", plan)
     if (plan) {
       dispatch({
-        type: 'UPGRADE_PLAN_SAGA', payload: {
+        type: "UPGRADE_PLAN_SAGA",
+        payload: {
           hostelId: state.login.selectedHostel_Id,
           planCode: plan?.planCode,
           // discountAmount: ,
           // discountPercentage: ,
-
-        }
-      })
+        },
+      });
     }
-
-  }
-
-
-  // const plans = [
-  //   {
-  //     title: "Basic Plan",
-  //     price: "₹599",
-  //     period: "Monthly",
-  //     features: [
-  //       "Dashboard & Property Management",
-  //       "Tenant & Room Management",
-  //       "Asset and Expenses Management",
-  //       "Auto Recurring Invoices",
-  //       "Complaint Management",
-  //       "Due Reminders (In-App & Email)",
-  //       "EB Calculation",
-  //       "Rent Collection Tracking",
-  //       "Reports & Insights"
-  //     ],
-  //     bgcolor: "linear-gradient(to bottom, #3B63FF, #1E45E1)",
-  //     color: "#fff"
-  //   },
-  //   {
-  //     title: "Premium Plan",
-  //     price: "₹999",
-  //     period: "Monthly",
-  //     features: [
-  //       "Dashboard & Property Management",
-  //       "Tenant & Room Management",
-  //       "Asset and Expenses Management",
-  //       "Auto Recurring Invoices",
-  //       "Complaint Management",
-  //       "Due Reminders (In-App & Email)",
-  //       "EB Calculation",
-  //       "Rent Collection Tracking",
-  //       "Reports & Insights",
-
-  //     ],
-  //     bgcolor: "linear-gradient(to bottom, #FF8F00, #EF6C00)",
-  //     color: "#FFF4E8"
-  //   }
-  // ];
-
-  console.log("state", state.Settings)
+  };
 
   const onMessageReceived = (message) => {
-     
-      console.log("Payment update:", message);
-      if (message.body === 'success') {
-        window.location.reload();
-      }
-
-     
-    };
-
+    // console.log("Payment update:", message);
+    if (message.body === "success") {
+      window.location.reload();
+    }
+  };
 
   useEffect(() => {
     if (state.Settings?.statusCodeUpgradePlan === 200) {
@@ -333,7 +217,6 @@ function SettingSubscription() {
     }
   }, [state.Settings?.statusCodeUpgradePlan]);
 
-
   return (
     <div>
       <div className="h-screen flex flex-col bg-white relative">
@@ -343,7 +226,6 @@ function SettingSubscription() {
           </div>
         )}
         <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center px-1.5 whitespace-nowrap">
-
           <div className="flex flex-col justify-center w-full md:w-auto mt-1">
             <label className="block text-lg font-semibold font-gilroy text-[#222]">
               Subscription
@@ -354,226 +236,163 @@ function SettingSubscription() {
           </div>
         </div>
 
-        {!canReadSubscription ?
-          (
+        {!canReadSubscription ? (
+          <div className="flex flex-col items-center justify-center mt-20">
+            <img src={Emptystate} alt="Empty State" />
+            <ErrorMessage
+              message={["You do not have access to view Subscription"]}
+              type="warning"
+            />
+          </div>
+        ) : (
+          <div>
+            <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy overflow-visible">
+              {currentPlan?.planName === "Advance" ? (
+                <PremiumPlan />
+              ) : currentPlan?.planName === "Basic" ? (
+                <BasicPlan />
+              ) : currentPlan?.planName === "Trial" &&
+                currentPlan?.numberOfDaysRemaining > 0 ? (
+                <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
+                  <div className="flex justify-between items-center">
+                    <div className="flex flex-col items-start">
+                      <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1 flex items-center gap-2">
+                        <TbCheck /> Free Trial
+                      </div>
 
-            <div className="flex flex-col items-center justify-center mt-20">
-              <img
-                src={Emptystate}
-                alt="Empty State"
-              />
-              <ErrorMessage
-                message={['You do not have access to view Subscription']}
-                type="warning"
-              />
-            </div>
-          )
-          :
-          (
-            //           <>
-            //  <BasicPlan />
-            //  <PremiumPlan />
-            // </>
-            <div>
+                      <h6 className="text-[16px] font-semibold text-[#222222]">
+                        You are in Free Trial
+                      </h6>
+                    </div>
 
-              {/* {import.meta.env.MODE === "development" ? */}
-              <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy">
+                    <div>
+                      <span className="text-[16px] text-[#1E45E1] font-medium">
+                        {currentPlan?.numberOfDaysRemaining}{" "}
+                        {currentPlan?.numberOfDaysRemaining === 1
+                          ? "day"
+                          : "days"}{" "}
+                        left
+                      </span>
+                    </div>
+                  </div>
 
+                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex gap-2 items-start">
+                      <Calendar size="16" color="#4B4B4B" />
 
-                {
-                  currentPlan?.planName === "Trial" && currentPlan?.numberOfDaysRemaining > 0 ?
+                      <div className="flex flex-col">
+                        <label className="text-[13px] font-normal text-[#4B4B4B]">
+                          Start Date
+                        </label>
+                        <label className="text-[16px] font-normal text-[#4B4B4B]">
+                          {currentPlan?.planStartDate}
+                        </label>
+                      </div>
+                    </div>
 
-                    <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
+                    <div className="flex gap-2 items-start">
+                      <Calendar size="16" color="#4B4B4B" />
 
+                      <div className="flex flex-col">
+                        <label className="text-[13px] font-normal text-[#4B4B4B]">
+                          End Date
+                        </label>
+                        <label className="text-[16px] font-normal text-[#4B4B4B]">
+                          {currentPlan?.planEndDate}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
 
-                      <div className="flex justify-between items-center">
-                        <div className="flex flex-col items-start">
+                  <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
+                    Upgrade to continue unlimited access once your trial ends.
+                  </div>
 
-                          <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1 flex items-center gap-2">
-                            <TbCheck /> Free Trial
-                          </div>
+                  <div className="flex justify-end">
+                    <button
+                      disabled
+                      className="mt-3 px-6 py-2.5 text-sm rounded-lg font-normal border-none
+    bg-[#1E45E1] 
+    disabled:bg-gray-200 disabled:text-gray-700 disabled:cursor-not-allowed"
+                    >
+                      Upgrade to Premium
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                currentPlan?.numberOfDaysRemaining < 0 && (
+                  <div className="p-4 mb-4 rounded-[14px] bg-[#FFFAFA] border-2 border-[#FFB5B8]">
+                    <div className="grid grid-cols-12 gap-3">
+                      <div className="col-span-12 md:col-span-3 flex justify-center md:justify-start">
+                        <img
+                          src={Expire}
+                          alt="expire"
+                          className="w-full h-auto"
+                        />
+                      </div>
 
-                          <h6 className="text-[16px] font-semibold text-[#222222]">
-                            You are in Free Trial
-                          </h6>
+                      <div className="col-span-12 md:col-span-9 flex flex-col justify-center items-start">
+                        <div className="text-left">
+                          <span className="text-[#222222] text-xl font-semibold">
+                            Your Trial Expired
+                          </span>
                         </div>
-
-                        <div>
-                          <span className="text-[16px] text-[#1E45E1] font-medium">
-                            {currentPlan?.numberOfDaysRemaining}{" "}
-                            {currentPlan?.numberOfDaysRemaining === 1 ? "day" : "days"} left
+                        <div className="mt-1">
+                          <span className="text-[#8E8E8E] text-sm font-normal">
+                            Your free trial has ended. Subscribe now to continue
+                            accessing all features.
                           </span>
                         </div>
                       </div>
-
-                      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                        <div className="flex gap-2 items-start">
-                          <Calendar size="16" color="#4B4B4B" />
-
-                          <div className="flex flex-col">
-                            <label className="text-[13px] font-normal text-[#4B4B4B]">
-                              Start Date
-                            </label>
-                            <label className="text-[16px] font-normal text-[#4B4B4B]">
-                              {currentPlan?.planStartDate}
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2 items-start">
-                          <Calendar size="16" color="#4B4B4B" />
-
-                          <div className="flex flex-col">
-                            <label className="text-[13px] font-normal text-[#4B4B4B]">
-                              End Date
-                            </label>
-                            <label className="text-[16px] font-normal text-[#4B4B4B]">
-                              {currentPlan?.planEndDate}
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
-                        Upgrade to continue unlimited access once your trial ends.
-                      </div>
-
-                      <div className="flex justify-end">
-                        <button disabled
-                          className="mt-3 px-6 py-2.5 text-sm rounded-lg font-normal border-none
-    bg-[#1E45E1] 
-    disabled:bg-gray-200 disabled:text-gray-700 disabled:cursor-not-allowed">
-                          Upgrade to Premium
-                        </button>
-                      </div>
-
                     </div>
-                    :
-                    currentPlan?.numberOfDaysRemaining < 0 &&
-                    <div className="p-4 mb-4 rounded-[14px] bg-[#FFFAFA] border-2 border-[#FFB5B8]">
-                      <div className="grid grid-cols-12 gap-3">
-                        <div className="col-span-12 md:col-span-3 flex justify-center md:justify-start">
-                          <img src={Expire} alt="expire" className="w-full h-auto" />
-                        </div>
 
-                        <div className="col-span-12 md:col-span-9 flex flex-col justify-center items-start">
-                          <div className="text-left">
-                            <span className="text-[#222222] text-xl font-semibold">
-                              Your Trial Expired
-                            </span>
-                          </div>
-                          <div className="mt-1">
-                            <span className="text-[#8E8E8E] text-sm font-normal">
-                              Your free trial has ended. Subscribe now to continue accessing all features.
-                            </span>
-                          </div>
-                        </div>
+                    <div className="mt-3 p-3 rounded-[12px] !border !border-[#FFC9C9] bg-white">
+                      <div>
+                        <span className="text-[#222222] text-sm font-semibold">
+                          Limited Access Mode
+                        </span>
                       </div>
-
-                      <div className="mt-3 p-3 rounded-[12px] !border !border-[#FFC9C9] bg-white">
-                        <div>
-                          <span className="text-[#222222] text-sm font-semibold">Limited Access Mode</span>
-                        </div>
-                        <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
-                          <div className="space-y-1">
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Dashboard & Property Management
-                            </div>
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Asset and Expenses Management
-                            </div>
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Complaint Management
-                            </div>
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> EB Calculation
-                            </div>
+                      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div className="space-y-1">
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Dashboard & Property Management
                           </div>
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Asset and Expenses Management
+                          </div>
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Complaint Management
+                          </div>
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> EB Calculation
+                          </div>
+                        </div>
 
-                          <div className="space-y-1">
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Tenant & Room Management
-                            </div>
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Auto Recurring Invoices
-                            </div>
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Due Reminders (In-App & Email)
-                            </div>
-                            <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
-                              <IoClose /> Rent Collection Tracking
-                            </div>
+                        <div className="space-y-1">
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Tenant & Room Management
+                          </div>
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Auto Recurring Invoices
+                          </div>
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Due Reminders (In-App & Email)
+                          </div>
+                          <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
+                            <IoClose /> Rent Collection Tracking
                           </div>
                         </div>
                       </div>
                     </div>
-
-                }
-
-
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {plans.map((plan, idx) => (
-                    <div
-                      key={idx}
-                      className="relative p-3 mb-3 border-2 border-gray-200 rounded-lg"
-                    >
-                      <div
-                        className="absolute -top-4 right-4 z-10 px-2.5 py-3 rounded-lg font-semibold text-center flex flex-col items-center shadow"
-                        style={{
-                          backgroundImage: plan.bgcolor,
-                          backgroundSize: "100% 100%",
-                          color: plan.color,
-                          minHeight: "60px",
-                        }}
-                      >
-                        <span className="text-xs font-bold">{plan.price}</span>
-                        <span className="text-xs">{plan.period}</span>
-                      </div>
-
-                      <h5 className="mt-6 text-lg font-bold text-[#222222]">{plan.title}</h5>
-                      <span className="text-gray-700 text-base block">
-                        Perfect for small PGs getting started
-                      </span>
-
-                      <hr className="my-2 border border-gray-200" />
-                      <span className="text-gray-700 text-xs">Which includes</span>
-
-                      <div className="mt-2 max-h-44 overflow-y-auto show-scroll pr-1">
-                        {plan.features.map((f, i) => (
-                          <div key={i} className="flex items-start mb-2 mt-1 text-sm">
-                            <FaSquareCheck className="text-[#1E45E1] mr-2 mt-0.5" />
-                            <span className="text-[#1D2127] font-normal">{f}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button onClick={() => handleUpgradePlan(plan)} className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1">
-                        Select Plan <MdArrowRightAlt className="text-white text-sm" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-              </div>
-
-
-              {/* :
-                <ComingSoon />
-
-              } */}
-
+                  </div>
+                )
+              )}
+              {currentPlan?.planName === "Trial" && <AllPlans />}
             </div>
-          )
-        }
-
-
+          </div>
+        )}
       </div>
     </div>
-
-
-
   );
 }
 export default withErrorBoundary(SettingSubscription);
