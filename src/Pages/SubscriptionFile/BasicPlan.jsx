@@ -49,7 +49,7 @@ function SubscriptionCard() {
           </button>
         </div>
 
-        {/* Info Row */}
+        
         <div className="grid grid-cols-3 mt-2 gap-4">
           <div className="flex gap-2 items-start">
             <Calendar size={16} className="text-[#4B4B4B]" />
