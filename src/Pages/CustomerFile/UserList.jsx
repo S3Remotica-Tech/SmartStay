@@ -70,6 +70,7 @@ import {
   SearchNormal1,
   Buildings,
   ArrowDown2,
+  ArrowDown,
 } from "iconsax-react";
 import Select from "react-select";
 import { IoMdMenu } from "react-icons/io";
@@ -82,6 +83,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TiTick } from "react-icons/ti";
+import zIndex from "@mui/material/styles/zIndex";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -1348,41 +1350,26 @@ function UserList(props) {
     return Array.isArray(items) ? items : [];
   }, [search, filterStatus, filteredUsers, userListDetail]);
 
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return currentItems;
-
-  //   return [...currentItems].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-  // }, [currentItems, sortConfig]);
-
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
-  // const pageOptions = [
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setItemsPerPage(Number(selectedOption.value));
-  //   setCurrentPage(1);
-  // };
+  const stats = [
+    {
+      label: "Total Tenants",
+      value: "0",
+      icon: true,
+      highlight: true,
+    },
+    {
+      label: "Active Tenants",
+      value: "0",
+    },
+    {
+      label: "Notice Period",
+      value: "0",
+    },
+    {
+      label: "Check out (MTD)",
+      value: "0",
+    },
+  ];
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -1409,8 +1396,8 @@ function UserList(props) {
     setEditObj(u);
   };
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (key) => {
+    setValue(key);
     setSearch(false);
     setExcelDownload("");
     setExcelDownloadBooking("");
@@ -2349,19 +2336,18 @@ function UserList(props) {
 
     const handleScroll = () => {
       const current = container.scrollLeft;
-          if (current === 0) {
+      if (current === 0) {
         setIsScrolling(false);
         lastScrollLeftRef.current = current;
         return;
       }
-    
+
       if (Math.abs(current - lastScrollLeftRef.current) < 2) {
         return;
       }
       if (current > lastScrollLeftRef.current) {
-               setIsScrolling(true);
+        setIsScrolling(true);
       } else {
-       
         setIsScrolling(true);
       }
 
@@ -2430,6 +2416,102 @@ function UserList(props) {
       </label>
     );
   };
+  const CustomStyles = {
+    control: (base) => ({
+      ...base,
+      minHeight: "32px",
+      height: "32px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "12px",
+      fontFamily: "Gilroy, sans-serif",
+      fontWeight: 500,
+      boxShadow: "none",
+      cursor: "pointer",
+      "&:hover": {
+        border: "1px solid #D9D9D9",
+      },
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused ? "#EEF2FF" : "#F9FAFB",
+      color: "#111827",
+      cursor: "pointer",
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      padding: "0 8px",
+      height: "32px",
+    }),
+
+    indicatorsContainer: (base) => ({
+      ...base,
+      height: "32px",
+    }),
+
+    dropdownIndicator: (base) => ({
+      ...base,
+      padding: "4px",
+    }),
+
+    clearIndicator: () => ({
+      display: "none",
+    }),
+
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#F9FAFB",
+      border: "1px solid #E5E7EB",
+      fontFamily: "Gilroy, sans-serif",
+      fontSize: "12px",
+      zIndex: 9999,
+      width: "auto",
+      minWidth: "100%",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      color: "#FFF",
+      maxHeight: "100px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+      fontFamily: "Gilroy, sans-serif",
+      fontSize: "14px",
+      whiteSpace: "nowrap",
+      width: "auto",
+    }),
+  };
+
+  const tabs = [
+    { key: "1", label: "Tenants" },
+    { key: "4", label: "Walk-in" },
+    { key: "3", label: "Check-out" },
+  ];
+  const [statusfilter, setStatusfilter] = useState("");
+
+  const handleStatusFilter = (selectedOption) => {
+    setStatusfilter(selectedOption);
+  };
+
+  const selectOptions = [
+    { value: "Checked In", label: "Checked In" },
+    { value: "Notice Period", label: "Notice Period" },
+    { value: "Booked", label: "Booked" },
+  ];
+  const monthOptions = [
+    { value: "this_month", label: "This Month" },
+    { value: "previous_month", label: "Previous Month" },
+  ];
+
+  const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
+
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+  };
 
   return (
     <div className="sticky-top bg-white font-gilroy">
@@ -2451,171 +2533,6 @@ function UserList(props) {
 
       {userList && (
         <div>
-          <div className=" sticky top-0 flex justify-between items-center flex-wrap">
-            <div className="flex lg:justify-start justify-center items-center flex-wrap">
-              <label className="text-lg text-black font-semibold font-gilroy">
-                Tenants
-              </label>
-            </div>
-
-            <div className="flex flex-wrap items-center ml-auto gap-3">
-              <div className="flex items-center">
-                {search ? (
-                  <>
-                    <div className="relative min-w-[160px] max-w-[250px] z-[3000]">
-                      <div className="input-group p-0 mr-5">
-                        <span className="input-group-text bg-white">
-                          <Image
-                            src={searchteam}
-                            className={`h-5 w-5 transition-opacity duration-300 ${
-                              canReadTenant
-                                ? "cursor-pointer opacity-100 pointer-events-auto"
-                                : "cursor-not-allowed opacity-40 pointer-events-none"
-                            }`}
-                          />
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5  py-1 font-gilroy"
-                          placeholder="Search"
-                          value={filterInput}
-                          onChange={(e) => handlefilterInput(e)}
-                          disabled={!canReadTenant}
-                        />
-                        <span className="input-group-text bg-white border-start-0">
-                          <img
-                            src={closecircle}
-                            alt="close"
-                            onClick={() => handleCloseSearch()}
-                            className="h-5 w-5 cursor-pointer"
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className=" border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
-                      <FiSearch
-                        className={`h-6 w-5 transition-opacity duration-300 ${
-                          canReadTenant
-                            ? "cursor-pointer opacity-100 pointer-events-auto"
-                            : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
-                        onClick={handleSearch}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="">
-                <Image
-                  src={Filters}
-                  roundedCircle
-                  className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
-                      ${canReadTenant ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}`}
-                  onClick={handleFilterd}
-                />
-              </div>
-
-              <div className="flex items-center">
-                {value === "1" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    className={`transition-opacity duration-300 ${
-                      canReadTenant
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
-                    onClick={() => {
-                      if (canReadTenant) handleCustomerExcel();
-                    }}
-                  />
-                )}
-
-                {value === "2" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    className={`transition-opacity duration-300 ${
-                      canReadTenant
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
-                    onClick={handleBookingExcel}
-                  />
-                )}
-
-                {value === "3" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    className={`transition-opacity duration-300 ${
-                      canReadCheckout
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
-                    onClick={handlecheckoutExcel}
-                  />
-                )}
-
-                {value === "4" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    className={`transition-opacity duration-300 ${
-                      canReadWalkin
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
-                    onClick={handlewalkinExcel}
-                  />
-                )}
-              </div>
-
-              <div className="mt-2 me-lg-10 text-center">
-                {value === "4" && (
-                  <Button
-                    disabled={!canWriteWalkin}
-                    onClick={handleShow}
-                    className="!font-gilroy text-sm !bg-[#1E45E1] text-white font-semibold rounded-lg w-36 whitespace-nowrap"
-                  >
-                    + Walk-In
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {filterInput && (
-            <div className="container ms-4 mb-4 mt-5 font-semibold text-base">
-              {filteredUsers.length > 0 ? (
-                <span className="text-center font-semibold font-gilroy text-base text-gray-500">
-                  {filteredUsers.length} result
-                  {filteredUsers.length > 1 ? "s" : ""} found for{" "}
-                  <span className="text-center font-semibold font-gilroy text-base text-gray-800">
-                    &quot;{filterInput}&quot;
-                  </span>
-                </span>
-              ) : (
-                <span className="text-center font-semibold font-gilroy text-base text-gray-500">
-                  No results found for{" "}
-                  <span className="text-center font-semibold font-gilroy text-base text-gray-800">
-                    &quot;{filterInput}&quot;
-                  </span>
-                </span>
-              )}
-            </div>
-          )}
           <div className="font-gilroy font-medium text-base">
             {loading && (
               <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
@@ -2623,67 +2540,66 @@ function UserList(props) {
               </div>
             )}
 
-            <TabContext value={value} className="p-0">
-              <div className="flex items-center justify-between sticky top-0">
-                <TabContext value={value} className="p-0">
-                  <Tabs
-                    activeKey={value}
-                    onSelect={(k) => handleChange(null, k)}
-                    id="custom-tabs"
-                    className="flex gap-5 p-0 border-0 mt-3"
-                  >
-                    <Tab
-                      eventKey="1"
-                      title={
-                        <span
-                          className={`capitalize text-[16px] font-gilroy font-medium pb-1 inline-block
+            <div className="sticky top-0 bg-white z-20">
+              <div className="flex items-center justify-between">
+                <div className="flex gap-6 mt-3">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.key}
+                      onClick={() => handleChange(tab.key)}
+                      className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
             ${
-              value === "1"
-                ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                : "text-[#4B4B4B] border-b-2 border-transparent"
+              value === tab.key
+                ? "text-[#222222] border-[#1E45E1]"
+                : "text-[#4B4B4B] border-transparent"
             }`}
-                        >
-                          Tenants
-                        </span>
-                      }
-                    />
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
 
-                    <Tab
-                      eventKey="4"
-                      title={
-                        <span
-                          className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
-            ${
-              value === "4"
-                ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                : "text-[#4B4B4B] border-b-2 border-transparent"
-            }`}
-                        >
-                          Walk-in
-                        </span>
-                      }
-                    />
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="relative min-w-[180px] max-w-[260px]">
+                    <div
+                      className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+    ${
+      canReadTenant
+        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+        : "border-gray-200 opacity-60 cursor-not-allowed"
+    }`}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={filterInput}
+                        onChange={handlefilterInput}
+                        disabled={!canReadTenant}
+                        className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                      />
+                      <SearchNormal1
+                        size="18"
+                        color={canReadTenant ? "#6B7280" : "#A0A0A0"}
+                        className="mr-2"
+                      />
+                    </div>
+                  </div>
 
-                    <Tab
-                      eventKey="3"
-                      title={
-                        <span
-                          className={`capitalize text-[16px] font-medium font-gilroy pb-1 inline-block
-            ${
-              value === "3"
-                ? "text-[#222222] border-b-2 border-[#1E45E1]"
-                : "text-[#4B4B4B] border-b-2 border-transparent"
-            }`}
-                        >
-                          Check-out
-                        </span>
-                      }
-                    />
-                  </Tabs>
-                </TabContext>
+                  {value === "4" && (
+                    <button
+                      disabled={!canWriteWalkin}
+                      onClick={handleShow}
+                      className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
+                    >
+                      + Walk-In
+                    </button>
+                  )}
+                </div>
               </div>
+            </div>
 
-              <TabPanel value="1">
+            {value === "1" && (
+              <>
                 {!canReadTenant ? (
                   <div className="flex flex-col items-center justify-center mt-24">
                     <img src={Emptystate} alt="Empty State" />
@@ -2714,89 +2630,179 @@ function UserList(props) {
 
                 {canReadTenant && sortedData && sortedData.length > 0 && (
                   <>
-                    <div
-                      className={`flex justify-end gap-2 mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}
-                    >
-                      <div className="relative">
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsOpen(!isOpen);
-                          }}
-                          className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-white w-fit cursor-pointer"
-                        >
-                          {(() => {
-                            const SelectedIcon = ListOptions.find(
-                              (item) => item.key === view,
-                            )?.img;
-                            return SelectedIcon ? (
-                              <SelectedIcon size="18" color="#4B4B4B" />
-                            ) : null;
-                          })()}
+                    <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy">
+                      {stats.map((item, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          {item.highlight && (
+                            <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                              {item.icon && (
+                                <ArrowDown
+                                  color="#FF9500"
+                                  size="18"
+                                  className="rotate-[310deg]"
+                                />
+                              )}
+                            </div>
+                          )}
 
-                          <span className="text-sm text-gray-700">{view}</span>
+                          <div>
+                            <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                              {item.label}
 
-                          <ArrowDown2
-                            size="16"
-                            color="#4B4B4B"
-                            className={`transition-transform duration-200 ${
-                              isOpen ? "rotate-180" : ""
-                            }`}
+                              <div className="relative group w-fit">
+                                {item.label !== "Notice Period" && (
+                                  <Filter
+                                    size="14"
+                                    color="#9CA3AF"
+                                    className="cursor-pointer"
+                                  />
+                                )}
+
+                                <div
+                                  className="absolute left-1/2 -translate-x-1/2 mt-2 
+    hidden group-hover:flex
+    px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
+    items-center gap-1 whitespace-nowrap z-50"
+                                >
+                                  <Filter size="14" color="#fff" />
+                                  Click to Filter
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="text-lg font-semibold text-[#111827]">
+                              {item.value}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <div className="border border-gray-300 rounded-lg w-36">
+                          <Select
+                            options={selectOptions}
+                            styles={CustomStyles}
+                            disabled={!canReadTenant}
+                            onChange={(e) => handleStatusFilter(e)}
+                            value={selectOptions.find(
+                              (opt) => opt.value === statusfilter,
+                            )}
+                            id="statusselect"
                           />
                         </div>
 
-                        {isOpen && (
-                          <div
-                            ref={listRef}
-                            className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
-                          >
-                            {ListOptions.map((item) => {
-                              const Icon = item.img;
+                        <div className="flex items-center gap-3">
+                          <Select
+                            // isDisabled
+                            options={monthOptions}
+                            value={selectedMonth}
+                            onChange={handleMonthChange}
+                            classNamePrefix="custom"
+                            menuPlacement="auto"
+                            noOptionsMessage={() => "No options"}
+                            styles={CustomStyles}
+                          />
+                        </div>
 
-                              return (
-                                <div
-                                  key={item.key}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setView(item.key);
-                                    setIsOpen(false);
-                                  }}
-                                  className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
-                                    view === item.key
-                                      ? "bg-[#F7FAFF] font-medium "
-                                      : ""
-                                  }`}
-                                >
+                        <div
+                          className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                        >
+                          <Filter
+                            size={16}
+                            className={`transition-opacity duration-300 ${
+                              canReadTenant
+                                ? "cursor-pointer opacity-100 pointer-events-auto"
+                                : "cursor-not-allowed opacity-40 pointer-events-none"
+                            }`}
+                          />
+                        </div>
+                      </div>
+
+                      <div className={` flex justify-end gap-2 mr-2 `}>
+                        <div className="relative">
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsOpen(!isOpen);
+                            }}
+                            className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-white w-fit cursor-pointer"
+                          >
+                            {(() => {
+                              const SelectedIcon = ListOptions.find(
+                                (item) => item.key === view,
+                              )?.img;
+                              return SelectedIcon ? (
+                                <SelectedIcon size="18" color="#4B4B4B" />
+                              ) : null;
+                            })()}
+
+                            <span className="text-sm text-gray-700">
+                              {view}
+                            </span>
+
+                            <ArrowDown2
+                              size="16"
+                              color="#4B4B4B"
+                              className={`transition-transform duration-200 ${
+                                isOpen ? "rotate-180" : ""
+                              }`}
+                            />
+                          </div>
+
+                          {isOpen && (
+                            <div
+                              ref={listRef}
+                              className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
+                            >
+                              {ListOptions.map((item) => {
+                                const Icon = item.img;
+
+                                return (
                                   <div
-                                    className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                                    key={item.key}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setView(item.key);
+                                      setIsOpen(false);
+                                    }}
+                                    className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
                                       view === item.key
-                                        ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                        ? "bg-[#F7FAFF] font-medium "
                                         : ""
                                     }`}
                                   >
-                                    <Icon size="16" color="#4B4B4B" />
-                                    {item.label}
+                                    <div
+                                      className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                                        view === item.key
+                                          ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                          : ""
+                                      }`}
+                                    >
+                                      <Icon size="16" color="#4B4B4B" />
+                                      {item.label}
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                        <PaginationList
+                          totalItems={sortedData.length}
+                          itemsPerPage={pageSize}
+                          currentPage={page}
+                          onPageChange={(p) => setPage(p)}
+                          onPageSizeChange={(size) => setPageSize(size)}
+                        />
                       </div>
-                      <PaginationList
-                        totalItems={sortedData.length}
-                        itemsPerPage={pageSize}
-                        currentPage={page}
-                        onPageChange={(p) => setPage(p)}
-                        onPageSizeChange={(size) => setPageSize(size)}
-                      />
                     </div>
-
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl"
+                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
@@ -3358,71 +3364,42 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                     bedData={customercheckoutdata}
                   />
                 ) : null}
-              </TabPanel>
+              </>
+            )}
 
-              <TabPanel value="2">
-                <UserlistBookings
-                  id={props.id}
-                  setFilteredUsers={setFilteredUsers}
-                  filteredUsers={filteredUsers}
-                  currentItems={sortedData}
-                  showbookingForm={showbookingForm}
-                  toggleForm={toggleForm}
-                  // customerBookingAddPermission={customerBookingAddPermission}
-                  // customerrolePermission={customerrolePermission}
-                  uniqueostel_Id={uniqueostel_Id}
-                  setUniqostel_Id={setUniqostel_Id}
-                  filterInput={filterInput}
-                  search={search}
-                  filterStatus={filterStatus}
-                  bookingDateRange={bookingDateRange}
-                  resetPage={resetPage}
-                  setResetPage={setResetPage}
-                />
-              </TabPanel>
+            {value === "3" && (
+              <UserlistCheckout
+                id={props.id}
+                uniqueostel_Id={uniqueostel_Id}
+                setUniqostel_Id={setUniqostel_Id}
+                filteredUsers={filteredUsers}
+                filterInput={filterInput}
+                setAddCheckoutForm={setAddCheckoutForm}
+                checkoutaddform={checkoutaddform}
+                search={search}
+                checkoutDateRange={checkoutDateRange}
+                filterStatus={filterStatus}
+                resetPage={resetPage}
+                setResetPage={setResetPage}
+              />
+            )}
 
-              <TabPanel value="3">
-                {/* <Route
-                path="/checkout/:hostelId"
-                element={
-                  <UserlistCheckout />}
-              /> */}
-
-                <UserlistCheckout
-                  id={props.id}
-                  // customerrolePermission={customerrolePermission}
-                  // customerCheckoutPermission={customerCheckoutPermission}
-                  uniqueostel_Id={uniqueostel_Id}
-                  setUniqostel_Id={setUniqostel_Id}
-                  filteredUsers={filteredUsers}
-                  filterInput={filterInput}
-                  setAddCheckoutForm={setAddCheckoutForm}
-                  checkoutaddform={checkoutaddform}
-                  search={search}
-                  checkoutDateRange={checkoutDateRange}
-                  filterStatus={filterStatus}
-                  resetPage={resetPage}
-                  setResetPage={setResetPage}
-                />
-              </TabPanel>
-
-              <TabPanel value="4">
-                <UserlistWalkin
-                  id={props.id}
-                  // customerrolePermission={customerrolePermission}
-                  // customerWalkInAddPermission={customerWalkInAddPermission}
-                  uniqueostel_Id={uniqueostel_Id}
-                  setUniqostel_Id={setUniqostel_Id}
-                  filteredUsers={filteredUsers}
-                  filterInput={filterInput}
-                  search={search}
-                  walkinDateRange={walkinDateRange}
-                  filterStatus={filterStatus}
-                  resetPage={resetPage}
-                  setResetPage={setResetPage}
-                />
-              </TabPanel>
-            </TabContext>
+            {value === "4" && (
+              <UserlistWalkin
+                id={props.id}
+                // customerrolePermission={customerrolePermission}
+                // customerWalkInAddPermission={customerWalkInAddPermission}
+                uniqueostel_Id={uniqueostel_Id}
+                setUniqostel_Id={setUniqostel_Id}
+                filteredUsers={filteredUsers}
+                filterInput={filterInput}
+                search={search}
+                walkinDateRange={walkinDateRange}
+                filterStatus={filterStatus}
+                resetPage={resetPage}
+                setResetPage={setResetPage}
+              />
+            )}
           </div>
         </div>
       )}
@@ -3595,1161 +3572,6 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
           setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
-
-      {isroomReading && (
-        <>
-          <Modal
-            show={isroomReading}
-            onHide={() => handleCloseRoom()}
-            backdrop="static"
-            centered
-          >
-            <Modal.Header
-              style={{ marginBottom: "10px", position: "relative" }}
-            >
-              <div
-                style={{
-                  fontSize: 20,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Edit Reading
-              </div>
-              <button
-                type="button"
-                className="close"
-                aria-label="Close"
-                onClick={handleCloseRoom}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "16px",
-                  border: "1px solid black",
-                  background: "transparent",
-                  cursor: "pointer",
-                  padding: "0",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  style={{
-                    fontSize: "30px",
-                    paddingBottom: "6px",
-                  }}
-                >
-                  &times;
-                </span>
-              </button>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="row ">
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Floor{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    className="border"
-                    value={Floor}
-                    onChange={(e) => handleFloor(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  >
-                    <option
-                      style={{ fontSize: 14, fontWeight: 600 }}
-                      selected
-                      value=""
-                    >
-                      Select Floor
-                    </option>
-                    {state?.UsersList?.hosteldetailslist &&
-                      state?.UsersList?.hosteldetailslist.map((item) => (
-                        <>
-                          <option key={item.floor_id} value={item.floor_id}>
-                            {item.floor_name}
-                          </option>
-                        </>
-                      ))}
-                  </Form.Select>
-                  {floorError && (
-                    <ErrorMessage message={floorError} type="error" />
-                  )}
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Room{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    className="border"
-                    value={Rooms}
-                    onChange={(e) => handleRoom(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  >
-                    <option>Select a Room</option>
-                    {state.UsersList?.roomdetails &&
-                      state.UsersList?.roomdetails.map((item) => (
-                        <>
-                          <option key={item.Room_Id} value={item.Room_Id}>
-                            {item.Room_Name}
-                          </option>
-                        </>
-                      ))}
-                  </Form.Select>
-                  {roomError && (
-                    <ErrorMessage message={roomError} type="error" />
-                  )}
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Reading{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {" "}
-                        *{" "}
-                      </span>
-                    </Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      placeholder="6542310"
-                      value={reading}
-                      onChange={(e) => handleReadingChange(e)}
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                    />
-                  </Form.Group>
-                  {readingError && (
-                    <ErrorMessage message={readingError} type="error" />
-                  )}
-                </div>
-                s
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-2" controlId="purchaseDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Date{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-                    <div style={{ position: "relative", width: "100%" }}>
-                      <DatePicker
-                        style={{ cursor: "pointer" }}
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        dateFormat="dd/MM/yyyy"
-                        minDate={null}
-                        customInput={customDateInput({
-                          value: selectedDate
-                            ? selectedDate.toLocaleDateString("en-GB")
-                            : "",
-                        })}
-                      />
-                    </div>
-                  </Form.Group>
-                  {dateError && (
-                    <ErrorMessage message={dateError} type="error" />
-                  )}
-                </div>
-              </div>
-            </Modal.Body>
-            {formError && <ErrorMessage message={formError} type="error" />}
-            <Modal.Footer className="d-flex justify-content-center">
-              <Button
-                className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  height: 50,
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontFamily: "Montserrat, sans-serif",
-                  marginTop: 10,
-                }}
-                disabled={!!formError}
-              >
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </>
-      )}
-
-      {ishostelReading && (
-        <>
-          <Modal
-            show={ishostelReading}
-            onHide={() => handleCloseHostel()}
-            backdrop="static"
-            centered
-          >
-            <Modal.Header
-              style={{ marginBottom: "10px", position: "relative" }}
-            >
-              <div
-                style={{
-                  fontSize: 20,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Hostel Reading
-              </div>
-              <button
-                type="button"
-                className="close"
-                aria-label="Close"
-                onClick={handleCloseHostel}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "16px",
-                  border: "1px solid black",
-                  background: "transparent",
-                  cursor: "pointer",
-                  padding: "0",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  style={{
-                    fontSize: "30px",
-                    paddingBottom: "6px",
-                  }}
-                >
-                  &times;
-                </span>
-              </button>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="row ">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      HostelName{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {" "}
-                        *{" "}
-                      </span>
-                    </Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      placeholder="6542310"
-                      value={hos_Name}
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                    />
-                  </Form.Group>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Reading{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {" "}
-                        *{" "}
-                      </span>
-                    </Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      placeholder="6542310"
-                      value={reading}
-                      onChange={(e) => handleReadingChange(e)}
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                    />
-                  </Form.Group>
-                  {readingError && (
-                    <ErrorMessage message={readingError} type="error" />
-                  )}
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-2" controlId="purchaseDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Date{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-                    <div style={{ position: "relative", width: "100%" }}>
-                      <DatePicker
-                        style={{ cursor: "pointer" }}
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        dateFormat="dd/MM/yyyy"
-                        minDate={null}
-                        customInput={customDateInput({
-                          value: selectedDate
-                            ? selectedDate.toLocaleDateString("en-GB")
-                            : "",
-                        })}
-                      />
-                    </div>
-                  </Form.Group>
-                  {dateError && (
-                    <ErrorMessage message={dateError} type="error" />
-                  )}
-                </div>
-              </div>
-            </Modal.Body>
-            {formError && <ErrorMessage message={formError} type="error" />}
-            <Modal.Footer className="d-flex justify-content-center">
-              <Button
-                className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  height: 50,
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontFamily: "Montserrat, sans-serif",
-                  marginTop: 10,
-                }}
-              >
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </>
-      )}
-
-      {roomDelete && (
-        <>
-          <Modal
-            show={roomDelete}
-            onHide={handleCloseDeleteroom}
-            centered
-            backdrop="static"
-            style={{
-              width: 388,
-              height: 250,
-              marginLeft: "500px",
-              marginTop: "200px",
-            }}
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  fontWeight: 600,
-                  color: "#222222",
-                  flex: 1,
-                }}
-              >
-                Delete RoomReading?
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-                textAlign: "center",
-                marginTop: "-20px",
-              }}
-            >
-              Are you sure you want to delete this RoomReading?
-            </Modal.Body>
-
-            <Modal.Footer
-              style={{
-                justifyContent: "center",
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  marginRight: 10,
-                }}
-                onClick={handleCloseDeleteroom}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </>
-      )}
-
-      {hostelDelete && (
-        <>
-          <Modal
-            show={hostelDelete}
-            onHide={handleCloseDeleteHostel}
-            centered
-            backdrop="static"
-            style={{
-              width: 388,
-              height: 250,
-              marginLeft: "500px",
-              marginTop: "200px",
-            }}
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  fontWeight: 600,
-                  color: "#222222",
-                  flex: 1,
-                }}
-              >
-                Delete HostelReading?
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-                textAlign: "center",
-                marginTop: "-20px",
-              }}
-            >
-              Are you sure you want to delete this HostelReading?
-            </Modal.Body>
-
-            <Modal.Footer
-              style={{
-                justifyContent: "center",
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  marginRight: 10,
-                }}
-                onClick={handleCloseDeleteHostel}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </>
-      )}
-
-      {isEditing && (
-        <div
-          className="mt-4 "
-          style={{
-            paddingLeft: 25,
-            height: "90vh",
-            overflowY: "auto",
-            position: "relative",
-          }}
-        >
-          <div
-            className="d-flex align-items-center"
-            style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 1000,
-              backgroundColor: "#fff",
-              padding: "12px 20px",
-              height: "60px",
-            }}
-          >
-            <img
-              src={leftarrow}
-              alt="leftarrow"
-              width={20}
-              height={20}
-              onClick={handleBackBill}
-              style={{ cursor: "pointer" }}
-            />
-            <span
-              style={{
-                fontWeight: 600,
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-                paddingLeft: "10px",
-              }}
-            >
-              {isAddMode ? "New Bill" : "Edit Bill"}
-            </span>
-          </div>
-
-          <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-              <Form.Label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#222",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                }}
-              >
-                Customer
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                value={customername}
-                onChange={handleCustomerName}
-                disabled
-                className="border"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 38,
-                  borderRadius: 8,
-                  backgroundColor: "#E7F1FF",
-                }}
-              >
-                <option value="">Select Customer</option>
-                {state.UsersList?.Users?.listCustomers &&
-                  state.UsersList?.Users?.listCustomers?.length > 0 &&
-                  state?.UsersList?.Users?.listCustomers
-                    ?.filter(
-                      (u) =>
-                        u.bedId !== "undefined" &&
-                        u.bedId !== "0" &&
-                        typeof u.bedId === "string" &&
-                        u.bedId.trim() !== "" &&
-                        u.roomId !== "undefined" &&
-                        u.roomId !== "0" &&
-                        typeof u.roomId === "string" &&
-                        u.roomId.trim() !== "",
-                    )
-                    .map((u) => (
-                      <option value={u.customerId} key={u.customerId}>
-                        {u.firstName}
-                      </option>
-                    ))}
-              </Form.Select>
-              {customererrmsg.trim() !== "" && (
-                <ErrorMessage message={customererrmsg} type="error" />
-              )}
-            </Form.Group>
-          </div>
-
-          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#222",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                }}
-              >
-                Invoice Number
-              </Form.Label>
-              <Form.Control
-                style={{
-                  padding: "10px",
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                  backgroundColor: "#E7F1FF",
-                }}
-                type="text"
-                placeholder="Enter invoice number"
-                value={invoicenumber || ""}
-                onChange={handleInvoiceNumber}
-              />
-              {invoicenumbererrmsg.trim() !== "" && (
-                <ErrorMessage message={invoicenumbererrmsg} type="error" />
-              )}
-            </Form.Group>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12 me-4">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Invoice Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%" }}
-                >
-                  <DatePicker
-                    style={{
-                      width: "100%",
-                      height: 48,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                    }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={invoicedate ? dayjs(invoicedate) : null}
-                    onChange={(date) =>
-                      handleInvoiceDate(date ? date.toDate() : null)
-                    }
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                    disabledDate={(current) =>
-                      current && current > dayjs().endOf("day")
-                    }
-                    dropdownAlign={{
-                      points: ["tl", "bl"],
-                      offset: [0, 4],
-                    }}
-                    popupStyle={{
-                      marginRight: 0,
-                      minWidth: "auto",
-                    }}
-                  />
-                </div>
-              </Form.Group>
-
-              {invoicedateerrmsg.trim() !== "" && (
-                <ErrorMessage message={invoicedateerrmsg} type="error" />
-              )}
-            </div>
-
-            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Due Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%" }}
-                >
-                  <DatePicker
-                    style={{
-                      width: "100%",
-                      height: 48,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                    }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={invoiceduedate ? dayjs(invoiceduedate) : null}
-                    onChange={(date) =>
-                      handleDueDate(date ? date.toDate() : null)
-                    }
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                    dropdownAlign={{
-                      points: ["tl", "bl"],
-                      offset: [0, 4],
-                    }}
-                    popupStyle={{
-                      marginRight: 0,
-                      minWidth: "auto",
-                    }}
-                  />
-                </div>
-              </Form.Group>
-
-              {invoiceduedateerrmsg.trim() !== "" && (
-                <ErrorMessage message={invoiceduedateerrmsg} type="error" />
-              )}
-            </div>
-          </div>
-
-          {allfielderrmsg.trim() !== "" && (
-            <ErrorMessage message={allfielderrmsg} type="error" />
-          )}
-
-          {Array.isArray(newRows) && newRows.length > 0 && (
-            <div
-              className="mt-1"
-              style={{
-                width: "80%",
-                borderRadius: "10px",
-                border: "1px solid #DCDCDC",
-              }}
-            >
-              <Table
-                responsive
-                className="m-0"
-                style={{ tableLayout: "fixed" }}
-              >
-                <thead style={{ backgroundColor: "#E7F1FF" }}>
-                  <tr>
-                    <th
-                      className="text-center"
-                      style={{
-                        width: "10%",
-                        color: "#939393",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        borderTopLeftRadius: 10,
-                      }}
-                    >
-                      S.No
-                    </th>
-                    <th
-                      style={{
-                        width: "45%",
-                        color: "#939393",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Description
-                    </th>
-                    <th
-                      style={{
-                        width: "30%",
-                        color: "#939393",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Total Amount
-                    </th>
-                    <th
-                      style={{
-                        width: "15%",
-                        color: "#939393",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        borderTopRightRadius: 10,
-                      }}
-                    >
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-              </Table>
-
-              <div style={{ maxHeight: "150px", overflowY: "auto" }}>
-                <Table
-                  responsive
-                  className="m-0"
-                  style={{ tableLayout: "fixed" }}
-                >
-                  <tbody>
-                    {newRows.map((u, index) => (
-                      <tr key={index}>
-                        <td style={{ width: "10%" }} className="text-center">
-                          {index + 1}
-                        </td>
-                        <td style={{ width: "40%" }}>
-                          <Form.Control
-                            type="text"
-                            style={{ fontFamily: "Gilroy" }}
-                            value={u.am_name}
-                            onChange={(e) =>
-                              handleNewRowChange(
-                                index,
-                                "am_name",
-                                e.target.value,
-                              )
-                            }
-                            placeholder="Enter Description"
-                          />
-                        </td>
-                        <td style={{ width: "30%" }}>
-                          <Form.Control
-                            type="text"
-                            style={{ fontFamily: "Gilroy" }}
-                            value={u.amount}
-                            placeholder="Enter Amount"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (/^\d*\.?\d*$/.test(value)) {
-                                handleNewRowChange(index, "amount", value);
-                              }
-                            }}
-                          />
-                        </td>
-                        <td style={{ width: "15%", paddingLeft: 20 }}>
-                          <img
-                            src={Closebtn}
-                            onClick={() => handleDeleteNewRow(index)}
-                            style={{ cursor: "pointer" }}
-                            height={15}
-                            width={15}
-                            alt="delete"
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </div>
-            </div>
-          )}
-
-          <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-2">
-            <Form.Select
-              className="border"
-              style={{
-                fontSize: 16,
-                color: "#4B4B4B",
-                fontFamily: "Gilroy",
-                lineHeight: "18.83px",
-                fontWeight: 500,
-                boxShadow: "none",
-                border: "1px solid #D9D9D9",
-                height: 38,
-                borderRadius: 8,
-                cursor: "pointer",
-              }}
-              value={dropdownValue}
-              onChange={(e) => handleRowTypeSelect(e.target.value)}
-            >
-              <option value="" disabled>
-                Select Item Type
-              </option>
-              {!selectedTypes.includes("RoomRent") && (
-                <option value="RoomRent">Room Rent</option>
-              )}
-              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
-              <option value="Other">Other</option>
-            </Form.Select>
-
-            {tableErrmsg.trim() !== "" && (
-              <ErrorMessage message={tableErrmsg} type="error" />
-            )}
-          </div>
-
-          {state.InvoiceList.unableAddInvoiceDetailsError ? (
-            <div className="d-flex justify-content-center mt-5">
-              <ErrorMessage
-                message={state.InvoiceList.unableAddInvoiceDetailsError}
-                type="error"
-              />
-            </div>
-          ) : null}
-
-          {billLoading && (
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "transparent",
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: "4px solid #1E45E1",
-                  borderRight: "4px solid transparent",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                  animation: "spin 1s linear infinite",
-                }}
-              ></div>
-            </div>
-          )}
-          <div
-            style={{
-              float: "right",
-              marginRight: "130px",
-              fontFamily: "Gilroy",
-            }}
-          >
-            {Array.isArray(newRows) && newRows.length > 0 && (
-              <h5>Total Amount ₹{totalAmount}</h5>
-            )}
-            <Button
-              onClick={isAddMode ? handleCreateBill : handleEditBill}
-              className="w-80 mt-3"
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 500,
-                height: 40,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                fontStyle: "normal",
-                lineHeight: "normal",
-              }}
-            >
-              {isAddMode ? "CreateBill" : "SaveChanges"}
-            </Button>
-
-            <div className="mb-3"></div>
-          </div>
-        </div>
-      )}
-
-      {isDeleting && (
-        <>
-          <Modal
-            show={isDeleting}
-            onHide={handleDeleteBill}
-            centered
-            backdrop="static"
-            style={{
-              width: 388,
-              height: 250,
-              marginLeft: "500px",
-              marginTop: "200px",
-            }}
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  fontWeight: 600,
-                  color: "#222222",
-                  flex: 1,
-                }}
-              >
-                Delete Bill?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-                textAlign: "center",
-                marginTop: "-20px",
-              }}
-            >
-              Are you sure you want to delete this Bill-details?
-            </Modal.Body>
-
-            <Modal.Footer
-              style={{
-                justifyContent: "center",
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  marginRight: 10,
-                }}
-                onClick={handleDeleteBill}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleDeleteBilling}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </>
-      )}
 
       {showMenu && (
         <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
