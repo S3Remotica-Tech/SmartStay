@@ -261,17 +261,19 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   const handlePriceChange = (e) => {
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) {
-      return;
-    }
-    setPrice(value);
-    setPriceError("");
-    setIsChangedError("");
-    setBankingError("");
+  let value = e.target.value;
+   if (!/^\d*\.?\d*$/.test(value)) return;
+   if ((value.match(/\./g) || []).length > 1) return;
+   if (/^0\d+/.test(value)) {
+    value = value.replace(/^0+/, "");
+  }
+  setPrice(value);
+  setPriceError("");
+  setIsChangedError("");
+  setBankingError("");
 
-    dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
-  };
+  dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+};
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
@@ -741,11 +743,11 @@ function StaticExample({ show, setShow, currentItem }) {
                       value={price}
                       ref={priceRef}
                       onChange={handlePriceChange}
-                      onKeyDown={(e) => {
-                        if (e.key === "." || e.key === "e" || e.key === "-") {
-                          e.preventDefault();
-                        }
-                      }}
+                      // onKeyDown={(e) => {
+                      //   if (e.key === "." || e.key === "e" || e.key === "-") {
+                      //     e.preventDefault();
+                      //   }
+                      // }}
                       type="text"
                       placeholder="Enter Amount"
                       className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}

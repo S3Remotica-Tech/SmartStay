@@ -654,6 +654,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                                 maxHeight: 120,
                                 overflowY: "auto",
                                 padding: 0,
+                                fontFamily: "Gilroy",
                               }),
                               indicatorSeparator: () => ({ display: "none" }),
                             }}
@@ -686,15 +687,15 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                           type="text"
                           placeholder="Enter amount"
                           value={item.amount}
-                          onKeyDown={(e) => {
-                            if (
-                              e.key === "." ||
-                              e.key === "e" ||
-                              e.key === "-"
-                            ) {
-                              e.preventDefault();
-                            }
-                          }}
+                          // onKeyDown={(e) => {
+                          //   if (
+                          //     e.key === "." ||
+                          //     e.key === "e" ||
+                          //     e.key === "-"
+                          //   ) {
+                          //     e.preventDefault();
+                          //   }
+                          // }}
                           onChange={(e) =>
                             handleInputChange(index, "amount", e.target.value)
                           }

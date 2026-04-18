@@ -83,7 +83,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TiTick } from "react-icons/ti";
-import zIndex from "@mui/material/styles/zIndex";
+// import zIndex from "@mui/material/styles/zIndex";
+import TenantListFilter from "./TenantListFilter";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -173,7 +174,8 @@ function UserList(props) {
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
-  console.log("isScrolling", isScrolling);
+  // console.log("isScrolling", isScrolling);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
@@ -2503,8 +2505,22 @@ function UserList(props) {
     { value: "Booked", label: "Booked" },
   ];
   const monthOptions = [
-    { value: "this_month", label: "This Month" },
-    { value: "previous_month", label: "Previous Month" },
+    {
+      value: "this_month",
+      label: "This Month",
+    },
+    {
+      value: "last_month",
+      label: "Last Month",
+    },
+    {
+      value: "last_3_month",
+      label: "Last 3 Months",
+    },
+    {
+      value: "last_6_months",
+      label: "Last 6 Months",
+    },
   ];
 
   const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
@@ -2513,8 +2529,15 @@ function UserList(props) {
     setSelectedMonth(selectedOption);
   };
 
+  const handleCloseFilter = () => {
+    setIsFilterOpen(false);
+  };
+
   return (
     <div className="sticky-top bg-white font-gilroy">
+      {isFilterOpen && (
+        <TenantListFilter show={isFilterOpen} handleClose={handleCloseFilter} />
+      )}
       <CheckOutForm
         show={checkoutForm}
         handleClose={checkoutcloseModal}
@@ -2629,8 +2652,8 @@ function UserList(props) {
                 ) : null}
 
                 {canReadTenant && sortedData && sortedData.length > 0 && (
-                  <>
-                    <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy">
+                  <div className="">
+                    <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
                       {stats.map((item, index) => (
                         <div key={index} className="flex items-center gap-3">
                           {item.highlight && (
@@ -2648,26 +2671,6 @@ function UserList(props) {
                           <div>
                             <div className="text-xs text-[#6B7280] flex items-center gap-1">
                               {item.label}
-
-                              <div className="relative group w-fit">
-                                {item.label !== "Notice Period" && (
-                                  <Filter
-                                    size="14"
-                                    color="#9CA3AF"
-                                    className="cursor-pointer"
-                                  />
-                                )}
-
-                                <div
-                                  className="absolute left-1/2 -translate-x-1/2 mt-2 
-    hidden group-hover:flex
-    px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-    items-center gap-1 whitespace-nowrap z-50"
-                                >
-                                  <Filter size="14" color="#fff" />
-                                  Click to Filter
-                                </div>
-                              </div>
                             </div>
 
                             <div className="text-lg font-semibold text-[#111827]">
@@ -2678,7 +2681,7 @@ function UserList(props) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between  ">
                       <div className="flex flex-wrap items-center gap-3">
                         <div className="border border-gray-300 rounded-lg w-36">
                           <Select
@@ -2711,6 +2714,11 @@ function UserList(props) {
                         >
                           <Filter
                             size={16}
+                            onClick={() => {
+                              if (canReadTenant) {
+                                setIsFilterOpen(true);
+                              }
+                            }}
                             className={`transition-opacity duration-300 ${
                               canReadTenant
                                 ? "cursor-pointer opacity-100 pointer-events-auto"
@@ -2802,7 +2810,7 @@ function UserList(props) {
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative max-h-[450px]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
@@ -2909,7 +2917,7 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
 
                                 <td className="px-4">
                                   <span
-                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-sm text-[#222222]"
+                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
                                     style={{
                                       backgroundColor:
                                         statusStyles[user.currentStatus]?.bg ||
@@ -2974,8 +2982,8 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
 
                                 <td
                                   className={`${
-                                    isScrolling ? "bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-50 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   {" "}
                                   <div
@@ -2996,17 +3004,17 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                                     {activeRow === user.customerId && (
                                       <div
                                         ref={popupRef}
-                                        className="absolute top-4 right-20 rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md"
-                                        style={
-                                          {
-                                            // top: showAbove
-                                            //   ? popupPosition.top -
-                                            //   (popupRef.current?.offsetHeight || 100) -
-                                            //   20
-                                            //   : popupPosition.top - 35,
-                                            // left: popupPosition.left,
-                                          }
-                                        }
+                                        className="fixed  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                100) -
+                                              20
+                                            : popupPosition.top - 35,
+                                          left: popupPosition.left - 50,
+                                          transform: "translateZ(0)",
+                                        }}
                                       >
                                         <div className="flex flex-col divide-y divide-gray-200">
                                           {!user.bedId &&
@@ -3345,7 +3353,7 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                         )}
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
 
                 {customerReassign === true ? (
