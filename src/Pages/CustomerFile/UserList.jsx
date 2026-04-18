@@ -1358,7 +1358,7 @@ function UserList(props) {
   const stats = [
     {
       label: "Total Tenants",
-      value: "0",
+      value: `${userListDetail?.totalCustomers || 0}`,
       icon: true,
       highlight: true,
     },
@@ -3143,8 +3143,7 @@ function UserList(props) {
                                           >
                                             <div className="flex flex-col divide-y divide-gray-200">
                                               {!user.bedId &&
-                                                (user.status ===
-                                                  "Inactive" ||
+                                                (user.status === "Inactive" ||
                                                   user.status ===
                                                     "un-assigned") && (
                                                   <div
@@ -3168,10 +3167,8 @@ function UserList(props) {
                                                   </div>
                                                 )}
 
-                                              {(user.status ===
-                                                "un-assigned" ||
-                                                user.status ===
-                                                  "Inactive") && (
+                                              {(user.status === "un-assigned" ||
+                                                user.status === "Inactive") && (
                                                 <div
                                                   onClick={() =>
                                                     canWriteBooking &&
@@ -3221,120 +3218,111 @@ function UserList(props) {
                                                 </div>
                                               )}
 
-                                              {
-                                                user.status ===
-                                                  "Checked In" && (
-                                                  <>
-                                                    <div
-                                                      onClick={() =>
-                                                        canWriteCheckout &&
-                                                        handleCustomerCheckout(
-                                                          user,
-                                                        )
-                                                      }
-                                                      className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                      />
-                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                        Move to Notice Period
-                                                      </span>
-                                                    </div>
-
-                                                    <div
-                                                      onClick={() =>
-                                                        canWriteTenant &&
-                                                        handleCustomerReAssign(
-                                                          user,
-                                                        )
-                                                      }
-                                                      className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                    >
-                                                      <img
-                                                        src={Addbook}
-                                                        className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                      />
-                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                        Change Bed
-                                                      </span>
-                                                    </div>
-                                                  </>
-                                                )}
-
-                                              {
-                                                user.status ===
-                                                  "Notice Period" && (
-                                                  <>
-                                                    <div
-                                                      onClick={() =>
-                                                        canWriteTenant &&
-                                                        handleBacktoCheckout(
-                                                          user,
-                                                        )
-                                                      }
-                                                      className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                    >
-                                                      <img
-                                                        src={Addbook}
-                                                        className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                      />
-                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                        Cancel Check-Out
-                                                      </span>
-                                                    </div>
-
-                                                    <div
-                                                      onClick={() =>
-                                                        canWriteCheckout &&
-                                                        handleCheckoutGenrateNew(
-                                                          user,
-                                                        )
-                                                      }
-                                                      className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                    >
-                                                      <img
-                                                        src={logout}
-                                                        className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                      />
-                                                      <span className="text-sm font-medium font-gilroy">
-                                                        Generate
-                                                      </span>
-                                                    </div>
-                                                  </>
-                                                )}
-
-                                              {
-                                                user.status ===
-                                                  "Settlement Generated" && (
+                                              {user.status === "Checked In" && (
+                                                <>
                                                   <div
                                                     onClick={() =>
                                                       canWriteCheckout &&
-                                                      handleConformCheckout(
+                                                      handleCustomerCheckout(
                                                         user,
                                                       )
                                                     }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                    style={{ marginLeft: 12 }}
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Move to Notice Period
+                                                    </span>
+                                                  </div>
+
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleCustomerReAssign(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Change Bed
+                                                    </span>
+                                                  </div>
+                                                </>
+                                              )}
+
+                                              {user.status ===
+                                                "Notice Period" && (
+                                                <>
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleBacktoCheckout(user)
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Cancel Check-Out
+                                                    </span>
+                                                  </div>
+
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteCheckout &&
+                                                      handleCheckoutGenrateNew(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                   >
                                                     <img
                                                       src={logout}
                                                       className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
                                                     />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Check-Out
+                                                    <span className="text-sm font-medium font-gilroy">
+                                                      Generate
                                                     </span>
                                                   </div>
-                                                )}
+                                                </>
+                                              )}
 
                                               {user.status ===
-                                                "Booked" && (
+                                                "Settlement Generated" && (
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteCheckout &&
+                                                    handleConformCheckout(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
+                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  style={{ marginLeft: 12 }}
+                                                >
+                                                  <img
+                                                    src={logout}
+                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Check-Out
+                                                  </span>
+                                                </div>
+                                              )}
+
+                                              {user.status === "Booked" && (
                                                 <>
                                                   <div
                                                     onClick={() =>
