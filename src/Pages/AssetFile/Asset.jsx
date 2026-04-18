@@ -901,17 +901,17 @@ function Asset() {
         {
           !loading && sortedData && sortedData.length === 0 &&
 
-          <div className="animated-text flex items-center justify-center h-[60vh]">
+          <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-20">
             <div>
-              <div className="flex justify-center mb-2">
+              <div className="flex justify-center mb-2 mt-8">
                 <img src={EmptyState} alt="Empty state" />
               </div>
 
-              <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[rgba(75,75,75,1)]">
+              <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                 No Assets available
               </div>
 
-              <div className="pb-1 text-center font-gilroy font-medium text-base text-[rgba(75,75,75,1)]">
+              <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                 There are no Assets added.
               </div>
             </div>

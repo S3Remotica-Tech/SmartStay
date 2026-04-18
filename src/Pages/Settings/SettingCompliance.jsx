@@ -441,7 +441,8 @@ function SettingCompliance() {
 
         !canReadComplaints ? (
 
-          <div className="flex flex-col items-center justify-center h-screen mt-24">
+          // <div className="flex flex-col items-center justify-center h-screen mt-24">
+          <div className="flex flex-col items-center justify-center min-h-[60vh] mt-10">
             <img src={Emptystate} alt="Empty State" />
             <ErrorMessage
               message={['You do not have access to view Settings Compliants']}
@@ -550,14 +551,14 @@ function SettingCompliance() {
         )}
 
       {!loading && complianceFilterddata.length === 0 && canReadComplaints && (
-        <div className="flex flex-col items-center text-center">
+         <div className="flex flex-col items-center justify-center text-center h-[80vh] md:min-h-0 animated-text">
           <div className="flex justify-center">
-            <img src={EmptyState} alt="Empty state" className="mt-28 2xl:mt-52" />
+               <img src={EmptyState} className="lg:mt-16 md:mt-8 2xl:mt-0" />
           </div>
-          <div className="pb-1 text-center font-gilroy font-semibold !text-lg text-[#4B4B4B] mt-2">
+          <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
             No ComplaintTypes
           </div>
-          <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
+          <div className="text-center font-gilroy font-medium text-sm text-gray-700">
             There are no ComplaintTypes available.
           </div>
         </div>

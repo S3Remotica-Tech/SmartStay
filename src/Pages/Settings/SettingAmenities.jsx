@@ -445,7 +445,12 @@ function SettingAmenities() {
                     </div>
                 ) : (
 
-                    <div className="relative mt-2 mb-3 h-[520px] lg:h-[520px] xl:h-[520px] 2xl:h-[750px] overflow-y-auto">
+                    <div className={`relative mt-2 mb-3 
+    ${amenitiesFilterddata?.length > 0
+      ? "h-[520px] lg:h-[520px] xl:h-[520px] 2xl:h-[750px] overflow-y-auto"
+      : "h-auto"
+    }`}
+>
                         <div className="flex flex-wrap  gap-y-3">
                             {amenitiesFilterddata && amenitiesFilterddata.length > 0 ? (
                                 amenitiesFilterddata.map((amenity, index) => (
@@ -549,13 +554,13 @@ function SettingAmenities() {
                                     </div>
                                 ))
                             ) : !loading && (
-                                <div className="flex items-center justify-center w-full mt-24 2xl:mt-52">
+                                <div className="flex items-center justify-center w-full lg:mt-32 md:mt-20 2xl:mt-52 animated-text">
                                     <div className="text-center">
                                         <div className="flex justify-center mb-2">
                                             <img src={EmptyState} alt="Empty state" />
                                         </div>
 
-                                        <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                                        <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                                             No Amenities available
                                         </div>
                                     </div>

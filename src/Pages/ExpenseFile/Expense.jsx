@@ -994,7 +994,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
             !loading && (!filteredData || filteredData.length === 0) && canReadExpense ? (
-              <div className="animated-text flex items-center justify-center h-[85vh] "
+              <div className="animated-text flex items-center justify-center h-[90vh] 2xl:-mt-16"
               >
                 <div>
                   <div className="flex justify-center 2xl:mt-24">
@@ -1003,10 +1003,10 @@ function Expenses({ allPageHostel_Id }) {
                       alt="Empty state"
                     />
                   </div>
-                  <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                     No expenses available
                   </div>
-                  <div className="pb-1 text-center font-medium font-gilroy text-sm text-[#4B4B4B]">
+                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                     There are no expenses available.
                   </div>
                 </div>

@@ -700,18 +700,17 @@ function Sidebar() {
 
       <div className="w-full p-0">
         <div className="flex w-full h-screen overflow-y-hidden flex-row">
-          <div className="d-md-none p-2 bg-white">
+          {/* <div className="d-md-none p-2 bg-white">
             <button
               onClick={toggleSidebar}
               className="bg-transparent border-none text-2xl cursor-pointer"
             >
               ☰
             </button>
-          </div>
+          </div> */}
 
           <div
-            className={`sidebar-left w-64 min-w-48 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`}
-          >
+            className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`} >
             <div>
               <div className="p-3 flex-shrink-0 mt-1.5">
                 <img

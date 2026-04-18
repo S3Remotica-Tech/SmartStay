@@ -730,7 +730,10 @@ function SettingManage() {
             </>
           ) :
 
-            <div className="mt-4 h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
+            // <div className="mt-4 h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
+            <div className={`mt-4 
+  ${filteredData?.length > 0 ? "h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto show-scrolls" : ""}
+  overflow-x-hidden flex flex-col`}>
               {filteredData?.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8">
                   {filteredData.map((hostel) => (
@@ -751,16 +754,16 @@ function SettingManage() {
                 !loading &&
                 filteredData.length === 0 && (
                  
-                  <div className="flex items-center justify-center w-full mt-24 2xl:mt-52">
+                  <div className="flex items-center justify-center w-full lg:mt-28 md:mt-16 2xl:mt-52 animated-text">
                     <div className="text-center">
                       <div className="flex justify-center mb-2">
                         <img src={EmptyState} alt="Empty state" />
                       </div>
 
-                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-[#4B4B4B]">
+                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                         No Paying Guest available
                       </div>
-                      <div className="text-center font-gilroy !font-medium !text-sm text-[#4B4B4B]">
+                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                       There are no Paying Guest added.
                     </div>
                     </div>
