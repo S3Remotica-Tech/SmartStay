@@ -5,7 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
-import { Table } from "react-bootstrap";
+import { Setting3, Buildings, SearchNormal1, ArrowDown2,
+  ArrowDown,ArrowSwapVertical } from "iconsax-react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -34,7 +35,16 @@ import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
 import RecordPayment from "./RecordPayment";
 import { useLocation } from "react-router-dom";
-
+import { TiTick } from "react-icons/ti";
+import { IoMdMenu } from "react-icons/io";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import Cell from "../../Assets/Images/New_images/Cell.svg";
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -78,6 +88,88 @@ const InvoicePage = () => {
   const [chips, setChips] = useState([])
 
   const [originalBills, setOriginalBills] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+   const [view, setView] = useState("List");
+
+    const tableContainerRef = useRef(null);
+     const listRef = useRef(null);
+
+  //    const Options = [
+  //   { key: "Name", label: "Name" },
+  //   { key: "Status", label: "Status" },
+  //   { key: "Mobile No", label: "Mobile No" },
+  //   { key: "Joining Date", label: "Joining Date" },
+  //   { key: "Floor", label: "Floor" },
+  //   { key: "Room", label: "Room" },
+  //   { key: "Bed", label: "Bed" },
+  //   { key: "Email ID", label: "Email ID" },
+  //   { key: "Booking Date", label: "Booking Date" },
+  //   { key: "Monthly Rent", label: "Monthly Rent" },
+  //   { key: "Advance", label: "Advance" },
+  //   { key: "Booking amount", label: "Booking amount" },
+  // ];
+
+  const Options = [
+  { key: "Tenant ID", label: "Tenant ID" },
+  { key: "Name", label: "Name" },
+  { key: "Mobile No", label: "Mobile No" },
+  { key: "Sharing", label: "Sharing" },
+  { key: "Check-in Date", label: "Check-in Date" },
+  { key: "Checkout Date", label: "Checkout Date" },
+  
+ 
+  
+  
+  
+];
+  
+     const [customizeItems, setCustomizeItems] = useState(Options);
+      const allSelected = customizeItems.every((i) => i.checked);
+
+      const ListOptions = [
+        { key: "List View", label: "List", img: Setting3 },
+        { key: "Room View", label: "Room", img: Buildings },
+      ];
+
+       const SortableItem = ({ item }) => {
+          const { attributes, listeners, setNodeRef, transform, transition } =
+            useSortable({ id: item.key });
+      
+          const style = {
+            // transform: CSS.Transform.toString(transform),
+            transform: transform ? CSS.Transform.toString(transform) : undefined,
+            transition,
+          };
+      
+          return (
+            <label
+              ref={setNodeRef}
+              style={style}
+              className="flex items-center gap-3 text-sm cursor-pointer bg-white"
+            >
+              <span {...attributes} {...listeners}>
+                <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
+              </span>
+      
+              <input
+                type="checkbox"
+                defaultChecked={item.checked}
+                className="w-4 h-4 accent-[#1E45E1] rounded"
+                onChange={() => {
+                  setCustomizeItems((prev) =>
+                    prev.map((i) =>
+                      i.key === item.key ? { ...i, checked: !i.checked } : i,
+                    ),
+                  );
+                }}
+              />
+      
+              <span className="text-[#101828]">{item.label}</span>
+            </label>
+          );
+        };
 
 
   const {
@@ -150,6 +242,19 @@ const InvoicePage = () => {
 
   };
 
+   useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (listRef.current && !listRef.current.contains(event.target)) {
+          setIsOpen(false);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
   useEffect(() => {
 
@@ -404,6 +509,10 @@ const InvoicePage = () => {
 
 
   const CustomStyles = {
+        menuPortal: (base) => ({
+          ...base,
+          zIndex: 9999,
+        }),
     control: (base) => ({
       ...base,
       height: "auto",
@@ -453,6 +562,8 @@ const InvoicePage = () => {
       backgroundColor: "#f8f9fa",
       border: "1px solid #ced4da",
       fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+      zIndex: 9999, // Ensure dropdown is above table
+      position: 'relative',
     }),
     menuList: (base) => ({
       ...base,
@@ -690,9 +801,15 @@ const InvoicePage = () => {
 
   };
 
-
-
-
+ 
+const handleSelectAll = (e) => {
+  if (e.target.checked) {
+    const allIds = paginatedData.map((item) => item.invoiceId); 
+    setSelectedRows(allIds);
+  } else {
+    setSelectedRows([]);
+  }
+};
 
 
 
@@ -1291,6 +1408,38 @@ const InvoicePage = () => {
 
   const paginatedData = sortedData.slice(startIndex, endIndex);
 
+  const handleRowSelect = (id) => {
+    setSelectedRows((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+
+
+   const stats = [
+    {
+      label: "Total Outstanding Receivables",
+      value: "0",
+      icon: true,
+      highlight: true,
+    },
+    {
+      label: "Total Invoices",
+      value: "0",
+    },
+    {
+      label: "Collected This Month",
+      value: "0",
+    },
+    {
+      label: "Due Today",
+      value: "0",
+    },
+    {
+      label: "Overdue Amount",
+      value: "0",
+    }
+  ];
+
   return (
     <div className="sticky-top bg-white font-gilroy" >
       {
@@ -1377,6 +1526,53 @@ const InvoicePage = () => {
               </div>
             </div>
           </div>
+           <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-20 font-gilroy">
+                                {stats.map((item, index) => (
+                                  <div key={index} className="flex items-center gap-3">
+                                    {item.highlight && (
+                                      <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                                        {item.icon && (
+                                          <ArrowDown
+                                            color="#FF9500"
+                                            size="18"
+                                            className="rotate-[310deg]"
+                                          />
+                                        )}
+                                      </div>
+                                    )}
+          
+                                    <div>
+                                      <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
+                                        {item.label}
+          
+                                        <div className="relative group w-fit">
+                                          {item.label !== "Notice Period" && (
+                                            <Filter
+                                              size="14"
+                                              color="#9CA3AF"
+                                              className="cursor-pointer"
+                                            />
+                                          )}
+          
+                                          <div
+                                            className="absolute left-1/2 -translate-x-1/2 mt-2 
+              hidden group-hover:flex
+              px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
+              items-center gap-1 whitespace-nowrap z-50"
+                                          >
+                                            <Filter size="14" color="#fff" />
+                                            Click to Filter
+                                          </div>
+                                        </div>
+                                      </div>
+          
+                                      <div className="text-lg font-semibold text-[#111827]">
+                                        {item.value}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
 
           <div className="mt-2 flex items-center justify-between flex-wrap gap-3 px-0">
             <div className="flex flex-wrap items-center gap-3">
@@ -1388,6 +1584,7 @@ const InvoicePage = () => {
                   onChange={(e) => handleStatusFilter(e)}
                   value={selectOptions.find((opt) => opt.value === statusfilter)}
                   id="statusselect"
+                  menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 />
               </div>
 
@@ -1401,6 +1598,7 @@ const InvoicePage = () => {
                   menuPlacement="auto"
                   noOptionsMessage={() => "No options"}
                   styles={CustomStyles}
+                  menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 />
               </div>
 
@@ -1418,6 +1616,76 @@ const InvoicePage = () => {
               </div>
             </div>
 
+  <div className={` flex justify-end gap-2 mr-2 `}>
+             <div className="relative">
+                                      <div
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setIsOpen(!isOpen);
+                                        }}
+                                        className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-white w-fit cursor-pointer"
+                                      >
+                                        {(() => {
+                                          const SelectedIcon = ListOptions.find(
+                                            (item) => item.key === view,
+                                          )?.img;
+                                          return SelectedIcon ? (
+                                            <SelectedIcon size="18" color="#4B4B4B" />
+                                          ) : null;
+                                        })()}
+            
+                                        <span className="text-sm text-gray-700">
+                                          {view}
+                                        </span>
+            
+                                        <ArrowDown2
+                                          size="16"
+                                          color="#4B4B4B"
+                                          className={`transition-transform duration-200 ${
+                                            isOpen ? "rotate-180" : ""
+                                          }`}
+                                        />
+                                      </div>
+            
+                                      {isOpen && (
+                                        <div
+                                          ref={listRef}
+                                          className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
+                                        >
+                                          {ListOptions.map((item) => {
+                                            const Icon = item.img;
+            
+                                            return (
+                                              <div
+                                                key={item.key}
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                  setView(item.key);
+                                                  setIsOpen(false);
+                                                }}
+                                                className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
+                                                  view === item.key
+                                                    ? "bg-[#F7FAFF] font-medium "
+                                                    : ""
+                                                }`}
+                                              >
+                                                <div
+                                                  className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                                                    view === item.key
+                                                      ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                                      : ""
+                                                  }`}
+                                                >
+                                                  <Icon size="16" color="#4B4B4B" />
+                                                  {item.label}
+                                                </div>
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      )}
+                                    </div>
+
             <div className="mr-2">
               <PaginationList
                 totalItems={sortedData.length}
@@ -1427,6 +1695,7 @@ const InvoicePage = () => {
                 onPageSizeChange={(size) => setPageSize(size)}
               />
             </div>
+</div>
           </div>
           <div className={`overflow-x-hidden ${chips.length > 0 ? "overflow-y-auto h-[32rem]" : "overflow-y-hidden h-auto"}`}
           >
@@ -1502,18 +1771,72 @@ const InvoicePage = () => {
 
                 <div>
                   {sortedData && sortedData.length > 0 ? (
-                    <div className="relative h-[calc(100vh-140px)] flex flex-col mt-3">
-                      <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                        <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                          <thead className="bg-blue-100 sticky top-0 z-20">
+                   
+                         <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div
+                        id="tableContainer"
+                        ref={tableContainerRef}
+                        className="overflow-auto relative h-[calc(100vh-220px)]  rounded-xl show-scrolls"
+                      >
+                        <table className=" w-full font-gilroy">
+                      
+                             <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs uppercase">
                             <tr className="h-9">
-                              <th className="w-[230px] px-2 whitespace-nowrap">Invoice Number</th>
+                               <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
+                                                              <div className="flex items-center gap-2">
+                                                              
+                                                                <div className="w-6 h-6 overflow-hidden flex items-center justify-center">
+  <img
+    src={Cell}
+    alt="settings"
+    onClick={() => setOpen(!open)}
+    className="scale-150"
+  />
+</div>
+                                                                <input
+                                                                  type="checkbox"
+                                                                  className="rounded cursor-pointer"
+                                                                  checked={
+                                                                    selectedRows.length ===
+                                                                      paginatedData.length &&
+                                                                    paginatedData.length > 0
+                                                                  }
+                                                                  onChange={handleSelectAll}
+                                                                />
+                                                              </div>
+                                                            </th>
+                              <th className="w-[230px] px-2 whitespace-nowrap ">Invoice No</th>
                               <th className="w-[250px] px-2">Name</th>
-                              <th className="w-[230px] px-2">Type</th>
-                              <th className="w-[230px] px-2 whitespace-nowrap">Invoice Date</th>
-                              <th className="w-[230px] px-2">Due Date</th>
-                              <th className="w-[230px] px-2">Amount</th>
-                              <th className="w-[230px] px-2">Due</th>
+                             
+                           <th className="w-[230px] px-2">
+  <div className="flex items-center gap-1">
+    TYPE
+    <ArrowSwapVertical size="14" color="#000000" />
+  </div>
+</th>
+
+<th className="w-[230px] px-2 whitespace-nowrap">INVOICE DATE</th>
+
+<th className="w-[230px] px-2 whitespace-nowrap">
+  <div className="flex items-center gap-1">
+    DUE DATE
+    <ArrowSwapVertical size="14" color="#000000" />
+  </div>
+</th>
+
+<th className="w-[230px] px-2">
+  <div className="flex items-center gap-1">
+    AMOUNT
+    <ArrowSwapVertical size="14" color="#000000" />
+  </div>
+</th>
+
+<th className="w-[230px] px-2">
+  <div className="flex items-center gap-1">
+    DUE
+    <ArrowSwapVertical size="14" color="#000000" />
+  </div>
+</th>
                               <th className="w-[270px] px-2">Status</th>
                               <th className="w-[230px] px-2">Action</th>
                             </tr>
@@ -1521,9 +1844,14 @@ const InvoicePage = () => {
                           <tbody className="relative">
                             {paginatedData.map((item, index) => (
                               <InvoiceTable
-                                key={item.id}
-                                item={item}
-                                index={index}
+                                // key={item.id}
+                                 key={item.invoiceId} 
+  item={item}
+  index={index}
+  selectedRows={selectedRows}
+  handleRowSelect={handleRowSelect}
+                              
+                                
                                 OnHandleshowform={handleShowForm}
                                 OnHandleshowEditform={handleEdit}
                                 OnHandleshowInvoicePdf={handleInvoiceDetail}
@@ -1533,6 +1861,119 @@ const InvoicePage = () => {
                             ))}
                           </tbody>
                         </table>
+                         {open && (
+                                                  <>
+                                                    <div
+                                                      className="fixed inset-0 bg-black/20 z-50 "
+                                                      onClick={() => setOpen(false)}
+                                                    />
+                        
+                                                    <div
+                                                      className={`
+                                fixed top-[180px] left-[280px] h-fit w-[390px]
+                                bg-white z-50
+                                border-r border-[#E5E7EB]
+                                shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
+                                transform transition-transform duration-300 ease-in-out
+                                ${open ? "translate-x-0" : "-translate-x-full"}
+                              `}
+                                                    >
+                                                      <div className="p-3 border-b">
+                                                        <div className="flex items-center gap-2 justify-between mb-2">
+                                                          <div className="text-[16px] text-[#333333] font-semibold ">
+                                                            Customize Tabs{" "}
+                                                          </div>
+                                                          <div
+                                                            onClick={() => {
+                                                              const allSelected = customizeItems.every(
+                                                                (i) => i.checked,
+                                                              );
+                        
+                                                              setCustomizeItems((prev) =>
+                                                                prev.map((i) => ({
+                                                                  ...i,
+                                                                  checked: !allSelected,
+                                                                })),
+                                                              );
+                                                            }}
+                                                            className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                                          >
+                                                            {" "}
+                                                            <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                                            <span>
+                                                              {allSelected
+                                                                ? "Unselect all"
+                                                                : "Select all"}
+                                                            </span>
+                                                          </div>
+                                                        </div>
+                        
+                                                        <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                                          <SearchNormal1 size={16} color="#98A2B3" />
+                                                          <input
+                                                            placeholder="Search"
+                                                            className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                                          />
+                                                        </div>
+                                                      </div>
+                        
+                                                      <DndContext
+                                                        collisionDetection={closestCenter}
+                                                        onDragEnd={(event) => {
+                                                          const { active, over } = event;
+                        
+                                                          if (active.id !== over?.id) {
+                                                            const oldIndex = customizeItems.findIndex(
+                                                              (i) => i.key === active.id,
+                                                            );
+                                                            const newIndex = customizeItems.findIndex(
+                                                              (i) => i.key === over.id,
+                                                            );
+                        
+                                                            setCustomizeItems(
+                                                              arrayMove(
+                                                                customizeItems,
+                                                                oldIndex,
+                                                                newIndex,
+                                                              ),
+                                                            );
+                                                          }
+                                                        }}
+                                                      >
+                                                        <SortableContext
+                                                          items={customizeItems.map((i) => i.key)}
+                                                          strategy={verticalListSortingStrategy}
+                                                        >
+                                                          <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                                            {customizeItems?.map((item) => (
+                                                              <SortableItem
+                                                                key={item.key}
+                                                                item={item}
+                                                              />
+                                                            ))}
+                                                          </div>
+                                                        </SortableContext>
+                                                      </DndContext>
+                        
+                                                      {/* <div className="p-3 border-t flex gap-2">
+                                                        <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                                                          Cancel
+                                                        </button>
+                                                        <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                                                          Save
+                                                        </button>
+                                                      </div> */}
+                                                      <div className="p-3 border-t flex justify-end gap-2">
+  <button className="px-4 py-2 text-sm border rounded-lg text-[#344054]">
+    Cancel
+  </button>
+  <button className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+    Save
+  </button>
+</div>
+                                                    </div>
+                                                  </>
+                                                )}
                       </div>
                     </div>
                   ) : (
