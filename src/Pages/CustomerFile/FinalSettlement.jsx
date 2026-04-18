@@ -1455,15 +1455,15 @@ function FinalSettlement() {
                               type="text"
                               placeholder="Enter amount"
                               value={item.amount}
-                              onKeyDown={(e) => {
-                                if (
-                                  e.key === "." ||
-                                  e.key === "e" ||
-                                  e.key === "-"
-                                ) {
-                                  e.preventDefault();
-                                }
-                              }}
+                              // onKeyDown={(e) => {
+                              //   if (
+                              //     e.key === "." ||
+                              //     e.key === "e" ||
+                              //     e.key === "-"
+                              //   ) {
+                              //     e.preventDefault();
+                              //   }
+                              // }}
                               disabled={
                                 apiDeductions.some(
                                   (apiItem) =>
@@ -1525,19 +1525,20 @@ function FinalSettlement() {
                         value={tempDiscount}
                         onChange={(e) => {
                           let value = e.target.value;
-                          if (!/^\d*$/.test(value)) return;
-                          if (/^0{2,}/.test(value)) return;
+
+                          if (!/^\d*\.?\d*$/.test(value)) return;
+
+                          if (value.startsWith(".")) return;
+
+                          if ((value.match(/\./g) || []).length > 1) return;
+
                           if (/^0\d+/.test(value)) {
                             value = value.replace(/^0+/, "");
                           }
+
                           setTempDiscount(value);
                         }}
-                        onKeyDown={(e) => {
-                          if (e.key === "." || e.key === "e" || e.key === "-") {
-                            e.preventDefault();
-                          }
-                        }}
-                        className="w-24  px-3 py-1 text-sm focus:outline-none  "
+                        className="w-24 px-3 py-1 text-sm focus:outline-none"
                       />
                     ) : (
                       <div className=" px-2 py-1 text-sm font-medium bg-white">

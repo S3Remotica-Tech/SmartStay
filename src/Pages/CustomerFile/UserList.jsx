@@ -2629,8 +2629,8 @@ function UserList(props) {
                 ) : null}
 
                 {canReadTenant && sortedData && sortedData.length > 0 && (
-                  <>
-                    <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy">
+                  <div className="">
+                    <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
                       {stats.map((item, index) => (
                         <div key={index} className="flex items-center gap-3">
                           {item.highlight && (
@@ -2648,26 +2648,6 @@ function UserList(props) {
                           <div>
                             <div className="text-xs text-[#6B7280] flex items-center gap-1">
                               {item.label}
-
-                              <div className="relative group w-fit">
-                                {item.label !== "Notice Period" && (
-                                  <Filter
-                                    size="14"
-                                    color="#9CA3AF"
-                                    className="cursor-pointer"
-                                  />
-                                )}
-
-                                <div
-                                  className="absolute left-1/2 -translate-x-1/2 mt-2 
-    hidden group-hover:flex
-    px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-    items-center gap-1 whitespace-nowrap z-50"
-                                >
-                                  <Filter size="14" color="#fff" />
-                                  Click to Filter
-                                </div>
-                              </div>
                             </div>
 
                             <div className="text-lg font-semibold text-[#111827]">
@@ -2678,7 +2658,7 @@ function UserList(props) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between  ">
                       <div className="flex flex-wrap items-center gap-3">
                         <div className="border border-gray-300 rounded-lg w-36">
                           <Select
@@ -2802,7 +2782,7 @@ function UserList(props) {
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative max-h-[450px]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
@@ -2909,7 +2889,7 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
 
                                 <td className="px-4">
                                   <span
-                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-sm text-[#222222]"
+                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
                                     style={{
                                       backgroundColor:
                                         statusStyles[user.currentStatus]?.bg ||
@@ -3345,7 +3325,7 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                         )}
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
 
                 {customerReassign === true ? (

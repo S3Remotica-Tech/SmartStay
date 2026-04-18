@@ -578,7 +578,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                   <Form.Control
                     value={totalPrice}
                     onChange={handlePriceChange}
-                    onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
                     type="text"
                     placeholder="Enter Total Amount"
                     className={`text-base text-gray-700 font-gilroy ${totalPrice ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}

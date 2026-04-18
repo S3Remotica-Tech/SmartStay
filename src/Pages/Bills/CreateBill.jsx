@@ -1141,11 +1141,11 @@ function CreateBill() {
                   <div className="col-span-3 px-2">
                     <input
                       type="text"
-                      onKeyDown={(e) => {
-                        if (e.key === "." || e.key === "e" || e.key === "-") {
-                          e.preventDefault();
-                        }
-                      }}
+                      // onKeyDown={(e) => {
+                      //   if (e.key === "." || e.key === "e" || e.key === "-") {
+                      //     e.preventDefault();
+                      //   }
+                      // }}
                       disabled={u.isFromApi && u.am_name !== "EB"}
                       value={u.amount !== "0" ? u.amount : ""}
                       placeholder="Please Enter Amount"

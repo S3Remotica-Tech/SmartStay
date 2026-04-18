@@ -10,20 +10,19 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import { CloseCircle } from "iconsax-react";
-import { Trash } from 'iconsax-react';
+import { Trash } from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import { Row, Col, } from "react-bootstrap";
-import dayjs from 'dayjs';
-import { toast } from 'react-toastify';
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import { Row, Col } from "react-bootstrap";
+import dayjs from "dayjs";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 
-const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
-
+const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
-  const modeofRef = useRef()
+  const modeofRef = useRef();
   const [activeTab, setActiveTab] = useState("SHORT");
   const [errors, setErrors] = useState([]);
   const [fields, setFields] = useState([]);
@@ -32,15 +31,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [RoomRent, setRoomRent] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
   const [checkin_joiningDate, setCheckinJoiningDate] = useState(new Date());
-  const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
-  const [isTrigger, setIsTrigger] = useState(false)
+  const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState("");
+  const [isTrigger, setIsTrigger] = useState(false);
   const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
-
-
 
   useEffect(() => {
     if (currentItem) {
@@ -65,7 +62,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
   };
-
 
   const handleAddField = () => {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
@@ -97,11 +93,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     } else if (field === "amount") {
       let numericValue = value.replace(/[^0-9.]/g, "");
 
-
       if (numericValue.startsWith("0")) {
         numericValue = numericValue.replace(/^0+/, "");
       }
-
 
       if (numericValue === "") {
         numericValue = "";
@@ -125,35 +119,20 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     setErrors(updatedErrors);
   };
 
-
-  const {
-    canWriteModule: canWriteBooking,
-
-  } = useHasPermission("Booking");
-
+  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-      dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
-      setIsTrigger(true)
-
-
+      dispatch({
+        type: "UNASSIGNCUSTOMER",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" },
+      });
+      setIsTrigger(true);
     }
   }, []);
 
-
-
-
-
-
-
-
-
-
-
   var toastStyle = {
-
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
@@ -161,17 +140,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     display: "flex",
     alignItems: "center",
     padding: "10px",
-
   };
   useEffect(() => {
     if (state.bankingDetails.bankingList.listBanks) {
-      if (state.bankingDetails?.bankingList?.listBanks.length === 0 && isTrigger) {
+      if (
+        state.bankingDetails?.bankingList?.listBanks.length === 0 &&
+        isTrigger
+      ) {
         toast.error(
           <div className="flex items-center gap-2">
-            <span style={{ fontFamily: "Gilroy" }}>Please Create Banking before adding booking</span>
+            <span style={{ fontFamily: "Gilroy" }}>
+              Please Create Banking before adding booking
+            </span>
           </div>,
         );
-        setIsTrigger(false)
+        setIsTrigger(false);
       }
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
@@ -179,32 +162,20 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
   }, [state.bankingDetails.bankingList.listBanks]);
 
-
   useEffect(() => {
     if (state.UsersList?.UnAssignCustomerDetails?.length === 0 && isTrigger) {
-
-      toast.error(
-        "Please create a new tenant",
-        {
-          hideProgressBar: true,
-          closeButton: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: toastStyle
-        });
-      setIsTrigger(false)
+      toast.error("Please create a new tenant", {
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+      setIsTrigger(false);
     }
   }, [state.UsersList?.UnAssignCustomerDetails]);
-
-
-
-
-
-
-
-
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
@@ -218,8 +189,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [checkin_customererrmsg, setCheckinCustomerErrmsg] = useState("");
 
   const handleBookingCustomerName = (selectedOption) => {
-
-    setBookingCustomerName(selectedOption?.value || '');
+    setBookingCustomerName(selectedOption?.value || "");
     if (!selectedOption) {
       setBookingCustomerErrmsg("Please Select Name");
     } else {
@@ -228,8 +198,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   };
 
   const handleCheckinCustomerName = (selectedOption) => {
-
-    setCheckinCustomerName(selectedOption?.value || '');
+    setCheckinCustomerName(selectedOption?.value || "");
     if (!selectedOption) {
       setCheckinCustomerErrmsg("Please Select Tenant");
     } else {
@@ -241,9 +210,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [amountError, setamountError] = useState("");
   const [joiningDate, setJoiningDate] = useState(null);
   const [bookingDate, setBookingDate] = useState(null);
-  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
-  const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
-  const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
+  const [bookingDateErrmsg, setBookingDateErrmsg] = useState("");
+  const [formLoading, setFormLoading] = useState(false);
 
   const handleAmount = (e) => {
     const value = e.target.value;
@@ -255,11 +224,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     setamountError("");
   };
 
-
   const [paymentError, setPaymentError] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
 
-  const [transactionId, setTransactionId] = useState("")
+  const [transactionId, setTransactionId] = useState("");
   const handleTransactionId = (e) => {
     const value = e.target.value;
     const regex = /^[A-Za-z0-9_.-]*$/;
@@ -269,7 +237,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
   };
 
-
   const labelMap = {
     CARD: "Card",
     CASH: "Cash",
@@ -277,29 +244,25 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     BANK: "Bank",
   };
 
-  const paymentOptions = Array.isArray(state.bankingDetails.bankingList.listBanks)
+  const paymentOptions = Array.isArray(
+    state.bankingDetails.bankingList.listBanks,
+  )
     ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
-      value: String(item.bankingId),
-      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
-    }))
+        value: String(item.bankingId),
+        label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+      }))
     : [];
-
-
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
 
     setModeOfPayment(selectedOption);
-    setPaymentError("")
+    setPaymentError("");
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
-
-
-
   const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
     if (!value || value === "Select a PG") {
-
       switch (fieldName) {
         case "bookingcustomername":
           setError("Please Select Tenant");
@@ -320,7 +283,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
           break;
       }
 
-
       if (ref?.current && !focusedRef.current) {
         ref.current.focus();
         focusedRef.current = true;
@@ -331,9 +293,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
       return true;
     }
   };
-
-
-
 
   const validateField = (value, fieldName) => {
     const trimmedValue = String(value ?? "").trim();
@@ -362,20 +321,44 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     return true;
   };
 
-
-
-
-
   const handleSubmitBooking = () => {
-
     let hasError = false;
     const focusedRef = { current: false };
-    const isCustomerValid = validateAssignField(booking_customername, "bookingcustomername", bookingcustomerRef, setBookingCustomerErrmsg, focusedRef);
-    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
-    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
-    const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
-    const ismodeofpayment = validateAssignField(modeOfPayment, "modeofpayment", modeofRef, setPaymentError, focusedRef);
-
+    const isCustomerValid = validateAssignField(
+      booking_customername,
+      "bookingcustomername",
+      bookingcustomerRef,
+      setBookingCustomerErrmsg,
+      focusedRef,
+    );
+    const isJoiningDateValid = validateAssignField(
+      joiningDate,
+      "joiningDate",
+      dateRef,
+      setJoingDateErrmsg,
+      focusedRef,
+    );
+    const isBookingDateValid = validateAssignField(
+      bookingDate,
+      "bookingDate",
+      bookingDateRef,
+      setBookingDateErrmsg,
+      focusedRef,
+    );
+    const isAmountValid = validateAssignField(
+      amount,
+      "amount",
+      amountRef,
+      setamountError,
+      focusedRef,
+    );
+    const ismodeofpayment = validateAssignField(
+      modeOfPayment,
+      "modeofpayment",
+      modeofRef,
+      setPaymentError,
+      focusedRef,
+    );
 
     if (!bookingDate) {
       if (!focusedRef.current && bookingDateRef?.current) {
@@ -396,8 +379,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
       return;
     }
 
-
-
     const formatDate = (date) => {
       if (!date) return "";
       const d = new Date(date);
@@ -409,10 +390,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
     const joiningDateForFormatted = formatDate(joiningDate);
     const bookingDateForFormatted = formatDate(bookingDate);
-
-
-
-
 
     dispatch({
       type: "ADD_BOOKING",
@@ -426,60 +403,55 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
         bedId: currentItem?.bedId,
         customerId: booking_customername,
         bankId: modeOfPayment,
-        referenceNumber: transactionId
-
+        referenceNumber: transactionId,
       },
     });
-    setFormLoading(true)
+    setFormLoading(true);
   };
-
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
+  }, [state.createAccount?.networkError]);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      setFormLoading(false)
-      setJoingDateErrmsg('');
+      setFormLoading(false);
+      setJoingDateErrmsg("");
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
-
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-      setFormLoading(false)
+    if (
+      state.UsersList?.statusCodeForAddUser === 201 ||
+      state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
+    ) {
+      setFormLoading(false);
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
-
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
+        dispatch({ type: "REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO" });
       }, 2000);
     }
-  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+  }, [
+    state.UsersList?.statusCodeForAddUser,
+    state.UsersList?.statusCodeForAddCustomerSaveInfo,
+  ]);
 
-
-
-
-  const [stay_typename, setStayTypeName] = useState("")
-  const [stay_typenameErrmsg, setStayTypeNameErrMsg] = useState("")
+  const [stay_typename, setStayTypeName] = useState("");
+  const [stay_typenameErrmsg, setStayTypeNameErrMsg] = useState("");
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -491,7 +463,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
   // onChange handler
   const handleStayTypeChange = (selectedOption) => {
-    setStayTypeName(selectedOption?.value || '');
+    setStayTypeName(selectedOption?.value || "");
     if (!selectedOption) {
       setStayTypeNameErrMsg("Please Select Staytype");
     } else {
@@ -499,38 +471,29 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
   };
 
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "SETTINGS_GET_RECURRING",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
     }
   }, [state.login.selectedHostel_Id]);
 
-
-
-
-
-
-
-
   const handleSaveCheckin = () => {
-    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     let hasReasonAmountError = false;
     let newErrors = [];
 
-
     let hasError = false;
 
-
-    if (!validateField(checkin_customername, "checkin_customername")) hasError = true;
+    if (!validateField(checkin_customername, "checkin_customername"))
+      hasError = true;
     if (!validateField(stay_typename, "stay_typename")) hasError = true;
-    if (!validateField(checkin_joiningDate, "checkin_joiningDate")) hasError = true;
+    if (!validateField(checkin_joiningDate, "checkin_joiningDate"))
+      hasError = true;
     if (!validateField(AdvanceAmount, "AdvanceAmount")) hasError = true;
     if (!validateField(RoomRent, "RoomRent")) hasError = true;
-
-
-
-
 
     if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
       setRoomRentError("Please Enter Rental Amount");
@@ -554,50 +517,51 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     //   return;
     // }
 
+    const formattedReasons = fields
+      .map((item) => {
+        let reason_name = "";
 
+        if (
+          item.reason?.toLowerCase() === "others" ||
+          item.reason_name?.toLowerCase() === "others"
+        ) {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
 
+        const error = { reason: "", amount: "" };
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
+          error.amount = "Please enter amount";
+          hasReasonAmountError = true;
+        }
 
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
+          error.reason = "Please enter reason";
+          hasReasonAmountError = true;
+        }
 
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
+        newErrors.push(error);
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
+        return {
+          type: reason_name,
+          amount: item.amount || "",
+          showInput: !!item.showInput,
+        };
+      })
+      .filter((item) => item.type !== "" || item.amount !== "");
 
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-
-      return {
-        type: reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    }).filter((item) => item.type !== "" || item.amount !== "")
-
-
-
-    setErrors(newErrors)
-
+    setErrors(newErrors);
 
     if (hasReasonAmountError) return;
 
-    if (hasError) return
-
-
+    if (hasError) return;
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
@@ -613,30 +577,28 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
       ? incrementDateAndFormat(checkin_joiningDate)
       : "";
 
-
-
-
     const invoiceDateObj = new Date(formattedDate);
 
     const dueDateObj = new Date(invoiceDateObj);
-    dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
+    dueDateObj.setDate(
+      dueDateObj.getDate() +
+        (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0),
+    );
 
     // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
-
-
-
     if (
-      checkin_customername && stay_typename &&
+      checkin_customername &&
+      stay_typename &&
       currentItem?.floorId &&
-      currentItem?.roomId && currentItem?.bedId &&
+      currentItem?.roomId &&
+      currentItem?.bedId &&
       checkin_joiningDate &&
       AdvanceAmount &&
       RoomRent > 0
     ) {
-
       dispatch({
-        type: 'CHECKIN',
+        type: "CHECKIN",
         payload: {
           customerId: checkin_customername,
           // hostelId: currentItem?.hostelId,
@@ -647,70 +609,54 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
           advanceAmount: AdvanceAmount,
           rentalAmount: RoomRent,
           stayType: activeTab,
-          deductions: formattedReasons
-
-        }
-      })
-      setFormLoading(true)
-
-
+          deductions: formattedReasons,
+        },
+      });
+      setFormLoading(true);
     }
-
   };
-
-
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCheckInCustomer === 201) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
-      }, 2000)
+        dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
+      }, 2000);
     }
-
-  }, [state.UsersList.statusCodeForCheckInCustomer])
-
-
-
-
+  }, [state.UsersList.statusCodeForCheckInCustomer]);
 
   useEffect(() => {
     if (state.UsersList?.bedAvailableError || state.Booking?.bookingBedError) {
-      setFormLoading(false)
-
-
-
+      setFormLoading(false);
     }
-
-  }, [state.UsersList?.bedAvailableError, state.Booking?.bookingBedError])
-
-
-
+  }, [state.UsersList?.bedAvailableError, state.Booking?.bookingBedError]);
 
   return (
     <>
-
       <Modal
         show={show}
         onHide={handleClose}
         backdrop="static"
-        centered dialogClassName="custom-modals-style font-gilroy"
+        centered
+        dialogClassName="custom-modals-style font-gilroy"
       >
         <Modal.Dialog className="m-0 p-0 pr-2 max-w-2xl rounded-2xl">
-          <Modal.Body >
+          <Modal.Body>
             <div>
-
               <div>
-
                 <Modal.Header className="pt-0 relative border-0 mb-0">
                   <div className="text-xl font-semibold font-gilroy">
                     Assign Tenant
                     <div>
                       <span className="text-sm font-normal font-gilroy text-blue-700">
                         {currentItem?.floorName}{" "}
-                        <span className="text-sm text-blue-700 font-medium font-gilroy">|</span>{" "}
+                        <span className="text-sm text-blue-700 font-medium font-gilroy">
+                          |
+                        </span>{" "}
                         {currentItem?.roomName}{" "}
-                        <span className="text-sm text-blue-700 font-medium font-gilroy">|</span>{" "}
+                        <span className="text-sm text-blue-700 font-medium font-gilroy">
+                          |
+                        </span>{" "}
                         {currentItem?.bedName}
                       </span>
                     </div>
@@ -728,347 +674,373 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                   <div className="flex justify-between gap-2 w-full">
                     <button
                       onClick={() => setActiveTab("SHORT")}
-                      className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${activeTab === "SHORT" ? "bg-blue-700 text-white" : "bg-blue-50 text-black"
-                        }`}
+                      className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${
+                        activeTab === "SHORT"
+                          ? "bg-blue-700 text-white"
+                          : "bg-blue-50 text-black"
+                      }`}
                     >
                       Check-In
                     </button>
 
                     <button
                       onClick={() => setActiveTab("LONG")}
-                      className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${activeTab === "LONG" ? "bg-blue-700 text-white" : "bg-blue-50 text-black"
-                        }`}
+                      className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${
+                        activeTab === "LONG"
+                          ? "bg-blue-700 text-white"
+                          : "bg-blue-50 text-black"
+                      }`}
                     >
                       Booking
                     </button>
                   </div>
                 </div>
 
-
-                {activeTab === "LONG" ? <>
-
-                  <div className="max-h-[350px] overflow-y-auto p-2 me-1 show-scroll">
-                    <div className="grid grid-cols-12 gap-x-4 gap-y-2 items-stretch">
-
-
-                      <div className="col-span-12">
-                        <Form.Group className="mb-1" controlId="exampleForm.ControlInput5">
-                          <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                            Tenant <span className="text-red-600 text-xl">*</span>
-                          </Form.Label>
-                          <Select
-                         options={
-  state.UsersList?.UnAssignCustomerDetails?.length > 0
-    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
-        value: u.customerId,
-        label: u.fullName,
-      }))
-    : []
-}
-                            onChange={handleBookingCustomerName}
-                            value={
-                              booking_customername
-                                ? {
-                                  value: booking_customername,
-                                  label:
-                                    state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.fullName ||
-                                    "Select Tenant",
-                                }
-                                : null
-                            }
-                            placeholder="Select Tenant"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No Tenants available"}
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                padding: "3px 5px ",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: booking_customername ? 600 : 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy"
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#9AA0A6",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                color: "#000",
-                              }),
-                            }}
-                          />
-                          {booking_customererrmsg.trim() !== "" && (
-                            <ErrorMessage message={booking_customererrmsg} type="error" />
-                          )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-span-12 md:col-span-6">
-                        <Form.Group controlId="">
-                          <Form.Label className="text-sm font-gilroy font-medium text-[#222222]">
-                            Booking Date <span className="text-red-600 text-xl">*</span>
-                          </Form.Label>
-                          <div className="datepicker-wrapper relative w-full">
-                            <DatePicker
-                              ref={bookingDateRef}
-                              className={`w-full h-12 cursor-pointer font-gilroy ${bookingDate ? "font-semibold" : "font-medium"}`}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={bookingDate ? dayjs(bookingDate) : null}
-                              onChange={(date) => {
-                                setDateError("");
-                                setBookingDate(date ? date.toDate() : null);
-                                setBookingDateErrmsg('');
-                                setJoiningDate("")
+                {activeTab === "LONG" ? (
+                  <>
+                    <div className="max-h-[350px] overflow-y-auto p-2 me-1 show-scroll">
+                      <div className="grid grid-cols-12 gap-x-4 gap-y-2 items-stretch">
+                        <div className="col-span-12">
+                          <Form.Group
+                            className="mb-1"
+                            controlId="exampleForm.ControlInput5"
+                          >
+                            <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                              Tenant{" "}
+                              <span className="text-red-600 text-xl">*</span>
+                            </Form.Label>
+                            <Select
+                              options={
+                                state.UsersList?.UnAssignCustomerDetails
+                                  ?.length > 0
+                                  ? state.UsersList.UnAssignCustomerDetails.map(
+                                      (u) => ({
+                                        value: u.customerId,
+                                        label: u.fullName,
+                                      }),
+                                    )
+                                  : []
+                              }
+                              onChange={handleBookingCustomerName}
+                              value={
+                                booking_customername
+                                  ? {
+                                      value: booking_customername,
+                                      label:
+                                        state.UsersList?.UnAssignCustomerDetails?.find(
+                                          (u) =>
+                                            u.customerId ===
+                                            booking_customername,
+                                        )?.fullName || "Select Tenant",
+                                    }
+                                  : null
+                              }
+                              placeholder="Select Tenant"
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              noOptionsMessage={() => "No Tenants available"}
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  padding: "3px 5px ",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: booking_customername ? 600 : 500,
+                                  boxShadow: "none",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#9AA0A6",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  cursor: "pointer",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#f0f0f0"
+                                    : "white",
+                                  color: "#000",
+                                }),
                               }}
-                              disabledDate={(current) => {
-                                return current && current > dayjs().endOf('day');
-                              }}
-                              // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                              getPopupContainer={() => document.body}
                             />
-                          </div>
-                          {dateError && <ErrorMessage message={dateError} type="error" />}
-                          {bookingDateErrmsg.trim() !== "" && (
-                            <ErrorMessage message={bookingDateErrmsg} type="error" />
-                          )}
-                        </Form.Group>
-                      </div>
-
-
-
-                      <div className="col-span-12 md:col-span-6">
-                        <Form.Group className="">
-                          <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                            Booking Amount {" "}
-                            <span className="text-red-600 text-xl">
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            ref={amountRef}
-                            id="form-controls"
-                            placeholder="Enter Booking Amount"
-                            value={amount}
-                            onChange={(e) => handleAmount(e)}
-                            className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${amount ? "font-semibold" : "font-medium"}`}
-
-                          />
-                        </Form.Group>
-                        {amountError && (
-                          <ErrorMessage message={amountError} type="error" />
-                        )}
-                      </div>
-
-
-
-                      <div className="col-span-12 md:col-span-6">
-                        <Form.Group controlId="exampleForm.ControlInput1">
-                          <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal" >
-                            Mode Of Transaction {" "}
-                            <span className="text-red-600 text-xl">*</span>
-                          </Form.Label>
-                          <Select
-                            options={paymentOptions}
-                            onChange={(selectedOption) =>
-                              handleModeOfPaymentChange(selectedOption?.value)
-                            }
-                            value={
-                              modeOfPayment
-                                ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-                                : null
-                            }
-                            placeholder="Select Payment"
-                            menuPlacement="bottom"
-                            menuPosition="fixed"
-                            // isDisabled={currentItem}
-                            noOptionsMessage={() => "No mode available"}
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                fontSize: 16,
-                                color: "rgba(75, 75, 75, 1)",
-                                fontFamily: "Gilroy",
-                                fontWeight: modeOfPayment ? 600 : 500,
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                boxShadow: "none",
-                                height: 48,
-                                cursor: "pointer",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#9AA0A6",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused ? "lightblue" : "white",
-                                color: "#000",
-                                fontFamily: "Gilroy",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                            }}
-                          />
-                        </Form.Group>
-                        {paymentError && (
-                          <ErrorMessage message={paymentError} type="error" />
-                        )}
-                      </div>
-
-                      <div className="col-span-12 md:col-span-6">
-                        <Form.Group >
-                          <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal" >
-                            Transaction ID{" "}
-                            <span className="text-red-600 text-xl"></span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            id="form-controls"
-                            placeholder="Enter Transaction ID"
-                            value={transactionId}
-                            onChange={(e) => handleTransactionId(e)}
-                            className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${transactionId ? "font-semibold" : "font-medium"}`}
-
-                          />
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-span-12">
-                        <Form.Group controlId="joiningDate">
-                          <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal" >
-                            Joining Date (Tentative) {" "}
-                            <span className="text-red-600 text-xl">*</span>
-                          </Form.Label>
-
-                          <div className="datepicker-wrapper relative w-full mt-2">
-                            <DatePicker
-                              className="w-full h-12 cursor-pointer font-gilroy"
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={joiningDate ? dayjs(joiningDate) : null}
-                              onChange={(date) => {
-                                setDateError("");
-                                setJoiningDate(date ? date.toDate() : null);
-                                dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                setJoingDateErrmsg("")
-                              }}
-                              disabledDate={(current) => {
-                                if (!bookingDate) {
-                                  return true;
-                                }
-                                return current && current.isBefore(dayjs(bookingDate), "day");
-                              }}
-                              getPopupContainer={() => document.body}
-                            />
-                          </div>
-                        </Form.Group>
-                        {dateError && (
-                          <ErrorMessage message={dateError} type="error" />
-                        )}
-
-                        {joiningDateErrmsg.trim() !== "" && (
-                          <ErrorMessage message={joiningDateErrmsg} type="error" />
-                        )}
-
-                      </div>
-
-                      {state.Booking?.bookingBedError ?
-                        <div className="d-flex justify-content-center">
-                          <ErrorMessage message={state.Booking?.bookingBedError} type="error" />
+                            {booking_customererrmsg.trim() !== "" && (
+                              <ErrorMessage
+                                message={booking_customererrmsg}
+                                type="error"
+                              />
+                            )}
+                          </Form.Group>
                         </div>
-                        : null}
 
+                        <div className="col-span-12 md:col-span-6">
+                          <Form.Group controlId="">
+                            <Form.Label className="text-sm font-gilroy font-medium text-[#222222]">
+                              Booking Date{" "}
+                              <span className="text-red-600 text-xl">*</span>
+                            </Form.Label>
+                            <div className="datepicker-wrapper relative w-full">
+                              <DatePicker
+                                ref={bookingDateRef}
+                                className={`w-full h-12 cursor-pointer font-gilroy ${bookingDate ? "font-semibold" : "font-medium"}`}
+                                format="DD/MM/YYYY"
+                                placeholder="DD/MM/YYYY"
+                                value={bookingDate ? dayjs(bookingDate) : null}
+                                onChange={(date) => {
+                                  setDateError("");
+                                  setBookingDate(date ? date.toDate() : null);
+                                  setBookingDateErrmsg("");
+                                  setJoiningDate("");
+                                }}
+                                disabledDate={(current) => {
+                                  return (
+                                    current && current > dayjs().endOf("day")
+                                  );
+                                }}
+                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                getPopupContainer={() => document.body}
+                              />
+                            </div>
+                            {dateError && (
+                              <ErrorMessage message={dateError} type="error" />
+                            )}
+                            {bookingDateErrmsg.trim() !== "" && (
+                              <ErrorMessage
+                                message={bookingDateErrmsg}
+                                type="error"
+                              />
+                            )}
+                          </Form.Group>
+                        </div>
+
+                        <div className="col-span-12 md:col-span-6">
+                          <Form.Group className="">
+                            <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                              Booking Amount{" "}
+                              <span className="text-red-600 text-xl"> * </span>
+                            </Form.Label>
+                            <FormControl
+                              type="text"
+                              ref={amountRef}
+                              id="form-controls"
+                              placeholder="Enter Booking Amount"
+                              value={amount}
+                              onChange={(e) => handleAmount(e)}
+                              className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${amount ? "font-semibold" : "font-medium"}`}
+                            />
+                          </Form.Group>
+                          {amountError && (
+                            <ErrorMessage message={amountError} type="error" />
+                          )}
+                        </div>
+
+                        <div className="col-span-12 md:col-span-6">
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                              Mode Of Transaction{" "}
+                              <span className="text-red-600 text-xl">*</span>
+                            </Form.Label>
+                            <Select
+                              options={paymentOptions}
+                              onChange={(selectedOption) =>
+                                handleModeOfPaymentChange(selectedOption?.value)
+                              }
+                              value={
+                                modeOfPayment
+                                  ? paymentOptions.find(
+                                      (opt) =>
+                                        opt.value === String(modeOfPayment),
+                                    ) || null
+                                  : null
+                              }
+                              placeholder="Select Payment"
+                              menuPlacement="bottom"
+                              menuPosition="fixed"
+                              // isDisabled={currentItem}
+                              noOptionsMessage={() => "No mode available"}
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  fontSize: 16,
+                                  color: "rgba(75, 75, 75, 1)",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: modeOfPayment ? 600 : 500,
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  boxShadow: "none",
+                                  height: 48,
+                                  cursor: "pointer",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#9AA0A6",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  cursor: "pointer",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "lightblue"
+                                    : "white",
+                                  color: "#000",
+                                  fontFamily: "Gilroy",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                              }}
+                            />
+                          </Form.Group>
+                          {paymentError && (
+                            <ErrorMessage message={paymentError} type="error" />
+                          )}
+                        </div>
+
+                        <div className="col-span-12 md:col-span-6">
+                          <Form.Group>
+                            <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                              Transaction ID{" "}
+                              <span className="text-red-600 text-xl"></span>
+                            </Form.Label>
+                            <FormControl
+                              type="text"
+                              id="form-controls"
+                              placeholder="Enter Transaction ID"
+                              value={transactionId}
+                              onChange={(e) => handleTransactionId(e)}
+                              className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${transactionId ? "font-semibold" : "font-medium"}`}
+                            />
+                          </Form.Group>
+                        </div>
+
+                        <div className="col-span-12">
+                          <Form.Group controlId="joiningDate">
+                            <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                              Joining Date (Tentative){" "}
+                              <span className="text-red-600 text-xl">*</span>
+                            </Form.Label>
+
+                            <div className="datepicker-wrapper relative w-full mt-2">
+                              <DatePicker
+                                className="w-full h-12 cursor-pointer font-gilroy"
+                                format="DD/MM/YYYY"
+                                placeholder="DD/MM/YYYY"
+                                value={joiningDate ? dayjs(joiningDate) : null}
+                                onChange={(date) => {
+                                  setDateError("");
+                                  setJoiningDate(date ? date.toDate() : null);
+                                  dispatch({
+                                    type: "REMOVE_ERROR_BOOKING_DATE",
+                                  });
+                                  setJoingDateErrmsg("");
+                                }}
+                                disabledDate={(current) => {
+                                  if (!bookingDate) {
+                                    return true;
+                                  }
+                                  return (
+                                    current &&
+                                    current.isBefore(dayjs(bookingDate), "day")
+                                  );
+                                }}
+                                getPopupContainer={() => document.body}
+                              />
+                            </div>
+                          </Form.Group>
+                          {dateError && (
+                            <ErrorMessage message={dateError} type="error" />
+                          )}
+
+                          {joiningDateErrmsg.trim() !== "" && (
+                            <ErrorMessage
+                              message={joiningDateErrmsg}
+                              type="error"
+                            />
+                          )}
+                        </div>
+
+                        {state.Booking?.bookingBedError ? (
+                          <div className="d-flex justify-content-center">
+                            <ErrorMessage
+                              message={state.Booking?.bookingBedError}
+                              type="error"
+                            />
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
 
-                  </div>
+                    {formLoading && (
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+                        <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
+                      </div>
+                    )}
 
-                  {formLoading && (
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-                      <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
-                    </div>
-                  )}
-
-
-                  {/* {state.createAccount?.networkError ?
+                    {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
 
-                  <div className="flex justify-end pt-2">
-                    <Button
-                      className="bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-700 border border-white"
-                      onClick={handleClose}
-                    >
-                      Cancel
-                    </Button>
+                    <div className="flex justify-end pt-2">
+                      <Button
+                        className="bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-700 border border-white"
+                        onClick={handleClose}
+                      >
+                        Cancel
+                      </Button>
 
-                    <Button disabled={formLoading || !canWriteBooking}
-                      className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
-                      onClick={handleSubmitBooking}
-                    >
-                      Book
-                    </Button>
-                  </div>
-                </>
-
-                  :
-
-
-
+                      <Button
+                        disabled={formLoading || !canWriteBooking}
+                        className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
+                        onClick={handleSubmitBooking}
+                      >
+                        Book
+                      </Button>
+                    </div>
+                  </>
+                ) : (
                   activeTab === "SHORT" && (
                     <>
                       <div className="max-h-[370px] overflow-y-auto p-2 me-1 show-scroll">
@@ -1076,26 +1048,33 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           <div className="col-span-12">
                             <Form.Group controlId="exampleForm.ControlInput5">
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Tenant <span className="text-red-600 text-xl">*</span>
+                                Tenant{" "}
+                                <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
                               <Select
                                 options={
-                                  state.UsersList?.UnAssignCustomerDetails?.length > 0
-                                    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
-                                      value: u.customerId,
-                                      label: u.fullName,
-                                    }))
+                                  state.UsersList?.UnAssignCustomerDetails
+                                    ?.length > 0
+                                    ? state.UsersList.UnAssignCustomerDetails.map(
+                                        (u) => ({
+                                          value: u.customerId,
+                                          label: u.fullName,
+                                        }),
+                                      )
                                     : []
                                 }
                                 onChange={handleCheckinCustomerName}
                                 value={
                                   checkin_customername
                                     ? {
-                                      value: checkin_customername,
-                                      label:
-                                        state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === checkin_customername)?.fullName ||
-                                        "Select Tenant",
-                                    }
+                                        value: checkin_customername,
+                                        label:
+                                          state.UsersList?.UnAssignCustomerDetails?.find(
+                                            (u) =>
+                                              u.customerId ===
+                                              checkin_customername,
+                                          )?.fullName || "Select Tenant",
+                                      }
                                     : null
                                 }
                                 placeholder="Select Tenant"
@@ -1111,7 +1090,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     fontSize: "16px",
                                     color: "#4B4B4B",
                                     fontFamily: "Gilroy",
-                                    fontWeight: checkin_customername ? 600 : 500,
+                                    fontWeight: checkin_customername
+                                      ? 600
+                                      : 500,
                                     boxShadow: "none",
                                   }),
                                   menu: (base) => ({
@@ -1126,7 +1107,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     padding: 0,
                                     scrollbarWidth: "thin",
                                     overflowY: "auto",
-                                    fontFamily: "Gilroy"
+                                    fontFamily: "Gilroy",
                                   }),
                                   placeholder: (base) => ({
                                     ...base,
@@ -1143,21 +1124,26 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                   option: (base, state) => ({
                                     ...base,
                                     cursor: "pointer",
-                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                    backgroundColor: state.isFocused
+                                      ? "#f0f0f0"
+                                      : "white",
                                     color: "#000",
                                   }),
                                 }}
                               />
                               {checkin_customererrmsg.trim() !== "" && (
-                                <ErrorMessage message={checkin_customererrmsg} type="error" />
+                                <ErrorMessage
+                                  message={checkin_customererrmsg}
+                                  type="error"
+                                />
                               )}
                             </Form.Group>
                           </div>
 
                           <div className="col-span-12">
-
                             <label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal mb-1">
-                              Stay Type {" "}   <span className="text-red-600 text-xl">*</span>
+                              Stay Type{" "}
+                              <span className="text-red-600 text-xl">*</span>
                             </label>
 
                             <Select
@@ -1191,12 +1177,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
-                                  fontFamily: "Gilroy"
+                                  fontFamily: "Gilroy",
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
                                   color: "#9aa0a6",
-                                  fontWeight: 500
+                                  fontWeight: 500,
                                 }),
                                 dropdownIndicator: (base) => ({
                                   ...base,
@@ -1209,22 +1195,27 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 option: (base, state) => ({
                                   ...base,
                                   cursor: "pointer",
-                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                  backgroundColor: state.isFocused
+                                    ? "#f0f0f0"
+                                    : "white",
                                   color: "#000",
                                 }),
                               }}
                             />
 
                             {stay_typenameErrmsg.trim() !== "" && (
-                              <ErrorMessage message={stay_typenameErrmsg} type="error" />
+                              <ErrorMessage
+                                message={stay_typenameErrmsg}
+                                type="error"
+                              />
                             )}
                           </div>
-
 
                           <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
                             <Form.Group>
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Rental Amount <span className="text-red-600 text-xl">*</span>
+                                Rental Amount{" "}
+                                <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -1238,19 +1229,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 className={`w-full h-[50px] text-base text-[#4B4B4B] font-gilroy 
   ${RoomRent ? "font-semibold" : "font-medium"} 
   shadow-none border border-[#D9D9D9] rounded-lg`}
-
                               />
                             </Form.Group>
                             {roomrentError && (
-                              <ErrorMessage message={roomrentError} type="error" />
+                              <ErrorMessage
+                                message={roomrentError}
+                                type="error"
+                              />
                             )}
                           </div>
-
 
                           <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
                             <Form.Group>
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Advance Amount <span className="text-red-600 text-xl">*</span>
+                                Advance Amount{" "}
+                                <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -1260,36 +1253,44 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 className={`w-full h-[50px] text-base text-[#4B4B4B] font-gilroy 
   ${AdvanceAmount ? "font-semibold" : "font-medium"} 
   shadow-none border border-[#D9D9D9] rounded-lg`}
-
                               />
                             </Form.Group>
                             {advanceAmountError && (
-                              <ErrorMessage message={advanceAmountError} type="error" />
+                              <ErrorMessage
+                                message={advanceAmountError}
+                                type="error"
+                              />
                             )}
                           </div>
-
 
                           <div className="col-span-12 md:col-span-12">
                             <Form.Group controlId="joiningDate">
                               <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                                Joining Date  {" "} <span className="text-red-600 text-xl">*</span>
+                                Joining Date{" "}
+                                <span className="text-red-600 text-xl">*</span>
                               </Form.Label>
 
-                              <div
-                                className="datepicker-wrapper relative w-full mt-2"
-                              >
+                              <div className="datepicker-wrapper relative w-full mt-2">
                                 <DatePicker
                                   className={`w-full h-12 cursor-pointer font-gilroy 
   ${checkin_joiningDate ? "font-semibold text-gray-700" : "font-medium text-gray-400"}
 `}
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
-                                  value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
+                                  value={
+                                    checkin_joiningDate
+                                      ? dayjs(checkin_joiningDate)
+                                      : null
+                                  }
                                   onChange={(date) => {
                                     setCheckinJoingDateErrmsg("");
-                                    setCheckinJoiningDate(date ? date.toDate() : null);
+                                    setCheckinJoiningDate(
+                                      date ? date.toDate() : null,
+                                    );
                                   }}
-                                  disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                  disabledDate={(current) =>
+                                    current && current > dayjs().endOf("day")
+                                  }
                                   //  getPopupContainer={(triggerNode) =>
                                   //    triggerNode.closest(".datepicker-wrapper")
                                   //  }
@@ -1298,7 +1299,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               </div>
                             </Form.Group>
                             {Checkin_joiningDateErrmsg && (
-                              <ErrorMessage message={Checkin_joiningDateErrmsg} type="error" />
+                              <ErrorMessage
+                                message={Checkin_joiningDateErrmsg}
+                                type="error"
+                              />
                             )}
                           </div>
                         </div>
@@ -1310,15 +1314,17 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         )}
 
                         <div className="bg-[#F7F9FF] rounded-lg pb-1 mt-3 mb-3">
-
                           <div className="flex justify-between items-center p-4">
                             <div>
-                              <label className="text-sm font-gilroy font-semibold">Non Refundable Amount</label>
+                              <label className="text-sm font-gilroy font-semibold">
+                                Non Refundable Amount
+                              </label>
                             </div>
                             <div>
                               <Button
                                 onClick={handleAddField}
-                                className="!flex !items-center !gap-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy">
+                                className="!flex !items-center !gap-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
+                              >
                                 <img
                                   src={addcircle}
                                   alt="Assign Bed"
@@ -1330,18 +1336,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 />
                                 Add
                               </Button>
-
                             </div>
                           </div>
 
                           {fields.map((item, index) => {
-                            const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
+                            const isMaintenanceSelected = fields.some(
+                              (field) => field.reason === "maintenance",
+                            );
 
                             const filteredOptions = reasonOptions.map((opt) => {
                               if (opt.value === "maintenance") {
                                 return {
                                   ...opt,
-                                  isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                                  isDisabled:
+                                    isMaintenanceSelected &&
+                                    item.reason !== "maintenance",
                                 };
                               }
                               return opt;
@@ -1350,24 +1359,36 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                             return (
                               <div className="row px-4 mb-3" key={index}>
                                 <div className="col-md-6">
-
-
                                   {!item.showInput ? (
-                                    <Select menuPlacement="top"
-                                      // menuPosition="fixed"  
+                                    <Select
+                                      menuPlacement="top"
+                                      // menuPosition="fixed"
                                       options={filteredOptions}
-                                      value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                      value={
+                                        filteredOptions.find(
+                                          (opt) =>
+                                            opt.value === item.reason_name,
+                                        ) || null
+                                      }
                                       onChange={(selectedOption) => {
-                                        const selectedValue = selectedOption.value;
+                                        const selectedValue =
+                                          selectedOption.value;
 
                                         if (selectedValue === "others") {
-                                          handleInputChange(index, "reason", "others");
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            "others",
+                                          );
                                         } else {
-                                          handleInputChange(index, "reason", selectedValue);
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            selectedValue,
+                                          );
                                         }
                                       }}
                                       isDisabled={item.reason === "maintenance"}
-
                                       styles={{
                                         control: (base) => ({
                                           ...base,
@@ -1414,13 +1435,17 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                         }),
                                         option: (base, state) => ({
                                           ...base,
-                                          cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                          cursor: state.isDisabled
+                                            ? "not-allowed"
+                                            : "pointer",
                                           backgroundColor: state.isFocused
                                             ? "#E7F1FF"
                                             : state.isDisabled
                                               ? "#f0f0f0"
                                               : "#fff",
-                                          color: state.isDisabled ? "#aaa" : "#000",
+                                          color: state.isDisabled
+                                            ? "#aaa"
+                                            : "#000",
                                         }),
                                       }}
                                     />
@@ -1431,7 +1456,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                         className="form-control"
                                         placeholder="Enter custom reason"
                                         value={item.customReason}
-                                        onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "customReason",
+                                            e.target.value,
+                                          )
+                                        }
                                         style={{
                                           fontSize: 16,
                                           color: "#4B4B4B",
@@ -1446,23 +1477,30 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     </>
                                   )}
                                   {errors[index]?.reason && (
-                                    <ErrorMessage message={errors[index]?.reason} type="error" />
+                                    <ErrorMessage
+                                      message={errors[index]?.reason}
+                                      type="error"
+                                    />
                                   )}
                                 </div>
 
-
                                 <div className="col-md-5">
-
                                   <input
                                     type="text"
                                     placeholder="Enter amount"
                                     value={item.amount}
-                                     onKeyDown={(e) => {
-    if (e.key === "." || e.key === "e" || e.key === "-") {
-      e.preventDefault();
-    }
-  }}
-                                    onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                    //                                  onKeyDown={(e) => {
+                                    // if (e.key === "." || e.key === "e" || e.key === "-") {
+                                    //   e.preventDefault();
+                                    // }
+                                    // }}
+                                    onChange={(e) =>
+                                      handleInputChange(
+                                        index,
+                                        "amount",
+                                        e.target.value,
+                                      )
+                                    }
                                     className="form-control"
                                     style={{
                                       fontSize: 16,
@@ -1474,17 +1512,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       height: 50,
                                       borderRadius: 8,
                                     }}
-
                                   />
                                   {errors[index]?.amount && (
-                                    <ErrorMessage message={errors[index]?.amount} type="error" />
+                                    <ErrorMessage
+                                      message={errors[index]?.amount}
+                                      type="error"
+                                    />
                                   )}
                                 </div>
 
-
                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-
-
                                   <Trash
                                     size="20"
                                     color="red"
@@ -1492,29 +1529,32 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     style={{ cursor: "pointer" }}
                                     onClick={() => handleRemoveField(index)}
                                   />
-
                                 </div>
                               </div>
                             );
                           })}
-
                         </div>
                       </div>
 
-                      {state.UsersList?.bedAvailableError ?
+                      {state.UsersList?.bedAvailableError ? (
                         <div className="flex justify-center">
-                          <ErrorMessage message={state.UsersList?.bedAvailableError} type="error" />
+                          <ErrorMessage
+                            message={state.UsersList?.bedAvailableError}
+                            type="error"
+                          />
                         </div>
-                        : null}
+                      ) : null}
 
                       <div className="flex justify-end">
-                        <Button className="!bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-600 !border !border-white"
+                        <Button
+                          className="!bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-600 !border !border-white"
                           onClick={handleClose}
                         >
                           Cancel
                         </Button>
 
-                        <Button disabled={formLoading}
+                        <Button
+                          disabled={formLoading}
                           className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
                           onClick={handleSaveCheckin}
                         >
@@ -1522,24 +1562,20 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         </Button>
                       </div>
                     </>
-
                   )
-                }
+                )}
               </div>
             </div>
           </Modal.Body>
-
-
         </Modal.Dialog>
       </Modal>
-
     </>
-  )
-}
+  );
+};
 PGAssignTenant.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
-}
+};
 
-export default PGAssignTenant;     
+export default PGAssignTenant;
