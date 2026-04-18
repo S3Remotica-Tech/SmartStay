@@ -657,6 +657,11 @@ console.log("bookingDetails",bookingDetails)
                                                         type="text"
                                                         placeholder="Enter amount"
                                                         value={item.amount}
+onKeyDown={(e) => {
+    if (e.key === "." || e.key === "e" || e.key === "-") {
+      e.preventDefault();
+    }
+  }}
                                                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                                         className="w-full h-12 px-3 text-base font-medium text-gray-700 font-gilroy rounded-lg border border-gray-300 shadow-none"
                                                     />

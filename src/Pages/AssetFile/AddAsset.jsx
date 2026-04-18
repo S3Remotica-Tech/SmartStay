@@ -9,13 +9,13 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
 // import { MdError } from "react-icons/md";
-import { CloseCircle, } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import "./addAsset.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -35,11 +35,10 @@ function StaticExample({ show, setShow, currentItem }) {
   const [assetError, setAssetError] = useState("");
   const [paymentError, setPaymentError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [bankking, setBanking] = useState("")
-  const [bankingError, setBankingError] = useState("")
-  const [formLoading, setFormLoading] = useState(false)
-  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
-
+  const [bankking, setBanking] = useState("");
+  const [bankingError, setBankingError] = useState("");
+  const [formLoading, setFormLoading] = useState(false);
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
 
   const assetNameRef = useRef(null);
   const productNameRef = useRef(null);
@@ -47,9 +46,6 @@ function StaticExample({ show, setShow, currentItem }) {
   const serialNumberRef = useRef(null);
   const dateRef = useRef(null);
   const priceRef = useRef(null);
-
-
-
 
   useEffect(() => {
     if (assetNameRef.current) {
@@ -60,10 +56,12 @@ function StaticExample({ show, setShow, currentItem }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
-      dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
+      dispatch({
+        type: "VENDORLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
     }
   }, []);
-
 
   const [initialState, setInitialState] = useState({
     assetName: "",
@@ -76,58 +74,49 @@ function StaticExample({ show, setShow, currentItem }) {
     productName: "",
   });
 
-
-
-
-
-
-
   useEffect(() => {
     if (state.AssetList?.bankAmountError) {
-      setFormLoading(false)
-      setBankingError(state.AssetList?.bankAmountError)
+      setFormLoading(false);
+      setBankingError(state.AssetList?.bankAmountError);
     }
+  }, [state.AssetList?.bankAmountError]);
 
-  }, [state.AssetList?.bankAmountError])
-
-  const [serial_number_duplicate_Error, setSerial_Number_DuplicateError] = useState("")
+  const [serial_number_duplicate_Error, setSerial_Number_DuplicateError] =
+    useState("");
 
   useEffect(() => {
     if (state.AssetList?.alreadySerialNumberHere) {
-      setSerial_Number_DuplicateError(state.AssetList?.alreadySerialNumberHere)
+      setSerial_Number_DuplicateError(state.AssetList?.alreadySerialNumberHere);
 
       setTimeout(() => {
-        dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
-        setSerial_Number_DuplicateError("")
+        dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
+        setSerial_Number_DuplicateError("");
       }, 2000);
     }
-
-  }, [state.AssetList?.alreadySerialNumberHere])
+  }, [state.AssetList?.alreadySerialNumberHere]);
 
   useEffect(() => {
     if (state.bankingDetails.bankingList.listBanks) {
-
-      setBanking(state.bankingDetails.bankingList.listBanks)
+      setBanking(state.bankingDetails.bankingList.listBanks);
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
   }, [state.bankingDetails.bankingList.listBanks]);
 
-
   const handleClose = () => {
-    setShow(false)
-    setBankingError('')
-    setPaymentError("")
-    setSerial_Number_DuplicateError("")
-    setJoingDateErrmsg('')
+    setShow(false);
+    setBankingError("");
+    setPaymentError("");
+    setSerial_Number_DuplicateError("");
+    setJoingDateErrmsg("");
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
-    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
-  }
+    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
+  };
 
   useEffect(() => {
     const closeButton = document.querySelector(
-      'button[aria-label="close-button"]'
+      'button[aria-label="close-button"]',
     );
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
@@ -139,9 +128,6 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, []);
 
-
-
-
   useEffect(() => {
     if (currentItem) {
       setAssetName(currentItem.assetName || "");
@@ -151,7 +137,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setSelectedDate(
         currentItem.purchaseDate
           ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
-          : null
+          : null,
       );
       setPrice(currentItem.price || "");
       // setId(currentItem.id || 0);
@@ -172,8 +158,6 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
-
-
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -181,12 +165,16 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [selectedDate]);
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.updateAssetStatusCode === 200) {
-      setFormLoading(false)
+    if (
+      state.AssetList.addAssetStatusCode === 200 ||
+      state.AssetList.updateAssetStatusCode === 200
+    ) {
+      setFormLoading(false);
     }
-  }, [state.AssetList.addAssetStatusCode, state.AssetList.updateAssetStatusCode]);
-
-
+  }, [
+    state.AssetList.addAssetStatusCode,
+    state.AssetList.updateAssetStatusCode,
+  ]);
 
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
@@ -194,9 +182,8 @@ function StaticExample({ show, setShow, currentItem }) {
     if (!selectedOption) return;
     setIsChangedError("");
     setPaymentError("");
-    setBankingError("")
+    setBankingError("");
     setModeOfPayment(selectedOption);
-
 
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
   };
@@ -210,9 +197,9 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const paymentOptions = Array.isArray(bankking)
     ? bankking.map((item) => ({
-      value: String(item.bankingId),
-      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
-    }))
+        value: String(item.bankingId),
+        label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+      }))
     : [];
 
   const handleAssetNameChange = (e) => {
@@ -233,7 +220,7 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   const handleVendorNameChange = (selectedOption) => {
-    setVendorName(selectedOption?.value || '');
+    setVendorName(selectedOption?.value || "");
     setIsChangedError("");
   };
 
@@ -252,7 +239,6 @@ function StaticExample({ show, setShow, currentItem }) {
 
     if (value.trim() !== "") {
       setBrandName(value);
-
     }
   };
 
@@ -271,21 +257,18 @@ function StaticExample({ show, setShow, currentItem }) {
 
     if (value.trim() !== "") {
       setSerialNumber(value);
-
     }
   };
 
-
-
   const handlePriceChange = (e) => {
-    const value = (e.target.value)
+    const value = e.target.value;
     if (!/^\d*$/.test(value)) {
       return;
     }
     setPrice(value);
     setPriceError("");
     setIsChangedError("");
-    setBankingError("")
+    setBankingError("");
 
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
   };
@@ -309,8 +292,7 @@ function StaticExample({ show, setShow, currentItem }) {
   //   return serialNumber.trim().replace(/[\t\n\r]+/g, "");
   // };
 
-
-  const nochangeRef = useRef(null)
+  const nochangeRef = useRef(null);
 
   const handleAddAsset = () => {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
@@ -333,7 +315,6 @@ function StaticExample({ show, setShow, currentItem }) {
         productNameRef.current.focus();
         focusedRef.current = true;
       }
-
     }
 
     if (!currentItem && !modeOfPayment) {
@@ -342,7 +323,6 @@ function StaticExample({ show, setShow, currentItem }) {
         paymentRef.current.focus();
         focusedRef.current = true;
       }
-
     }
 
     // if (!cleanedSerialNumber) {
@@ -360,7 +340,6 @@ function StaticExample({ show, setShow, currentItem }) {
         dateRef.current.focus();
         focusedRef.current = true;
       }
-
     }
 
     const numericRegex = /^[0-9]+$/;
@@ -374,29 +353,26 @@ function StaticExample({ show, setShow, currentItem }) {
       return;
     }
 
-
-
-
     const isChanged =
       initialState.assetName !== assetName ||
       initialState.vendorName !== vendorName ||
       initialState.brandName !== brandName ||
       initialState.serialNumber !== serialNumber ||
-
-      (initialState.selectedDate && selectedDate &&
+      (initialState.selectedDate &&
+        selectedDate &&
         !dayjs(initialState.selectedDate).isSame(selectedDate, "day")) ||
       Number(initialState.price) !== Number(price) ||
       initialState.productName !== productName;
 
-
-
     if (!isChanged) {
       setIsChangedError("No Changes Detected");
 
-
       setTimeout(() => {
         if (nochangeRef.current) {
-          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
           nochangeRef.current.focus();
         }
       }, 100);
@@ -409,7 +385,6 @@ function StaticExample({ show, setShow, currentItem }) {
     if (productName && selectedDate && price && assetName) {
       const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
       if (currentItem?.assetId) {
-
         let payload = {
           hostelId: state.login.selectedHostel_Id,
           assetId: currentItem?.assetId,
@@ -428,8 +403,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
         dispatch({ type: "UPDATEASSET", payload });
 
-
-        setFormLoading(true)
+        setFormLoading(true);
       } else {
         dispatch({
           type: "ADDASSET",
@@ -443,21 +417,13 @@ function StaticExample({ show, setShow, currentItem }) {
             purchaseDate: formattedDate,
             price: price,
             bankingId: modeOfPayment,
-
           },
         });
       }
 
-      setFormLoading(true)
+      setFormLoading(true);
     }
   };
-
-
-
-
-
-
-
 
   const calendarRef = useRef(null);
 
@@ -467,67 +433,69 @@ function StaticExample({ show, setShow, currentItem }) {
     maxDate: "today",
   };
 
-
-
   useEffect(() => {
     if (state.AssetList?.alreadyAssetNameHere && assetNameRef.current) {
       assetNameRef.current.focus();
     }
   }, [state.AssetList?.alreadyAssetNameHere]);
 
-
-
   useEffect(() => {
     if (state.AssetList?.alreadySerialNumberHere && serialNumberRef) {
       serialNumberRef.current.focus();
     }
-
-  }, [state.AssetList?.alreadySerialNumberHere])
+  }, [state.AssetList?.alreadySerialNumberHere]);
 
   useEffect(() => {
-    if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
-
-      setFormLoading(false)
+    if (
+      state.AssetList?.alreadyAssetNameHere ||
+      state.AssetList?.alreadySerialNumberHere
+    ) {
+      setFormLoading(false);
     }
-
-  }, [state.AssetList?.alreadyAssetNameHere, state.AssetList?.alreadySerialNumberHere])
-
+  }, [
+    state.AssetList?.alreadyAssetNameHere,
+    state.AssetList?.alreadySerialNumberHere,
+  ]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
+  }, [state.createAccount?.networkError]);
 
   return (
     <div>
-      <div
-        className="modal show block static">
-        <Modal show={show} onHide={handleClose} backdrop="static" centered >
+      <div className="modal show block static">
+        <Modal show={show} onHide={handleClose} backdrop="static" centered>
           <Modal.Dialog className="m-0 p-0 w-full max-w-full">
             <Modal.Header>
-              <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold" >
+              <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold">
                 {currentItem ? "Edit an Asset" : "Add Assets"}
               </Modal.Title>
 
-              <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleClose}
+                className="cursor-pointer"
+              />
             </Modal.Header>
 
-            <Modal.Body className="show-scroll p-3 mt-2 mr-3 max-h-96 overflow-y-scroll mb-2"style={{ height: 390, maxHeight: 400 }}>
-                 <div className="grid grid-cols-12 gap-x-4 gap-y-3 -mt-2">
-
+            <Modal.Body
+              className="show-scroll p-3 mt-2 mr-3 max-h-96 overflow-y-scroll mb-2"
+              style={{ height: 390, maxHeight: 400 }}
+            >
+              <div className="grid grid-cols-12 gap-x-4 gap-y-3 -mt-2">
                 <div className="col-span-12 lg:col-span-6">
-                  <Form.Group className="" controlId="exampleForm.ControlInput1"
+                  <Form.Group
+                    className=""
+                    controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy" >
-                      Asset Name{" "}
-                      <span className="text-red-600 text-xl">*</span>
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                      Asset Name <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
                     <Form.Control
                       value={assetName}
@@ -540,23 +508,24 @@ function StaticExample({ show, setShow, currentItem }) {
                     />
                   </Form.Group>
 
-
                   {assetError && (
                     <ErrorMessage message={assetError} type="error" />
                   )}
 
-
                   {state.AssetList?.alreadyAssetNameHere && (
-                    <ErrorMessage message={state.AssetList?.alreadyAssetNameHere} type="error" />
+                    <ErrorMessage
+                      message={state.AssetList?.alreadyAssetNameHere}
+                      type="error"
+                    />
                   )}
                 </div>
 
                 <div className="col-span-12 lg:col-span-6">
-                  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                  <Form.Group
+                    className="mb-1"
+                    controlId="exampleForm.ControlInput1"
                   >
-
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy"
-                    >
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Product Type{" "}
                       <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
@@ -573,12 +542,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
                   {productNameError && (
                     <ErrorMessage message={productNameError} type="error" />
-
                   )}
                 </div>
 
                 <div className="col-span-12 lg:col-span-6">
-
                   <Form.Group
                     className="mb-1"
                     controlId="exampleForm.ControlInput1"
@@ -587,26 +554,26 @@ function StaticExample({ show, setShow, currentItem }) {
                       Vendor Name
                     </Form.Label>
 
-
                     <Select
-
                       options={
                         state.ComplianceList?.VendorList?.length > 0
                           ? state.ComplianceList.VendorList.map((view) => ({
-                            value: view.id,
-                            label: view.fullName,
-                          }))
+                              value: view.id,
+                              label: view.fullName,
+                            }))
                           : []
                       }
                       onChange={handleVendorNameChange}
                       value={
-                        state.ComplianceList?.VendorList?.find((vendor) => vendor.id === vendorName)
+                        state.ComplianceList?.VendorList?.find(
+                          (vendor) => vendor.id === vendorName,
+                        )
                           ? {
-                            value: vendorName,
-                            label: state.ComplianceList.VendorList.find(
-                              (vendor) => vendor.id === vendorName
-                            )?.fullName,
-                          }
+                              value: vendorName,
+                              label: state.ComplianceList.VendorList.find(
+                                (vendor) => vendor.id === vendorName,
+                              )?.fullName,
+                            }
                           : null
                       }
                       placeholder="Select a Vendor"
@@ -648,16 +615,16 @@ function StaticExample({ show, setShow, currentItem }) {
                         dropdownIndicator: (base) => ({
                           ...base,
                           color: "#555",
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }),
                         option: (base, state) => ({
                           ...base,
                           cursor: "pointer",
                           backgroundColor: state.isSelected
-                        ? "#1E45E1"
-                        : state.isFocused
-                          ? "#E8EEFF"
-                          : "white",
+                            ? "#1E45E1"
+                            : state.isFocused
+                              ? "#E8EEFF"
+                              : "white",
                           color: state.isSelected ? "#fff" : "#000",
                         }),
                         indicatorSeparator: () => ({
@@ -665,20 +632,16 @@ function StaticExample({ show, setShow, currentItem }) {
                         }),
                       }}
                     />
-
-
                   </Form.Group>
                 </div>
 
                 <div className="col-span-12 lg:col-span-6">
-
                   <Form.Group
                     className="mb-"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Brand Name{" "}
-
                     </Form.Label>
                     <Form.Control
                       value={brandName}
@@ -692,10 +655,8 @@ function StaticExample({ show, setShow, currentItem }) {
                 </div>
 
                 <div className="col-span-12 lg:col-span-6">
-                  <Form.Group controlId="exampleForm.ControlInput1"
-                  >
-
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy" >
+                  <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                       Serial Number{" "}
                     </Form.Label>
                     <Form.Control
@@ -715,11 +676,12 @@ function StaticExample({ show, setShow, currentItem }) {
                   )}
 
                   {serial_number_duplicate_Error && (
-                    <ErrorMessage message={serial_number_duplicate_Error} type="error" />
+                    <ErrorMessage
+                      message={serial_number_duplicate_Error}
+                      type="error"
+                    />
                   )}
                 </div>
-
-
 
                 <div className="col-span-12 lg:col-span-6">
                   <Form.Group controlId="purchaseDate">
@@ -728,26 +690,32 @@ function StaticExample({ show, setShow, currentItem }) {
                       <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
 
-
                     <div
                       className="datepicker-wrapper -mt-1"
                       style={{ position: "relative", width: "100%" }}
                     >
                       <DatePicker
                         ref={dateRef}
-                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                        style={{
+                          width: "100%",
+                          height: 48,
+                          cursor: "pointer",
+                          fontFamily: "Gilroy",
+                        }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={selectedDate ? dayjs(selectedDate) : null}
                         onChange={(date) => {
                           setIsChangedError("");
                           setSelectedDateError("");
-                          setJoingDateErrmsg('')
+                          setJoingDateErrmsg("");
                           setSelectedDate(date);
                         }}
-                        disabledDate={(current) => current && current > dayjs().endOf("day")}
+                        disabledDate={(current) =>
+                          current && current > dayjs().endOf("day")
+                        }
                         getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000, left: '570px' }}
+                        popupStyle={{ zIndex: 2000, left: "570px" }}
                         placement="bottomLeft"
                       />
                     </div>
@@ -762,52 +730,52 @@ function StaticExample({ show, setShow, currentItem }) {
                 </div>
 
                 <div className="col-span-12 lg:col-span-6">
-                  <Form.Group className="mb-1"
+                  <Form.Group
+                    className="mb-1"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Price{" "}
-                      <span className="text-red-600 text-xl">*</span>
+                      Price <span className="text-red-600 text-xl">*</span>
                     </Form.Label>
                     <Form.Control
                       value={price}
                       ref={priceRef}
                       onChange={handlePriceChange}
+                      onKeyDown={(e) => {
+                        if (e.key === "." || e.key === "e" || e.key === "-") {
+                          e.preventDefault();
+                        }
+                      }}
                       type="text"
                       placeholder="Enter Amount"
                       className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
                       shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
-
                     />
                   </Form.Group>
                   {priceError && (
                     <ErrorMessage message={priceError} type="error" />
                   )}
                 </div>
-                {
-                  !currentItem &&
-
+                {!currentItem && (
                   <div className="col-span-12 lg:col-span-6">
-                    <Form.Group
-
-                      controlId="exampleForm.ControlInput1"
-                    >
-
-                      <Form.Label className="text-sm font-medium text-[#222222] font-gilroy"  >
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                         Mode Of Payment{" "}
                         <span
-                          className={`text-red-500 text-xl ${modeOfPayment ? "hidden" : "inline-block"
-                            }`}
+                          className={`text-red-500 text-xl ${
+                            modeOfPayment ? "hidden" : "inline-block"
+                          }`}
                         >
                           *
                         </span>
-
                       </Form.Label>
 
                       <Select
                         options={paymentOptions}
                         value={
-                          paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                          paymentOptions.find(
+                            (opt) => opt.value === String(modeOfPayment),
+                          ) || null
                         }
                         onChange={(selectedOption) =>
                           handleModeOfPaymentChange(selectedOption?.value)
@@ -817,7 +785,6 @@ function StaticExample({ show, setShow, currentItem }) {
                         placeholder="Select Payment"
                         isDisabled={currentItem}
                         menuPlacement="top"
-                      
                         styles={{
                           control: (base) => ({
                             ...base,
@@ -859,7 +826,9 @@ function StaticExample({ show, setShow, currentItem }) {
                           option: (base, state) => ({
                             ...base,
                             cursor: "pointer",
-                            backgroundColor: state.isFocused ? "lightblue" : "white",
+                            backgroundColor: state.isFocused
+                              ? "lightblue"
+                              : "white",
                             color: "#000",
                             fontFamily: "Gilroy",
                           }),
@@ -868,8 +837,6 @@ function StaticExample({ show, setShow, currentItem }) {
                           }),
                         }}
                       />
-
-
                     </Form.Group>
                     {paymentError && (
                       <ErrorMessage message={paymentError} type="error" />
@@ -877,22 +844,18 @@ function StaticExample({ show, setShow, currentItem }) {
 
                     {bankingError && (
                       <ErrorMessage message={bankingError} type="error" />
-
                     )}
                   </div>
-                }
-
+                )}
               </div>
             </Modal.Body>
             {isChangedError && (
-
               <div
                 ref={nochangeRef}
                 className="flex items-center justify-center mt-1 mb-1"
               >
                 <ErrorMessage message={isChangedError} type="error" />
               </div>
-
             )}
 
             {formLoading && (
@@ -901,24 +864,20 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             )}
 
-
             {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
 
-             <div className="col-span-12 px-3 pb-4">
-
+            <div className="col-span-12 px-3 pb-4">
               <Button
-                 disabled={formLoading}
+                disabled={formLoading}
                 onClick={handleAddAsset}
                 className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[17px] !font-gilroy p-3 mt-2"
-               
               >
                 {currentItem ? "Save Changes" : "Add Asset"}
               </Button>
             </div>
-
           </Modal.Dialog>
         </Modal>
       </div>
@@ -931,7 +890,7 @@ StaticExample.propTypes = {
   setShow: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired
+  value: PropTypes.func.isRequired,
 };
 
 export default StaticExample;

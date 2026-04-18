@@ -553,50 +553,12 @@ const InvoicePage = () => {
 
 
 
-
-
-  // const [payableAmount, setPayableAmount] = useState("");
-  // const [balance, setBalance] = useState(0);
-
-
-  // const handleAmount = (e) => {
-  //   setAmountErrmsg('')
-  //   let value = e.target.value;
-
-  //   if (value !== "") {
-  //     let numValue = Number(value);
-  //     if (numValue > (invoiceList.balanceDue || 0)) {
-  //       numValue = invoiceList.balanceDue || 0;
-  //     }
-  //     value = numValue;
-  //     setBalance((invoiceList.balanceDue || 0) - numValue);
-  //   } else {
-
-  //     setBalance(invoiceList.balanceDue || 0);
-  //   }
-
-  //   setPayableAmount(value);
-  //   // setPayableAmountError("")
-  //   dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-  // };
-
-
-
-
-
-
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
 
 
 
 
-  // const handleEditReceipt = (item) => {
-  //   setShowAllBill(false);
-  //   setReceiptFormShow(true);
-  //   setEditvalue(item);
-  //   setReceiptEdit(true);
-  // };
 
   const handleEdit = (props) => {
     navigate('/create-bill', {
@@ -696,76 +658,11 @@ const InvoicePage = () => {
     setShowDeleteform(false);
   };
 
-  // const handleSaveInvoiceList = () => {
-  //   const formatpaiddate = formatDateForPayload(selectedDate);
-  //   const billDate = new Date(invoiceValue.Date);
-  //   const paidDate = new Date(formatpaiddate);
-
-  //   if (!payableAmount) {
-  //     setAmountErrmsg("Please Enter Amount");
-  //   } else {
-  //     setAmountErrmsg("");
-  //   }
-
-  //   if (!formatpaiddate) {
-  //     setDateErrmsg("Please Select Date");
-  //   } else if (paidDate < billDate) {
-  //     setDateErrmsg("Paid date should not be before Bill date");
-  //     return;
-  //   } else {
-  //     setDateErrmsg("");
-  //   }
-
-  //   if (!invoiceList.transaction || invoiceList.transaction === "select") {
-  //     setPaymodeErrmsg("Please Select Transaction Type");
-  //     return;
-  //   }
-
-  //   if (invoiceList.transaction === "Net Banking" && !account) {
-  //     setAccountError("Please Choose Bank Account");
-  //     return;
-  //   }
-
-  //   if (
-  //     !payableAmount ||
-  //     !formatpaiddate ||
-  //     !invoiceList.transaction
-  //   ) {
-  //     setTimeout(() => {
-  //       setTotalErrmsg("");
-  //     }, 1000);
-  //     return;
-  //   }
+ 
 
 
 
-  //   if (
-  //     invoiceList.InvoiceId &&
-  //     payableAmount &&
-  //     invoiceList.transaction &&
-  //     formatpaiddate && hostelId
-  //   ) {
-  //     dispatch({
-  //       type: "RECORD_PAYMENT",
-  //       payload: {
-  //         hostelId: hostelId,
-  //         invoiceId: invoiceList.InvoiceId,
-  //         data: {
-  //           bankId: invoiceList.transaction,
-  //           paymentDate: formatpaiddate,
-  //           referenceId: transactionId,
-  //           amount: payableAmount
-  //         }
-  //       },
-  //     });
-
-
-
-
-  //   }
-  //   setFormRecordLoading(true)
-  // };
-
+ 
   const options = {
     dateFormat: "d/m/Y",
     defaultDate: null,

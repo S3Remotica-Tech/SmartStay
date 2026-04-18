@@ -1457,6 +1457,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     type="text"
                                     placeholder="Enter amount"
                                     value={item.amount}
+                                     onKeyDown={(e) => {
+    if (e.key === "." || e.key === "e" || e.key === "-") {
+      e.preventDefault();
+    }
+  }}
                                     onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                     className="form-control"
                                     style={{
