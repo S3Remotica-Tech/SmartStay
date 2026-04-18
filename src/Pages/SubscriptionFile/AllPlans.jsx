@@ -9,10 +9,17 @@ import { MdArrowRightAlt } from "react-icons/md";
 
 function AllPlans() {
   const state = useSelector((state) => state);
-
-  console.log("allplans callleddddd");
+  const dispatch = useDispatch();
   const { hostelId } = useParams();
-  console.log("hostelId", hostelId);
+
+  const [formLoading, setFormLoading] = useState(false);
+
+  useEffect(() => {
+    if (state.Settings?.statusCodeUpgradePlan === 200) {
+      setFormLoading(false);
+    }
+  }, [state.Settings?.statusCodeUpgradePlan]);
+
   const plans = state?.Settings?.planList?.map((item) => ({
     planCode: item.planCode,
     title: `${item.planName} Plan`,
@@ -26,12 +33,34 @@ function AllPlans() {
     color: item.planName === "Basic" ? "#fff" : "#FFF4E8",
   }));
 
+  const handleUpgradePlan = (plan) => {
+    if (plan) {
+      dispatch({
+        type: "UPGRADE_PLAN_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          planCode: plan?.planCode,
+          // discountAmount: ,
+          // discountPercentage: ,
+        },
+      });
+      setFormLoading(true);
+    }
+  };
+
+  console.log("formLoading", formLoading);
+
   return (
-    <>
+    <div className="relative">
+      {formLoading && (
+        <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-white/60">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-700"></div>
+        </div>
+      )}
       <h3 className="text-[#222222] font-semibold text-[16px] font-gilroy mt-2 mb-2">
         Choose Your Plan
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy ">
         {plans.map((plan, idx) => (
           <div
             key={idx}
@@ -78,7 +107,7 @@ function AllPlans() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

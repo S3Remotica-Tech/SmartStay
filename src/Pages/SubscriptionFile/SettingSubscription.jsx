@@ -42,24 +42,18 @@ function SettingSubscription() {
   const dispatch = useDispatch();
   const [plan, setPlan] = useState(false);
   const [changePlan, setChangePlan] = useState(false);
-  // const [userId, setUserId] = useState("");
-  // const [customerId, setCustomerId] = useState("");
-  const [planCode, setPlanCode] = useState("");
+    const [planCode, setPlanCode] = useState("");
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
   const [hostelCount, setHostelCount] = useState("0");
   const [selectedPlanError, setSelectedPlanError] = useState("");
   const [hostelCountError, setHostelCountError] = useState("");
   const [hostelError, setHostelError] = useState("");
-  // const [planType, setPlanType] = useState("");
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
   const [formLoading, setFormLoading] = useState(false);
-  // const cookies = new Cookies();
-
-  // const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
-
+ 
   const {
     canWriteModule: canWriteSubscription,
     canReadModule: canReadSubscription,
@@ -181,19 +175,7 @@ function SettingSubscription() {
 
   const currentPlan = state?.Settings?.currentPlanDetails;
 
-  const handleUpgradePlan = (plan) => {
-    if (plan) {
-      dispatch({
-        type: "UPGRADE_PLAN_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          planCode: plan?.planCode,
-          // discountAmount: ,
-          // discountPercentage: ,
-        },
-      });
-    }
-  };
+ 
 
   const onMessageReceived = (message) => {
     // console.log("Payment update:", message);

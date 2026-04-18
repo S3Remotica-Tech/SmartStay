@@ -2982,8 +2982,8 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
 
                                 <td
                                   className={`${
-                                    isScrolling ? "bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-50 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   {" "}
                                   <div
@@ -3004,17 +3004,17 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                                     {activeRow === user.customerId && (
                                       <div
                                         ref={popupRef}
-                                        className="absolute top-4 right-20 rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md"
-                                        style={
-                                          {
-                                            // top: showAbove
-                                            //   ? popupPosition.top -
-                                            //   (popupRef.current?.offsetHeight || 100) -
-                                            //   20
-                                            //   : popupPosition.top - 35,
-                                            // left: popupPosition.left,
-                                          }
-                                        }
+                                        className="fixed  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                100) -
+                                              20
+                                            : popupPosition.top - 35,
+                                          left: popupPosition.left - 50,
+                                          transform: "translateZ(0)",
+                                        }}
                                       >
                                         <div className="flex flex-col divide-y divide-gray-200">
                                           {!user.bedId &&
