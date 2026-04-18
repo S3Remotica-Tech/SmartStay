@@ -233,8 +233,10 @@ function UserList(props) {
     { key: "Advance", label: "Advance" },
     { key: "Booking amount", label: "Booking amount" },
   ];
-  const [customizeItems, setCustomizeItems] = useState(options);
-  const allSelected = customizeItems.every((i) => i.checked);
+  const [customizeItems, setCustomizeItems] = useState([]);
+
+  console.log("customizeItems", customizeItems);
+
   const ListOptions = [
     { key: "List", label: "List", img: Setting3 },
     { key: "Room", label: "Room", img: Buildings },
@@ -904,13 +906,14 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setLoading(false);
-      setUserListDetail(state.UsersList.Users.listCustomers);
-
+      setUserListDetail(state.UsersList.Users);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
+
+  console.log("state.UsersList.Users", state.UsersList.Users);
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -1347,10 +1350,10 @@ function UserList(props) {
 
   const [search, setSearch] = useState(false);
 
-  const sortedData = React.useMemo(() => {
-    const items = search || filterStatus ? filteredUsers : userListDetail;
-    return Array.isArray(items) ? items : [];
-  }, [search, filterStatus, filteredUsers, userListDetail]);
+  // const sortedData = React.useMemo(() => {
+  //   const items = search || filterStatus ? filteredUsers : userListDetail;
+  //   return Array.isArray(items) ? items : [];
+  // }, [search, filterStatus, filteredUsers, userListDetail]);
 
   const stats = [
     {
@@ -2316,7 +2319,10 @@ function UserList(props) {
     setView(e.target.value);
   };
 
-  const paginatedData = sortedData.slice(startIndex, endIndex);
+  const paginatedData = state.UsersList?.Users?.tenants?.slice(
+    startIndex,
+    endIndex,
+  );
 
   const handleRowSelect = (id) => {
     setSelectedRows((prev) =>
@@ -2397,24 +2403,28 @@ function UserList(props) {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span {...attributes} {...listeners}>
+        <span
+          {...attributes}
+          {...listeners}
+          onClick={(e) => e.stopPropagation()}
+        >
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
         <input
           type="checkbox"
-          defaultChecked={item.checked}
+          checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
           onChange={() => {
             setCustomizeItems((prev) =>
               prev.map((i) =>
-                i.key === item.key ? { ...i, checked: !i.checked } : i,
+                i.key === item.key ? { ...i, selected: !i.selected } : i,
               ),
             );
           }}
         />
 
-        <span className="text-[#101828]">{item.label}</span>
+        <span className="text-[#101828] text-base">{item.fieldName}</span>
       </label>
     );
   };
@@ -2533,27 +2543,59 @@ function UserList(props) {
     setIsFilterOpen(false);
   };
 
+  const formattedData = (userListDetail?.tenants || []).map((row) => ({
+    profilePic: row[0],
+    fullName: row[1],
+    status: row[2],
+    joiningDate: row[3],
+    mobile: row[4],
+    floor: row[5],
+    room: row[6],
+    bed: row[7],
+    apiCall: row[8],
+  }));
+
+  useEffect(() => {
+    const cols = state?.UsersList?.Users?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected: col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+  }, [state?.UsersList?.Users?.columnList]);
+
+  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  const allSelected =
+    Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
+  6;
+
+  console.log(
+    "selectedColumns",
+    selectedColumns,
+    "selectedColumns.length",
+    selectedColumns.length,
+  );
+
+  useEffect(() => {
+    console.log("formattedData", formattedData);
+  }, [formattedData]);
+
+  const columnStyles = {
+    "Profile Pic": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
+    "Full Name": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
+    Status: "px-4",
+    "Joining Date": "px-4 whitespace-nowrap",
+    "Mobile No": "px-4 whitespace-nowrap",
+    Floor: "px-4",
+    Room: "px-4",
+    Bed: "px-4",
+  };
+
   return (
     <div className="sticky-top bg-white font-gilroy">
-      {isFilterOpen && (
-        <TenantListFilter show={isFilterOpen} handleClose={handleCloseFilter} />
-      )}
-      <CheckOutForm
-        show={checkoutForm}
-        handleClose={checkoutcloseModal}
-        uniqueostel_Id={uniqueostel_Id}
-        setUniqostel_Id={setUniqostel_Id}
-        setAddCheckoutForm={setAddCheckoutForm}
-        checkoutaddform={checkoutaddform}
-      />
-
-      <UserlistWalkinForm
-        show={walkInForm}
-        handleClose={walkinFormcloseModal}
-        uniqueostel_Id={uniqueostel_Id}
-        setUniqostel_Id={setUniqostel_Id}
-      />
-
       {userList && (
         <div>
           <div className="font-gilroy font-medium text-base">
@@ -2632,26 +2674,26 @@ function UserList(props) {
                     />
                   </div>
                 ) : !loading &&
-                  Array.isArray(sortedData) &&
-                  sortedData.length === 0 ? (
-                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-2">
+                  Array.isArray(userListDetail) &&
+                  userListDetail.length === 0 ? (
+                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
                     <div>
                       <div className="text-center">
                         <img src={Emptystate} alt="emptystate" />
                       </div>
 
-                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
+                      <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
                         No Tenant available
                       </div>
-                              
-                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
+
+                      <div className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]">
                         There are no tenant added.
                       </div>
                     </div>
                   </div>
                 ) : null}
 
-                {canReadTenant && sortedData && sortedData.length > 0 && (
+                {canReadTenant && (
                   <div className="">
                     <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
                       {stats.map((item, index) => (
@@ -2798,7 +2840,7 @@ function UserList(props) {
                           )}
                         </div>
                         <PaginationList
-                          totalItems={sortedData.length}
+                          totalItems={userListDetail.length}
                           itemsPerPage={pageSize}
                           currentPage={page}
                           onPageChange={(p) => setPage(p)}
@@ -2836,414 +2878,507 @@ function UserList(props) {
                                 </div>
                               </th>
 
-                              <th className="px-4 py-2.5 sticky left-[80px] z-40 bg-[#F9FAFB] w-[100px] uppercase ">
-                                Name
-                              </th>
+                              {selectedColumns.map((col, index) => {
+                                const isSticky = col.fieldName === "Full Name";
 
-                              <th className="px-4 py-2.5 uppercase">Status</th>
-                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">
-                                Joining Date
-                              </th>
-                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">
-                                Mobile No
-                              </th>
-                              <th className="px-4 py-2.5 uppercase">Floor</th>
-                              <th className="px-4 py-2.5 uppercase">Room</th>
-                              <th className="px-4 py-2.5 uppercase">Bed</th>
+                                return (
+                                  <th
+                                    key={col.key}
+                                    className={`
+        px-4 py-2.5 uppercase whitespace-nowrap text-start
+        ${isSticky ? "sticky left-[80px] z-40 bg-[#F9FAFB]" : ""}
+      `}
+                                  >
+                                    {col.fieldName}
+                                  </th>
+                                );
+                              })}
+
                               <th className="px-4 py-2.5 uppercase sticky right-0 z-50 bg-[#F9FAFB]">
                                 Action
                               </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {paginatedData.map((user) => (
-                              <tr
-                                key={user.customerId}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group  hover:bg-gray-50"
-                                onClick={() => handleRoomDetailsPage(user)}
-                              >
-                                <td
-                                  className={`px-4 sticky left-0 z-20 w-[80px]
+                            {Array.isArray(formattedData) &&
+                              formattedData.map((user, index) => {
+                                return (
+                                  <tr
+                                    onClick={() =>
+                                      handleRoomDetailsPage(user?.apiCall)
+                                    }
+                                    key={user?.apiCall?.customerId || index}
+                                    className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer  hover:bg-gray-50"
+                                  >
+                                    <td className="px-4 sticky left-0">
+                                      <input type="checkbox" />
+                                    </td>
 
-${isScrolling ? "!bg-white" : "!bg-transparent"}
-hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
-                                >
-                                  <div className="flex items-center justify-end">
-                                    <input
-                                      type="checkbox"
-                                      className="rounded cursor-pointer"
-                                      checked={selectedRows.includes(
-                                        user.customerId,
-                                      )}
-                                      onClick={(e) => e.stopPropagation()}
-                                      onChange={(e) => {
-                                        handleRowSelect(user.customerId);
-                                      }}
-                                    />
-                                  </div>
-                                </td>
-                                <td
-                                  className={`px-4 sticky left-[80px] z-30 w-[100px]
+                                    {selectedColumns.map((col) => {
+                                      const baseClass = `
+          ${columnStyles[col.fieldName] || "px-4"}
+          ${isScrolling ? "!bg-white" : "!bg-transparent"}
+          hover:!bg-gray-50 whitespace-nowrap text-[14px]
+        `;
 
-${isScrolling ? "!bg-white" : "bg-transparent"}
-hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
-                                >
-                                  <div className="relative group w-[100px] flex items-center gap-1  ">
-                                    {user.profilePic ? (
-                                      <img
-                                        src={user.profilePic}
-                                        className="w-8 h-8 rounded-full"
-                                      />
-                                    ) : (
-                                      <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs flex-shrink-0">
-                                        {user.initials}
-                                      </div>
-                                    )}
+                                      switch (col.fieldName) {
+                                        case "Profile Pic":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className="px-4"
+                                            >
+                                              {user.profilePic?.startsWith(
+                                                "http",
+                                              ) ? (
+                                                <img
+                                                  src={user.profilePic}
+                                                  className="w-8 h-8 rounded-full"
+                                                />
+                                              ) : (
+                                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                                  {user.profilePic}
+                                                </div>
+                                              )}
+                                            </td>
+                                          );
 
-                                    <span className="truncate whitespace-nowrap text-sm font-semibold font-gilroy text-[#111928] cursor-pointer block">
-                                      {user?.firstName} {user?.lastName}
-                                    </span>
+                                        case "Full Name":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              <div className="relative group w-[100px] ">
+                                                <span className="truncate whitespace-nowrap text-sm text-[#111928] text-ellipsis ">
+                                                  {user.fullName}
+                                                </span>
 
-                                    <div
-                                      className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                                <div
+                                                  className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
+                                                >
+                                                  {user?.fullName}
+                                                </div>
+                                              </div>
+                                            </td>
+                                          );
+
+                                        case "Status":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              <span
+                                                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                                style={{
+                                                  backgroundColor:
+                                                    statusStyles[user.status]
+                                                      ?.bg || "#EEE",
+                                                }}
+                                              >
+                                                <span
+                                                  className="h-2 w-2 rounded-full"
+                                                  style={{
+                                                    backgroundColor:
+                                                      statusStyles[user.status]
+                                                        ?.text || "#333",
+                                                  }}
+                                                ></span>
+
+                                                {user.status}
+                                              </span>
+                                            </td>
+                                          );
+
+                                        case "Joining Date":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className="truncate whitespace-nowrap text-[#6B7280] font-medium px-4"
+                                            >
+                                              {user.joiningDate}
+                                            </td>
+                                          );
+
+                                        case "Mobile No":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              {user.mobile}
+                                            </td>
+                                          );
+
+                                        case "Floor":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              {user.floor}
+                                            </td>
+                                          );
+
+                                        case "Room":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.room}
+                                            </td>
+                                          );
+
+                                        case "Bed":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bed}
+                                            </td>
+                                          );
+                                        case "Email ID":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bed}
+                                            </td>
+                                          );
+                                        case "Booking Date":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bed}
+                                            </td>
+                                          );
+                                        case "Monthly Rent":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bed}
+                                            </td>
+                                          );
+                                        case "Advance":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bed}
+                                            </td>
+                                          );
+                                        case "Booking Amount":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bed}
+                                            </td>
+                                          );
+                                        default:
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              -
+                                            </td>
+                                          );
+                                      }
+                                    })}
+
+                                    <td
+                                      className={`${
+                                        isScrolling ? "!bg-white" : "bg-white"
+                                      } px-4 py-1 sticky right-0 !z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
-                                      {user?.firstName} {user?.lastName}
-                                    </div>
-                                  </div>
-                                </td>
-
-                                <td className="px-4">
-                                  <span
-                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                    style={{
-                                      backgroundColor:
-                                        statusStyles[user.currentStatus]?.bg ||
-                                        "#EEE",
-                                    }}
-                                  >
-                                    <span
-                                      className="h-2 w-2 rounded-full"
-                                      style={{
-                                        backgroundColor:
-                                          statusStyles[user.currentStatus]
-                                            ?.text || "#333",
-                                      }}
-                                    ></span>
-
-                                    {user.currentStatus}
-                                  </span>
-                                </td>
-
-                                <td className=" px-4 py-1 truncate whitespace-nowrap text-[#6B7280] font-medium">
-                                  {user?.actualJoining &&
-                                  user.actualJoining !== "0000-00-00"
-                                    ? moment(
-                                        user.actualJoining,
-                                        "DD/MM/YYYY",
-                                      ).format("D MMMM YYYY")
-                                    : user?.expectedJoiningDate &&
-                                        user.expectedJoiningDate !==
-                                          "0000-00-00"
-                                      ? moment(
-                                          user.expectedJoiningDate,
-                                          "DD/MM/YYYY",
-                                        ).format("D MMMM YYYY")
-                                      : user?.RecheckIn_Date &&
-                                          user.RecheckIn_Date !== "0000-00-00"
-                                        ? moment(user.RecheckIn_Date).format(
-                                            "D MMMM YYYY",
-                                          )
-                                        : "-"}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap text-[#111928]">
-                                  +{user?.countryCode} {user?.mobile}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
-                                  {user.currentStatus === "Booked" ||
-                                  user.currentStatus === "Checked In" ||
-                                  user.currentStatus === "Notice Period" ||
-                                  user.currentStatus === "Settlement Generated"
-                                    ? user.floorName || "-"
-                                    : "-"}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
-                                  {user.roomName || "-"}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
-                                  {user.bedName || "-"}
-                                </td>
-
-                                <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-50 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                                >
-                                  {" "}
-                                  <div
-                                    className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleShowDots(user.customerId, e);
-                                    }}
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${
-                                        activeRow === user.customerId
-                                          ? "text-[#1E45E1]"
-                                          : "text-gray-500"
-                                      }`}
-                                    />
-
-                                    {activeRow === user.customerId && (
+                                      {" "}
                                       <div
-                                        ref={popupRef}
-                                        className="fixed  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                        style={{
-                                          top: showAbove
-                                            ? popupPosition.top -
-                                              (popupRef.current?.offsetHeight ||
-                                                100) -
-                                              20
-                                            : popupPosition.top - 35,
-                                          left: popupPosition.left - 50,
-                                          transform: "translateZ(0)",
+                                        className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleShowDots(
+                                            user.apiCall.customerId,
+                                            e,
+                                          );
                                         }}
                                       >
-                                        <div className="flex flex-col divide-y divide-gray-200">
-                                          {!user.bedId &&
-                                            (user.currentStatus ===
-                                              "Inactive" ||
-                                              user.currentStatus ===
-                                                "un-assigned") && (
-                                              <div
-                                                onClick={() =>
-                                                  canWriteTenant &&
-                                                  handleShowAssignBed(user)
-                                                }
-                                                className={`border-b border-gray-200 flex items-center gap-2  px-3 py-2 transition 
+                                        <PiDotsThreeOutlineVerticalFill
+                                          className={`h-5 w-5 rotate-90 ${
+                                            activeRow ===
+                                            user.apiCall.customerId
+                                              ? "text-[#1E45E1]"
+                                              : "text-gray-500"
+                                          }`}
+                                        />
+
+                                        {activeRow ===
+                                          user.apiCall.customerId && (
+                                          <div
+                                            ref={popupRef}
+                                            className="fixed  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                            style={{
+                                              top: showAbove
+                                                ? popupPosition.top -
+                                                  (popupRef.current
+                                                    ?.offsetHeight || 100) -
+                                                  20
+                                                : popupPosition.top - 35,
+                                              left: popupPosition.left - 30,
+                                              transform: "translateZ(0)",
+                                            }}
+                                          >
+                                            <div className="flex flex-col divide-y divide-gray-200">
+                                              {!user.bedId &&
+                                                (user.status ===
+                                                  "Inactive" ||
+                                                  user.status ===
+                                                    "un-assigned") && (
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleShowAssignBed(user)
+                                                    }
+                                                    className={`border-b border-gray-200 flex items-center gap-2  px-3 py-2 transition 
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={addcircle}
-                                                  alt="Assign Bed"
-                                                  className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                />
-                                                <span
-                                                  className={`text-sm font-medium whitespace-nowrap font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}
-                                                >
-                                                  Check-In
-                                                </span>
-                                              </div>
-                                            )}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      alt="Assign Bed"
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span
+                                                      className={`text-sm font-medium whitespace-nowrap font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}
+                                                    >
+                                                      Check-In
+                                                    </span>
+                                                  </div>
+                                                )}
 
-                                          {(user.currentStatus ===
-                                            "un-assigned" ||
-                                            user.currentStatus ===
-                                              "Inactive") && (
-                                            <div
-                                              onClick={() =>
-                                                canWriteBooking &&
-                                                handleAddBookings(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition
+                                              {(user.status ===
+                                                "un-assigned" ||
+                                                user.status ===
+                                                  "Inactive") && (
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteBooking &&
+                                                    handleAddBookings(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
                 ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={Addbook}
-                                                alt="Add Booking"
-                                                className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                              />
-                                              <span
-                                                className={`text-sm font-medium  whitespace-nowrap font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}
-                                              >
-                                                Add Booking
-                                              </span>
-                                            </div>
-                                          )}
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    alt="Add Booking"
+                                                    className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                  />
+                                                  <span
+                                                    className={`text-sm font-medium  whitespace-nowrap font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}
+                                                  >
+                                                    Add Booking
+                                                  </span>
+                                                </div>
+                                              )}
 
-                                          {(user.currentStatus ===
-                                            "un-assigned" ||
-                                            user.currentStatus ===
-                                              "Inactive") && (
-                                            <div
-                                              onClick={() =>
-                                                canDeleteTenant &&
-                                                handleDeleteShow(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition
+                                              {(user.currentStatus ===
+                                                "un-assigned" ||
+                                                user.currentStatus ===
+                                                  "Inactive") && (
+                                                <div
+                                                  onClick={() =>
+                                                    canDeleteTenant &&
+                                                    handleDeleteShow(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
                 ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <Trash
-                                                size={16}
-                                                color={
-                                                  canDeleteTenant
-                                                    ? "red"
-                                                    : "#A9A9A9"
-                                                }
-                                              />
-                                              <span
-                                                className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}
-                                              >
-                                                Delete
-                                              </span>
-                                            </div>
-                                          )}
+                                                >
+                                                  <Trash
+                                                    size={16}
+                                                    color={
+                                                      canDeleteTenant
+                                                        ? "red"
+                                                        : "#A9A9A9"
+                                                    }
+                                                  />
+                                                  <span
+                                                    className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}
+                                                  >
+                                                    Delete
+                                                  </span>
+                                                </div>
+                                              )}
 
-                                          {user.bedId &&
-                                            user.currentStatus ===
-                                              "Checked In" && (
-                                              <>
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteCheckout &&
-                                                    handleCustomerCheckout(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                                              {
+                                                user.status ===
+                                                  "Checked In" && (
+                                                  <>
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteCheckout &&
+                                                        handleCustomerCheckout(
+                                                          user,
+                                                        )
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={addcircle}
-                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Move to Notice Period
-                                                  </span>
-                                                </div>
+                                                    >
+                                                      <img
+                                                        src={addcircle}
+                                                        className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Move to Notice Period
+                                                      </span>
+                                                    </div>
 
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteTenant &&
-                                                    handleCustomerReAssign(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteTenant &&
+                                                        handleCustomerReAssign(
+                                                          user,
+                                                        )
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Change Bed
-                                                  </span>
-                                                </div>
-                                              </>
-                                            )}
+                                                    >
+                                                      <img
+                                                        src={Addbook}
+                                                        className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Change Bed
+                                                      </span>
+                                                    </div>
+                                                  </>
+                                                )}
 
-                                          {user.bedId &&
-                                            user.currentStatus ===
-                                              "Notice Period" && (
-                                              <>
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteTenant &&
-                                                    handleBacktoCheckout(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                                              {
+                                                user.status ===
+                                                  "Notice Period" && (
+                                                  <>
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteTenant &&
+                                                        handleBacktoCheckout(
+                                                          user,
+                                                        )
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Cancel Check-Out
-                                                  </span>
-                                                </div>
+                                                    >
+                                                      <img
+                                                        src={Addbook}
+                                                        className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Cancel Check-Out
+                                                      </span>
+                                                    </div>
 
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteCheckout &&
-                                                    handleCheckoutGenrateNew(
-                                                      user,
-                                                    )
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteCheckout &&
+                                                        handleCheckoutGenrateNew(
+                                                          user,
+                                                        )
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={logout}
-                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy">
-                                                    Generate
-                                                  </span>
-                                                </div>
-                                              </>
-                                            )}
+                                                    >
+                                                      <img
+                                                        src={logout}
+                                                        className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy">
+                                                        Generate
+                                                      </span>
+                                                    </div>
+                                                  </>
+                                                )}
 
-                                          {user.bedId &&
-                                            user.currentStatus ===
-                                              "Settlement Generated" && (
-                                              <div
-                                                onClick={() =>
-                                                  canWriteCheckout &&
-                                                  handleConformCheckout(user)
-                                                }
-                                                className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
+                                              {
+                                                user.status ===
+                                                  "Settlement Generated" && (
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteCheckout &&
+                                                      handleConformCheckout(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
                 ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                style={{ marginLeft: 12 }}
-                                              >
-                                                <img
-                                                  src={logout}
-                                                  className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                />
-                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                  Check-Out
-                                                </span>
-                                              </div>
-                                            )}
+                                                    style={{ marginLeft: 12 }}
+                                                  >
+                                                    <img
+                                                      src={logout}
+                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Check-Out
+                                                    </span>
+                                                  </div>
+                                                )}
 
-                                          {user.currentStatus === "Booked" && (
-                                            <>
-                                              <div
-                                                onClick={() =>
-                                                  canWriteTenant &&
-                                                  handleBookingAssign(user)
-                                                }
-                                                className={`flex items-center gap-2  px-3 py-2 transition
+                                              {user.status ===
+                                                "Booked" && (
+                                                <>
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleBookingAssign(user)
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={addcircle}
-                                                  className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                />
-                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                  Check-In
-                                                </span>
-                                              </div>
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Check-In
+                                                    </span>
+                                                  </div>
 
-                                              <div
-                                                onClick={() =>
-                                                  canWriteBooking &&
-                                                  handleInActive(user)
-                                                }
-                                                className={`flex items-center gap-2  px-3 py-2 transition
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteBooking &&
+                                                      handleInActive(user)
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={Addbook}
-                                                  className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                                />
-                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                  Make as Inactive
-                                                </span>
-                                              </div>
-                                            </>
-                                          )}
-                                        </div>
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Make as Inactive
+                                                    </span>
+                                                  </div>
+                                                </>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
                                       </div>
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                         {open && (
@@ -3270,14 +3405,14 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                                   </div>
                                   <div
                                     onClick={() => {
-                                      const allSelected = customizeItems.every(
-                                        (i) => i.checked,
-                                      );
+                                      const allSelected =
+                                        Array.isArray(customizeItems) &&
+                                        customizeItems.every((i) => i.selected);
 
                                       setCustomizeItems((prev) =>
                                         prev.map((i) => ({
                                           ...i,
-                                          checked: !allSelected,
+                                          selected: !allSelected,
                                         })),
                                       );
                                     }}
@@ -3411,6 +3546,25 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
           </div>
         </div>
       )}
+
+      {isFilterOpen && (
+        <TenantListFilter show={isFilterOpen} handleClose={handleCloseFilter} />
+      )}
+      <CheckOutForm
+        show={checkoutForm}
+        handleClose={checkoutcloseModal}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
+        setAddCheckoutForm={setAddCheckoutForm}
+        checkoutaddform={checkoutaddform}
+      />
+
+      <UserlistWalkinForm
+        show={walkInForm}
+        handleClose={walkinFormcloseModal}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
+      />
 
       <Modal
         show={deleteShow}
