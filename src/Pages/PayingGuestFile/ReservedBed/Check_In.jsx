@@ -654,6 +654,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                                 maxHeight: 120,
                                 overflowY: "auto",
                                 padding: 0,
+                                fontFamily: "Gilroy",
                               }),
                               indicatorSeparator: () => ({ display: "none" }),
                             }}

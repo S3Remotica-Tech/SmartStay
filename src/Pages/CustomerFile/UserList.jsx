@@ -83,7 +83,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TiTick } from "react-icons/ti";
-import zIndex from "@mui/material/styles/zIndex";
+// import zIndex from "@mui/material/styles/zIndex";
+import TenantListFilter from "./TenantListFilter";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -173,7 +174,8 @@ function UserList(props) {
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
-  console.log("isScrolling", isScrolling);
+  // console.log("isScrolling", isScrolling);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
@@ -2503,8 +2505,22 @@ function UserList(props) {
     { value: "Booked", label: "Booked" },
   ];
   const monthOptions = [
-    { value: "this_month", label: "This Month" },
-    { value: "previous_month", label: "Previous Month" },
+    {
+      value: "this_month",
+      label: "This Month",
+    },
+    {
+      value: "last_month",
+      label: "Last Month",
+    },
+    {
+      value: "last_3_month",
+      label: "Last 3 Months",
+    },
+    {
+      value: "last_6_months",
+      label: "Last 6 Months",
+    },
   ];
 
   const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
@@ -2513,8 +2529,15 @@ function UserList(props) {
     setSelectedMonth(selectedOption);
   };
 
+  const handleCloseFilter = () => {
+    setIsFilterOpen(false);
+  };
+
   return (
     <div className="sticky-top bg-white font-gilroy">
+      {isFilterOpen && (
+        <TenantListFilter show={isFilterOpen} handleClose={handleCloseFilter} />
+      )}
       <CheckOutForm
         show={checkoutForm}
         handleClose={checkoutcloseModal}
@@ -2691,6 +2714,11 @@ function UserList(props) {
                         >
                           <Filter
                             size={16}
+                            onClick={() => {
+                              if (canReadTenant) {
+                                setIsFilterOpen(true);
+                              }
+                            }}
                             className={`transition-opacity duration-300 ${
                               canReadTenant
                                 ? "cursor-pointer opacity-100 pointer-events-auto"
