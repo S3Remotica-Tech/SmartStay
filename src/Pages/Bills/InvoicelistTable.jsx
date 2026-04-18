@@ -16,6 +16,7 @@ import { DiscountCircle, ReceiptEdit } from 'iconsax-react';
 import DiscountInvoice from "../PDF/DiscountInvoice";
 
 const InvoiceTable = (props) => {
+   const { item, selectedRows, handleRowSelect } = props;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -211,12 +212,54 @@ const InvoiceTable = (props) => {
 
   }, [state.InvoiceList?.makeInvoiceDiscountStatus])
 
+  
+    // useEffect(() => {
+    //   const container = tableContainerRef.current;
+    //   if (!container) return;
+  
+    //   const handleScroll = () => {
+    //     const current = container.scrollLeft;
+    //     if (current === 0) {
+    //       setIsScrolling(false);
+    //       lastScrollLeftRef.current = current;
+    //       return;
+    //     }
+  
+    //     if (Math.abs(current - lastScrollLeftRef.current) < 2) {
+    //       return;
+    //     }
+    //     if (current > lastScrollLeftRef.current) {
+    //       setIsScrolling(true);
+    //     } else {
+    //       setIsScrolling(true);
+    //     }
+  
+    //     lastScrollLeftRef.current = current;
+    //   };
+  
+    //   container.addEventListener("scroll", handleScroll);
+  
+    //   return () => {
+    //     container.removeEventListener("scroll", handleScroll);
+    //   };
+    // }, []);
 
   return (
 
     <>
       <tr key={props.item.invoiceId} className="text-sm font-gilroy border-b border-[#E8E8E8]  hover:bg-gray-50">
 
+<td className="px-4 w-[80px]">
+  <div className="flex items-center justify-end">
+    <input
+      type="checkbox"
+      className="rounded cursor-pointer"
+      checked={selectedRows.includes(item.invoiceId)}
+      onClick={(e) => e.stopPropagation()}
+      onChange={() => handleRowSelect(item.invoiceId)}
+    />
+  </div>
+</td>
         <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer">
           <div onClick={() => handleNavigatePDF(props.item)} className="Invoice_Name">
             {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
@@ -243,7 +286,7 @@ const InvoiceTable = (props) => {
             )}
 
 
-            <div className="truncate w-[120px] text-[#1E45E1] hover:underline ">
+            <div className="truncate w-[120px] text-black hover:underline ">
               {props.item?.fullName}
 
             </div>
@@ -313,8 +356,8 @@ const InvoiceTable = (props) => {
             )}
 
 
-          {props.item?.paymentStatus === "Paid" && (
-            <span className="cursor-pointer bg-[#D9FFD9] rounded-[14px] px-3 py-1">
+          {props.item?.paymentStatus === "Paid" && ( 
+            <span className="cursor-pointer bg-[#B3E5BB4D] rounded-[14px] px-3 py-1">
               {props.item?.paymentStatus}
             </span>
           )}
