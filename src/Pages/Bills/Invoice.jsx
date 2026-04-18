@@ -45,6 +45,9 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import Cell from "../../Assets/Images/New_images/Cell.svg";
+import listview from "../../Assets/Images/New_images/listview-rectangle.svg";
+
+
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -96,34 +99,24 @@ const InvoicePage = () => {
     const tableContainerRef = useRef(null);
      const listRef = useRef(null);
 
-  //    const Options = [
-  //   { key: "Name", label: "Name" },
-  //   { key: "Status", label: "Status" },
-  //   { key: "Mobile No", label: "Mobile No" },
-  //   { key: "Joining Date", label: "Joining Date" },
-  //   { key: "Floor", label: "Floor" },
-  //   { key: "Room", label: "Room" },
-  //   { key: "Bed", label: "Bed" },
-  //   { key: "Email ID", label: "Email ID" },
-  //   { key: "Booking Date", label: "Booking Date" },
-  //   { key: "Monthly Rent", label: "Monthly Rent" },
-  //   { key: "Advance", label: "Advance" },
-  //   { key: "Booking amount", label: "Booking amount" },
-  // ];
-
-  const Options = [
-  { key: "Tenant ID", label: "Tenant ID" },
+const Options = [
+  { key: "Invoice Number", label: "Invoice Number" },
   { key: "Name", label: "Name" },
-  { key: "Mobile No", label: "Mobile No" },
-  { key: "Sharing", label: "Sharing" },
-  { key: "Check-in Date", label: "Check-in Date" },
-  { key: "Checkout Date", label: "Checkout Date" },
-  
- 
-  
-  
-  
+  { key: "Type", label: "Type" },
+  { key: "Invoice Date", label: "Invoice Date" },
+  { key: "Due Date", label: "Due Date" },
+  { key: "Amount", label: "Amount" },
+  { key: "Due", label: "Due" },
+  { key: "Status", label: "Status" },
+  { key: "Action", label: "Action" },
+  { key: "Floor Room", label: "Floor Room" },
+  { key: "Bed", label: "Bed" },
+  { key: "Joining Date", label: "Joining Date" },
+  { key: "Contact Number", label: "Contact Number" },
+  { key: "Email ID", label: "Email ID" },
 ];
+
+ 
   
      const [customizeItems, setCustomizeItems] = useState(Options);
       const allSelected = customizeItems.every((i) => i.checked);
@@ -1633,7 +1626,7 @@ const handleSelectAll = (e) => {
                                             <SelectedIcon size="18" color="#4B4B4B" />
                                           ) : null;
                                         })()}
-            
+                                   {/* <img src={listview}></img> */}
                                         <span className="text-sm text-gray-700">
                                           {view}
                                         </span>
@@ -1776,7 +1769,7 @@ const handleSelectAll = (e) => {
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-220px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-230px)]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                       

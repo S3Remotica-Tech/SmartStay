@@ -286,7 +286,7 @@ const InvoiceTable = (props) => {
             )}
 
 
-            <div className="truncate w-[120px] text-[#1E45E1] hover:underline ">
+            <div className="truncate w-[120px] text-black hover:underline ">
               {props.item?.fullName}
 
             </div>
