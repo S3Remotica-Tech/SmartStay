@@ -2608,7 +2608,7 @@ function UserList(props) {
             <div className="sticky top-0 bg-white z-20">
               <div className="flex items-center justify-between">
                 <div className="flex gap-6 mt-3">
-                  {tabs.map((tab) => (
+                  {tabs?.map((tab) => (
                     <button
                       key={tab.key}
                       onClick={() => handleChange(tab.key)}
@@ -2674,8 +2674,8 @@ function UserList(props) {
                     />
                   </div>
                 ) : !loading &&
-                  Array.isArray(userListDetail) &&
-                  userListDetail.length === 0 ? (
+                  Array.isArray(formattedData) &&
+                  formattedData.length === 0 ? (
                   <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
                     <div>
                       <div className="text-center">
@@ -2693,7 +2693,7 @@ function UserList(props) {
                   </div>
                 ) : null}
 
-                {canReadTenant && (
+                {canReadTenant && formattedData?.length > 0 && (
                   <div className="">
                     <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
                       {stats.map((item, index) => (
@@ -2771,7 +2771,10 @@ function UserList(props) {
                       </div>
 
                       <div className={` flex justify-end gap-2 mr-2 `}>
-                        <div className="relative">
+                        <button
+                          disabled
+                          className="relative disabled:opacity-50 disabled:cursor-not-allowed "
+                        >
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
@@ -2838,7 +2841,7 @@ function UserList(props) {
                               })}
                             </div>
                           )}
-                        </div>
+                        </button>
                         <PaginationList
                           totalItems={userListDetail.length}
                           itemsPerPage={pageSize}
@@ -2848,6 +2851,7 @@ function UserList(props) {
                         />
                       </div>
                     </div>
+
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
@@ -2869,16 +2873,16 @@ function UserList(props) {
                                     type="checkbox"
                                     className="rounded cursor-pointer"
                                     checked={
-                                      selectedRows.length ===
-                                        paginatedData.length &&
-                                      paginatedData.length > 0
+                                      selectedRows?.length ===
+                                        paginatedData?.length &&
+                                      paginatedData?.length > 0
                                     }
                                     onChange={handleSelectAll}
                                   />
                                 </div>
                               </th>
 
-                              {selectedColumns.map((col, index) => {
+                              {selectedColumns?.map((col, index) => {
                                 const isSticky = col.fieldName === "Full Name";
 
                                 return (
