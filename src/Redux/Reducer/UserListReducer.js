@@ -168,7 +168,12 @@ export const initialState = {
     tenantDocumentUploadError: "",
     tenantDocumentDeleteStatusCode: 0,
     templatesImagesDeleteStatusCode: 0,
-    templatesGlobalImagesDeleteStatusCode: 0
+    templatesGlobalImagesDeleteStatusCode: 0,
+       tenantFilters: {
+        status: [],
+        search: "",
+
+    },
 
 }
 
@@ -182,6 +187,14 @@ const UserListReducer = (state = initialState, action) => {
             return initialState;
         case 'AVAILABLE_BED':
             return { ...state, availableBedList: action.payload.response }
+            case "SET_TENANT_TABLE_FILTERS":
+            return {
+                ...state,
+                tenantFilters: {
+                    ...state.tenantFilters,
+                    ...action.payload,
+                },
+            };
 
         case 'ACCESS_RESTRICTION_ERROR':
             return { ...state, accessRestrictionError: action.payload }

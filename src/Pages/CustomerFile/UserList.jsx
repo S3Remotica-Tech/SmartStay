@@ -89,7 +89,7 @@ import TenantListFilter from "./TenantListFilter";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
-
+  const [chips, setChips] = useState([]);
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -99,7 +99,6 @@ function UserList(props) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
   const [open, setOpen] = useState(false);
   const [excelDownload, setExcelDownload] = useState("");
@@ -119,7 +118,7 @@ function UserList(props) {
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [billLoading, setBillLoading] = useState(false);
-
+  const [status, setStatus] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
@@ -196,6 +195,13 @@ function UserList(props) {
 
   const isTenantForm = location.state?.isTenantForm || false;
 
+  const [debouncedInput, setDebouncedInput] = useState(filterInput);
+  const [statusfilter, setStatusFilter] = useState("");
+
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected?.value || "");
+  };
+
   useEffect(() => {
     if (isTenantForm) {
       setValue("4");
@@ -235,7 +241,9 @@ function UserList(props) {
   ];
   const [customizeItems, setCustomizeItems] = useState([]);
 
-  console.log("customizeItems", customizeItems);
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+  };
 
   const ListOptions = [
     { key: "List", label: "List", img: Setting3 },
@@ -906,6 +914,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setLoading(false);
+      setIsFilterOpen(false);
       setUserListDetail(state.UsersList.Users);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
@@ -1173,105 +1182,42 @@ function UserList(props) {
     }
   }, [state.UsersList.cancelCheckoutStatusCode]);
 
-  useEffect(() => {
-    if (value === "1") {
-      const FilterUser = Array.isArray(userListDetail)
-        ? userListDetail?.filter((item) =>
-            item.firstName.toLowerCase().includes(filterInput.toLowerCase()),
-          )
-        : [];
-
-      setFilteredUsers(FilterUser);
-    }
-
-    if (value === "2") {
-      const FilterUsertwo = Array.isArray(customerBooking)
-        ? customerBooking?.filter((item) => {
-            const fullName = `${item.first_name || ""} ${
-              item.last_name || ""
-            }`.toLowerCase();
-            return fullName.includes(filterInput.toLowerCase());
-          })
-        : [];
-
-      setFilteredUsers(FilterUsertwo);
-    }
-
-    if (value === "3") {
-      const FilterUsertwo = Array.isArray(checkOutCustomer)
-        ? checkOutCustomer?.filter((item) => {
-            return item.firstName
-              .toLowerCase()
-              .includes(filterInput?.toLowerCase());
-          })
-        : [];
-
-      setFilteredUsers(FilterUsertwo);
-    }
-    if (value === "4") {
-      const FilterUsertwo = Array.isArray(walkingCustomer)
-        ? walkingCustomer?.filter((item) => {
-            return item.first_name
-              ?.toLowerCase()
-              .includes(filterInput?.toLowerCase() || "");
-          })
-        : [];
-
-      setFilteredUsers(FilterUsertwo);
-    }
-  }, [
-    filterInput,
-    state.UsersList?.Users?.listCustomers,
-    state.UsersList?.UserListStatusCode,
-    value,
-    state?.Booking?.CustomerBookingList?.bookings,
-    state.Booking.statusCodeGetBooking,
-    state.UsersList?.WalkInCustomerList,
-    state.UsersList?.getWalkInStatusCode,
-    state.UsersList.GetCheckOutCustomerStatusCode,
-    state.UsersList.CheckOutCustomerList.checkoutCustomers,
-  ]);
-
   const handlefilterInput = (e) => {
     const searchValue = e.target.value.toLowerCase().trim();
     setFilterInput(searchValue);
+  };
 
-    if (searchValue.length > 0) {
-      const filtered = filteredUsers.filter((user) => {
-        const fullName = [user?.first_name, user?.last_name]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-        const name = user?.Name?.toLowerCase() || "";
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedInput(filterInput);
+    }, 400);
 
-        return name.startsWith(searchValue) || fullName.startsWith(searchValue);
+    return () => clearTimeout(timer);
+  }, [filterInput]);
+
+  useEffect(() => {
+    if (debouncedInput || statusfilter) {
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          name: debouncedInput || "",
+          type: statusfilter || "",
+        },
       });
+      const filters = {
+        status: statusfilter ? [statusfilter] : [],
+        search: debouncedInput?.trim() ? debouncedInput : undefined,
+      };
 
-      setFilteredUsers(filtered);
-      setDropdownVisible(true);
-      // setCurrentPage(1);
-    } else {
-      setFilteredUsers(filteredUsers);
-      setDropdownVisible(false);
+      dispatch({
+        type: "SET_TENANT_TABLE_FILTERS",
+        payload: filters,
+      });
     }
-  };
+  }, [debouncedInput, statusfilter]);
 
-  const handleUserSelect = (user) => {
-    if (value === "1") {
-      setFilterInput(user?.firstName || "");
-    } else if (value === "2") {
-      setFilterInput(
-        [user?.firstName, user?.last_name].filter(Boolean).join(" "),
-      );
-    } else if (value === "3") {
-      setFilterInput(user?.Name || "");
-    } else if (value === "4") {
-      setFilterInput(user?.first_name || "");
-    }
-
-    setFilteredUsers([]);
-    setDropdownVisible(false);
-  };
+  console.log("statusfilter", statusfilter);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1421,7 +1367,7 @@ function UserList(props) {
     if (state.UsersList?.NoUserListStatusCode) {
       setLoading(false);
       setUserDetails([]);
-      setFilteredUsers([]);
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_USER_LIST" });
       }, 2000);
@@ -1549,137 +1495,7 @@ function UserList(props) {
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const [resetPage, setResetPage] = useState(false);
-
-  const handleDateRangeChangeBooking = (dates) => {
-    setBookingDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      setFilteredUsers(customerBooking);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = customerBooking?.filter((item) => {
-      const itemDate = dayjs(item.createdat);
-      return (
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
-
-  const handleDateRangeChangeCheckIn = (dates) => {
-    setCheckInDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      // setCurrentPage(1);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = userListDetail?.filter((item) => {
-      if (!item.joining_Date || item.joining_Date === "0000-00-00")
-        return false;
-
-      const itemDate = dayjs(item.joining_Date);
-      return (
-        itemDate.isValid() &&
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    // setCurrentPage(1);
-  };
-
   const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
-
-  const handleStatusFilterCheckout = (event) => {
-    const searchTerm = event.target.value;
-    setStatusFilterCheckout(searchTerm);
-
-    if (searchTerm !== "date") {
-      setCheckoutDateRange(null);
-    }
-
-    if (searchTerm === "All") {
-      setFilteredUsers(checkOutCustomer);
-      setFilterStatus(true);
-    } else if (searchTerm === "0" || searchTerm === "1") {
-      const filtered = checkOutCustomer?.filter(
-        (item) => item.isActive?.toString() === searchTerm,
-      );
-      setFilteredUsers(filtered);
-      setFilterStatus(true);
-    } else if (searchTerm === "date") {
-      setFilterStatus(true);
-    }
-  };
-
-  useEffect(() => {
-    if (!filterStatus) {
-      setStatusFilterCheckout("All");
-      setCheckoutDateRange(null);
-    }
-  }, [filterStatus]);
-
-  const handleDateRangeChangeCheckout = (dates) => {
-    setCheckoutDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setStatusFilterCheckout("All");
-      setFilteredUsers(checkOutCustomer);
-      setFilterStatus(false);
-      return;
-    }
-
-    const [start, end] = dates;
-    const filtered = checkOutCustomer?.filter((item) => {
-      const itemDate = dayjs(item.CheckoutDate);
-      return (
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
-
-  const handleDateRangeChangeWalkin = (dates) => {
-    setWalkinDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      setFilteredUsers(walkingCustomer);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = walkingCustomer?.filter((item) => {
-      const itemDate = dayjs(item.walk_In_Date);
-      return (
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
 
   useEffect(() => {
     if (id) {
@@ -2503,17 +2319,7 @@ function UserList(props) {
     { key: "4", label: "Walk-in" },
     { key: "3", label: "Check-out" },
   ];
-  const [statusfilter, setStatusfilter] = useState("");
 
-  const handleStatusFilter = (selectedOption) => {
-    setStatusfilter(selectedOption);
-  };
-
-  const selectOptions = [
-    { value: "Checked In", label: "Checked In" },
-    { value: "Notice Period", label: "Notice Period" },
-    { value: "Booked", label: "Booked" },
-  ];
   const monthOptions = [
     {
       value: "this_month",
@@ -2549,11 +2355,22 @@ function UserList(props) {
     status: row[2],
     joiningDate: row[3],
     mobile: row[4],
-    floor: row[5],
-    room: row[6],
-    bed: row[7],
+    floorName: row[5],
+    roomName: row[6],
+    bedName: row[7],
     apiCall: row[8],
   }));
+
+  const selectOptions = [
+    ...new Map(
+      (formattedData || [])
+        .filter((view) => view.status)
+        .map((view) => [
+          view.status,
+          { value: view.status, label: view.status },
+        ]),
+    ).values(),
+  ];
 
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
@@ -2572,16 +2389,9 @@ function UserList(props) {
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
   6;
 
-  console.log(
-    "selectedColumns",
-    selectedColumns,
-    "selectedColumns.length",
-    selectedColumns.length,
-  );
-
-  useEffect(() => {
-    console.log("formattedData", formattedData);
-  }, [formattedData]);
+  // useEffect(() => {
+  //   console.log("formattedData", formattedData);
+  // }, [formattedData]);
 
   const columnStyles = {
     "Profile Pic": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
@@ -2594,6 +2404,69 @@ function UserList(props) {
     Bed: "px-4",
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_TENANT_TABLE_FILTERS",
+        payload: {
+          status: [],
+          search: "",
+        },
+      });
+    };
+  }, [state.login.selectedHostel_Id]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: {
+        status: [],
+        search: "",
+      },
+    });
+    dispatch({
+      type: "USERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  };
+
+  useEffect(() => {
+    const tenantFilters = state.UsersList?.tenantFilters;
+    // console.log("tenantFilters", tenantFilters);
+
+    const filterData = [];
+
+    if (tenantFilters?.status.length) {
+      filterData.push({
+        key: "status",
+        label: "Status is",
+        type: "status",
+        value: tenantFilters?.status?.join(", "),
+      });
+    }
+
+    // if (invoiceFilters?.type?.length) {
+    //   filterData.push({
+    //     key: "type",
+    //     label: "Type is",
+    //     type: "type",
+    //     value: invoiceFilters.type.join(", "),
+    //   });
+    // }
+
+    if (tenantFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Tenant",
+        type: "search",
+        value: tenantFilters.search,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.UsersList?.tenantFilters]);
+
+  // console.log("chips", chips);
   return (
     <div className="sticky-top bg-white font-gilroy">
       {userList && (
@@ -2625,30 +2498,32 @@ function UserList(props) {
                 </div>
 
                 <div className="flex items-center gap-3 flex-wrap">
-                  <div className="relative min-w-[180px] max-w-[260px]">
-                    <div
-                      className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+                  {value === "1" && (
+                    <div className="relative min-w-[180px] max-w-[260px]">
+                      <div
+                        className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
     ${
       canReadTenant
         ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
         : "border-gray-200 opacity-60 cursor-not-allowed"
     }`}
-                    >
-                      <input
-                        type="text"
-                        placeholder="Search..."
-                        value={filterInput}
-                        onChange={handlefilterInput}
-                        disabled={!canReadTenant}
-                        className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
-                      />
-                      <SearchNormal1
-                        size="18"
-                        color={canReadTenant ? "#6B7280" : "#A0A0A0"}
-                        className="mr-2"
-                      />
+                      >
+                        <input
+                          type="text"
+                          placeholder="Search..."
+                          value={filterInput}
+                          onChange={handlefilterInput}
+                          disabled={!canReadTenant}
+                          className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                        />
+                        <SearchNormal1
+                          size="18"
+                          color={canReadTenant ? "#6B7280" : "#A0A0A0"}
+                          className="mr-2"
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {value === "4" && (
                     <button
@@ -2729,11 +2604,13 @@ function UserList(props) {
                           <Select
                             options={selectOptions}
                             styles={CustomStyles}
-                            disabled={!canReadTenant}
+                            isDisabled={!canReadTenant}
                             onChange={(e) => handleStatusFilter(e)}
-                            value={selectOptions.find(
-                              (opt) => opt.value === statusfilter,
-                            )}
+                            value={
+                              selectOptions.find(
+                                (opt) => opt.value === statusfilter,
+                              ) || null
+                            }
                             id="statusselect"
                           />
                         </div>
@@ -2851,7 +2728,29 @@ function UserList(props) {
                         />
                       </div>
                     </div>
-
+                    {chips.length > 0 && (
+                      <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
+                        <div className="flex flex-wrap gap-2 flex-1">
+                          {chips.map((chip) => (
+                            <span
+                              key={chip.key}
+                              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                            >
+                              {chip.label} :
+                              <span className="text-gray-900">
+                                {chip.value}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                        <span
+                          className="text-blue-600 text-sm font-medium cursor-pointer"
+                          onClick={handleReset}
+                        >
+                          Reset
+                        </span>
+                      </div>
+                    )}
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
@@ -3024,7 +2923,7 @@ function UserList(props) {
                                               key={col.key}
                                               className={baseClass}
                                             >
-                                              {user.floor}
+                                              {user.floorName}
                                             </td>
                                           );
 
@@ -3034,7 +2933,7 @@ function UserList(props) {
                                               key={col.key}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.room}
+                                              {user.roomName}
                                             </td>
                                           );
 
@@ -3044,7 +2943,7 @@ function UserList(props) {
                                               key={col.key}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bed}
+                                              {user.bedName}
                                             </td>
                                           );
                                         case "Email ID":
@@ -3053,7 +2952,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bed}
+                                              {user.emailId}
                                             </td>
                                           );
                                         case "Booking Date":
@@ -3062,7 +2961,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bed}
+                                              {user.bookingDate}
                                             </td>
                                           );
                                         case "Monthly Rent":
@@ -3071,7 +2970,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bed}
+                                              {user.monthlyRent}
                                             </td>
                                           );
                                         case "Advance":
@@ -3080,7 +2979,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bed}
+                                              {user.advanceAmount}
                                             </td>
                                           );
                                         case "Booking Amount":
@@ -3089,7 +2988,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bed}
+                                              {user.bookingAmount}
                                             </td>
                                           );
                                         default:
@@ -3507,7 +3406,7 @@ function UserList(props) {
                 id={props.id}
                 uniqueostel_Id={uniqueostel_Id}
                 setUniqostel_Id={setUniqostel_Id}
-                filteredUsers={filteredUsers}
+                // filteredUsers={filteredUsers}
                 filterInput={filterInput}
                 setAddCheckoutForm={setAddCheckoutForm}
                 checkoutaddform={checkoutaddform}
@@ -3526,7 +3425,7 @@ function UserList(props) {
                 // customerWalkInAddPermission={customerWalkInAddPermission}
                 uniqueostel_Id={uniqueostel_Id}
                 setUniqostel_Id={setUniqostel_Id}
-                filteredUsers={filteredUsers}
+                // filteredUsers={filteredUsers}
                 filterInput={filterInput}
                 search={search}
                 walkinDateRange={walkinDateRange}

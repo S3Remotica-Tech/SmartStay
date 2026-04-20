@@ -276,42 +276,26 @@ function TenantListFilter({ show, handleClose }) {
 
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
-    const tenantPayload = {
-      status: tenantStatus,
-      period: period?.value || null,
-      floor: floor?.map((f) => f.value),
-      room: room?.map((r) => r.value),
-      search: tenantName,
-      size: size,
-      page: 0,
-      startDate: period?.value ? undefined : startDate,
-      endDate: period?.value ? undefined : endDate,
-      sharingType: sharingType?.value,
-    };
+    const filters = {
+        // status: statusfilter ? [statusfilter] : [],
+        search: tenantName?.trim() ? tenantName : undefined,
+      };
+
+      dispatch({
+        type: "SET_TENANT_TABLE_FILTERS",
+        payload: filters,
+      });
 
     dispatch({
-      type: "SET_TENANT_REGISTER_FILTERS",
-      payload: {
-        startDate: period?.value ? undefined : startDate,
-        endDate: period?.value ? undefined : endDate,
-        period: period?.value || null,
-        floor: floor?.map((f) => f.label),
-        room: room?.map((r) => r.label),
-        search: tenantName,
-        tenantStatus: tenantStatus,
-        tenantStatusLabel: selectedTenantStatusOptions?.map((s) => s.label),
-        sharingType: sharingType?.value,
-        sharingTypeLabel: sharingType?.label,
-      },
-    });
-
-    dispatch({
-      type: "GET_REPORTS_TENANT_REGISTER_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: tenantPayload,
-      },
-    });
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          name:  tenantName|| "",
+          // type: statusfilter || "",
+        },
+      });
+     
+  
     setFormLoading(true);
   };
 
@@ -325,13 +309,12 @@ function TenantListFilter({ show, handleClose }) {
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    if (state.reports.getTenantRegisterSuccess === 200) {
+    if (state.UsersList?.UserListStatusCode === 200) {
       setFormLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_REPORTS_TENANT_REGISTER_REDUCER" });
-      }, 100);
+     
+     
     }
-  }, [state.reports.getTenantRegisterSuccess]);
+  }, [state.UsersList?.UserListStatusCode]);
 
   return (
     <div>
