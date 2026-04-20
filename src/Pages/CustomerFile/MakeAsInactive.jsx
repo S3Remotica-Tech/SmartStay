@@ -126,7 +126,7 @@ function MakeAsInactive({
     }
   }, [inActiveDetails]);
 
-  const CustomerOverView = state.UsersList.customerdetails;
+  const CustomerOverView = state?.UsersList?.customerdetails;
 
   useEffect(() => {
     if (inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId) {

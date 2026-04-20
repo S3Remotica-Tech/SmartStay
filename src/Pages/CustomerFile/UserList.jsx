@@ -3029,98 +3029,22 @@ function UserList(props) {
                                         />
 
                                         {activeRow ===
-                                          user.apiCall.customerId && (
+                                          user?.apiCall?.customerId && (
                                           <div
                                             ref={popupRef}
-                                            className="fixed  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                            className="fixed top-10  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                             style={{
                                               top: showAbove
                                                 ? popupPosition.top -
                                                   (popupRef.current
                                                     ?.offsetHeight || 100) -
-                                                  20
-                                                : popupPosition.top - 35,
+                                                  10
+                                                : popupPosition.top,
                                               left: popupPosition.left - 30,
                                               transform: "translateZ(0)",
                                             }}
                                           >
                                             <div className="flex flex-col divide-y divide-gray-200">
-                                              {!user.bedId &&
-                                                (user.status === "Inactive" ||
-                                                  user.status ===
-                                                    "un-assigned") && (
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleShowAssignBed(user)
-                                                    }
-                                                    className={`border-b border-gray-200 flex items-center gap-2  px-3 py-2 transition 
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={addcircle}
-                                                      alt="Assign Bed"
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                    />
-                                                    <span
-                                                      className={`text-sm font-medium whitespace-nowrap font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}
-                                                    >
-                                                      Check-In
-                                                    </span>
-                                                  </div>
-                                                )}
-
-                                              {(user.status === "un-assigned" ||
-                                                user.status === "Inactive") && (
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteBooking &&
-                                                    handleAddBookings(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    alt="Add Booking"
-                                                    className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                                  />
-                                                  <span
-                                                    className={`text-sm font-medium  whitespace-nowrap font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}
-                                                  >
-                                                    Add Booking
-                                                  </span>
-                                                </div>
-                                              )}
-
-                                              {(user.currentStatus ===
-                                                "un-assigned" ||
-                                                user.currentStatus ===
-                                                  "Inactive") && (
-                                                <div
-                                                  onClick={() =>
-                                                    canDeleteTenant &&
-                                                    handleDeleteShow(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <Trash
-                                                    size={16}
-                                                    color={
-                                                      canDeleteTenant
-                                                        ? "red"
-                                                        : "#A9A9A9"
-                                                    }
-                                                  />
-                                                  <span
-                                                    className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}
-                                                  >
-                                                    Delete
-                                                  </span>
-                                                </div>
-                                              )}
-
                                               {user.status === "Checked In" && (
                                                 <>
                                                   <div

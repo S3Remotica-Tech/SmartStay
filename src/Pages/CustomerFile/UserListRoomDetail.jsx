@@ -5,7 +5,19 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, MoneyTick, ExportCurve, ArrowSwapHorizontal, Calendar2, LogoutCurve, AddCircle, Notification1, Edit } from "iconsax-react";
+import {
+  Call,
+  Sms,
+  House,
+  MoneyTick,
+  ExportCurve,
+  ArrowSwapHorizontal,
+  Calendar2,
+  LogoutCurve,
+  AddCircle,
+  Notification1,
+  Edit,
+} from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
@@ -33,10 +45,10 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
 import { Verify } from "iconsax-react";
-import { RightOutlined } from '@ant-design/icons';
+import { RightOutlined } from "@ant-design/icons";
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
-import adhar from "../../Assets/Images/New_images/aadharimg.png"
-import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
+import adhar from "../../Assets/Images/New_images/aadharimg.png";
+import EditImage from "../../Assets/Images/New_images/cus_edit.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Landamrkimage from "../../Assets/Images/landmark.png";
 import Areaimage from "../../Assets/Images/area_icon.png";
@@ -53,9 +65,9 @@ import EditAddressDetails from "./EditAddressDetails";
 import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
 import Retry from "../../Assets/Images/New_images/reload.png";
-import FileAdd from '../../Assets/Images/New_images/file_add.svg'
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import FileAdd from "../../Assets/Images/New_images/file_add.svg";
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate, useLocation } from "react-router-dom";
 import EditRentalAmount from "./EditRentalAmount";
 import EditAdvanceAmount from "./EditAdvanceAmount";
@@ -75,8 +87,6 @@ import CustomerCheckout from "./CustomerCheckout";
 import CustomerReAssign from "./CustomerReAssign";
 import MakeAsInactive from "./MakeAsInactive";
 import icon from "../../Assets/Images/New_images/Icon (1).svg";
-
-
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -138,8 +148,8 @@ function UserListRoomDetail(props) {
   const [cityError, setCityError] = useState("");
   const [activeTab, setActiveTab] = useState("kyc");
 
-  const [inactiveForm, setInActiveForm] = useState(false)
-  const [inActiveDetails, setInactiveDetails] = useState("")
+  const [inactiveForm, setInActiveForm] = useState(false);
+  const [inActiveDetails, setInactiveDetails] = useState("");
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [additionalContact, setAdditionalContact] = useState([]);
@@ -149,44 +159,44 @@ function UserListRoomDetail(props) {
   const [advanceDueDate, setAdvanceDueDate] = useState("");
   // const [advanceDateError, setAdvanceDateError] = useState("");
   // const [advanceDueDateError, setAdvanceDueDateError] = useState("");
-  const [customerDetails, setCustomerDetails] = useState([])
-  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
-  const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
+  const [customerDetails, setCustomerDetails] = useState([]);
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
+  const [generateFormAdvance, setGenerateFormAdvance] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false)
-  const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false)
-  const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
-  const [stayDetailsShow, setStayDetailsShow] = useState(false)
+  const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false);
+  const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false);
+  const [editStayDetailsShow, setEditStayDetailsShow] = useState(false);
+  const [stayDetailsShow, setStayDetailsShow] = useState(false);
   const [fields, setFields] = useState([]);
   const [showDocModal, setShowDocModal] = useState(false);
   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
-  const [documentvalue, setDocumentValue] = useState("1")
+  const [documentvalue, setDocumentValue] = useState("1");
   const [showWalletHistory, setShowWalletHistory] = useState(false);
-  const [BookingAssignForm, setBookingAssignForm] = useState(false)
+  const [BookingAssignForm, setBookingAssignForm] = useState(false);
   // const [previewUrl2, setPreviewUrl2] = useState(null)
   // const [loadingFile, setLoadingFile] = useState(true)
   const [showModal, setShowModal] = useState(false);
-  const [basicDetails, setBasicDetails] = useState("")
+  const [basicDetails, setBasicDetails] = useState("");
   // const [imagePreview, setImagePreview] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [advanceList, setAdvanceList] = useState("")
+  const [advanceList, setAdvanceList] = useState("");
   const [addamenityShow, setaddamenityShow] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
   const [customerCheckoutpage, setCustomerCheckoutpage] = useState(false);
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [initialReasonFields, setInitialReasonFields] = useState([]);
-  const [showUpdateRentForm, setShowUpdateRentForm] = useState(false)
-  const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false)
-  const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false)
+  const [showUpdateRentForm, setShowUpdateRentForm] = useState(false);
+  const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false);
+  const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false);
   const [reAssignDetail, setReasignDetail] = useState("");
   const [customerReassign, setCustomerReAssign] = useState(false);
-  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
-  const [DueCustomerShow, setDueCustomerShow] = useState(false)
+  const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
+  const [DueCustomerShow, setDueCustomerShow] = useState(false);
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
   const menuRef = useRef(null);
-  const [ProfilePic, setProfilepic] = useState(false)
+  const [ProfilePic, setProfilepic] = useState(false);
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   // const canDeleteTenant = useHasPermission("Customers", "canDelete")
   // const canWriteTenant = useHasPermission("Customers", "canWrite")
@@ -214,20 +224,17 @@ function UserListRoomDetail(props) {
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
-
   const {
     // canReadModule: canReadCheckout,
-    canWriteModule: canWriteCheckout
-
+    canWriteModule: canWriteCheckout,
   } = useHasPermission("Checkout");
 
   const {
     canWriteModule: canWriteBooking,
     // canReadModule: canReadBooking,
-
   } = useHasPermission("Booking");
 
-  console.log("documentvalue", documentvalue)
+  console.log("documentvalue", documentvalue);
 
   const {
     canWriteModule: canWriteAmenities,
@@ -238,21 +245,30 @@ function UserListRoomDetail(props) {
 
   const amenitiesRef = useRef(null);
 
-  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo, isDashboardWay, isBillWay, isReceiptWay } = location.state || {};
+  const {
+    customerId,
+    totriggerBillTap,
+    isPgWay,
+    IsOverView,
+    scrollTo,
+    isDashboardWay,
+    isBillWay,
+    isReceiptWay,
+  } = location.state || {};
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
-
 
   // console.log("CustomerOverView?.isJoiningDateEditable",CustomerOverView?.isJoiningDateEditable)
 
   useEffect(() => {
     if (isDashboardWay) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: customerId },
+      });
     }
-
-  }, [isDashboardWay])
-
+  }, [isDashboardWay]);
 
   useEffect(() => {
     if (totriggerBillTap) {
@@ -265,11 +281,13 @@ function UserListRoomDetail(props) {
 
     if (scrollTo === "amenities") {
       setTimeout(() => {
-        amenitiesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        amenitiesRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 300);
     }
   }, [totriggerBillTap, IsOverView, scrollTo]);
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -287,17 +305,9 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (CustomerOverView) {
-      setAdditionalContact(CustomerOverView?.additionalContacts)
+      setAdditionalContact(CustomerOverView?.additionalContacts);
     }
-
-  }, [CustomerOverView])
-
-
-
-
-
-
-
+  }, [CustomerOverView]);
 
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
@@ -305,13 +315,8 @@ function UserListRoomDetail(props) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 500);
-
     }
-  }, [state.UsersList?.CustomerdetailsgetStatuscode])
-
-
-
-
+  }, [state.UsersList?.CustomerdetailsgetStatuscode]);
 
   // const handleFileOpen = (url) => {
   //   if (!url) return;
@@ -335,11 +340,6 @@ function UserListRoomDetail(props) {
   //   }
   // };
 
-
-
-
-
-
   // const handleFileOpen2 = (url) => {
   //   if (!url) return;
 
@@ -362,52 +362,45 @@ function UserListRoomDetail(props) {
   //   }
   // };
 
-
   // const cleanFileName = (url) => {
   //   const fullName = getFileName(url);
   //   const parts = fullName.split("_");
-  //   const ext = fullName.split(".").pop(); 
-  //   const short = parts[0].substring(0, 6); 
+  //   const ext = fullName.split(".").pop();
+  //   const short = parts[0].substring(0, 6);
   //   return `${short}.${ext}`;
   // };
   // const cleanFileName = (url) => {
   //   if (!url) return "";
 
-  //   const fullName = decodeURIComponent(url.split("/").pop()); 
-  //   const ext = fullName.split(".").pop(); 
-  //   const baseName = fullName.replace(/\.[^/.]+$/, ""); 
+  //   const fullName = decodeURIComponent(url.split("/").pop());
+  //   const ext = fullName.split(".").pop();
+  //   const baseName = fullName.replace(/\.[^/.]+$/, "");
 
   //   const parts = baseName.split("_");
-  //   const lastPart = parts[parts.length - 1]; 
-
+  //   const lastPart = parts[parts.length - 1];
 
   //   const short = lastPart.substring(0, 15);
 
   //   return `${short}.${ext}`;
   // };
 
-
-
-
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
 
+  const [formLoading, setFormLoading] = useState(false);
 
-  const [formLoading, setFormLoading] = useState(false)
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleOpenAdvance = () => {
-    setGenerateFormAdvance(true)
-  }
+    setGenerateFormAdvance(true);
+  };
   const handleCloseGenerateAdvance = () => {
-    setGenerateFormAdvance(false)
-    setAdvanceDate("")
-    setAdvanceDueDate("")
-  }
-
+    setGenerateFormAdvance(false);
+    setAdvanceDate("");
+    setAdvanceDueDate("");
+  };
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -457,43 +450,41 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-      handleCloseGenerateAdvance()
-      const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter((item) => {
-        return item.User_Id === props?.customerUser_Id;
-      });
-
+      handleCloseGenerateAdvance();
+      const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter(
+        (item) => {
+          return item.User_Id === props?.customerUser_Id;
+        },
+      );
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
 
-      setCustomerDetails(ParticularUserDetails)
-
+      setCustomerDetails(ParticularUserDetails);
     }
-  }, [state.UsersList?.UserListStatusCode])
-
+  }, [state.UsersList?.UserListStatusCode]);
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter((item) => {
-      return item.User_Id === props?.customerUser_Id;
-    });
+    const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter(
+      (item) => {
+        return item.User_Id === props?.customerUser_Id;
+      },
+    );
 
     setTimeout(() => {
       dispatch({ type: "REMOVE_STATUS_CODE_USER" });
     }, 1000);
 
-    setCustomerDetails(ParticularUserDetails)
-
+    setCustomerDetails(ParticularUserDetails);
   }, []);
 
-
-
-
-
-
   useEffect(() => {
-    dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props?.id } })
-  }, [])
+    dispatch({
+      type: "KYCCUSTOMERDETAILS",
+      payload: { customer_id: props?.id },
+    });
+  }, []);
 
   useEffect(() => {
     if (!Array.isArray(props?.userData) || props.userData.length === 0) return;
@@ -502,9 +493,9 @@ function UserListRoomDetail(props) {
 
     const sanitize = (value) =>
       value === null ||
-        value === undefined ||
-        value === "null" ||
-        value === "undefined"
+      value === undefined ||
+      value === "null" ||
+      value === "undefined"
         ? ""
         : value;
 
@@ -552,14 +543,10 @@ function UserListRoomDetail(props) {
     setStateName(sanitize(user?.state));
   }, [props?.userData]);
 
-
-
-
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
-
-      setProfilepic(true)
-      setFile(state.UsersList?.KycCustomerDetails?.pic)
+      setProfilepic(true);
+      setFile(state.UsersList?.KycCustomerDetails?.pic);
 
       setTimeout(() => {
         dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
@@ -572,13 +559,11 @@ function UserListRoomDetail(props) {
 
   const [advanceDetail, setAdvanceDetail] = useState("");
 
-
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
     }
-
 
     if (props.userData?.profile && !file) {
       return;
@@ -595,8 +580,6 @@ function UserListRoomDetail(props) {
       const value = name.trim().split(" ");
       setFirstname(value[0] || "");
       setLastname(value[1] || "");
-
-
 
       const payload = {
         profile: file,
@@ -635,14 +618,11 @@ function UserListRoomDetail(props) {
     }
   }, [ProfilePic, file, props.userData]);
 
-
-
   useEffect(() => {
     const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
     if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
       setFile(base64Pic);
-
     }
   }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
@@ -651,14 +631,11 @@ function UserListRoomDetail(props) {
     if (rawAddress) {
       const parts = rawAddress.split(",").map((part) => part.trim());
 
-
       const addressParts = parts.slice(1);
-
 
       const pincodePart = addressParts[addressParts.length - 1];
       const statePart = addressParts[addressParts.length - 2];
       const cityPart = addressParts[addressParts.length - 3];
-
 
       const others = addressParts.slice(0, addressParts.length - 3);
       const [streetNumber, streetName, areaPart, landmarkPart] = others;
@@ -672,12 +649,12 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.KycCustomerDetails?.address]);
 
-
-
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
-      dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
-
+      dispatch({
+        type: "KYCCUSTOMERDETAILS",
+        payload: { customer_id: props.id },
+      });
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_KYC_VERIFY_NEW" });
@@ -693,32 +670,39 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.KYCStatusCode]);
 
-
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
   }, [props]);
 
   useEffect(() => {
     if (state.UsersList.editBasicSuccessStatusCode === 200) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-      setEditBasicDetailsShow(false)
-      setEditAddressDetailsShow(false)
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      setEditBasicDetailsShow(false);
+      setEditAddressDetailsShow(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_EDIT_BASIC_DETAILS" });
       }, 100);
     }
   }, [state.UsersList.editBasicSuccessStatusCode]);
 
-
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 1000);
     }
-  }, [state.UsersList.addCheckoutCustomerStatusCode])
+  }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerAllDetails === 200) {
@@ -766,10 +750,9 @@ function UserListRoomDetail(props) {
   //   setAdditionalForm(true);
   // };
 
-
   const handleKYCSubmit = () => {
-    dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id: props.id } })
-  }
+    dispatch({ type: "KYCVERIFYINGNEW", payload: { customer_id: props.id } });
+  };
 
   const handleAdditionalForm = () => {
     setEditAdditional(false);
@@ -778,18 +761,15 @@ function UserListRoomDetail(props) {
 
   const handleCloseAdditionalForm = () => {
     setAdditionalForm(false);
-  }
+  };
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
     setKycDetailForm(false);
-
-
   };
   const handleChangesupload = (event, newValue) => {
     setDocumentValue(newValue);
-
   };
 
   const options = {
@@ -803,13 +783,7 @@ function UserListRoomDetail(props) {
     }
   }, [selectedDate]);
 
-
-
   const handleShowEditBed = (item) => {
-
-
-
-
     if (item[0].ID) {
       if (activeRow === item[0].ID) {
         setActiveRow(null);
@@ -872,7 +846,6 @@ function UserListRoomDetail(props) {
       setPaidAdvance(item[0].paid_advance || "");
       setPaidrent(item[0].paid_rent || "");
 
-
       if (item[0]?.reasonData && Array.isArray(item[0].reasonData)) {
         const formattedFields = item[0]?.reasonData?.map((entry) => {
           const isCustom = String(entry.reason) !== "maintenance";
@@ -882,18 +855,12 @@ function UserListRoomDetail(props) {
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
-            id: entry.id || ""
-
+            id: entry.id || "",
           };
         });
 
-
         setFields(formattedFields);
-
       }
-
-
-
 
       setInitialStateAssign({
         Floor: item[0].Floor || "",
@@ -904,15 +871,16 @@ function UserListRoomDetail(props) {
         RoomRent: item[0].RoomRent || "",
       });
 
-
-
       seteditMode(true);
     }
   };
 
   const handleCustomerReAssign = (reuser) => {
     if (reuser?.customerId) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: reuser?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: reuser?.customerId },
+      });
     }
     setReasignDetail(reuser);
     setCustomerReAssign(true);
@@ -921,89 +889,82 @@ function UserListRoomDetail(props) {
   const handleCheckoutGenrateNew = (item) => {
     navigate(`/tenant/final-settlement/${item?.customerId}`, {
       state: {
-        data: item
-      }
+        data: item,
+      },
     });
-  }
+  };
 
   const handleBacktoCheckout = (item) => {
     setEditObj(item);
-    setBacktoCheckInForm(true)
-
-  }
+    setBacktoCheckInForm(true);
+  };
 
   const handleCloseBackToCheckIn = () => {
-    dispatch({ type: 'REMOVE_CANCEL_CHECKOUT_ERROR' })
-    setBacktoCheckInForm(false)
-  }
+    dispatch({ type: "REMOVE_CANCEL_CHECKOUT_ERROR" });
+    setBacktoCheckInForm(false);
+  };
 
   const handleConformCheckout = (item) => {
-    setDueCustomerShow(true)
-    setCheckOutDetails(item)
-
-  }
+    setDueCustomerShow(true);
+    setCheckOutDetails(item);
+  };
   const handleCloseDuePopup = () => {
-    setDueCustomerShow(false)
-  }
-
+    setDueCustomerShow(false);
+  };
 
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
-      setBacktoCheckInForm(false)
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setBacktoCheckInForm(false);
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
     }
-
-  }, [state.UsersList.cancelCheckoutStatusCode])
-
+  }, [state.UsersList.cancelCheckoutStatusCode]);
 
   const handleUpdateChange = () => {
-    dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
-    setShowUpdateRentForm(true)
-  }
-
+    dispatch({ type: "REMOVE_TENANT_UPDATE_ERROR" });
+    setShowUpdateRentForm(true);
+  };
 
   const handleCloseUpdateChange = () => {
-    dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
-    setShowUpdateRentForm(false)
-  }
-
+    dispatch({ type: "REMOVE_TENANT_UPDATE_ERROR" });
+    setShowUpdateRentForm(false);
+  };
 
   const handleUpdateAdvanceChange = () => {
-    setShowUpdateAdvanceForm(true)
-  }
-
+    setShowUpdateAdvanceForm(true);
+  };
 
   const handleCloseUpdateAdvanceChange = () => {
-    setShowUpdateAdvanceForm(false)
-    dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
-  }
+    setShowUpdateAdvanceForm(false);
+    dispatch({ type: "REMOVE_EDIT_ADVANCE_ERROR" });
+  };
 
   const handleUpdateJoiningChange = () => {
-    dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
-    setShowUpdateJoiningForm(true)
-  }
-
+    dispatch({ type: "REMOVE_TENANT_UPDATE_ERROR" });
+    setShowUpdateJoiningForm(true);
+  };
 
   const handleCloseUpdateJoiningChange = () => {
-    dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
-    setShowUpdateJoiningForm(false)
-  }
-
-
+    dispatch({ type: "REMOVE_TENANT_UPDATE_ERROR" });
+    setShowUpdateJoiningForm(false);
+  };
 
   useEffect(() => {
     if (state?.UsersList.editAmountSuccessStatusCode === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-      setShowUpdateJoiningForm(false)
-      setShowUpdateAdvanceForm(false)
-      setShowUpdateRentForm(false)
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      setShowUpdateJoiningForm(false);
+      setShowUpdateAdvanceForm(false);
+      setShowUpdateRentForm(false);
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_EDIT_AMOUNT_DETAILS' })
-      }, 100)
-
-
+        dispatch({ type: "REMOVE_EDIT_AMOUNT_DETAILS" });
+      }, 100);
     }
-  }, [state?.UsersList.editAmountSuccessStatusCode])
+  }, [state?.UsersList.editAmountSuccessStatusCode]);
 
   useEffect(() => {
     if (Bednum) {
@@ -1016,25 +977,14 @@ function UserListRoomDetail(props) {
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
-            id: entry.id
+            id: entry.id,
           };
         });
 
         setInitialReasonFields(JSON.parse(JSON.stringify(formattedFields)));
-
       }
     }
   }, [Bednum]);
-
-
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     if (hostel_Id && Floor) {
@@ -1086,11 +1036,10 @@ function UserListRoomDetail(props) {
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   useEffect(() => {
     if (state.UsersList.emailError) {
-      setFormLoading(false)
-      setLoading(false)
+      setFormLoading(false);
+      setLoading(false);
       setEmailErrorMessage(state.UsersList.emailError);
     }
-
   }, [state.UsersList.emailError]);
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
@@ -1146,11 +1095,10 @@ function UserListRoomDetail(props) {
     } else {
       setPincodeError("");
     }
-    setFormError("")
+    setFormError("");
   };
 
   const handleCity = (e) => {
-
     const value = e.target.value;
     const regex = /^[a-zA-Z\s]*$/;
     if (regex.test(value)) {
@@ -1195,7 +1143,7 @@ function UserListRoomDetail(props) {
     const selectedHostel =
       state.UsersList.hostelList &&
       state.UsersList.hostelList.filter(
-        (item) => item.id === state.login.selectedHostel_Id
+        (item) => item.id === state.login.selectedHostel_Id,
       );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
@@ -1259,7 +1207,6 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-
   const handleBed = (e) => {
     const selectedBedId = e.target.value;
     setBedId(selectedBedId);
@@ -1268,12 +1215,12 @@ function UserListRoomDetail(props) {
       (u) =>
         String(u.Hostel_Id) === String(hostel_Id) &&
         String(u.Floor_Id) === String(Floor) &&
-        String(u.Room_Id) === String(RoomId)
+        String(u.Room_Id) === String(RoomId),
     );
 
     const Roomamountfilter =
       Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(selectedBedId)
+        (amount) => String(amount.id) === String(selectedBedId),
       ) ?? [];
 
     if (Roomamountfilter.length > 0) {
@@ -1309,7 +1256,7 @@ function UserListRoomDetail(props) {
     ...(state.UsersList?.bednumberdetails?.bed_details
       ?.filter(
         (item) =>
-          item.bed_no && item.bed_no !== "0" && item.bed_no !== "undefined"
+          item.bed_no && item.bed_no !== "0" && item.bed_no !== "undefined",
       )
       .map((item) => ({
         value: item.id,
@@ -1332,7 +1279,7 @@ function UserListRoomDetail(props) {
 
     setActiveRow(null);
     setEmailErrorMessage("");
-    setJoingDateErrmsg("")
+    setJoingDateErrmsg("");
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
@@ -1341,7 +1288,6 @@ function UserListRoomDetail(props) {
   const [emailError, setEmailError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
-
   const firstnameRef = useRef(null);
   const phoneRef = useRef(null);
   const emailRef = useRef(null);
@@ -1349,8 +1295,7 @@ function UserListRoomDetail(props) {
   const cityRef = useRef(null);
   const pincodeRef = useRef(null);
   const stateRef = useRef(null);
-  const nochangeRef = useRef(null)
-
+  const nochangeRef = useRef(null);
 
   const validateField = (value, fieldName, focusedRef, ref) => {
     const stringValue = String(value).trim();
@@ -1364,7 +1309,6 @@ function UserListRoomDetail(props) {
     }
 
     if (!stringValue) {
-
       switch (fieldName) {
         case "First Name":
           setFirstnameError("Please Enter First Name");
@@ -1383,7 +1327,6 @@ function UserListRoomDetail(props) {
           break;
       }
 
-
       if (!focusedRef.current && ref?.current) {
         ref.current.focus();
         focusedRef.current = true;
@@ -1391,7 +1334,6 @@ function UserListRoomDetail(props) {
 
       return false;
     }
-
 
     switch (fieldName) {
       case "First Name":
@@ -1414,18 +1356,18 @@ function UserListRoomDetail(props) {
     return true;
   };
 
-
-
   useEffect(() => {
     if (state.UsersList.editAdvanceStatusCode === 200) {
-      setShowUpdateAdvanceForm(false)
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setShowUpdateAdvanceForm(false);
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_EDIT_ADVANCE' })
-      }, 100)
+        dispatch({ type: "REMOVE_EDIT_ADVANCE" });
+      }, 100);
     }
-  }, [state.UsersList.editAdvanceStatusCode])
-
+  }, [state.UsersList.editAdvanceStatusCode]);
 
   const handleSaveUserlist = () => {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
@@ -1433,9 +1375,9 @@ function UserListRoomDetail(props) {
     const focusedRef = { current: false };
     const normalize = (value) =>
       value === null ||
-        value === undefined ||
-        value === "null" ||
-        value === "undefined"
+      value === undefined ||
+      value === "null" ||
+      value === "undefined"
         ? ""
         : String(value).trim();
 
@@ -1451,15 +1393,15 @@ function UserListRoomDetail(props) {
       normalize(landmark) !== normalize(initialState.landmark ?? "") ||
       city !== initialState.city ||
       String(pincode || "").trim() !==
-      String(initialState.pincode || "").trim() ||
+        String(initialState.pincode || "").trim() ||
       state_name !== initialState.state;
 
     let hasError = false;
 
-    if (!validateField(firstname, "First Name", focusedRef, firstnameRef)) return;
+    if (!validateField(firstname, "First Name", focusedRef, firstnameRef))
+      return;
     if (!validateField(Phone, "Phone Number", focusedRef, phoneRef)) return;
     if (!validateField(hostel_Id, "Hostel ID", focusedRef, hostelRef)) return;
-
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
@@ -1473,11 +1415,13 @@ function UserListRoomDetail(props) {
       setPhoneErrorMessage("");
     }
 
-
     const cleanedPincode = String(pincode || "").trim();
 
-
-    if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+    if (
+      cleanedPincode &&
+      cleanedPincode !== "0" &&
+      !/^\d{6}$/.test(cleanedPincode)
+    ) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
       if (!focusedRef.current && pincodeRef?.current) {
@@ -1507,10 +1451,12 @@ function UserListRoomDetail(props) {
     if (!isChanged) {
       setFormError("No Changes Detected");
 
-
       setTimeout(() => {
         if (nochangeRef.current) {
-          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
           nochangeRef.current.focus();
         }
       }, 100);
@@ -1519,7 +1465,6 @@ function UserListRoomDetail(props) {
     } else {
       setFormError("");
     }
-
 
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -1556,13 +1501,12 @@ function UserListRoomDetail(props) {
       paid_advance: paid_advance,
       paid_rent: paid_rent,
       ID: id,
-
     };
     dispatch({
       type: "ADDUSER",
       payload: payload,
     });
-    setFormLoading(true)
+    setFormLoading(true);
   };
 
   // const [generateForm, seGenerateForm] = useState(false);
@@ -1571,19 +1515,13 @@ function UserListRoomDetail(props) {
   //   seGenerateForm(true);
   // };
 
-
   useEffect(() => {
     if (state.UsersList.phoneError) {
-      setFormLoading(false)
-      setLoading(false)
+      setFormLoading(false);
+      setLoading(false);
       setPhoneError(state.UsersList.phoneError);
     }
   }, [state.UsersList.phoneError]);
-
-
-
-
-
 
   const initialState = {
     firstname: "",
@@ -1601,8 +1539,6 @@ function UserListRoomDetail(props) {
     countryCode: "",
     file: null,
   };
-
-
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     Floor: "",
@@ -1672,11 +1608,6 @@ function UserListRoomDetail(props) {
     return true;
   };
 
-
-
-
-
-
   const handleSaveUserlistAddUser = () => {
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(RoomId, "RoomId"));
@@ -1692,7 +1623,6 @@ function UserListRoomDetail(props) {
     } else {
       setDateError("");
     }
-
 
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Please Enter Valid Rent Amount");
@@ -1733,70 +1663,75 @@ function UserListRoomDetail(props) {
     }
 
     const initialFormattedDate = dayjs(initialStateAssign.selectedDate).format(
-      "YYYY-MM-DD"
+      "YYYY-MM-DD",
     );
 
     const isChangedBed =
       String(Floor).toLowerCase() !==
-      String(initialStateAssign.Floor).toLowerCase() ||
+        String(initialStateAssign.Floor).toLowerCase() ||
       String(RoomId).toLowerCase() !==
-      String(initialStateAssign.Rooms).toLowerCase() ||
+        String(initialStateAssign.Rooms).toLowerCase() ||
       String(BedId).toLowerCase() !==
-      String(initialStateAssign.Bed).toLowerCase() ||
+        String(initialStateAssign.Bed).toLowerCase() ||
       formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
-
     const normalizeFields = (current, initial) => {
       const currentMap = current.reduce((map, item) => {
-        map[item.id] = { ...item, amount: String(item.amount).trim(), isDeleted: !!item.isDeleted };
+        map[item.id] = {
+          ...item,
+          amount: String(item.amount).trim(),
+          isDeleted: !!item.isDeleted,
+        };
         return map;
       }, {});
 
-      return initial.map((initialItem) => {
-        const currentItem = currentMap[initialItem.id];
-        if (currentItem) {
-          return {
-            reason_name: currentItem.reason_name,
-            amount: currentItem.amount,
-            customReason: currentItem.customReason,
-            showInput: currentItem.showInput,
-            id: currentItem.id,
-            isDeleted: !!currentItem.isDeleted,
-          };
-        } else {
-
-          return {
-            reason_name: initialItem.reason_name,
-            amount: String(initialItem.amount).trim(),
-            customReason: initialItem.customReason,
-            showInput: initialItem.showInput,
-            id: initialItem.id,
-            isDeleted: true,
-          };
-        }
-      }).concat(
-
-        current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
-          reason_name: item.reason_name,
-          amount: String(item.amount).trim(),
-          customReason: item.customReason,
-          showInput: item.showInput,
-          id: item.id,
-          isDeleted: !!item.isDeleted,
-        }))
-      );
+      return initial
+        .map((initialItem) => {
+          const currentItem = currentMap[initialItem.id];
+          if (currentItem) {
+            return {
+              reason_name: currentItem.reason_name,
+              amount: currentItem.amount,
+              customReason: currentItem.customReason,
+              showInput: currentItem.showInput,
+              id: currentItem.id,
+              isDeleted: !!currentItem.isDeleted,
+            };
+          } else {
+            return {
+              reason_name: initialItem.reason_name,
+              amount: String(initialItem.amount).trim(),
+              customReason: initialItem.customReason,
+              showInput: initialItem.showInput,
+              id: initialItem.id,
+              isDeleted: true,
+            };
+          }
+        })
+        .concat(
+          current
+            .filter((item) => !initial.some((init) => init.id === item.id))
+            .map((item) => ({
+              reason_name: item.reason_name,
+              amount: String(item.amount).trim(),
+              customReason: item.customReason,
+              showInput: item.showInput,
+              id: item.id,
+              isDeleted: !!item.isDeleted,
+            })),
+        );
     };
 
-
-
     const normalizedCurrent = normalizeFields(fields, initialReasonFields);
-    const normalizedInitial = normalizeFields(initialReasonFields, initialReasonFields);
+    const normalizedInitial = normalizeFields(
+      initialReasonFields,
+      initialReasonFields,
+    );
 
     const isReasonChanged =
       JSON.stringify(normalizedCurrent) !== JSON.stringify(normalizedInitial);
-
 
     if (!isChangedBed && !isReasonChanged) {
       setFormError("No Changes Detected");
@@ -1805,20 +1740,16 @@ function UserListRoomDetail(props) {
       setFormError("");
     }
 
-    handleOpenAdvance()
+    handleOpenAdvance();
 
-
-    setLoading(true)
+    setLoading(true);
     setFormShow(false);
     // dispatch({ type: "INVOICELIST" });
   };
 
-
   const handleSaveButton = () => {
-
     let hasReasonAmountError = false;
     let newErrors = [];
-
 
     const formattedDate = selectedDate
       ? dayjs(selectedDate).format("YYYY-MM-DD")
@@ -1827,7 +1758,10 @@ function UserListRoomDetail(props) {
     const formattedReasons = fields.map((item) => {
       let reason_name = "";
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+      if (
+        item.reason?.toLowerCase() === "others" ||
+        item.reason_name?.toLowerCase() === "others"
+      ) {
         reason_name = item.customReason || item["custom Reason"] || "";
       } else {
         reason_name = item.reason || item.reason_name || "";
@@ -1836,12 +1770,18 @@ function UserListRoomDetail(props) {
       const error = { reason: "", amount: "" };
 
       if (!item.isDeleted) {
-        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
           error.amount = "Please enter amount";
           hasReasonAmountError = true;
         }
 
-        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
           error.reason = "Please enter reason";
           hasReasonAmountError = true;
         }
@@ -1858,13 +1798,9 @@ function UserListRoomDetail(props) {
       };
     });
 
-
-
-
-    setErrors(newErrors)
+    setErrors(newErrors);
 
     if (hasReasonAmountError) return;
-
 
     dispatch({
       type: "ADDUSER",
@@ -1899,19 +1835,14 @@ function UserListRoomDetail(props) {
         isadvance: 1,
         invoice_date: formattedDate,
         due_date: formattedDate,
-        reasons: formattedReasons
+        reasons: formattedReasons,
       },
     });
-  }
-
-
-
+  };
 
   const handleCancelButton = () => {
-
     let hasReasonAmountError = false;
     let newErrors = [];
-
 
     const formattedDate = selectedDate
       ? dayjs(selectedDate).format("YYYY-MM-DD")
@@ -1920,7 +1851,10 @@ function UserListRoomDetail(props) {
     const formattedReasons = fields.map((item) => {
       let reason_name = "";
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+      if (
+        item.reason?.toLowerCase() === "others" ||
+        item.reason_name?.toLowerCase() === "others"
+      ) {
         reason_name = item.customReason || item["custom Reason"] || "";
       } else {
         reason_name = item.reason || item.reason_name || "";
@@ -1929,12 +1863,18 @@ function UserListRoomDetail(props) {
       const error = { reason: "", amount: "" };
 
       if (!item.isDeleted) {
-        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
           error.amount = "Please enter amount";
           hasReasonAmountError = true;
         }
 
-        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
           error.reason = "Please enter reason";
           hasReasonAmountError = true;
         }
@@ -1951,13 +1891,9 @@ function UserListRoomDetail(props) {
       };
     });
 
-
-
-
-    setErrors(newErrors)
+    setErrors(newErrors);
 
     if (hasReasonAmountError) return;
-
 
     dispatch({
       type: "ADDUSER",
@@ -1990,15 +1926,18 @@ function UserListRoomDetail(props) {
         paid_rent,
         ID: id,
 
-        reasons: formattedReasons
+        reasons: formattedReasons,
       },
     });
-  }
+  };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-      setAdditionalForm(false)
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      setAdditionalForm(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT" });
       }, 100);
@@ -2009,26 +1948,25 @@ function UserListRoomDetail(props) {
     if (state.UsersList.statusCodeForAddUser === 201) {
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
-      setFormLoading(false)
-      setLoading(false)
+      setFormLoading(false);
+      setLoading(false);
 
       handleCloseEditcustomer();
-
-
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 100);
     }
-  }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users.listCustomers]);
+  }, [
+    state.UsersList.statusCodeForAddUser,
+    state.UsersList.Users.listCustomers,
+  ]);
 
   useEffect(() => {
     if (state.UsersList.customerdetails) {
       setAdvanceDetail(state.UsersList.customerdetails);
     }
   }, [state.UsersList.customerdetails]);
-
-
 
   // const [uploadError, setUploadError] = useState("");
 
@@ -2069,8 +2007,6 @@ function UserListRoomDetail(props) {
   //   dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
   // };
 
-
-
   // useEffect(() => {
   //   if (state.UsersList.statuscodeForAdharFileError === 201) {
   //     setUploadError(state.UsersList.adharuploadfileError);
@@ -2080,14 +2016,16 @@ function UserListRoomDetail(props) {
   //   }
   // }, [state.UsersList.statuscodeForAdharFileError]);
 
-
   // const handleOtherUploadClick = (ref) => {
   //   ref.current.click();
   // };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
         dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
@@ -2098,7 +2036,10 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForOtherDocu === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
       }, 100);
@@ -2132,7 +2073,10 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     if (state.UsersList.statusCodeForGenerateAdvance === 200) {
       // handleCloseGenerateFormShow();
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "REMOVE_GENERATE_ADVANCE" });
@@ -2142,49 +2086,44 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_BOOKING_InActive' })
-      }, 1000)
+        dispatch({ type: "CLEAR_BOOKING_InActive" });
+      }, 1000);
     }
-
-  }, [state.Booking.StatusCodeInactiveCode])
+  }, [state.Booking.StatusCodeInactiveCode]);
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      navigate(`/tenant/${state.login.selectedHostel_Id}`)
+    if (
+      state.UsersList.statusCodeForDueCustomer === 200 ||
+      state.UsersList.statusCodeAddConfirmCheckout === 200
+    ) {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
       setTimeout(() => {
         dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
       }, 500);
     }
-
-  }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
-
-
-
-
-
-
-
-
+  }, [
+    state.UsersList.statusCodeForDueCustomer,
+    state.UsersList.statusCodeAddConfirmCheckout,
+  ]);
 
   const handleClose = () => {
     setShowModal(false);
   };
 
-
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
-      setLoading(false)
+      setFormLoading(false);
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
+  }, [state.createAccount?.networkError]);
 
   const handleAddField = () => {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
@@ -2223,9 +2162,6 @@ function UserListRoomDetail(props) {
     setErrors(updatedErrors);
   };
 
-
-
-
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
     updatedFields[index] = {
@@ -2235,33 +2171,23 @@ function UserListRoomDetail(props) {
     setFields(updatedFields);
   };
 
-
-
-
-
-
-
-
-
   const handleEditBasicDetails = (item) => {
-    setBasicDetails(item)
-    setEditBasicDetailsShow(true)
-    setCountryCode("91")
-
+    setBasicDetails(item);
+    setEditBasicDetailsShow(true);
+    setCountryCode("91");
   };
   const handleCloseBasicDetails = () => {
-    setEditBasicDetailsShow(false)
-    dispatch({ type: 'REMOVE_ALREADY_MOBILE_BASIC_ERROR' })
-  }
-  const [addressDetails, setAddressDetails] = useState("")
+    setEditBasicDetailsShow(false);
+    dispatch({ type: "REMOVE_ALREADY_MOBILE_BASIC_ERROR" });
+  };
+  const [addressDetails, setAddressDetails] = useState("");
   const handleEditAddressDetailsShow = (item) => {
-    setEditAddressDetailsShow(true)
-    setAddressDetails(item)
-
+    setEditAddressDetailsShow(true);
+    setAddressDetails(item);
   };
   const handleCloseAddressDetails = () => {
-    setEditAddressDetailsShow(false)
-  }
+    setEditAddressDetailsShow(false);
+  };
   // const [stayDetais, setStayDetails] = useState("")
 
   // const handleEditStayDetails = (item) => {
@@ -2270,25 +2196,21 @@ function UserListRoomDetail(props) {
 
   // };
   const handleCloseStayDetails = () => {
-    setEditStayDetailsShow(false)
-  }
+    setEditStayDetailsShow(false);
+  };
 
   const handleShowStayHistory = () => {
-    setStayDetailsShow(true)
-  }
+    setStayDetailsShow(true);
+  };
   const handleCloseStayHistory = () => {
-    setStayDetailsShow(false)
-  }
-
-
+    setStayDetailsShow(false);
+  };
 
   // const MobileNumberupload = `${props.userData?.Phone}`;
-
 
   const handleImageUpload = async (event) => {
     const fileImage = event.target.files[0];
     if (!fileImage) return;
-
 
     try {
       if (fileImage) {
@@ -2310,8 +2232,6 @@ function UserListRoomDetail(props) {
     }
   };
 
-
-
   // console.log("CustomerOverView", CustomerOverView)
 
   const imageUrl = kycPic
@@ -2322,10 +2242,7 @@ function UserListRoomDetail(props) {
       ? CustomerOverView?.profilePic
       : null;
 
-
   // console.log("CustomerOverView", CustomerOverView)
-
-
 
   // const handleFileUpload = (index, e) => {
   //   const file = e.target.files[0];
@@ -2343,86 +2260,90 @@ function UserListRoomDetail(props) {
   //   setDocuments(newDocuments);
   // };
 
-
   const handleCustomerCheckout = (item) => {
     setCustomerCheckoutpage(true);
     setCustomerCheckoutData(item);
   };
 
-
-
   useEffect(() => {
     setAdvanceList(state.UsersList.customerdetails?.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
-
 
   const handleShowAssignAmenities = () => {
     setaddamenityShow(true);
   };
 
-
-
   const handleCloseAddamenityShow = () => {
     setaddamenityShow(false);
-  }
+  };
 
   const isDisabled =
     !canWriteAmenities ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED";
 
   const isDisabledButton =
     !canWriteTenant ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED";
 
   const isEditDisabled =
     !canUpdateTenant ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED";
 
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceAddStatusCode === 201 || state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+    if (
+      state.InvoiceList.manualInvoiceAddStatusCode === 201 ||
+      state.InvoiceList.manualInvoiceEditStatusCode === 200
+    ) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
     }
-  }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);
-
+  }, [
+    state.InvoiceList.manualInvoiceAddStatusCode,
+    state.InvoiceList.manualInvoiceEditStatusCode,
+  ]);
 
   useEffect(() => {
-
-    if (state.InvoiceList.tenantAssignStatus === 201 || state.InvoiceList?.tenantUnAssignStatus === 201) {
+    if (
+      state.InvoiceList.tenantAssignStatus === 201 ||
+      state.InvoiceList?.tenantUnAssignStatus === 201
+    ) {
       setaddamenityShow(false);
     }
-
-  }, [state.InvoiceList?.tenantAssignStatus, state.InvoiceList?.tenantUnAssignStatus])
-
+  }, [
+    state.InvoiceList?.tenantAssignStatus,
+    state.InvoiceList?.tenantUnAssignStatus,
+  ]);
 
   const [showPreview, setShowPreview] = useState(false);
   const [isKyc, setKyc] = useState(false);
 
-
   const handlePreview = () => {
-    setKyc(false)
+    setKyc(false);
     setShowPreview(true);
   };
-
 
   const handlePreviewKYC = () => {
-    setKyc(true)
+    setKyc(true);
     setShowPreview(true);
-  }
-
-
-  const handleClosePreview = () => {
-
-    setShowPreview(false);
   };
 
+  const handleClosePreview = () => {
+    setShowPreview(false);
+  };
 
   const handleNavigateTenant = () => {
     if (isPgWay) {
@@ -2430,80 +2351,73 @@ function UserListRoomDetail(props) {
     } else if (isDashboardWay) {
       navigate(`/dashboard-new/${state.login.selectedHostel_Id}`);
     } else if (isBillWay) {
-      navigate(`/invoice/${state.login.selectedHostel_Id}`)
+      navigate(`/invoice/${state.login.selectedHostel_Id}`);
     } else if (isReceiptWay) {
-      navigate(`/receipts/${state.login.selectedHostel_Id}`)
+      navigate(`/receipts/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
     }
-    else {
-      navigate(`/tenant/${state.login.selectedHostel_Id}`)
-    }
-
-  }
+  };
 
   const handleShowWalletHistory = () => {
     setShowWalletHistory(true);
-  }
-
+  };
 
   const handleCloseWallet = () => {
     setShowWalletHistory(false);
-  }
-
+  };
 
   useEffect(() => {
-    if (state.UsersList?.bookingToCheckinStatusCode === 200 || state.UsersList?.bookingToCheckinStatusCode === 201) {
-      setBookingAssignForm(false)
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+    if (
+      state.UsersList?.bookingToCheckinStatusCode === 200 ||
+      state.UsersList?.bookingToCheckinStatusCode === 201
+    ) {
+      setBookingAssignForm(false);
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
-      }, 100)
+        dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
+      }, 100);
     }
-
-  }, [state.UsersList?.bookingToCheckinStatusCode])
+  }, [state.UsersList?.bookingToCheckinStatusCode]);
 
   // console.log("MODE:", import.meta.env.MODE);
 
-
-
-
   const handleShowBookingToCheckin = () => {
-    setBookingAssignForm(true)
-  }
+    setBookingAssignForm(true);
+  };
 
   const handleInActive = (item) => {
-    setInActiveForm(true)
-    setInactiveDetails(item)
-  }
+    setInActiveForm(true);
+    setInactiveDetails(item);
+  };
 
   const handleCloseBooking = () => {
-    setBookingAssignForm(false)
-  }
-
+    setBookingAssignForm(false);
+  };
 
   const handleCloseInActive = () => {
-    dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
-    setInActiveForm(false)
-  }
-
-
+    dispatch({ type: "REMOVE_ERROR_MAKEASINACTIVE" });
+    setInActiveForm(false);
+  };
 
   return (
     <>
-
-
-      {
-        BookingAssignForm && <BookedCheckIn BookingAssignForm={BookingAssignForm}
+      {BookingAssignForm && (
+        <BookedCheckIn
+          BookingAssignForm={BookingAssignForm}
           handleClose={handleCloseBooking}
           bookingDetails={CustomerOverView}
         />
-      }
+      )}
 
       <div
         key={CustomerOverView?.customerId}
         className="h-[97vh] mt-2 w-full max-w-full overflow-y-auto"
       >
-
         {/* <div className="flex items-center justify-between sticky top-0 z-[1000] bg-white py-3 px-6 h-14 w-full">
           <div className="flex items-center">
             <img
@@ -2528,7 +2442,6 @@ function UserListRoomDetail(props) {
           />
         </div> */}
         <>
-
           <div className="flex items-center justify-between sticky top-0 z-[1000] bg-white py-3 px-4 h-14 w-full">
             <div className="flex items-center">
               <img
@@ -2554,84 +2467,56 @@ function UserListRoomDetail(props) {
               />
 
               {isPopupOpen && (
-
                 <div
                   ref={menuRef}
                   className="
     absolute right-2 sm:right-12
-    w-[90vw] sm:w-80 md:w-80
-        px-4 sm:px-3 py-3 sm:py-2
+    w-fit
+        px-2 sm:px-2 py-2 sm:py-2
     rounded-md bg-white
     shadow-inner border border-gray-200
-    z-20 font-gilroy
+    z-20 font-gilroy shadow
   "
-                  style={{ boxShadow: "inset 0 2px 6px rgba(255, 255, 255, 0.5)" }}
                 >
                   <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
                     Created by
                   </div>
-                  <div className="flex items-center gap-3 p-2">
-
-                    {/* <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                      {imageUrl ? (
+                  <div className="flex items-center gap-1 p-2">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                      {CustomerOverView?.createdByPic ? (
                         <img
-                          src={imageUrl}
-                          alt={CustomerOverView?.createdByName || "profile"}
+                          src={CustomerOverView?.createdByPic}
+                          alt={CustomerOverView?.createdByPic || "profile"}
                           className="w-10 h-10 rounded-full object-cover"
                           onError={(e) => {
                             e.currentTarget.src = "/default-profile.png";
                           }}
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-base text-gray-700">
-                          {"-"}
+                        <div className="w-10 h-10 rounded-full whitespace-nowrap bg-gray-200 flex items-center justify-center font-semibold text-base text-gray-700">
+                          {CustomerOverView?.createdByInitials}
                         </div>
                       )}
-                    </div> */}
+                    </div>
                     <div className="flex flex-col">
-                      <span className="font-gilroy font-semibold text-sm mb-1">{CustomerOverView?.createdByName}</span>
-                      <span className="text-xs text-gray-500 ont-gilroy font-medium">
+                      <span className="font-gilroy font-semibold text-sm mb-1 whitespace-nowrap">
+                        {CustomerOverView?.createdByName}
+                      </span>
+                      <span className="text-xs text-gray-500 ont-gilroy font-medium whitespace-nowrap flex">
                         {CustomerOverView?.createdAt}
                       </span>
                     </div>
                   </div>
                 </div>
-
               )}
             </div>
           </div>
-
-          {/* {isPopupOpen && (
-                  <div ref={menuRef} className="absolute right-24 w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20 top-2">
- <div className="text-sm text-gray-500 mb-2">Created by</div>
-            <div className="flex items-center gap-3">
-              <img
-                src="/path/to/profile.jpg" 
-                alt="profile"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="flex flex-col">
-                <span className="font-medium text-gray-900">Rajesh R</span>
-                <span className="text-xs text-gray-500">
-                  04-Feb-2026 10:34 AM
-                </span>
-              </div>
-            </div>
-                  </div>
-                )} */}
         </>
 
-
         <div className="bg-white !border !border-[#E5E7EB] rounded-3xl p-3 mx-4">
-          <div
-            className="flex flex-col md:flex-row items-center justify-between"
-          >
-            <div
-              className="flex items-center py-0 md:py-2"
-            >
-
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex items-center py-0 md:py-2">
               <div className="flex items-center gap-3 min-w-0">
-
                 <div
                   className="relative w-24 h-24 shrink-0 flex items-center justify-center"
                   onMouseEnter={() => setIsHovered(true)}
@@ -2644,7 +2529,9 @@ function UserListRoomDetail(props) {
                           src={imageUrl}
                           alt={CustomerOverView.fullName || "profile"}
                           className="w-full h-full rounded-full object-cover"
-                          onError={(e) => { e.currentTarget.src = Profiles; }}
+                          onError={(e) => {
+                            e.currentTarget.src = Profiles;
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center font-semibold text-xl">
@@ -2663,10 +2550,14 @@ function UserListRoomDetail(props) {
                       className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
               ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
                       onClick={() => {
-                        if (canUpdateTenant) document.getElementById("fileInput").click();
+                        if (canUpdateTenant)
+                          document.getElementById("fileInput").click();
                       }}
                     >
-                      <img src={EditImage} className="w-5 h-5 bg-white p-1 rounded-full" />
+                      <img
+                        src={EditImage}
+                        className="w-5 h-5 bg-white p-1 rounded-full"
+                      />
                     </div>
                   )}
 
@@ -2696,26 +2587,30 @@ function UserListRoomDetail(props) {
                       {CustomerOverView?.hostelInfo?.floorName}
                     </span>
                     <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
-                      {CustomerOverView?.hostelInfo?.roomName} - {CustomerOverView?.hostelInfo?.bedName}
+                      {CustomerOverView?.hostelInfo?.roomName} -{" "}
+                      {CustomerOverView?.hostelInfo?.bedName}
                     </span>
                   </div>
                   <hr className="w-full my-1 pb-1 text-gray-600" />
 
                   <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
                     <div className="flex items-center gap-1 text-xs text-blue-600">
-                      <Call size={16} color="#1E45E1" variant="Bold" /> + {CustomerOverView?.countryCode} {CustomerOverView?.mobileNo}
+                      <Call size={16} color="#1E45E1" variant="Bold" /> +{" "}
+                      {CustomerOverView?.countryCode}{" "}
+                      {CustomerOverView?.mobileNo}
                     </div>
 
                     <span className="flex items-center gap-1">
-                      <MoneyTick size={16} color="#1E45E1" />
-                      ₹ {CustomerOverView?.hostelInfo?.monthlyRent}<span className="text-[10px]">/pm</span>
+                      <MoneyTick size={16} color="#1E45E1" />₹{" "}
+                      {CustomerOverView?.hostelInfo?.monthlyRent}
+                      <span className="text-[10px]">/pm</span>
                     </span>
                   </div>
-
                 </div>
               </div>
 
-              {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
+              {state.UsersList?.KycCustomerDetails?.message ===
+                "KYC Completed" && (
                 <>
                   <Button
                     disabled={!canWriteTenant}
@@ -2725,45 +2620,41 @@ function UserListRoomDetail(props) {
                     KYC Verified
                   </Button>
                 </>
-              }
+              )}
 
-              {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
+              {state.UsersList?.KycCustomerDetails?.retry_completed ===
+                false && (
                 <>
-                  <Button
-                    className="rounded-2xl bg-amber-500 border-0 px-4 h-8 flex items-center text-sm text-white"
-                  >
+                  <Button className="rounded-2xl bg-amber-500 border-0 px-4 h-8 flex items-center text-sm text-white">
                     <img src={timehalf} alt="time" className="w-4 mr-2" />
                     Pending
                   </Button>
-                  <p
-
-                    className="text-sm font-normal font-gilroy mt-1"
-                  >
-                    Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                  <p className="text-sm font-normal font-gilroy mt-1">
+                    Last Attempt:{" "}
+                    {state.UsersList?.KycCustomerDetails?.updated_at}
                   </p>
                 </>
-              }
+              )}
 
-              {state.UsersList?.KycCustomerDetails?.retry_completed === true &&
+              {state.UsersList?.KycCustomerDetails?.retry_completed ===
+                true && (
                 <>
                   <Button
                     onClick={handleKYCSubmit}
-
                     className="rounded-xl bg-blue-600 border-0 px-4 h-8 flex items-center text-sm text-white"
-
                   >
                     <img src={Retry} alt="time" className="w-4 mr-2" />
                     Retry KYC
                   </Button>
-                  <p className="text-sm font-normal font-gilroy mt-1"
-                  >
-                    Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                  <p className="text-sm font-normal font-gilroy mt-1">
+                    Last Attempt:{" "}
+                    {state.UsersList?.KycCustomerDetails?.updated_at}
                   </p>
                 </>
-              }
+              )}
 
-              {
-                state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
+              {state.UsersList?.KycCustomerDetails?.message ===
+                "KYC ID not found for this customer" && (
                 <>
                   <Button
                     disabled={!canWriteTenant}
@@ -2771,15 +2662,14 @@ function UserListRoomDetail(props) {
                     className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm font-gilroy"
                     onClick={handleKYCSubmit}
                   >
-                    Verify KYC <RightOutlined className="text-xs ml-1.5 font-gilroy" />
+                    Verify KYC{" "}
+                    <RightOutlined className="text-xs ml-1.5 font-gilroy" />
                   </Button>
-                  <p className="text-sm font-normal font-gilroy mt-1"
-                  >
+                  <p className="text-sm font-normal font-gilroy mt-1">
                     Verify your Customer KYC Details via DigiLocker.
                   </p>
                 </>
-              }
-
+              )}
             </div>
 
             <div className="flex gap-4 items-center">
@@ -2787,23 +2677,21 @@ function UserListRoomDetail(props) {
                 <ExportCurve size="20" color="black" variant="Outline" />
               </div>
 
-
               <div className="relative font-gilroy">
-                <button
-                  onClick={() =>
-                    setOpenMenu(!openMenu)
-                  }
-                  className="p-1 "
-                >
-                  <PiDotsThreeOutlineVerticalFill size={18} className="text-gray-500" />
+                <button onClick={() => setOpenMenu(!openMenu)} className="p-1 ">
+                  <PiDotsThreeOutlineVerticalFill
+                    size={18}
+                    className="text-gray-500"
+                  />
                 </button>
 
                 {openMenu && (
-                  <div ref={menuRef} className="absolute right-8 -mt-[52px] w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20">
-
-
-                    {
-                      state.UsersList.customerdetails?.customerCurrentStatus === "CHECK_IN" &&
+                  <div
+                    ref={menuRef}
+                    className="absolute right-8 -mt-[52px] w-fit whitespace-nowrap rounded-md bg-gray-100 border border-gray-200 z-20"
+                  >
+                    {state.UsersList.customerdetails?.customerCurrentStatus ===
+                      "CHECK_IN" && (
                       <>
                         <button
                           disabled={!canWriteCheckout}
@@ -2845,10 +2733,10 @@ function UserListRoomDetail(props) {
                           Change Bed
                         </button>
                       </>
-                    }
+                    )}
 
-                    {
-                      state.UsersList.customerdetails?.customerCurrentStatus === "NOTICE" &&
+                    {state.UsersList.customerdetails?.customerCurrentStatus ===
+                      "NOTICE" && (
                       <>
                         <button
                           disabled={!canWriteCheckout}
@@ -2892,9 +2780,9 @@ function UserListRoomDetail(props) {
                         </button>
                         <div className="h-px bg-gray-300" />
                       </>
-                    }
-                    {
-                      state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED" &&
+                    )}
+                    {state.UsersList.customerdetails?.customerCurrentStatus ===
+                      "SETTLEMENT_GENERATED" && (
                       <>
                         <button
                           disabled={!canWriteCheckout}
@@ -2919,30 +2807,34 @@ function UserListRoomDetail(props) {
                           Check-Out
                         </button>
                       </>
-                    }
+                    )}
 
                     {import.meta.env.MODE === "development" &&
-                      (state.UsersList.customerdetails?.customerCurrentStatus !== "BOOKED" && state.UsersList.customerdetails?.hostelInfo?.currentStatus !== "CANCELLED") &&
+                      state.UsersList.customerdetails?.customerCurrentStatus !==
+                        "BOOKED" &&
+                      state.UsersList.customerdetails?.hostelInfo
+                        ?.currentStatus !== "CANCELLED" && (
+                        <button
+                          onClick={() => {
+                            handleShowWalletHistory();
+                            setOpenMenu(null);
+                          }}
+                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
+                        >
+                          <WalletCheck
+                            size="18"
+                            color="#16A34A"
+                            variant="Bold"
+                          />{" "}
+                          Wallet
+                        </button>
+                      )}
 
-                      <button
-                        onClick={() => {
-                          handleShowWalletHistory();
-                          setOpenMenu(null);
-                        }}
-                        className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
-                      >
-                        <WalletCheck
-                          size="18"
-                          color="#16A34A"
-                          variant="Bold"
-                        />   Wallet
-                      </button>
-                    }
-
-                    {
-                      state.UsersList.customerdetails?.customerCurrentStatus === "BOOKED" &&
+                    {state.UsersList.customerdetails?.customerCurrentStatus ===
+                      "BOOKED" && (
                       <>
-                        <button disabled={!canWriteTenant}
+                        <button
+                          disabled={!canWriteTenant}
                           onClick={() => {
                             handleShowBookingToCheckin();
                             setOpenMenu(null);
@@ -2951,7 +2843,10 @@ function UserListRoomDetail(props) {
                           className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
         disabled:cursor-not-allowed"
                         >
-                          <AddCircle size="18" color={canWriteTenant ? "#1E45E1" : "#9CA3AF"} />
+                          <AddCircle
+                            size="18"
+                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                          />
                           Check-In
                         </button>
 
@@ -2978,11 +2873,10 @@ function UserListRoomDetail(props) {
                           Make as Inactive
                         </button>
                       </>
-                    }
+                    )}
                   </div>
                 )}
               </div>
-
             </div>
           </div>
         </div>
@@ -3094,26 +2988,19 @@ function UserListRoomDetail(props) {
 
         <TabContext value={value}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full max-h-[80px]">
-            <Box
-              sx={{ borderBottom: 0, borderColor: "divider" }}
-            >
+            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
               <TabList
-                orientation={
-                  isSmallScreen ? "vertical" : "horizontal"
-                }
-
+                orientation={isSmallScreen ? "vertical" : "horizontal"}
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
                 className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row my-4 sm:my-8 ml-2 sm:ml-5"
-
               >
                 <Tab
                   label="Overview"
                   value="1"
-                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "1" ?
-                    "!text-[#222222]" : "!text-[#6B6B6B]"
-
-                    }`}
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${
+                    value === "1" ? "!text-[#222222]" : "!text-[#6B6B6B]"
+                  }`}
                 />
                 <Tab
                   label="EB Reading"
@@ -3134,20 +3021,25 @@ function UserListRoomDetail(props) {
               </TabList>
             </Box>
           </div>
-          <TabPanel value="1" className="px-4 sm:px-0 mt-2 w-full max-w-full h-[450px] 2xl:h-[650px] overflow-y-auto show-scrolls">
+          <TabPanel
+            value="1"
+            className="px-4 sm:px-0 mt-2 w-full max-w-full h-[450px] 2xl:h-[650px] overflow-y-auto show-scrolls"
+          >
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 items-stretch">
-
-
-
-
-                <div >
+                <div>
                   <div className=" bg-white border border-[#E5E7EB] rounded-[20px] p-4 flex flex-col mb-4 ">
                     <div className="flex items-center justify-between border-b border-gray-300 pb-1 mb-3">
                       <div className="text-[16px] font-gilroy font-semibold">
                         Basic Details
                       </div>
-                      <div className={isEditDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
+                      <div
+                        className={
+                          isEditDisabled
+                            ? "cursor-not-allowed opacity-60"
+                            : "cursor-pointer"
+                        }
+                      >
                         <div
                           onClick={() => {
                             if (!isEditDisabled) {
@@ -3162,7 +3054,9 @@ function UserListRoomDetail(props) {
                             alt="editimage"
                             className="h-4 w-4"
                             style={{
-                              filter: isEditDisabled ? "grayscale(100%)" : "none",
+                              filter: isEditDisabled
+                                ? "grayscale(100%)"
+                                : "none",
                             }}
                           />
                         </div>
@@ -3194,20 +3088,27 @@ function UserListRoomDetail(props) {
                             Email ID
                           </p>
                           <div className="flex items-center gap-2">
-                            <Sms size={16} color="#1E45E1" className="shrink-0" />
+                            <Sms
+                              size={16}
+                              color="#1E45E1"
+                              className="shrink-0"
+                            />
                             <span className="text-sm font-semibold font-gilroy break-all">
                               {CustomerOverView?.emailId || "N/A"}
                             </span>
                           </div>
                         </div>
 
-
                         <div className="flex flex-col sm:pl-6">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Mobile No
                           </p>
                           <div className="flex items-center gap-2">
-                            <Call size={16} color="#1E45E1" className="shrink-0" />
+                            <Call
+                              size={16}
+                              color="#1E45E1"
+                              className="shrink-0"
+                            />
                             <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
                               {CustomerOverView?.mobileNo
                                 ? `+${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
@@ -3215,14 +3116,12 @@ function UserListRoomDetail(props) {
                             </span>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
 
                   <div className=" bg-white  overflow-hidden border border-[#E5E7EB] rounded-[20px] p-4">
-
-                    <div className="card-header flex justify-between items-center border-0 bg-transparent" >
+                    <div className="card-header flex justify-between items-center border-0 bg-transparent">
                       <div className="card-header p-0 border-0 bg-transparent w-full">
                         <div className="flex items-center justify-start gap-4 w-full border-0 -mt-2">
                           <div
@@ -3233,7 +3132,6 @@ function UserListRoomDetail(props) {
                             KYC Address
                           </div>
 
-
                           <div
                             onClick={() => setActiveTab("manual")}
                             className={`flex items-center cursor-pointer px-3 py-1.5 font-semibold 
@@ -3242,11 +3140,19 @@ function UserListRoomDetail(props) {
                             Manual Address
                           </div>
                           {activeTab === "manual" && (
-                            <span className={isEditDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"}>
+                            <span
+                              className={
+                                isEditDisabled
+                                  ? "cursor-not-allowed opacity-60"
+                                  : "cursor-pointer"
+                              }
+                            >
                               <div
                                 onClick={() => {
                                   if (!isEditDisabled) {
-                                    handleEditAddressDetailsShow(CustomerOverView);
+                                    handleEditAddressDetailsShow(
+                                      CustomerOverView,
+                                    );
                                   }
                                 }}
                                 className="h-10 w-10 flex justify-center items-center relative z-[1000]"
@@ -3256,7 +3162,9 @@ function UserListRoomDetail(props) {
                                   alt="edit"
                                   className="h-4 w-4"
                                   style={{
-                                    filter: isEditDisabled ? "grayscale(100%)" : "none",
+                                    filter: isEditDisabled
+                                      ? "grayscale(100%)"
+                                      : "none",
                                   }}
                                 />
                               </div>
@@ -3264,204 +3172,238 @@ function UserListRoomDetail(props) {
                           )}
                         </div>
                       </div>
-
-
-
-
                     </div>
-
 
                     <div>
-                      {
-                        activeTab === "manual" ?
-                          <div>
-                            <div className="flex flex-wrap p-0 mt-3" >
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy" >
-                                  House No / Apartment
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <House size="18" color="#1E45E1" />
-                                  <span
-                                    className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
-                                    title={CustomerOverView.address?.houseNo}
-                                  >
-                                    {CustomerOverView.address?.houseNo || "-"}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy" >
-                                  Street / Area
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={Areaimage} alt="area" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
-                                    title={CustomerOverView.address?.streetName}
-                                  >
-                                    {CustomerOverView.address?.streetName}
-                                  </span>
-                                </div>
+                      {activeTab === "manual" ? (
+                        <div>
+                          <div className="flex flex-wrap p-0 mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                House No / Apartment
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <House size="18" color="#1E45E1" />
+                                <span
+                                  className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
+                                  title={CustomerOverView.address?.houseNo}
+                                >
+                                  {CustomerOverView.address?.houseNo || "-"}
+                                </span>
                               </div>
                             </div>
 
-                            <div className="flex flex-wrap mt-3">
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  Landmark
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={Landamrkimage} alt="landmark" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20">
-                                    {CustomerOverView.address?.landmark}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  Pincode
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={PincodeImage} alt="pincode" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
-                                    {CustomerOverView.address?.pincode || ""}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="flex flex-wrap mt-3">
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  City
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={CityImage} alt="city" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20">
-                                    {CustomerOverView.address?.city}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  State
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={CityImage} alt="state" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                    {CustomerOverView.address?.state}
-                                  </span>
-                                </div>
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                Street / Area
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={Areaimage}
+                                  alt="area"
+                                  className="w-4 h-4"
+                                />
+                                <span
+                                  className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
+                                  title={CustomerOverView.address?.streetName}
+                                >
+                                  {CustomerOverView.address?.streetName}
+                                </span>
                               </div>
                             </div>
                           </div>
-                          :
-                          <div>
-                            <div className="flex flex-wrap mt-3">
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  House No / Apartment
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <House size="18" color="#1E45E1" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                    {/* {CustomerOverView.address?.houseNo} */}
-                                  </span>
-                                </div>
-                              </div>
 
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  Street / Area
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={Areaimage} alt="area" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                    {/* {CustomerOverView.address?.streetName} */}
-                                  </span>
-                                </div>
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                Landmark
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={Landamrkimage}
+                                  alt="landmark"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20">
+                                  {CustomerOverView.address?.landmark}
+                                </span>
                               </div>
                             </div>
 
-                            <div className="flex flex-wrap mt-3">
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  Landmark
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={Landamrkimage} alt="landmark" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                    {/* {CustomerOverView.address?.landmark} */}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy" >
-                                  Pincode
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={PincodeImage} alt="pincode" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                    {/* {CustomerOverView.address?.pincode} */}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="flex flex-wrap mt-3">
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  City
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={CityImage} alt="city" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                    {/* {CustomerOverView.address?.city} */}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="w-full sm:w-1/2 flex flex-col items-start">
-                                <p className="text-xs font-medium font-gilroy">
-                                  State
-                                </p>
-                                <div className="flex items-center gap-2 -mt-3">
-                                  <img src={CityImage} alt="state" className="w-4 h-4" />
-                                  <span className="text-sm font-semibold font-gilroy truncate max-w-xs" >
-                                    {/* {CustomerOverView.address?.state} */}
-                                  </span>
-                                </div>
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                Pincode
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={PincodeImage}
+                                  alt="pincode"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate mt-1 max-w-xs">
+                                  {CustomerOverView.address?.pincode || ""}
+                                </span>
                               </div>
                             </div>
                           </div>
-                      }
 
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                City
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={CityImage}
+                                  alt="city"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy mt-1 block truncate w-20">
+                                  {CustomerOverView.address?.city}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                State
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={CityImage}
+                                  alt="state"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {CustomerOverView.address?.state}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                House No / Apartment
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <House size="18" color="#1E45E1" />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {/* {CustomerOverView.address?.houseNo} */}
+                                </span>
+                              </div>
+                            </div>
 
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                Street / Area
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={Areaimage}
+                                  alt="area"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {/* {CustomerOverView.address?.streetName} */}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                Landmark
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={Landamrkimage}
+                                  alt="landmark"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {/* {CustomerOverView.address?.landmark} */}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                Pincode
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={PincodeImage}
+                                  alt="pincode"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {/* {CustomerOverView.address?.pincode} */}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                City
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={CityImage}
+                                  alt="city"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {/* {CustomerOverView.address?.city} */}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
+                                State
+                              </p>
+                              <div className="flex items-center gap-2 -mt-3">
+                                <img
+                                  src={CityImage}
+                                  alt="state"
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {/* {CustomerOverView.address?.state} */}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-
                 </div>
 
-
                 <div className=" gap-2">
-
                   <div className="flex flex-col w-full md:mb-0 px-2 sm:px-0">
                     <div className="bg-white border border-[#E5E7EB] rounded-[20px] p-4 sm:p-[20px] w-full mx-0 sm:ml-[10px] sm:mr-0  min-h-[500px] overflow-y-auto">
                       <div className="flex flex-col justify-between border-0 p-1 bg-transparent">
-
                         <div className="flex flex-row justify-between">
                           <div className="text-base font-semibold font-gilroy">
                             Stay details
                           </div>
                           <div className="flex flex-row">
-                            <div className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}>
+                            <div
+                              className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}
+                            >
                               <img
                                 src={Stayhistory}
                                 alt="stayhistoryicon"
-                                onClick={() => canUpdateTenant && handleShowStayHistory(CustomerOverView)}
+                                onClick={() =>
+                                  canUpdateTenant &&
+                                  handleShowStayHistory(CustomerOverView)
+                                }
                                 className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
                               />
                             </div>
@@ -3469,15 +3411,24 @@ function UserListRoomDetail(props) {
                         </div>
                         <hr className="my-2" />
 
-
                         <div className="flex flex-wrap mt-4">
-
                           <div className="w-full sm:w-1/3 flex flex-col items-start">
-                            <p className="text-xs font-medium font-gilroy">Floor</p>
+                            <p className="text-xs font-medium font-gilroy">
+                              Floor
+                            </p>
                             <p className="flex items-center -mt-3 gap-1">
-                              <img src={Floorimage} alt="Floorimage" className="h-4 w-4" />
+                              <img
+                                src={Floorimage}
+                                alt="Floorimage"
+                                className="h-4 w-4"
+                              />
                               <span className="text-sm font-semibold font-gilroy ml-1 mt-1">
-                                {CustomerOverView.hostelInfo?.floorName && CustomerOverView.hostelInfo?.floorName !== "undefined" && CustomerOverView.hostelInfo?.floorName !== 0 && CustomerOverView.hostelInfo?.floorName !== "null"
+                                {CustomerOverView.hostelInfo?.floorName &&
+                                CustomerOverView.hostelInfo?.floorName !==
+                                  "undefined" &&
+                                CustomerOverView.hostelInfo?.floorName !== 0 &&
+                                CustomerOverView.hostelInfo?.floorName !==
+                                  "null"
                                   ? CustomerOverView.hostelInfo.floorName
                                   : "N/A"}
                               </span>
@@ -3485,17 +3436,26 @@ function UserListRoomDetail(props) {
                           </div>
 
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-1">
-                            <p className="text-xs font-medium font-gilroy">Room</p>
+                            <p className="text-xs font-medium font-gilroy">
+                              Room
+                            </p>
                             <p className="flex items-center -mt-3 gap-1">
-                              <img src={RoomImage} alt="room" className="h-4 w-4" />
+                              <img
+                                src={RoomImage}
+                                alt="room"
+                                className="h-4 w-4"
+                              />
                               <span className="ml-1 mt-1 text-sm font-semibold font-gilroy">
-                                {CustomerOverView?.hostelInfo?.roomName ?? "N/A"}
+                                {CustomerOverView?.hostelInfo?.roomName ??
+                                  "N/A"}
                               </span>
                             </p>
                           </div>
 
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-1">
-                            <p className="text-xs font-medium font-gilroy">Bed</p>
+                            <p className="text-xs font-medium font-gilroy">
+                              Bed
+                            </p>
                             <p className="flex items-center -mt-3 gap-1">
                               <img src={Group} alt="bed" className="h-4 w-4" />
                               <span className="ml-1 mt-1 text-sm font-semibold font-gilroy">
@@ -3505,11 +3465,18 @@ function UserListRoomDetail(props) {
                           </div>
 
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
-                            <p className="text-xs font-medium font-gilroy">Booking Date</p>
+                            <p className="text-xs font-medium font-gilroy">
+                              Booking Date
+                            </p>
                             <p className="flex items-center -mt-3 gap-1">
-                              <img src={LinkImage} alt="booking" className="mt-px h-4 w-4" />
+                              <img
+                                src={LinkImage}
+                                alt="booking"
+                                className="mt-px h-4 w-4"
+                              />
                               <span className="ml-1 mt-1 text-sm font-semibold font-gilroy">
-                                {CustomerOverView.bookingInfo?.bookingDate ?? "N/A"}
+                                {CustomerOverView.bookingInfo?.bookingDate ??
+                                  "N/A"}
                               </span>
                             </p>
                           </div>
@@ -3517,39 +3484,52 @@ function UserListRoomDetail(props) {
                           <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
                             <p className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                               Joined Date
-                              {canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && CustomerOverView?.isJoiningDateEditable && (
-                                <img
-                                  onClick={handleUpdateJoiningChange}
-                                  src={EditImage}
-                                  alt="EditImage"
-                                  className="h-3.5 w-3.5 mt-0.5 cursor-pointer"
-                                />
-                              )}
+                              {canUpdateTenant &&
+                                CustomerOverView.hostelInfo?.joiningDate &&
+                                CustomerOverView.hostelInfo.currentStatus !==
+                                  "NOTICE" &&
+                                CustomerOverView?.isJoiningDateEditable && (
+                                  <img
+                                    onClick={handleUpdateJoiningChange}
+                                    src={EditImage}
+                                    alt="EditImage"
+                                    className="h-3.5 w-3.5 mt-0.5 cursor-pointer"
+                                  />
+                                )}
                             </p>
                             <p className="flex items-center -mt-3 gap-1">
-                              <img src={LinkImage} alt="joining" className="h-4 w-4" />
+                              <img
+                                src={LinkImage}
+                                alt="joining"
+                                className="h-4 w-4"
+                              />
                               <span className="ml-1 mt-1 text-sm font-semibold font-gilroy text-black">
-                                {CustomerOverView.hostelInfo?.joiningDate ?? "N/A"}
+                                {CustomerOverView.hostelInfo?.joiningDate ??
+                                  "N/A"}
                               </span>
                             </p>
                           </div>
                         </div>
 
-
-                        <label className="text-lg font-semibold font-gilroy mt-2 mb-3">Financial details</label>
+                        <label className="text-lg font-semibold font-gilroy mt-2 mb-3">
+                          Financial details
+                        </label>
                         <div className="w-full mb-0 md:mb-0">
                           <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 mb-4">
                             <div className="flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Monthly Rent
-                                {canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE" && (
-                                  <img
-                                    onClick={handleUpdateChange}
-                                    src={EditImage}
-                                    alt="EditImage"
-                                    className="h-3.5 w-3.5 cursor-pointer"
-                                  />
-                                )}
+                                {canUpdateTenant &&
+                                  CustomerOverView.hostelInfo?.monthlyRent &&
+                                  CustomerOverView.hostelInfo.currentStatus !==
+                                    "NOTICE" && (
+                                    <img
+                                      onClick={handleUpdateChange}
+                                      src={EditImage}
+                                      alt="EditImage"
+                                      className="h-3.5 w-3.5 cursor-pointer"
+                                    />
+                                  )}
                               </div>
                               <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
                                 ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
@@ -3562,9 +3542,10 @@ function UserListRoomDetail(props) {
                                 {canUpdateTenant &&
                                   advanceList?.advanceAmount !== null &&
                                   advanceList?.advanceAmount !== undefined &&
-                                  CustomerOverView.hostelInfo.currentStatus !== "NOTICE" &&
-                                  CustomerOverView.advanceInfo?.canEditAdvance &&
-                                  (
+                                  CustomerOverView.hostelInfo.currentStatus !==
+                                    "NOTICE" &&
+                                  CustomerOverView.advanceInfo
+                                    ?.canEditAdvance && (
                                     <img
                                       onClick={handleUpdateAdvanceChange}
                                       src={EditImage}
@@ -3578,81 +3559,84 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-
                             <div className="flex flex-col items-start">
-                              <div className="text-xs font-medium font-gilroy">Booking Amount</div>
+                              <div className="text-xs font-medium font-gilroy">
+                                Booking Amount
+                              </div>
                               <p className="text-sm font-semibold font-gilroy pt-2">
-                                ₹{CustomerOverView?.bookingInfo?.bookingAmount ?? 0}
+                                ₹
+                                {CustomerOverView?.bookingInfo?.bookingAmount ??
+                                  0}
                               </p>
                             </div>
 
-
-                            {CustomerOverView.hostelInfo?.maintenance !== null && (
+                            {CustomerOverView.hostelInfo?.maintenance !==
+                              null && (
                               <div className="flex flex-col items-start">
-                                <div className="text-xs font-medium font-gilroy">Maintenance</div>
+                                <div className="text-xs font-medium font-gilroy">
+                                  Maintenance
+                                </div>
                                 <p className="text-sm font-semibold font-gilroy pt-2">
                                   ₹{CustomerOverView.hostelInfo?.maintenance}
                                 </p>
                               </div>
                             )}
 
-
-                            {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                              <div key={index} className="flex flex-col items-start">
-                                <div className="text-xs font-medium font-gilroy">{item.type}</div>
-                                <p className="text-sm font-semibold font-gilroy pt-2">₹{item.amount}</p>
-                              </div>
-                            ))}
+                            {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map(
+                              (item, index) => (
+                                <div
+                                  key={index}
+                                  className="flex flex-col items-start"
+                                >
+                                  <div className="text-xs font-medium font-gilroy">
+                                    {item.type}
+                                  </div>
+                                  <p className="text-sm font-semibold font-gilroy pt-2">
+                                    ₹{item.amount}
+                                  </p>
+                                </div>
+                              ),
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
 
                 <div className=" bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
-
-
                   <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
-
-
                     <div className="flex justify-around w-full">
-
-
                       <button
                         onClick={() => setDocumentValue("1")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
-        ${documentvalue === "1"
-                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                            : "text-[#4B4B4B] border-b-2 border-transparent"
-                          }`}
+        ${
+          documentvalue === "1"
+            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+            : "text-[#4B4B4B] border-b-2 border-transparent"
+        }`}
                       >
                         KYC Documents
                       </button>
 
-
                       <button
                         onClick={() => setDocumentValue("2")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
-        ${documentvalue === "2"
-                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                            : "text-[#4B4B4B] border-b-2 border-transparent"
-                          }`}
+        ${
+          documentvalue === "2"
+            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+            : "text-[#4B4B4B] border-b-2 border-transparent"
+        }`}
                       >
                         Manual Documents
                       </button>
-
                     </div>
-
                   </div>
-
 
                   {documentvalue === "1" &&
                     CustomerOverView?.files?.kycDoc?.length > 0 && (
-                      <button disabled={isDisabledButton}
+                      <button
+                        disabled={isDisabledButton}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         onClick={handlePreviewKYC}
                       >
@@ -3662,7 +3646,8 @@ function UserListRoomDetail(props) {
 
                   {documentvalue === "2" &&
                     CustomerOverView?.files?.otherDoc?.length > 0 && (
-                      <button disabled={isDisabledButton}
+                      <button
+                        disabled={isDisabledButton}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         onClick={handlePreview}
                       >
@@ -3670,18 +3655,20 @@ function UserListRoomDetail(props) {
                       </button>
                     )}
 
-
                   <div className="p-3 max-h-[300px] overflow-y-auto">
-
-
                     {documentvalue === "1" && (
                       <>
                         {CustomerOverView?.files?.kycDoc?.length > 0 ? (
-                          <KYCDocuments documents={CustomerOverView?.files?.kycDoc} />
+                          <KYCDocuments
+                            documents={CustomerOverView?.files?.kycDoc}
+                          />
                         ) : (
                           <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center min-h-[200px]">
                             <div>
-                              <p className="mb-1"> No KYC Documents are there!</p>
+                              <p className="mb-1">
+                                {" "}
+                                No KYC Documents are there!
+                              </p>
 
                               <button
                                 onClick={handlePreviewKYC}
@@ -3698,10 +3685,8 @@ function UserListRoomDetail(props) {
                       </>
                     )}
 
-
                     {documentvalue === "2" && (
                       <div className="w-full py-2 px-2">
-
                         {CustomerOverView?.files?.otherDoc?.length > 0 ? (
                           <ManualDocumentsDetails
                             documents={CustomerOverView?.files?.otherDoc}
@@ -3709,7 +3694,10 @@ function UserListRoomDetail(props) {
                         ) : (
                           <div className="text-center text-sm font-normal font-gilroy w-full flex items-center  justify-center  min-h-[200px]">
                             <div>
-                              <p className="mb-1"> No Manual Documents are there!</p>
+                              <p className="mb-1">
+                                {" "}
+                                No Manual Documents are there!
+                              </p>
 
                               <button
                                 onClick={handlePreview}
@@ -3723,17 +3711,10 @@ function UserListRoomDetail(props) {
                             </div>
                           </div>
                         )}
-
                       </div>
                     )}
-
                   </div>
-
-
-
                 </div>
-
-
 
                 <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2  ">
                   <div className="w-full max-w-full px-2 sm:px-3 py-3">
@@ -3741,39 +3722,35 @@ function UserListRoomDetail(props) {
                       <div className="font-semibold text-[16px] font-gilroy">
                         Parent/Guardian Details
                       </div>
-                      {
-                        additionalContact?.length > 0 && (
-                          <div className="flex items-center gap-3">
-
-
-
-                            <button disabled={isDisabledButton}
-                              type="button"
-                              onClick={handleAdditionalForm}
-                              className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
-    ${!isDisabledButton
-                                  ? "bg-[#1E45E1] text-white cursor-pointer"
-                                  : "bg-gray-100 text-gray-400 cursor-not-allowed"}
+                      {additionalContact?.length > 0 && (
+                        <div className="flex items-center gap-3">
+                          <button
+                            disabled={isDisabledButton}
+                            type="button"
+                            onClick={handleAdditionalForm}
+                            className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
+    ${
+      !isDisabledButton
+        ? "bg-[#1E45E1] text-white cursor-pointer"
+        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+    }
   `}
-
-                            >
-                              <AddCircle
-                                size="20"
-                                color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
-
-                              />  Additional
-                            </button>
-
-                          </div>
-                        )
-                      }
-
-
+                          >
+                            <AddCircle
+                              size="20"
+                              color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
+                            />{" "}
+                            Additional
+                          </button>
+                        </div>
+                      )}
                     </div>
 
                     <div className="pt-4 font-gilroy text-center max-h-[220px] overflow-y-auto show-scroll">
                       {additionalContact?.length > 0 ? (
-                        <ParentsGuardian additionalContact={additionalContact} />
+                        <ParentsGuardian
+                          additionalContact={additionalContact}
+                        />
                       ) : (
                         <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
                           <p className="mb-1">No Contact Details are there!</p>
@@ -3789,15 +3766,9 @@ function UserListRoomDetail(props) {
                         </div>
                       )}
                     </div>
-
                   </div>
                 </div>
-
               </div>
-
-
-
-
 
               <div className="row">
                 <div className="col-12">
@@ -3821,7 +3792,6 @@ function UserListRoomDetail(props) {
                       </div>
                     </div>
 
-
                     <div className="p-4 font-gilroy flex flex-col gap-4">
                       <div className="w-full">
                         <UserListAmenities
@@ -3843,18 +3813,14 @@ function UserListRoomDetail(props) {
                         <RequestedAmenities />
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
-
-
 
               {kycdetailsForm === true ? (
                 <UserListKyc
                   kycdetailsForm={kycdetailsForm}
                   setKycDetailForm={setKycDetailForm}
-
                 />
               ) : null}
               {additionalForm && (
@@ -3864,8 +3830,6 @@ function UserListRoomDetail(props) {
                   editAdditional={editAdditional}
                 />
               )}
-
-
             </>
           </TabPanel>
 
@@ -3875,12 +3839,12 @@ function UserListRoomDetail(props) {
             backdrop="static"
             centered
           >
-            <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-[10px] rounded-[30px]"  >
+            <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-[10px] rounded-[30px]">
               <Modal.Body>
                 <div className="flex items-center">
                   {customerdetailShow ? (
                     <div>
-                      <Modal.Header className="relative pt-[3px]"  >
+                      <Modal.Header className="relative pt-[3px]">
                         <div className="text-[20px] font-semibold font-gilroy">
                           Edit Customer
                         </div>
@@ -3894,9 +3858,7 @@ function UserListRoomDetail(props) {
                       </Modal.Header>
                       <div className="max-h-[380px] overflow-y-scroll show-scroll p-2 mt-3 me-3">
                         <div className="d-flex align-items-center">
-                          <div
-                            className="h-24 w-24 relative"
-                          >
+                          <div className="h-24 w-24 relative">
                             <Image
                               src={
                                 file
@@ -3915,7 +3877,6 @@ function UserListRoomDetail(props) {
                                 src={Plus}
                                 roundedCircle
                                 className="h-5 w-5 absolute bottom-0 right-0 -translate-x-1/2 -translate-y-1/2"
-
                               />
                               <input
                                 type="file"
@@ -3929,9 +3890,7 @@ function UserListRoomDetail(props) {
                           </div>
                           <div className="ps-3">
                             <div>
-                              <label
-                                className="text-base font-medium text-gray-900 font-gilroy"
-                              >
+                              <label className="text-base font-medium text-gray-900 font-gilroy">
                                 Profile Photo
                               </label>
                             </div>
@@ -3947,10 +3906,8 @@ function UserListRoomDetail(props) {
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group className="">
                               <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
-                                First Name {" "}
-                                <span className="text-red-500 text-xl"
-
-                                >
+                                First Name{" "}
+                                <span className="text-red-500 text-xl">
                                   {" "}
                                   *{" "}
                                 </span>
@@ -3968,14 +3925,16 @@ function UserListRoomDetail(props) {
                               />
                             </Form.Group>
                             {firstnameError && (
-                              <ErrorMessage message={firstnameError} type="error" />
+                              <ErrorMessage
+                                message={firstnameError}
+                                type="error"
+                              />
                             )}
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                            <Form.Group >
-                              <Form.Label className="text-sm font-medium text-gray-600 font-gilroy"
-                              >
-                                Last Name {" "}
+                            <Form.Group>
+                              <Form.Label className="text-sm font-medium text-gray-600 font-gilroy">
+                                Last Name{" "}
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -3992,10 +3951,9 @@ function UserListRoomDetail(props) {
 
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                             <Form.Group>
-                              <Form.Label className="text-sm font-medium text-gray-600 font-gilroy"
-                              >
-                                Mobile Number {" "}
-                                <span className="text-red-500 text-xl"  >
+                              <Form.Label className="text-sm font-medium text-gray-600 font-gilroy">
+                                Mobile Number{" "}
+                                <span className="text-red-500 text-xl">
                                   {" "}
                                   *{" "}
                                 </span>
@@ -4025,26 +3983,32 @@ function UserListRoomDetail(props) {
             border border-gray-300 border-l-0
             rounded-r-lg
             ${Phone ? "font-semibold" : "font-medium"}`}
-
                                 />
                               </InputGroup>
                               <p
                                 id="MobileNumberError"
-                                className="text-red-500 text-[11px] mt-1" ></p>
+                                className="text-red-500 text-[11px] mt-1"
+                              ></p>
                               {phoneError && (
-                                <ErrorMessage message={phoneError} type="error" />
+                                <ErrorMessage
+                                  message={phoneError}
+                                  type="error"
+                                />
                               )}
 
                               {phoneErrorMessage && (
-                                <ErrorMessage message={phoneErrorMessage} type="error" />
+                                <ErrorMessage
+                                  message={phoneErrorMessage}
+                                  type="error"
+                                />
                               )}
                             </Form.Group>
                           </div>
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
-                            <Form.Group >
+                            <Form.Group>
                               <Form.Label className="text-[14px] text-gray-900 font-medium font-gilroy">
-                                Email ID {" "}
+                                Email ID{" "}
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -4054,22 +4018,27 @@ function UserListRoomDetail(props) {
                                 ref={emailRef}
                                 onChange={(e) => handleEmail(e)}
                                 className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md mt-1.5"
-
                               />
 
                               {emailError && (
-                                <ErrorMessage message={emailError} type="error" />
+                                <ErrorMessage
+                                  message={emailError}
+                                  type="error"
+                                />
                               )}
 
                               {emailErrorMessage && (
-                                <ErrorMessage message={emailErrorMessage} type="error" />
+                                <ErrorMessage
+                                  message={emailErrorMessage}
+                                  type="error"
+                                />
                               )}
                             </Form.Group>
                           </div>
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group>
-                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy" >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
                                 Flat , House no , Building , Company ,
                                 Apartment{" "}
                               </Form.Label>
@@ -4080,18 +4049,19 @@ function UserListRoomDetail(props) {
                                 value={house_no}
                                 onChange={(e) => handleHouseNo(e)}
                                 className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
-
                               />
                             </Form.Group>
                             {house_noError && (
-                              <ErrorMessage message={house_noError} type="error" />
+                              <ErrorMessage
+                                message={house_noError}
+                                type="error"
+                              />
                             )}
                           </div>
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group>
-                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy"
-                              >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
                                 Area , Street , Sector , Village{" "}
                               </Form.Label>
                               <FormControl
@@ -4101,18 +4071,20 @@ function UserListRoomDetail(props) {
                                 value={street}
                                 onChange={(e) => handleStreetName(e)}
                                 className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
-
                               />
                             </Form.Group>
                             {streetError && (
-                              <ErrorMessage message={streetError} type="error" />
+                              <ErrorMessage
+                                message={streetError}
+                                type="error"
+                              />
                             )}
                           </div>
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
-                            <Form.Group >
+                            <Form.Group>
                               <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
-                                Landmark {" "}
+                                Landmark{" "}
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -4121,11 +4093,13 @@ function UserListRoomDetail(props) {
                                 value={landmark}
                                 onChange={(e) => handleLandmark(e)}
                                 className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
-
                               />
                             </Form.Group>
                             {landmarkError && (
-                              <ErrorMessage message={landmarkError} type="error" />
+                              <ErrorMessage
+                                message={landmarkError}
+                                type="error"
+                              />
                             )}
                           </div>
 
@@ -4134,9 +4108,8 @@ function UserListRoomDetail(props) {
                               className="mb-3"
                               controlId="exampleForm.ControlInput1"
                             >
-                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy" >
-                                Pincode {" "}
-
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                                Pincode{" "}
                               </Form.Label>
                               <Form.Control
                                 value={pincode}
@@ -4148,21 +4121,20 @@ function UserListRoomDetail(props) {
                                 pattern="[0-9]*"
                                 placeholder="Enter Pincode"
                                 className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
-
                               />
                               {pincodeError && (
-                                <ErrorMessage message={pincodeError} type="error" />
+                                <ErrorMessage
+                                  message={pincodeError}
+                                  type="error"
+                                />
                               )}
                             </Form.Group>
                           </div>
 
                           <div className="w-full md:w-1/2 lg:w-1/2 mb-1">
                             <Form.Group>
-                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy"
-
-                              >
-                                Town/City {" "}
-
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                                Town/City{" "}
                               </Form.Label>
                               <FormControl
                                 type="text"
@@ -4172,7 +4144,6 @@ function UserListRoomDetail(props) {
                                 ref={cityRef}
                                 onChange={(e) => handleCity(e)}
                                 className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-md"
-
                               />
                             </Form.Group>
                             {cityError && (
@@ -4185,9 +4156,8 @@ function UserListRoomDetail(props) {
                               className="mb-3"
                               controlId="exampleForm.ControlInput5"
                             >
-                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy" >
+                              <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
                                 State
-
                               </Form.Label>
 
                               <Select
@@ -4195,13 +4165,13 @@ function UserListRoomDetail(props) {
                                 ref={stateRef}
                                 onChange={(selectedOption) => {
                                   setStateName(selectedOption?.value);
-                                  setFormError("")
+                                  setFormError("");
                                 }}
                                 onInputChange={(inputValue, { action }) => {
                                   if (action === "input-change") {
                                     const lettersOnly = inputValue.replace(
                                       /[^a-zA-Z\s]/g,
-                                      ""
+                                      "",
                                     );
                                     return lettersOnly;
                                   }
@@ -4210,17 +4180,15 @@ function UserListRoomDetail(props) {
                                 value={
                                   state_name
                                     ? {
-                                      value: state_name,
-                                      label: state_name,
-                                    }
+                                        value: state_name,
+                                        label: state_name,
+                                      }
                                     : null
                                 }
                                 placeholder="Select State"
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
-                                noOptionsMessage={() =>
-                                  "No state available"
-                                }
+                                noOptionsMessage={() => "No state available"}
                                 styles={{
                                   control: (base) => ({
                                     ...base,
@@ -4269,46 +4237,34 @@ function UserListRoomDetail(props) {
                                 }}
                               />
                             </Form.Group>
-
                           </div>
-
-
-
-
                         </div>
                         {formError && (
                           <ErrorMessage message={formError} type="error" />
                         )}
                       </div>
 
-
-
-                      {formLoading && <div
-                        className="absolute top-[100px] inset-x-0 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10"
-
-                      >
-                        <div className="w-10 h-10 rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin"
-
-                        ></div>
-                      </div>}
+                      {formLoading && (
+                        <div className="absolute top-[100px] inset-x-0 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                          <div className="w-10 h-10 rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
+                        </div>
+                      )}
                       <Button
                         className="w-full bg-[#1E45E1] font-semibold h-[50px] rounded-[12px] text-[16px] font-['Montserrat'] mt-5"
                         onClick={handleSaveUserlist}
                       >
                         Edit Customer
                       </Button>
-
                     </div>
                   ) : (
                     ""
                   )}
 
                   {customerAsignBed && customerAsignBed ? (
-
                     <div className="container mx-auto">
                       <div className="grid grid-cols-12"></div>
 
-                      <Modal.Header className="relative pt-0" >
+                      <Modal.Header className="relative pt-0">
                         <div className="text-xl font-semibold font-gilroy">
                           Edit Assign bed
                         </div>
@@ -4320,17 +4276,12 @@ function UserListRoomDetail(props) {
                           className="cursor-pointer"
                         />
                       </Modal.Header>
-                      <div className="max-h-96 overflow-y-scroll pt-1 mr-1 mt-2 mb-1 show-scroll"
-
-                      >
+                      <div className="max-h-96 overflow-y-scroll pt-1 mr-1 mt-2 mb-1 show-scroll">
                         <div className="grid grid-cols-12 mb-3 mr-1">
                           <div className="col-span-12">
                             <Form.Label className="text-sm font-medium font-gilroy">
-                              Floor {" "}
-                              <span className="text-red-500 text-xl">
-                                {" "}
-                                *{" "}
-                              </span>
+                              Floor{" "}
+                              <span className="text-red-500 text-xl"> * </span>
                             </Form.Label>
 
                             <Select
@@ -4339,7 +4290,7 @@ function UserListRoomDetail(props) {
                                   (u) => ({
                                     value: u.floor_id,
                                     label: u.floor_name,
-                                  })
+                                  }),
                                 ) || []
                               }
                               onChange={handleFloor}
@@ -4351,8 +4302,7 @@ function UserListRoomDetail(props) {
                                   }))
                                   .find(
                                     (option) =>
-                                      String(option.value) ===
-                                      String(Floor)
+                                      String(option.value) === String(Floor),
                                   ) || null
                               }
                               placeholder="Select a Floor"
@@ -4406,11 +4356,12 @@ function UserListRoomDetail(props) {
                                 option: (base, state) => ({
                                   ...base,
                                   cursor: "pointer",
-                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                  backgroundColor: state.isFocused
+                                    ? "#f0f0f0"
+                                    : "white",
                                   color: "#000",
                                 }),
                               }}
-
                             />
 
                             {floorError && (
@@ -4420,8 +4371,8 @@ function UserListRoomDetail(props) {
 
                           <div className="col-span-12 mt-1">
                             <div className="mb-2">
-                              <Form.Label className="text-sm font-medium font-gilroy" >
-                                Room {" "}
+                              <Form.Label className="text-sm font-medium font-gilroy">
+                                Room{" "}
                                 <span className="text-red-500 text-xl">
                                   {" "}
                                   *{" "}
@@ -4430,26 +4381,22 @@ function UserListRoomDetail(props) {
 
                               <Select
                                 options={
-                                  state.UsersList?.roomdetails?.map(
-                                    (item) => ({
-                                      value: item.Room_Id,
-                                      label: item.Room_Name,
-                                    })
-                                  ) || []
+                                  state.UsersList?.roomdetails?.map((item) => ({
+                                    value: item.Room_Id,
+                                    label: item.Room_Name,
+                                  })) || []
                                 }
                                 onChange={handleRooms}
                                 value={
                                   state.UsersList?.roomdetails?.find(
-                                    (option) => option.Room_Id === RoomId
+                                    (option) => option.Room_Id === RoomId,
                                   )
                                     ? {
-                                      value: RoomId,
-                                      label:
-                                        state.UsersList.roomdetails.find(
-                                          (option) =>
-                                            option.Room_Id === RoomId
+                                        value: RoomId,
+                                        label: state.UsersList.roomdetails.find(
+                                          (option) => option.Room_Id === RoomId,
                                         )?.Room_Name,
-                                    }
+                                      }
                                     : null
                                 }
                                 placeholder="Select a Room"
@@ -4503,31 +4450,33 @@ function UserListRoomDetail(props) {
                                   option: (base, state) => ({
                                     ...base,
                                     cursor: "pointer",
-                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                    backgroundColor: state.isFocused
+                                      ? "#f0f0f0"
+                                      : "white",
                                     color: "#000",
                                   }),
                                 }}
                               />
 
                               {roomError && (
-                                <ErrorMessage message={roomError} type="error" />
+                                <ErrorMessage
+                                  message={roomError}
+                                  type="error"
+                                />
                               )}
                             </div>
                           </div>
 
                           <div className="grid grid-cols-12 gap-4">
-                            <Form.Label className="text-sm font-medium font-gilroy" >
-                              Bed {" "}
-                              <span className="text-red-500 text-xl" >
-                                {" "}
-                                *{" "}
-                              </span>
+                            <Form.Label className="text-sm font-medium font-gilroy">
+                              Bed{" "}
+                              <span className="text-red-500 text-xl"> * </span>
                             </Form.Label>
 
                             <Select
                               options={bedOptions}
                               value={bedOptions.find(
-                                (opt) => opt.value === BedId
+                                (opt) => opt.value === BedId,
                               )}
                               onChange={(selectedOption) =>
                                 handleBed({
@@ -4587,7 +4536,9 @@ function UserListRoomDetail(props) {
                                 option: (base, state) => ({
                                   ...base,
                                   cursor: "pointer",
-                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                  backgroundColor: state.isFocused
+                                    ? "#f0f0f0"
+                                    : "white",
                                   color: "#000",
                                 }),
                               }}
@@ -4608,7 +4559,7 @@ function UserListRoomDetail(props) {
                                   fontWeight: 500,
                                 }}
                               >
-                                Joining Date {" "}
+                                Joining Date{" "}
                                 <span
                                   style={{
                                     color: "red",
@@ -4635,24 +4586,22 @@ function UserListRoomDetail(props) {
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
                                   value={
-                                    selectedDate
-                                      ? dayjs(selectedDate)
-                                      : null
+                                    selectedDate ? dayjs(selectedDate) : null
                                   }
                                   onChange={(date) => {
                                     setDateError("");
                                     setFormError("");
-                                    setJoingDateErrmsg('');
+                                    setJoingDateErrmsg("");
                                     setSelectedDate(
-                                      date ? date.toDate() : null
+                                      date ? date.toDate() : null,
                                     );
                                   }}
                                   getPopupContainer={(triggerNode) =>
-                                    triggerNode.closest(
-                                      ".datepicker-wrapper"
-                                    )
+                                    triggerNode.closest(".datepicker-wrapper")
                                   }
-                                  disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                  disabledDate={(current) =>
+                                    current && current > dayjs().endOf("day")
+                                  }
                                 />
                               </div>
                             </Form.Group>
@@ -4661,9 +4610,11 @@ function UserListRoomDetail(props) {
                               <ErrorMessage message={dateError} type="error" />
                             )}
 
-
                             {joiningDateErrmsg.trim() !== "" && (
-                              <ErrorMessage message={joiningDateErrmsg} type="error" />
+                              <ErrorMessage
+                                message={joiningDateErrmsg}
+                                type="error"
+                              />
                             )}
                           </div>
 
@@ -4676,7 +4627,7 @@ function UserListRoomDetail(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                Advance Amount {" "}
+                                Advance Amount{" "}
                                 <span
                                   style={{
                                     color: "red",
@@ -4707,7 +4658,10 @@ function UserListRoomDetail(props) {
                               />
                             </Form.Group>
                             {advanceAmountError && (
-                              <ErrorMessage message={advanceAmountError} type="error" />
+                              <ErrorMessage
+                                message={advanceAmountError}
+                                type="error"
+                              />
                             )}
                           </div>
 
@@ -4720,7 +4674,7 @@ function UserListRoomDetail(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                Rental Amount {" "}
+                                Rental Amount{" "}
                                 <span
                                   style={{
                                     color: "red",
@@ -4750,17 +4704,33 @@ function UserListRoomDetail(props) {
                               />
                             </Form.Group>
                             {roomrentError && (
-                              <ErrorMessage message={roomrentError} type="error" />
+                              <ErrorMessage
+                                message={roomrentError}
+                                type="error"
+                              />
                             )}
                           </div>
                         </div>
 
-
-                        <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
-
+                        <div
+                          style={{
+                            backgroundColor: "#F7F9FF",
+                            borderRadius: 10,
+                            paddingBottom: 5,
+                          }}
+                          className="mt-3 mb-3 me-2"
+                        >
                           <div className="d-flex justify-content-between align-items-center p-4">
                             <div>
-                              <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Non Refundable Amount
+                              </label>
                             </div>
                             <div>
                               <Button
@@ -4790,195 +4760,216 @@ function UserListRoomDetail(props) {
                                 />
                                 Add
                               </Button>
-
                             </div>
                           </div>
 
+                          {fields
+                            .filter((f) => !f.isDeleted)
+                            .map((item, index) => {
+                              const isMaintenanceSelected = fields.some(
+                                (field) => field.reason === "maintenance",
+                              );
 
-
-                          {fields.filter(f => !f.isDeleted).map((item, index) => {
-
-                            const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
-
-                            const filteredOptions = reasonOptions.map((opt) => {
-                              if (opt.value === "maintenance") {
-                                return {
-                                  ...opt,
-                                  isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
-                                };
-                              }
-                              return opt;
-                            });
-                            return (
-                              <div className="row px-4 mb-3" key={index}>
-                                <div className="col-md-6">
-
-
-                                  {!item.showInput ? (
-                                    <Select
-                                      options={filteredOptions}
-                                      value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
-                                      onChange={(selectedOption) => {
-                                        const selectedValue = selectedOption.value;
-
-                                        if (selectedValue === "others") {
-                                          handleInputChange(index, "reason", "others");
-                                        } else {
-                                          handleInputChange(index, "reason", selectedValue);
+                              const filteredOptions = reasonOptions.map(
+                                (opt) => {
+                                  if (opt.value === "maintenance") {
+                                    return {
+                                      ...opt,
+                                      isDisabled:
+                                        isMaintenanceSelected &&
+                                        item.reason !== "maintenance",
+                                    };
+                                  }
+                                  return opt;
+                                },
+                              );
+                              return (
+                                <div className="row px-4 mb-3" key={index}>
+                                  <div className="col-md-6">
+                                    {!item.showInput ? (
+                                      <Select
+                                        options={filteredOptions}
+                                        value={
+                                          filteredOptions.find(
+                                            (opt) =>
+                                              opt.value === item.reason_name,
+                                          ) || null
                                         }
-                                      }}
-                                      isDisabled={item.reason === "maintenance"}
-                                      menuPlacement="auto"
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "50px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          display: "inline-block",
-                                          fill: "currentColor",
-                                          lineHeight: 1,
-                                          stroke: "currentColor",
-                                          strokeWidth: 0,
-                                          cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                          backgroundColor: state.isFocused
-                                            ? "#E7F1FF"
-                                            : state.isDisabled
-                                              ? "#f0f0f0"
-                                              : "#fff",
-                                          color: state.isDisabled ? "#aaa" : "#000",
-                                        }),
-                                      }}
-                                    />
-                                  ) : (
-                                    <>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Enter custom reason"
-                                        disabled={item.customReason === "maintenance"}
-                                        value={item.customReason || ""}
-                                        onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 50,
-                                          borderRadius: 8,
+                                        onChange={(selectedOption) => {
+                                          const selectedValue =
+                                            selectedOption.value;
+
+                                          if (selectedValue === "others") {
+                                            handleInputChange(
+                                              index,
+                                              "reason",
+                                              "others",
+                                            );
+                                          } else {
+                                            handleInputChange(
+                                              index,
+                                              "reason",
+                                              selectedValue,
+                                            );
+                                          }
+                                        }}
+                                        isDisabled={
+                                          item.reason === "maintenance"
+                                        }
+                                        menuPlacement="auto"
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            height: "50px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "16px",
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                          }),
+                                          menu: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ced4da",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          menuList: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            maxHeight: "120px",
+                                            padding: 0,
+                                            scrollbarWidth: "thin",
+                                            overflowY: "auto",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                          }),
+                                          dropdownIndicator: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            display: "inline-block",
+                                            fill: "currentColor",
+                                            lineHeight: 1,
+                                            stroke: "currentColor",
+                                            strokeWidth: 0,
+                                            cursor: "pointer",
+                                          }),
+                                          indicatorSeparator: () => ({
+                                            display: "none",
+                                          }),
+                                          option: (base, state) => ({
+                                            ...base,
+                                            cursor: state.isDisabled
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            backgroundColor: state.isFocused
+                                              ? "#E7F1FF"
+                                              : state.isDisabled
+                                                ? "#f0f0f0"
+                                                : "#fff",
+                                            color: state.isDisabled
+                                              ? "#aaa"
+                                              : "#000",
+                                          }),
                                         }}
                                       />
-                                    </>
-                                  )}
+                                    ) : (
+                                      <>
+                                        <input
+                                          type="text"
+                                          className="form-control"
+                                          placeholder="Enter custom reason"
+                                          disabled={
+                                            item.customReason === "maintenance"
+                                          }
+                                          value={item.customReason || ""}
+                                          onChange={(e) =>
+                                            handleInputChange(
+                                              index,
+                                              "customReason",
+                                              e.target.value,
+                                            )
+                                          }
+                                          style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: 8,
+                                          }}
+                                        />
+                                      </>
+                                    )}
 
-                                  {errors[index]?.reason && (
-                                    <ErrorMessage message={errors[index]?.reason} type="error" />
-                                  )}
+                                    {errors[index]?.reason && (
+                                      <ErrorMessage
+                                        message={errors[index]?.reason}
+                                        type="error"
+                                      />
+                                    )}
+                                  </div>
 
-
-
-
-                                </div>
-
-
-                                <div className="col-md-4">
-
-                                  <input
-                                    type="text"
-                                    placeholder="Enter amount"
-                                    value={CustomerOverView.amount}
-                                    onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                    className="form-control"
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
-
-                                  />
-                                  {errors[index]?.amount && (
-                                    <ErrorMessage message={errors[index]?.amount} type="error" />
-                                  )}
-                                </div>
-
-
-                                <div className="col-md-2 d-flex justify-content-center align-items-center">
-
-                                  {index !== 0 && (
-                                    <Trash
-                                      size="20"
-                                      color="red"
-                                      variant="Bold"
-                                      className="cursor-pointer"
-                                      onClick={() => handleRemoveField(index)}
+                                  <div className="col-md-4">
+                                    <input
+                                      type="text"
+                                      placeholder="Enter amount"
+                                      value={CustomerOverView.amount}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          index,
+                                          "amount",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="form-control"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      }}
                                     />
-                                  )}
+                                    {errors[index]?.amount && (
+                                      <ErrorMessage
+                                        message={errors[index]?.amount}
+                                        type="error"
+                                      />
+                                    )}
+                                  </div>
+
+                                  <div className="col-md-2 d-flex justify-content-center align-items-center">
+                                    {index !== 0 && (
+                                      <Trash
+                                        size="20"
+                                        color="red"
+                                        variant="Bold"
+                                        className="cursor-pointer"
+                                        onClick={() => handleRemoveField(index)}
+                                      />
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
-
-
-
-
+                              );
+                            })}
                         </div>
-
-
-
                       </div>
-
-
-
-
 
                       {formError && (
                         <ErrorMessage message={formError} type="error" />
                       )}
                       <Button
                         className="w-100"
-
                         style={{
                           backgroundColor: "#1E45E1",
                           fontWeight: 600,
@@ -4999,37 +4990,34 @@ function UserListRoomDetail(props) {
                 </div>
               </Modal.Body>
 
-              {loading && <div
-                style={{
-                  position: 'absolute',
-                  top: 100,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
+              {loading && (
                 <div
                   style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
+                    position: "absolute",
+                    top: 100,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "transparent",
+                    opacity: 0.75,
+                    zIndex: 10,
                   }}
-                ></div>
-              </div>}
-
-
-
-
-
+                >
+                  <div
+                    style={{
+                      borderTop: "4px solid #1E45E1",
+                      borderRight: "4px solid transparent",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      animation: "spin 1s linear infinite",
+                    }}
+                  ></div>
+                </div>
+              )}
             </Modal.Dialog>
           </Modal>
 
@@ -5117,8 +5105,6 @@ function UserListRoomDetail(props) {
             </Modal.Footer>
           </Modal>
 
-
-
           <TabPanel value="2" className="w-full max-w-full px-2 sm:px-0">
             <UserEb
               id={customerId}
@@ -5126,7 +5112,6 @@ function UserListRoomDetail(props) {
               handleEditHostelItem={handleEditHostelItem}
               handleDeleteHostelItem={handleDeleteHostelItem}
               handleDeleteRoomItem={handleDeleteRoomItem}
-
             />
           </TabPanel>
           <TabPanel value="3" className="w-full max-w-full px-2 sm:px-0">
@@ -5146,44 +5131,62 @@ function UserListRoomDetail(props) {
           </TabPanel>
         </TabContext>
 
-
-        {
-          editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} basicDetails={basicDetails} />
-        }
-
-        {
-          editAddressDetailsShow && <EditAddressDetails show={editAddressDetailsShow} handleClose={handleCloseAddressDetails} addressDetails={addressDetails} />
-        }
-
-        {
-          editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails}
-          //  stayDetais={stayDetais} 
+        {editBasicDetailsShow && (
+          <EditBasicDetails
+            show={editBasicDetailsShow}
+            handleClose={handleCloseBasicDetails}
+            basicDetails={basicDetails}
           />
-        }
+        )}
 
+        {editAddressDetailsShow && (
+          <EditAddressDetails
+            show={editAddressDetailsShow}
+            handleClose={handleCloseAddressDetails}
+            addressDetails={addressDetails}
+          />
+        )}
 
-        {
-          stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
-        }
+        {editStayDetailsShow && (
+          <EditStayDetails
+            show={editStayDetailsShow}
+            handleClose={handleCloseStayDetails}
+            //  stayDetais={stayDetais}
+          />
+        )}
 
-        {
-          showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange} />
-        }
+        {stayDetailsShow && (
+          <StayHistory
+            show={stayDetailsShow}
+            handleClose={handleCloseStayHistory}
+          />
+        )}
 
-        {
-          showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange} />
-        }
+        {showUpdateRentForm && (
+          <EditRentalAmount
+            show={showUpdateRentForm}
+            handleClose={handleCloseUpdateChange}
+          />
+        )}
 
-        {
-          showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange} />
-        }
+        {showUpdateAdvanceForm && (
+          <EditAdvanceAmount
+            show={showUpdateAdvanceForm}
+            handleClose={handleCloseUpdateAdvanceChange}
+          />
+        )}
 
+        {showUpdateJoiningForm && (
+          <EditJoiningDate
+            show={showUpdateJoiningForm}
+            handleClose={handleCloseUpdateJoiningChange}
+          />
+        )}
       </div>
-
 
       <Modal show={showModal} onHide={handleClose} size="md" centered>
         <Modal.Header closeButton>
-          <Modal.Title >KYC Details</Modal.Title>
+          <Modal.Title>KYC Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div
@@ -5236,17 +5239,21 @@ function UserListRoomDetail(props) {
                   margin: 0,
                 }}
               >
-                Address<br />
+                Address
+                <br />
                 {/* <span>
             {state.UsersList?.KycCustomerDetails?.address ||
               "No address provided"}
           </span> */}
-                <div style={{
-                  maxWidth: "400px",
-                  wordBreak: "break-word",
-                  whiteSpace: "pre-wrap"
-                }}>
-                  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
+                <div
+                  style={{
+                    maxWidth: "400px",
+                    wordBreak: "break-word",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {state.UsersList?.KycCustomerDetails?.address ||
+                    "No address provided"}
                 </div>
               </p>
             </div>
@@ -5269,28 +5276,38 @@ function UserListRoomDetail(props) {
                   margin: 0,
                 }}
               >
-                Aadhaar Number<br />
-                <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+                Aadhaar Number
+                <br />
+                <span>
+                  {state.UsersList?.KycCustomerDetails?.aadhaarNumber}
+                </span>
               </p>
             </div>
           </div>
         </Modal.Body>
       </Modal>
 
-      {
-        addamenityShow && <TenantAmenities show={addamenityShow} handleClose={handleCloseAddamenityShow} />
-      }
+      {addamenityShow && (
+        <TenantAmenities
+          show={addamenityShow}
+          handleClose={handleCloseAddamenityShow}
+        />
+      )}
 
+      {showPreview && (
+        <ManualDocumentsUpload
+          show={showPreview}
+          handleClose={handleClosePreview}
+          isKyc={isKyc}
+        />
+      )}
 
-      {
-        showPreview && <ManualDocumentsUpload show={showPreview} handleClose={handleClosePreview} isKyc={isKyc} />
-      }
-
-
-
-      {
-        showWalletHistory && <WalletHistory show={showWalletHistory} handleClose={handleCloseWallet} />
-      }
+      {showWalletHistory && (
+        <WalletHistory
+          show={showWalletHistory}
+          handleClose={handleCloseWallet}
+        />
+      )}
 
       {customerCheckoutpage && (
         <CustomerCheckout
@@ -5300,7 +5317,6 @@ function UserListRoomDetail(props) {
         />
       )}
 
-
       {customerReassign && (
         <CustomerReAssign
           customerReassign={customerReassign}
@@ -5309,25 +5325,30 @@ function UserListRoomDetail(props) {
         />
       )}
 
-      {
-        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn}
-          checkInDetails={EditObj} />
+      {bactocheckinForm && (
+        <BackToCheckIn
+          show={bactocheckinForm}
+          handleClose={handleCloseBackToCheckIn}
+          checkInDetails={EditObj}
+        />
+      )}
 
-      }
+      {DueCustomerShow && (
+        <DueCustomerConfirmCheckout
+          show={DueCustomerShow}
+          data={CheckOutDetails}
+          handleClose={handleCloseDuePopup}
+        />
+      )}
 
-
-      {
-        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
-      }
-
-
-      {
-        inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails} />}
-
-
-
+      {inactiveForm && (
+        <MakeAsInactive
+          show={inactiveForm}
+          handleCloseInActive={handleCloseInActive}
+          inActiveDetails={inActiveDetails}
+        />
+      )}
     </>
-
   );
 }
 
@@ -5363,9 +5384,3 @@ UserListRoomDetail.propTypes = {
 };
 
 export default withErrorBoundary(UserListRoomDetail);
-
-
-
-
-
-
