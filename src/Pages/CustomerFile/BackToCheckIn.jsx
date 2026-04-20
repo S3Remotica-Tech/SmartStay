@@ -41,25 +41,28 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     dispatch(JoininDatecustomer(date ? date.toDate() : null));
   };
 
+  const customerId =
+  checkInDetails?.apiCall?.customerId ||
+  checkInDetails?.tenantId ||  
+  checkInDetails?.customerId;
+
+
   useEffect(() => {
-    if (checkInDetails?.apiCall?.customerId || checkInDetails?.tenetId) {
-      dispatch({
-        type: "CUSTOMERDETAILS",
-        payload: {
-          customerId:
-            checkInDetails?.apiCall?.customerId || checkInDetails?.tenetId,
-        },
-      });
-      dispatch({
-        type: "INITIALIZECANCELCHECKOUT",
-        payload: {
-          customerId:
-            checkInDetails?.apiCall?.customerId || checkInDetails?.tenetId,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    }
-  }, [checkInDetails?.apiCall?.customerId, checkInDetails?.tenetId]);
+  if (!customerId) return;
+
+  dispatch({
+    type: "CUSTOMERDETAILS",
+    payload: {customerId: customerId },
+  });
+
+  dispatch({
+    type: "INITIALIZECANCELCHECKOUT",
+    payload: {
+      customerId :customerId,
+      hostelId: state.login.selectedHostel_Id,
+    },
+  });
+}, [customerId]);
 
   // console.log("initializeCancelCheckout",state.UsersList.initializeCancelCheckout.canRecheckinSameBed)
 
@@ -92,7 +95,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         type: "CANCELCHECKOUT",
         payload: {
           customerId:
-            checkInDetails?.apiCall?.customerId || checkInDetails?.tenetId,
+            checkInDetails?.apiCall?.customerId || checkInDetails?.tenetId || checkInDetails?.customerId,
           hostelId: state.login.selectedHostel_Id,
           // roomId: checkInDetails?.roomId,
           bedId:

@@ -78,11 +78,14 @@ function FinalSettlement() {
 
   console.log("data", data);
 
+  const customerId =
+    data?.apiCall?.customerId || data?.customerId || data?.tenetId;
+
   useEffect(() => {
-    if (!data?.customerId && !data?.tenetId) return;
+    if (!customerId) return;
 
     const payload = {
-      customerId: data?.customerId || data?.tenetId,
+      customerId: customerId,
     };
 
     if (checkoutDate) {
@@ -221,6 +224,7 @@ function FinalSettlement() {
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
+  console.log("data", data);
   useEffect(() => {
     if (state.UsersList.conformChekoutError) {
       setFormLoading(false);
@@ -405,9 +409,9 @@ function FinalSettlement() {
 
   const totalDeductions = totalApiDeductions + totalUserDeductions;
 
-  const selectedUser = state.UsersList.Users.listCustomers?.find(
-    (item) => item.customerId === data?.customerId || data?.tenetId,
-  );
+  // const selectedUser = state.UsersList.Users.listCustomers?.find(
+  //   (item) => item.customerId === data?.customerId || data?.tenetId,
+  // );
 
   const validateFields = () => {
     let isValid = true;
@@ -482,11 +486,11 @@ function FinalSettlement() {
       })
       .filter(Boolean);
 
-    if (data?.customerId || data?.tenetId) {
+    if (customerId) {
       dispatch({
         type: "FINALSETTLEMENT",
         payload: {
-          customerId: data?.customerId || data?.tenetId,
+          customerId: customerId,
           data: {
             discountAmount: Number(discount) || 0,
             deductions: Finalsettelmenntdata,
@@ -527,9 +531,9 @@ function FinalSettlement() {
     ) {
       setShowRoomReading(false);
 
-      if (!data?.customerId && !data?.tenetId) return;
+      if (!customerId) return;
       const payload = {
-        customerId: data?.customerId || data?.tenetId,
+        customerId: customerId,
       };
 
       if (checkoutDate) {
@@ -542,6 +546,9 @@ function FinalSettlement() {
       }, 100);
     }
   }, [state.UsersList?.addRoomReadingStatusCode]);
+
+
+
 
   const isNonHostel = !finalSettlementList?.ebInfo?.isHostelReading;
 
@@ -620,20 +627,18 @@ function FinalSettlement() {
             <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.floorName ||
                 data?.floorName ||
-                data?.hostelInfo?.floorName ||
-                selectedUser?.floorName}
+                data?.hostelInfo?.floorName 
+               }
             </span>
 
             <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.roomName ||
                 data?.roomName ||
-                data?.hostelInfo?.roomName ||
-                selectedUser?.roomName}{" "}
+                data?.hostelInfo?.roomName }{" "}
               -{" "}
               {pgDetails?.bedName ||
                 data?.bedName ||
-                data?.hostelInfo?.bedName ||
-                selectedUser?.bedName}
+                data?.hostelInfo?.bedName}
             </span>
           </div>
 

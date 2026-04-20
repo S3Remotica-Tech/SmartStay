@@ -539,68 +539,6 @@ function UserList(props) {
       isValid = false;
     }
 
-    // const formatDateToInvoicedate = (invoicedate) => {
-    //   if (!invoicedate) return "";
-    //   const d = new Date(invoicedate);
-    //   return (
-    //     d.getFullYear() +
-    //     "-" +
-    //     String(d.getMonth() + 1).padStart(2, "0") +
-    //     "-" +
-    //     String(d.getDate()).padStart(2, "0")
-    //   );
-    // };
-
-    // const formatDateToSInvoiceDuedate = (invoiceduedate) => {
-    //   if (!invoiceduedate) return "";
-    //   const d = new Date(invoiceduedate);
-    //   return (
-    //     d.getFullYear() +
-    //     "-" +
-    //     String(d.getMonth() + 1).padStart(2, "0") +
-    //     "-" +
-    //     String(d.getDate()).padStart(2, "0")
-    //   );
-    // };
-
-    // const isChanged = (() => {
-    //   const userChanged =
-    //     Number(currentView.hos_user_id) !== Number(customername);
-
-    //   // const invoiceChanged =
-    //   //   String(currentView.Invoices) !== String(invoicenumber);
-
-    //   const invoiceDateChanged =
-    //     formatDateToInvoicedate(currentView.Date) !==
-    //     formatDateToInvoicedate(invoicedate);
-    //   const dueDateChanged =
-    //     formatDateToSInvoiceDuedate(currentView.DueDate) !==
-    //     formatDateToSInvoiceDuedate(invoiceduedate);
-
-    //   const amenitiesChanged =
-    //     newRows?.length !== currentView.amenity?.length ||
-    //     newRows.some((row, index) => {
-    //       const originalRow = currentView.amenity?.[index] || {};
-    //       return (
-    //         row.am_name !== originalRow.am_name ||
-    //         row.amount !== originalRow.amount
-    //       );
-    //     });
-
-    //   return (
-    //     userChanged ||
-    //     // invoiceChanged ||
-    //     invoiceDateChanged ||
-    //     dueDateChanged ||
-    //     amenitiesChanged
-    //   );
-    // })();
-
-    // if (!isChanged) {
-    //   setAllFieldErrmsg("No Changes Detected");
-    //   isValid = false;
-    // }
-
     if (isValid) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
@@ -922,7 +860,7 @@ function UserList(props) {
     }
   }, [state.UsersList?.UserListStatusCode]);
 
-  console.log("state.UsersList.Users", state.UsersList.Users);
+  // console.log("state.UsersList.Users", state.UsersList.Users);
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -1196,28 +1134,30 @@ function UserList(props) {
   }, [filterInput]);
 
   useEffect(() => {
-    if (debouncedInput || statusfilter) {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          name: debouncedInput || "",
-          type: statusfilter || "",
-        },
-      });
-      const filters = {
-        status: statusfilter ? [statusfilter] : [],
-        search: debouncedInput?.trim() ? debouncedInput : undefined,
-      };
+    console.log("callleddddddddd");
+    dispatch({
+      type: "USERLIST",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        name: debouncedInput || "",
+        type: statusfilter || "",
+      },
+    });
 
-      dispatch({
-        type: "SET_TENANT_TABLE_FILTERS",
-        payload: filters,
-      });
-    }
+    setLoading(true);
+
+    const filters = {
+      status: statusfilter ? [statusfilter] : [],
+      search: debouncedInput?.trim() || "",
+    };
+
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: filters,
+    });
   }, [debouncedInput, statusfilter]);
 
-  console.log("statusfilter", statusfilter);
+  // console.log("statusfilter", statusfilter);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -2548,30 +2488,10 @@ function UserList(props) {
                       type="warning"
                     />
                   </div>
-                ) : !loading &&
-                  Array.isArray(formattedData) &&
-                  formattedData.length === 0 ? (
-                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-52">
-                    <div>
-                      <div className="text-center">
-                        <img src={Emptystate} alt="emptystate" />
-                      </div>
-
-                      <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
-                        No Tenant available
-                      </div>
-
-                      <div className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]">
-                        There are no tenant added.
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-
-                {canReadTenant && formattedData?.length > 0 && (
+                ) : (
                   <div className="">
                     <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
-                      {stats.map((item, index) => (
+                      {stats?.map((item, index) => (
                         <div key={index} className="flex items-center gap-3">
                           {item.highlight && (
                             <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
@@ -2728,7 +2648,7 @@ function UserList(props) {
                         />
                       </div>
                     </div>
-                    {chips.length > 0 && (
+                    {chips?.length > 0 && (
                       <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
                         <div className="flex flex-wrap gap-2 flex-1">
                           {chips.map((chip) => (
@@ -2804,7 +2724,8 @@ function UserList(props) {
                           </thead>
                           <tbody>
                             {Array.isArray(formattedData) &&
-                              formattedData.map((user, index) => {
+                            formattedData?.length > 0 ? (
+                              formattedData?.map((user, index) => {
                                 return (
                                   <tr
                                     onClick={() =>
@@ -3193,7 +3114,17 @@ function UserList(props) {
                                     </td>
                                   </tr>
                                 );
-                              })}
+                              })
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={selectedColumns?.length + 2}
+                                  className="py-10 text-center text-sm text-red-800 font-semibold"
+                                >
+                                  No Data Found
+                                </td>
+                              </tr>
+                            )}
                           </tbody>
                         </table>
                         {open && (

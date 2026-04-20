@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {deleteGloblTemplatesImages,
+import {deleteGloblTemplatesImages,tenantCustomizeData, 
    finalAddRoomReading, TenantUploadDocument, deleteTenantUploadDocument, deleteTemplatesImages,
    cancelCheckoutInitialize, getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
@@ -3093,7 +3093,30 @@ function* handlecustomerUnAssign(action) {
 }
 
 
+function* handleTenantCustomizeData(action) {
 
+   try {
+      const response = yield call(tenantCustomizeData, action.payload)
+
+
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+       
+      }
+      if (response?.status === 200) {
+         yield put({ type: 'CUSTOMIZE_TENANT_COLUMNS_REDUCER', payload: { response: response.data.listCustomers, statusCode: response?.status } })
+      }
+     
+   }
+
+   catch (err) {
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+}
 
 function* handleBackToCheckin(action) {
    try {
@@ -3395,6 +3418,7 @@ function* UserListSaga() {
    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
    yield takeEvery('CONFIRMCHECKOUTDUECUSTOMER', handleConfirmCheckoutDueCustomer)
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
+    yield takeEvery('CUSTOMIZE_TENANT_COLUMNS_SAGA',handleTenantCustomizeData)
    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
    yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
    yield takeEvery('FINALSETTLEMENT', handleGenerateDetails)

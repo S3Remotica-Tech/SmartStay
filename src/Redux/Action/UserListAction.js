@@ -1,7 +1,6 @@
 // import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-
 // v1
 
 // export async function userlist(users) {
@@ -9,7 +8,6 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //     data: users
 //   })
 // }
-
 
 // v2
 
@@ -22,30 +20,30 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   })
 // }
 
-
 // v2
 export async function userlist(users) {
   return await AxiosConfigV2.get(`/v2/customers/new/${users.hostel_id}`, {
     params: {
       name: users.name || "",
-      type: users.type || ""
-    }
-  })
+      type: users.type || "",
+    },
+  });
 }
 
 export async function cancelBookingGet(customerId) {
-  return await AxiosConfigV2.get(`/v2/bookings/initialize/cancel/${customerId}`)
+  return await AxiosConfigV2.get(
+    `/v2/bookings/initialize/cancel/${customerId}`,
+  );
 }
 
-
 export async function cancelCheckoutInitialize(customer) {
-  return await AxiosConfigV2.get(`/v2/customers/cancel-checkout/initialize/${customer.hostelId}/${customer.customerId}`)
+  return await AxiosConfigV2.get(
+    `/v2/customers/cancel-checkout/initialize/${customer.hostelId}/${customer.customerId}`,
+  );
 }
 // v1
 
 // export async function addUser(params) {
-
-
 
 //   const formData = new FormData();
 //   if (params.profile) formData.append("profile", params.profile);
@@ -79,7 +77,6 @@ export async function cancelCheckoutInitialize(customer) {
 
 //      if (params.booking_amount) formData.append("booking_amount",params.booking_amount)
 
-
 //   try {
 //     const response = await AxiosConfig.post('/add/adduser-list', formData, {
 //       headers: {
@@ -96,25 +93,19 @@ export async function cancelCheckoutInitialize(customer) {
 //   }
 // }
 
-
 // v2
 
-
-
 export async function addUser(params) {
-
   const formData = new FormData();
 
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
-
   if (params.customerInfo) {
-    const customerInfoBlob = new Blob(
-      [JSON.stringify(params.customerInfo)],
-      { type: "application/json" }
-    );
+    const customerInfoBlob = new Blob([JSON.stringify(params.customerInfo)], {
+      type: "application/json",
+    });
     formData.append("customerInfo", customerInfoBlob);
   }
 
@@ -127,8 +118,7 @@ export async function addUser(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -137,9 +127,7 @@ export async function addUser(params) {
   }
 }
 
-
 // v1
-
 
 // export async function hostelList(hosteldetails) {
 //   return await AxiosConfig.post('/list/hostel-list', hosteldetails, {
@@ -147,33 +135,31 @@ export async function addUser(params) {
 //   })
 // }
 
-
-// v2 all pg details 
+// v2 all pg details
 
 export async function hostelList() {
-  return await AxiosConfigV2.get('/v2/hostel')
+  return await AxiosConfigV2.get("/v2/hostel");
 }
 
 // v2 single pg details
 
-
 export async function getParticularHostelList(hostel) {
   return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel, {
-    data: hostel
-  })
+    data: hostel,
+  });
 }
 
-
-// v2  check in api 
+// v2  check in api
 
 export async function CheckIn(CheckIn) {
-  return await AxiosConfigV2.post(`/v2/customers/check-in/${CheckIn.customerId}`, CheckIn, {
-    data: CheckIn
-  })
+  return await AxiosConfigV2.post(
+    `/v2/customers/check-in/${CheckIn.customerId}`,
+    CheckIn,
+    {
+      data: CheckIn,
+    },
+  );
 }
-
-
-
 
 // export async function CheckIn(params) {
 
@@ -182,7 +168,6 @@ export async function CheckIn(CheckIn) {
 //   if (params.profilePic) {
 //     formData.append("profilePic", params.profilePic);
 //   }
-
 
 //   if (params.payLoads) {
 //     const payLoadsBlob = new Blob(
@@ -211,27 +196,19 @@ export async function CheckIn(CheckIn) {
 //   }
 // }
 
-
-
 // v2  save-info
 
-
-
 export async function customerSaveInfo(params) {
-
-
   const formData = new FormData();
 
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
-
   if (params.payloads) {
-    const payloadBlob = new Blob(
-      [JSON.stringify(params.payloads)],
-      { type: "application/json" }
-    );
+    const payloadBlob = new Blob([JSON.stringify(params.payloads)], {
+      type: "application/json",
+    });
     formData.append("payloads", payloadBlob);
   }
 
@@ -244,8 +221,7 @@ export async function customerSaveInfo(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -254,21 +230,16 @@ export async function customerSaveInfo(params) {
   }
 }
 
-
-
-
-
-
 export function roomsCount() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function hosteliddetail() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/floor_list', datum, {
   //   data: datum
   // })
@@ -276,11 +247,10 @@ export function hosteliddetail() {
 export function userBillPaymentHistory() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.get('/user-list/bill-payment', {
   // })
 }
-
 
 // v1
 // export async function createFloor(id) {
@@ -292,29 +262,25 @@ export function userBillPaymentHistory() {
 // v2
 
 export async function createFloor(id) {
-  return await AxiosConfigV2.post('/v2/floor', id, {
-    data: id
-  })
+  return await AxiosConfigV2.post("/v2/floor", id, {
+    data: id,
+  });
 }
 
 // v2 Get all floor details
 
 export async function GetAllFloor(id) {
-  return await AxiosConfigV2.get(`/v2/floor/all-floors/${id.hostel_id}`)
+  return await AxiosConfigV2.get(`/v2/floor/all-floors/${id.hostel_id}`);
 }
-
-
-
 
 export async function roomFullCheck() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/check/room-full', roomCheck, {
   //   data: roomCheck
   // })
 }
-
 
 export function checkOutUser() {
   // return await AxiosConfig.post('/checkout/checkout-user', check, {
@@ -322,7 +288,7 @@ export function checkOutUser() {
   // })
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 // v1
@@ -333,13 +299,10 @@ export function checkOutUser() {
 //   })
 // }
 
-
-
 // v2
 export async function deleteFloor(floorId) {
-  return await AxiosConfigV2.delete(`/v2/floor/${floorId.floor_Id}`)
+  return await AxiosConfigV2.delete(`/v2/floor/${floorId.floor_Id}`);
 }
-
 
 // v1
 
@@ -351,18 +314,17 @@ export async function deleteFloor(floorId) {
 
 // v2
 export async function deleteRoom(roomDetails) {
-  return await AxiosConfigV2.delete(`/v2/room/${roomDetails.roomId}`)
+  return await AxiosConfigV2.delete(`/v2/room/${roomDetails.roomId}`);
 }
 
 export function deleteBed() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/delete/delete-bed', bedDetails, {
   //   data: bedDetails
   // })
 }
-
 
 // v1
 
@@ -372,19 +334,16 @@ export function deleteBed() {
 //   })
 // }
 
-
 // v2
 
 export async function CustomerDetails(datum) {
-  return await AxiosConfigV2.get(`/v2/customers/details/${datum.customerId}`)
+  return await AxiosConfigV2.get(`/v2/customers/details/${datum.customerId}`);
 }
-
-
 
 export function amenitieshistory() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/user_amenities_history', datum, {
   //   data: datum
   // })
@@ -393,52 +352,41 @@ export function amenitieshistory() {
 export function amnitiesnameList() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.get('/list/AmnitiesName', {
   // })
 }
 export function amenitieAddUser() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/add/amenity-history', datum, {
   //   data: datum
   // })
 }
 
-
-
-
 export async function availableBedDetails(bednum) {
-  return await AxiosConfigV2.get(`/v2/hostel/free-beds/${bednum.hostelId}`)
+  return await AxiosConfigV2.get(`/v2/hostel/free-beds/${bednum.hostelId}`);
 }
-
-
 
 export async function bookedDetails(booked) {
-  return await AxiosConfigV2.get(`/v2/bookings/initialize-check-in/${booked.hostelId}/${booked.customerId}`)
-}
-
-
-export async function availableBedDetailsForDate(bednum) {
   return await AxiosConfigV2.get(
-    `/v2/bed/initialize/${bednum.hostelId}`,
-    {
-      params: {
-        joiningDate: bednum.joiningDate
-      }
-    }
+    `/v2/bookings/initialize-check-in/${booked.hostelId}/${booked.customerId}`,
   );
 }
 
-
-
-
+export async function availableBedDetailsForDate(bednum) {
+  return await AxiosConfigV2.get(`/v2/bed/initialize/${bednum.hostelId}`, {
+    params: {
+      joiningDate: bednum.joiningDate,
+    },
+  });
+}
 
 export function KYCValidate() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/aadhar_verify_otp', adhar, {
   //   data: adhar
   // })
@@ -447,35 +395,25 @@ export function KYCValidate() {
 export function KYCValidateOtpVerify() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('aadhaar_otp_verification', adhar, {
   //   data: adhar
   // })
 }
 
-
-
-
-
-
 export function getWalkInCustomer() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/get_walkin-customer', walk, {
   //   data: walk
   // })
 }
 
-
-
-
-
-
 export function AddWalkInCustomer() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // const formData = new FormData();
   // if (params.profile) formData.append("profile", params.profile);
   // if (params.last_name) formData.append("last_name", params.last_name)
@@ -492,7 +430,6 @@ export function AddWalkInCustomer() {
   // if (params.walk_In_Date) formData.append("walk_In_Date", params.walk_In_Date)
   // if (params.comments) formData.append("comments", params.comments)
   // if (params.id) formData.append("id", params.id)
-
 
   // try {
   //   const response = await AxiosConfig.post('/add_walkin-customer', formData, {
@@ -511,38 +448,27 @@ export function AddWalkInCustomer() {
 export function DeleteWalkInCustomer() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/delete_walkin-customer', walk, {
   //   data: walk
   // })
 }
 
-
-
-
-
 export async function getCheckOutCustomer(hostel) {
-  return await AxiosConfigV2.get(`/v2/customers/checkout/${hostel.hostelId}`)
+  return await AxiosConfigV2.get(`/v2/customers/checkout/${hostel.hostelId}`);
 }
 
-
-
-
 export async function editBasicDetails(params) {
-
-
   const formData = new FormData();
 
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
-
   if (params.payloads) {
-    const payloadBlob = new Blob(
-      [JSON.stringify(params.payloads)],
-      { type: "application/json" }
-    );
+    const payloadBlob = new Blob([JSON.stringify(params.payloads)], {
+      type: "application/json",
+    });
     formData.append("payloads", payloadBlob);
   }
 
@@ -555,8 +481,7 @@ export async function editBasicDetails(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -565,26 +490,30 @@ export async function editBasicDetails(params) {
   }
 }
 
-
 export async function AddCheckOutCustomer(checkout) {
-  return await AxiosConfigV2.post(`/v2/customers/notice/${checkout.hostelId}`, checkout, {
-    data: checkout
-  });
+  return await AxiosConfigV2.post(
+    `/v2/customers/notice/${checkout.hostelId}`,
+    checkout,
+    {
+      data: checkout,
+    },
+  );
 }
 
-
-
 export async function CancelCheckOutCustomer(checkout) {
-
-  return await AxiosConfigV2.post(`/v2/customers/cancel-checkout/${checkout.hostelId}/${checkout.customerId}`, checkout, {
-    data: checkout
-  });
+  return await AxiosConfigV2.post(
+    `/v2/customers/cancel-checkout/${checkout.hostelId}/${checkout.customerId}`,
+    checkout,
+    {
+      data: checkout,
+    },
+  );
 }
 
 // export async function AddCheckOutCustomer(payload) {
 //   return await AxiosConfigV2.post(
 //     `/v2/customers/notice/${payload.hostelId}/${payload.customerId}`,
-//     {}, 
+//     {},
 //     {
 //       params: {
 //         requestDate: payload.requestDate,
@@ -595,13 +524,10 @@ export async function CancelCheckOutCustomer(checkout) {
 //   );
 // }
 
-
-
-
 export function GetConfirmCheckOut() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/get/confirm_checkout', checkout, {
   //   data: checkout
   // })
@@ -610,38 +536,34 @@ export function GetConfirmCheckOut() {
 export function AddConfirmCheckOut() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/add/confirm_checkout', checkout, {
   //   data: checkout
   // })
 }
 
-
 export function EditConfirmCheckOut() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/edit/confirm_checkout', checkout, {
   //   data: checkout
   // })
 }
 
-
 export function DeleteCheckOutCustomer() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/delete_check_out', checkout, {
   //   data: checkout
   // })
 }
 
-
-
 export function AvailableCheckOutCustomer() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/available_checkout_users', checkout, {
   //   data: checkout
   // })
@@ -650,13 +572,13 @@ export function AvailableCheckOutCustomer() {
 export function exportDetails() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/export_details', datum, {
   //   data: datum
   // })
 }
 
-// v1 
+// v1
 // export async function customerReAssignBed(datum) {
 //   return await AxiosConfig.post('/users/reassign_bed', datum, {
 //     data: datum
@@ -664,60 +586,57 @@ export function exportDetails() {
 // }
 
 export async function customerReAssignBed(hostelId, customerId, datum) {
-
-  return await AxiosConfigV2.post(`/v2/customers/change-bed/${hostelId}/${customerId}`, datum, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.post(
+    `/v2/customers/change-bed/${hostelId}/${customerId}`,
+    datum,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  })
+  );
 }
-
 
 export async function customerAddContact(contact) {
   console.log("contact", contact);
 
   return await AxiosConfigV2.put(
     `/v2/customers/additional-contacts/${contact.hostelId}/${contact.customerId}`,
-    contact
+    contact,
   );
 }
-
 
 export function customerAllContact() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   //  return await AxiosConfigV2.get('/users/all_contacts', datum, {
   //     data: datum
   //   })
 }
 
-
 export function deleteContact() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/contacts/delete_contact', contact, {
   //   data: contact
   // })
 }
 
-
 export function generateAdvance() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/generate/advance_invoice', datum, {
   //   data: datum
   // })
 }
 
-
-
 export function uploadDocument() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // const formData = new FormData();
   // if (params.file1) formData.append("file1", params.file1);
   // if (params.user_id) formData.append("user_id", params.user_id);
@@ -737,45 +656,38 @@ export function uploadDocument() {
   // }
 }
 
-
-
-
 export async function deleteCustomer(tenant) {
-
-  return await AxiosConfigV2.delete(`/v2/customers/${tenant.hostelId}/${tenant.customerId}`)
+  return await AxiosConfigV2.delete(
+    `/v2/customers/${tenant.hostelId}/${tenant.customerId}`,
+  );
 }
-
-
 
 export function hostelDetailsId() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.get('/list/hosteldetails', {
   // })
 }
 
-
 export function handleKycVerify() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/verify-kyc', datum);
 }
-
 
 export function handlegetCustomerDetailsKyc() {
   // return await AxiosConfig.post('/getCustomerDetails', kyc);
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
-
 
 export function ConfirmCheckout_Due_Customer() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   //   const formData = new FormData();
   //   if (params.profile) formData.append("profile", params.profile);
   //   if (params.id) formData.append("id", params.id)
@@ -785,7 +697,6 @@ export function ConfirmCheckout_Due_Customer() {
   //   if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
   //   if (params.formal_checkout) formData.append("formal_checkout", params.formal_checkout)
   //   if (params.reason_note) formData.append("reason_note", params.reason_note)
-
 
   //   try {
   //     const response = await AxiosConfig.post('/update/confirm_checkout_due_customer', formData, {
@@ -799,111 +710,123 @@ export function ConfirmCheckout_Due_Customer() {
   //   } catch (error) {
   //     console.error("Axios Error", error);
   //   }
-
 }
 
 export async function CustomerUnAssign(customer) {
   return await AxiosConfigV2.get(`/v2/customers/${customer.hostel_id}`, {
     params: {
-      type: customer.type
-    }
+      type: customer.type,
+    },
   });
 }
 
+export async function tenantCustomizeData(customer) {
+  return await AxiosConfigV2.get(``, {
+    params: {
+      type: customer.type,
+    },
+  });
+}
 
 export function backtoCheckin() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('reassign_checkIn', datum, {
   //   data: datum
   // })
 }
 
-
 export function checkoutDetailView() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('checkout_detail_view', datum, {
   //   data: datum
   // })
 }
 
-
-
 export async function addRoomReading(reading) {
-
-  return await AxiosConfigV2.post(`/v2/electricity/${reading.hostelId}`, reading, {
-    data: reading
-  })
+  return await AxiosConfigV2.post(
+    `/v2/electricity/${reading.hostelId}`,
+    reading,
+    {
+      data: reading,
+    },
+  );
 }
-
 
 export async function finalAddRoomReading(reading) {
   return await AxiosConfigV2.post(`/v2/${reading.hostelId}`, reading, {
-    data: reading
-  })
+    data: reading,
+  });
 }
 export async function editHostelReading(payload) {
-
-  return await AxiosConfigV2.put(`/v2/electricity/${payload.hostelId}/${payload.readingId}`, null, {
-    params: {
-      reading: payload.reading,
-      entryDate: payload?.entryDate,
+  return await AxiosConfigV2.put(
+    `/v2/electricity/${payload.hostelId}/${payload.readingId}`,
+    null,
+    {
+      params: {
+        reading: payload.reading,
+        entryDate: payload?.entryDate,
+      },
     },
-  })
+  );
 }
 
 export async function getRoomReading(hostelId) {
-  return await AxiosConfigV2.get(`/v2/electricity/${hostelId}`)
+  return await AxiosConfigV2.get(`/v2/electricity/${hostelId}`);
 }
 
-
-
 export async function deleteReading(hostel) {
-  return await AxiosConfigV2.delete(`/v2/electricity/${hostel.hostelId}/${hostel.readingId}`)
+  return await AxiosConfigV2.delete(
+    `/v2/electricity/${hostel.hostelId}/${hostel.readingId}`,
+  );
 }
 
 export async function getParticularRoomReading(reading) {
-  return await AxiosConfigV2.get(`/v2/electricity/${reading.hostelId}/${reading.roomId}`)
+  return await AxiosConfigV2.get(
+    `/v2/electricity/${reading.hostelId}/${reading.roomId}`,
+  );
 }
 
-
-
 export async function getCustomerReading(hostelId) {
-  return await AxiosConfigV2.get(`/v2/electricity/customers/${hostelId}`)
+  return await AxiosConfigV2.get(`/v2/electricity/customers/${hostelId}`);
 }
 
 export async function getParticularCustomerReading(custom) {
-  return await AxiosConfigV2.get(`/v2/electricity/customers/${custom.hostelId}/${custom.customerId}`)
+  return await AxiosConfigV2.get(
+    `/v2/electricity/customers/${custom.hostelId}/${custom.customerId}`,
+  );
 }
-
-
 
 export async function bookingToCheckIn(customer) {
-
-  return await AxiosConfigV2.post(`/v2/customers/booked/check-in/${customer.customerId}`, customer, {
-    data: customer
-  })
+  return await AxiosConfigV2.post(
+    `/v2/customers/booked/check-in/${customer.customerId}`,
+    customer,
+    {
+      data: customer,
+    },
+  );
 }
 
-
 export async function GenerateDetails(customerId, data) {
-  return await AxiosConfigV2.post(`/v2/customers/settlement/${customerId}`, data, {
-      })
+  return await AxiosConfigV2.post(
+    `/v2/customers/settlement/${customerId}`,
+    data,
+    {},
+  );
 }
 
 export async function conformCheckout(customer) {
-
-  return await AxiosConfigV2.post(`/v2/bookings/checkout/${customer.customerId}`, customer, {
-    data: customer
-  })
+  return await AxiosConfigV2.post(
+    `/v2/bookings/checkout/${customer.customerId}`,
+    customer,
+    {
+      data: customer,
+    },
+  );
 }
-
-
-
-
 
 export async function EditTenantAmount(change) {
   return await AxiosConfigV2.put(
@@ -914,32 +837,27 @@ export async function EditTenantAmount(change) {
         joiningDate: change.updateInfo.joiningDate,
         reason: change.updateInfo.reason,
         effectiveDate: change.updateInfo.effectiveDate,
-        newRent: change.updateInfo.newRent
-      }
-    }
+        newRent: change.updateInfo.newRent,
+      },
+    },
   );
 }
 
-
-
-
-
 export async function editAdvanceAmount(advance) {
-
-  return await AxiosConfigV2.put(`/v2/bookings/advance/${advance.hostelId}/${advance.bookingId}`, advance, {
-    data: advance
-  })
+  return await AxiosConfigV2.put(
+    `/v2/bookings/advance/${advance.hostelId}/${advance.bookingId}`,
+    advance,
+    {
+      data: advance,
+    },
+  );
 }
-
-
-
-
 
 export async function getInitializeCheckout(hostel) {
-
-  return await AxiosConfigV2.post(`/v2/bookings/initialize/checkout/${hostel.hostelId}/${hostel.customerId}`)
+  return await AxiosConfigV2.post(
+    `/v2/bookings/initialize/checkout/${hostel.hostelId}/${hostel.customerId}`,
+  );
 }
-
 
 export async function TenantUploadDocument(params) {
   console.log("params", params);
@@ -953,10 +871,9 @@ export async function TenantUploadDocument(params) {
   }
 
   if (params.payload) {
-    const payloadBlob = new Blob(
-      [JSON.stringify(params.payload)],
-      { type: "application/json" }
-    );
+    const payloadBlob = new Blob([JSON.stringify(params.payload)], {
+      type: "application/json",
+    });
     formData.append("payload", payloadBlob);
   }
 
@@ -969,7 +886,7 @@ export async function TenantUploadDocument(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-      }
+      },
     );
 
     return response;
@@ -980,9 +897,10 @@ export async function TenantUploadDocument(params) {
 }
 
 export async function deleteTenantUploadDocument(document) {
-  return await AxiosConfigV2.delete(`/v2/documents/${document.hostelId}/${document.customerId}/${document.documentId}`)
+  return await AxiosConfigV2.delete(
+    `/v2/documents/${document.hostelId}/${document.customerId}/${document.documentId}`,
+  );
 }
-
 
 export async function deleteTemplatesImages({
   hostelId,
@@ -992,7 +910,7 @@ export async function deleteTemplatesImages({
 }) {
   return AxiosConfigV2.delete(
     `/v2/hostel/config/${hostelId}/${templateId}/${templateTypeId}`,
-    { data: { type } }
+    { data: { type } },
   );
 }
 
@@ -1003,6 +921,6 @@ export async function deleteGloblTemplatesImages({
 }) {
   return AxiosConfigV2.delete(
     `/v2/hostel/config/template/${hostelId}/${templateId}`,
-    { data: { type } }
+    { data: { type } },
   );
 }
