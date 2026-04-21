@@ -80,7 +80,7 @@ function  MoveToNoticePeriod(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Move to Notice Period
+                      Move to Notice Period  
                     </div>
 
 

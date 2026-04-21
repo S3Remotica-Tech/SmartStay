@@ -9,14 +9,14 @@ import { Trash } from "iconsax-react";
 // import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 // import { MdError } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch, useSelector } from "react-redux";;
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 // import moment from "moment";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 // import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
@@ -30,11 +30,9 @@ function UserlistWalkin() {
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
 
-
-
-
+  console.log("state", state);
 
   const {
     // canWriteModule: canWriteWalkin,
@@ -43,17 +41,9 @@ function UserlistWalkin() {
     canDeleteModule: canDeleteWalkin,
   } = useHasPermission("Walk in");
 
-  const {
-    canWriteModule: canWriteTenant,
-  } = useHasPermission("Customers");
+  const { canWriteModule: canWriteTenant } = useHasPermission("Customers");
 
-
-  const {
-    canWriteModule: canWriteBooking,
-
-  } = useHasPermission("Booking");
-
-
+  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
 
   const popupRef = useRef(null);
 
@@ -61,8 +51,6 @@ function UserlistWalkin() {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
   const [deleteShow, setDeleteShow] = useState(false);
-
-
 
   const calledOnceRef = useRef(false);
 
@@ -72,9 +60,8 @@ function UserlistWalkin() {
       setWalkingLoader(true);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
       });
-
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -90,18 +77,12 @@ function UserlistWalkin() {
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setWalkingLoader(false)
+      setWalkingLoader(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
-
-
-
-
-
+  }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
     if (state.UsersList.NoDataWalkInCustomerStatusCode === 201) {
@@ -118,7 +99,7 @@ function UserlistWalkin() {
     if (state.UsersList.deleteWalkInCustomerStatusCode === 200) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
       });
       // setShowDeleteModal(false);
       setTimeout(() => {
@@ -126,7 +107,6 @@ function UserlistWalkin() {
       }, 1000);
     }
   }, [state.UsersList.deleteWalkInCustomerStatusCode]);
-
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -170,19 +150,16 @@ function UserlistWalkin() {
     setShowForm(true);
   };
 
-
-
   const handleFormClose = () => {
     setShowForm(false);
     setSelectedCustomer(null);
   };
 
   const handleCheckIn = (data) => {
-    setShowFormCheckIn(true)
-    setTenantDetails(data)
+    setShowFormCheckIn(true);
+    setTenantDetails(data);
     // setCheckInNew(false)
-  }
-
+  };
 
   // const handleCheckInNew = (data) => {
   //   setShowFormCheckIn(true)
@@ -191,12 +168,8 @@ function UserlistWalkin() {
   // }
 
   const handleCloseCheckInForm = () => {
-    setShowFormCheckIn(false)
-  }
-
-
-
-
+    setShowFormCheckIn(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -209,12 +182,6 @@ function UserlistWalkin() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [popupRef]);
-
-
-
-
-
-
 
   // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -241,7 +208,6 @@ function UserlistWalkin() {
   //   return sorted;
   // }, [walkInCustomer, sortConfig]);
 
-
   // const handleSort = (key, direction) => {
   //   setSortConfig({ key, direction });
   // };
@@ -258,15 +224,16 @@ function UserlistWalkin() {
     setDeleteShow(false);
   };
 
-
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
-
 
   useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
-      setFormLoading(false)
+      setFormLoading(false);
       setDeleteShow(false);
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' } });
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+      });
 
       setDeleteDetails({ room: null, bed: null, user: null });
 
@@ -280,51 +247,51 @@ function UserlistWalkin() {
     if (deleteDetails?.user?.customerId) {
       dispatch({
         type: "DELETECUSTOMER",
-        payload: { customerId: deleteDetails?.user?.customerId, hostelId: state.login.selectedHostel_Id },
+        payload: {
+          customerId: deleteDetails?.user?.customerId,
+          hostelId: state.login.selectedHostel_Id,
+        },
       });
     }
-    setFormLoading(true)
+    setFormLoading(true);
   };
 
-
   useEffect(() => {
-    if (
-      state.UsersList?.UserListStatusCode === 200
-    ) {
-      setShowForm(false)
-
-
+    if (state.UsersList?.UserListStatusCode === 200) {
+      setShowForm(false);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
       }, 1000);
-
     }
   }, [state.UsersList?.UserListStatusCode]);
 
-
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-
+    if (
+      state.UsersList?.statusCodeForAddUser === 201 ||
+      state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
+    ) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
       });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
+        dispatch({ type: "REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO" });
       }, 2000);
     }
-  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
-
+  }, [
+    state.UsersList?.statusCodeForAddUser,
+    state.UsersList?.statusCodeForAddCustomerSaveInfo,
+  ]);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setShowForm(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
       });
 
       setTimeout(() => {
@@ -335,23 +302,20 @@ function UserlistWalkin() {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCheckInCustomer === 201) {
-      setShowFormCheckIn(false)
+      setShowFormCheckIn(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
       });
 
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
-      }, 2000)
+        dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
+      }, 2000);
     }
-
-  }, [state.UsersList.statusCodeForCheckInCustomer])
+  }, [state.UsersList.statusCodeForCheckInCustomer]);
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(
-    window.innerWidth >= 1440 ? 20 : 10
-  );
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
 
   useEffect(() => {
     const handleResize = () => {
@@ -376,15 +340,11 @@ function UserlistWalkin() {
     <>
       {!canReadWalkin ? (
         <>
-
           <div className="flex flex-col items-center justify-center mt-24">
-            <img
-              src={Emptystate}
-              alt="Empty State"
-            />
+            <img src={Emptystate} alt="Empty State" />
 
             <ErrorMessage
-              message={['You do not have access to view Walk In']}
+              message={["You do not have access to view Walk In"]}
               type="warning"
             />
           </div>
@@ -393,13 +353,14 @@ function UserlistWalkin() {
         <>
           <div>
             {walkinLoader ? (
-
               <div className="font-gilroy fixed inset-y-0 right-0 left-48 flex items-center justify-center bg-transparent opacity-75 z-10">
                 <div className="h-10 w-10 rounded-full border-4 border-r-transparent border-t-blue-700 animate-spin"></div>
               </div>
             ) : (
               <div className="px-0">
-               <div className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>                    
+                <div
+                  className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}
+                >
                   <PaginationList
                     totalItems={sortedData.length}
                     itemsPerPage={pageSize}
@@ -410,7 +371,6 @@ function UserlistWalkin() {
                 </div>
 
                 {sortedData.length > 0 && (
-
                   <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
                     <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
                       <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
@@ -425,12 +385,12 @@ function UserlistWalkin() {
 
                         <tbody className="text-start">
                           {paginatedData.map((v) => (
-                            <tr key={v.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
-
+                            <tr
+                              key={v.customerId}
+                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+                            >
                               <td className="w-[230px] px-2 py-1">
-                                <span className="">
-                                  {v.fullName}
-                                </span>
+                                <span className="">{v.fullName}</span>
                               </td>
 
                               <td className="w-[230px] px-2 py-1">
@@ -438,19 +398,22 @@ function UserlistWalkin() {
                               </td>
 
                               <td className="w-[230px] px-2 py-1">
-                                +
-                                {v && v.countryCode}{" "}
-                                {v.mobile}
+                                +{v && v.countryCode} {v.mobile}
                               </td>
 
                               <td className="w-[230px] px-2 py-1">
                                 <div
                                   className="relative flex justify-start items-center cursor-pointer"
-                                  onClick={(e) => handleDotsClick(v.customerId, e)}
+                                  onClick={(e) =>
+                                    handleDotsClick(v.customerId, e)
+                                  }
                                 >
                                   <PiDotsThreeOutlineVerticalFill
-                                    className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId ? "text-blue-700" : "text-gray-500"
-                                      }`}
+                                    className={`h-5 w-5 rotate-90 ${
+                                      dotsButton === v.customerId
+                                        ? "text-blue-700"
+                                        : "text-gray-500"
+                                    }`}
                                   />
 
                                   {dotsButton === v.customerId && (
@@ -462,13 +425,15 @@ function UserlistWalkin() {
                                         left: popupPosition.left - 10,
                                       }}
                                     >
-
                                       <div
-                                        onClick={() => canWriteTenant && handleCheckIn(v)}
-                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteTenant
-                                          ? "cursor-pointer hover:bg-blue-50"
-                                          : "cursor-not-allowed opacity-50"
-                                          }`}
+                                        onClick={() =>
+                                          canWriteTenant && handleCheckIn(v)
+                                        }
+                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                          canWriteTenant
+                                            ? "cursor-pointer hover:bg-blue-50"
+                                            : "cursor-not-allowed opacity-50"
+                                        }`}
                                       >
                                         <img
                                           src={addcircle}
@@ -476,19 +441,25 @@ function UserlistWalkin() {
                                           className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
                                         />
                                         <label
-                                          className={`text-sm font-medium ${canWriteTenant ? "text-gray-900" : "text-gray-400"
-                                            }`}
+                                          className={`text-sm font-medium ${
+                                            canWriteTenant
+                                              ? "text-gray-900"
+                                              : "text-gray-400"
+                                          }`}
                                         >
                                           Check-In
                                         </label>
                                       </div>
 
                                       <div
-                                        onClick={() => canWriteBooking && handleBooking(v)}
-                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteBooking
-                                          ? "cursor-pointer hover:bg-red-50"
-                                          : "cursor-not-allowed opacity-50"
-                                          }`}
+                                        onClick={() =>
+                                          canWriteBooking && handleBooking(v)
+                                        }
+                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                          canWriteBooking
+                                            ? "cursor-pointer hover:bg-red-50"
+                                            : "cursor-not-allowed opacity-50"
+                                        }`}
                                       >
                                         <img
                                           src={Addbook}
@@ -496,27 +467,38 @@ function UserlistWalkin() {
                                           className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
                                         />
                                         <label
-                                          className={`text-sm font-medium ${canWriteBooking ? "text-blue-700" : "text-gray-400"
-                                            }`}
+                                          className={`text-sm font-medium ${
+                                            canWriteBooking
+                                              ? "text-blue-700"
+                                              : "text-gray-400"
+                                          }`}
                                         >
                                           Add Booking
                                         </label>
                                       </div>
 
                                       <div
-                                        onClick={() => canDeleteWalkin && handleDeleteShow(v)}
-                                        className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${canDeleteWalkin
-                                          ? "cursor-pointer hover:bg-red-50"
-                                          : "cursor-not-allowed opacity-60"
-                                          } bg-gray-50`}
+                                        onClick={() =>
+                                          canDeleteWalkin && handleDeleteShow(v)
+                                        }
+                                        className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${
+                                          canDeleteWalkin
+                                            ? "cursor-pointer hover:bg-red-50"
+                                            : "cursor-not-allowed opacity-60"
+                                        } bg-gray-50`}
                                       >
                                         <Trash
                                           size={16}
-                                          color={!canDeleteWalkin ? "#A9A9A9" : "red"}
+                                          color={
+                                            !canDeleteWalkin ? "#A9A9A9" : "red"
+                                          }
                                         />
                                         <label
-                                          className={`text-sm font-medium ${canDeleteWalkin ? "text-red-600" : "text-gray-400"
-                                            }`}
+                                          className={`text-sm font-medium ${
+                                            canDeleteWalkin
+                                              ? "text-red-600"
+                                              : "text-gray-400"
+                                          }`}
                                         >
                                           Delete
                                         </label>
@@ -527,13 +509,10 @@ function UserlistWalkin() {
                               </td>
                             </tr>
                           ))}
-
                         </tbody>
                       </table>
                     </div>
-
                   </div>
-
                 )}
               </div>
             )}
@@ -553,15 +532,13 @@ function UserlistWalkin() {
                 </div>
               </div>
             )}
-
           </div>
-
         </>
       )}
 
       {showForm && (
-
-        <Addbooking add_bookingshow={showForm}
+        <Addbooking
+          add_bookingshow={showForm}
           handleCloseAddBooking={handleFormClose}
           userDetail={selectedCustomer}
         />
@@ -573,13 +550,13 @@ function UserlistWalkin() {
         // />
       )}
 
-
-      {
-        showFormCheckIn && <UserlistForm EditObj={tenantDetails}
+      {showFormCheckIn && (
+        <UserlistForm
+          EditObj={tenantDetails}
           showAssignMenu={showFormCheckIn}
-          setShowAssignMenu={handleCloseCheckInForm} />
-      }
-
+          setShowAssignMenu={handleCloseCheckInForm}
+        />
+      )}
 
       <Modal
         show={deleteShow}
@@ -624,32 +601,34 @@ function UserlistWalkin() {
         >
           Are you sure you want to delete this Tenant?
         </Modal.Body>
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: 70,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
+        {formLoading && (
           <div
             style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
+              position: "absolute",
+              top: 70,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              opacity: 0.75,
+              zIndex: 10,
             }}
-          ></div>
-        </div>}
+          >
+            <div
+              style={{
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
+              }}
+            ></div>
+          </div>
+        )}
 
         <Modal.Footer
           className="d-flex justify-content-center"
@@ -693,12 +672,6 @@ function UserlistWalkin() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
-
-
-
     </>
   );
 }

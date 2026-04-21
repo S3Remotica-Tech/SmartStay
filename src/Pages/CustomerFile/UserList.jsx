@@ -85,11 +85,11 @@ import { CSS } from "@dnd-kit/utilities";
 import { TiTick } from "react-icons/ti";
 // import zIndex from "@mui/material/styles/zIndex";
 import TenantListFilter from "./TenantListFilter";
-
+import ApiPagination from "../../Components/ApiPagination";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
-
+  const [chips, setChips] = useState([]);
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -99,9 +99,10 @@ function UserList(props) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -119,7 +120,7 @@ function UserList(props) {
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [billLoading, setBillLoading] = useState(false);
-
+  const [status, setStatus] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
@@ -162,7 +163,10 @@ function UserList(props) {
   const [add_bookingshow, setAddBookingsShow] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
+  console.log("pageeeeeeeeeee", page);
+
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [isScrolling, setIsScrolling] = useState(false);
   const startIndex = (page - 1) * pageSize;
@@ -195,6 +199,13 @@ function UserList(props) {
   } = useHasPermission("Booking");
 
   const isTenantForm = location.state?.isTenantForm || false;
+
+  const [debouncedInput, setDebouncedInput] = useState(filterInput);
+  const [statusfilter, setStatusFilter] = useState("ALL");
+
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected?.value || "");
+  };
 
   useEffect(() => {
     if (isTenantForm) {
@@ -233,8 +244,17 @@ function UserList(props) {
     { key: "Advance", label: "Advance" },
     { key: "Booking amount", label: "Booking amount" },
   ];
-  const [customizeItems, setCustomizeItems] = useState(options);
-  const allSelected = customizeItems.every((i) => i.checked);
+  const [customizeItems, setCustomizeItems] = useState([]);
+  const [customizeLoading, setCustomizeLoading] = useState(false);
+
+  const filteredCustomizeItems = customizeItems.filter((item) =>
+    item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
+  );
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+  };
+
   const ListOptions = [
     { key: "List", label: "List", img: Setting3 },
     { key: "Room", label: "Room", img: Buildings },
@@ -263,12 +283,20 @@ function UserList(props) {
     };
   }, []);
 
+  const handleResetCustomize = () => {
+    setCustomizeItems(initialCustomizeItems);
+  };
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
         dispatch({
           type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
+          payload: {
+            hostel_id: state.login.selectedHostel_Id,
+            page: page,
+            size: size,
+          },
         });
         setLoading(true);
       } else if (value === "3") {
@@ -282,6 +310,8 @@ function UserList(props) {
           payload: {
             hostel_id: state.login.selectedHostel_Id,
             type: "Inactive",
+            page: page,
+            size: size,
           },
         });
       }
@@ -320,7 +350,11 @@ function UserList(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
 
       setTimeout(() => {
@@ -353,6 +387,8 @@ function UserList(props) {
         type: "USERLIST",
         payload: {
           hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
         },
       });
       setTimeout(() => {
@@ -448,306 +484,6 @@ function UserList(props) {
     setIsDeleting(false);
   };
 
-  const handleEditBill = () => {
-    let isValid = true;
-    let hasError = false;
-
-    setCustomerErrmsg("");
-    setInvoicenumberErrmsg("");
-
-    setInvoiceDateErrmsg("");
-    setInvoiceDueDateErrmsg("");
-    setAllFieldErrmsg("");
-
-    if (!customername) {
-      setCustomerErrmsg("Please Select Tenant");
-      isValid = false;
-    }
-
-    // if (!invoicenumber) {
-    //   setInvoicenumberErrmsg("Invoice Number is Required");
-    //   isValid = false;
-    // }
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Please Select Invoice Date");
-      isValid = false;
-    }
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Please Select Due Date");
-      isValid = false;
-    }
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill",
-      );
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0,
-      )
-    ) {
-      setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill",
-      );
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    const selectedUser = state.UsersList.Users?.listCustomers?.find(
-      (item) => item.ID === customername,
-    );
-
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
-      const invoiceDate = dayjs(invoicedate).startOf("day");
-      const dueDate = dayjs(invoiceduedate).startOf("day");
-
-      if (invoiceDate.isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-      if (dueDate.isBefore(invoiceDate)) {
-        setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
-        hasError = true;
-      }
-    }
-
-    if (hasError || !isValid) return;
-
-    if (!customername || !invoicedate || !invoiceduedate) {
-      setAllFieldErrmsg("Please Fill Out All Required Fields");
-      isValid = false;
-    }
-
-    // const formatDateToInvoicedate = (invoicedate) => {
-    //   if (!invoicedate) return "";
-    //   const d = new Date(invoicedate);
-    //   return (
-    //     d.getFullYear() +
-    //     "-" +
-    //     String(d.getMonth() + 1).padStart(2, "0") +
-    //     "-" +
-    //     String(d.getDate()).padStart(2, "0")
-    //   );
-    // };
-
-    // const formatDateToSInvoiceDuedate = (invoiceduedate) => {
-    //   if (!invoiceduedate) return "";
-    //   const d = new Date(invoiceduedate);
-    //   return (
-    //     d.getFullYear() +
-    //     "-" +
-    //     String(d.getMonth() + 1).padStart(2, "0") +
-    //     "-" +
-    //     String(d.getDate()).padStart(2, "0")
-    //   );
-    // };
-
-    // const isChanged = (() => {
-    //   const userChanged =
-    //     Number(currentView.hos_user_id) !== Number(customername);
-
-    //   // const invoiceChanged =
-    //   //   String(currentView.Invoices) !== String(invoicenumber);
-
-    //   const invoiceDateChanged =
-    //     formatDateToInvoicedate(currentView.Date) !==
-    //     formatDateToInvoicedate(invoicedate);
-    //   const dueDateChanged =
-    //     formatDateToSInvoiceDuedate(currentView.DueDate) !==
-    //     formatDateToSInvoiceDuedate(invoiceduedate);
-
-    //   const amenitiesChanged =
-    //     newRows?.length !== currentView.amenity?.length ||
-    //     newRows.some((row, index) => {
-    //       const originalRow = currentView.amenity?.[index] || {};
-    //       return (
-    //         row.am_name !== originalRow.am_name ||
-    //         row.amount !== originalRow.amount
-    //       );
-    //     });
-
-    //   return (
-    //     userChanged ||
-    //     // invoiceChanged ||
-    //     invoiceDateChanged ||
-    //     dueDateChanged ||
-    //     amenitiesChanged
-    //   );
-    // })();
-
-    // if (!isChanged) {
-    //   setAllFieldErrmsg("No Changes Detected");
-    //   isValid = false;
-    // }
-
-    if (isValid) {
-      const dueDateObject = new Date(invoiceduedate);
-      const formatduedate = `${dueDateObject.getFullYear()}-${String(
-        dueDateObject.getMonth() + 1,
-      ).padStart(2, "0")}-${String(dueDateObject.getDate()).padStart(2, "0")}`;
-
-      const dateObject = new Date(invoicedate);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-        day,
-      ).padStart(2, "0")}`;
-
-      dispatch({
-        type: "MANUAL-INVOICE-EDIT",
-        payload: {
-          user_id: customername,
-          date: formattedDate,
-          due_date: formatduedate,
-          // id: currentView.id,
-          amenity: newRows,
-        },
-      });
-
-      setBillLoading(true);
-      // setCustomerName("");
-      setInvoiceNumber("");
-
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-
-      setTotalAmount("");
-      setNewRows([]);
-
-      setCustomerErrmsg("");
-
-      setInvoiceDateErrmsg("");
-      setInvoiceDueDateErrmsg("");
-      setAllFieldErrmsg("");
-    }
-    dispatch({ type: "UPDATE_USERSLIST_TRUE" });
-  };
-
-  const handleCreateBill = () => {
-    let hasError = false;
-
-    if (!customername) {
-      setCustomerErrmsg("Please Select Tenant");
-      hasError = true;
-    } else {
-      setCustomerErrmsg("");
-    }
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setInvoiceDateErrmsg("");
-    }
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Please Select Due Date");
-      hasError = true;
-    } else {
-      setInvoiceDueDateErrmsg("");
-    }
-
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill",
-      );
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0,
-      )
-    ) {
-      setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill",
-      );
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    const selectedUser = state.UsersList.Users.listCustomers?.find(
-      (item) => item.customerId === customername,
-    );
-
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
-      const invoiceDate = dayjs(invoicedate).startOf("day");
-      const dueDate = dayjs(invoiceduedate).startOf("day");
-
-      if (invoiceDate.isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-      if (dueDate.isBefore(invoiceDate)) {
-        setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
-        hasError = true;
-      }
-    }
-    //  const rentAmount = newRows
-    //   .filter((row) => row.am_name?.toLowerCase() === "room rent")
-    //   .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-    const rentAmount = newRows
-      .filter(
-        (row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent",
-      )
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    const ebAmount = newRows
-      .filter((row) => row.am_name?.toLowerCase() === "eb")
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    const amenityAmount = newRows
-      .filter(
-        (row) =>
-          row.am_name?.toLowerCase() !== "room rent" &&
-          row.am_name?.toLowerCase() !== "eb",
-      )
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    if (hasError) {
-      return;
-    }
-    setBillLoading(true);
-    dispatch({
-      type: "MANUAL-INVOICE-ADD",
-      payload: {
-        // user_id: customername,
-        // date: formatinvoicedate,
-        // due_date: formatduedate,
-
-        // invoice_id: invoicenumber,
-        // total_amount: totalAmount,
-        // amenity: amenityArray.length > 0 ? amenityArray : [],
-        customerId: customername,
-        invoiceDate: formatinvoicedate,
-        dueDate: formatduedate,
-        invoiceNumber: invoicenumber,
-        total_amount: totalAmount,
-        rentAmount: rentAmount,
-        ebAmount: ebAmount,
-        amenityAmount: amenityAmount,
-      },
-    });
-  };
   useEffect(() => {
     if (billsAddshow && id) {
       const customeraId = state.UsersList?.Users?.listCustomers?.find(
@@ -904,13 +640,15 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setLoading(false);
-      setUserListDetail(state.UsersList.Users.listCustomers);
-
+      setIsFilterOpen(false);
+      setUserListDetail(state.UsersList.Users);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
+
+  // console.log("state.UsersList.Users", state.UsersList.Users);
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -1161,7 +899,11 @@ function UserList(props) {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setBacktoCheckInForm(false);
       setTimeout(() => {
@@ -1170,105 +912,46 @@ function UserList(props) {
     }
   }, [state.UsersList.cancelCheckoutStatusCode]);
 
-  useEffect(() => {
-    if (value === "1") {
-      const FilterUser = Array.isArray(userListDetail)
-        ? userListDetail?.filter((item) =>
-            item.firstName.toLowerCase().includes(filterInput.toLowerCase()),
-          )
-        : [];
-
-      setFilteredUsers(FilterUser);
-    }
-
-    if (value === "2") {
-      const FilterUsertwo = Array.isArray(customerBooking)
-        ? customerBooking?.filter((item) => {
-            const fullName = `${item.first_name || ""} ${
-              item.last_name || ""
-            }`.toLowerCase();
-            return fullName.includes(filterInput.toLowerCase());
-          })
-        : [];
-
-      setFilteredUsers(FilterUsertwo);
-    }
-
-    if (value === "3") {
-      const FilterUsertwo = Array.isArray(checkOutCustomer)
-        ? checkOutCustomer?.filter((item) => {
-            return item.firstName
-              .toLowerCase()
-              .includes(filterInput?.toLowerCase());
-          })
-        : [];
-
-      setFilteredUsers(FilterUsertwo);
-    }
-    if (value === "4") {
-      const FilterUsertwo = Array.isArray(walkingCustomer)
-        ? walkingCustomer?.filter((item) => {
-            return item.first_name
-              ?.toLowerCase()
-              .includes(filterInput?.toLowerCase() || "");
-          })
-        : [];
-
-      setFilteredUsers(FilterUsertwo);
-    }
-  }, [
-    filterInput,
-    state.UsersList?.Users?.listCustomers,
-    state.UsersList?.UserListStatusCode,
-    value,
-    state?.Booking?.CustomerBookingList?.bookings,
-    state.Booking.statusCodeGetBooking,
-    state.UsersList?.WalkInCustomerList,
-    state.UsersList?.getWalkInStatusCode,
-    state.UsersList.GetCheckOutCustomerStatusCode,
-    state.UsersList.CheckOutCustomerList.checkoutCustomers,
-  ]);
-
   const handlefilterInput = (e) => {
     const searchValue = e.target.value.toLowerCase().trim();
     setFilterInput(searchValue);
-
-    if (searchValue.length > 0) {
-      const filtered = filteredUsers.filter((user) => {
-        const fullName = [user?.first_name, user?.last_name]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-        const name = user?.Name?.toLowerCase() || "";
-
-        return name.startsWith(searchValue) || fullName.startsWith(searchValue);
-      });
-
-      setFilteredUsers(filtered);
-      setDropdownVisible(true);
-      // setCurrentPage(1);
-    } else {
-      setFilteredUsers(filteredUsers);
-      setDropdownVisible(false);
-    }
   };
 
-  const handleUserSelect = (user) => {
-    if (value === "1") {
-      setFilterInput(user?.firstName || "");
-    } else if (value === "2") {
-      setFilterInput(
-        [user?.firstName, user?.last_name].filter(Boolean).join(" "),
-      );
-    } else if (value === "3") {
-      setFilterInput(user?.Name || "");
-    } else if (value === "4") {
-      setFilterInput(user?.first_name || "");
-    }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedInput(filterInput);
+    }, 400);
 
-    setFilteredUsers([]);
-    setDropdownVisible(false);
-  };
+    return () => clearTimeout(timer);
+  }, [filterInput]);
+
+  useEffect(() => {
+    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    dispatch({
+      type: "USERLIST",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        name: debouncedInput || "",
+        type: statusValue,
+        page: page,
+        size: size,
+      },
+    });
+
+    setLoading(true);
+
+    const filters = {
+      status: statusfilter ? [statusfilter] : [],
+      search: debouncedInput?.trim() || "",
+    };
+
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: filters,
+    });
+  }, [debouncedInput, statusfilter, page, size]);
+
+  // console.log("statusfilter", statusfilter);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1347,15 +1030,15 @@ function UserList(props) {
 
   const [search, setSearch] = useState(false);
 
-  const sortedData = React.useMemo(() => {
-    const items = search || filterStatus ? filteredUsers : userListDetail;
-    return Array.isArray(items) ? items : [];
-  }, [search, filterStatus, filteredUsers, userListDetail]);
+  // const sortedData = React.useMemo(() => {
+  //   const items = search || filterStatus ? filteredUsers : userListDetail;
+  //   return Array.isArray(items) ? items : [];
+  // }, [search, filterStatus, filteredUsers, userListDetail]);
 
   const stats = [
     {
       label: "Total Tenants",
-      value: "0",
+      value: `${userListDetail?.totalCustomers || 0}`,
       icon: true,
       highlight: true,
     },
@@ -1418,7 +1101,7 @@ function UserList(props) {
     if (state.UsersList?.NoUserListStatusCode) {
       setLoading(false);
       setUserDetails([]);
-      setFilteredUsers([]);
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_USER_LIST" });
       }, 2000);
@@ -1515,7 +1198,12 @@ function UserList(props) {
       handleCloseAddCustomer();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          type: "Inactive",
+          page: page,
+          size: size,
+        },
       });
 
       setTimeout(() => {
@@ -1546,137 +1234,7 @@ function UserList(props) {
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const [resetPage, setResetPage] = useState(false);
-
-  const handleDateRangeChangeBooking = (dates) => {
-    setBookingDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      setFilteredUsers(customerBooking);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = customerBooking?.filter((item) => {
-      const itemDate = dayjs(item.createdat);
-      return (
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
-
-  const handleDateRangeChangeCheckIn = (dates) => {
-    setCheckInDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      // setCurrentPage(1);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = userListDetail?.filter((item) => {
-      if (!item.joining_Date || item.joining_Date === "0000-00-00")
-        return false;
-
-      const itemDate = dayjs(item.joining_Date);
-      return (
-        itemDate.isValid() &&
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    // setCurrentPage(1);
-  };
-
   const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
-
-  const handleStatusFilterCheckout = (event) => {
-    const searchTerm = event.target.value;
-    setStatusFilterCheckout(searchTerm);
-
-    if (searchTerm !== "date") {
-      setCheckoutDateRange(null);
-    }
-
-    if (searchTerm === "All") {
-      setFilteredUsers(checkOutCustomer);
-      setFilterStatus(true);
-    } else if (searchTerm === "0" || searchTerm === "1") {
-      const filtered = checkOutCustomer?.filter(
-        (item) => item.isActive?.toString() === searchTerm,
-      );
-      setFilteredUsers(filtered);
-      setFilterStatus(true);
-    } else if (searchTerm === "date") {
-      setFilterStatus(true);
-    }
-  };
-
-  useEffect(() => {
-    if (!filterStatus) {
-      setStatusFilterCheckout("All");
-      setCheckoutDateRange(null);
-    }
-  }, [filterStatus]);
-
-  const handleDateRangeChangeCheckout = (dates) => {
-    setCheckoutDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setStatusFilterCheckout("All");
-      setFilteredUsers(checkOutCustomer);
-      setFilterStatus(false);
-      return;
-    }
-
-    const [start, end] = dates;
-    const filtered = checkOutCustomer?.filter((item) => {
-      const itemDate = dayjs(item.CheckoutDate);
-      return (
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
-
-  const handleDateRangeChangeWalkin = (dates) => {
-    setWalkinDateRange(dates);
-
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      setFilteredUsers(walkingCustomer);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = walkingCustomer?.filter((item) => {
-      const itemDate = dayjs(item.walk_In_Date);
-      return (
-        itemDate.isSameOrAfter(start, "day") &&
-        itemDate.isSameOrBefore(end, "day")
-      );
-    });
-
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
 
   useEffect(() => {
     if (id) {
@@ -1708,7 +1266,11 @@ function UserList(props) {
       setDeleteShow(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
 
       setDeleteDetails({ room: null, bed: null, user: null });
@@ -1894,7 +1456,11 @@ function UserList(props) {
     ) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setcheckoutForm(false);
     }
@@ -2065,7 +1631,11 @@ function UserList(props) {
     if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setShowAssignMenu(false);
       setTimeout(() => {
@@ -2154,7 +1724,11 @@ function UserList(props) {
       handleCloseInActive();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setTimeout(() => {
         dispatch({ type: "CLEAR_BOOKING_InActive" });
@@ -2170,7 +1744,11 @@ function UserList(props) {
       setBookingAssignForm(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
 
       setTimeout(() => {
@@ -2301,9 +1879,9 @@ function UserList(props) {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1440) {
-        setPageSize(20);
+        setPage(20);
       } else {
-        setPageSize(10);
+        setPage(10);
       }
       setPage(1);
     };
@@ -2316,7 +1894,10 @@ function UserList(props) {
     setView(e.target.value);
   };
 
-  const paginatedData = sortedData.slice(startIndex, endIndex);
+  const paginatedData = state.UsersList?.Users?.tenants?.slice(
+    startIndex,
+    endIndex,
+  );
 
   const handleRowSelect = (id) => {
     setSelectedRows((prev) =>
@@ -2397,29 +1978,33 @@ function UserList(props) {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span {...attributes} {...listeners}>
+        <span
+          {...attributes}
+          {...listeners}
+          onClick={(e) => e.stopPropagation()}
+        >
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
         <input
           type="checkbox"
-          defaultChecked={item.checked}
+          checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
           onChange={() => {
-            setCustomizeItems((prev) =>
+            setCustomizeItems((prev = []) =>
               prev.map((i) =>
-                i.key === item.key ? { ...i, checked: !i.checked } : i,
+                i.key === item.key ? { ...i, selected: !i.selected } : i,
               ),
             );
           }}
         />
 
-        <span className="text-[#101828]">{item.label}</span>
+        <span className="text-[#101828] text-base">{item.fieldName}</span>
       </label>
     );
   };
   const CustomStyles = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
       minHeight: "32px",
       height: "32px",
@@ -2430,17 +2015,28 @@ function UserList(props) {
       fontWeight: 500,
       boxShadow: "none",
       cursor: "pointer",
+      backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
       "&:hover": {
         border: "1px solid #D9D9D9",
       },
     }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#333333",
+      fontWeight: 500,
+      backgroundColor: "#F4F4F4",
+    }),
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isFocused ? "#EEF2FF" : "#F9FAFB",
-      color: "#111827",
+      backgroundColor: state.isSelected
+        ? "#1E45E1"
+        : state.isFocused
+          ? "#EEF2FF"
+          : "#F9FAFB",
+      color: state.isSelected ? "#fff" : "#111827",
       cursor: "pointer",
     }),
-    valueContainer: (base) => ({
+    valueContainer: (base, state) => ({
       ...base,
       padding: "0 8px",
       height: "32px",
@@ -2493,17 +2089,7 @@ function UserList(props) {
     { key: "4", label: "Walk-in" },
     { key: "3", label: "Check-out" },
   ];
-  const [statusfilter, setStatusfilter] = useState("");
 
-  const handleStatusFilter = (selectedOption) => {
-    setStatusfilter(selectedOption);
-  };
-
-  const selectOptions = [
-    { value: "Checked In", label: "Checked In" },
-    { value: "Notice Period", label: "Notice Period" },
-    { value: "Booked", label: "Booked" },
-  ];
   const monthOptions = [
     {
       value: "this_month",
@@ -2533,27 +2119,276 @@ function UserList(props) {
     setIsFilterOpen(false);
   };
 
+  // const formattedData = (userListDetail?.tenants || []).map((row) => ({
+  //   profilePic: row[0],
+  //   fullName: row[1],
+  //   status: row[2],
+  //   joiningDate: row[3],
+  //   mobile: row[4],
+  //   floorName: row[5],
+  //   roomName: row[6],
+  //   bedName: row[7],
+  //   apiCall: row[8],
+  // }));
+
+  const formattedData = (userListDetail?.tenants || []).map((row) => {
+    const obj = {};
+
+    (userListDetail?.columnList || []).forEach((col, index) => {
+      const value = row[index];
+
+      switch (col.fieldName) {
+        case "Profile Pic":
+          obj.profilePic = value;
+          break;
+
+        case "Full Name":
+          obj.fullName = typeof value === "object" ? value?.name || "-" : value;
+          break;
+
+        case "Status":
+          obj.status = typeof value === "object" ? value?.status : value;
+          break;
+
+        case "Joining Date":
+          obj.joiningDate = value;
+          break;
+
+        case "Mobile No":
+          obj.mobile = value;
+          break;
+
+        case "Floor":
+          obj.floorName = value;
+          break;
+
+        case "Room":
+          obj.roomName = value;
+          break;
+
+        case "Bed":
+          obj.bedName = value;
+          break;
+
+        case "Email ID":
+          obj.emailId = value;
+          break;
+
+        case "Booking Date":
+          obj.bookingDate = value;
+          break;
+
+        case "Monthly Rent":
+          obj.monthlyRent = value;
+          break;
+
+        case "Advance":
+          obj.advanceAmount = value;
+          break;
+
+        case "Booking Amount":
+          obj.bookingAmount = value;
+          break;
+
+        default:
+          break;
+      }
+
+      if (typeof value === "object" && value?.customerId) {
+        obj.apiCall = value;
+      }
+    });
+
+    return obj;
+  });
+
+  const selectOptions = [
+    { value: "ALL", label: "All" },
+    ...new Map(
+      (formattedData || [])
+        .filter((view) => view.status)
+        .map((view) => [
+          view.status,
+          { value: view.status, label: view.status },
+        ]),
+    ).values(),
+  ];
+
+  useEffect(() => {
+    const cols = state?.UsersList?.Users?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected: col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
+  }, [state?.UsersList?.Users?.columnList]);
+
+  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  const allSelected =
+    Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
+
+  useEffect(() => {
+    console.log("formattedData", formattedData);
+  }, [formattedData]);
+
+  const columnStyles = {
+    "Profile Pic": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
+    "Full Name": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
+    Status: "px-4",
+    "Joining Date": "px-4 whitespace-nowrap",
+    "Mobile No": "px-4 whitespace-nowrap",
+    Floor: "px-4",
+    Room: "px-4",
+    Bed: "px-4",
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_TENANT_TABLE_FILTERS",
+        payload: {
+          status: [],
+          search: "",
+        },
+      });
+    };
+  }, [state.login.selectedHostel_Id]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: {
+        status: [],
+        search: "",
+      },
+    });
+    dispatch({
+      type: "USERLIST",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+    setStatusFilter("ALL");
+  };
+
+  useEffect(() => {
+    const tenantFilters = state.UsersList?.tenantFilters;
+    // console.log("tenantFilters", tenantFilters);
+
+    const filterData = [];
+
+    if (
+      tenantFilters?.status &&
+      tenantFilters.status.length > 0 &&
+      !tenantFilters.status.includes("ALL")
+    ) {
+      filterData.push({
+        key: "status",
+        label: "Status is",
+        type: "status",
+        value: tenantFilters.status.join(", "),
+      });
+    }
+
+    // if (invoiceFilters?.type?.length) {
+    //   filterData.push({
+    //     key: "type",
+    //     label: "Type is",
+    //     type: "type",
+    //     value: invoiceFilters.type.join(", "),
+    //   });
+    // }
+
+    if (tenantFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Tenant",
+        type: "search",
+        value: tenantFilters.search,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.UsersList?.tenantFilters]);
+
+  console.log("chips", chips);
+
+  const getLeftOffset = (index) => {
+    let left = 80;
+
+    for (let i = 0; i < index; i++) {
+      left += 150;
+    }
+    return left;
+  };
+
+  console.log("customizeItems", customizeItems);
+
+  const handleSave = () => {
+    const payload = customizeItems.map((item, index) => ({
+      fieldName: item.key,
+      isSelected: item.selected,
+      order: item.order,
+    }));
+
+    if (payload) {
+      dispatch({
+        type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
+      setCustomizeLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    if (state.UsersList?.successTenantCustomizeColumns === 200) {
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_TENANT_COLUMNS_REDUCER" });
+      }, 100);
+    }
+  }, [state.UsersList?.successTenantCustomizeColumns]);
+
+  const currentPage = state?.UsersList?.Users?.currentPage ?? 1;
+
+  const totalPages = state?.UsersList?.Users?.totalPages ?? 1;
+
+  const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [state.reports?.tenantFilters]);
+
+  const handlePageChange = (page) => {
+    console.log("Page Clicked:", page);
+    setPage(page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
+
   return (
-    <div className="sticky-top bg-white font-gilroy">
-      {isFilterOpen && (
-        <TenantListFilter show={isFilterOpen} handleClose={handleCloseFilter} />
-      )}
-      <CheckOutForm
-        show={checkoutForm}
-        handleClose={checkoutcloseModal}
-        uniqueostel_Id={uniqueostel_Id}
-        setUniqostel_Id={setUniqostel_Id}
-        setAddCheckoutForm={setAddCheckoutForm}
-        checkoutaddform={checkoutaddform}
-      />
-
-      <UserlistWalkinForm
-        show={walkInForm}
-        handleClose={walkinFormcloseModal}
-        uniqueostel_Id={uniqueostel_Id}
-        setUniqostel_Id={setUniqostel_Id}
-      />
-
+    <div className=" bg-white font-gilroy">
       {userList && (
         <div>
           <div className="font-gilroy font-medium text-base">
@@ -2566,7 +2401,7 @@ function UserList(props) {
             <div className="sticky top-0 bg-white z-20">
               <div className="flex items-center justify-between">
                 <div className="flex gap-6 mt-3">
-                  {tabs.map((tab) => (
+                  {tabs?.map((tab) => (
                     <button
                       key={tab.key}
                       onClick={() => handleChange(tab.key)}
@@ -2583,30 +2418,32 @@ function UserList(props) {
                 </div>
 
                 <div className="flex items-center gap-3 flex-wrap">
-                  <div className="relative min-w-[180px] max-w-[260px]">
-                    <div
-                      className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+                  {value === "1" && (
+                    <div className="relative min-w-[180px] max-w-[260px]">
+                      <div
+                        className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
     ${
       canReadTenant
         ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
         : "border-gray-200 opacity-60 cursor-not-allowed"
     }`}
-                    >
-                      <input
-                        type="text"
-                        placeholder="Search..."
-                        value={filterInput}
-                        onChange={handlefilterInput}
-                        disabled={!canReadTenant}
-                        className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
-                      />
-                      <SearchNormal1
-                        size="18"
-                        color={canReadTenant ? "#6B7280" : "#A0A0A0"}
-                        className="mr-2"
-                      />
+                      >
+                        <input
+                          type="text"
+                          placeholder="Search..."
+                          value={filterInput}
+                          onChange={handlefilterInput}
+                          disabled={!canReadTenant}
+                          className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                        />
+                        <SearchNormal1
+                          size="18"
+                          color={canReadTenant ? "#6B7280" : "#A0A0A0"}
+                          className="mr-2"
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {value === "4" && (
                     <button
@@ -2631,30 +2468,10 @@ function UserList(props) {
                       type="warning"
                     />
                   </div>
-                ) : !loading &&
-                  Array.isArray(sortedData) &&
-                  sortedData.length === 0 ? (
-                  <div className="animated-text flex items-center justify-center h-[75vh] 2xl:mt-2">
-                    <div>
-                      <div className="text-center">
-                        <img src={Emptystate} alt="emptystate" />
-                      </div>
-
-                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                        No Tenant available
-                      </div>
-                              
-                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                        There are no tenant added.
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-
-                {canReadTenant && sortedData && sortedData.length > 0 && (
+                ) : (
                   <div className="">
                     <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
-                      {stats.map((item, index) => (
+                      {stats?.map((item, index) => (
                         <div key={index} className="flex items-center gap-3">
                           {item.highlight && (
                             <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
@@ -2683,15 +2500,23 @@ function UserList(props) {
 
                     <div className="flex flex-wrap items-center justify-between  ">
                       <div className="flex flex-wrap items-center gap-3">
-                        <div className="border border-gray-300 rounded-lg w-36">
+                        <div
+                          className={`border border-gray-300 rounded-lg w-36 ${
+                            statusfilter
+                              ? "bg-gray-100 text-gray-700"
+                              : "bg-white"
+                          }`}
+                        >
                           <Select
                             options={selectOptions}
                             styles={CustomStyles}
-                            disabled={!canReadTenant}
+                            isDisabled={!canReadTenant}
                             onChange={(e) => handleStatusFilter(e)}
-                            value={selectOptions.find(
-                              (opt) => opt.value === statusfilter,
-                            )}
+                            value={
+                              selectOptions.find(
+                                (opt) => opt.value === statusfilter,
+                              ) || null
+                            }
                             id="statusselect"
                           />
                         </div>
@@ -2729,7 +2554,10 @@ function UserList(props) {
                       </div>
 
                       <div className={` flex justify-end gap-2 mr-2 `}>
-                        <div className="relative">
+                        <button
+                          disabled
+                          className="relative disabled:opacity-50 disabled:cursor-not-allowed "
+                        >
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
@@ -2796,21 +2624,44 @@ function UserList(props) {
                               })}
                             </div>
                           )}
-                        </div>
-                        <PaginationList
-                          totalItems={sortedData.length}
+                        </button>
+                        {/* <PaginationList
+                          totalItems={userListDetail.length}
                           itemsPerPage={pageSize}
                           currentPage={page}
                           onPageChange={(p) => setPage(p)}
                           onPageSizeChange={(size) => setPageSize(size)}
-                        />
+                        /> */}
                       </div>
                     </div>
+                    {chips?.length > 0 && (
+                      <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
+                        <div className="flex flex-wrap gap-2 flex-1">
+                          {chips.map((chip) => (
+                            <span
+                              key={chip.key}
+                              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                            >
+                              {chip.label} :
+                              <span className="text-gray-900">
+                                {chip.value}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                        <span
+                          className="text-blue-600 text-sm font-medium cursor-pointer"
+                          onClick={handleReset}
+                        >
+                          Reset
+                        </span>
+                      </div>
+                    )}
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative max-h-[450px]  rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
@@ -2827,425 +2678,453 @@ function UserList(props) {
                                     type="checkbox"
                                     className="rounded cursor-pointer"
                                     checked={
-                                      selectedRows.length ===
-                                        paginatedData.length &&
-                                      paginatedData.length > 0
+                                      selectedRows?.length ===
+                                        paginatedData?.length &&
+                                      paginatedData?.length > 0
                                     }
                                     onChange={handleSelectAll}
                                   />
                                 </div>
                               </th>
 
-                              <th className="px-4 py-2.5 sticky left-[80px] z-40 bg-[#F9FAFB] w-[100px] uppercase ">
-                                Name
-                              </th>
+                              {selectedColumns?.map((col, index) => {
+                                const isSticky = index < 2;
 
-                              <th className="px-4 py-2.5 uppercase">Status</th>
-                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">
-                                Joining Date
-                              </th>
-                              <th className="px-4 py-2.5 whitespace-nowrap uppercase">
-                                Mobile No
-                              </th>
-                              <th className="px-4 py-2.5 uppercase">Floor</th>
-                              <th className="px-4 py-2.5 uppercase">Room</th>
-                              <th className="px-4 py-2.5 uppercase">Bed</th>
+                                return (
+                                  <th
+                                    key={col.key}
+                                    className={`
+        px-4 py-2.5 uppercase whitespace-nowrap text-start
+        ${isSticky ? "sticky left-[80px] z-40 bg-[#F9FAFB]" : ""}
+      `}
+                                  >
+                                    {col.fieldName}
+                                  </th>
+                                );
+                              })}
+
                               <th className="px-4 py-2.5 uppercase sticky right-0 z-50 bg-[#F9FAFB]">
                                 Action
                               </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {paginatedData.map((user) => (
-                              <tr
-                                key={user.customerId}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer group  hover:bg-gray-50"
-                                onClick={() => handleRoomDetailsPage(user)}
-                              >
-                                <td
-                                  className={`px-4 sticky left-0 z-20 w-[80px]
-
-${isScrolling ? "!bg-white" : "!bg-transparent"}
-hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
-                                >
-                                  <div className="flex items-center justify-end">
-                                    <input
-                                      type="checkbox"
-                                      className="rounded cursor-pointer"
-                                      checked={selectedRows.includes(
-                                        user.customerId,
-                                      )}
-                                      onClick={(e) => e.stopPropagation()}
-                                      onChange={(e) => {
-                                        handleRowSelect(user.customerId);
-                                      }}
-                                    />
-                                  </div>
-                                </td>
-                                <td
-                                  className={`px-4 sticky left-[80px] z-30 w-[100px]
-
-${isScrolling ? "!bg-white" : "bg-transparent"}
-hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
-                                >
-                                  <div className="relative group w-[100px] flex items-center gap-1  ">
-                                    {user.profilePic ? (
-                                      <img
-                                        src={user.profilePic}
-                                        className="w-8 h-8 rounded-full"
-                                      />
-                                    ) : (
-                                      <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs flex-shrink-0">
-                                        {user.initials}
+                            {Array.isArray(formattedData) &&
+                            formattedData?.length > 0 ? (
+                              formattedData?.map((user, index) => {
+                                return (
+                                  <tr
+                                    onClick={() =>
+                                      handleRoomDetailsPage(user?.apiCall)
+                                    }
+                                    key={user?.apiCall?.customerId || index}
+                                    className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                                    cursor-pointer group  hover:!bg-gray-50"
+                                  >
+                                    <td
+                                      className={`px-4 sticky left-0  text-center align-middle  ${isScrolling ? "!bg-white" : "!bg-transparent"}`}
+                                    >
+                                      <div className="flex justify-center items-center">
+                                        <input type="checkbox" />
                                       </div>
-                                    )}
+                                    </td>
 
-                                    <span className="truncate whitespace-nowrap text-sm font-semibold font-gilroy text-[#111928] cursor-pointer block">
-                                      {user?.firstName} {user?.lastName}
-                                    </span>
+                                    {selectedColumns?.map((col) => {
+                                      const baseClass = `
+          ${columnStyles[col.fieldName] || "px-4"}
+          ${isScrolling ? "!bg-white" : "!bg-transparent"}
+          hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
+        `;
 
-                                    <div
-                                      className="absolute left-full ml-2 top-1/2 -translate-y-1/2
-        hidden group-hover:block
+                                      switch (col.fieldName) {
+                                        case "Profile Pic":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className="px-4"
+                                            >
+                                              {typeof user?.profilePic ===
+                                                "string" &&
+                                              user.profilePic.startsWith(
+                                                "http",
+                                              ) ? (
+                                                <img
+                                                  src={user.profilePic}
+                                                  className="w-8 h-8 rounded-full"
+                                                  alt="profile"
+                                                />
+                                              ) : (
+                                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                                  {typeof user?.profilePic ===
+                                                  "string"
+                                                    ? user.profilePic
+                                                    : "NA"}
+                                                </div>
+                                              )}
+                                            </td>
+                                          );
+
+                                        case "Full Name":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              <div className="relative group w-[100px] ">
+                                                <span className="block w-full truncate text-sm text-[#111928] ">
+                                                  {user.fullName}
+                                                </span>
+
+                                                <div
+                                                  className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+        hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
+                                                >
+                                                  {user?.fullName}
+                                                </div>
+                                              </div>
+                                            </td>
+                                          );
+
+                                        case "Status":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              <span
+                                                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                                style={{
+                                                  backgroundColor:
+                                                    statusStyles[user.status]
+                                                      ?.bg || "#EEE",
+                                                }}
+                                              >
+                                                <span
+                                                  className="h-2 w-2 rounded-full"
+                                                  style={{
+                                                    backgroundColor:
+                                                      statusStyles[user.status]
+                                                        ?.text || "#333",
+                                                  }}
+                                                ></span>
+
+                                                {user.status}
+                                              </span>
+                                            </td>
+                                          );
+
+                                        case "Joining Date":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className="truncate whitespace-nowrap text-[#6B7280] font-medium px-4"
+                                            >
+                                              {user.joiningDate}
+                                            </td>
+                                          );
+
+                                        case "Mobile No":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              {user.mobile}
+                                            </td>
+                                          );
+
+                                        case "Floor":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={baseClass}
+                                            >
+                                              {user.floorName}
+                                            </td>
+                                          );
+
+                                        case "Room":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.roomName}
+                                            </td>
+                                          );
+
+                                        case "Bed":
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bedName}
+                                            </td>
+                                          );
+                                        case "Email ID":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.emailId}
+                                            </td>
+                                          );
+                                        case "Booking Date":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bookingDate}
+                                            </td>
+                                          );
+                                        case "Monthly Rent":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.monthlyRent}
+                                            </td>
+                                          );
+                                        case "Advance":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.advanceAmount}
+                                            </td>
+                                          );
+                                        case "Booking Amount":
+                                          return (
+                                            <td
+                                              key={col.fieldName}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              {user.bookingAmount}
+                                            </td>
+                                          );
+                                        default:
+                                          return (
+                                            <td
+                                              key={col.key}
+                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                            >
+                                              -
+                                            </td>
+                                          );
+                                      }
+                                    })}
+
+                                    <td
+                                      className={`${
+                                        isScrolling ? "!bg-white" : "bg-white"
+                                      } px-4 py-1 sticky right-0 !z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
-                                      {user?.firstName} {user?.lastName}
-                                    </div>
-                                  </div>
-                                </td>
-
-                                <td className="px-4">
-                                  <span
-                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                    style={{
-                                      backgroundColor:
-                                        statusStyles[user.currentStatus]?.bg ||
-                                        "#EEE",
-                                    }}
-                                  >
-                                    <span
-                                      className="h-2 w-2 rounded-full"
-                                      style={{
-                                        backgroundColor:
-                                          statusStyles[user.currentStatus]
-                                            ?.text || "#333",
-                                      }}
-                                    ></span>
-
-                                    {user.currentStatus}
-                                  </span>
-                                </td>
-
-                                <td className=" px-4 py-1 truncate whitespace-nowrap text-[#6B7280] font-medium">
-                                  {user?.actualJoining &&
-                                  user.actualJoining !== "0000-00-00"
-                                    ? moment(
-                                        user.actualJoining,
-                                        "DD/MM/YYYY",
-                                      ).format("D MMMM YYYY")
-                                    : user?.expectedJoiningDate &&
-                                        user.expectedJoiningDate !==
-                                          "0000-00-00"
-                                      ? moment(
-                                          user.expectedJoiningDate,
-                                          "DD/MM/YYYY",
-                                        ).format("D MMMM YYYY")
-                                      : user?.RecheckIn_Date &&
-                                          user.RecheckIn_Date !== "0000-00-00"
-                                        ? moment(user.RecheckIn_Date).format(
-                                            "D MMMM YYYY",
-                                          )
-                                        : "-"}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap text-[#111928]">
-                                  +{user?.countryCode} {user?.mobile}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
-                                  {user.currentStatus === "Booked" ||
-                                  user.currentStatus === "Checked In" ||
-                                  user.currentStatus === "Notice Period" ||
-                                  user.currentStatus === "Settlement Generated"
-                                    ? user.floorName || "-"
-                                    : "-"}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
-                                  {user.roomName || "-"}
-                                </td>
-
-                                <td className=" px-4 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-[#111928]">
-                                  {user.bedName || "-"}
-                                </td>
-
-                                <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-50 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                                >
-                                  {" "}
-                                  <div
-                                    className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleShowDots(user.customerId, e);
-                                    }}
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${
-                                        activeRow === user.customerId
-                                          ? "text-[#1E45E1]"
-                                          : "text-gray-500"
-                                      }`}
-                                    />
-
-                                    {activeRow === user.customerId && (
+                                      {" "}
                                       <div
-                                        ref={popupRef}
-                                        className="fixed  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                        style={{
-                                          top: showAbove
-                                            ? popupPosition.top -
-                                              (popupRef.current?.offsetHeight ||
-                                                100) -
-                                              20
-                                            : popupPosition.top - 35,
-                                          left: popupPosition.left - 50,
-                                          transform: "translateZ(0)",
+                                        className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleShowDots(
+                                            user.apiCall.customerId,
+                                            e,
+                                          );
                                         }}
                                       >
-                                        <div className="flex flex-col divide-y divide-gray-200">
-                                          {!user.bedId &&
-                                            (user.currentStatus ===
-                                              "Inactive" ||
-                                              user.currentStatus ===
-                                                "un-assigned") && (
-                                              <div
-                                                onClick={() =>
-                                                  canWriteTenant &&
-                                                  handleShowAssignBed(user)
-                                                }
-                                                className={`border-b border-gray-200 flex items-center gap-2  px-3 py-2 transition 
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={addcircle}
-                                                  alt="Assign Bed"
-                                                  className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                />
-                                                <span
-                                                  className={`text-sm font-medium whitespace-nowrap font-gilroy ${!canWriteTenant ? "text-gray-400" : "text-[#222]"}`}
-                                                >
-                                                  Check-In
-                                                </span>
-                                              </div>
-                                            )}
+                                        <PiDotsThreeOutlineVerticalFill
+                                          className={`h-5 w-5 rotate-90 ${
+                                            activeRow ===
+                                            user?.apiCall?.customerId
+                                              ? "text-[#1E45E1]"
+                                              : "text-gray-500"
+                                          }`}
+                                        />
 
-                                          {(user.currentStatus ===
-                                            "un-assigned" ||
-                                            user.currentStatus ===
-                                              "Inactive") && (
-                                            <div
-                                              onClick={() =>
-                                                canWriteBooking &&
-                                                handleAddBookings(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition
-                ${canWriteBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={Addbook}
-                                                alt="Add Booking"
-                                                className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                              />
-                                              <span
-                                                className={`text-sm font-medium  whitespace-nowrap font-gilroy ${canWriteBooking ? "text-[#1E45E1]" : "text-gray-400"}`}
-                                              >
-                                                Add Booking
-                                              </span>
-                                            </div>
-                                          )}
+                                        {activeRow ===
+                                          user?.apiCall?.customerId && (
+                                          <div
+                                            ref={popupRef}
+                                            className="fixed top-10  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                            style={{
+                                              top: showAbove
+                                                ? popupPosition.top -
+                                                  (popupRef.current
+                                                    ?.offsetHeight || 100) -
+                                                  10
+                                                : popupPosition.top,
+                                              left: popupPosition.left - 30,
+                                              transform: "translateZ(0)",
+                                            }}
+                                          >
+                                            <div className="flex flex-col divide-y divide-gray-200">
+                                              {user.status === "Checked In" && (
+                                                <>
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteCheckout &&
+                                                      handleCustomerCheckout(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Move to Notice Period
+                                                    </span>
+                                                  </div>
 
-                                          {(user.currentStatus ===
-                                            "un-assigned" ||
-                                            user.currentStatus ===
-                                              "Inactive") && (
-                                            <div
-                                              onClick={() =>
-                                                canDeleteTenant &&
-                                                handleDeleteShow(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition
-                ${canDeleteTenant ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <Trash
-                                                size={16}
-                                                color={
-                                                  canDeleteTenant
-                                                    ? "red"
-                                                    : "#A9A9A9"
-                                                }
-                                              />
-                                              <span
-                                                className={`text-sm font-medium font-gilroy ${canDeleteTenant ? "text-red-500" : "text-gray-400"}`}
-                                              >
-                                                Delete
-                                              </span>
-                                            </div>
-                                          )}
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleCustomerReAssign(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Change Bed
+                                                    </span>
+                                                  </div>
+                                                </>
+                                              )}
 
-                                          {user.bedId &&
-                                            user.currentStatus ===
-                                              "Checked In" && (
-                                              <>
+                                              {user.status ===
+                                                "Notice Period" && (
+                                                <>
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleBacktoCheckout(user)
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Cancel Check-Out
+                                                    </span>
+                                                  </div>
+
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteCheckout &&
+                                                      handleCheckoutGenrateNew(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  >
+                                                    <img
+                                                      src={logout}
+                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy">
+                                                      Generate
+                                                    </span>
+                                                  </div>
+                                                </>
+                                              )}
+
+                                              {user.status ===
+                                                "Settlement Generated" && (
                                                 <div
                                                   onClick={() =>
                                                     canWriteCheckout &&
-                                                    handleCustomerCheckout(user)
+                                                    handleConformCheckout(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={addcircle}
-                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Move to Notice Period
-                                                  </span>
-                                                </div>
-
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteTenant &&
-                                                    handleCustomerReAssign(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Change Bed
-                                                  </span>
-                                                </div>
-                                              </>
-                                            )}
-
-                                          {user.bedId &&
-                                            user.currentStatus ===
-                                              "Notice Period" && (
-                                              <>
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteTenant &&
-                                                    handleBacktoCheckout(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    src={Addbook}
-                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Cancel Check-Out
-                                                  </span>
-                                                </div>
-
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteCheckout &&
-                                                    handleCheckoutGenrateNew(
-                                                      user,
-                                                    )
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
+                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  style={{ marginLeft: 12 }}
                                                 >
                                                   <img
                                                     src={logout}
                                                     className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
                                                   />
-                                                  <span className="text-sm font-medium font-gilroy">
-                                                    Generate
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Check-Out
                                                   </span>
                                                 </div>
-                                              </>
-                                            )}
+                                              )}
 
-                                          {user.bedId &&
-                                            user.currentStatus ===
-                                              "Settlement Generated" && (
-                                              <div
-                                                onClick={() =>
-                                                  canWriteCheckout &&
-                                                  handleConformCheckout(user)
-                                                }
-                                                className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                style={{ marginLeft: 12 }}
-                                              >
-                                                <img
-                                                  src={logout}
-                                                  className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                />
-                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                  Check-Out
-                                                </span>
-                                              </div>
-                                            )}
-
-                                          {user.currentStatus === "Booked" && (
-                                            <>
-                                              <div
-                                                onClick={() =>
-                                                  canWriteTenant &&
-                                                  handleBookingAssign(user)
-                                                }
-                                                className={`flex items-center gap-2  px-3 py-2 transition
+                                              {user.status === "Booked" && (
+                                                <>
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleBookingAssign(user)
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={addcircle}
-                                                  className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                />
-                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                  Check-In
-                                                </span>
-                                              </div>
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Check-In
+                                                    </span>
+                                                  </div>
 
-                                              <div
-                                                onClick={() =>
-                                                  canWriteBooking &&
-                                                  handleInActive(user)
-                                                }
-                                                className={`flex items-center gap-2  px-3 py-2 transition
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteBooking &&
+                                                      handleInActive(user)
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                              >
-                                                <img
-                                                  src={Addbook}
-                                                  className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                                />
-                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                  Make as Inactive
-                                                </span>
-                                              </div>
-                                            </>
-                                          )}
-                                        </div>
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Make as Inactive
+                                                    </span>
+                                                  </div>
+                                                </>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
                                       </div>
-                                    )}
-                                  </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={selectedColumns?.length + 2}
+                                  className="py-10 text-center text-sm text-red-800 font-semibold"
+                                >
+                                  No Data Found
                                 </td>
                               </tr>
-                            ))}
+                            )}
                           </tbody>
                         </table>
+
                         {open && (
                           <>
                             <div
@@ -3263,88 +3142,106 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
                             >
-                              <div className="p-3 border-b">
-                                <div className="flex items-center gap-2 justify-between mb-2">
-                                  <div className="text-[16px] text-[#333333] font-semibold ">
-                                    Customize Tabs{" "}
+                              <div className="relative">
+                                {customizeLoading && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                                    <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
                                   </div>
-                                  <div
-                                    onClick={() => {
-                                      const allSelected = customizeItems.every(
-                                        (i) => i.checked,
-                                      );
+                                )}
+                                <div className="p-3 border-b ">
+                                  <div className="flex items-center gap-2 justify-between mb-2">
+                                    <div className="text-[16px] text-[#333333] font-semibold ">
+                                      Customize Tabs{" "}
+                                    </div>
+                                    <div
+                                      onClick={() => {
+                                        setCustomizeItems((prev = []) =>
+                                          prev.map((i) => ({
+                                            ...i,
+                                            selected: !allSelected,
+                                          })),
+                                        );
+                                      }}
+                                      className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                    >
+                                      {" "}
+                                      <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                      <span>
+                                        {allSelected
+                                          ? "Unselect all"
+                                          : "Select all"}
+                                      </span>
+                                    </div>
+                                  </div>
 
-                                      setCustomizeItems((prev) =>
-                                        prev.map((i) => ({
-                                          ...i,
-                                          checked: !allSelected,
-                                        })),
-                                      );
-                                    }}
-                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                                  >
-                                    {" "}
-                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                    <span>
-                                      {allSelected
-                                        ? "Unselect all"
-                                        : "Select all"}
-                                    </span>
+                                  <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                    <SearchNormal1 size={16} color="#98A2B3" />
+                                    <input
+                                      value={searchText}
+                                      onChange={(e) =>
+                                        setSearchText(e.target.value)
+                                      }
+                                      placeholder="Search"
+                                      className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                    />
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                                  <SearchNormal1 size={16} color="#98A2B3" />
-                                  <input
-                                    placeholder="Search"
-                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                                  />
-                                </div>
-                              </div>
+                                <DndContext
+                                  collisionDetection={closestCenter}
+                                  onDragEnd={(event) => {
+                                    const { active, over } = event;
+                                    if (!over) return;
+                                    if (active.id !== over?.id) {
+                                      const oldIndex = customizeItems.findIndex(
+                                        (i) => i.key === active.id,
+                                      );
+                                      const newIndex = customizeItems.findIndex(
+                                        (i) => i.key === over.id,
+                                      );
 
-                              <DndContext
-                                collisionDetection={closestCenter}
-                                onDragEnd={(event) => {
-                                  const { active, over } = event;
-
-                                  if (active.id !== over?.id) {
-                                    const oldIndex = customizeItems.findIndex(
-                                      (i) => i.key === active.id,
-                                    );
-                                    const newIndex = customizeItems.findIndex(
-                                      (i) => i.key === over.id,
-                                    );
-
-                                    setCustomizeItems(
-                                      arrayMove(
-                                        customizeItems,
-                                        oldIndex,
-                                        newIndex,
-                                      ),
-                                    );
-                                  }
-                                }}
-                              >
-                                <SortableContext
-                                  items={customizeItems.map((i) => i.key)}
-                                  strategy={verticalListSortingStrategy}
+                                      setCustomizeItems(
+                                        arrayMove(
+                                          customizeItems,
+                                          oldIndex,
+                                          newIndex,
+                                        ),
+                                      );
+                                    }
+                                  }}
                                 >
-                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                    {customizeItems?.map((item) => (
-                                      <SortableItem
-                                        key={item.key}
-                                        item={item}
-                                      />
-                                    ))}
-                                  </div>
-                                </SortableContext>
-                              </DndContext>
-
+                                  <SortableContext
+                                    items={customizeItems.map((i) => i.key)}
+                                    strategy={verticalListSortingStrategy}
+                                  >
+                                    <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                      {filteredCustomizeItems.length === 0 ? (
+                                        <div className="text-sm text-gray-400 text-center py-3">
+                                          No results found
+                                        </div>
+                                      ) : (
+                                        filteredCustomizeItems.map((item) => (
+                                          <SortableItem
+                                            key={item.key}
+                                            item={item}
+                                          />
+                                        ))
+                                      )}
+                                    </div>
+                                  </SortableContext>
+                                </DndContext>
+                              </div>
                               <div className="p-3 border-t flex gap-2">
-                                <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                                <button
+                                  onClick={handleResetCustomize}
+                                  className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                                >
                                   Reset
                                 </button>
-                                <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                                <button
+                                  onClick={handleSave}
+                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                                >
                                   Save
                                 </button>
                               </div>
@@ -3352,6 +3249,16 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                           </>
                         )}
                       </div>
+                      {formattedData?.length > 0 && (
+                        <ApiPagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          totalRecords={totalRecords}
+                          onPageChange={handlePageChange}
+                          onSizeChange={handleSizeChange}
+                          isTenantPagination={true}
+                        />
+                      )}
                     </div>
                   </div>
                 )}
@@ -3380,7 +3287,7 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                 id={props.id}
                 uniqueostel_Id={uniqueostel_Id}
                 setUniqostel_Id={setUniqostel_Id}
-                filteredUsers={filteredUsers}
+                // filteredUsers={filteredUsers}
                 filterInput={filterInput}
                 setAddCheckoutForm={setAddCheckoutForm}
                 checkoutaddform={checkoutaddform}
@@ -3399,7 +3306,7 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
                 // customerWalkInAddPermission={customerWalkInAddPermission}
                 uniqueostel_Id={uniqueostel_Id}
                 setUniqostel_Id={setUniqostel_Id}
-                filteredUsers={filteredUsers}
+                // filteredUsers={filteredUsers}
                 filterInput={filterInput}
                 search={search}
                 walkinDateRange={walkinDateRange}
@@ -3411,6 +3318,30 @@ hover:!bg-gray-50 group-hover:!bg-gray-50 will-change-transform`}
           </div>
         </div>
       )}
+
+      {isFilterOpen && (
+        <TenantListFilter
+          show={isFilterOpen}
+          handleClose={handleCloseFilter}
+          size={size}
+          page={page}
+        />
+      )}
+      <CheckOutForm
+        show={checkoutForm}
+        handleClose={checkoutcloseModal}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
+        setAddCheckoutForm={setAddCheckoutForm}
+        checkoutaddform={checkoutaddform}
+      />
+
+      <UserlistWalkinForm
+        show={walkInForm}
+        handleClose={walkinFormcloseModal}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
+      />
 
       <Modal
         show={deleteShow}

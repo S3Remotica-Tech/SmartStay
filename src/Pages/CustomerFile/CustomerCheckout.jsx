@@ -1,48 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, ModalBody } from "react-bootstrap";
 // import { MdError } from "react-icons/md";
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function CustomerCheckout(props) {
-
-
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [requestDate, setRequestDate] = useState(null);
   const [dateDifference, setDateDifference] = useState(null);
-  const [comments, setComments] = useState('');
-  const [checkoUtDateError, setCheckOutDateError] = useState('')
-  const [joiningError, setJoiningError] = useState('')
-  const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
+  const [comments, setComments] = useState("");
+  const [checkoUtDateError, setCheckOutDateError] = useState("");
+  const [joiningError, setJoiningError] = useState("");
+  const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   // const [lastDate, setLastDate] = useState("");
-  const [joiningdate, setJoiningDate] = useState("")
-
-
-
-
-
-
-
-
+  const [joiningdate, setJoiningDate] = useState("");
 
   // useEffect(() => {
   //   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
   //     const customerData = state.UsersList.customerdetails?.data?.[0]
   //     const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
-
 
   //     if (customerData?.joining_Date) {
   //       const joining = new Date(customerData.joining_Date);
@@ -54,7 +43,6 @@ function CustomerCheckout(props) {
   //       setJoiningDate("");
   //     }
 
-
   //     // if (invoiceDetails && invoiceDetails.length > 0) {
   //     //   const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
   //     //   if (dates.length > 0) {
@@ -62,7 +50,7 @@ function CustomerCheckout(props) {
   //     //     const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
   //     //       maxDate.getMonth() + 1
   //     //     ).padStart(2, "0")}-${maxDate.getFullYear()}`;
-  //     //   // setLastDate(formatted);  
+  //     //   // setLastDate(formatted);
   //     //   } else {
   //     //     // setLastDate("");
   //     //   }
@@ -76,60 +64,53 @@ function CustomerCheckout(props) {
   //   }
   // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
-
-
   useEffect(() => {
-    if (props.bedData.actualJoining || props.bedData.currentTenantInfo?.[0].joiningDate) {
-      setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantInfo?.[0].joiningDate)
+    if (
+      props.bedData.actualJoining ||
+      props.bedData.currentTenantInfo?.[0].joiningDate
+    ) {
+      setJoiningDate(
+        props.bedData.actualJoining ||
+          props.bedData.currentTenantInfo?.[0].joiningDate,
+      );
     }
-
-  }, [props.bedData.actualJoining, props.bedData.currentTenantInfo])
-
-
-
+  }, [props.bedData.actualJoining, props.bedData.currentTenantInfo]);
 
   const handleCloseCheckout = () => {
-    dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
-    props.setCustomerCheckoutpage(false)
-  }
+    dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+    props.setCustomerCheckoutpage(false);
+  };
 
   const handleCommentsChange = (event) => {
     setComments(event.target.value);
   };
 
-
-
   const calculateDateDifference = (checkoutDate, reqDate) => {
     if (checkoutDate && reqDate) {
       const diffInMs = checkoutDate - reqDate;
-      const diffInDays = Math.ceil(Math.abs(diffInMs) / (1000 * 60 * 60 * 24)) + 1;
+      const diffInDays =
+        Math.ceil(Math.abs(diffInMs) / (1000 * 60 * 60 * 24)) + 1;
       setDateDifference(diffInDays);
     } else {
       setDateDifference(null);
     }
   };
 
-
-
   const handleCheckOutCustomer = () => {
-
-
-
-    dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
+    dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
 
     if (!selectedDate || !requestDate) {
       if (!selectedDate) {
-        setCheckOutDateError('Please Select Check-Out Date');
+        setCheckOutDateError("Please Select Check-Out Date");
       }
       if (!requestDate) {
-        setCheckOutRequestDateError('Please Select Request Date');
+        setCheckOutRequestDateError("Please Select Request Date");
       }
       return;
     }
 
-
     if (dayjs(selectedDate).isBefore(dayjs(requestDate))) {
-      setCheckOutDateError('Before Request Date not allowed');
+      setCheckOutDateError("Before Request Date not allowed");
       return;
     }
 
@@ -140,65 +121,68 @@ function CustomerCheckout(props) {
     const formattedrequestDate = dayjs(requestDate).isValid()
       ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
-    const customerId = props.bedData?.currentTenantInfo?.[0].tenetId || props.bedData?.customerId;
-    if (customerId && formattedDate && formattedrequestDate) {
+    const customerId =
+      props.bedData?.currentTenantInfo?.[0].tenetId ||
+      props.bedData?.customerId ||
+      props.bedData?.apiCall?.customerId;
 
+    if (customerId && formattedDate && formattedrequestDate) {
       dispatch({
-        type: 'ADDCHECKOUTCUSTOMER',
+        type: "ADDCHECKOUTCUSTOMER",
         payload: {
           customerId: customerId,
           hostelId: props.bedData?.hostelId || state.login.selectedHostel_Id,
           requestDate: formattedrequestDate,
           checkoutDate: formattedDate,
-          reason: comments
-        }
+          reason: comments,
+        },
       });
-
-
-
-
 
       setFormLoading(true);
     }
   };
 
-
   useEffect(() => {
     if (state.UsersList.errorMessageAddCheckOut) {
-
-      setFormLoading(false)
+      setFormLoading(false);
     }
-  }, [state.UsersList.errorMessageAddCheckOut])
+  }, [state.UsersList.errorMessageAddCheckOut]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
+  }, [state.createAccount?.networkError]);
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
-      handleCloseCheckout()
+      handleCloseCheckout();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 1000);
     }
-  }, [state.UsersList.addCheckoutCustomerStatusCode])
-
+  }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
     }
+  }, [state.UsersList?.accessRestrictionError]);
 
-  }, [state.UsersList?.accessRestrictionError])
+  console.log("props.bedData", props.bedData);
+
+  const tenant = props.bedData?.currentTenantInfo?.[0] || props.bedData;
+
+  const profilePic = tenant?.profilePic;
+  const isImage =
+    typeof profilePic === "string" &&
+    (profilePic.startsWith("http") || profilePic.startsWith("blob:"));
 
   return (
     <>
@@ -208,12 +192,11 @@ function CustomerCheckout(props) {
           onHide={handleCloseCheckout}
           backdrop="static"
           centered
-
         >
           <Modal.Dialog className="m-0 p-0 pr-2.5 rounded-full">
             <Modal.Header className="relative">
               <div className="flex flex-col">
-                <div className="text-xl font-gilroy font-semibold" >
+                <div className="text-xl font-gilroy font-semibold">
                   Move to Notice Period
                 </div>
                 {dateDifference !== null && (
@@ -222,11 +205,14 @@ function CustomerCheckout(props) {
                       Notice Days* : {dateDifference}
                     </p>
                   </div>
-
                 )}
               </div>
-              <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
-                className="cursor-pointer" />
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleCloseCheckout}
+                className="cursor-pointer"
+              />
             </Modal.Header>
 
             <Modal.Body className="-mt-1 relative">
@@ -239,20 +225,9 @@ function CustomerCheckout(props) {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <div className="relative h-16 w-16">
-                    {props?.bedData &&
-                      ((props.bedData?.currentTenantInfo?.[0]?.profilePic?.trim()) ||
-                        (props.bedData?.profilePic?.trim())) ? (
+                    {isImage ? (
                       <Image
-                        src={
-                          props.bedData.currentTenantInfo?.[0].profilePic &&
-                            props.bedData.currentTenantInfo?.[0].profilePic !== ""
-                            ? typeof props.bedData.currentTenantInfo?.[0].profilePic === "string"
-                              ? props.bedData.currentTenantInfo?.[0].profilePic
-                              : URL.createObjectURL(props.bedData.currentTenantInfo?.[0].profilePic)
-                            : typeof props.bedData.profilePic === "string"
-                              ? props.bedData.profilePic
-                              : URL.createObjectURL(props.bedData.profilePic)
-                        }
+                        src={profilePic}
                         alt="Profile"
                         className="h-16 w-16 rounded-full"
                         onError={(e) => {
@@ -262,8 +237,9 @@ function CustomerCheckout(props) {
                       />
                     ) : (
                       <div className="h-16 w-16 rounded-full bg-gray-200 text-gray-700 flex justify-center items-center text-xl font-semibold">
-                        {props.bedData?.initials ||
-                          props.bedData?.currentTenantInfo?.[0].tenantInitials ||
+                        {profilePic ||
+                          tenant?.tenantInitials ||
+                          tenant?.fullName?.[0] ||
                           "-"}
                       </div>
                     )}
@@ -277,7 +253,8 @@ function CustomerCheckout(props) {
 
                     <div className="flex flex-wrap gap-2 mt-1">
                       <div className="flex items-center bg-yellow-100 py-1 px-3.5 rounded-full text-xs text-gray-900 font-medium whitespace-nowrap font-gilroy">
-                        {state.UsersList.customerdetails?.data?.[0].floor_name ||
+                        {state.UsersList.customerdetails?.data?.[0]
+                          .floor_name ||
                           props.bedData?.floorName ||
                           props.bedData?.hostelInfo?.floorName}
                       </div>
@@ -296,10 +273,10 @@ function CustomerCheckout(props) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
                   <div>
                     <label className="text-sm font-medium text-gray-900 font-gilroy">
-                      Request Date <span className="text-red-500 text-xl">*</span>
+                      Request Date{" "}
+                      <span className="text-red-500 text-xl">*</span>
                     </label>
                     <div className="relative w-full mt-1">
                       <DatePicker
@@ -309,30 +286,47 @@ function CustomerCheckout(props) {
                         value={requestDate ? dayjs(requestDate) : null}
                         onChange={(date) => {
                           setCheckOutRequestDateError("");
-                          dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+                          dispatch({
+                            type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR",
+                          });
                           setRequestDate(date ? date.toDate() : null);
                           calculateDateDifference(selectedDate, date);
                         }}
                         getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000, top: '10px', left: '640px' }}
+                        popupStyle={{
+                          zIndex: 2000,
+                          top: "10px",
+                          left: "640px",
+                        }}
                         placement="topLeft"
                         disabledDate={(current) => {
                           if (!current) return false;
-                          const joining = joiningdate ? dayjs(joiningdate, "DD/MM/YYYY") : null;
-                          if (joining && current.isBefore(joining.startOf("day"))) return true;
-                          if (current.isAfter(dayjs().endOf("day"))) return true;
+                          const joining = joiningdate
+                            ? dayjs(joiningdate, "DD/MM/YYYY")
+                            : null;
+                          if (
+                            joining &&
+                            current.isBefore(joining.startOf("day"))
+                          )
+                            return true;
+                          if (current.isAfter(dayjs().endOf("day")))
+                            return true;
                           return false;
                         }}
                       />
                     </div>
                     {checkoUtrequestDateError && (
-                      <ErrorMessage message={checkoUtrequestDateError} type="error" />
+                      <ErrorMessage
+                        message={checkoUtrequestDateError}
+                        type="error"
+                      />
                     )}
                   </div>
 
                   <div>
                     <label className="text-sm font-medium text-gray-900 font-gilroy">
-                      Check-Out Date <span className="text-red-500 text-xl">*</span>
+                      Check-Out Date{" "}
+                      <span className="text-red-500 text-xl">*</span>
                     </label>
                     <div className="relative w-full mt-1">
                       <DatePicker
@@ -345,19 +339,32 @@ function CustomerCheckout(props) {
                           calculateDateDifference(date, requestDate);
                           setCheckOutDateError("");
                           setJoiningError("");
-                          dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+                          dispatch({
+                            type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR",
+                          });
                         }}
                         disabledDate={(current) => {
                           if (!requestDate) return true;
-                          return current && current.isBefore(dayjs(requestDate), "day");
+                          return (
+                            current &&
+                            current.isBefore(dayjs(requestDate), "day")
+                          );
                         }}
                         getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000, top: '10px', left: '435px' }}
+                        popupStyle={{
+                          zIndex: 2000,
+                          top: "10px",
+                          left: "435px",
+                        }}
                         placement="topLeft"
                       />
                     </div>
-                    {checkoUtDateError && <ErrorMessage message={checkoUtDateError} type="error" />}
-                    {joiningError && <ErrorMessage message={joiningError} type="error" />}
+                    {checkoUtDateError && (
+                      <ErrorMessage message={checkoUtDateError} type="error" />
+                    )}
+                    {joiningError && (
+                      <ErrorMessage message={joiningError} type="error" />
+                    )}
                   </div>
                 </div>
 
@@ -376,8 +383,11 @@ function CustomerCheckout(props) {
                     onChange={handleCommentsChange}
                     placeholder="Enter Comments"
                     required
-                    className={`mt-2 w-full h-12 px-3 rounded-md text-base font-medium font-gilroy border ${comments ? "border-gray-700 text-gray-900" : "border-gray-300 text-gray-500"
-                      } focus:outline-none`}
+                    className={`mt-2 w-full h-12 px-3 rounded-md text-base font-medium font-gilroy border ${
+                      comments
+                        ? "border-gray-700 text-gray-900"
+                        : "border-gray-300 text-gray-500"
+                    } focus:outline-none`}
                   />
                 </div>
 
@@ -405,13 +415,11 @@ function CustomerCheckout(props) {
                 )}
               </div>
             </Modal.Body>
-
-
           </Modal.Dialog>
         </Modal>
       </div>
     </>
-  )
+  );
 }
 
 CustomerCheckout.propTypes = {
@@ -444,7 +452,7 @@ CustomerCheckout.propTypes = {
         profilePic: PropTypes.string,
         tenantInitials: PropTypes.string,
         tenantFullName: PropTypes.string,
-      })
+      }),
     ),
 
     room: PropTypes.shape({
@@ -457,7 +465,6 @@ CustomerCheckout.propTypes = {
       bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
   }).isRequired,
-
 };
 
-export default CustomerCheckout
+export default CustomerCheckout;

@@ -1,4 +1,3 @@
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
@@ -14,12 +13,9 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { CloseCircle } from "iconsax-react";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 dayjs.extend(customParseFormat);
-import ErrorMessage from '../../Components/ErrorMessage'
-
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function CustomerReAssign(props) {
-
-
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -42,17 +38,16 @@ function CustomerReAssign(props) {
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const [availableBed, setAvailableBed] = useState('')
+  const [availableBed, setAvailableBed] = useState("");
   // const [bedWarning, setBedWarning] = useState('')
 
-  console.log("props", props)
+  console.log("props", props);
   const rentRef = useRef(null);
   const floorRef = useRef(null);
   const roomRef = useRef(null);
   const BedRef = useRef(null);
   const selectedDateRef = useRef(null);
   const focusedRef = useRef(false);
-
 
   const handleCloseReAssign = () => {
     props.setCustomerReAssign(false);
@@ -68,11 +63,9 @@ function CustomerReAssign(props) {
     setNewRoomRent("");
     setSelectedDate("");
 
-    setUserId("")
-    dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
-
+    setUserId("");
+    dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
   };
-
 
   // const handleFloor = (selectedOption) => {
   //   setNewFloor(selectedOption?.value || "");
@@ -99,52 +92,46 @@ function CustomerReAssign(props) {
     setNewRoomRent("");
   };
 
-
-
-
   useEffect(() => {
     if (newFloor && newRoom) {
       const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter(
-        (view) => view.roomId === newRoom
+        (view) => view.roomId === newRoom,
       );
       setAvailableBed(filteredBed);
     }
   }, [newFloor, newRoom, state.UsersList?.availableBedList]);
 
-
-  // view.floorId === newFloor && 
+  // view.floorId === newFloor &&
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-
+      dispatch({
+        type: "ALLFLOORLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
     }
   }, []);
 
   useEffect(() => {
     if (newFloor) {
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: newFloor } })
+      dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: newFloor } });
     }
   }, [newFloor]);
-
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
-      }, 100)
+        dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
+      }, 100);
     }
-
-  }, [state?.PgList?.getAllRoomSuccessStatus])
+  }, [state?.PgList?.getAllRoomSuccessStatus]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
-      }, 500)
+        dispatch({ type: "REMOVE_ALL_FLOOR_LIST" });
+      }, 500);
     }
-
-  }, [state.UsersList.floorListStatusCode])
-
+  }, [state.UsersList.floorListStatusCode]);
 
   const roomOptions =
     state.PgList?.roomsList?.map((item) => ({
@@ -158,9 +145,7 @@ function CustomerReAssign(props) {
             width: "100%",
           }}
         >
-          <span style={{ fontWeight: 600 }}>
-            {item.name}
-          </span>
+          <span style={{ fontWeight: 600 }}>{item.name}</span>
 
           <span
             style={{
@@ -178,19 +163,6 @@ function CustomerReAssign(props) {
         </div>
       ),
     })) || [];
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // const handleRooms = (selectedOption) => {
   //   const value = selectedOption?.value || "";
@@ -218,32 +190,29 @@ function CustomerReAssign(props) {
 
   //     }, [Rooms, selectedDate,  state.UsersList?.availableBedList?.listBeds])
 
-
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
-    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     // setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
 
     const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
-      (bed) => String(bed.bedId) === String(selectedBedId)
+      (bed) => String(bed.bedId) === String(selectedBedId),
     );
 
-
     if (selectedBed) {
-      setNewRoomRent(selectedBed.rentAmount)
+      setNewRoomRent(selectedBed.rentAmount);
       // if (selectedBed.showWarning) {
       //   setBedWarning(selectedBed.warningMessage);
       // } else {
       //   setBedWarning("");
       // }
-
     }
 
     setBedError("");
     setRentError("");
-  }
+  };
 
   // const handleBed = (selectedOption) => {
   //   const selectedBedId = selectedOption?.value || "";
@@ -261,9 +230,6 @@ function CustomerReAssign(props) {
   //       (amount) => String(amount.id) === String(selectedBedId)
   //     ) ?? [];
 
-
-
-
   //   if (Roomamountfilter.length > 0) {
   //     setNewRoomRent(Roomamountfilter[0]?.bed_amount);
   //   }
@@ -272,7 +238,6 @@ function CustomerReAssign(props) {
   //   setRentError("");
 
   // };
-
 
   const handleNewRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -284,15 +249,13 @@ function CustomerReAssign(props) {
     setRentError("");
   };
 
-
   const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
     const isValueEmpty =
-      (typeof value === "string" && (
-        value.trim() === "" ||
-        value === "Selected Room" ||
-        value === "Selected Floor" ||
-        value === "Selected Bed"
-      )) ||
+      (typeof value === "string" &&
+        (value.trim() === "" ||
+          value === "Selected Room" ||
+          value === "Selected Floor" ||
+          value === "Selected Bed")) ||
       value === undefined ||
       value === null ||
       value === "0";
@@ -331,17 +294,8 @@ function CustomerReAssign(props) {
   };
 
   const [lastDate, setLastDate] = useState("");
-  const [joiningdate, setJoiningDate] = useState("")
-  const [reAssignDate, setReAssignDate] = useState("")
-
-
-
-
-
-  useEffect(() => {
-    dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.id } });
-  }, [props]);
-
+  const [joiningdate, setJoiningDate] = useState("");
+  const [reAssignDate, setReAssignDate] = useState("");
 
   useEffect(() => {
     if (selectedDate) {
@@ -355,79 +309,68 @@ function CustomerReAssign(props) {
       };
 
       const joiningDateForFormatted = formatDate(selectedDate);
-      dispatch({ type: 'AVAILBALEBEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted } })
+      dispatch({
+        type: "AVAILBALEBEDDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          joiningDate: joiningDateForFormatted,
+        },
+      });
     }
-
-  }, [selectedDate])
-
-
-  // useEffect(() => {
-  //   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-  //     const customerData = state.UsersList.customerdetails?.data?.[0]; 
-  //     const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
-
-
-  //     if (customerData?.joining_Date) {
-  //       const joining = new Date(customerData.joining_Date);
-  //       const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
-  //         joining.getMonth() + 1
-  //       ).padStart(2, "0")}-${joining.getFullYear()}`;
-  //       setJoiningDate(formattedJoining);
-  //     } else {
-  //       setJoiningDate("");
-  //     }
-
-  //      if (customerData?.reassign_date) {
-  //       const rejoining = new Date(customerData.reassign_date);
-  //       const formattedJoining = `${String(rejoining.getDate()).padStart(2, "0")}-${String(
-  //         rejoining.getMonth() + 1
-  //       ).padStart(2, "0")}-${rejoining.getFullYear()}`;
-  //       setReAssignDate(formattedJoining);
-  //     } else {
-  //       setReAssignDate("");
-  //     }
-
-
-  //     if (invoiceDetails && invoiceDetails.length > 0) {
-  //       const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
-  //       if (dates.length > 0) {
-  //         const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
-  //         const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
-  //           maxDate.getMonth() + 1
-  //         ).padStart(2, "0")}-${maxDate.getFullYear()}`;
-  //         setLastDate(formatted);
-  //       } else {
-  //         setLastDate("");
-  //       }
-  //     } else {
-  //       setLastDate("");
-  //     }
-
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-  //     }, 1000);
-  //   }
-  // }, [state.UsersList.CustomerdetailsgetStatuscode]);
-
-
+  }, [selectedDate]);
 
   const handleSaveReassignBed = () => {
+    dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     focusedRef.current = false;
     let hasError = false;
 
-    if (!validateAssignField(newRoomRent, "newRoomRent", rentRef, focusedRef, setRentError)) hasError = true;
-    if (!validateAssignField(newFloor, "newFloor", floorRef, focusedRef, setfloorError)) hasError = true;
-    if (!validateAssignField(newRoom, "newRoom", roomRef, focusedRef, setRoomError)) hasError = true;
-    if (!validateAssignField(newBed, "newBed", BedRef, focusedRef, setBedError)) hasError = true;
-    if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
-
+    if (
+      !validateAssignField(
+        newRoomRent,
+        "newRoomRent",
+        rentRef,
+        focusedRef,
+        setRentError,
+      )
+    )
+      hasError = true;
+    if (
+      !validateAssignField(
+        newFloor,
+        "newFloor",
+        floorRef,
+        focusedRef,
+        setfloorError,
+      )
+    )
+      hasError = true;
+    if (
+      !validateAssignField(
+        newRoom,
+        "newRoom",
+        roomRef,
+        focusedRef,
+        setRoomError,
+      )
+    )
+      hasError = true;
+    if (!validateAssignField(newBed, "newBed", BedRef, focusedRef, setBedError))
+      hasError = true;
+    if (
+      !validateAssignField(
+        selectedDate,
+        "selectedDate",
+        selectedDateRef,
+        focusedRef,
+        setDateError,
+      )
+    )
+      hasError = true;
 
     if (newRoom === "Selected Room") {
       setRoomError("Please Select a Valid Room");
       hasError = true;
     }
-
 
     if (!newBed || newBed === "") {
       setBedError("Please Select New Bed");
@@ -440,25 +383,22 @@ function CustomerReAssign(props) {
       hasError = true;
     }
 
-
     if (hasError) return;
-
-
 
     const formatToCustomDate = (date) => {
       const d = new Date(date);
       const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      return `${dd}-${mm}-${yyyy}`
-    }
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${dd}-${mm}-${yyyy}`;
+    };
     const formattedDate = selectedDate ? formatToCustomDate(selectedDate) : "";
 
     const datum = {
       bedId: newBed,
       rentAmount: parseFloat(newRoomRent) || 0,
       joiningDate: formattedDate,
-    }
+    };
 
     if (userId && state.login.selectedHostel_Id && datum) {
       dispatch({
@@ -471,109 +411,41 @@ function CustomerReAssign(props) {
       });
     }
 
-
-    setFormLoading(true)
+    setFormLoading(true);
   };
-
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
-  //   }
-
-  // }, [userId])
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "HOSTELDETAILLIST",
-  //     payload: { hostel_Id: state.login.selectedHostel_Id },
-  //   });
-  // }, [currentHostel_id]);
-
-  // useEffect(() => {
-  //   if (currentHostel_id && newFloor) {
-  //     dispatch({
-  //       type: "ROOMDETAILS",
-  //       payload: {
-  //         hostel_Id: state.login.selectedHostel_Id,
-  //         floor_Id: newFloor,
-  //       },
-  //     });
-  //   }
-  // }, [newFloor]);
-
+  }, [state.createAccount?.networkError]);
 
   useEffect(() => {
     if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
-      }, 500)
+        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      }, 500);
     }
-
-  }, [state.UsersList.CustomerdetailsgetStatuscode])
-
-
-
+  }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
   // const [currentFloorId, setCurrentFloorId] = useState("")
+
+  const [customerName, setCustomerName] = useState("");
+  const [customerProfile, setCustomerProfile] = useState("");
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (props.reAssignDetail?.apiCall?.customerId) {
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: props.reAssignDetail?.apiCall?.customerId },
       });
     }
+  }, [props.reAssignDetail?.apiCall?.customerId]);
 
-  }, [state.login.selectedHostel_Id])
-  const [customerName, setCustomerName] = useState("")
-  const [customerProfile, setCustomerProfile] = useState("")
-
-  const userDetails = state?.UsersList?.Users?.listCustomers?.find(
-    (user) => String(user.customerId) === String(props.customerId)
-  );
-
-
-
-
-
-  //   useEffect(()=>{
-  // if(state.UsersList?.CustomerdetailsgetStatuscode === 200){
-  // setTimeout(() => {
-  //         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-  //       }, 500);
-
-  // }
-  //   },[state.UsersList?.CustomerdetailsgetStatuscode])
-
-  // useEffect(()=> {
-  //    if(state.UsersList.CustomerdetailsgetStatuscode === 200){
-  // setCurrentFloor(state.UsersList?.customerdetails?.hostelInfo?.floorName);
-  // setCustomerName(state.UsersList?.customerdetails?.fullName)
-  // setCurrentRoom(state.UsersList?.customerdetails?.hostelInfo?.roomName);
-  // setCurrentBed(state.UsersList?.customerdetails?.hostelInfo?.bedName);
-  // setCurrentRoomRent(state.UsersList?.customerdetails?.hostelInfo?.monthlyRent);
-  // setUserId(state.UsersList?.customerdetails?.customerId);
-  // setCurrentBedId(state.UsersList?.customerdetails?.hostelInfo?.bedId);
-  // setCurrentRoomId(state.UsersList?.customerdetails?.hostelInfo?.roomId);
-  // setCurrentFloorId(state.UsersList?.customerdetails?.hostelInfo?.floorId)
-  // setCustomerProfile(state.UsersList?.customerdetails?.profilePic)
-  //    }
-
-  //    setTimeout(() => {
-  //   dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-  // }, 500);
-  // },[state.UsersList?.CustomerdetailsgetStatuscode])
-
+  console.log("props", props);
 
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
@@ -583,8 +455,6 @@ function CustomerReAssign(props) {
       const hostelInfo = customerData.hostelInfo || {};
       const invoiceList = customerData.invoiceResponseList || [];
       const bedHistory = customerData.bedHistory || [];
-
-      console.log("hostelInfo", hostelInfo)
 
       setCurrentFloor(hostelInfo.floorName || "");
       setCustomerName(customerData.fullName || "");
@@ -604,8 +474,12 @@ function CustomerReAssign(props) {
         setJoiningDate("");
       }
 
-      if (bedHistory.length > 0 && bedHistory[bedHistory.length - 1].startDate) {
-        const [dd, mm, yyyy] = bedHistory[bedHistory.length - 1].startDate.split("/");
+      if (
+        bedHistory.length > 0 &&
+        bedHistory[bedHistory.length - 1].startDate
+      ) {
+        const [dd, mm, yyyy] =
+          bedHistory[bedHistory.length - 1].startDate.split("/");
         setReAssignDate(`${dd}-${mm}-${yyyy}`);
       } else {
         setReAssignDate("");
@@ -623,7 +497,7 @@ function CustomerReAssign(props) {
         if (validDates.length > 0) {
           const maxDate = new Date(Math.max(...validDates));
           const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
-            maxDate.getMonth() + 1
+            maxDate.getMonth() + 1,
           ).padStart(2, "0")}-${maxDate.getFullYear()}`;
           setLastDate(formatted);
         } else {
@@ -639,52 +513,9 @@ function CustomerReAssign(props) {
     }
   }, [state.UsersList?.CustomerdetailsgetStatuscode]);
 
-
-
-
-  // useEffect(() => {
-  //   if (props.reAssignDetail) {
-
-  //     setCurrentFloor(props.reAssignDetail?.floor_name);
-  //     setCustomerName(props.reAssignDetail?.Name)
-  //     setCurrentRoom(props.reAssignDetail.Rooms);
-  //     setCurrentBed(props.reAssignDetail.Bed);
-  //     setCurrentRoomRent(props.reAssignDetail.RoomRent);
-  //     setCurrentHostel_Id(state.login.selectedHostel_Id);
-  //     setUserId(props.reAssignDetail.ID);
-  //     setCurrentBedId(props.reAssignDetail.hstl_Bed);
-  //     setCurrentRoomId(props.reAssignDetail.room_id);
-  //     setCurrentFloorId(props.reAssignDetail.Floor)
-  //     setCustomerProfile(props.reAssignDetail.profile)
-
-  //   }
-  //   else if (props.reAssignBedDetail) {
-
-  //     setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
-  //     setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
-  //     setUserId(props.reAssignBedDetail.id);
-  //     setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
-  //     setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
-  //     setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
-  //     setCurrentBedId(props.reAssignBedDetail.bed?.id);
-  //     setCurrentFloorId(props.reAssignBedDetail.room?.Floor_Id)
-  //     const floorName =
-  //       state.UsersList?.Users?.find(
-  //         (item) => String(item.Floor) === String(props.reAssignBedDetail?.room?.Floor_Id)
-  //       )?.floor_name || "";
-  //     setCurrentFloor(floorName);
-
-
-
-  //   }
-
-
-  // }, [props.reAssignDetail, props.reAssignBedDetail]);
-
-
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleCloseReAssign();
       dispatch({
         type: "USERLIST",
@@ -697,51 +528,16 @@ function CustomerReAssign(props) {
     }
   }, [state.UsersList.statusCodeForReassinBed]);
 
-
   useEffect(() => {
     if (state.UsersList?.changeBedError) {
-      setFormLoading(false)
-
-
+      setFormLoading(false);
     }
+  }, [state.UsersList?.changeBedError]);
 
-  }, [state.UsersList?.changeBedError])
+  const tenant = state.UsersList?.customerdetails;
+  const imageSrc = tenant?.profilePic;
 
-  const getImageSrc = () => {
-    if (
-      customerProfile &&
-      typeof customerProfile === "string" &&
-      customerProfile.trim() !== ""
-    ) {
-      return customerProfile.startsWith("/9j/")
-        ? `data:image/jpeg;base64,${customerProfile}`
-        : customerProfile;
-    }
-
-    if (customerProfile && typeof customerProfile !== "string") {
-      return URL.createObjectURL(customerProfile);
-    }
-
-    if (
-      userDetails?.profile &&
-      typeof userDetails.profile === "string" &&
-      userDetails.profile.trim() !== ""
-    ) {
-      return userDetails.profile.startsWith("/9j/")
-        ? `data:image/jpeg;base64,${userDetails.profile}`
-        : userDetails.profile;
-    }
-
-    if (userDetails?.profile && typeof userDetails.profile !== "string") {
-      return URL.createObjectURL(userDetails.profile);
-    }
-
-    return null;
-  };
-
-
-
-
+  console.log("tenant", tenant);
 
   return (
     <>
@@ -758,38 +554,40 @@ function CustomerReAssign(props) {
                 Change Bed
               </div>
 
-              <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
-                className="cursor-pointer" />
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleCloseReAssign}
+                className="cursor-pointer"
+              />
             </Modal.Header>
 
             <Modal.Body className="mt-2 mr-3 pt-1 overflow-hidden">
               <div className="flex items-center">
                 <div>
-
                   <div className="w-full">
-
                     <div className="flex justify-between items-center mb-2 mt-1 ml-2">
-
                       <div className="flex items-center gap-3">
-
-                        {getImageSrc() ? (
+                        {imageSrc ? (
                           <img
-                            src={getImageSrc()}
+                            src={imageSrc}
                             alt="Profile"
                             className="w-10 h-10 rounded-full object-cover"
-                            onError={(e) => { e.target.src = Profileimage; }}
+                            onError={(e) => {
+                              e.currentTarget.src = Profileimage;
+                            }}
                           />
                         ) : (
                           <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-semibold text-base font-gilroy">
-                            {state.UsersList?.customerdetails?.initials}
+                            {tenant?.initials}
                           </div>
                         )}
                         <div>
                           <p
                             className="mb-1 font-semibold text-[15px] font-gilroy truncate max-w-[160px]"
-                            title={customerName || userDetails?.Name}
+                            title={customerName}
                           >
-                            {customerName || userDetails?.Name}
+                            {customerName}
                           </p>
 
                           <div className="flex gap-2">
@@ -802,7 +600,6 @@ function CustomerReAssign(props) {
                             </span>
                           </div>
                         </div>
-
                       </div>
 
                       <div className="mr-4 text-right">
@@ -813,7 +610,6 @@ function CustomerReAssign(props) {
                           ₹ {currentRoomRent}
                         </p>
                       </div>
-
                     </div>
                   </div>
 
@@ -822,7 +618,8 @@ function CustomerReAssign(props) {
                       <div className="mb-2">
                         <Form.Group controlId="purchaseDate">
                           <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
-                            Date <span className="text-red-500 text-[20px]">*</span>
+                            Date{" "}
+                            <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
                           <div className="relative w-full datepicker-wrapper">
                             <DatePicker
@@ -842,27 +639,42 @@ function CustomerReAssign(props) {
                                 setSelectedDate(date ? date.toDate() : null);
                               }}
                               getPopupContainer={() => document.body}
-                             
                               disabledDate={(current) => {
                                 if (!current) return false;
                                 const today = dayjs().endOf("day");
 
                                 let joining = null;
-                                if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+                                if (
+                                  joiningdate &&
+                                  /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)
+                                ) {
                                   const [dd, mm, yyyy] = joiningdate.split("-");
-                                  joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                  joining = dayjs(
+                                    `${yyyy}-${mm}-${dd}`,
+                                  ).startOf("day");
                                 }
 
                                 let lastBillDate = null;
-                                if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+                                if (
+                                  lastDate &&
+                                  /^\d{2}-\d{2}-\d{4}$/.test(lastDate)
+                                ) {
                                   const [dd, mm, yyyy] = lastDate.split("-");
-                                  lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                  lastBillDate = dayjs(
+                                    `${yyyy}-${mm}-${dd}`,
+                                  ).startOf("day");
                                 }
 
                                 let reAssign = null;
-                                if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
-                                  const [dd, mm, yyyy] = reAssignDate.split("-");
-                                  reAssign = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                if (
+                                  reAssignDate &&
+                                  /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)
+                                ) {
+                                  const [dd, mm, yyyy] =
+                                    reAssignDate.split("-");
+                                  reAssign = dayjs(
+                                    `${yyyy}-${mm}-${dd}`,
+                                  ).startOf("day");
                                 }
 
                                 let minAllowedDate = null;
@@ -885,7 +697,10 @@ function CustomerReAssign(props) {
                                   return true;
                                 }
 
-                                if (minAllowedDate && current.isBefore(minAllowedDate)) {
+                                if (
+                                  minAllowedDate &&
+                                  current.isBefore(minAllowedDate)
+                                ) {
                                   return true;
                                 }
 
@@ -893,14 +708,17 @@ function CustomerReAssign(props) {
                               }}
                             />
                           </div>
-                          {dateError && <ErrorMessage message={dateError} type="error" />}
+                          {dateError && (
+                            <ErrorMessage message={dateError} type="error" />
+                          )}
                         </Form.Group>
                       </div>
 
                       <div className="mb-2">
-                        <Form.Group >
+                        <Form.Group>
                           <Form.Label className="text-[14px] font-medium font-gilroy">
-                            New Floor <span className="text-red-500 text-[20px]">*</span>
+                            New Floor{" "}
+                            <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
                           <Select
                             isDisabled={!selectedDate}
@@ -913,13 +731,15 @@ function CustomerReAssign(props) {
                             onChange={handleFloor}
                             ref={floorRef}
                             value={
-                              state.UsersList.floorList?.find((option) => option.id === newFloor)
+                              state.UsersList.floorList?.find(
+                                (option) => option.id === newFloor,
+                              )
                                 ? {
-                                  value: newFloor,
-                                  label: state.UsersList.floorList.find(
-                                    (option) => option.id === newFloor
-                                  )?.name,
-                                }
+                                    value: newFloor,
+                                    label: state.UsersList.floorList.find(
+                                      (option) => option.id === newFloor,
+                                    )?.name,
+                                  }
                                 : null
                             }
                             placeholder="Selected Floor"
@@ -937,7 +757,10 @@ function CustomerReAssign(props) {
                                 fontWeight: newFloor ? 600 : 500,
                                 boxShadow: "none",
                               }),
-                              menu: (base) => ({ ...base, backgroundColor: "#f8f9fa" }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                              }),
                               menuList: (base) => ({
                                 ...base,
                                 backgroundColor: "#f8f9fa",
@@ -945,38 +768,56 @@ function CustomerReAssign(props) {
                                 padding: 0,
                                 overflowY: "auto",
                               }),
-                              placeholder: (base) => ({ ...base, color: "#555" }),
-                              dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer",
+                              }),
                               indicatorSeparator: () => ({ display: "none" }),
                               option: (base, state) => ({
                                 ...base,
                                 cursor: "pointer",
-                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                backgroundColor: state.isFocused
+                                  ? "#f0f0f0"
+                                  : "white",
                                 color: "#000",
+                                fontFamily: "Gilroy",
                               }),
                             }}
                           />
-                          {floorError && <ErrorMessage message={floorError} type="error" />}
+                          {floorError && (
+                            <ErrorMessage message={floorError} type="error" />
+                          )}
                         </Form.Group>
                       </div>
 
                       <div className="mb-3">
-                        <Form.Group >
+                        <Form.Group>
                           <Form.Label className="text-[14px] font-medium font-gilroy">
-                            New Room <span className="text-red-500 text-[20px]">*</span>
+                            New Room{" "}
+                            <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
                           <Select
                             options={roomOptions}
-                            onChange={(selectedOption) => handleRooms(selectedOption?.value)}
+                            onChange={(selectedOption) =>
+                              handleRooms(selectedOption?.value)
+                            }
                             ref={roomRef}
                             isDisabled={!newFloor}
                             value={
-                              state.PgList?.roomsList?.find((option) => option.id === newRoom)
+                              state.PgList?.roomsList?.find(
+                                (option) => option.id === newRoom,
+                              )
                                 ? {
-                                  value: newRoom,
-                                  label: state.PgList?.roomsList.find((option) => option.id === newRoom)
-                                    ?.name,
-                                }
+                                    value: newRoom,
+                                    label: state.PgList?.roomsList.find(
+                                      (option) => option.id === newRoom,
+                                    )?.name,
+                                  }
                                 : null
                             }
                             placeholder="Selected Room"
@@ -994,7 +835,10 @@ function CustomerReAssign(props) {
                                 fontWeight: newRoom ? 600 : 500,
                                 boxShadow: "none",
                               }),
-                              menu: (base) => ({ ...base, backgroundColor: "#f8f9fa" }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                              }),
                               menuList: (base) => ({
                                 ...base,
                                 backgroundColor: "#f8f9fa",
@@ -1002,39 +846,55 @@ function CustomerReAssign(props) {
                                 padding: 0,
                                 overflowY: "auto",
                               }),
-                              placeholder: (base) => ({ ...base, color: "#555" }),
-                              dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer",
+                              }),
                               indicatorSeparator: () => ({ display: "none" }),
                               option: (base, state) => ({
                                 ...base,
                                 cursor: "pointer",
-                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                backgroundColor: state.isFocused
+                                  ? "#f0f0f0"
+                                  : "white",
                                 color: "#000",
+                                fontFamily: "Gilroy",
                               }),
                             }}
                           />
-                          {roomError && <ErrorMessage message={roomError} type="error" />}
+                          {roomError && (
+                            <ErrorMessage message={roomError} type="error" />
+                          )}
                         </Form.Group>
                       </div>
 
                       <div className="mb-3">
-                        <Form.Group >
+                        <Form.Group>
                           <Form.Label className="text-[14px] font-medium font-gilroy">
-                            New Bed <span className="text-red-500 text-[20px]">*</span>
+                            New Bed{" "}
+                            <span className="text-red-500 text-[20px]">*</span>
                           </Form.Label>
                           <Select
                             options={
                               availableBed
                                 ? availableBed
-                                  .filter(
-                                    (item) =>
-                                      item &&
-                                      item?.bedName !== "0" &&
-                                      item?.bedName !== "undefined" &&
-                                      item?.bedName !== "" &&
-                                      item?.bedName !== "null"
-                                  )
-                                  .map((item) => ({ value: item?.bedId, label: item?.bedName }))
+                                    .filter(
+                                      (item) =>
+                                        item &&
+                                        item?.bedName !== "0" &&
+                                        item?.bedName !== "undefined" &&
+                                        item?.bedName !== "" &&
+                                        item?.bedName !== "null",
+                                    )
+                                    .map((item) => ({
+                                      value: item?.bedId,
+                                      label: item?.bedName,
+                                    }))
                                 : []
                             }
                             onChange={handleBed}
@@ -1042,9 +902,16 @@ function CustomerReAssign(props) {
                             value={
                               availableBed
                                 ? (() => {
-                                  const selected = availableBed?.find((option) => option?.bedId === newBed);
-                                  return selected ? { value: selected.bedId, label: selected.bedName } : null;
-                                })()
+                                    const selected = availableBed?.find(
+                                      (option) => option?.bedId === newBed,
+                                    );
+                                    return selected
+                                      ? {
+                                          value: selected.bedId,
+                                          label: selected.bedName,
+                                        }
+                                      : null;
+                                  })()
                                 : null
                             }
                             placeholder="Select Bed"
@@ -1061,7 +928,10 @@ function CustomerReAssign(props) {
                                 fontWeight: newBed ? 600 : 500,
                                 boxShadow: "none",
                               }),
-                              menu: (base) => ({ ...base, backgroundColor: "#f8f9fa" }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                              }),
                               menuList: (base) => ({
                                 ...base,
                                 backgroundColor: "#f8f9fa",
@@ -1069,61 +939,41 @@ function CustomerReAssign(props) {
                                 padding: 0,
                                 overflowY: "auto",
                               }),
-                              placeholder: (base) => ({ ...base, color: "#555" }),
-                              dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer",
+                              }),
                               indicatorSeparator: () => ({ display: "none" }),
                               option: (base, state) => ({
                                 ...base,
                                 cursor: "pointer",
-                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                backgroundColor: state.isFocused
+                                  ? "#f0f0f0"
+                                  : "white",
                                 color: "#000",
+                                fontFamily: "Gilroy",
                               }),
                             }}
                           />
-                          {bedError && <ErrorMessage message={bedError} type="error" />}
+                          {bedError && (
+                            <ErrorMessage message={bedError} type="error" />
+                          )}
                         </Form.Group>
                       </div>
 
-                      {/* <div>
-                        <Form.Group>
-                          <Form.Label className="flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
-                            New Rent Amount <span className="text-red-500 text-[20px] ml-1">*</span>
-                            <Form.Check
-                              type="checkbox"
-                              label={
-                                <span className="text-[#1E45E1] font-medium text-[11px] font-gilroy whitespace-nowrap">
-                                  Same as Current
-                                </span>
-                              }
-                              className="ms-3 cursor-pointer"
-                              ref={rentRef}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setNewRoomRent(currentRoomRent);
-                                  setRentError("");
-                                } else {
-                                  setNewRoomRent("");
-                                  setRentError("");
-                                }
-                              }}
-                            />
-                          </Form.Label>
-                          <FormControl
-                            onChange={(e) => handleNewRoomRent(e)}
-                            value={newRoomRent}
-                            type="text"
-                            placeholder="Enter Amount"
-                            className="mt-2 h-[50px] rounded-lg border border-[#D9D9D9] text-[16px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
-                          />
-                          {rentError && <ErrorMessage message={rentError} type="error" />}
-                        </Form.Group>
-                      </div> */}
                       <div>
                         <Form.Group>
-                      <div className="flex items-center">
+                          <div className="flex items-center">
                             <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
                               New Rent Amount
-                              <span className="text-red-500 text-[20px] ml-1">*</span>
+                              <span className="text-red-500 text-[20px] ml-1">
+                                *
+                              </span>
                             </Form.Label>
 
                             <Form.Check
@@ -1155,22 +1005,25 @@ function CustomerReAssign(props) {
                             className="mt-2 h-[48px] rounded-lg border border-[#D9D9D9] text-[15px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
                           />
 
-                          {rentError && <ErrorMessage message={rentError} type="error" />}
-
+                          {rentError && (
+                            <ErrorMessage message={rentError} type="error" />
+                          )}
                         </Form.Group>
                       </div>
                     </div>
                   </div>
-
-
                 </div>
-
               </div>
             </Modal.Body>
 
-            {state.UsersList?.changeBedError && <div className="flex justify-center mb-3">
-              <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
-            </div>}
+            {state.UsersList?.changeBedError && (
+              <div className="flex justify-center mb-3">
+                <ErrorMessage
+                  message={state.UsersList?.changeBedError}
+                  type="error"
+                />
+              </div>
+            )}
 
             {formLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -1179,8 +1032,8 @@ function CustomerReAssign(props) {
             )}
 
             <Modal.Footer className="-mt-2 border-top-0 mb-2">
-
-              <Button disabled={formLoading}
+              <Button
+                disabled={formLoading}
                 className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
                 onClick={handleSaveReassignBed}
               >
@@ -1194,13 +1047,10 @@ function CustomerReAssign(props) {
   );
 }
 
-
-
-
-
 CustomerReAssign.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  customerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  customerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   setCustomerReAssign: PropTypes.func,
   reAssignDetail: PropTypes.shape({
     user_join_date: PropTypes.string,
@@ -1233,6 +1083,5 @@ CustomerReAssign.propTypes = {
     }),
   }),
 };
-
 
 export default CustomerReAssign;

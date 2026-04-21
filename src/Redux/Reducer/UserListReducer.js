@@ -1,863 +1,1018 @@
 // import { getRoomReading } from "../Action/UserListAction";
 
 export const initialState = {
-    Users: [],
-    addUser: [],
-    errorMessage: {},
-    hostelList: [],
-    roomCount: [],
-    billPaymentHistory: [],
-    number_of_floor: '',
-    roomdetails: [],
-    message: {},
-    roomFullCheck: [],
-    beddetails: [],
-    UserListStatusCode: 0,
-    bedCount: [],
-    createFloorMessage: '',
-    statusCodeForAddUser: '',
-    errormessage: {},
-    CheckOut: [],
-    checkOutStatusCode: 0,
-    hosteListStatusCode: 0,
-    customerdetails: [],
-    amnetieshistory: [],
-    amnitiesnamelist: [],
-    addUserAmnities: '',
-    usermessage: '',
-    statusCustomerAddUser: 0,
-    CustomerdetailsgetStatuscode: 0,
-    AmentiesHistorygetStatuscode: 0,
-    bednumberdetails: [],
-    statushostelbedstatuscode: '',
-    kycValidateSendOtpSuccess: 0,
-    deleteFloorSuccessStatusCode: 0,
-    Kyc_Ref_Id: '',
-    kycValidateOtpVerifySuccess: 0,
-    createFloorSuccessStatusCode: 0,
-    editHostelStatusCode: 0,
-    noHosteListStatusCode: 0,
-    alreadyFloorHere: '',
-    deleteFloorError: '',
-    deleteRoomError: '',
-    phoneError: '',
-    emailError: '',
-    getWalkInStatusCode: 0,
-    WalkInCustomerList: [],
-    NoDataWalkInCustomer: '',
-    NoDataWalkInCustomerStatusCode: 0,
-    addWalkInCustomerStatusCode: 0,
-    alreadyHere: '',
-    deleteWalkInCustomerStatusCode: 0,
-    GetCheckOutCustomerStatusCode: 0,
-    CheckOutCustomerList: [],
-    addCheckoutCustomerStatusCode: 0,
-    deleteCheckoutCustomerStatusCode: 0,
-    errorMessageAddCheckOut: '',
-    availableCheckOutCustomerList: [],
-    exportDetails: [],
-    statusCodeForExportDetails: 0,
-    exportAssetsDetail: [],
-    statusCodeforExportAssetsCode: 0,
-    exportEbDetails: [],
-    statusCodeForExportEb: 0,
-    exportExpenceDetails: [],
-    statusCodeForExportExpence: 0,
-    exportComplianceDetails: [],
-    statusCodeForExportcompliance: 0,
-    exportBookingDetails: [],
-    statusCodeForExportBooking: 0,
-    exportWalkinDetails: [],
-    statusCodeForExportWalkin: 0,
-    exportCheckoutDetails: [],
-    statusCodeForExportCheckout: 0,
-    statusCodegetConfirmCheckout: 0,
-    GetconfirmcheckoutBillDetails: [],
-    GetconfirmcheckoutUserDetails: '',
-    statusCodeAddConfirmCheckout: 0,
-    reassignbeddetails: [],
-    statusCodeForReassinBed: 0,
-    statusCodeForCustomerCoatact: 0,
-    customerContact: [],
-    customerAllDetails: [],
-    statusCodeForCustomerAllDetails: 0,
-    deleteContact: [],
-    statusCodeDeleteContact: 0,
-    hotelDetailsinPg: [],
-    noAllHosteListStatusCode: 0,
-    statuscodeForhotelDetailsinPg: 0,
-    generateAdvance: [],
-    statusCodeForGenerateAdvance: 0,
-    statusCodeForUploadDocument: 0,
-    uploaddocu: [],
-    statusCodeForOtherDocu: 0,
-    otherUploaddocu: [],
-    adharuploadfileError: '',
-    statuscodeForAdharFileError: 0,
-    NoUserListStatusCode: 0,
-    userRoomfor: null,
-    userProfilebill: null,
-    deleteCustomerSuccessStatusCode: 0,
-    userReading: null,
-    userHostelRead: null,
-    userReadingdelete: null,
-    userHosteldelete: null,
-    isUsersListTrue: 1,
-    hostelListNewDetails: [],
-    statusCodeForhostelListNewDetails: 0,
-    generateError: '',
-    contactError: '',
-    checkoutcustomeEmpty: 0,
-    conformChekoutError: '',
-    statusCodeConformEdit: 0,
-    conformChekoutEditError: '',
-    kycverifynew: {},
-    statusCodeforverifyKYC: 0,
-    KycCustomerDetails: {},
-    statusCodeForCustomerDetails: 0,
-    kycnotadded: '',
-    KYCStatusCode: 0,
-    statusCodeForDueCustomer: 0,
-    nonRefundable_details: [],
-    UnAssignCustomerDetails: [],
-    statusCodeForUnAssignCustomer: 0,
-    StatusCodeBacktoCheckin: 0,
-    floorListStatusCode: 0,
-    floorList: [],
-    statusCodeForCheckInCustomer: 0,
-    statusCodeForAddCustomerSaveInfo: 0,
-    bedAvailableError: '',
-    Refundable_details: [],
-    Deduction: [],
-    hostelData: [],
-    checkoutprofileDetails: [],
-    StatuscodeforCheckoutProfile: 0,
-    availableBedList: [],
-    bookedDetails: [],
-    bedError: '',
-    addRoomReadingStatusCode: 0,
-    getRoomReadingList: [],
-    getRoomReadingStatus: 0,
-    roomReadingError: "",
-    bookingToCheckinStatusCode: 0,
-    initializeCancelBookingList: [],
-    getParticularRoomReadingList: [],
-    getparticularRoomReadingStatus: 0,
-    getCustomerReadingList: [],
-    getCustomerReadingStatus: 0,
-    getParticularCustomerReadingList: [],
-    getParticularCustomerReadingStatus: 0,
-    statusCodeForFinalSettlement: 0,
-    statuscodeForConformCheckout: 0,
-    chrckoutError: '',
-    finalError: '',
-    cancelCheckoutStatusCode: 0,
-    cancelCheckoutError: "",
-    editBasicSuccessStatusCode: 0,
-    changeBedError: '',
-    editAmountSuccessStatusCode: 0,
-    updateTenantError: '',
-    editAdvanceStatusCode: 0,
-    advanceError: '',
-    initializeCheckout: '',
-    initializeCancelCheckout: '',
-    finalSettlementAddRoomReadingStatusCode: 0,
-    alreadyMobileBasicError: '',
-    accessRestrictionError: '',
-    tenantDocumentUploadStatusCode: 0,
-    tenantDocumentUploadError: "",
-    tenantDocumentDeleteStatusCode: 0,
-    templatesImagesDeleteStatusCode: 0,
-    templatesGlobalImagesDeleteStatusCode: 0
-
-}
+  Users: [],
+  addUser: [],
+  errorMessage: {},
+  hostelList: [],
+  roomCount: [],
+  billPaymentHistory: [],
+  number_of_floor: "",
+  roomdetails: [],
+  message: {},
+  roomFullCheck: [],
+  beddetails: [],
+  UserListStatusCode: 0,
+  bedCount: [],
+  createFloorMessage: "",
+  statusCodeForAddUser: "",
+  errormessage: {},
+  CheckOut: [],
+  checkOutStatusCode: 0,
+  hosteListStatusCode: 0,
+  customerdetails: [],
+  amnetieshistory: [],
+  amnitiesnamelist: [],
+  addUserAmnities: "",
+  usermessage: "",
+  statusCustomerAddUser: 0,
+  CustomerdetailsgetStatuscode: 0,
+  AmentiesHistorygetStatuscode: 0,
+  bednumberdetails: [],
+  statushostelbedstatuscode: "",
+  kycValidateSendOtpSuccess: 0,
+  deleteFloorSuccessStatusCode: 0,
+  Kyc_Ref_Id: "",
+  kycValidateOtpVerifySuccess: 0,
+  createFloorSuccessStatusCode: 0,
+  editHostelStatusCode: 0,
+  noHosteListStatusCode: 0,
+  alreadyFloorHere: "",
+  deleteFloorError: "",
+  deleteRoomError: "",
+  phoneError: "",
+  emailError: "",
+  getWalkInStatusCode: 0,
+  WalkInCustomerList: [],
+  NoDataWalkInCustomer: "",
+  NoDataWalkInCustomerStatusCode: 0,
+  addWalkInCustomerStatusCode: 0,
+  alreadyHere: "",
+  deleteWalkInCustomerStatusCode: 0,
+  GetCheckOutCustomerStatusCode: 0,
+  CheckOutCustomerList: [],
+  addCheckoutCustomerStatusCode: 0,
+  deleteCheckoutCustomerStatusCode: 0,
+  errorMessageAddCheckOut: "",
+  availableCheckOutCustomerList: [],
+  exportDetails: [],
+  statusCodeForExportDetails: 0,
+  exportAssetsDetail: [],
+  statusCodeforExportAssetsCode: 0,
+  exportEbDetails: [],
+  statusCodeForExportEb: 0,
+  exportExpenceDetails: [],
+  statusCodeForExportExpence: 0,
+  exportComplianceDetails: [],
+  statusCodeForExportcompliance: 0,
+  exportBookingDetails: [],
+  statusCodeForExportBooking: 0,
+  exportWalkinDetails: [],
+  statusCodeForExportWalkin: 0,
+  exportCheckoutDetails: [],
+  statusCodeForExportCheckout: 0,
+  statusCodegetConfirmCheckout: 0,
+  GetconfirmcheckoutBillDetails: [],
+  GetconfirmcheckoutUserDetails: "",
+  statusCodeAddConfirmCheckout: 0,
+  reassignbeddetails: [],
+  statusCodeForReassinBed: 0,
+  statusCodeForCustomerCoatact: 0,
+  customerContact: [],
+  customerAllDetails: [],
+  statusCodeForCustomerAllDetails: 0,
+  deleteContact: [],
+  statusCodeDeleteContact: 0,
+  hotelDetailsinPg: [],
+  noAllHosteListStatusCode: 0,
+  statuscodeForhotelDetailsinPg: 0,
+  generateAdvance: [],
+  statusCodeForGenerateAdvance: 0,
+  statusCodeForUploadDocument: 0,
+  uploaddocu: [],
+  statusCodeForOtherDocu: 0,
+  otherUploaddocu: [],
+  adharuploadfileError: "",
+  statuscodeForAdharFileError: 0,
+  NoUserListStatusCode: 0,
+  userRoomfor: null,
+  userProfilebill: null,
+  deleteCustomerSuccessStatusCode: 0,
+  userReading: null,
+  userHostelRead: null,
+  userReadingdelete: null,
+  userHosteldelete: null,
+  isUsersListTrue: 1,
+  hostelListNewDetails: [],
+  statusCodeForhostelListNewDetails: 0,
+  generateError: "",
+  contactError: "",
+  checkoutcustomeEmpty: 0,
+  conformChekoutError: "",
+  statusCodeConformEdit: 0,
+  conformChekoutEditError: "",
+  kycverifynew: {},
+  statusCodeforverifyKYC: 0,
+  KycCustomerDetails: {},
+  statusCodeForCustomerDetails: 0,
+  kycnotadded: "",
+  KYCStatusCode: 0,
+  statusCodeForDueCustomer: 0,
+  nonRefundable_details: [],
+  UnAssignCustomerDetails: [],
+  statusCodeForUnAssignCustomer: 0,
+  StatusCodeBacktoCheckin: 0,
+  floorListStatusCode: 0,
+  floorList: [],
+  statusCodeForCheckInCustomer: 0,
+  statusCodeForAddCustomerSaveInfo: 0,
+  bedAvailableError: "",
+  Refundable_details: [],
+  Deduction: [],
+  hostelData: [],
+  checkoutprofileDetails: [],
+  StatuscodeforCheckoutProfile: 0,
+  availableBedList: [],
+  bookedDetails: [],
+  bedError: "",
+  addRoomReadingStatusCode: 0,
+  getRoomReadingList: [],
+  getRoomReadingStatus: 0,
+  roomReadingError: "",
+  bookingToCheckinStatusCode: 0,
+  initializeCancelBookingList: [],
+  getParticularRoomReadingList: [],
+  getparticularRoomReadingStatus: 0,
+  getCustomerReadingList: [],
+  getCustomerReadingStatus: 0,
+  getParticularCustomerReadingList: [],
+  getParticularCustomerReadingStatus: 0,
+  statusCodeForFinalSettlement: 0,
+  statuscodeForConformCheckout: 0,
+  chrckoutError: "",
+  finalError: "",
+  cancelCheckoutStatusCode: 0,
+  cancelCheckoutError: "",
+  editBasicSuccessStatusCode: 0,
+  changeBedError: "",
+  editAmountSuccessStatusCode: 0,
+  updateTenantError: "",
+  editAdvanceStatusCode: 0,
+  advanceError: "",
+  initializeCheckout: "",
+  initializeCancelCheckout: "",
+  finalSettlementAddRoomReadingStatusCode: 0,
+  alreadyMobileBasicError: "",
+  accessRestrictionError: "",
+  tenantDocumentUploadStatusCode: 0,
+  tenantDocumentUploadError: "",
+  tenantDocumentDeleteStatusCode: 0,
+  templatesImagesDeleteStatusCode: 0,
+  successTenantCustomizeColumns: 0,
+  templatesGlobalImagesDeleteStatusCode: 0,
+  tenantFilters: {
+    status: [],
+    search: "",
+  },
+};
 
 const UserListReducer = (state = initialState, action) => {
-
-
-
-    switch (action.type) {
-
-        case 'RESET_ALL':
-            return initialState;
-        case 'AVAILABLE_BED':
-            return { ...state, availableBedList: action.payload.response }
-
-        case 'ACCESS_RESTRICTION_ERROR':
-            return { ...state, accessRestrictionError: action.payload }
-        case 'ACCESS_RESTRICTION_ERROR_REMOVE':
-            return { ...state, accessRestrictionError: "" }
-
-        case 'TENANT_DOCUMENT_UPLOAD':
-            return { ...state, tenantDocumentUploadStatusCode: action.payload.statusCode }
-
-        case 'REMOVE_TENANT_DOCUMENT_UPLOAD':
-            return { ...state, tenantDocumentUploadStatusCode: 0 }
-        case 'TENANT_DOCUMENT_UPLOAD_ERROR':
-            return { ...state, tenantDocumentUploadError: action.payload }
-
-        case 'REMOVE_TENANT_DOCUMENT_UPLOAD_ERROR':
-            return { ...state, tenantDocumentUploadError: "" }
-
-        case 'DELETE_TENANT_DOCUMENT':
-            return { ...state, tenantDocumentDeleteStatusCode: action.payload.statusCode }
-
-        case 'REMOVE_DELETE_TENANT_DOCUMENT':
-            return { ...state, tenantDocumentDeleteStatusCode: 0 }
-        case 'DELETE_TEMPLATES_IMAGES':
-            return { ...state, templatesImagesDeleteStatusCode: action.payload.statusCode }
-
-        case 'REMOVE_DELETE_TEMPLATES_IMAGES':
-            return { ...state, templatesImagesDeleteStatusCode: 0 }
-        case 'DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER':
-            return { ...state, templatesGlobalImagesDeleteStatusCode: action.payload.statusCode }
-
-        case 'REMOVE_DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER':
-            return { ...state, templatesGlobalImagesDeleteStatusCode: 0 }
-
-        case 'GET_INITIALIZE_CHECKOUT':
-            return { ...state, initializeCheckout: action.payload.response }
-
-        case 'ALREADY_MOBILE_BASIC_ERROR':
-            return { ...state, alreadyMobileBasicError: action.payload }
-        case 'REMOVE_ALREADY_MOBILE_BASIC_ERROR':
-            return { ...state, alreadyMobileBasicError: '' }
-
-        case 'INITIALIZE_CANCEL_CHECKOUT':
-            return { ...state, initializeCancelCheckout: action.payload.response }
-
-        case 'CANCEL_CHECKOUT':
-            return { ...state, cancelCheckoutStatusCode: action.payload.statusCode }
-        case 'REMOVE_CANCEL_CHECKOUT':
-            return { ...state, cancelCheckoutStatusCode: 0 }
-
-        case 'EDIT_ADVANCE':
-            return { ...state, editAdvanceStatusCode: action.payload.statusCode }
-
-        case 'REMOVE_EDIT_ADVANCE':
-            return { ...state, editAdvanceStatusCode: 0 }
-
-        case 'EDIT_ADVANCE_ERROR':
-            return { ...state, advanceError: action.payload }
-        case 'REMOVE_EDIT_ADVANCE_ERROR':
-            return { ...state, advanceError: '' }
-
-        case 'EDIT_BASIC_DETAILS':
-            return { ...state, editBasicSuccessStatusCode: action.payload.statusCode }
-        case 'REMOVE_EDIT_BASIC_DETAILS':
-            return { ...state, editBasicSuccessStatusCode: 0 }
-
-        case 'EDIT_AMOUNT_DETAILS':
-            return { ...state, editAmountSuccessStatusCode: action.payload.statusCode }
-        case 'REMOVE_EDIT_AMOUNT_DETAILS':
-            return { ...state, editAmountSuccessStatusCode: 0 }
-        case 'CHANGE_BED_ERROR':
-            return { ...state, changeBedError: action.payload }
-        case 'REMOVE_CHANGE_BED_ERROR':
-            return { ...state, changeBedError: '' }
-
-        case 'INITIALIZE_CANCEL_BOOKING':
-            return { ...state, initializeCancelBookingList: action.payload.response }
-
-        case 'BOOKED_DETAILS':
-            return { ...state, bookedDetails: action.payload.response }
-        case 'ADD_ROOM_READING':
-            return { ...state, addRoomReadingStatusCode: action.payload.statusCode }
-        case 'REMOVE_ADD_ROOM_READING':
-            return { ...state, addRoomReadingStatusCode: 0 }
-
-
-        case 'FINAL_SETTLEMENT_ADD_ROOM_READING':
-            return { ...state, finalSettlementAddRoomReadingStatusCode: action.payload.statusCode }
-        case 'REMOVE_FINAL_SETTLEMENT_ADD_ROOM_READING':
-            return { ...state, finalSettlementAddRoomReadingStatusCode: 0 }
-
-
-
-        case 'EDIT_HOSTEL_READING':
-            return { ...state, editHostelStatusCode: action.payload.statusCode }
-        case 'REMOVE_EDIT_HOSTEL_READING':
-            return { ...state, editHostelStatusCode: 0 }
-        case 'DELETE_READING':
-            return { ...state, deleteReadingStatusCode: action.payload.statusCode }
-        case 'REMOVE_DELETE_READING':
-            return { ...state, deleteReadingStatusCode: 0 }
-
-        case 'BOOKING_TO_CHECKIN':
-            return { ...state, bookingToCheckinStatusCode: action.payload.statusCode }
-        case 'REMOVE_BOOKING_TO_CHECKIN':
-            return { ...state, bookingToCheckinStatusCode: 0 }
-        case 'GET_ROOM_READING':
-            return { ...state, getRoomReadingList: action.payload.response, getRoomReadingStatus: action.payload.statusCode }
-        case 'REMOVE_GET_ROOM_READING':
-            return { ...state, getRoomReadingStatus: 0 }
-        case 'GET_CUSTOMER_READING':
-            return { ...state, getCustomerReadingList: action.payload.response, getCustomerReadingStatus: action.payload.statusCode }
-        case 'REMOVE_GET_CUSTOMER_READING':
-            return { ...state, getCustomerReadingStatus: 0 }
-        case 'GET_PARTICULAR_CUSTOMER_READING':
-            return { ...state, getParticularCustomerReadingList: action.payload.response, getParticularCustomerReadingStatus: action.payload.statusCode }
-        case 'REMOVE_GET_PARTICULAR_CUSTOMER_READING':
-            return { ...state, getParticularCustomerReadingStatus: 0 }
-        case 'GET_PARTICULAR_ROOM_READING':
-            return { ...state, getParticularRoomReadingList: action.payload.response, getparticularRoomReadingStatus: action.payload.statusCode }
-        case 'REMOVE_GET_PARTICULAR_ROOM_READING':
-            return { ...state, getparticularRoomReadingStatus: 0 }
-        case 'BED_AVAILABLE_ERROR_BOOKED':
-            return { ...state, bedError: action.payload }
-        case 'REMOVE_BED_AVAILABLE_ERROR_BOOKED':
-            return { ...state, bedError: '' }
-
-        case 'ROOM_READING_ERROR':
-            return { ...state, roomReadingError: action.payload }
-
-        case 'REMOVE_ROOM_READING_ERROR':
-            return { ...state, roomReadingError: '' }
-
-        case 'CANCEL_CHECKOUT_ERROR':
-            return { ...state, cancelCheckoutError: action.payload }
-        case 'REMOVE_CANCEL_CHECKOUT_ERROR':
-            return { ...state, cancelCheckoutError: "" }
-
-
-
-        case 'DELETE_CUSTOMER':
-            return { ...state, deleteCustomerSuccessStatusCode: action.payload.statusCode }
-
-        case 'REMOVE_DELETE_CUSTOMER':
-            return { ...state, deleteCustomerSuccessStatusCode: 0 }
-
-
-
-        case 'CLEAR_ERROR_MESSAGE':
-            return {
-                ...state,
-                errorMessage: '',
-            };
-        case 'BED_COUNTING_LIST':
-            return { ...state, bedCount: action.payload }
-
-        case 'KYC_VALIDATE':
-            return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode, Kyc_Ref_Id: action.payload.response }
-        case 'CLEAR_KYC_VALIDATE_SATUS_CODE':
-            return { ...state, kycValidateSendOtpSuccess: 0 }
-        case 'KYC_VALIDATE_OTP_VERIFY':
-            return { ...state, kycValidateOtpVerifySuccess: action.payload.statusCode }
-
-
-        case 'DELETE_FLOOR':
-            return { ...state, deleteFloorSuccessStatusCode: action.payload.statusCode }
-
-        case 'CLEAR_DELETE_FLOOR':
-            return { ...state, deleteFloorSuccessStatusCode: 0 }
-
-        case 'CUSTOMER_DETAILS':
-            return { ...state, customerdetails: action.payload.response, CustomerdetailsgetStatuscode: action.payload.statusCode };
-        case 'CLEAR_CUSTOMER_DETAILS':
-            return { ...state, CustomerdetailsgetStatuscode: 0 }
-
-        case 'AMENITIES_HISTORY':
-            return { ...state, amnetieshistory: action.payload.response, AmentiesHistorygetStatuscode: action.payload.statusCode };
-        case 'CLEAR_AMENITIES_HISTORY_DETAILS':
-            return { ...state, AmentiesHistorygetStatuscode: 0 }
-        case 'AMNITIES_NAME':
-            return { ...state, amnitiesnamelist: action.payload };
-        case 'ADD_USER_AMENITIES':
-            return { ...state, addUserAmnities: action.payload.message, statusCustomerAddUser: action.payload.statusCode }
-
-        case 'CLEAR_ADDUSER_AMNETIES':
-            return { ...state, statusCustomerAddUser: 0 }
-
-        case 'BED_NUMBER_DETAILS':
-            return { ...state, bednumberdetails: action.payload, statushostelbedstatuscode: action.payload.statusCode }
-
-        case 'BED_DETAILS':
-            return { ...state, beddetails: action.payload }
-        case 'SET_ERROR':
-            return { ...state, errormessage: action.payload }
-        case 'ROOM_DETAILS':
-            return { ...state, roomdetails: action.payload }
-        case 'CREATE_FLOOR':
-            return { ...state, createFloorSuccessStatusCode: action.payload.statusCode }
-        case 'CLEAR_FLOOR_STATUS_CODE':
-            return { ...state, createFloorSuccessStatusCode: 0 }
-
-        case 'UPDATE_MESSAGE_FLOOR':
-            return { ...state, createFloorMessage: action.message }
-        case 'BILL_PAYMENT_HISTORY':
-            return { ...state, billPaymentHistory: action.payload }
-        case 'USER_LIST':
-            return { ...state, Users: action.payload?.response || [], UserListStatusCode: action.payload.statusCode }
-        case 'REMOVE_STATUS_CODE_USER':
-            return { ...state, UserListStatusCode: 0 }
-        case 'NO_USER_LIST':
-            return { ...state, NoUserListStatusCode: action.payload.statusCode }
-        case 'CLEAR_NO_USER_LIST':
-            return { ...state, NoUserListStatusCode: 0 }
-        case 'ADD_USER':
-            return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
-        case 'CLEAR_STATUS_CODES':
-            return { ...state, statusCodeForAddUser: 0 }
-        case 'CREATE_CUSTOMER_SAVE_INFO':
-            return { ...state, statusCodeForAddCustomerSaveInfo: action.payload.statusCode }
-        case 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO':
-            return { ...state, statusCodeForAddCustomerSaveInfo: 0 }
-
-        case 'CHECK_IN':
-            return { ...state, statusCodeForCheckInCustomer: action.payload.statusCode }
-        case 'CLEAR_STATUS_CODES_CHECK_IN':
-            return { ...state, statusCodeForCheckInCustomer: 0 }
-
-        case 'BED_AVAILABLE_ERROR':
-            return { ...state, bedAvailableError: action.payload }
-        case 'REMOVE_BED_AVAILABLE_ERROR':
-            return { ...state, bedAvailableError: "" }
-
-        case 'PHONE_ERROR':
-            return { ...state, phoneError: action.payload }
-        case 'CLEAR_PHONE_ERROR':
-            return { ...state, phoneError: '' }
-
-        case 'TENANT_UPDATE_ERROR':
-            return { ...state, updateTenantError: action.payload }
-        case 'REMOVE_TENANT_UPDATE_ERROR':
-            return { ...state, updateTenantError: '' }
-
-        case 'ERROR':
-            return { ...state, errorMessage: action.payload, roomdetails: [], bednumberdetails: [] }
-        case 'HOSTEL_LIST':
-            return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
-        case 'CLEAR_HOSTELLIST_STATUS_CODE':
-            return { ...state, hosteListStatusCode: 0 }
-
-        case 'ALL_FLOOR_LIST':
-            return { ...state, floorList: action.payload.response, floorListStatusCode: action.payload.statusCode }
-        case 'REMOVE_ALL_FLOOR_LIST':
-            return { ...state, floorListStatusCode: 0 }
-
-
-        case 'NO_HOSTEL':
-            return { ...state, noHosteListStatusCode: action.payload.statusCode }
-
-        case 'CLEAR_NO_HOSTEL_STATUS_CODE':
-            return { ...state, noHosteListStatusCode: 0 }
-
-
-        case 'HOSTEL_LIST_All':
-            return { ...state, hotelDetailsinPg: action.payload.response, statuscodeForhotelDetailsinPg: action.payload.statusCode }
-        case 'CLEAR_HOSTEL_LIST_All_CODE':
-            return { ...state, statuscodeForhotelDetailsinPg: 0 }
-        case 'CLEAR_HOSTEL_LIST_All':
-            return { ...state, hotelDetailsinPg: [] }
-
-        case 'NO_HOSTEL_DETAILS':
-            return { ...state, noAllHosteListStatusCode: action.payload.statusCode }
-
-        case 'CLEAR_NO_HOSTEL_DETAILS':
-            return { ...state, noAllHosteListStatusCode: 0 }
-
-        case 'HOSTEL_DETAIL_LIST':
-            return { ...state, hosteldetailslist: action.payload }
-        case 'CHECKOUT_USER':
-            return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }
-        case 'CLEAR_STATUS_CODE_CHECK_OUT':
-            return { ...state, checkOutStatusCode: 0 }
-
-        case 'CHECKOUT_CUSTOMER_LIST_ERROR':
-            return { ...state, checkoutcustomeEmpty: action.payload.statusCode }
-        case 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR':
-            return { ...state, checkoutcustomeEmpty: 0 }
-
-
-
-
-        case 'EMAIL_ERROR':
-            return { ...state, emailError: action.payload }
-
-        case 'CLEAR_EMAIL_ERROR':
-            return { ...state, emailError: '' }
-
-        case 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-            return { ...state, conformChekoutError: action.payload }
-
-        case 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-            return { ...state, conformChekoutError: '' }
-
-        case 'DELETE_FLOOR_ERROR':
-            return { ...state, deleteFloorError: action.payload }
-
-        case 'CLEAR_DELETE_FLOOR_ERROR':
-            return { ...state, deleteFloorError: '' }
-
-        case 'DELETE_ROOM_ERROR':
-            return { ...state, deleteRoomError: action.payload }
-
-        case 'CLEAR_DELETE_ROOM_ERROR':
-            return { ...state, deleteRoomError: '' }
-
-        case 'ALREADY_FLOOR_ERROR':
-            return { ...state, alreadyFloorHere: action.payload }
-
-        case 'CLEAR_ALREADY_FLOOR_ERROR':
-            return { ...state, alreadyFloorHere: '' }
-        case 'WALK_IN_CUSTOMER_LIST':
-            return { ...state, WalkInCustomerList: action.payload.response, getWalkInStatusCode: action.payload.statusCode }
-        case 'CLEAR_WALK_IN_STATUS_CODE':
-            return { ...state, getWalkInStatusCode: 0 }
-        case 'WALK_IN_CUSTOMER_LIST_ERROR':
-            return { ...state, NoDataWalkInCustomerStatusCode: action.payload.statusCode }
-        case 'CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE':
-            return { ...state, NoDataWalkInCustomerStatusCode: 0 }
-
-        case 'ADD_WALK_IN_CUSTOMER':
-            return { ...state, addWalkInCustomerStatusCode: action.payload.statusCode }
-        case 'CLEAR_ADD_WALK_IN_CUSTOMER':
-            return { ...state, addWalkInCustomerStatusCode: 0 }
-
-        case 'ALREADY_EXIST_ERROR':
-            return { ...state, alreadyHere: action.payload }
-
-        case 'CLEAR_ALREADY_EXIST_ERROR':
-            return { ...state, alreadyHere: '' }
-
-        case 'DELETE_WALK_IN_CUSTOMER':
-            return { ...state, deleteWalkInCustomerStatusCode: action.payload.statusCode }
-        case 'CLEAR_DELETE_WALK_IN_CUSTOMER':
-            return { ...state, deleteWalkInCustomerStatusCode: 0 }
-
-        case 'CHECKOUT_CUSTOMER_LIST':
-            return { ...state, CheckOutCustomerList: action.payload.response, GetCheckOutCustomerStatusCode: action.payload.statusCode }
-
-        case 'CLEAR_CHECKOUT_CUSTOMER_LIST':
-            return { ...state, GetCheckOutCustomerStatusCode: 0 }
-
-        case 'ADD_CHECKOUT_CUSTOMER':
-            return { ...state, addCheckoutCustomerStatusCode: action.payload.statusCode }
-
-        case 'CLEAR_ADD_CHECKOUT_CUSTOMER':
-            return { ...state, addCheckoutCustomerStatusCode: 0 }
-
-        case 'DELETE_CHECK_OUT_CUSTOMER':
-            return { ...state, deleteCheckoutCustomerStatusCode: action.payload.statusCode }
-        case 'CLEAR _DELETE_CHECK_OUT_CUSTOMER':
-            return { ...state, deleteCheckoutCustomerStatusCode: 0 }
-        case 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
-            return { ...state, errorMessageAddCheckOut: action.payload }
-        case 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
-            return { ...state, errorMessageAddCheckOut: '' }
-
-        case 'AVAILABLE_CHECK_OUT_CUSTOMER': {
-            return { ...state, availableCheckOutCustomerList: action.payload.response }
-        }
-
-
-
-
-
-
-        case "EXPORT_DETAILS":
-            return {
-                ...state,
-                exportDetails: action.payload,
-                statusCodeForExportDetails: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_DETAILS":
-            return { ...state, statusCodeForExportDetails: 0 };
-
-        case "EXPORT_ASSETS_DETAILS":
-            return {
-                ...state,
-                exportAssetsDetail: action.payload,
-                statusCodeforExportAssetsCode: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_ASSETS_DETAILS":
-            return { ...state, statusCodeforExportAssetsCode: 0 };
-
-
-        case "EXPORT_EB_DETAILS":
-            return {
-                ...state,
-                exportEbDetails: action.payload,
-                statusCodeForExportEb: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_EB_DETAILS":
-            return { ...state, statusCodeForExportEb: 0 };
-
-
-
-        case "EXPORT_EXPENSE_DETAILS":
-            return {
-                ...state,
-                exportExpenceDetails: action.payload,
-                statusCodeForExportExpence: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_EXPENSE_DETAILS":
-            return { ...state, statusCodeForExportExpence: 0 };
-
-
-        case "EXPORT_COMPLIANCE_DETAILS":
-            return {
-                ...state,
-                exportComplianceDetails: action.payload,
-                statusCodeForExportcompliance: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_COMPLIANCE_DETAILS":
-            return { ...state, statusCodeForExportcompliance: 0 };
-
-
-        case "EXPORT_BOOKING_DETAILS":
-            return {
-                ...state,
-                exportBookingDetails: action.payload,
-                statusCodeForExportBooking: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_BOOKING_DETAILS":
-            return { ...state, statusCodeForExportBooking: 0 };
-
-        case "EXPORT_WALKIN_DETAILS":
-            return {
-                ...state,
-                exportWalkinDetails: action.payload,
-                statusCodeForExportWalkin: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_WALKIN_DETAILS":
-            return { ...state, statusCodeForExportWalkin: 0 };
-
-        case 'CONFIRM_CHECKOUT_DUE_CUSTOMER':
-            return {
-                ...state,
-                statusCodeForDueCustomer: action.payload.statusCode,
-            };
-        case 'REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER':
-            return {
-                ...state,
-                statusCodeForDueCustomer: 0,
-            };
-
-
-        case "EXPORT_CHECKOUT_DETAILS":
-            return {
-                ...state,
-                exportCheckoutDetails: action.payload,
-                statusCodeForExportCheckout: action.payload.statusCode,
-            };
-        case "CLEAR_EXPORT_CHECKOUT_DETAILS":
-            return { ...state, statusCodeForExportCheckout: 0 };
-
-        case "GET_CONFIRM_CHECK_OUT_CUSTOMER":
-            return {
-                ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
-                GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
-                nonRefundable_details: action.payload.response.deduction_details,
-                hostelData: action.payload.response.hostelData,
-                Refundable_details: action.payload.response.Refundable_details,
-                Deduction: action.payload.response.Deduction,
-                statusCodegetConfirmCheckout: action.payload.statusCode,
-            };
-        case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
-            return { ...state, statusCodegetConfirmCheckout: 0 };
-
-        case "ADD_CONFIRM_CHECK_OUT_CUSTOMER":
-            return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode };
-        case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
-            return { ...state, statusCodeAddConfirmCheckout: 0 };
-
-
-
-        case "EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
-            return { ...state, statusCodeConformEdit: action.payload.statusCode };
-        case "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
-            return { ...state, statusCodeConformEdit: 0 };
-
-
-        case 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-            return { ...state, conformChekoutEditError: action.payload }
-
-        case 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-            return { ...state, conformChekoutEditError: '' }
-
-
-
-        case "REASSIGN_BED":
-            return {
-                ...state,
-                reassignbeddetails: action.payload,
-                statusCodeForReassinBed: action.payload.statusCode,
-            };
-        case "CLEAR_REASSIGN_BED":
-            return { ...state, statusCodeForReassinBed: 0 };
-
-        case "CUSTOMER_ADD_CONTACT":
-            return {
-                ...state,
-                customerContact: action.payload,
-                statusCodeForCustomerCoatact: action.payload.statusCode,
-            };
-        case "CLEAR_CUSTOMER_ADD_CONTACT":
-            return { ...state, statusCodeForCustomerCoatact: 0 };
-        case "CUSTOMER_ALL_DETAILS":
-            return {
-                ...state,
-                customerAllDetails: action.payload.response,
-                statusCodeForCustomerAllDetails: action.payload.statusCode,
-            };
-        case "CLEAR_CUSTOMER_ALL_DETAILS":
-            return { ...state, statusCodeForCustomerAllDetails: 0 };
-
-
-        case "DELETE_CONTACT":
-            return {
-                ...state,
-                deleteContact: action.payload,
-                statusCodeDeleteContact: action.payload.statusCode,
-            };
-        case "CLEAR_DELETE_CONTACT":
-            return { ...state, statusCodeDeleteContact: 0 };
-
-        case 'CONTACT_ERROR':
-            return { ...state, contactError: action.payload.response }
-
-        case 'CLEAR_CONTACT_ERROR':
-            return { ...state, contactError: '' }
-
-        case 'GENERATE_ADVANCE':
-            return { ...state, generateAdvance: action.payload.response, statusCodeForGenerateAdvance: action.payload.statusCode }
-        case 'REMOVE_GENERATE_ADVANCE':
-            return { ...state, statusCodeForGenerateAdvance: 0 }
-
-        case 'GENERATE_ERROR':
-            return { ...state, generateError: action.payload }
-
-        case 'CLEAR_GENERATE_ERROR':
-            return { ...state, generateError: '' }
-
-        case 'UPLOAD_DOCUMENT':
-            return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
-        case 'CLEAR_UPLOAD_DOCUMENT':
-            return { ...state, statusCodeForUploadDocument: 0 }
-        case 'UPLOAD_OTHER_DOCUMENT':
-            return { ...state, otherUploaddocu: action.payload.message, statusCodeForOtherDocu: action.payload.statusCode }
-        case 'CLEAR_UPLOAD_OTHER_DOCUMENT':
-            return { ...state, statusCodeForOtherDocu: 0 }
-
-        case 'USERROOMAVAILABLETRUE':
-            return { ...state, userRoomfor: true }
-        case 'USERROOMAVAILABLEFALSE':
-            return { ...state, userRoomfor: false }
-
-        case 'USERPROFILEBILLTRUE':
-            return { ...state, userProfilebill: true }
-        case 'USERPROFILEBILLFALSE':
-            return { ...state, userProfilebill: false }
-
-        case 'ADHAR_UPLOAD_ERROR':
-            return { ...state, adharuploadfileError: action.payload.response, statuscodeForAdharFileError: action.payload.statusCode }
-        case 'CLEAR_ADHAR_UPLOAD_ERROR':
-            return { ...state, adharuploadfileError: '' }
-        case 'CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE':
-            return { ...state, statuscodeForAdharFileError: 0 }
-
-        case 'USERREADINGTRUE':
-            return { ...state, userReading: true }
-        case 'USERREADINGFALSE':
-            return { ...state, userReading: false }
-
-        case 'USERHOSTELREADINGTRUE':
-            return { ...state, userHostelRead: true }
-        case 'USERHOSTELREADINGFALSE':
-            return { ...state, userHostelRead: false }
-
-        case 'USERREADING_DELETETRUE':
-            return { ...state, userReadingdelete: true }
-        case 'USERREADING_DELETEFALSE':
-            return { ...state, userReadingdelete: false }
-
-        case 'USERHOSTEL_READING_DELETETRUE':
-            return { ...state, userHosteldelete: true }
-        case 'USERHOSTEL_READING_DELETEFALSE':
-            return { ...state, userHosteldelete: false }
-
-
-        case 'UPDATE_USERSLIST_TRUE':
-            return { ...state, isUsersListTrue: 3 }
-        case 'UPDATE_USERSLIST_FALSE':
-            return { ...state, isUsersListTrue: 1 }
-
-
-        case 'HOSTEL_ID_LIST':
-            return { ...state, hostelListNewDetails: action.payload, statusCodeForhostelListNewDetails: action.payload.statusCode }
-        case 'CLEAR_HOSTEL_ID_LIST':
-            return { ...state, statusCodeForhostelListNewDetails: 0 }
-        case 'CLEAR_HOSTEL_LIST':
-            return { ...state, hostelList: [], hostelListNewDetails: [] }
-
-
-        case 'KYC_VERIFY_NEW':
-            return { ...state, kycverifynew: action.payload.response, statusCodeforverifyKYC: action.payload.statusCode }
-        case 'REMOVE_KYC_VERIFY_NEW':
-            return { ...state, statusCodeforverifyKYC: 0 }
-
-
-        case 'KYC_CUSTOMER_DETAILS':
-            return { ...state, KycCustomerDetails: action.payload.response, statusCodeForCustomerDetails: action.payload.statusCode }
-        case 'REMOVEKYC_CUSTOMER_DETAILS':
-            return { ...state, statusCodeForCustomerDetails: 0 }
-
-
-        case 'KYC_NOT_ADDED':
-            return { ...state, KycCustomerDetails: action.payload.response, KYCStatusCode: action.payload.statusCode }
-        case 'REMOVE_KYC_NOT_ADDED':
-            return { ...state, KYCStatusCode: 0 }
-
-        case 'UNASSIGN_CUSTOMER':
-            return { ...state, UnAssignCustomerDetails: action.payload.response, statusCodeForUnAssignCustomer: action.payload.statusCode }
-        case 'REMOVE_UNASSIGN_CUSTOMER':
-            return { ...state, statusCodeForUnAssignCustomer: 0 }
-
-
-        case 'BACK_TO_CHECKIN_USER':
-            return { ...state, StatusCodeBacktoCheckin: action.payload.statusCode }
-        case 'CLEAR_BACK_TO_CHECKIN_USER':
-            return { ...state, StatusCodeBacktoCheckin: 0 }
-
-
-        case 'CHECKOUT_PROFILE_DETAILS':
-            return { ...state, checkoutprofileDetails: action.payload.response, StatuscodeforCheckoutProfile: action.payload.statusCode }
-        case 'REMOVE_CHECKOUT_PROFILE_DETAILS':
-            return { ...state, StatuscodeforCheckoutProfile: 0 }
-
-
-        case 'FINAL_GENERATE':
-            return { ...state, statusCodeForFinalSettlement: action.payload.statusCode }
-        case 'CLEAR_FINAL_GENERATE':
-            return { ...state, statusCodeForFinalSettlement: 0 }
-
-
-
-
-        case 'CONFORM_CHECKOUT_ERROR':
-            return { ...state, chrckoutError: action.payload }
-
-        case 'REMOVE_CONFORM_CHECKOUT_ERROR':
-            return { ...state, chrckoutError: '' }
-
-
-        case 'CONFORM_CHECKOUT':
-            return { ...state, statuscodeForConformCheckout: action.payload.statusCode }
-
-        case 'REMOVE_CONFORM_CHECKOUT':
-            return { ...state, statuscodeForConformCheckout: 0 }
-
-
-        case 'FINAL_GENERATE_ERROR':
-            return { ...state, finalError: action.payload }
-
-        case 'REMOVE_FINAL_GENERATE_ERROR':
-            return { ...state, finalError: '' }
-
-        default:
-            return state;
+  switch (action.type) {
+    case "RESET_ALL":
+      return initialState;
+    case "AVAILABLE_BED":
+      return { ...state, availableBedList: action.payload.response };
+    case "SET_TENANT_TABLE_FILTERS":
+      return {
+        ...state,
+        tenantFilters: {
+          ...state.tenantFilters,
+          ...action.payload,
+        },
+      };
+
+    case "ACCESS_RESTRICTION_ERROR":
+      return { ...state, accessRestrictionError: action.payload };
+    case "ACCESS_RESTRICTION_ERROR_REMOVE":
+      return { ...state, accessRestrictionError: "" };
+
+    case "TENANT_DOCUMENT_UPLOAD":
+      return {
+        ...state,
+        tenantDocumentUploadStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_TENANT_DOCUMENT_UPLOAD":
+      return { ...state, tenantDocumentUploadStatusCode: 0 };
+    case "TENANT_DOCUMENT_UPLOAD_ERROR":
+      return { ...state, tenantDocumentUploadError: action.payload };
+
+    case "REMOVE_TENANT_DOCUMENT_UPLOAD_ERROR":
+      return { ...state, tenantDocumentUploadError: "" };
+
+    case "DELETE_TENANT_DOCUMENT":
+      return {
+        ...state,
+        tenantDocumentDeleteStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_TENANT_DOCUMENT":
+      return { ...state, tenantDocumentDeleteStatusCode: 0 };
+    case "DELETE_TEMPLATES_IMAGES":
+      return {
+        ...state,
+        templatesImagesDeleteStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_TEMPLATES_IMAGES":
+      return { ...state, templatesImagesDeleteStatusCode: 0 };
+    case "DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER":
+      return {
+        ...state,
+        templatesGlobalImagesDeleteStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_GLOBAL_TEMPLATES_IMAGES_REDUCER":
+      return { ...state, templatesGlobalImagesDeleteStatusCode: 0 };
+
+    case "GET_INITIALIZE_CHECKOUT":
+      return { ...state, initializeCheckout: action.payload.response };
+
+    case "ALREADY_MOBILE_BASIC_ERROR":
+      return { ...state, alreadyMobileBasicError: action.payload };
+    case "REMOVE_ALREADY_MOBILE_BASIC_ERROR":
+      return { ...state, alreadyMobileBasicError: "" };
+
+    case "INITIALIZE_CANCEL_CHECKOUT":
+      return { ...state, initializeCancelCheckout: action.payload.response };
+
+    case "CANCEL_CHECKOUT":
+      return { ...state, cancelCheckoutStatusCode: action.payload.statusCode };
+    case "REMOVE_CANCEL_CHECKOUT":
+      return { ...state, cancelCheckoutStatusCode: 0 };
+
+    case "EDIT_ADVANCE":
+      return { ...state, editAdvanceStatusCode: action.payload.statusCode };
+
+    case "REMOVE_EDIT_ADVANCE":
+      return { ...state, editAdvanceStatusCode: 0 };
+
+    case "EDIT_ADVANCE_ERROR":
+      return { ...state, advanceError: action.payload };
+    case "REMOVE_EDIT_ADVANCE_ERROR":
+      return { ...state, advanceError: "" };
+
+    case "EDIT_BASIC_DETAILS":
+      return {
+        ...state,
+        editBasicSuccessStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_EDIT_BASIC_DETAILS":
+      return { ...state, editBasicSuccessStatusCode: 0 };
+
+    case "EDIT_AMOUNT_DETAILS":
+      return {
+        ...state,
+        editAmountSuccessStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_EDIT_AMOUNT_DETAILS":
+      return { ...state, editAmountSuccessStatusCode: 0 };
+    case "CUSTOMIZE_TENANT_COLUMNS_REDUCER":
+      return {
+        ...state,
+        successTenantCustomizeColumns: action.payload.statusCode,
+      };
+    case "REMOVE_CUSTOMIZE_TENANT_COLUMNS_REDUCER":
+      return { ...state, successTenantCustomizeColumns: 0 };
+
+    case "CHANGE_BED_ERROR":
+      return { ...state, changeBedError: action.payload };
+    case "REMOVE_CHANGE_BED_ERROR":
+      return { ...state, changeBedError: "" };
+
+    case "INITIALIZE_CANCEL_BOOKING":
+      return { ...state, initializeCancelBookingList: action.payload.response };
+
+    case "BOOKED_DETAILS":
+      return { ...state, bookedDetails: action.payload.response };
+    case "ADD_ROOM_READING":
+      return { ...state, addRoomReadingStatusCode: action.payload.statusCode };
+    case "REMOVE_ADD_ROOM_READING":
+      return { ...state, addRoomReadingStatusCode: 0 };
+
+    case "FINAL_SETTLEMENT_ADD_ROOM_READING":
+      return {
+        ...state,
+        finalSettlementAddRoomReadingStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_FINAL_SETTLEMENT_ADD_ROOM_READING":
+      return { ...state, finalSettlementAddRoomReadingStatusCode: 0 };
+
+    case "EDIT_HOSTEL_READING":
+      return { ...state, editHostelStatusCode: action.payload.statusCode };
+    case "REMOVE_EDIT_HOSTEL_READING":
+      return { ...state, editHostelStatusCode: 0 };
+    case "DELETE_READING":
+      return { ...state, deleteReadingStatusCode: action.payload.statusCode };
+    case "REMOVE_DELETE_READING":
+      return { ...state, deleteReadingStatusCode: 0 };
+
+    case "BOOKING_TO_CHECKIN":
+      return {
+        ...state,
+        bookingToCheckinStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_BOOKING_TO_CHECKIN":
+      return { ...state, bookingToCheckinStatusCode: 0 };
+    case "GET_ROOM_READING":
+      return {
+        ...state,
+        getRoomReadingList: action.payload.response,
+        getRoomReadingStatus: action.payload.statusCode,
+      };
+    case "REMOVE_GET_ROOM_READING":
+      return { ...state, getRoomReadingStatus: 0 };
+    case "GET_CUSTOMER_READING":
+      return {
+        ...state,
+        getCustomerReadingList: action.payload.response,
+        getCustomerReadingStatus: action.payload.statusCode,
+      };
+    case "REMOVE_GET_CUSTOMER_READING":
+      return { ...state, getCustomerReadingStatus: 0 };
+    case "GET_PARTICULAR_CUSTOMER_READING":
+      return {
+        ...state,
+        getParticularCustomerReadingList: action.payload.response,
+        getParticularCustomerReadingStatus: action.payload.statusCode,
+      };
+    case "REMOVE_GET_PARTICULAR_CUSTOMER_READING":
+      return { ...state, getParticularCustomerReadingStatus: 0 };
+    case "GET_PARTICULAR_ROOM_READING":
+      return {
+        ...state,
+        getParticularRoomReadingList: action.payload.response,
+        getparticularRoomReadingStatus: action.payload.statusCode,
+      };
+    case "REMOVE_GET_PARTICULAR_ROOM_READING":
+      return { ...state, getparticularRoomReadingStatus: 0 };
+    case "BED_AVAILABLE_ERROR_BOOKED":
+      return { ...state, bedError: action.payload };
+    case "REMOVE_BED_AVAILABLE_ERROR_BOOKED":
+      return { ...state, bedError: "" };
+
+    case "ROOM_READING_ERROR":
+      return { ...state, roomReadingError: action.payload };
+
+    case "REMOVE_ROOM_READING_ERROR":
+      return { ...state, roomReadingError: "" };
+
+    case "CANCEL_CHECKOUT_ERROR":
+      return { ...state, cancelCheckoutError: action.payload };
+    case "REMOVE_CANCEL_CHECKOUT_ERROR":
+      return { ...state, cancelCheckoutError: "" };
+
+    case "DELETE_CUSTOMER":
+      return {
+        ...state,
+        deleteCustomerSuccessStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_CUSTOMER":
+      return { ...state, deleteCustomerSuccessStatusCode: 0 };
+
+    case "CLEAR_ERROR_MESSAGE":
+      return {
+        ...state,
+        errorMessage: "",
+      };
+    case "BED_COUNTING_LIST":
+      return { ...state, bedCount: action.payload };
+
+    case "KYC_VALIDATE":
+      return {
+        ...state,
+        kycValidateSendOtpSuccess: action.payload.statusCode,
+        Kyc_Ref_Id: action.payload.response,
+      };
+    case "CLEAR_KYC_VALIDATE_SATUS_CODE":
+      return { ...state, kycValidateSendOtpSuccess: 0 };
+    case "KYC_VALIDATE_OTP_VERIFY":
+      return {
+        ...state,
+        kycValidateOtpVerifySuccess: action.payload.statusCode,
+      };
+
+    case "DELETE_FLOOR":
+      return {
+        ...state,
+        deleteFloorSuccessStatusCode: action.payload.statusCode,
+      };
+
+    case "CLEAR_DELETE_FLOOR":
+      return { ...state, deleteFloorSuccessStatusCode: 0 };
+
+    case "CUSTOMER_DETAILS":
+      return {
+        ...state,
+        customerdetails: action.payload.response,
+        CustomerdetailsgetStatuscode: action.payload.statusCode,
+      };
+    case "CLEAR_CUSTOMER_DETAILS":
+      return { ...state, CustomerdetailsgetStatuscode: 0 };
+
+    case "AMENITIES_HISTORY":
+      return {
+        ...state,
+        amnetieshistory: action.payload.response,
+        AmentiesHistorygetStatuscode: action.payload.statusCode,
+      };
+    case "CLEAR_AMENITIES_HISTORY_DETAILS":
+      return { ...state, AmentiesHistorygetStatuscode: 0 };
+    case "AMNITIES_NAME":
+      return { ...state, amnitiesnamelist: action.payload };
+    case "ADD_USER_AMENITIES":
+      return {
+        ...state,
+        addUserAmnities: action.payload.message,
+        statusCustomerAddUser: action.payload.statusCode,
+      };
+
+    case "CLEAR_ADDUSER_AMNETIES":
+      return { ...state, statusCustomerAddUser: 0 };
+
+    case "BED_NUMBER_DETAILS":
+      return {
+        ...state,
+        bednumberdetails: action.payload,
+        statushostelbedstatuscode: action.payload.statusCode,
+      };
+
+    case "BED_DETAILS":
+      return { ...state, beddetails: action.payload };
+    case "SET_ERROR":
+      return { ...state, errormessage: action.payload };
+    case "ROOM_DETAILS":
+      return { ...state, roomdetails: action.payload };
+    case "CREATE_FLOOR":
+      return {
+        ...state,
+        createFloorSuccessStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_FLOOR_STATUS_CODE":
+      return { ...state, createFloorSuccessStatusCode: 0 };
+
+    case "UPDATE_MESSAGE_FLOOR":
+      return { ...state, createFloorMessage: action.message };
+    case "BILL_PAYMENT_HISTORY":
+      return { ...state, billPaymentHistory: action.payload };
+    case "USER_LIST":
+      return {
+        ...state,
+        Users: action.payload?.response || [],
+        UserListStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_STATUS_CODE_USER":
+      return { ...state, UserListStatusCode: 0 };
+    case "NO_USER_LIST":
+      return { ...state, NoUserListStatusCode: action.payload.statusCode };
+    case "CLEAR_NO_USER_LIST":
+      return { ...state, NoUserListStatusCode: 0 };
+    case "ADD_USER":
+      return {
+        ...state,
+        addUser: action.payload.message,
+        statusCodeForAddUser: action.payload.statusCode,
+      };
+    case "CLEAR_STATUS_CODES":
+      return { ...state, statusCodeForAddUser: 0 };
+    case "CREATE_CUSTOMER_SAVE_INFO":
+      return {
+        ...state,
+        statusCodeForAddCustomerSaveInfo: action.payload.statusCode,
+      };
+    case "REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO":
+      return { ...state, statusCodeForAddCustomerSaveInfo: 0 };
+
+    case "CHECK_IN":
+      return {
+        ...state,
+        statusCodeForCheckInCustomer: action.payload.statusCode,
+      };
+    case "CLEAR_STATUS_CODES_CHECK_IN":
+      return { ...state, statusCodeForCheckInCustomer: 0 };
+
+    case "BED_AVAILABLE_ERROR":
+      return { ...state, bedAvailableError: action.payload };
+    case "REMOVE_BED_AVAILABLE_ERROR":
+      return { ...state, bedAvailableError: "" };
+
+    case "PHONE_ERROR":
+      return { ...state, phoneError: action.payload };
+    case "CLEAR_PHONE_ERROR":
+      return { ...state, phoneError: "" };
+
+    case "TENANT_UPDATE_ERROR":
+      return { ...state, updateTenantError: action.payload };
+    case "REMOVE_TENANT_UPDATE_ERROR":
+      return { ...state, updateTenantError: "" };
+
+    case "ERROR":
+      return {
+        ...state,
+        errorMessage: action.payload,
+        roomdetails: [],
+        bednumberdetails: [],
+      };
+    case "HOSTEL_LIST":
+      return {
+        ...state,
+        hostelList: action.payload.response,
+        hosteListStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_HOSTELLIST_STATUS_CODE":
+      return { ...state, hosteListStatusCode: 0 };
+
+    case "ALL_FLOOR_LIST":
+      return {
+        ...state,
+        floorList: action.payload.response,
+        floorListStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_ALL_FLOOR_LIST":
+      return { ...state, floorListStatusCode: 0 };
+
+    case "NO_HOSTEL":
+      return { ...state, noHosteListStatusCode: action.payload.statusCode };
+
+    case "CLEAR_NO_HOSTEL_STATUS_CODE":
+      return { ...state, noHosteListStatusCode: 0 };
+
+    case "HOSTEL_LIST_All":
+      return {
+        ...state,
+        hotelDetailsinPg: action.payload.response,
+        statuscodeForhotelDetailsinPg: action.payload.statusCode,
+      };
+    case "CLEAR_HOSTEL_LIST_All_CODE":
+      return { ...state, statuscodeForhotelDetailsinPg: 0 };
+    case "CLEAR_HOSTEL_LIST_All":
+      return { ...state, hotelDetailsinPg: [] };
+
+    case "NO_HOSTEL_DETAILS":
+      return { ...state, noAllHosteListStatusCode: action.payload.statusCode };
+
+    case "CLEAR_NO_HOSTEL_DETAILS":
+      return { ...state, noAllHosteListStatusCode: 0 };
+
+    case "HOSTEL_DETAIL_LIST":
+      return { ...state, hosteldetailslist: action.payload };
+    case "CHECKOUT_USER":
+      return {
+        ...state,
+        CheckOut: action.payload.response,
+        checkOutStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_STATUS_CODE_CHECK_OUT":
+      return { ...state, checkOutStatusCode: 0 };
+
+    case "CHECKOUT_CUSTOMER_LIST_ERROR":
+      return { ...state, checkoutcustomeEmpty: action.payload.statusCode };
+    case "REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR":
+      return { ...state, checkoutcustomeEmpty: 0 };
+
+    case "EMAIL_ERROR":
+      return { ...state, emailError: action.payload };
+
+    case "CLEAR_EMAIL_ERROR":
+      return { ...state, emailError: "" };
+
+    case "ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR":
+      return { ...state, conformChekoutError: action.payload };
+
+    case "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR":
+      return { ...state, conformChekoutError: "" };
+
+    case "DELETE_FLOOR_ERROR":
+      return { ...state, deleteFloorError: action.payload };
+
+    case "CLEAR_DELETE_FLOOR_ERROR":
+      return { ...state, deleteFloorError: "" };
+
+    case "DELETE_ROOM_ERROR":
+      return { ...state, deleteRoomError: action.payload };
+
+    case "CLEAR_DELETE_ROOM_ERROR":
+      return { ...state, deleteRoomError: "" };
+
+    case "ALREADY_FLOOR_ERROR":
+      return { ...state, alreadyFloorHere: action.payload };
+
+    case "CLEAR_ALREADY_FLOOR_ERROR":
+      return { ...state, alreadyFloorHere: "" };
+    case "WALK_IN_CUSTOMER_LIST":
+      return {
+        ...state,
+        WalkInCustomerList: action.payload.response,
+        getWalkInStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_WALK_IN_STATUS_CODE":
+      return { ...state, getWalkInStatusCode: 0 };
+    case "WALK_IN_CUSTOMER_LIST_ERROR":
+      return {
+        ...state,
+        NoDataWalkInCustomerStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE":
+      return { ...state, NoDataWalkInCustomerStatusCode: 0 };
+
+    case "ADD_WALK_IN_CUSTOMER":
+      return {
+        ...state,
+        addWalkInCustomerStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_ADD_WALK_IN_CUSTOMER":
+      return { ...state, addWalkInCustomerStatusCode: 0 };
+
+    case "ALREADY_EXIST_ERROR":
+      return { ...state, alreadyHere: action.payload };
+
+    case "CLEAR_ALREADY_EXIST_ERROR":
+      return { ...state, alreadyHere: "" };
+
+    case "DELETE_WALK_IN_CUSTOMER":
+      return {
+        ...state,
+        deleteWalkInCustomerStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_DELETE_WALK_IN_CUSTOMER":
+      return { ...state, deleteWalkInCustomerStatusCode: 0 };
+
+    case "CHECKOUT_CUSTOMER_LIST":
+      return {
+        ...state,
+        CheckOutCustomerList: action.payload.response,
+        GetCheckOutCustomerStatusCode: action.payload.statusCode,
+      };
+
+    case "CLEAR_CHECKOUT_CUSTOMER_LIST":
+      return { ...state, GetCheckOutCustomerStatusCode: 0 };
+
+    case "ADD_CHECKOUT_CUSTOMER":
+      return {
+        ...state,
+        addCheckoutCustomerStatusCode: action.payload.statusCode,
+      };
+
+    case "CLEAR_ADD_CHECKOUT_CUSTOMER":
+      return { ...state, addCheckoutCustomerStatusCode: 0 };
+
+    case "DELETE_CHECK_OUT_CUSTOMER":
+      return {
+        ...state,
+        deleteCheckoutCustomerStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR _DELETE_CHECK_OUT_CUSTOMER":
+      return { ...state, deleteCheckoutCustomerStatusCode: 0 };
+    case "ADD_CHECKOUT_CUSTOMER_LIST_ERROR":
+      return { ...state, errorMessageAddCheckOut: action.payload };
+    case "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR":
+      return { ...state, errorMessageAddCheckOut: "" };
+
+    case "AVAILABLE_CHECK_OUT_CUSTOMER": {
+      return {
+        ...state,
+        availableCheckOutCustomerList: action.payload.response,
+      };
     }
 
-}
+    case "EXPORT_DETAILS":
+      return {
+        ...state,
+        exportDetails: action.payload,
+        statusCodeForExportDetails: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_DETAILS":
+      return { ...state, statusCodeForExportDetails: 0 };
+
+    case "EXPORT_ASSETS_DETAILS":
+      return {
+        ...state,
+        exportAssetsDetail: action.payload,
+        statusCodeforExportAssetsCode: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_ASSETS_DETAILS":
+      return { ...state, statusCodeforExportAssetsCode: 0 };
+
+    case "EXPORT_EB_DETAILS":
+      return {
+        ...state,
+        exportEbDetails: action.payload,
+        statusCodeForExportEb: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_EB_DETAILS":
+      return { ...state, statusCodeForExportEb: 0 };
+
+    case "EXPORT_EXPENSE_DETAILS":
+      return {
+        ...state,
+        exportExpenceDetails: action.payload,
+        statusCodeForExportExpence: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_EXPENSE_DETAILS":
+      return { ...state, statusCodeForExportExpence: 0 };
+
+    case "EXPORT_COMPLIANCE_DETAILS":
+      return {
+        ...state,
+        exportComplianceDetails: action.payload,
+        statusCodeForExportcompliance: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_COMPLIANCE_DETAILS":
+      return { ...state, statusCodeForExportcompliance: 0 };
+
+    case "EXPORT_BOOKING_DETAILS":
+      return {
+        ...state,
+        exportBookingDetails: action.payload,
+        statusCodeForExportBooking: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_BOOKING_DETAILS":
+      return { ...state, statusCodeForExportBooking: 0 };
+
+    case "EXPORT_WALKIN_DETAILS":
+      return {
+        ...state,
+        exportWalkinDetails: action.payload,
+        statusCodeForExportWalkin: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_WALKIN_DETAILS":
+      return { ...state, statusCodeForExportWalkin: 0 };
+
+    case "CONFIRM_CHECKOUT_DUE_CUSTOMER":
+      return {
+        ...state,
+        statusCodeForDueCustomer: action.payload.statusCode,
+      };
+    case "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER":
+      return {
+        ...state,
+        statusCodeForDueCustomer: 0,
+      };
+
+    case "EXPORT_CHECKOUT_DETAILS":
+      return {
+        ...state,
+        exportCheckoutDetails: action.payload,
+        statusCodeForExportCheckout: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_CHECKOUT_DETAILS":
+      return { ...state, statusCodeForExportCheckout: 0 };
+
+    case "GET_CONFIRM_CHECK_OUT_CUSTOMER":
+      return {
+        ...state,
+        GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
+        GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
+        nonRefundable_details: action.payload.response.deduction_details,
+        hostelData: action.payload.response.hostelData,
+        Refundable_details: action.payload.response.Refundable_details,
+        Deduction: action.payload.response.Deduction,
+        statusCodegetConfirmCheckout: action.payload.statusCode,
+      };
+    case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
+      return { ...state, statusCodegetConfirmCheckout: 0 };
+
+    case "ADD_CONFIRM_CHECK_OUT_CUSTOMER":
+      return {
+        ...state,
+        statusCodeAddConfirmCheckout: action.payload.statusCode,
+      };
+    case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
+      return { ...state, statusCodeAddConfirmCheckout: 0 };
+
+    case "EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
+      return { ...state, statusCodeConformEdit: action.payload.statusCode };
+    case "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
+      return { ...state, statusCodeConformEdit: 0 };
+
+    case "EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR":
+      return { ...state, conformChekoutEditError: action.payload };
+
+    case "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR":
+      return { ...state, conformChekoutEditError: "" };
+
+    case "REASSIGN_BED":
+      return {
+        ...state,
+        reassignbeddetails: action.payload,
+        statusCodeForReassinBed: action.payload.statusCode,
+      };
+    case "CLEAR_REASSIGN_BED":
+      return { ...state, statusCodeForReassinBed: 0 };
+
+    case "CUSTOMER_ADD_CONTACT":
+      return {
+        ...state,
+        customerContact: action.payload,
+        statusCodeForCustomerCoatact: action.payload.statusCode,
+      };
+    case "CLEAR_CUSTOMER_ADD_CONTACT":
+      return { ...state, statusCodeForCustomerCoatact: 0 };
+    case "CUSTOMER_ALL_DETAILS":
+      return {
+        ...state,
+        customerAllDetails: action.payload.response,
+        statusCodeForCustomerAllDetails: action.payload.statusCode,
+      };
+    case "CLEAR_CUSTOMER_ALL_DETAILS":
+      return { ...state, statusCodeForCustomerAllDetails: 0 };
+
+    case "DELETE_CONTACT":
+      return {
+        ...state,
+        deleteContact: action.payload,
+        statusCodeDeleteContact: action.payload.statusCode,
+      };
+    case "CLEAR_DELETE_CONTACT":
+      return { ...state, statusCodeDeleteContact: 0 };
+
+    case "CONTACT_ERROR":
+      return { ...state, contactError: action.payload.response };
+
+    case "CLEAR_CONTACT_ERROR":
+      return { ...state, contactError: "" };
+
+    case "GENERATE_ADVANCE":
+      return {
+        ...state,
+        generateAdvance: action.payload.response,
+        statusCodeForGenerateAdvance: action.payload.statusCode,
+      };
+    case "REMOVE_GENERATE_ADVANCE":
+      return { ...state, statusCodeForGenerateAdvance: 0 };
+
+    case "GENERATE_ERROR":
+      return { ...state, generateError: action.payload };
+
+    case "CLEAR_GENERATE_ERROR":
+      return { ...state, generateError: "" };
+
+    case "UPLOAD_DOCUMENT":
+      return {
+        ...state,
+        uploaddocu: action.payload.message,
+        statusCodeForUploadDocument: action.payload.statusCode,
+      };
+    case "CLEAR_UPLOAD_DOCUMENT":
+      return { ...state, statusCodeForUploadDocument: 0 };
+    case "UPLOAD_OTHER_DOCUMENT":
+      return {
+        ...state,
+        otherUploaddocu: action.payload.message,
+        statusCodeForOtherDocu: action.payload.statusCode,
+      };
+    case "CLEAR_UPLOAD_OTHER_DOCUMENT":
+      return { ...state, statusCodeForOtherDocu: 0 };
+
+    case "USERROOMAVAILABLETRUE":
+      return { ...state, userRoomfor: true };
+    case "USERROOMAVAILABLEFALSE":
+      return { ...state, userRoomfor: false };
+
+    case "USERPROFILEBILLTRUE":
+      return { ...state, userProfilebill: true };
+    case "USERPROFILEBILLFALSE":
+      return { ...state, userProfilebill: false };
+
+    case "ADHAR_UPLOAD_ERROR":
+      return {
+        ...state,
+        adharuploadfileError: action.payload.response,
+        statuscodeForAdharFileError: action.payload.statusCode,
+      };
+    case "CLEAR_ADHAR_UPLOAD_ERROR":
+      return { ...state, adharuploadfileError: "" };
+    case "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE":
+      return { ...state, statuscodeForAdharFileError: 0 };
+
+    case "USERREADINGTRUE":
+      return { ...state, userReading: true };
+    case "USERREADINGFALSE":
+      return { ...state, userReading: false };
+
+    case "USERHOSTELREADINGTRUE":
+      return { ...state, userHostelRead: true };
+    case "USERHOSTELREADINGFALSE":
+      return { ...state, userHostelRead: false };
+
+    case "USERREADING_DELETETRUE":
+      return { ...state, userReadingdelete: true };
+    case "USERREADING_DELETEFALSE":
+      return { ...state, userReadingdelete: false };
+
+    case "USERHOSTEL_READING_DELETETRUE":
+      return { ...state, userHosteldelete: true };
+    case "USERHOSTEL_READING_DELETEFALSE":
+      return { ...state, userHosteldelete: false };
+
+    case "UPDATE_USERSLIST_TRUE":
+      return { ...state, isUsersListTrue: 3 };
+    case "UPDATE_USERSLIST_FALSE":
+      return { ...state, isUsersListTrue: 1 };
+
+    case "HOSTEL_ID_LIST":
+      return {
+        ...state,
+        hostelListNewDetails: action.payload,
+        statusCodeForhostelListNewDetails: action.payload.statusCode,
+      };
+    case "CLEAR_HOSTEL_ID_LIST":
+      return { ...state, statusCodeForhostelListNewDetails: 0 };
+    case "CLEAR_HOSTEL_LIST":
+      return { ...state, hostelList: [], hostelListNewDetails: [] };
+
+    case "KYC_VERIFY_NEW":
+      return {
+        ...state,
+        kycverifynew: action.payload.response,
+        statusCodeforverifyKYC: action.payload.statusCode,
+      };
+    case "REMOVE_KYC_VERIFY_NEW":
+      return { ...state, statusCodeforverifyKYC: 0 };
+
+    case "KYC_CUSTOMER_DETAILS":
+      return {
+        ...state,
+        KycCustomerDetails: action.payload.response,
+        statusCodeForCustomerDetails: action.payload.statusCode,
+      };
+    case "REMOVEKYC_CUSTOMER_DETAILS":
+      return { ...state, statusCodeForCustomerDetails: 0 };
+
+    case "KYC_NOT_ADDED":
+      return {
+        ...state,
+        KycCustomerDetails: action.payload.response,
+        KYCStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_KYC_NOT_ADDED":
+      return { ...state, KYCStatusCode: 0 };
+
+    case "UNASSIGN_CUSTOMER":
+      return {
+        ...state,
+        UnAssignCustomerDetails: action.payload.response,
+        statusCodeForUnAssignCustomer: action.payload.statusCode,
+      };
+    case "REMOVE_UNASSIGN_CUSTOMER":
+      return { ...state, statusCodeForUnAssignCustomer: 0 };
+
+    case "BACK_TO_CHECKIN_USER":
+      return { ...state, StatusCodeBacktoCheckin: action.payload.statusCode };
+    case "CLEAR_BACK_TO_CHECKIN_USER":
+      return { ...state, StatusCodeBacktoCheckin: 0 };
+
+    case "CHECKOUT_PROFILE_DETAILS":
+      return {
+        ...state,
+        checkoutprofileDetails: action.payload.response,
+        StatuscodeforCheckoutProfile: action.payload.statusCode,
+      };
+    case "REMOVE_CHECKOUT_PROFILE_DETAILS":
+      return { ...state, StatuscodeforCheckoutProfile: 0 };
+
+    case "FINAL_GENERATE":
+      return {
+        ...state,
+        statusCodeForFinalSettlement: action.payload.statusCode,
+      };
+    case "CLEAR_FINAL_GENERATE":
+      return { ...state, statusCodeForFinalSettlement: 0 };
+
+    case "CONFORM_CHECKOUT_ERROR":
+      return { ...state, chrckoutError: action.payload };
+
+    case "REMOVE_CONFORM_CHECKOUT_ERROR":
+      return { ...state, chrckoutError: "" };
+
+    case "CONFORM_CHECKOUT":
+      return {
+        ...state,
+        statuscodeForConformCheckout: action.payload.statusCode,
+      };
+
+    case "REMOVE_CONFORM_CHECKOUT":
+      return { ...state, statuscodeForConformCheckout: 0 };
+
+    case "FINAL_GENERATE_ERROR":
+      return { ...state, finalError: action.payload };
+
+    case "REMOVE_FINAL_GENERATE_ERROR":
+      return { ...state, finalError: "" };
+
+    default:
+      return state;
+  }
+};
 export default UserListReducer;

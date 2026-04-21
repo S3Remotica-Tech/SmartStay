@@ -20,8 +20,7 @@ export async function getReportsDetails(hostelId, filters = {}) {
 
 
 export async function getInvoiceRegister(hostelId, filters = {}) {
-  console.log("hostelId", hostelId)
-  return AxiosConfigV2.get(`/v2/reports/invoice/${hostelId}`, {
+    return AxiosConfigV2.get(`/v2/reports/invoice/${hostelId}`, {
     params: {
       startDate: filters.startDate,
       endDate: filters.endDate,

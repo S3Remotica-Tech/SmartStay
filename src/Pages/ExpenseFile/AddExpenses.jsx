@@ -177,11 +177,11 @@ function StaticExample({ show, currentItem, setShowModal }) {
       setTotalPrice(value);
     }
   };
-  const handleKeyDown = (e) => {
-    if (e.key === "." || e.key === "e" || e.key === "-") {
-      e.preventDefault();
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.key === "." || e.key === "e" || e.key === "-") {
+  //     e.preventDefault();
+  //   }
+  // };
 
   // console.log("currentItem", currentItem)
 
