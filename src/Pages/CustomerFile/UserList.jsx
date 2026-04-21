@@ -2098,76 +2098,79 @@ function UserList(props) {
   //   apiCall: row[8],
   // }));
 
-  const formattedData = (userListDetail?.tenants || []).map((row) => {
-    const obj = {};
+  // const formattedData = (userListDetail?.tenants || []).map((row) => {
+  //   const obj = {};
 
-    (userListDetail?.columnList || []).forEach((col, index) => {
-      const value = row[index];
+  //   (userListDetail?.columnList || []).forEach((col, index) => {
+  //     const value = row[index];
 
-      switch (col.fieldName) {
-        case "Profile Pic":
-          obj.profilePic = value;
-          break;
+  //     switch (col.fieldName) {
+  //       case "Profile Pic":
+  //         obj.profilePic = value;
+  //         break;
 
-        case "Full Name":
-          obj.fullName = typeof value === "object" ? value?.name || "-" : value;
-          break;
+  //       case "Full Name":
+  //         obj.fullName = typeof value === "object" ? value?.name || "-" : value;
+  //         break;
 
-        case "Status":
-          obj.status = typeof value === "object" ? value?.status : value;
-          break;
+  //       case "Status":
+  //         obj.status = typeof value === "object" ? value?.status : value;
+  //         break;
 
-        case "Joining Date":
-          obj.joiningDate = value;
-          break;
+  //       case "Joining Date":
+  //         obj.joiningDate = value;
+  //         break;
 
-        case "Mobile No":
-          obj.mobile = value;
-          break;
+  //       case "Mobile No":
+  //         obj.mobile = value;
+  //         break;
 
-        case "Floor":
-          obj.floorName = value;
-          break;
+  //       case "Floor":
+  //         obj.floorName = value;
+  //         break;
 
-        case "Room":
-          obj.roomName = value;
-          break;
+  //       case "Room":
+  //         obj.roomName = value;
+  //         break;
 
-        case "Bed":
-          obj.bedName = value;
-          break;
+  //       case "Bed":
+  //         obj.bedName = value;
+  //         break;
 
-        case "Email ID":
-          obj.emailId = value;
-          break;
+  //       case "Email ID":
+  //         obj.emailId = value;
+  //         break;
 
-        case "Booking Date":
-          obj.bookingDate = value;
-          break;
+  //       case "Booking Date":
+  //         obj.bookingDate = value;
+  //         break;
 
-        case "Monthly Rent":
-          obj.monthlyRent = value;
-          break;
+  //       case "Monthly Rent":
+  //         obj.monthlyRent = value;
+  //         break;
 
-        case "Advance":
-          obj.advanceAmount = value;
-          break;
+  //       case "Advance":
+  //         obj.advanceAmount = value;
+  //         break;
 
-        case "Booking Amount":
-          obj.bookingAmount = value;
-          break;
+  //       case "Booking Amount":
+  //         obj.bookingAmount = value;
+  //         break;
 
-        default:
-          break;
-      }
+  //       default:
+  //         break;
+  //     }
 
-      if (typeof value === "object" && value?.customerId) {
-        obj.apiCall = value;
-      }
-    });
+  //     if (typeof value === "object" && value?.customerId) {
+  //       obj.apiCall = value;
+  //     }
+  //   });
 
-    return obj;
-  });
+  //   return obj;
+  // });
+
+
+  
 
   const selectOptions = [
     { value: "ALL", label: "All" },
@@ -2250,7 +2253,11 @@ function UserList(props) {
 
     const filterData = [];
 
-    if (tenantFilters?.status && tenantFilters.status.length > 0 &&  !tenantFilters.status.includes("ALL")) {
+    if (
+      tenantFilters?.status &&
+      tenantFilters.status.length > 0 &&
+      !tenantFilters.status.includes("ALL")
+    ) {
       filterData.push({
         key: "status",
         label: "Status is",
