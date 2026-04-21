@@ -310,6 +310,8 @@ function UserList(props) {
           payload: {
             hostel_id: state.login.selectedHostel_Id,
             type: "Inactive",
+            page: page,
+            size: size,
           },
         });
       }
@@ -348,7 +350,11 @@ function UserList(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
 
       setTimeout(() => {
@@ -381,6 +387,8 @@ function UserList(props) {
         type: "USERLIST",
         payload: {
           hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
         },
       });
       setTimeout(() => {
@@ -1190,7 +1198,12 @@ function UserList(props) {
       handleCloseAddCustomer();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          type: "Inactive",
+          page: page,
+          size: size,
+        },
       });
 
       setTimeout(() => {
@@ -1253,7 +1266,11 @@ function UserList(props) {
       setDeleteShow(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
 
       setDeleteDetails({ room: null, bed: null, user: null });
@@ -1439,7 +1456,11 @@ function UserList(props) {
     ) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setcheckoutForm(false);
     }
@@ -1610,7 +1631,11 @@ function UserList(props) {
     if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setShowAssignMenu(false);
       setTimeout(() => {
@@ -1699,7 +1724,11 @@ function UserList(props) {
       handleCloseInActive();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setTimeout(() => {
         dispatch({ type: "CLEAR_BOOKING_InActive" });
@@ -1715,7 +1744,11 @@ function UserList(props) {
       setBookingAssignForm(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
 
       setTimeout(() => {
@@ -2098,79 +2131,76 @@ function UserList(props) {
   //   apiCall: row[8],
   // }));
 
-  // const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //   const obj = {};
+  const formattedData = (userListDetail?.tenants || []).map((row) => {
+    const obj = {};
 
-  //   (userListDetail?.columnList || []).forEach((col, index) => {
-  //     const value = row[index];
+    (userListDetail?.columnList || []).forEach((col, index) => {
+      const value = row[index];
 
-  //     switch (col.fieldName) {
-  //       case "Profile Pic":
-  //         obj.profilePic = value;
-  //         break;
+      switch (col.fieldName) {
+        case "Profile Pic":
+          obj.profilePic = value;
+          break;
 
-  //       case "Full Name":
-  //         obj.fullName = typeof value === "object" ? value?.name || "-" : value;
-  //         break;
+        case "Full Name":
+          obj.fullName = typeof value === "object" ? value?.name || "-" : value;
+          break;
 
-  //       case "Status":
-  //         obj.status = typeof value === "object" ? value?.status : value;
-  //         break;
+        case "Status":
+          obj.status = typeof value === "object" ? value?.status : value;
+          break;
 
-  //       case "Joining Date":
-  //         obj.joiningDate = value;
-  //         break;
+        case "Joining Date":
+          obj.joiningDate = value;
+          break;
 
-  //       case "Mobile No":
-  //         obj.mobile = value;
-  //         break;
+        case "Mobile No":
+          obj.mobile = value;
+          break;
 
-  //       case "Floor":
-  //         obj.floorName = value;
-  //         break;
+        case "Floor":
+          obj.floorName = value;
+          break;
 
-  //       case "Room":
-  //         obj.roomName = value;
-  //         break;
+        case "Room":
+          obj.roomName = value;
+          break;
 
-  //       case "Bed":
-  //         obj.bedName = value;
-  //         break;
+        case "Bed":
+          obj.bedName = value;
+          break;
 
-  //       case "Email ID":
-  //         obj.emailId = value;
-  //         break;
+        case "Email ID":
+          obj.emailId = value;
+          break;
 
-  //       case "Booking Date":
-  //         obj.bookingDate = value;
-  //         break;
+        case "Booking Date":
+          obj.bookingDate = value;
+          break;
 
-  //       case "Monthly Rent":
-  //         obj.monthlyRent = value;
-  //         break;
+        case "Monthly Rent":
+          obj.monthlyRent = value;
+          break;
 
-  //       case "Advance":
-  //         obj.advanceAmount = value;
-  //         break;
+        case "Advance":
+          obj.advanceAmount = value;
+          break;
 
-  //       case "Booking Amount":
-  //         obj.bookingAmount = value;
-  //         break;
+        case "Booking Amount":
+          obj.bookingAmount = value;
+          break;
 
-  //       default:
-  //         break;
-  //     }
+        default:
+          break;
+      }
 
-  //     if (typeof value === "object" && value?.customerId) {
-  //       obj.apiCall = value;
-  //     }
-  //   });
+      if (typeof value === "object" && value?.customerId) {
+        obj.apiCall = value;
+      }
+    });
 
-  //   return obj;
-  // });
-
-
-  
+    return obj;
+  });
 
   const selectOptions = [
     { value: "ALL", label: "All" },
