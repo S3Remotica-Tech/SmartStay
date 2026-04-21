@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function TenantListFilter({ show, handleClose }) {
+function TenantListFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
@@ -277,25 +277,25 @@ function TenantListFilter({ show, handleClose }) {
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
     const filters = {
-        // status: statusfilter ? [statusfilter] : [],
-        search: tenantName?.trim() ? tenantName : undefined,
-      };
-
-      dispatch({
-        type: "SET_TENANT_TABLE_FILTERS",
-        payload: filters,
-      });
+      // status: statusfilter ? [statusfilter] : [],
+      search: tenantName?.trim() ? tenantName : undefined,
+    };
 
     dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          name:  tenantName|| "",
-          // type: statusfilter || "",
-        },
-      });
-     
-  
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: filters,
+    });
+
+    dispatch({
+      type: "USERLIST",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        name: tenantName || "",
+        page: 1,
+        size: size,
+      },
+    });
+
     setFormLoading(true);
   };
 
@@ -311,8 +311,6 @@ function TenantListFilter({ show, handleClose }) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       setFormLoading(false);
-     
-     
     }
   }, [state.UsersList?.UserListStatusCode]);
 

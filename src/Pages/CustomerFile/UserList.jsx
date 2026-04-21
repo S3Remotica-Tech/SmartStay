@@ -85,7 +85,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TiTick } from "react-icons/ti";
 // import zIndex from "@mui/material/styles/zIndex";
 import TenantListFilter from "./TenantListFilter";
-
+import ApiPagination from "../../Components/ApiPagination";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -101,6 +101,8 @@ function UserList(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [value, setValue] = React.useState("1");
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -161,7 +163,10 @@ function UserList(props) {
   const [add_bookingshow, setAddBookingsShow] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
+  console.log("pageeeeeeeeeee", page);
+
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [isScrolling, setIsScrolling] = useState(false);
   const startIndex = (page - 1) * pageSize;
@@ -196,7 +201,7 @@ function UserList(props) {
   const isTenantForm = location.state?.isTenantForm || false;
 
   const [debouncedInput, setDebouncedInput] = useState(filterInput);
-  const [statusfilter, setStatusFilter] = useState("");
+  const [statusfilter, setStatusFilter] = useState("ALL");
 
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
@@ -240,6 +245,11 @@ function UserList(props) {
     { key: "Booking amount", label: "Booking amount" },
   ];
   const [customizeItems, setCustomizeItems] = useState([]);
+  const [customizeLoading, setCustomizeLoading] = useState(false);
+
+  const filteredCustomizeItems = customizeItems.filter((item) =>
+    item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
+  );
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
@@ -273,12 +283,20 @@ function UserList(props) {
     };
   }, []);
 
+  const handleResetCustomize = () => {
+    setCustomizeItems(initialCustomizeItems);
+  };
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
         dispatch({
           type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
+          payload: {
+            hostel_id: state.login.selectedHostel_Id,
+            page: page,
+            size: size,
+          },
         });
         setLoading(true);
       } else if (value === "3") {
@@ -458,244 +476,6 @@ function UserList(props) {
     setIsDeleting(false);
   };
 
-  const handleEditBill = () => {
-    let isValid = true;
-    let hasError = false;
-
-    setCustomerErrmsg("");
-    setInvoicenumberErrmsg("");
-
-    setInvoiceDateErrmsg("");
-    setInvoiceDueDateErrmsg("");
-    setAllFieldErrmsg("");
-
-    if (!customername) {
-      setCustomerErrmsg("Please Select Tenant");
-      isValid = false;
-    }
-
-    // if (!invoicenumber) {
-    //   setInvoicenumberErrmsg("Invoice Number is Required");
-    //   isValid = false;
-    // }
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Please Select Invoice Date");
-      isValid = false;
-    }
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Please Select Due Date");
-      isValid = false;
-    }
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill",
-      );
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0,
-      )
-    ) {
-      setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill",
-      );
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    const selectedUser = state.UsersList.Users?.listCustomers?.find(
-      (item) => item.ID === customername,
-    );
-
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
-      const invoiceDate = dayjs(invoicedate).startOf("day");
-      const dueDate = dayjs(invoiceduedate).startOf("day");
-
-      if (invoiceDate.isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-      if (dueDate.isBefore(invoiceDate)) {
-        setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
-        hasError = true;
-      }
-    }
-
-    if (hasError || !isValid) return;
-
-    if (!customername || !invoicedate || !invoiceduedate) {
-      setAllFieldErrmsg("Please Fill Out All Required Fields");
-      isValid = false;
-    }
-
-    if (isValid) {
-      const dueDateObject = new Date(invoiceduedate);
-      const formatduedate = `${dueDateObject.getFullYear()}-${String(
-        dueDateObject.getMonth() + 1,
-      ).padStart(2, "0")}-${String(dueDateObject.getDate()).padStart(2, "0")}`;
-
-      const dateObject = new Date(invoicedate);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-        day,
-      ).padStart(2, "0")}`;
-
-      dispatch({
-        type: "MANUAL-INVOICE-EDIT",
-        payload: {
-          user_id: customername,
-          date: formattedDate,
-          due_date: formatduedate,
-          // id: currentView.id,
-          amenity: newRows,
-        },
-      });
-
-      setBillLoading(true);
-      // setCustomerName("");
-      setInvoiceNumber("");
-
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-
-      setTotalAmount("");
-      setNewRows([]);
-
-      setCustomerErrmsg("");
-
-      setInvoiceDateErrmsg("");
-      setInvoiceDueDateErrmsg("");
-      setAllFieldErrmsg("");
-    }
-    dispatch({ type: "UPDATE_USERSLIST_TRUE" });
-  };
-
-  const handleCreateBill = () => {
-    let hasError = false;
-
-    if (!customername) {
-      setCustomerErrmsg("Please Select Tenant");
-      hasError = true;
-    } else {
-      setCustomerErrmsg("");
-    }
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setInvoiceDateErrmsg("");
-    }
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Please Select Due Date");
-      hasError = true;
-    } else {
-      setInvoiceDueDateErrmsg("");
-    }
-
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill",
-      );
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0,
-      )
-    ) {
-      setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill",
-      );
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    const selectedUser = state.UsersList.Users.listCustomers?.find(
-      (item) => item.customerId === customername,
-    );
-
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
-      const invoiceDate = dayjs(invoicedate).startOf("day");
-      const dueDate = dayjs(invoiceduedate).startOf("day");
-
-      if (invoiceDate.isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-      if (dueDate.isBefore(invoiceDate)) {
-        setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
-        hasError = true;
-      }
-    }
-    //  const rentAmount = newRows
-    //   .filter((row) => row.am_name?.toLowerCase() === "room rent")
-    //   .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-    const rentAmount = newRows
-      .filter(
-        (row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent",
-      )
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    const ebAmount = newRows
-      .filter((row) => row.am_name?.toLowerCase() === "eb")
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    const amenityAmount = newRows
-      .filter(
-        (row) =>
-          row.am_name?.toLowerCase() !== "room rent" &&
-          row.am_name?.toLowerCase() !== "eb",
-      )
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    if (hasError) {
-      return;
-    }
-    setBillLoading(true);
-    dispatch({
-      type: "MANUAL-INVOICE-ADD",
-      payload: {
-        // user_id: customername,
-        // date: formatinvoicedate,
-        // due_date: formatduedate,
-
-        // invoice_id: invoicenumber,
-        // total_amount: totalAmount,
-        // amenity: amenityArray.length > 0 ? amenityArray : [],
-        customerId: customername,
-        invoiceDate: formatinvoicedate,
-        dueDate: formatduedate,
-        invoiceNumber: invoicenumber,
-        total_amount: totalAmount,
-        rentAmount: rentAmount,
-        ebAmount: ebAmount,
-        amenityAmount: amenityAmount,
-      },
-    });
-  };
   useEffect(() => {
     if (billsAddshow && id) {
       const customeraId = state.UsersList?.Users?.listCustomers?.find(
@@ -1111,7 +891,11 @@ function UserList(props) {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setBacktoCheckInForm(false);
       setTimeout(() => {
@@ -1134,13 +918,15 @@ function UserList(props) {
   }, [filterInput]);
 
   useEffect(() => {
-    console.log("callleddddddddd");
+    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
     dispatch({
       type: "USERLIST",
       payload: {
         hostel_id: state.login.selectedHostel_Id,
         name: debouncedInput || "",
-        type: statusfilter || "",
+        type: statusValue,
+        page: page,
+        size: size,
       },
     });
 
@@ -1155,7 +941,7 @@ function UserList(props) {
       type: "SET_TENANT_TABLE_FILTERS",
       payload: filters,
     });
-  }, [debouncedInput, statusfilter]);
+  }, [debouncedInput, statusfilter, page, size]);
 
   // console.log("statusfilter", statusfilter);
 
@@ -2060,9 +1846,9 @@ function UserList(props) {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1440) {
-        setPageSize(20);
+        setPage(20);
       } else {
-        setPageSize(10);
+        setPage(10);
       }
       setPage(1);
     };
@@ -2172,7 +1958,7 @@ function UserList(props) {
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
           onChange={() => {
-            setCustomizeItems((prev) =>
+            setCustomizeItems((prev = []) =>
               prev.map((i) =>
                 i.key === item.key ? { ...i, selected: !i.selected } : i,
               ),
@@ -2185,7 +1971,7 @@ function UserList(props) {
     );
   };
   const CustomStyles = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
       minHeight: "32px",
       height: "32px",
@@ -2196,17 +1982,28 @@ function UserList(props) {
       fontWeight: 500,
       boxShadow: "none",
       cursor: "pointer",
+      backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
       "&:hover": {
         border: "1px solid #D9D9D9",
       },
     }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#333333",
+      fontWeight: 500,
+      backgroundColor: "#F4F4F4",
+    }),
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isFocused ? "#EEF2FF" : "#F9FAFB",
-      color: "#111827",
+      backgroundColor: state.isSelected
+        ? "#1E45E1"
+        : state.isFocused
+          ? "#EEF2FF"
+          : "#F9FAFB",
+      color: state.isSelected ? "#fff" : "#111827",
       cursor: "pointer",
     }),
-    valueContainer: (base) => ({
+    valueContainer: (base, state) => ({
       ...base,
       padding: "0 8px",
       height: "32px",
@@ -2289,19 +2086,91 @@ function UserList(props) {
     setIsFilterOpen(false);
   };
 
-  const formattedData = (userListDetail?.tenants || []).map((row) => ({
-    profilePic: row[0],
-    fullName: row[1],
-    status: row[2],
-    joiningDate: row[3],
-    mobile: row[4],
-    floorName: row[5],
-    roomName: row[6],
-    bedName: row[7],
-    apiCall: row[8],
-  }));
+  // const formattedData = (userListDetail?.tenants || []).map((row) => ({
+  //   profilePic: row[0],
+  //   fullName: row[1],
+  //   status: row[2],
+  //   joiningDate: row[3],
+  //   mobile: row[4],
+  //   floorName: row[5],
+  //   roomName: row[6],
+  //   bedName: row[7],
+  //   apiCall: row[8],
+  // }));
+
+  const formattedData = (userListDetail?.tenants || []).map((row) => {
+    const obj = {};
+
+    (userListDetail?.columnList || []).forEach((col, index) => {
+      const value = row[index];
+
+      switch (col.fieldName) {
+        case "Profile Pic":
+          obj.profilePic = value;
+          break;
+
+        case "Full Name":
+          obj.fullName = typeof value === "object" ? value?.name || "-" : value;
+          break;
+
+        case "Status":
+          obj.status = typeof value === "object" ? value?.status : value;
+          break;
+
+        case "Joining Date":
+          obj.joiningDate = value;
+          break;
+
+        case "Mobile No":
+          obj.mobile = value;
+          break;
+
+        case "Floor":
+          obj.floorName = value;
+          break;
+
+        case "Room":
+          obj.roomName = value;
+          break;
+
+        case "Bed":
+          obj.bedName = value;
+          break;
+
+        case "Email ID":
+          obj.emailId = value;
+          break;
+
+        case "Booking Date":
+          obj.bookingDate = value;
+          break;
+
+        case "Monthly Rent":
+          obj.monthlyRent = value;
+          break;
+
+        case "Advance":
+          obj.advanceAmount = value;
+          break;
+
+        case "Booking Amount":
+          obj.bookingAmount = value;
+          break;
+
+        default:
+          break;
+      }
+
+      if (typeof value === "object" && value?.customerId) {
+        obj.apiCall = value;
+      }
+    });
+
+    return obj;
+  });
 
   const selectOptions = [
+    { value: "ALL", label: "All" },
     ...new Map(
       (formattedData || [])
         .filter((view) => view.status)
@@ -2322,16 +2191,16 @@ function UserList(props) {
     }));
 
     setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
   }, [state?.UsersList?.Users?.columnList]);
 
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
-  6;
 
-  // useEffect(() => {
-  //   console.log("formattedData", formattedData);
-  // }, [formattedData]);
+  useEffect(() => {
+    console.log("formattedData", formattedData);
+  }, [formattedData]);
 
   const columnStyles = {
     "Profile Pic": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
@@ -2366,8 +2235,13 @@ function UserList(props) {
     });
     dispatch({
       type: "USERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
     });
+    setStatusFilter("ALL");
   };
 
   useEffect(() => {
@@ -2376,12 +2250,12 @@ function UserList(props) {
 
     const filterData = [];
 
-    if (tenantFilters?.status.length) {
+    if (tenantFilters?.status && tenantFilters.status.length > 0 &&  !tenantFilters.status.includes("ALL")) {
       filterData.push({
         key: "status",
         label: "Status is",
         type: "status",
-        value: tenantFilters?.status?.join(", "),
+        value: tenantFilters.status.join(", "),
       });
     }
 
@@ -2406,9 +2280,78 @@ function UserList(props) {
     setChips(filterData);
   }, [state.UsersList?.tenantFilters]);
 
-  // console.log("chips", chips);
+  console.log("chips", chips);
+
+  const getLeftOffset = (index) => {
+    let left = 80;
+
+    for (let i = 0; i < index; i++) {
+      left += 150;
+    }
+    return left;
+  };
+
+  console.log("customizeItems", customizeItems);
+
+  const handleSave = () => {
+    const payload = customizeItems.map((item, index) => ({
+      fieldName: item.key,
+      isSelected: item.selected,
+      order: item.order,
+    }));
+
+    if (payload) {
+      dispatch({
+        type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
+      setCustomizeLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    if (state.UsersList?.successTenantCustomizeColumns === 200) {
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_TENANT_COLUMNS_REDUCER" });
+      }, 100);
+    }
+  }, [state.UsersList?.successTenantCustomizeColumns]);
+
+  const currentPage = state?.UsersList?.Users?.currentPage ?? 1;
+
+  const totalPages = state?.UsersList?.Users?.totalPages ?? 1;
+
+  const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [state.reports?.tenantFilters]);
+
+  const handlePageChange = (page) => {
+    console.log("Page Clicked:", page);
+    setPage(page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
+
   return (
-    <div className="sticky-top bg-white font-gilroy">
+    <div className=" bg-white font-gilroy">
       {userList && (
         <div>
           <div className="font-gilroy font-medium text-base">
@@ -2520,7 +2463,13 @@ function UserList(props) {
 
                     <div className="flex flex-wrap items-center justify-between  ">
                       <div className="flex flex-wrap items-center gap-3">
-                        <div className="border border-gray-300 rounded-lg w-36">
+                        <div
+                          className={`border border-gray-300 rounded-lg w-36 ${
+                            statusfilter
+                              ? "bg-gray-100 text-gray-700"
+                              : "bg-white"
+                          }`}
+                        >
                           <Select
                             options={selectOptions}
                             styles={CustomStyles}
@@ -2639,13 +2588,13 @@ function UserList(props) {
                             </div>
                           )}
                         </button>
-                        <PaginationList
+                        {/* <PaginationList
                           totalItems={userListDetail.length}
                           itemsPerPage={pageSize}
                           currentPage={page}
                           onPageChange={(p) => setPage(p)}
                           onPageSizeChange={(size) => setPageSize(size)}
-                        />
+                        /> */}
                       </div>
                     </div>
                     {chips?.length > 0 && (
@@ -2675,7 +2624,7 @@ function UserList(props) {
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative max-h-[450px]  rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
@@ -2702,7 +2651,7 @@ function UserList(props) {
                               </th>
 
                               {selectedColumns?.map((col, index) => {
-                                const isSticky = col.fieldName === "Full Name";
+                                const isSticky = index < 2;
 
                                 return (
                                   <th
@@ -2732,17 +2681,22 @@ function UserList(props) {
                                       handleRoomDetailsPage(user?.apiCall)
                                     }
                                     key={user?.apiCall?.customerId || index}
-                                    className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 cursor-pointer  hover:bg-gray-50"
+                                    className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                                    cursor-pointer group  hover:!bg-gray-50"
                                   >
-                                    <td className="px-4 sticky left-0">
-                                      <input type="checkbox" />
+                                    <td
+                                      className={`px-4 sticky left-0  text-center align-middle  ${isScrolling ? "!bg-white" : "!bg-transparent"}`}
+                                    >
+                                      <div className="flex justify-center items-center">
+                                        <input type="checkbox" />
+                                      </div>
                                     </td>
 
-                                    {selectedColumns.map((col) => {
+                                    {selectedColumns?.map((col) => {
                                       const baseClass = `
           ${columnStyles[col.fieldName] || "px-4"}
           ${isScrolling ? "!bg-white" : "!bg-transparent"}
-          hover:!bg-gray-50 whitespace-nowrap text-[14px]
+          hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
         `;
 
                                       switch (col.fieldName) {
@@ -2752,16 +2706,22 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className="px-4"
                                             >
-                                              {user.profilePic?.startsWith(
+                                              {typeof user?.profilePic ===
+                                                "string" &&
+                                              user.profilePic.startsWith(
                                                 "http",
                                               ) ? (
                                                 <img
                                                   src={user.profilePic}
                                                   className="w-8 h-8 rounded-full"
+                                                  alt="profile"
                                                 />
                                               ) : (
                                                 <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                                  {user.profilePic}
+                                                  {typeof user?.profilePic ===
+                                                  "string"
+                                                    ? user.profilePic
+                                                    : "NA"}
                                                 </div>
                                               )}
                                             </td>
@@ -2774,13 +2734,13 @@ function UserList(props) {
                                               className={baseClass}
                                             >
                                               <div className="relative group w-[100px] ">
-                                                <span className="truncate whitespace-nowrap text-sm text-[#111928] text-ellipsis ">
+                                                <span className="block w-full truncate text-sm text-[#111928] ">
                                                   {user.fullName}
                                                 </span>
 
                                                 <div
                                                   className="absolute left-full ml-2 top-1/2 -translate-y-1/2
-        hidden group-hover:block
+        hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
                                                 >
@@ -2943,7 +2903,7 @@ function UserList(props) {
                                         <PiDotsThreeOutlineVerticalFill
                                           className={`h-5 w-5 rotate-90 ${
                                             activeRow ===
-                                            user.apiCall.customerId
+                                            user?.apiCall?.customerId
                                               ? "text-[#1E45E1]"
                                               : "text-gray-500"
                                           }`}
@@ -3127,6 +3087,7 @@ function UserList(props) {
                             )}
                           </tbody>
                         </table>
+
                         {open && (
                           <>
                             <div
@@ -3144,88 +3105,106 @@ function UserList(props) {
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
                             >
-                              <div className="p-3 border-b">
-                                <div className="flex items-center gap-2 justify-between mb-2">
-                                  <div className="text-[16px] text-[#333333] font-semibold ">
-                                    Customize Tabs{" "}
+                              <div className="relative">
+                                {customizeLoading && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                                    <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
                                   </div>
-                                  <div
-                                    onClick={() => {
-                                      const allSelected =
-                                        Array.isArray(customizeItems) &&
-                                        customizeItems.every((i) => i.selected);
+                                )}
+                                <div className="p-3 border-b ">
+                                  <div className="flex items-center gap-2 justify-between mb-2">
+                                    <div className="text-[16px] text-[#333333] font-semibold ">
+                                      Customize Tabs{" "}
+                                    </div>
+                                    <div
+                                      onClick={() => {
+                                        setCustomizeItems((prev = []) =>
+                                          prev.map((i) => ({
+                                            ...i,
+                                            selected: !allSelected,
+                                          })),
+                                        );
+                                      }}
+                                      className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                    >
+                                      {" "}
+                                      <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                      <span>
+                                        {allSelected
+                                          ? "Unselect all"
+                                          : "Select all"}
+                                      </span>
+                                    </div>
+                                  </div>
 
-                                      setCustomizeItems((prev) =>
-                                        prev.map((i) => ({
-                                          ...i,
-                                          selected: !allSelected,
-                                        })),
+                                  <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                    <SearchNormal1 size={16} color="#98A2B3" />
+                                    <input
+                                      value={searchText}
+                                      onChange={(e) =>
+                                        setSearchText(e.target.value)
+                                      }
+                                      placeholder="Search"
+                                      className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                    />
+                                  </div>
+                                </div>
+
+                                <DndContext
+                                  collisionDetection={closestCenter}
+                                  onDragEnd={(event) => {
+                                    const { active, over } = event;
+                                    if (!over) return;
+                                    if (active.id !== over?.id) {
+                                      const oldIndex = customizeItems.findIndex(
+                                        (i) => i.key === active.id,
                                       );
-                                    }}
-                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                                  >
-                                    {" "}
-                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                    <span>
-                                      {allSelected
-                                        ? "Unselect all"
-                                        : "Select all"}
-                                    </span>
-                                  </div>
-                                </div>
+                                      const newIndex = customizeItems.findIndex(
+                                        (i) => i.key === over.id,
+                                      );
 
-                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                                  <SearchNormal1 size={16} color="#98A2B3" />
-                                  <input
-                                    placeholder="Search"
-                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                                  />
-                                </div>
-                              </div>
-
-                              <DndContext
-                                collisionDetection={closestCenter}
-                                onDragEnd={(event) => {
-                                  const { active, over } = event;
-
-                                  if (active.id !== over?.id) {
-                                    const oldIndex = customizeItems.findIndex(
-                                      (i) => i.key === active.id,
-                                    );
-                                    const newIndex = customizeItems.findIndex(
-                                      (i) => i.key === over.id,
-                                    );
-
-                                    setCustomizeItems(
-                                      arrayMove(
-                                        customizeItems,
-                                        oldIndex,
-                                        newIndex,
-                                      ),
-                                    );
-                                  }
-                                }}
-                              >
-                                <SortableContext
-                                  items={customizeItems.map((i) => i.key)}
-                                  strategy={verticalListSortingStrategy}
+                                      setCustomizeItems(
+                                        arrayMove(
+                                          customizeItems,
+                                          oldIndex,
+                                          newIndex,
+                                        ),
+                                      );
+                                    }
+                                  }}
                                 >
-                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                    {customizeItems?.map((item) => (
-                                      <SortableItem
-                                        key={item.key}
-                                        item={item}
-                                      />
-                                    ))}
-                                  </div>
-                                </SortableContext>
-                              </DndContext>
-
+                                  <SortableContext
+                                    items={customizeItems.map((i) => i.key)}
+                                    strategy={verticalListSortingStrategy}
+                                  >
+                                    <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                      {filteredCustomizeItems.length === 0 ? (
+                                        <div className="text-sm text-gray-400 text-center py-3">
+                                          No results found
+                                        </div>
+                                      ) : (
+                                        filteredCustomizeItems.map((item) => (
+                                          <SortableItem
+                                            key={item.key}
+                                            item={item}
+                                          />
+                                        ))
+                                      )}
+                                    </div>
+                                  </SortableContext>
+                                </DndContext>
+                              </div>
                               <div className="p-3 border-t flex gap-2">
-                                <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                                <button
+                                  onClick={handleResetCustomize}
+                                  className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                                >
                                   Reset
                                 </button>
-                                <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                                <button
+                                  onClick={handleSave}
+                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                                >
                                   Save
                                 </button>
                               </div>
@@ -3233,6 +3212,16 @@ function UserList(props) {
                           </>
                         )}
                       </div>
+                      {formattedData?.length > 0 && (
+                        <ApiPagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          totalRecords={totalRecords}
+                          onPageChange={handlePageChange}
+                          onSizeChange={handleSizeChange}
+                          isTenantPagination={true}
+                        />
+                      )}
                     </div>
                   </div>
                 )}
@@ -3294,7 +3283,12 @@ function UserList(props) {
       )}
 
       {isFilterOpen && (
-        <TenantListFilter show={isFilterOpen} handleClose={handleCloseFilter} />
+        <TenantListFilter
+          show={isFilterOpen}
+          handleClose={handleCloseFilter}
+          size={size}
+          page={page}
+        />
       )}
       <CheckOutForm
         show={checkoutForm}

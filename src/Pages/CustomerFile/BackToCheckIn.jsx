@@ -58,7 +58,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
   dispatch({
     type: "INITIALIZECANCELCHECKOUT",
     payload: {
-      customerId :customerId,
+      customerId : customerId,
       hostelId: state.login.selectedHostel_Id,
     },
   });

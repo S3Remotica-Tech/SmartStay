@@ -3105,7 +3105,7 @@ function* handleTenantCustomizeData(action) {
        
       }
       if (response?.status === 200) {
-         yield put({ type: 'CUSTOMIZE_TENANT_COLUMNS_REDUCER', payload: { response: response.data.listCustomers, statusCode: response?.status } })
+         yield put({ type: 'CUSTOMIZE_TENANT_COLUMNS_REDUCER', payload: { response: response.data, statusCode: response?.status } })
       }
      
    }
