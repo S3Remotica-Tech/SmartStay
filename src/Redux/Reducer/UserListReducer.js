@@ -170,6 +170,9 @@ export const initialState = {
   templatesImagesDeleteStatusCode: 0,
   successTenantCustomizeColumns: 0,
   templatesGlobalImagesDeleteStatusCode: 0,
+  tenantListGetSuccessCode: 0,
+  TenantList: [],
+
   tenantFilters: {
     status: [],
     search: "",
@@ -195,6 +198,18 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
       return { ...state, accessRestrictionError: "" };
+
+    case "TENANT_LIST_REDUCER":
+      return {
+        ...state,
+        tenantListGetSuccessCode: action.payload.statusCode,
+        TenantList: action.payload.response,
+      };
+    case "REMOVE_TENANT_LIST_REDUCER":
+      return {
+        ...state,
+        tenantListGetSuccessCode: 0,
+              };
 
     case "TENANT_DOCUMENT_UPLOAD":
       return {

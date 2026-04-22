@@ -27,7 +27,7 @@ function CreateBill() {
   const location = useLocation();
   const { id, billData } = location.state || {};
 
-  // console.log("billData", billData,)
+  console.log("id", id);
   const [formLoading, setFormLoading] = useState(false);
 
   const [dropdownValue, setDropdownValue] = useState("");
@@ -62,15 +62,17 @@ function CreateBill() {
   // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
 
   useEffect(() => {
-    if (id && state.UsersList?.Users?.listCustomers?.length > 0) {
-      const selectedCustomer = state.UsersList.Users.listCustomers.find(
+    if (id && state.UsersList?.TenantList?.length > 0) {
+      const selectedCustomer = state.UsersList.TenantList.find(
         (u) => u.customerId === id,
       );
+      console.log("selectedCustomer", selectedCustomer);
+
       if (selectedCustomer) {
         setCustomerName(selectedCustomer.customerId);
       }
     }
-  }, [id, state.UsersList?.Users.listCustomers]);
+  }, [id, state.UsersList?.TenantList]);
 
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
@@ -120,6 +122,8 @@ function CreateBill() {
       });
     }
   }, [customername]);
+
+  console.log("customername", customername);
 
   useEffect(() => {
     if (!billData) {
@@ -749,7 +753,13 @@ function CreateBill() {
 
   useEffect(() => {
     if (hostelId) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+      dispatch({
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: hostelId,
+          purpose: "BILL",
+        },
+      });
     }
   }, [hostelId]);
 
@@ -837,7 +847,9 @@ function CreateBill() {
     }
   }, [newRows]);
 
-  const EXCLUDED_STATUSES = ["Booked", "Settlement Generated"];
+  // const EXCLUDED_STATUSES = ["Booked", "Settlement Generated"];
+
+  // console.log("state", state.UsersList.TenantList);
 
   return (
     <div className="mt-4 pl-[5px] relative">
@@ -865,35 +877,11 @@ function CreateBill() {
 
             <Select
               options={
-                state.UsersList?.Users?.listCustomers?.length > 0
-                  ? state.UsersList.Users.listCustomers
-                      .filter((u) => {
-                        if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
-                          return false;
-                        }
-
-                        const validBed =
-                          u.bedId !== "undefined" &&
-                          u.bedId !== "0" &&
-                          typeof u.bedId === "string" &&
-                          u.bedId.trim() !== "";
-
-                        const validRoom =
-                          u.roomId !== "undefined" &&
-                          u.roomId !== "0" &&
-                          typeof u.roomId === "string" &&
-                          u.roomId.trim() !== "";
-
-                        if (id) {
-                          return validBed && validRoom && u.customerId === id;
-                        }
-
-                        return validBed && validRoom;
-                      })
-                      .map((u) => ({
-                        value: u.customerId,
-                        label: u.fullName,
-                      }))
+                state.UsersList?.TenantList?.length > 0
+                  ? state.UsersList.TenantList.map((u) => ({
+                      value: u.customerId,
+                      label: u.fullName,
+                    }))
                   : []
               }
               onChange={handleCustomerName}
@@ -902,9 +890,9 @@ function CreateBill() {
                   ? {
                       value: customername,
                       label:
-                        state.UsersList?.Users?.listCustomers?.find(
+                        state.UsersList?.TenantList?.find(
                           (u) => u.customerId === customername,
-                        )?.firstName || "Select Customer",
+                        )?.fullName || "Select Customer",
                     }
                   : null
               }

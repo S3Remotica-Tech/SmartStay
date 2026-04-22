@@ -74,6 +74,7 @@ import {
   backtoCheckin,
   GenerateDetails,
   conformCheckout,
+  TenantListGet,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -986,6 +987,27 @@ function* handleuserlist(user) {
     }
     if (response) {
       refreshToken(response);
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+  }
+}
+
+function* handleTenantListGet(user) {
+  try {
+    const response = yield call(TenantListGet, user.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "TENANT_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
     }
   } catch (err) {
     const error = err || {};
@@ -3243,6 +3265,7 @@ function* UserListSaga() {
   yield takeEvery("CHECKIN", handleCheckIn);
   yield takeEvery("ALLFLOORLIST", handleGetAllFloor);
   yield takeEvery("USERLIST", handleuserlist);
+  yield takeEvery("TENANT_LIST_SAGA", handleTenantListGet);
   yield takeEvery("ADDUSER", handleAddUser);
   yield takeEvery("HOSTELLIST", handleHostelList);
   yield takeEvery("ROOMCOUNT", handleNumberOfRooms);

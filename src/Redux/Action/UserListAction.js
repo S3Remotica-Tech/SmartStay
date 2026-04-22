@@ -22,21 +22,24 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 // v2
 export async function userlist(users) {
-  console.log("usersusersusers +++++",users)
+  console.log("usersusersusers +++++", users);
   return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
     params: {
       name: users.name || "",
       type: users.type || "",
-      page: users.page, 
-      size : users.size
+      page: users.page,
+      size: users.size,
     },
   });
 }
 
-
-
-
-
+export async function TenantListGet({ hostelId, purpose }) {
+  return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
+    params: {
+      purpose: purpose,
+    },
+  });
+}
 
 export async function cancelBookingGet(customerId) {
   return await AxiosConfigV2.get(
@@ -731,7 +734,7 @@ export async function CustomerUnAssign(customer) {
 export async function tenantCustomizeData(customer) {
   return await AxiosConfigV2.put(
     `/v2/table-config/customers/${customer.hostelId}`,
-    customer.customize
+    customer.customize,
   );
 }
 

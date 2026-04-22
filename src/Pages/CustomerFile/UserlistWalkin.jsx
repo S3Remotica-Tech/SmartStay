@@ -59,21 +59,40 @@ function UserlistWalkin() {
       calledOnceRef.current = true;
       setWalkingLoader(true);
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
       });
     }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode) {
+    if (state.UsersList?.tenantListGetSuccessCode) {
       setWalkingLoader(false);
-      setWalkInCustomer(state.UsersList?.Users?.listCustomers);
+      setWalkInCustomer(state.UsersList?.TenantList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 100);
     }
-  }, [state.UsersList?.UserListStatusCode]);
+  }, [state.UsersList?.tenantListGetSuccessCode]);
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+      dispatch({
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -98,8 +117,11 @@ function UserlistWalkin() {
   useEffect(() => {
     if (state.UsersList.deleteWalkInCustomerStatusCode === 200) {
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
       });
       // setShowDeleteModal(false);
       setTimeout(() => {
@@ -124,26 +146,6 @@ function UserlistWalkin() {
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
-  // const handleDelete = (customer) => {
-  //   setCustomerToDelete(customer);
-  //   setShowDeleteModal(true);
-  //   setDotsButton(null);
-  // };
-
-  // const confirmDelete = () => {
-  //   if (customerToDelete.id) {
-  //     dispatch({
-  //       type: "DELETEWALKINCUSTOMER",
-  //       payload: { id: customerToDelete.id },
-  //     });
-  //   }
-  // };
-
-  // const cancelDelete = () => {
-  //   setShowDeleteModal(false);
-  //   setCustomerToDelete(null);
-  // };
-
   const handleBooking = (customer) => {
     setDotsButton(null);
     setSelectedCustomer(customer);
@@ -161,12 +163,6 @@ function UserlistWalkin() {
     // setCheckInNew(false)
   };
 
-  // const handleCheckInNew = (data) => {
-  //   setShowFormCheckIn(true)
-  //   setTenantDetails(data)
-  //   setCheckInNew(true)
-  // }
-
   const handleCloseCheckInForm = () => {
     setShowFormCheckIn(false);
   };
@@ -183,40 +179,12 @@ function UserlistWalkin() {
     };
   }, [popupRef]);
 
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return walkInCustomer;
-
-  //   const sorted = [...walkInCustomer].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [walkInCustomer, sortConfig]);
-
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
   const sortedData = React.useMemo(() => {
     return Array.isArray(walkInCustomer) ? walkInCustomer : [];
   }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
+    console.log("user", user);
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
@@ -231,8 +199,11 @@ function UserlistWalkin() {
       setFormLoading(false);
       setDeleteShow(false);
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
       });
 
       setDeleteDetails({ room: null, bed: null, user: null });
@@ -242,6 +213,8 @@ function UserlistWalkin() {
       }, 100);
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
+
+  console.log("deleteDetails", deleteDetails);
 
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
@@ -257,14 +230,14 @@ function UserlistWalkin() {
   };
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
+    if (state.UsersList?.tenantListGetSuccessCode === 200) {
       setShowForm(false);
 
       setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+        dispatch({ type: "REMOVE_TENANT_LIST_REDUCER" });
       }, 1000);
     }
-  }, [state.UsersList?.UserListStatusCode]);
+  }, [state.UsersList?.tenantListGetSuccessCode]);
 
   useEffect(() => {
     if (
@@ -272,8 +245,11 @@ function UserlistWalkin() {
       state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
     ) {
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
       });
 
       setTimeout(() => {
@@ -290,8 +266,11 @@ function UserlistWalkin() {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setShowForm(false);
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
       });
 
       setTimeout(() => {
@@ -304,8 +283,11 @@ function UserlistWalkin() {
     if (state.UsersList.statusCodeForCheckInCustomer === 201) {
       setShowFormCheckIn(false);
       dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: "Inactive" },
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
       });
 
       setTimeout(() => {
@@ -334,7 +316,7 @@ function UserlistWalkin() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = sortedData.slice(startIndex, endIndex);
+  const paginatedData = sortedData?.slice(startIndex, endIndex);
 
   return (
     <>
@@ -443,8 +425,8 @@ function UserlistWalkin() {
                                         <label
                                           className={`text-sm font-medium ${
                                             canWriteTenant
-                                              ? "text-gray-900"
-                                              : "text-gray-400"
+                                              ? "text-gray-900 cursor-pointer"
+                                              : "text-gray-400 cursor-not-allowed"
                                           }`}
                                         >
                                           Check-In
@@ -469,8 +451,8 @@ function UserlistWalkin() {
                                         <label
                                           className={`text-sm font-medium ${
                                             canWriteBooking
-                                              ? "text-blue-700"
-                                              : "text-gray-400"
+                                              ? "text-blue-700 cursor-pointer"
+                                              : "text-gray-400 cursor-not-allowed"
                                           }`}
                                         >
                                           Add Booking
@@ -496,8 +478,8 @@ function UserlistWalkin() {
                                         <label
                                           className={`text-sm font-medium ${
                                             canDeleteWalkin
-                                              ? "text-red-600"
-                                              : "text-gray-400"
+                                              ? "text-red-600 cursor-pointer"
+                                              : "text-gray-400 cursor-not-allowed"
                                           }`}
                                         >
                                           Delete
@@ -542,12 +524,7 @@ function UserlistWalkin() {
           handleCloseAddBooking={handleFormClose}
           userDetail={selectedCustomer}
         />
-
-        // <CustomerForm
-        //   show={showForm}
-        //   handleClose={handleFormClose}
-        //   initialData={selectedCustomer}
-        // />
+      
       )}
 
       {showFormCheckIn && (
@@ -676,14 +653,14 @@ function UserlistWalkin() {
   );
 }
 UserlistWalkin.propTypes = {
-  customerrolePermission: PropTypes.func.isRequired,
-  filterInput: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
-  filteredUsers: PropTypes.func.isRequired,
-  filterStatus: PropTypes.func.isRequired,
-  resetPage: PropTypes.func.isRequired,
-  setResetPage: PropTypes.func.isRequired,
-  walkinDateRange: PropTypes.func.isRequired,
+  // customerrolePermission: PropTypes.func.isRequired,
+  // filterInput: PropTypes.func.isRequired,
+  // search: PropTypes.func.isRequired,
+  // filteredUsers: PropTypes.func.isRequired,
+  // filterStatus: PropTypes.func.isRequired,
+  // resetPage: PropTypes.func.isRequired,
+  // setResetPage: PropTypes.func.isRequired,
+  // walkinDateRange: PropTypes.func.isRequired,
 };
 
 export default UserlistWalkin;
