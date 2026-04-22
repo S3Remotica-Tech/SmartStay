@@ -1,0 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
+import ComingSoonImage from "../Assets/v2Images/comingsoon.svg";
+import BottomImage from "../Assets/v2Images/bottom_image.svg";
+
+function FormComingSoon() {
+  return (
+    <div className="w-full col-span-full flex justify-center items-center">
+      <div className="h-50  px-4 relative overflow-hidden font-gilroy flex flex-col items-center justify-center text-center">
+        <img
+          src={ComingSoonImage}
+          alt="Coming Soon"
+          className="w-[280px] md:w-[340px]"
+        />
+
+        <h1 className="text-2xl font-semibold text-gray-900 -mt-6">
+          Coming Soon
+        </h1>
+
+        <p className="text-sm text-gray-500 max-w-md">
+          Our team is building something helpful for you.
+          <br />
+          Check back again shortly.
+        </p>
+
+        <img
+          src={BottomImage}
+          alt="City"
+          className="absolute bottom-0 left-0 w-full opacity-40 pointer-events-none"
+        />
+      </div>
+    </div>
+  );
+}
+export default FormComingSoon;

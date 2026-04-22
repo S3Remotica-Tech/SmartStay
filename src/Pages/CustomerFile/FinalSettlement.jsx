@@ -547,9 +547,6 @@ function FinalSettlement() {
     }
   }, [state.UsersList?.addRoomReadingStatusCode]);
 
-
-
-
   const isNonHostel = !finalSettlementList?.ebInfo?.isHostelReading;
 
   const missedEbList = finalSettlementList?.ebInfo?.missedEb || [];
@@ -627,18 +624,15 @@ function FinalSettlement() {
             <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.floorName ||
                 data?.floorName ||
-                data?.hostelInfo?.floorName 
-               }
+                data?.hostelInfo?.floorName}
             </span>
 
             <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.roomName ||
                 data?.roomName ||
-                data?.hostelInfo?.roomName }{" "}
+                data?.hostelInfo?.roomName}{" "}
               -{" "}
-              {pgDetails?.bedName ||
-                data?.bedName ||
-                data?.hostelInfo?.bedName}
+              {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName}
             </span>
           </div>
 
@@ -915,7 +909,7 @@ function FinalSettlement() {
                 {showRentDetails && (
                   <div className="px-[10px] py-2">
                     <div className="flex justify-between py-2 text-sm text-black">
-                      <span>Last Rent Paid (30 Days)</span>
+                      <span>Last Rent Paid</span>
                       <span>
                         ₹
                         {finalSettlementList?.currentMonthRentInfo

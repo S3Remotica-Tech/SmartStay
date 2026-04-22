@@ -165,7 +165,6 @@ function UserList(props) {
   const location = useLocation();
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-  console.log("pageeeeeeeeeee", page);
 
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -306,26 +305,24 @@ function UserList(props) {
         });
       } else if (value === "4") {
         dispatch({
-          type: "USERLIST",
+          type: "TENANT_LIST_SAGA",
           payload: {
-            hostel_id: state.login.selectedHostel_Id,
-            type: "Inactive",
-            page: page,
-            size: size,
+            hostelId: state.login.selectedHostel_Id,
+            purpose: "WALK_IN",
           },
         });
       }
     }
   }, [value, state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (id && !billsAddshow) {
-      dispatch({
-        type: "MANUAL-INVOICE-NUMBER-GET",
-        payload: { user_id: id },
-      });
-    }
-  }, [id, billsAddshow]);
+  // useEffect(() => {
+  //   if (id && !billsAddshow) {
+  //     dispatch({
+  //       type: "MANUAL-INVOICE-NUMBER-GET",
+  //       payload: { user_id: id },
+  //     });
+  //   }
+  // }, [id, billsAddshow]);
 
   const handleRowTypeSelect = (type) => {
     let newRow = { am_name: "", amount: "0" };
@@ -346,22 +343,6 @@ function UserList(props) {
 
     setDropdownValue("");
   };
-  useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
-        },
-      });
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-      }, 500);
-    }
-  }, [state?.Booking?.statusCodeForAddBooking]);
 
   useEffect(() => {
     if (state.UsersList.customerdetails.invoiceResponseList) {
@@ -1112,16 +1093,16 @@ function UserList(props) {
   const [userList, setUserList] = useState(true);
 
   const [hostelName, sethosName] = useState("");
-  const [customerUser_Id, setcustomerUser_Id] = useState("");
+  // const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [advanceForm, setAdvanceForm] = useState(false);
-  const [userDatafull, setUserData] = useState("");
+  // const [userDatafull, setUserData] = useState("");
 
   const handleRoomDetailsPage = (userData) => {
-    setHostelIds(userData.Hostel_Id);
-    setUserData(userData);
+    // setHostelIds(userData.Hostel_Id);
+    // setUserData(userData);
     setId(userData?.customerId);
-    sethosName(userData.HostelName);
-    setcustomerUser_Id(userData.customerId);
+    // sethosName(userData.HostelName);
+    // setcustomerUser_Id(userData.customerId);
     // setRoomDetail(true);
     setUserList(false);
     navigate(`/tenant/details/${userData.customerId}`, {
@@ -1136,16 +1117,6 @@ function UserList(props) {
 
   const [userDetail, setUserDetail] = useState({});
   const [bookingDet, setBookingDet] = useState("");
-  const handleAddBookings = (userData) => {
-    setHostelIds(userData.Hostel_Id);
-    setBookingDet(userData);
-    setId(userData.customerId);
-    sethosName(userData.HostelName);
-    setcustomerUser_Id(userData.User_Id);
-    setAddBookingsShow(true);
-    setUserDetail(userData);
-    dispatch({ type: "UPDATE_USERSLIST_FALSE" });
-  };
 
   const handleCloseAddBooking = () => {
     setAddBookingsShow(false);
@@ -1180,15 +1151,11 @@ function UserList(props) {
     const users = Array.isArray(userListDetail) ? userListDetail : [];
 
     const ParticularUserDetails = users.filter((item) => {
-      return item.User_Id === customerUser_Id;
+      return item.User_Id === id;
     });
 
     setUserDetails(ParticularUserDetails);
-  }, [
-    customerUser_Id,
-    state.UsersList?.Users?.listCustomers,
-    state.InvoiceList?.Invoice,
-  ]);
+  }, [id, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
     if (
@@ -1196,20 +1163,6 @@ function UserList(props) {
       state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
     ) {
       handleCloseAddCustomer();
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          type: "Inactive",
-          page: page,
-          size: size,
-        },
-      });
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type: "REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO" });
-      }, 2000);
     }
   }, [
     state.UsersList?.statusCodeForAddUser,
@@ -1256,30 +1209,6 @@ function UserList(props) {
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
-
-  useEffect(() => {
-    if (
-      state.UsersList?.deleteCustomerSuccessStatusCode === 204 &&
-      value === "1"
-    ) {
-      setFormLoading(false);
-      setDeleteShow(false);
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
-        },
-      });
-
-      setDeleteDetails({ room: null, bed: null, user: null });
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_DELETE_CUSTOMER" });
-      }, 100);
-    }
-  }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
@@ -1498,48 +1427,48 @@ function UserList(props) {
     }
   }, [state.UsersList?.exportWalkinDetails?.response?.fileUrl]);
 
-  const handleCustomerExcel = () => {
-    if (value === "1") {
-      dispatch({
-        type: "EXPORTDETAILS",
-        payload: {
-          type: "customers",
-          hostel_id: uniqueostel_Id,
-        },
-      });
-      setIsDownloadTriggered(true);
-    }
-  };
+  // const handleCustomerExcel = () => {
+  //   if (value === "1") {
+  //     dispatch({
+  //       type: "EXPORTDETAILS",
+  //       payload: {
+  //         type: "customers",
+  //         hostel_id: uniqueostel_Id,
+  //       },
+  //     });
+  //     setIsDownloadTriggered(true);
+  //   }
+  // };
 
-  const handleBookingExcel = () => {
-    if (value === "2") {
-      dispatch({
-        type: "EXPORTBOOKINGDETAILS",
-        payload: { type: "booking", hostel_id: uniqueostel_Id },
-      });
-      setIsDownloadTriggered(true);
-    }
-  };
+  // const handleBookingExcel = () => {
+  //   if (value === "2") {
+  //     dispatch({
+  //       type: "EXPORTBOOKINGDETAILS",
+  //       payload: { type: "booking", hostel_id: uniqueostel_Id },
+  //     });
+  //     setIsDownloadTriggered(true);
+  //   }
+  // };
 
-  const handlecheckoutExcel = () => {
-    if (value === "3") {
-      dispatch({
-        type: "EXPORTCHECKOUTDETAILS",
-        payload: { type: "checkout", hostel_id: uniqueostel_Id },
-      });
-      setIsDownloadTriggered(true);
-    }
-  };
+  // const handlecheckoutExcel = () => {
+  //   if (value === "3") {
+  //     dispatch({
+  //       type: "EXPORTCHECKOUTDETAILS",
+  //       payload: { type: "checkout", hostel_id: uniqueostel_Id },
+  //     });
+  //     setIsDownloadTriggered(true);
+  //   }
+  // };
 
-  const handlewalkinExcel = () => {
-    if (value === "4") {
-      dispatch({
-        type: "EXPORTWALKINGDETAILS",
-        payload: { type: "walkin", hostel_id: uniqueostel_Id },
-      });
-      setIsDownloadTriggered(true);
-    }
-  };
+  // const handlewalkinExcel = () => {
+  //   if (value === "4") {
+  //     dispatch({
+  //       type: "EXPORTWALKINGDETAILS",
+  //       payload: { type: "walkin", hostel_id: uniqueostel_Id },
+  //     });
+  //     setIsDownloadTriggered(true);
+  //   }
+  // };
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
       const link = document.createElement("a");
@@ -1627,22 +1556,22 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-  useEffect(() => {
-    if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
-        },
-      });
-      setShowAssignMenu(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
-      }, 2000);
-    }
-  }, [state.UsersList.statusCodeForCheckInCustomer]);
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
+  //     dispatch({
+  //       type: "USERLIST",
+  //       payload: {
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         page: page,
+  //         size: size,
+  //       },
+  //     });
+  //     setShowAssignMenu(false);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
+  //     }, 2000);
+  //   }
+  // }, [state.UsersList.statusCodeForCheckInCustomer]);
 
   const customDateInput = (props) => {
     return (
@@ -2133,7 +2062,8 @@ function UserList(props) {
 
   const formattedData = (userListDetail?.tenants || []).map((row) => {
     const obj = {};
-
+    let customerId = null;
+    let status = null;
     (userListDetail?.columnList || []).forEach((col, index) => {
       const value = row[index];
 
@@ -2145,11 +2075,9 @@ function UserList(props) {
         case "Full Name":
           obj.fullName = typeof value === "object" ? value?.name || "-" : value;
           break;
-
         case "Status":
-          obj.status = typeof value === "object" ? value?.status : value;
+          obj.status = value;
           break;
-
         case "Joining Date":
           obj.joiningDate = value;
           break;
@@ -2193,12 +2121,13 @@ function UserList(props) {
         default:
           break;
       }
-
-      if (typeof value === "object" && value?.customerId) {
-        obj.apiCall = value;
-      }
     });
+    const apiData = row[row.length - 1];
 
+    obj.apiCall = {
+      customerId: apiData?.customerId || null,
+      status: apiData?.status || null,
+    };
     return obj;
   });
 
@@ -3469,7 +3398,7 @@ function UserList(props) {
       {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
-          userData={userDatafull}
+          // userData={userDatafull}
           onAddItem={handleAddItems}
           onDeleteItem={handleDeleteItem}
           onEditRoomItem={handleEditRoomReading}
@@ -3501,7 +3430,7 @@ function UserList(props) {
           handleKycOtpChange={handleKycOtpChange}
           showValidate={showValidate}
           hostelName={hostelName}
-          customerUser_Id={customerUser_Id}
+          // customerUser_Id={customerUser_Id}
           hostelIds={hostelIds}
           handleAdhaarChange={handleAdhaarChange}
           // customerEditPermission={customerEditPermission}
