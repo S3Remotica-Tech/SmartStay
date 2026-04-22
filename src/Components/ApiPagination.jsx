@@ -12,6 +12,7 @@ function ApiPagination({
   onPageChange,
   onSizeChange,
   isTenantPagination,
+  size
 }) {
   const sizeOptions = [
     // { value: 1, label: "1" },
@@ -63,11 +64,10 @@ function ApiPagination({
     }
   };
 
-  useEffect(() => {
-    onSizeChange(pageSize?.value);
-  }, []);
+  const selectedSizeOption =
+  sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
 
-  console.log("currentPage", currentPage);
+
   return (
     <div className="sticky bottom-0 left-0 right-0 z-50  border-t border-gray-200 px-6 py-1 bg-white">
       <div className="flex items-center justify-between">
@@ -80,7 +80,7 @@ function ApiPagination({
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Size</span>
             <Select
-              value={pageSize}
+              value={selectedSizeOption}
               options={sizeOptions}
               onChange={handleSizeChange}
               isSearchable={false}

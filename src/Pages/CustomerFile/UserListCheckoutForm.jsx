@@ -13,13 +13,13 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 // import { Trash } from 'iconsax-react';
 // import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import ErrorMessage from '../../Components/ErrorMessage';
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const CheckOutForm = ({
   uniqueostel_Id,
@@ -32,11 +32,8 @@ const CheckOutForm = ({
   // conformEdit,
   // handleCloseConformForm
 }) => {
-
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
 
   const [checkOutDate, setCheckOutDate] = useState("");
   const [checkOutrequestDate, setCheckOutRequestDate] = useState("");
@@ -52,12 +49,10 @@ const CheckOutForm = ({
   // const [noChangeMessage, setNoChangeMessage] = useState("");
   // const [modeOfPayment, setModeOfPayment] = useState("");
   // const errorRef = useRef(null);
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
   // const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
   // const nochangeRef = useRef(null)
   // const [errors, setErrors] = useState([]);
-
-
 
   const handlecloseform = () => {
     handleClose();
@@ -72,9 +67,8 @@ const CheckOutForm = ({
     setCheckOutRequestDateError("");
     setDateDifference(null);
     // SetDueAmount('')
-    setFormLoading(false)
+    setFormLoading(false);
     // setFormCheckoutLoading(false)
-
   };
 
   // const handleCloseConfirmFormPage = () => {
@@ -91,11 +85,6 @@ const CheckOutForm = ({
   //   setFields([{ reason: "", amount: "", }]);
   // }
 
-
-
-
-
-
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {
   //          dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
@@ -106,13 +95,7 @@ const CheckOutForm = ({
   //   setModeOfPayment(e.target.value);
   //   setModeOfPaymentError("")
 
-
   // };
-
-
-
-
-
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption ? selectedOption.value : "");
@@ -120,27 +103,21 @@ const CheckOutForm = ({
     setCustomerError("");
   };
 
-
-
   const handleCommentsChange = (event) => {
     setComments(event.target.value);
     // setNoChangeMessage("")
-    setIsChangedError("")
+    setIsChangedError("");
   };
 
-
-
   const [dateDifference, setDateDifference] = useState(null);
-
-
 
   useEffect(() => {
     if (currentItem) {
       setCheckOutDate(
-        currentItem.CheckoutDate ? new Date(currentItem.CheckoutDate) : null
+        currentItem.CheckoutDate ? new Date(currentItem.CheckoutDate) : null,
       );
       setCheckOutRequestDate(
-        currentItem.req_date ? new Date(currentItem.req_date) : null
+        currentItem.req_date ? new Date(currentItem.req_date) : null,
       );
       setSelectedCustomer(currentItem.ID);
 
@@ -158,9 +135,6 @@ const CheckOutForm = ({
       dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
     }
   }, [currentItem, show]);
-
-
-
 
   // useEffect(() => {
   //   if (data) {
@@ -188,11 +162,6 @@ const CheckOutForm = ({
   //   }
   // }, [data, show]);
 
-
-
-
-
-
   // useEffect(() => {
 
   //   setFields(prevFields => {
@@ -203,9 +172,6 @@ const CheckOutForm = ({
   //     ];
   //   });
   // }, [dueamount]);
-
-
-
 
   // useEffect(() => {
   //   if (data?.amenities?.length > 0) {
@@ -233,14 +199,11 @@ const CheckOutForm = ({
   //   }
   // }, [data?.amenities, dueamount]);
 
-
   useEffect(() => {
-
     if (selectedCustomer && !data && !currentItem) {
       const filteruserlist = state.UsersList.Users?.listCustomers?.filter(
-        (u) => u.ID === selectedCustomer
+        (u) => u.ID === selectedCustomer,
       );
-
 
       if (filteruserlist && filteruserlist.length > 0) {
         const user = filteruserlist[0];
@@ -260,44 +223,38 @@ const CheckOutForm = ({
         }
       }
     }
-  }, [selectedCustomer, state.UsersList.Users.listCustomers, data, currentItem]);
+  }, [
+    selectedCustomer,
+    state.UsersList.Users.listCustomers,
+    data,
+    currentItem,
+  ]);
 
   const [customerWError, setCustomerError] = useState("");
   const [checkoUtDateError, setCheckOutDateError] = useState("");
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
 
-
-
-
   const handleCheckOutCustomer = () => {
-
     dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
-      "YYYY-MM-DD"
+      "YYYY-MM-DD",
     );
     const formattedrequestDate = moment(
       checkOutrequestDate,
-      "DD-MM-YYYY"
+      "DD-MM-YYYY",
     ).format("YYYY-MM-DD");
-
-
 
     if (!selectedCustomer) {
       setCustomerError("Please Select Tenant");
-
     }
-
-
 
     if (!checkOutDate) {
       setCheckOutDateError("Please Select  Check-Out Date");
-
     }
 
     if (!checkOutrequestDate) {
       setCheckOutRequestDateError("Please Select  Request Date");
-
     }
 
     if (!selectedCustomer || !checkOutDate || !checkOutrequestDate) {
@@ -305,10 +262,10 @@ const CheckOutForm = ({
     }
 
     const reqDate = new Date(
-      moment(checkOutrequestDate, "DD-MM-YYYY").format("YYYY-MM-DD")
+      moment(checkOutrequestDate, "DD-MM-YYYY").format("YYYY-MM-DD"),
     );
     const outDate = new Date(
-      moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD")
+      moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD"),
     );
 
     reqDate.setHours(0, 0, 0, 0);
@@ -318,9 +275,6 @@ const CheckOutForm = ({
       setCheckOutDateError("Before Request Date not allowed");
       return;
     }
-
-
-
 
     const formatDateTocheckoutDate = (startdate) => {
       if (!startdate) return "";
@@ -383,7 +337,7 @@ const CheckOutForm = ({
           req_date: formattedrequestDate,
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     }
     setSelectedCustomer("");
 
@@ -438,7 +392,7 @@ const CheckOutForm = ({
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
-      cursor: "pointer"
+      cursor: "pointer",
     }),
     indicatorSeparator: () => ({
       display: "none",
@@ -450,7 +404,6 @@ const CheckOutForm = ({
       color: "#000",
     }),
   };
-
 
   const formatOptions = () => {
     return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
@@ -490,19 +443,14 @@ const CheckOutForm = ({
     }
   }, [selectedCustomer, data]);
 
-
-
-
-
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 2000);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
-
 
   useEffect(() => {
     if (state.UsersList.errorMessageAddCheckOut) {
@@ -513,32 +461,28 @@ const CheckOutForm = ({
     }
   }, [state.UsersList.errorMessageAddCheckOut]);
 
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
-
-
-
-
-
+  }, [state.createAccount?.networkError]);
 
   return (
     <>
-      <Modal show={show} onHide={handlecloseform} centered backdrop="static"
+      <Modal
+        show={show}
+        onHide={handlecloseform}
+        centered
+        backdrop="static"
         style={{
           width: "100%",
           paddingRight: "10px",
           borderRadius: "30px",
-        }}>
+        }}
+      >
         <Modal.Dialog
           style={{
             minWidth: 500,
@@ -557,15 +501,21 @@ const CheckOutForm = ({
             >
               Add Check-Out
             </Modal.Title>
-            <CloseCircle size="24" color="#000" onClick={handlecloseform}
-              style={{ cursor: 'pointer' }} />
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handlecloseform}
+              style={{ cursor: "pointer" }}
+            />
           </Modal.Header>
 
-          <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll pt-0 mt-2 me-3">
-            <div >
+          <Modal.Body
+            style={{ maxHeight: "400px", overflowY: "scroll" }}
+            className="show-scroll pt-0 mt-2 me-3"
+          >
+            <div>
               <div className="d-flex align-items-center">
                 <div className="row row-gap-2">
-
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                     <div className="form-group">
                       <label
@@ -577,30 +527,28 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Customer {" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        Customer{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
                       </label>
                       <Select
                         styles={customStyles}
                         value={formatOptions().find(
-                          (opt) => opt.value === selectedCustomer
+                          (opt) => opt.value === selectedCustomer,
                         )}
                         onChange={handleCustomerChange}
                         options={formatOptions()}
                         placeholder="Select a customer"
                         classNamePrefix="custom"
                         menuPlacement="auto"
-
-
                       />
 
                       {customerWError && (
-
                         <ErrorMessage message={customerWError} type="error" />
                       )}
                     </div>
                   </div>
-
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2">
@@ -612,15 +560,13 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Current Floor {" "}
-
+                        Current Floor{" "}
                       </Form.Label>
                       <FormControl
                         id="form-controls"
                         placeholder="Current Floor"
                         type="text"
                         value={floorname}
-
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -646,14 +592,13 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Current Bed {" "}
+                        Current Bed{" "}
                       </Form.Label>
                       <FormControl
                         id="form-controls"
                         placeholder="Current Bed"
                         type="text"
                         value={bedname}
-
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -668,8 +613,6 @@ const CheckOutForm = ({
                       />
                     </Form.Group>
                   </div>
-
-
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="purchaseDate">
@@ -681,12 +624,16 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Request Date {" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        Request Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
                       </Form.Label>
 
-
-                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                      <div
+                        className="datepicker-wrapper"
+                        style={{ position: "relative", width: "100%" }}
+                      >
                         <DatePicker
                           style={{
                             width: "100%",
@@ -696,26 +643,28 @@ const CheckOutForm = ({
                           }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
-                          value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
+                          value={
+                            checkOutrequestDate
+                              ? dayjs(checkOutrequestDate)
+                              : null
+                          }
                           onChange={(date) => {
                             setCheckOutRequestDateError("");
                             setIsChangedError("");
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
-                          disabledDate={(current) => current && current > dayjs().endOf("day")}
-
-
-
-                          getPopupContainer={() =>
-                            document.body
+                          disabledDate={(current) =>
+                            current && current > dayjs().endOf("day")
                           }
-
+                          getPopupContainer={() => document.body}
                         />
-
                       </div>
                     </Form.Group>
                     {checkoUtrequestDateError && (
-                      <ErrorMessage message={checkoUtrequestDateError} type="error" />
+                      <ErrorMessage
+                        message={checkoUtrequestDateError}
+                        type="error"
+                      />
                     )}
                   </div>
 
@@ -729,14 +678,16 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Check-Out Date {" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        Check-Out Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
                       </Form.Label>
 
-
-
-                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-
+                      <div
+                        className="datepicker-wrapper"
+                        style={{ position: "relative", width: "100%" }}
+                      >
                         <DatePicker
                           style={{
                             width: "100%",
@@ -748,14 +699,12 @@ const CheckOutForm = ({
                           placeholder="DD/MM/YYYY"
                           value={checkOutDate ? dayjs(checkOutDate) : null}
                           onChange={(date) => {
-                            setCheckOutDateError('');
+                            setCheckOutDateError("");
                             setIsChangedError("");
                             setCheckOutDate(date ? date.toDate() : null);
                           }}
-
                           getPopupContainer={() => document.body}
                         />
-
                       </div>
                     </Form.Group>
                     {checkoUtDateError && (
@@ -763,10 +712,11 @@ const CheckOutForm = ({
                     )}
                   </div>
                   {state.UsersList.errorMessageAddCheckOut && (
-                    <ErrorMessage message={state.UsersList.errorMessageAddCheckOut} type="error" />
+                    <ErrorMessage
+                      message={state.UsersList.errorMessageAddCheckOut}
+                      type="error"
+                    />
                   )}
-
-
 
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                     <label
@@ -818,52 +768,43 @@ const CheckOutForm = ({
                     </div>
                   )}
                 </div>
-
               </div>
-
             </div>
 
             {isChangedError && (
-              <div
-                className="d-flex justify-content-center align-items-center"
-              >
+              <div className="d-flex justify-content-center align-items-center">
                 <ErrorMessage message={isChangedError} type="error" />
               </div>
             )}
-
-
-
           </Modal.Body>
 
-
-
-          {formLoading &&
+          {formLoading && (
             <div
               style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "transparent",
                 opacity: 0.75,
                 zIndex: 10,
               }}
             >
               <div
                 style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
+                  borderTop: "4px solid #1E45E1",
+                  borderRight: "4px solid transparent",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  animation: "spin 1s linear infinite",
                 }}
               ></div>
             </div>
-          }
+          )}
           <Modal.Footer
             className="d-flex align-items-center justify-content-center pt-0"
             style={{ border: "none" }}
@@ -879,7 +820,6 @@ const CheckOutForm = ({
                 width: "100%",
                 backgroundColor: "#1E45E1",
               }}
-
               onClick={() => {
                 // if (checkouteditaction) {
                 //   handleCheckOutCustomer();
@@ -888,15 +828,11 @@ const CheckOutForm = ({
                 // }
               }}
             >
-
               Add Check-Out
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
-
-
-
     </>
   );
 };

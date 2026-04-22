@@ -75,6 +75,18 @@ function NoticeBedStatusDetails({
   const isNoticeAndBooked = currentItem?.newTenantInfo?.length > 0
 
 
+
+useEffect(()=>{
+    if (!selectedTenant?.tenetId) return;
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId:selectedTenant?.tenetId } });
+
+},[selectedTenant?.tenetId])
+
+
+
+
+
+
   const handleEditBed = () => {
     showEditBed(true)
   }
@@ -138,9 +150,8 @@ function NoticeBedStatusDetails({
   }
 
 
-  const matchedData = state?.UsersList?.Users?.listCustomers?.filter(
-    (user) => user.customerId === selectedTenant?.tenetId
-  );
+  const matchedDataStatus = state.UsersList.customerdetails?.customerCurrentStatus
+
 
 
 
@@ -184,10 +195,10 @@ function NoticeBedStatusDetails({
   useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
       handleCloseBed()
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      })
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // })
       dispatch({
         type: "GETALLBEDSLIST",
         payload: { roomId: currentItem.roomId }
@@ -204,10 +215,10 @@ function NoticeBedStatusDetails({
   useEffect(() => {
     if (state.UsersList.statuscodeForConformCheckout === 200) {
       handleCloseBed()
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({
         type: "GETALLBEDSLIST",
         payload: { roomId: currentItem.roomId }
@@ -217,14 +228,16 @@ function NoticeBedStatusDetails({
       }, 500);
     }
   }, [state.UsersList.statuscodeForConformCheckout])
-  useEffect(() => {
-    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, [state.login.selectedHostel_Id])
+
+
+  // useEffect(() => {
+  //   dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  // }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
       handleCloseBed()
-      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+      // dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setTimeout(() => {
         dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
       }, 500);
@@ -375,8 +388,8 @@ function NoticeBedStatusDetails({
                               className="absolute right-16 -top-3 w-40 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50">
                               {
                                 (
-                                  matchedData[0]?.currentStatus === "Notice Period" ||
-                                  matchedData[0]?.currentStatus !== "Settlement Generated"
+                                  matchedDataStatus === "NOTICE" ||
+                                  matchedDataStatus !== "SETTLEMENT_GENERATED"
                                 ) &&
                                 <>
                                   <div
@@ -397,7 +410,7 @@ function NoticeBedStatusDetails({
                               }
 
                               {
-                                matchedData[0]?.currentStatus === "Notice Period" &&
+                               matchedDataStatus === "NOTICE" &&
                                 <div>
 
                                   {/* cancel checkout */}
@@ -462,7 +475,7 @@ function NoticeBedStatusDetails({
 
                               {
 
-                                matchedData[0]?.currentStatus === "Checked In" &&
+                                matchedDataStatus === "CHECK_IN" &&
 
                                 <div>
                                   <div
@@ -515,7 +528,7 @@ function NoticeBedStatusDetails({
                               }
 
                               {
-                                matchedData[0]?.currentStatus === "Settlement Generated" &&
+                               matchedDataStatus === "SETTLEMENT_GENERATED" &&
                                 <div
                                   className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canWriteCheckout ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"
                                     }`}

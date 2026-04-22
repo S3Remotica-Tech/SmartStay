@@ -51,7 +51,7 @@ function FinalSettlement() {
   const [isEditingDate, setIsEditingDate] = useState(false);
   const [checkoutDate, setCheckoutDate] = useState(dayjs());
   const [selectedRowDetails, setSelectedRowDetails] = useState("");
-  const { data, pgDetails, isPGWay } = location.state || {};
+  const { data, pgDetails, isPGWay, customer } = location.state || {};
 
   const [isEditing, setIsEditing] = useState(false);
   const [discount, setDiscount] = useState("");
@@ -70,6 +70,7 @@ function FinalSettlement() {
     setShowRoomReading(true);
     setSelectedRowDetails(item);
   };
+
 
   const handleCloseRoomReading = () => {
     dispatch({ type: "REMOVE_ROOM_READING_ERROR" });
@@ -409,10 +410,6 @@ function FinalSettlement() {
 
   const totalDeductions = totalApiDeductions + totalUserDeductions;
 
-  // const selectedUser = state.UsersList.Users.listCustomers?.find(
-  //   (item) => item.customerId === data?.customerId || data?.tenetId,
-  // );
-
   const validateFields = () => {
     let isValid = true;
     const newErrors = fields.map((item) => {
@@ -624,15 +621,15 @@ function FinalSettlement() {
             <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.floorName ||
                 data?.floorName ||
-                data?.hostelInfo?.floorName}
+                data?.hostelInfo?.floorName || customer.floorName}
             </span>
 
             <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.roomName ||
                 data?.roomName ||
-                data?.hostelInfo?.roomName}{" "}
+                data?.hostelInfo?.roomName || customer.roomName}{" "}
               -{" "}
-              {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName}
+              {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName || customer.bedName}
             </span>
           </div>
 

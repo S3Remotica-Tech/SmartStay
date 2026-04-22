@@ -79,7 +79,8 @@ function BedDetailsMap({ room, propsValue,
         navigate(`/tenant/final-settlement/${tenantDetails?.customerId}`, {
             state: {
                 data: tenantDetails,
-                isPGWay: true
+                isPGWay: true,
+                customer:customer
             }
         });
 

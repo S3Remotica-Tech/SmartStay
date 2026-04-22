@@ -41,18 +41,26 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
   useEffect(() => {
     if (!selectedUserId) return;
-    const user = state?.UsersList?.Users?.listCustomers?.find(
-      (u) => u.customerId === selectedUserId,
-    );
-    if (user) {
-      setName(user.fullName);
-      setFloorName(user.floorName);
-      setRoomName(user.roomName);
-      setBedName(user.bedName);
-      setProfilePic(user.profilePic);
-      setInitials(user.initials);
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: selectedUserId },
+    });
+  }, [selectedUserId]);
+
+  const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo;
+
+  useEffect(() => {
+    if (!selectedUserId) return;
+
+    if (CustomerOverview) {
+      setName(state.UsersList?.customerdetails?.fullName);
+      setFloorName(CustomerOverview.floorName);
+      setRoomName(CustomerOverview.roomName);
+      setBedName(CustomerOverview.bedName);
+      setProfilePic(state.UsersList?.customerdetails?.profilePic);
+      setInitials(state.UsersList?.customerdetails?.initials);
     }
-  }, [selectedUserId, state?.UsersList?.Users?.listCustomers]);
+  }, [selectedUserId, state.UsersList?.customerdetails]);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
