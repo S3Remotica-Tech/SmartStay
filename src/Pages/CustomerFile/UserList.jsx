@@ -270,8 +270,15 @@ function UserList(props) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (listRef.current && !listRef.current.contains(event.target)) {
-        setIsOpen(false);
+      if (!listRef.current) return;
+
+      if (!listRef.current.contains(event.target)) {
+        setIsOpen((prev) => {
+          if (prev) {
+            setCustomizeItems([...initialCustomizeItems]);
+          }
+          return false;
+        });
       }
     };
 
@@ -282,8 +289,14 @@ function UserList(props) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setCustomizeItems([...initialCustomizeItems]);
+    }
+  }, [isOpen, initialCustomizeItems]);
+
   const handleResetCustomize = () => {
-    setCustomizeItems(initialCustomizeItems);
+    setCustomizeItems([...initialCustomizeItems]);
   };
 
   useEffect(() => {
@@ -875,7 +888,7 @@ function UserList(props) {
     });
   }, [debouncedInput, statusfilter, page, size]);
 
-  // console.log("statusfilter", statusfilter);
+  console.log("size **********", size);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1749,17 +1762,24 @@ function UserList(props) {
   }, [state.InvoiceList.unableAddInvoiceDetailsError]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1440) {
-        setSize(20);
-      } else {
-        setSize(10);
-      }
-      setSize(10);
-    };
+    let timeout;
 
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
   }, []);
 
   const handleChangeSelectOptions = (e) => {
@@ -1990,89 +2010,6 @@ function UserList(props) {
   const handleCloseFilter = () => {
     setIsFilterOpen(false);
   };
-
-  // const formattedData = (userListDetail?.tenants || []).map((row) => ({
-  //   profilePic: row[0],
-  //   fullName: row[1],
-  //   status: row[2],
-  //   joiningDate: row[3],
-  //   mobile: row[4],
-  //   floorName: row[5],
-  //   roomName: row[6],
-  //   bedName: row[7],
-  //   apiCall: row[8],
-  // }));
-
-  // const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //   const obj = {};
-  //   let customerId = null;
-  //   let status = null;
-  //   (userListDetail?.columnList || []).forEach((col, index) => {
-  //     const value = row[index];
-
-  //     switch (col.fieldName) {
-  //       case "Profile Pic":
-  //         obj.profilePic = value;
-  //         break;
-
-  //       case "Full Name":
-  //         obj.fullName = typeof value === "object" ? value?.name || "-" : value;
-  //         break;
-  //       case "Status":
-  //         obj.status = value;
-  //         break;
-  //       case "Joining Date":
-  //         obj.joiningDate = value;
-  //         break;
-
-  //       case "Mobile No":
-  //         obj.mobile = value;
-  //         break;
-
-  //       case "Floor":
-  //         obj.floorName = value;
-  //         break;
-
-  //       case "Room":
-  //         obj.roomName = value;
-  //         break;
-
-  //       case "Bed":
-  //         obj.bedName = value;
-  //         break;
-
-  //       case "Email ID":
-  //         obj.emailId = value;
-  //         break;
-
-  //       case "Booking Date":
-  //         obj.bookingDate = value;
-  //         break;
-
-  //       case "Monthly Rent":
-  //         obj.monthlyRent = value;
-  //         break;
-
-  //       case "Advance":
-  //         obj.advanceAmount = value;
-  //         break;
-
-  //       case "Booking Amount":
-  //         obj.bookingAmount = value;
-  //         break;
-
-  //       default:
-  //         break;
-  //     }
-  //   });
-  //   const apiData = row[row.length - 1];
-
-  //   obj.apiCall = {
-  //     customerId: apiData?.customerId || null,
-  //     status: apiData?.status || null,
-  //   };
-  //   return obj;
-  // });
 
   const headerKeyMap = {
     "Profile Pic": "profilePic",
@@ -2415,7 +2352,8 @@ function UserList(props) {
                           <Select
                             options={selectOptions}
                             styles={CustomStyles}
-                            isDisabled={!canReadTenant}
+                            isDisabled
+                            // isDisabled={!canReadTenant}
                             onChange={(e) => handleStatusFilter(e)}
                             value={
                               selectOptions.find(
@@ -2428,7 +2366,7 @@ function UserList(props) {
 
                         <div className="flex items-center gap-3">
                           <Select
-                            // isDisabled
+                            isDisabled
                             options={monthOptions}
                             value={selectedMonth}
                             onChange={handleMonthChange}
@@ -2446,7 +2384,7 @@ function UserList(props) {
                             size={16}
                             onClick={() => {
                               if (canReadTenant) {
-                                setIsFilterOpen(true);
+                                // setIsFilterOpen(true);
                               }
                             }}
                             className={`transition-opacity duration-300 ${
@@ -2622,7 +2560,6 @@ function UserList(props) {
                             {Array.isArray(formattedData) &&
                             formattedData?.length > 0 ? (
                               formattedData?.map((user, index) => {
-                                console.log("ROW DATA:", user);
                                 return (
                                   <tr
                                     onClick={() =>
@@ -2640,7 +2577,7 @@ function UserList(props) {
                                              : "!bg-transparent"
                                          }`}
                                     >
-                                      <div className="flex justify-center items-center">
+                                      <div className="flex justify-end items-center">
                                         <input type="checkbox" />
                                       </div>
                                     </td>
@@ -2679,7 +2616,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className={`px-4 ${stickyClass}`}
+                                              className={`px-4 ${finalClass}`}
                                             >
                                               {typeof user?.profilePic ===
                                                 "string" &&
@@ -3201,6 +3138,7 @@ function UserList(props) {
                           onPageChange={handlePageChange}
                           onSizeChange={handleSizeChange}
                           isTenantPagination={true}
+                          size={size}
                         />
                       )}
                     </div>
