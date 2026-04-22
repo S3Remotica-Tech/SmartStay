@@ -287,7 +287,7 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (state.login?.selectedHostel_Id) {
       if (value === "1") {
         dispatch({
           type: "USERLIST",
@@ -1024,7 +1024,7 @@ function UserList(props) {
       highlight: true,
     },
     {
-      label: "Active Tenants",
+      label: "Booked Tenants",
       value: "0",
     },
     {
@@ -1808,11 +1808,11 @@ function UserList(props) {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1440) {
-        setPage(20);
+        setSize(20);
       } else {
-        setPage(10);
+        setSize(10);
       }
-      setPage(1);
+      setSize(10);
     };
 
     window.addEventListener("resize", handleResize);
@@ -2060,74 +2060,112 @@ function UserList(props) {
   //   apiCall: row[8],
   // }));
 
+  // const formattedData = (userListDetail?.tenants || []).map((row) => {
+  //   const obj = {};
+  //   let customerId = null;
+  //   let status = null;
+  //   (userListDetail?.columnList || []).forEach((col, index) => {
+  //     const value = row[index];
+
+  //     switch (col.fieldName) {
+  //       case "Profile Pic":
+  //         obj.profilePic = value;
+  //         break;
+
+  //       case "Full Name":
+  //         obj.fullName = typeof value === "object" ? value?.name || "-" : value;
+  //         break;
+  //       case "Status":
+  //         obj.status = value;
+  //         break;
+  //       case "Joining Date":
+  //         obj.joiningDate = value;
+  //         break;
+
+  //       case "Mobile No":
+  //         obj.mobile = value;
+  //         break;
+
+  //       case "Floor":
+  //         obj.floorName = value;
+  //         break;
+
+  //       case "Room":
+  //         obj.roomName = value;
+  //         break;
+
+  //       case "Bed":
+  //         obj.bedName = value;
+  //         break;
+
+  //       case "Email ID":
+  //         obj.emailId = value;
+  //         break;
+
+  //       case "Booking Date":
+  //         obj.bookingDate = value;
+  //         break;
+
+  //       case "Monthly Rent":
+  //         obj.monthlyRent = value;
+  //         break;
+
+  //       case "Advance":
+  //         obj.advanceAmount = value;
+  //         break;
+
+  //       case "Booking Amount":
+  //         obj.bookingAmount = value;
+  //         break;
+
+  //       default:
+  //         break;
+  //     }
+  //   });
+  //   const apiData = row[row.length - 1];
+
+  //   obj.apiCall = {
+  //     customerId: apiData?.customerId || null,
+  //     status: apiData?.status || null,
+  //   };
+  //   return obj;
+  // });
+
+  const headerKeyMap = {
+    "Profile Pic": "profilePic",
+    "Full Name": "fullName",
+    Status: "status",
+    "Joining Date": "joiningDate",
+    "Mobile No": "mobile",
+    Floor: "floorName",
+    Room: "roomName",
+    Bed: "bedName",
+    "Email ID": "emailId",
+    "Booking Date": "bookingDate",
+    "Monthly Rent": "monthlyRent",
+    Advance: "advanceAmount",
+    "Booking Amount": "bookingAmount",
+  };
+
   const formattedData = (userListDetail?.tenants || []).map((row) => {
     const obj = {};
-    let customerId = null;
-    let status = null;
-    (userListDetail?.columnList || []).forEach((col, index) => {
+
+    (userListDetail?.tableHeaders || []).forEach((header, index) => {
+      const key = headerKeyMap[header];
       const value = row[index];
 
-      switch (col.fieldName) {
-        case "Profile Pic":
-          obj.profilePic = value;
-          break;
-
-        case "Full Name":
-          obj.fullName = typeof value === "object" ? value?.name || "-" : value;
-          break;
-        case "Status":
-          obj.status = value;
-          break;
-        case "Joining Date":
-          obj.joiningDate = value;
-          break;
-
-        case "Mobile No":
-          obj.mobile = value;
-          break;
-
-        case "Floor":
-          obj.floorName = value;
-          break;
-
-        case "Room":
-          obj.roomName = value;
-          break;
-
-        case "Bed":
-          obj.bedName = value;
-          break;
-
-        case "Email ID":
-          obj.emailId = value;
-          break;
-
-        case "Booking Date":
-          obj.bookingDate = value;
-          break;
-
-        case "Monthly Rent":
-          obj.monthlyRent = value;
-          break;
-
-        case "Advance":
-          obj.advanceAmount = value;
-          break;
-
-        case "Booking Amount":
-          obj.bookingAmount = value;
-          break;
-
-        default:
-          break;
+      if (key) {
+        obj[key] = value ?? "-";
       }
     });
+
     const apiData = row[row.length - 1];
 
     obj.apiCall = {
       customerId: apiData?.customerId || null,
       status: apiData?.status || null,
     };
+
     return obj;
   });
 
@@ -2165,8 +2203,8 @@ function UserList(props) {
   }, [formattedData]);
 
   const columnStyles = {
-    "Profile Pic": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
-    "Full Name": "px-4 sticky left-[80px] z-30 w-[180px] bg-white",
+    "Profile Pic": "px-4 whitespace-nowrap",
+    "Full Name": "px-4 whitespace-nowrap",
     Status: "px-4",
     "Joining Date": "px-4 whitespace-nowrap",
     "Mobile No": "px-4 whitespace-nowrap",
@@ -2246,8 +2284,6 @@ function UserList(props) {
     setChips(filterData);
   }, [state.UsersList?.tenantFilters]);
 
-  console.log("chips", chips);
-
   const getLeftOffset = (index) => {
     let left = 80;
 
@@ -2257,13 +2293,11 @@ function UserList(props) {
     return left;
   };
 
-  console.log("customizeItems", customizeItems);
-
   const handleSave = () => {
     const payload = customizeItems.map((item, index) => ({
       fieldName: item.key,
       isSelected: item.selected,
-      order: item.order,
+      order: index + 1,
     }));
 
     if (payload) {
@@ -2308,7 +2342,6 @@ function UserList(props) {
   }, [state.reports?.tenantFilters]);
 
   const handlePageChange = (page) => {
-    console.log("Page Clicked:", page);
     setPage(page);
   };
 
@@ -2617,15 +2650,20 @@ function UserList(props) {
                               </th>
 
                               {selectedColumns?.map((col, index) => {
-                                const isSticky = index < 2;
+                                let stickyClass = "";
+
+                                if (index === 0) {
+                                  stickyClass =
+                                    "sticky left-[80px] z-40 bg-[#F9FAFB]";
+                                } else if (index === 1) {
+                                  stickyClass =
+                                    "sticky left-[200px] z-40 bg-[#F9FAFB]";
+                                }
 
                                 return (
                                   <th
                                     key={col.key}
-                                    className={`
-        px-4 py-2.5 uppercase whitespace-nowrap text-start
-        ${isSticky ? "sticky left-[80px] z-40 bg-[#F9FAFB]" : ""}
-      `}
+                                    className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
                                   >
                                     {col.fieldName}
                                   </th>
@@ -2641,6 +2679,7 @@ function UserList(props) {
                             {Array.isArray(formattedData) &&
                             formattedData?.length > 0 ? (
                               formattedData?.map((user, index) => {
+                                console.log("ROW DATA:", user);
                                 return (
                                   <tr
                                     onClick={() =>
@@ -2651,26 +2690,53 @@ function UserList(props) {
                                     cursor-pointer group  hover:!bg-gray-50"
                                   >
                                     <td
-                                      className={`px-4 sticky left-0  text-center align-middle  ${isScrolling ? "!bg-white" : "!bg-transparent"}`}
+                                      className={`px-4 sticky left-0 z-50 text-center align-middle hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap
+                                         ${
+                                           isScrolling
+                                             ? "!bg-white"
+                                             : "!bg-transparent"
+                                         }`}
                                     >
                                       <div className="flex justify-center items-center">
                                         <input type="checkbox" />
                                       </div>
                                     </td>
 
-                                    {selectedColumns?.map((col) => {
+                                    {selectedColumns?.map((col, index) => {
+                                      //                               const baseClass = `
+                                      //   ${columnStyles[col.fieldName] || "px-4"}
+                                      //   ${isScrolling ? "!bg-white" : "!bg-transparent"}
+                                      //   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
+                                      // `;
                                       const baseClass = `
-          ${columnStyles[col.fieldName] || "px-4"}
-          ${isScrolling ? "!bg-white" : "!bg-transparent"}
-          hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-        `;
+  ${columnStyles[col.fieldName] || "px-4"}
+  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
+`;
+
+                                      let stickyClass = "";
+
+                                      if (index === 0) {
+                                        stickyClass = `sticky left-[80px] z-30 ${
+                                          isScrolling
+                                            ? "!bg-white"
+                                            : "!bg-transparent"
+                                        }`;
+                                      } else if (index === 1) {
+                                        stickyClass = `sticky left-[200px] z-30 ${
+                                          isScrolling
+                                            ? "!bg-white"
+                                            : "!bg-transparent"
+                                        }`;
+                                      }
+
+                                      const finalClass = `${baseClass} ${stickyClass}`;
 
                                       switch (col.fieldName) {
                                         case "Profile Pic":
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className="px-4"
+                                              className={`px-4 ${stickyClass}`}
                                             >
                                               {typeof user?.profilePic ===
                                                 "string" &&
@@ -2697,7 +2763,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={baseClass}
+                                              className={finalClass}
                                             >
                                               <div className="relative group w-[100px] ">
                                                 <span className="block w-full truncate text-sm text-[#111928] ">
@@ -2720,7 +2786,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={baseClass}
+                                              className={finalClass}
                                             >
                                               <span
                                                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
@@ -2748,7 +2814,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className="truncate whitespace-nowrap text-[#6B7280] font-medium px-4"
+                                              className={`${finalClass} truncate text-[#6B7280] font-medium`}
                                             >
                                               {user.joiningDate}
                                             </td>
@@ -2758,7 +2824,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={baseClass}
+                                              className={finalClass}
                                             >
                                               {user.mobile}
                                             </td>
@@ -2768,7 +2834,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={baseClass}
+                                              className={finalClass}
                                             >
                                               {user.floorName}
                                             </td>
@@ -2778,7 +2844,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.roomName}
                                             </td>
@@ -2788,7 +2854,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.bedName}
                                             </td>
@@ -2797,7 +2863,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.emailId}
                                             </td>
@@ -2806,7 +2872,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.bookingDate}
                                             </td>
@@ -2815,7 +2881,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.monthlyRent}
                                             </td>
@@ -2824,7 +2890,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.advanceAmount}
                                             </td>
@@ -2833,7 +2899,7 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.fieldName}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
                                               {user.bookingAmount}
                                             </td>
@@ -2842,9 +2908,15 @@ function UserList(props) {
                                           return (
                                             <td
                                               key={col.key}
-                                              className={`${baseClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                              className={finalClass}
                                             >
-                                              -
+                                              {typeof user[
+                                                columnKeyMap[col.fieldName]
+                                              ] === "object"
+                                                ? "-"
+                                                : (user[
+                                                    columnKeyMap[col.fieldName]
+                                                  ] ?? "-")}
                                             </td>
                                           );
                                       }
