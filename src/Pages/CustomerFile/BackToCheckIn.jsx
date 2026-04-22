@@ -10,7 +10,7 @@ import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 import PropTypes from "prop-types";
-
+import FormComingSoon from "../../Utils/FormComingSoon";
 function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
   const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
   const [recheckinDateError, setRecheckinDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
 
-   const CustomerOverView = state?.UsersList?.customerdetails;
+  const CustomerOverView = state?.UsersList?.customerdetails;
 
   const reasonRef = useRef(null);
   const dateRef = useRef(null);
@@ -42,29 +42,29 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
   };
 
   const customerId =
-  checkInDetails?.apiCall?.customerId ||
-  checkInDetails?.tenantId ||  
-  checkInDetails?.customerId;
-
+    checkInDetails?.apiCall?.customerId ||
+    checkInDetails?.tenantId ||
+    checkInDetails?.tenetId ||
+    checkInDetails?.customerId;
 
   useEffect(() => {
-  if (!customerId) return;
+    if (!customerId) return;
 
-  dispatch({
-    type: "CUSTOMERDETAILS",
-    payload: {customerId: customerId },
-  });
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: customerId },
+    });
+    console.log("executeddddddddddd");
+    dispatch({
+      type: "INITIALIZECANCELCHECKOUT",
+      payload: {
+        customerId: customerId,
+        hostelId: state.login.selectedHostel_Id,
+      },
+    });
+  }, [customerId]);
 
-  dispatch({
-    type: "INITIALIZECANCELCHECKOUT",
-    payload: {
-      customerId : customerId,
-      hostelId: state.login.selectedHostel_Id,
-    },
-  });
-}, [customerId]);
-
-  // console.log("initializeCancelCheckout",state.UsersList.initializeCancelCheckout.canRecheckinSameBed)
+  console.log("customerId", customerId);
 
   const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
 
@@ -95,7 +95,9 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         type: "CANCELCHECKOUT",
         payload: {
           customerId:
-            checkInDetails?.apiCall?.customerId || checkInDetails?.tenetId || checkInDetails?.customerId,
+            checkInDetails?.apiCall?.customerId ||
+            checkInDetails?.tenetId ||
+            checkInDetails?.customerId,
           hostelId: state.login.selectedHostel_Id,
           // roomId: checkInDetails?.roomId,
           bedId:
@@ -328,18 +330,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               </div>
             </>
           ) : (
-            <div className="h-52 flex items-center justify-center bg-slate-100 rounded-lg mt-5 mr-0 shadow-sm border border-dashed border-slate-300">
-              <div className="text-center">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                  alt="Coming Soon"
-                  className="w-20 h-20 mb-4 opacity-70 mx-auto"
-                />
-                <p className="text-gray-500 text-sm font-gilroy">
-                  Coming Soon. Stay tuned!
-                </p>
-              </div>
-            </div>
+            <FormComingSoon />
           )}
         </Modal.Body>
       </Modal.Dialog>

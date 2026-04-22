@@ -315,35 +315,6 @@ function UserList(props) {
     }
   }, [value, state.login.selectedHostel_Id]);
 
-  // useEffect(() => {
-  //   if (id && !billsAddshow) {
-  //     dispatch({
-  //       type: "MANUAL-INVOICE-NUMBER-GET",
-  //       payload: { user_id: id },
-  //     });
-  //   }
-  // }, [id, billsAddshow]);
-
-  const handleRowTypeSelect = (type) => {
-    let newRow = { am_name: "", amount: "0" };
-
-    if (type === "RoomRent") {
-      newRow.am_name = "Room Rent";
-    } else if (type === "EB") {
-      newRow.am_name = "EB";
-    }
-
-    setNewRows((prev) => [...prev, newRow]);
-    if (type !== "Other" && !selectedTypes.includes(type)) {
-      setSelectedTypes((prev) => [...prev, type]);
-    }
-
-    setAllFieldErrmsg("");
-    setTableErrmsg("");
-
-    setDropdownValue("");
-  };
-
   useEffect(() => {
     if (state.UsersList.customerdetails.invoiceResponseList) {
       const mappedRows = [];
@@ -465,34 +436,6 @@ function UserList(props) {
     setIsDeleting(false);
   };
 
-  useEffect(() => {
-    if (billsAddshow && id) {
-      const customeraId = state.UsersList?.Users?.listCustomers?.find(
-        (u) => u.customerId === id,
-      );
-
-      if (customeraId) {
-        setCustomerName(customeraId.customerId);
-      }
-    }
-  }, [billsAddshow]);
-
-  const handleCustomerName = (e) => {
-    setCustomerName(e.target.value);
-    setAllFieldErrmsg("");
-    if (!e.target.value) {
-      setCustomerErrmsg("Please Select Name");
-    } else {
-      setCustomerErrmsg("");
-    }
-
-    setTotalAmount("");
-  };
-
-  // const formatDateForPayloadmanualinvoice = (date) => {
-  //   return dayjs(date).format("YYYY-MM-DD");
-  // };
-
   const handleInvoiceDate = (selectedDates) => {
     setAllFieldErrmsg("");
     const date = selectedDates;
@@ -613,10 +556,10 @@ function UserList(props) {
   const [userListDetail, setUserListDetail] = useState([]);
 
   useEffect(() => {
-    if (state.UsersList?.Users?.listCustomers) {
+    if (state.UsersList?.Users) {
       setLoading(false);
     }
-  }, [state.UsersList?.Users?.listCustomers]);
+  }, [state.UsersList?.Users]);
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {

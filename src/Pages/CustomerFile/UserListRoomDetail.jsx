@@ -159,7 +159,7 @@ function UserListRoomDetail(props) {
   const [advanceDueDate, setAdvanceDueDate] = useState("");
   // const [advanceDateError, setAdvanceDateError] = useState("");
   // const [advanceDueDateError, setAdvanceDueDateError] = useState("");
-  const [customerDetails, setCustomerDetails] = useState([]);
+  // const [customerDetails, setCustomerDetails] = useState([]);
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -449,37 +449,6 @@ function UserListRoomDetail(props) {
   ];
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
-      handleCloseGenerateAdvance();
-      const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter(
-        (item) => {
-          return item.User_Id === props?.customerUser_Id;
-        },
-      );
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 1000);
-
-      setCustomerDetails(ParticularUserDetails);
-    }
-  }, [state.UsersList?.UserListStatusCode]);
-
-  useEffect(() => {
-    const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter(
-      (item) => {
-        return item.User_Id === props?.customerUser_Id;
-      },
-    );
-
-    setTimeout(() => {
-      dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-    }, 1000);
-
-    setCustomerDetails(ParticularUserDetails);
-  }, []);
-
-  useEffect(() => {
     dispatch({
       type: "KYCCUSTOMERDETAILS",
       payload: { customer_id: props?.id },
@@ -676,10 +645,10 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.editBasicSuccessStatusCode === 200) {
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
@@ -1946,7 +1915,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser === 201) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+      // dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
       setFormLoading(false);
       setLoading(false);
@@ -2077,7 +2046,7 @@ function UserListRoomDetail(props) {
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
       });
-      dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+      // dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "REMOVE_GENERATE_ADVANCE" });
       }, 500);
