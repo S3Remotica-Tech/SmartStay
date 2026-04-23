@@ -175,7 +175,12 @@ export const initialState = {
 
   tenantFilters: {
     status: [],
+    tenantStatusLabel: [],
     search: "",
+    period: [],
+    periodLabel: [],
+    sharingType: "",
+    sharingTypeLabel: "",
   },
 };
 
@@ -209,7 +214,7 @@ const UserListReducer = (state = initialState, action) => {
       return {
         ...state,
         tenantListGetSuccessCode: 0,
-              };
+      };
 
     case "TENANT_DOCUMENT_UPLOAD":
       return {

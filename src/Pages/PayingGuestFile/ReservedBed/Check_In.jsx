@@ -322,7 +322,11 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
       setFormLoading(false);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
       });
       handleClose();
     }

@@ -202,9 +202,15 @@ function UserList(props) {
   const [debouncedInput, setDebouncedInput] = useState(filterInput);
   const [statusfilter, setStatusFilter] = useState("ALL");
 
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+  };
+
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
   };
+
+  console.log("chipssssss", chips);
 
   useEffect(() => {
     if (isTenantForm) {
@@ -862,33 +868,7 @@ function UserList(props) {
     return () => clearTimeout(timer);
   }, [filterInput]);
 
-  useEffect(() => {
-    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
-    dispatch({
-      type: "USERLIST",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        name: debouncedInput || "",
-        type: statusValue,
-        page: page,
-        size: size,
-      },
-    });
-
-    setLoading(true);
-
-    const filters = {
-      status: statusfilter ? [statusfilter] : [],
-      search: debouncedInput?.trim() || "",
-    };
-
-    dispatch({
-      type: "SET_TENANT_TABLE_FILTERS",
-      payload: filters,
-    });
-  }, [debouncedInput, statusfilter, page, size]);
-
-  console.log("size **********", size);
+  // console.log("selectedMonth **********", selectedMonth);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -975,21 +955,25 @@ function UserList(props) {
   const stats = [
     {
       label: "Total Tenants",
-      value: `${userListDetail?.totalCustomers || 0}`,
+      value: `${userListDetail?.tenantSummary?.totalTenantsCount || 0}`,
       icon: true,
       highlight: true,
     },
+    // {
+    //   label: "Active Tenants",
+    //   value: `${userListDetail?.tenantSummary?.checkedInCounts || 0}`,
+    // },
     {
       label: "Booked Tenants",
-      value: "0",
+      value: `${userListDetail?.tenantSummary?.bookedCounts || 0}`,
     },
     {
       label: "Notice Period",
-      value: "0",
+      value: `${userListDetail?.tenantSummary?.noticePeriodCounts || 0}`,
     },
     {
       label: "Check out (MTD)",
-      value: "0",
+      value: `${userListDetail?.tenantSummary?.vacatedCount || 0}`,
     },
   ];
 
@@ -1288,41 +1272,12 @@ function UserList(props) {
   //   setShowbookingForm(false);
   // };
   const [checkoutForm, setcheckoutForm] = useState(false);
-  // const checkOutForm = () => {
-  //   if (!state.login.selectedHostel_Id) {
-  //     toast.error("Please add a hostel before adding checkout information.", {
-  //       hideProgressBar: true,
-  //       autoClose: 1500,
-  //       style: {
-  //         color: "#000",
-  //         borderBottom: "5px solid red",
-  //         fontFamily: "Gilroy",
-  //       },
-  //     });
-  //     return;
-  //   }
-  //   setcheckoutForm(!checkoutForm);
-  // };
+
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
 
   const [walkInForm, setWalkinForm] = useState(false);
-  // const walkinForm = () => {
-  //   if (!state.login.selectedHostel_Id) {
-  //     toast.error("Please add a hostel before adding walking information.", {
-  //       hideProgressBar: true,
-  //       autoClose: 1500,
-  //       style: {
-  //         color: "#000",
-  //         borderBottom: "5px solid red",
-  //         fontFamily: "Gilroy",
-  //       },
-  //     });
-  //     return;
-  //   }
-  //   setWalkinForm(true);
-  // };
 
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
@@ -1895,6 +1850,7 @@ function UserList(props) {
       </label>
     );
   };
+
   const CustomStyles = {
     control: (base, state) => ({
       ...base,
@@ -1982,31 +1938,6 @@ function UserList(props) {
     { key: "3", label: "Check-out" },
   ];
 
-  const monthOptions = [
-    {
-      value: "this_month",
-      label: "This Month",
-    },
-    {
-      value: "last_month",
-      label: "Last Month",
-    },
-    {
-      value: "last_3_month",
-      label: "Last 3 Months",
-    },
-    {
-      value: "last_6_months",
-      label: "Last 6 Months",
-    },
-  ];
-
-  const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
-
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
-
   const handleCloseFilter = () => {
     setIsFilterOpen(false);
   };
@@ -2049,18 +1980,25 @@ function UserList(props) {
     return obj;
   });
 
+  const filterOptionsData = useSelector(
+    (state) => state.UsersList?.Users?.filterOptions,
+  );
+
   const selectOptions = [
     { value: "ALL", label: "All" },
-    ...new Map(
-      (formattedData || [])
-        .filter((view) => view.status)
-        .map((view) => [
-          view.status,
-          { value: view.status, label: view.status },
-        ]),
-    ).values(),
+    ...(filterOptionsData?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
   ];
 
+  const monthOptions =
+    filterOptionsData?.periods?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || [];
+
+  const [selectedMonth, setSelectedMonth] = useState();
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
 
@@ -2074,13 +2012,44 @@ function UserList(props) {
     setInitialCustomizeItems(formatted);
   }, [state?.UsersList?.Users?.columnList]);
 
+  useEffect(() => {
+    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    dispatch({
+      type: "USERLIST",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        name: debouncedInput || "",
+        type: statusValue,
+        page: page,
+        size: size,
+        period: selectedMonth?.value,
+      },
+    });
+
+    setLoading(true);
+
+    const filters = {
+      status: statusfilter ? [statusfilter] : [],
+      search: debouncedInput?.trim() || "",
+      period: selectedMonth?.value ? selectedMonth?.value : "",
+      periodLabel: selectedMonth?.label ? selectedMonth?.label : "",
+    };
+
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: filters,
+    });
+  }, [debouncedInput, statusfilter, page, size, selectedMonth]);
+
+  console.log("statusfilter", statusfilter);
+
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
-  useEffect(() => {
-    console.log("formattedData", formattedData);
-  }, [formattedData]);
+  // useEffect(() => {
+  //   console.log("formattedData", formattedData);
+  // }, [formattedData]);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -2099,7 +2068,12 @@ function UserList(props) {
         type: "SET_TENANT_TABLE_FILTERS",
         payload: {
           status: [],
+          tenantStatusLabel: [],
           search: "",
+          period: [],
+          periodLabel: [],
+          sharingType: "",
+          sharingTypeLabel: "",
         },
       });
     };
@@ -2110,7 +2084,12 @@ function UserList(props) {
       type: "SET_TENANT_TABLE_FILTERS",
       payload: {
         status: [],
+        tenantStatusLabel: [],
         search: "",
+        period: [],
+        periodLabel: [],
+        sharingType: "",
+        sharingTypeLabel: "",
       },
     });
     dispatch({
@@ -2122,35 +2101,27 @@ function UserList(props) {
       },
     });
     setStatusFilter("ALL");
+    setChips([]);
+    setSelectedMonth("");
+    setFilterInput("");
   };
 
   useEffect(() => {
     const tenantFilters = state.UsersList?.tenantFilters;
-    // console.log("tenantFilters", tenantFilters);
-
     const filterData = [];
-
     if (
-      tenantFilters?.status &&
-      tenantFilters.status.length > 0 &&
+      tenantFilters?.status?.length &&
       !tenantFilters.status.includes("ALL")
     ) {
       filterData.push({
         key: "status",
         label: "Status is",
         type: "status",
-        value: tenantFilters.status.join(", "),
+        value:
+          tenantFilters.tenantStatusLabel?.join(", ") ||
+          tenantFilters.status.join(", "),
       });
     }
-
-    // if (invoiceFilters?.type?.length) {
-    //   filterData.push({
-    //     key: "type",
-    //     label: "Type is",
-    //     type: "type",
-    //     value: invoiceFilters.type.join(", "),
-    //   });
-    // }
 
     if (tenantFilters?.search) {
       filterData.push({
@@ -2158,6 +2129,30 @@ function UserList(props) {
         label: "Tenant",
         type: "search",
         value: tenantFilters.search,
+      });
+    }
+
+    if (
+      tenantFilters?.period &&
+      tenantFilters.period !== "" &&
+      !(
+        Array.isArray(tenantFilters.period) && tenantFilters.period.length === 0
+      )
+    ) {
+      filterData.push({
+        key: "period",
+        label: "Period",
+        type: "period",
+        value: tenantFilters.periodLabel || tenantFilters.period,
+      });
+    }
+
+    if (tenantFilters?.sharingType) {
+      filterData.push({
+        key: "sharingType",
+        label: "Sharing Type",
+        type: "sharingType",
+        value: tenantFilters.sharingTypeLabel || tenantFilters.sharingType,
       });
     }
 
@@ -2352,8 +2347,7 @@ function UserList(props) {
                           <Select
                             options={selectOptions}
                             styles={CustomStyles}
-                            isDisabled
-                            // isDisabled={!canReadTenant}
+                            isDisabled={!canReadTenant}
                             onChange={(e) => handleStatusFilter(e)}
                             value={
                               selectOptions.find(
@@ -2366,7 +2360,7 @@ function UserList(props) {
 
                         <div className="flex items-center gap-3">
                           <Select
-                            isDisabled
+                            isDisabled={!canReadTenant}
                             options={monthOptions}
                             value={selectedMonth}
                             onChange={handleMonthChange}
@@ -2384,7 +2378,7 @@ function UserList(props) {
                             size={16}
                             onClick={() => {
                               if (canReadTenant) {
-                                // setIsFilterOpen(true);
+                                setIsFilterOpen(true);
                               }
                             }}
                             className={`transition-opacity duration-300 ${
@@ -2399,14 +2393,14 @@ function UserList(props) {
                       <div className={` flex justify-end gap-2 mr-2 `}>
                         <button
                           disabled
-                          className="relative disabled:opacity-50 disabled:cursor-not-allowed "
+                          className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
                         >
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsOpen(!isOpen);
                             }}
-                            className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-white w-fit cursor-pointer"
+                            className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-gray-100 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {(() => {
                               const SelectedIcon = ListOptions.find(
