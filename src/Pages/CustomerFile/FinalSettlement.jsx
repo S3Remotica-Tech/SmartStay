@@ -71,7 +71,6 @@ function FinalSettlement() {
     setSelectedRowDetails(item);
   };
 
-
   const handleCloseRoomReading = () => {
     dispatch({ type: "REMOVE_ROOM_READING_ERROR" });
     setShowRoomReading(false);
@@ -262,7 +261,11 @@ function FinalSettlement() {
       handleClose();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
       });
       setTimeout(() => {
         dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
@@ -504,7 +507,11 @@ function FinalSettlement() {
       handleClose();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
       });
       setTimeout(() => {
         dispatch({ type: "CLEAR_FINAL_GENERATE" });
@@ -621,15 +628,20 @@ function FinalSettlement() {
             <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.floorName ||
                 data?.floorName ||
-                data?.hostelInfo?.floorName || customer.floorName}
+                data?.hostelInfo?.floorName ||
+                customer.floorName}
             </span>
 
             <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.roomName ||
                 data?.roomName ||
-                data?.hostelInfo?.roomName || customer.roomName}{" "}
+                data?.hostelInfo?.roomName ||
+                customer.roomName}{" "}
               -{" "}
-              {pgDetails?.bedName || data?.bedName || data?.hostelInfo?.bedName || customer.bedName}
+              {pgDetails?.bedName ||
+                data?.bedName ||
+                data?.hostelInfo?.bedName ||
+                customer.bedName}
             </span>
           </div>
 

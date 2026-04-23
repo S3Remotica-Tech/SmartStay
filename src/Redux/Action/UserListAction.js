@@ -22,13 +22,14 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 // v2
 export async function userlist(users) {
-  console.log("usersusersusers +++++", users);
-  return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
+   return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
     params: {
       name: users.name || "",
       type: users.type || "",
       page: users.page,
       size: users.size,
+      period: users.period,
+      sharingType: users.sharingType
     },
   });
 }

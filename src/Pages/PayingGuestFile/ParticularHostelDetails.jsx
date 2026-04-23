@@ -316,8 +316,12 @@ function ParticularHostelDetails(props) {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      })
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
+      });
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setTimeout(() => {
         dispatch({ type: "CLEAR_FINAL_GENERATE" });
@@ -332,7 +336,11 @@ function ParticularHostelDetails(props) {
     if (state.UsersList.statuscodeForConformCheckout === 200) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
       });
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setTimeout(() => {

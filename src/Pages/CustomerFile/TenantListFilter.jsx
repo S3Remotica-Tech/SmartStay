@@ -25,28 +25,28 @@ function TenantListFilter({ show, handleClose, size }) {
 
   const [tenantName, setTenantName] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const savedFilters = state.reports?.tenantRegisterFilters;
+  const savedFilters = state.UsersList?.tenantFilters;
 
   useEffect(() => {
     if (show && savedFilters) {
       setTenantName(savedFilters.search || "");
-      setTenantStatus(savedFilters.tenantStatus || []);
+      setTenantStatus(savedFilters.status || []);
       const selectedStatusOptions = tenantStatusOptions.filter((option) =>
-        savedFilters.tenantStatus?.includes(option.value),
+        savedFilters.status?.includes(option.value),
       );
       setSelectedTenantStatusOptions(selectedStatusOptions);
       const selectedPeriod = periodOptions.find(
         (option) => option.value === savedFilters.period,
       );
       setPeriod(selectedPeriod || null);
-      const selectedFloorOptions = floorOptions.filter((option) =>
-        savedFilters.floor?.includes(option.label),
-      );
-      setFloor(selectedFloorOptions);
-      const selectedRoomOptions = roomOptions.filter((option) =>
-        savedFilters.room?.includes(option.label),
-      );
-      setRoom(selectedRoomOptions);
+      // const selectedFloorOptions = floorOptions.filter((option) =>
+      //   savedFilters.floor?.includes(option.label),
+      // );
+      // setFloor(selectedFloorOptions);
+      // const selectedRoomOptions = roomOptions.filter((option) =>
+      //   savedFilters.room?.includes(option.label),
+      // );
+      // setRoom(selectedRoomOptions);
 
       const selecteSharingType = SharingTypeOptions.find(
         (option) => option.value === savedFilters?.sharingType,
@@ -142,62 +142,26 @@ function TenantListFilter({ show, handleClose, size }) {
   };
 
   const filterOptionsData = useSelector(
-    (state) => state.reports?.getTenantRegister?.filters,
+    (state) => state.UsersList?.Users?.filterOptions,
   );
 
   const tenantStatusOptions =
-    filterOptionsData?.tenantStatus?.map((item) => ({
-      label: item.label,
-      value: item.id,
+    filterOptionsData?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const periodOptions =
-    filterOptionsData?.period?.map((item) => ({
-      label: item.label,
-      value: item.id,
+    filterOptionsData?.periods?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
-
-  const floorOptionsNormal =
-    filterOptionsData?.floor?.map((item) => ({
-      label: item.label,
-      value: item.id,
-    })) || [];
-
-  const shareTypeWithFloorOption =
-    filterOptionsData?.sharingType?.find(
-      (view) => view.id === Number(sharingType?.value),
-    ) || null;
-
-  const floorOptions = sharingType?.value
-    ? shareTypeWithFloorOption?.floorIds?.map((floor) => {
-        const matchedFloor = floorOptionsNormal.find(
-          (f) => f.value === floor.id,
-        );
-
-        return {
-          label: matchedFloor?.label || floor.label,
-          value: floor.id,
-        };
-      }) || []
-    : floorOptionsNormal;
 
   const SharingTypeOptions =
     filterOptionsData?.sharingType?.map((item) => ({
-      label: item.label,
-      value: item.id,
+      label: item.name,
+      value: item.type,
     })) || [];
-
-  const roomOptions =
-    filterOptionsData?.room
-      ?.filter((roomItem) =>
-        floor?.length === 0
-          ? true
-          : floor?.some((f) => f.value === roomItem.floorId),
-      )
-      ?.map((item) => ({
-        label: item.label,
-        value: item.id,
-      })) || [];
 
   const handleTenantChange = (e) => {
     setTenantName(e.target.value);
@@ -277,8 +241,13 @@ function TenantListFilter({ show, handleClose, size }) {
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
     const filters = {
-      // status: statusfilter ? [statusfilter] : [],
       search: tenantName?.trim() ? tenantName : undefined,
+      status: selectedTenantStatusOptions.map((opt) => opt.value),
+      tenantStatusLabel: selectedTenantStatusOptions.map((opt) => opt.label),
+      period: period?.value ? period?.value : "",
+      periodLabel: period?.label ? period?.label : "",
+      sharingType: sharingType?.value,
+      sharingTypeLabel: sharingType?.label,
     };
 
     dispatch({
@@ -286,18 +255,42 @@ function TenantListFilter({ show, handleClose, size }) {
       payload: filters,
     });
 
+    const payload = {
+      hostel_id: state.login.selectedHostel_Id,
+      page: 1,
+      size: size,
+
+      ...(tenantName?.trim() && { name: tenantName }),
+
+      ...(selectedTenantStatusOptions?.length && {
+        type: selectedTenantStatusOptions
+          .filter((opt) => opt.value !== "ALL")
+          .map((opt) => opt.value)
+          .join(","),
+      }),
+
+      ...(period?.value && { period: period.value }),
+
+      ...(selectedSharingOptions?.value && {
+        sharingType: selectedSharingOptions.value,
+      }),
+    };
+    const isFilterEmpty =
+      !payload.name && !payload.type && !payload.period && !payload.sharingType;
+
+    if (isFilterEmpty) {
+      return;
+    }
+
     dispatch({
       type: "USERLIST",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        name: tenantName || "",
-        page: 1,
-        size: size,
-      },
+      payload: payload,
     });
 
     setFormLoading(true);
   };
+
+  // console.log("selectedTenantStatusOptions", selectedTenantStatusOptions);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {

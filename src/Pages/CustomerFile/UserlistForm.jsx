@@ -651,7 +651,11 @@ function UserlistForm(props) {
       handleCloseBacktoCheckin();
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
       });
       setTimeout(() => {
         dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
