@@ -184,7 +184,7 @@ function UserlistWalkin() {
   }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
-    console.log("user", user);
+    // console.log("user", user);
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
@@ -214,7 +214,7 @@ function UserlistWalkin() {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-  console.log("deleteDetails", deleteDetails);
+  // console.log("deleteDetails", deleteDetails);
 
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
@@ -380,7 +380,7 @@ function UserlistWalkin() {
                               </td>
 
                               <td className="w-[230px] px-2 py-1">
-                                +{v && v.countryCode} {v.mobile}
+                                {v && v.mobile}
                               </td>
 
                               <td className="w-[230px] px-2 py-1">
@@ -524,7 +524,6 @@ function UserlistWalkin() {
           handleCloseAddBooking={handleFormClose}
           userDetail={selectedCustomer}
         />
-      
       )}
 
       {showFormCheckIn && (

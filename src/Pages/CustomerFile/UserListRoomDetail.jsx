@@ -3504,7 +3504,16 @@ function UserListRoomDetail(props) {
                                 ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
                               </p>
                             </div>
-
+                            {CustomerOverView?.isNewRentApplied && (
+                              <div className="flex flex-col items-start">
+                                <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
+                                  Monthly New Rent
+                                </div>
+                                <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
+                                  ₹{CustomerOverView.newRentAmount ?? 0}
+                                </p>
+                              </div>
+                            )}
                             <div className="flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount

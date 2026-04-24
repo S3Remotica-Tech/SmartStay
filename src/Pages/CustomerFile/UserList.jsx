@@ -250,6 +250,7 @@ function UserList(props) {
     { key: "Booking amount", label: "Booking amount" },
   ];
   const [customizeItems, setCustomizeItems] = useState([]);
+  const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
@@ -279,12 +280,12 @@ function UserList(props) {
       if (!listRef.current) return;
 
       if (!listRef.current.contains(event.target)) {
-        setIsOpen((prev) => {
-          if (prev) {
-            setCustomizeItems([...initialCustomizeItems]);
-          }
-          return false;
-        });
+        // if (isOpen) {
+        //   setCustomizeItems([...initialCustomizeItems]);
+        // }
+
+        setIsOpen(false);
+        setError("");
       }
     };
 
@@ -293,16 +294,18 @@ function UserList(props) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen, initialCustomizeItems]);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!open) {
+      setError("");
       setCustomizeItems([...initialCustomizeItems]);
     }
-  }, [isOpen, initialCustomizeItems]);
+  }, [open, initialCustomizeItems]);
 
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
+    setError("");
   };
 
   useEffect(() => {
@@ -954,17 +957,17 @@ function UserList(props) {
 
   const stats = [
     {
-      label: "Total Tenants",
+      label: "Total",
       value: `${userListDetail?.tenantSummary?.totalTenantsCount || 0}`,
       icon: true,
       highlight: true,
     },
-    // {
-    //   label: "Active Tenants",
-    //   value: `${userListDetail?.tenantSummary?.checkedInCounts || 0}`,
-    // },
     {
-      label: "Booked Tenants",
+      label: "Active",
+      value: `${userListDetail?.tenantSummary?.checkedInCounts || 0}`,
+    },
+    {
+      label: "Booked",
       value: `${userListDetail?.tenantSummary?.bookedCounts || 0}`,
     },
     {
@@ -972,7 +975,11 @@ function UserList(props) {
       value: `${userListDetail?.tenantSummary?.noticePeriodCounts || 0}`,
     },
     {
-      label: "Check out (MTD)",
+      label: "Settlement Generate",
+      value: `${userListDetail?.tenantSummary?.settlementGenerated || 0}`,
+    },
+    {
+      label: "Check out",
       value: `${userListDetail?.tenantSummary?.vacatedCount || 0}`,
     },
   ];
@@ -2169,6 +2176,12 @@ function UserList(props) {
   };
 
   const handleSave = () => {
+    setError("");
+    const hasSelected = customizeItems.some((item) => item.selected);
+    if (!hasSelected) {
+      setError("Please select at least one column");
+      return;
+    }
     const payload = customizeItems.map((item, index) => ({
       fieldName: item.key,
       isSelected: item.selected,
@@ -2225,7 +2238,7 @@ function UserList(props) {
   };
 
   return (
-    <div className=" bg-white font-gilroy">
+    <div className=" bg-white font-gilroy ">
       {userList && (
         <div>
           <div className="font-gilroy font-medium text-base">
@@ -2335,7 +2348,7 @@ function UserList(props) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between  ">
+                    <div className="flex flex-wrap items-center justify-between !sticky !top-[45px] z-20 ">
                       <div className="flex flex-wrap items-center gap-3">
                         <div
                           className={`border border-gray-300 rounded-lg w-36 ${
@@ -2390,7 +2403,9 @@ function UserList(props) {
                         </div>
                       </div>
 
-                      <div className={` flex justify-end gap-2 mr-2 `}>
+                      <div
+                        className={` flex items-center justify-end gap-2 mr-2 `}
+                      >
                         <button
                           disabled
                           className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
@@ -2462,13 +2477,26 @@ function UserList(props) {
                             </div>
                           )}
                         </button>
-                        {/* <PaginationList
-                          totalItems={userListDetail.length}
-                          itemsPerPage={pageSize}
-                          currentPage={page}
-                          onPageChange={(p) => setPage(p)}
-                          onPageSizeChange={(size) => setPageSize(size)}
-                        /> */}
+                        <div>
+                          <Setting3
+                            onClick={() => setOpen(!open)}
+                            className="cursor-pointer"
+                            size="22"
+                            color="#4B4B4B"
+                          />
+                        </div>
+
+                        {formattedData?.length > 0 && (
+                          <ApiPagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            totalRecords={totalRecords}
+                            onPageChange={handlePageChange}
+                            onSizeChange={handleSizeChange}
+                            isTenantPagination={true}
+                            size={size}
+                          />
+                        )}
                       </div>
                     </div>
                     {chips?.length > 0 && (
@@ -2503,37 +2531,17 @@ function UserList(props) {
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
                             <tr className="h-9">
-                              <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
-                                <div className="flex items-center gap-2">
-                                  <Setting3
-                                    onClick={() => setOpen(!open)}
-                                    className="cursor-pointer"
-                                    size="18"
-                                    color="#4B4B4B"
-                                  />
-                                  <input
-                                    type="checkbox"
-                                    className="rounded cursor-pointer"
-                                    checked={
-                                      selectedRows?.length ===
-                                        paginatedData?.length &&
-                                      paginatedData?.length > 0
-                                    }
-                                    onChange={handleSelectAll}
-                                  />
-                                </div>
-                              </th>
-
                               {selectedColumns?.map((col, index) => {
                                 let stickyClass = "";
 
                                 if (index === 0) {
                                   stickyClass =
-                                    "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                                } else if (index === 1) {
-                                  stickyClass =
-                                    "sticky left-[200px] z-40 bg-[#F9FAFB]";
+                                    "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
                                 }
+                                //  else if (index === 1) {
+                                //   stickyClass =
+                                //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
+                                // }
 
                                 return (
                                   <th
@@ -2563,25 +2571,7 @@ function UserList(props) {
                                     className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
                                   >
-                                    <td
-                                      className={`px-4 sticky left-0 z-50 text-center align-middle hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap
-                                         ${
-                                           isScrolling
-                                             ? "!bg-white"
-                                             : "!bg-transparent"
-                                         }`}
-                                    >
-                                      <div className="flex justify-end items-center">
-                                        <input type="checkbox" />
-                                      </div>
-                                    </td>
-
                                     {selectedColumns?.map((col, index) => {
-                                      //                               const baseClass = `
-                                      //   ${columnStyles[col.fieldName] || "px-4"}
-                                      //   ${isScrolling ? "!bg-white" : "!bg-transparent"}
-                                      //   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-                                      // `;
                                       const baseClass = `
   ${columnStyles[col.fieldName] || "px-4"}
   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
@@ -2590,18 +2580,19 @@ function UserList(props) {
                                       let stickyClass = "";
 
                                       if (index === 0) {
-                                        stickyClass = `sticky left-[80px] z-30 ${
-                                          isScrolling
-                                            ? "!bg-white"
-                                            : "!bg-transparent"
-                                        }`;
-                                      } else if (index === 1) {
-                                        stickyClass = `sticky left-[200px] z-30 ${
+                                        stickyClass = `sticky left-[0px] z-30  w-[80px] ${
                                           isScrolling
                                             ? "!bg-white"
                                             : "!bg-transparent"
                                         }`;
                                       }
+                                      // else if (index === 1) {
+                                      //   stickyClass = `sticky left-[85px] z-30 ${
+                                      //     isScrolling
+                                      //       ? "!bg-white"
+                                      //       : "!bg-transparent"
+                                      //   }`;
+                                      // }
 
                                       const finalClass = `${baseClass} ${stickyClass}`;
 
@@ -3009,7 +3000,7 @@ function UserList(props) {
 
                             <div
                               className={`
-        fixed top-[180px] left-[280px] h-fit w-[350px]
+        fixed top-[180px] right-10 h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
         shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
@@ -3030,12 +3021,14 @@ function UserList(props) {
                                     </div>
                                     <div
                                       onClick={() => {
-                                        setCustomizeItems((prev = []) =>
+                                        setCustomizeItems((prev) =>
                                           prev.map((i) => ({
                                             ...i,
                                             selected: !allSelected,
                                           })),
                                         );
+
+                                        setError("");
                                       }}
                                       className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
                                     >
@@ -3106,6 +3099,15 @@ function UserList(props) {
                                   </SortableContext>
                                 </DndContext>
                               </div>
+                              {error && (
+                                <div className="flex justify-center my-2">
+                                  <ErrorMessage
+                                    message={error}
+                                    type="warning"
+                                  />
+                                </div>
+                              )}
+
                               <div className="p-3 border-t flex gap-2">
                                 <button
                                   onClick={handleResetCustomize}
@@ -3124,17 +3126,6 @@ function UserList(props) {
                           </>
                         )}
                       </div>
-                      {formattedData?.length > 0 && (
-                        <ApiPagination
-                          currentPage={currentPage}
-                          totalPages={totalPages}
-                          totalRecords={totalRecords}
-                          onPageChange={handlePageChange}
-                          onSizeChange={handleSizeChange}
-                          isTenantPagination={true}
-                          size={size}
-                        />
-                      )}
                     </div>
                   </div>
                 )}
