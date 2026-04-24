@@ -127,6 +127,7 @@ function ManagedUsers() {
     const [edit, setEdit] = useState(false);
 
     const handleEditForm = (item) => {
+        setShowDots(null)
         setAddUserForm(true);
         setEditDetails(item);
         setEdit(true);
@@ -139,6 +140,7 @@ function ManagedUsers() {
     };
 
     const handleDeleteForm = (item) => {
+          setShowDots(null)
         setDeleteId(item.userId);
         setIsConfirmDelete(true);
     };

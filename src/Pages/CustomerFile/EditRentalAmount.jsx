@@ -134,10 +134,12 @@ function EditRentalAmount({ show, handleClose }) {
     if (!isValid) return;
     let formattedDate = "";
 
-    if (effectiveFrom && dayjs(effectiveFrom, "DD/MM/YYYY").isValid()) {
-      formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
+    if (effectiveFrom && dayjs(effectiveFrom, "MM/YYYY").isValid()) {
+      formattedDate = dayjs(effectiveFrom, "MM/YYYY").format("MM-YYYY");
+      //   formattedDate = dayjs(effectiveFrom, "MM/YYYY").format("DD-MM-YYYY");
     }
 
+    console.log("formattedDate", formattedDate);
     const oldAmount = Number(CustomerOverView.hostelInfo.monthlyRent);
 
     const newAmount = Number(monthlyRent);
@@ -185,19 +187,30 @@ function EditRentalAmount({ show, handleClose }) {
   const billStartDate =
     state?.Settings?.SettingsBillsGetRecurring?.billStartDate;
 
+  const typeOfBilling =
+    state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling;
+
   const disabledDate = (current) => {
     if (!current) return false;
-
     const today = dayjs();
+      if (typeOfBilling === "Joining Date Based") {
+      const start = today.add(1, "month").startOf("month"); 
+      const end = today.add(3, "month").endOf("month"); 
+
+      return current.isBefore(start, "month") || current.isAfter(end, "month");
+    }
 
     let cycleMonth = today.month();
+    let cycleYear = today.year();
 
     if (today.date() >= billStartDate) {
-      cycleMonth = today.add(1, "month").month();
+      const nextMonth = today.add(1, "month");
+      cycleMonth = nextMonth.month();
+      cycleYear = nextMonth.year();
     }
 
     const start = dayjs()
-      .year(today.year() + (cycleMonth < today.month() ? 1 : 0))
+      .year(cycleYear)
       .month(cycleMonth)
       .date(billStartDate)
       .startOf("day");
@@ -345,9 +358,7 @@ function EditRentalAmount({ show, handleClose }) {
                         format="MM/YYYY"
                         placeholder="MM/YYYY"
                         value={
-                          effectiveFrom
-                            ? dayjs(effectiveFrom, "DD/MM/YYYY")
-                            : null
+                          effectiveFrom ? dayjs(effectiveFrom, "MM/YYYY") : null
                         }
                         onChange={handleEffectiveFromChange}
                         disabledDate={disabledDate}

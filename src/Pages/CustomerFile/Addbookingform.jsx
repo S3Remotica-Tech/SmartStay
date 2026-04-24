@@ -469,7 +469,7 @@ function BookingModal(props) {
     }
   }, [state.createAccount?.networkError]);
 
-  const isComingSoon = true;
+  const isComingSoon = false;
 
   return (
     <>
