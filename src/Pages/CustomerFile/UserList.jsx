@@ -1936,6 +1936,7 @@ function UserList(props) {
       fontSize: "14px",
       whiteSpace: "nowrap",
       width: "auto",
+      zIndex: 9999,
     }),
   };
 
@@ -2348,7 +2349,7 @@ function UserList(props) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between !sticky !top-[45px] z-20 ">
+                    <div className="flex flex-wrap items-center justify-between !sticky !top-[45px] z-50 ">
                       <div className="flex flex-wrap items-center gap-3">
                         <div
                           className={`border border-gray-300 rounded-lg w-36 ${
@@ -2361,6 +2362,8 @@ function UserList(props) {
                             options={selectOptions}
                             styles={CustomStyles}
                             isDisabled={!canReadTenant}
+                            menuPlacement="auto"
+                            classNamePrefix="custom"
                             onChange={(e) => handleStatusFilter(e)}
                             value={
                               selectOptions.find(
@@ -2529,7 +2532,7 @@ function UserList(props) {
                         className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs">
                             <tr className="h-9">
                               {selectedColumns?.map((col, index) => {
                                 let stickyClass = "";
@@ -2553,7 +2556,7 @@ function UserList(props) {
                                 );
                               })}
 
-                              <th className="px-4 py-2.5 uppercase sticky right-0 z-50 bg-[#F9FAFB]">
+                              <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB]">
                                 Action
                               </th>
                             </tr>
@@ -2790,7 +2793,7 @@ function UserList(props) {
                                     <td
                                       className={`${
                                         isScrolling ? "!bg-white" : "bg-white"
-                                      } px-4 py-1 sticky right-0 !z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                      } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
                                       {" "}
                                       <div
