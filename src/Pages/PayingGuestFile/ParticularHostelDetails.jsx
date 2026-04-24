@@ -79,7 +79,7 @@ function ParticularHostelDetails(props) {
     setShowDeleteRoom(false)
   }
 
-  console.log("roomList", roomList)
+
 
 
 
@@ -191,7 +191,6 @@ function ParticularHostelDetails(props) {
 
 
 
-  console.log("state", state.PgList?.roomsList)
 
 
   useEffect(() => {

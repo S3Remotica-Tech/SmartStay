@@ -9,12 +9,7 @@ import AddFloor from "./AddFloor";
 import "./PgList.css";
 import AddRoom from "./AddRoom";
 import PropTypes from "prop-types";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  Edit,
-  Trash,
-} from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,16 +20,16 @@ import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 // import { MdError } from "react-icons/md";
-import './PgList.css';
+import "./PgList.css";
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
-import { triggerPG } from '../../Redux/Action/LoginAction';
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import { triggerPG } from "../../Redux/Action/LoginAction";
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function PgList() {
@@ -48,19 +43,16 @@ function PgList() {
   // const [editPermissionError, setEditPermissionError] = useState("");
   // const [deletePermissionError, setDeletePermissionError] = useState("");
 
-
   const [key, setKey] = useState("1");
 
   const [visibleRange, setVisibleRange] = useState([0, 2]);
 
   const popupRef = useRef(null);
 
-
   // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
   // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
   // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
   // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
-
 
   const {
     canWriteModule: canWritePayingGuests,
@@ -69,29 +61,19 @@ function PgList() {
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 
-
-
-
-
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
   const [selectedHostel, setSelectedHostel] = useState(true);
 
   // const [filteredData, setFilteredData] = useState([]);
 
-
-
   const [showAddPg, setShowAddPg] = useState(false);
-  const [floorList, setFloorList] = useState([])
-
-
-
+  const [floorList, setFloorList] = useState([]);
 
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
   const [hostelFloor, setHostelFloor] = useState("");
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!canReadPayingGuests) {
@@ -101,23 +83,18 @@ function PgList() {
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
+  }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
     if (floorList.length === 0) {
       setLoading(false);
     }
-
-  }, [floorList])
-
-
-
+  }, [floorList]);
 
   const hostelDetails = {
     room: null,
@@ -130,9 +107,7 @@ function PgList() {
     floorName: null,
   });
 
-
-  const [hostel_Id, setHostel_Id] = useState("")
-
+  const [hostel_Id, setHostel_Id] = useState("");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -140,23 +115,20 @@ function PgList() {
     }
   }, [state?.login?.selectedHostel_Id]);
 
-
-
-
   useEffect(() => {
     if (hostel_Id) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
-      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-      setLoading(true)
+      dispatch({
+        type: "PARTICULAR_HOSTEL_DETAILS",
+        payload: { hostel_id: hostel_Id },
+      });
+      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
+      setLoading(true);
     }
   }, [hostel_Id]);
-
-
 
   useEffect(() => {
     if (floorList?.length > 0) {
       setFloorClick(floorList[0]?.id);
-
     } else {
       setFloorClick(null);
     }
@@ -164,23 +136,19 @@ function PgList() {
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
-      setLoading(false)
-      setFloorList(state.UsersList.floorList)
+      setLoading(false);
+      setFloorList(state.UsersList.floorList);
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
-      }, 500)
+        dispatch({ type: "REMOVE_ALL_FLOOR_LIST" });
+      }, 500);
     }
-
-  }, [state.UsersList.floorListStatusCode])
-
-
+  }, [state.UsersList.floorListStatusCode]);
 
   useEffect(() => {
-    setLoading(false)
-  }, [state.UsersList.floorList])
+    setLoading(false);
+  }, [state.UsersList.floorList]);
 
   useEffect(() => {
-
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
       // setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
@@ -198,11 +166,6 @@ function PgList() {
   //   }
   // }, [state.UsersList?.noAllHosteListStatusCode]);
 
-
-
-
-
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -218,7 +181,6 @@ function PgList() {
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
-
   useEffect(() => {
     if (
       state.UsersList.createFloorSuccessStatusCode === 201 ||
@@ -226,9 +188,7 @@ function PgList() {
     ) {
       // dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       // dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-
-
+      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
 
       setShowFloor(false);
       setTimeout(() => {
@@ -241,11 +201,11 @@ function PgList() {
     state.PgList.updateFloorSuccessStatusCode,
   ]);
 
-
-
-
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode === 201 && floorList.length > 0) {
+    if (
+      state.UsersList.createFloorSuccessStatusCode === 201 &&
+      floorList.length > 0
+    ) {
       const updatedFloors = floorList || [];
       if (updatedFloors.length > 0) {
         const lastFloor = updatedFloors[updatedFloors.length - 1];
@@ -254,24 +214,16 @@ function PgList() {
         setKey(lastFloor?.id?.toString() || "");
         setFloorName(lastFloor?.name || "");
 
-
         const newStart = Math.max(0, lastIndex - 2);
         const newEnd = lastIndex;
         setVisibleRange([newStart, newEnd]);
-
       } else {
         setFloorClick(null);
         setKey("");
         setFloorName("");
       }
     }
-  }, [state.UsersList.createFloorSuccessStatusCode, floorList, floorClick])
-
-
-
-
-
-
+  }, [state.UsersList.createFloorSuccessStatusCode, floorList, floorClick]);
 
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
@@ -296,10 +248,8 @@ function PgList() {
           const newRange = [start, end];
 
           const firstVisibleFloor = updatedFloors.find(
-            (_, index) => index >= newRange[0] && index <= newRange[1]
+            (_, index) => index >= newRange[0] && index <= newRange[1],
           );
-
-
 
           if (firstVisibleFloor) {
             setFloorClick(firstVisibleFloor.id);
@@ -310,8 +260,6 @@ function PgList() {
             setKey(updatedFloors[0]?.id || "");
             setFloorName(updatedFloors[0]?.name || "");
           }
-
-
         } else {
           setFloorClick(null);
           setKey("");
@@ -323,29 +271,30 @@ function PgList() {
     }
   }, [state.UsersList.deleteFloorSuccessStatusCode]);
 
-
-
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({
+        type: "PARTICULAR_HOSTEL_DETAILS",
+        payload: { hostel_id: hostel_Id },
+      });
       // dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
-
       }, 1000);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
       }, 1000);
     }
-  }, [
-    state.PgList.deletePgSuccessStatusCode,
-  ]);
+  }, [state.PgList.deletePgSuccessStatusCode]);
 
   useEffect(() => {
     if (state.PgList.dleteHostelImagesStatusCode === 200) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({
+        type: "PARTICULAR_HOSTEL_DETAILS",
+        payload: { hostel_id: hostel_Id },
+      });
       // dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
@@ -356,48 +305,43 @@ function PgList() {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
       }, 1000);
     }
-  }, [state.PgList.dleteHostelImagesStatusCode,]);
+  }, [state.PgList.dleteHostelImagesStatusCode]);
 
   useEffect(() => {
-    if (state.PgList?.createPgStatusCode === 201 || state.PgList?.updatePgStatusCode === 200) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+    if (
+      state.PgList?.createPgStatusCode === 201 ||
+      state.PgList?.updatePgStatusCode === 200
+    ) {
+      dispatch({
+        type: "PARTICULAR_HOSTEL_DETAILS",
+        payload: { hostel_id: hostel_Id },
+      });
       dispatch({ type: "HOSTELLIST" });
 
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-        dispatch({ type: 'REMOVE_UPDATE_PG' })
+        dispatch({ type: "REMOVE_UPDATE_PG" });
       }, 100);
-
-
     }
   }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode]);
 
-
-
   useEffect(() => {
     if (selectedHostel) {
-
       if (state.UsersList?.hotelDetailsinPg) {
         setShowHostelDetails(state.UsersList?.hotelDetailsinPg);
-        const FloorNameData = floorList?.filter(
-          (item) => item.id === floorClick
-        ) || [];
+        const FloorNameData =
+          floorList?.filter((item) => item.id === floorClick) || [];
 
         setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
       }
     }
   }, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel, floorList]);
 
-
-
-
-
   useEffect(() => {
     if (floorClick) {
-      const FloorNameData = floorList?.filter(
-        (item) => item.id === floorClick
-      ) || [];
+      const FloorNameData =
+        floorList?.filter((item) => item.id === floorClick) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
     }
@@ -405,30 +349,28 @@ function PgList() {
 
   useEffect(() => {
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      const FloorNameData = floorList?.filter((item) => {
-        return item.id === floorClick;
-      }) || [];
+      const FloorNameData =
+        floorList?.filter((item) => {
+          return item.id === floorClick;
+        }) || [];
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
-
     }
   }, [state.UsersList.statuscodeForhotelDetailsinPg, floorClick, floorList]);
 
   useEffect(() => {
     if (state.UsersList.hosteListStatusCode === 200) {
-      const FloorNameData = floorList?.filter((item) => {
-        return item.id === floorClick;
-      }) || [];
+      const FloorNameData =
+        floorList?.filter((item) => {
+          return item.id === floorClick;
+        }) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
 
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
-      }, 1000)
+        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
+      }, 1000);
     }
-
-  }, [state.UsersList.hosteListStatusCode])
-
-
+  }, [state.UsersList.hosteListStatusCode]);
 
   // useEffect(() => {
   //   if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
@@ -438,11 +380,9 @@ function PgList() {
 
   //     setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
 
-
   //   }
 
   // }, [state.UsersList?.statuscodeForhotelDetailsinPg])
-
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
@@ -451,9 +391,11 @@ function PgList() {
       //   payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       // });
 
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({
+        type: "PARTICULAR_HOSTEL_DETAILS",
+        payload: { hostel_id: hostel_Id },
+      });
       // dispatch({ type: "HOSTELLIST" });
-
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
@@ -473,18 +415,14 @@ function PgList() {
     if (state.PgList.statusCodeUpdateRoom === 200) {
       setShowRoom(false);
     }
-
-  }, [state.PgList.statusCodeUpdateRoom])
-
+  }, [state.PgList.statusCodeUpdateRoom]);
 
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
     };
     const faders = document.querySelectorAll(".fade-in");
-    const appearOnScro1l = new IntersectionObserver(function (
-      entries,
-    ) {
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           return;
@@ -493,8 +431,7 @@ function PgList() {
           appearOnScro1l.unobserve(entry.target);
         }
       });
-    },
-      appearOptions);
+    }, appearOptions);
     faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
     });
@@ -502,7 +439,6 @@ function PgList() {
   // useEffect(() => {
   //   setRolePermission(state.createAccount.accountList);
   // }, [state.createAccount.accountList]);
-
 
   // useEffect(() => {
   //   const userType = rolePermission[0]?.user_details?.user_type;
@@ -525,7 +461,6 @@ function PgList() {
 
   // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission])
 
-
   // useEffect(() => {
   //   if (rolePermission[0]?.user_details?.user_type === "staff") {
   //     const rolesPermission = rolePermission[0]?.role_permissions?.find(
@@ -541,20 +476,17 @@ function PgList() {
   //         setPermissionError("Permission Denied");
   //       }
 
-
   //       if (rolesPermission.per_create === 1 && planActive) {
   //         setAddPermissionError("");
   //       } else {
   //         setAddPermissionError("Permission Denied");
   //       }
 
-
   //       if (rolesPermission.per_edit === 1 && planActive) {
   //         setEditPermissionError("");
   //       } else {
   //         setEditPermissionError("Permission Denied");
   //       }
-
 
   //       if (rolesPermission.per_delete === 1 && planActive) {
   //         setDeletePermissionError("");
@@ -565,8 +497,6 @@ function PgList() {
   //   }
   // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission]);
 
-
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setSelectedHostel(true);
@@ -575,9 +505,8 @@ function PgList() {
   }, [
     state.login?.selectedHostel_Id,
     selectedHostel,
-    state.UsersList?.hotelDetailsinPg
+    state.UsersList?.hotelDetailsinPg,
   ]);
-
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -585,14 +514,10 @@ function PgList() {
     }
   };
 
-
   const handleCloses = () => {
     setShowAddPg(false);
-    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-
+    dispatch({ type: "CLEAR_NETWORK_ERROR" });
   };
-
-
 
   const handleAddFloors = (hostel_Id) => {
     if (!state.login.selectedHostel_Id) {
@@ -619,36 +544,27 @@ function PgList() {
     dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
   };
 
-
-
   const handlecloseRoom = () => {
     setShowRoom(false);
   };
-
-
 
   const handleDIsplayFloorClick = () => {
     setFloorClick(floorList?.[0]?.id);
   };
 
-
   const numberOfFloors = floorList && floorList?.length;
 
   const handlePrev = () => {
     if (floorClick > 0) {
-
-      const prevFloorIndex = floorList?.findIndex(
-        (floor) => floor.id === floorClick
-      ) - 1;
+      const prevFloorIndex =
+        floorList?.findIndex((floor) => floor.id === floorClick) - 1;
 
       if (prevFloorIndex >= 0) {
         const prevFloor = floorList[prevFloorIndex];
 
-
         setKey(prevFloor.id.toString());
         setFloorClick(prevFloor.id);
         setFloorName(prevFloor.name);
-
 
         if (prevFloorIndex < visibleRange[0]) {
           setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
@@ -658,13 +574,10 @@ function PgList() {
   };
 
   const handleNext = () => {
-    const floorIndex = floorList?.findIndex(
-      (floor) => floor.id === floorClick
-    );
+    const floorIndex = floorList?.findIndex((floor) => floor.id === floorClick);
 
     if (floorIndex !== -1 && floorIndex < floorList?.length - 1) {
       const nextFloor = floorList[floorIndex + 1];
-
 
       setKey(nextFloor.id.toString());
       setFloorClick(nextFloor.id);
@@ -676,14 +589,11 @@ function PgList() {
     }
   };
 
-
   const handleFloorClick = (floorNumber, floorName) => {
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
     setFloorName(floorName);
   };
-
-
 
   const handleShowDots = () => {
     setShowDots(!showDots);
@@ -698,14 +608,12 @@ function PgList() {
 
   const handleCloseDelete = () => setShowDelete(false);
   const handleShowDelete = (FloorNumber, hostel_Id, floorName) => {
-
     setShowDelete(true);
     setDeleteFloor({
       floor_Id: FloorNumber,
       hostel_Id: hostel_Id,
       floor_Name: floorName,
     });
-
   };
 
   const [update, setUpdate] = useState(false);
@@ -716,26 +624,25 @@ function PgList() {
     setUpdate(true);
   };
 
-
   const handleCloseChangeBed = () => {
-    dispatch(triggerPG(false))
-  }
+    dispatch(triggerPG(false));
+  };
 
   useEffect(() => {
-    dispatch(triggerPG(false))
-  }, [])
+    dispatch(triggerPG(false));
+  }, []);
+
+  console.log("isClickedBed &&&", state.PgList.isClickedBed);
 
   return (
     <>
-
-      {loading &&
+      {loading && (
         <div className="absolute top-1/2 left-[60%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10 h-full">
           <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
         </div>
-      }
+      )}
 
       <div className="bg-white z-40 p-2 flex flex-col overflow-hidden">
-
         {state.login.isTrigger && (
           <>
             <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
@@ -751,23 +658,33 @@ function PgList() {
             <div className="mt-1 ml-5 rounded-[14px] border border-gray-200 bg-white mb-2">
               <div className="p-3 flex flex-col md:flex-row items-center justify-between">
                 <div className="flex items-center mb-2 md:mb-0">
-
-                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic ? (
+                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0]
+                    ?.profilePic ? (
                     <img
-                      src={state.PgList?.isClicedBed?.currentTenantInfo?.[0]?.profilePic || Profiles}
+                      src={
+                        state.PgList?.isClickedBed?.currentTenantInfo?.[0]
+                          ?.profilePic
+                      }
                       alt="Tenant Profile"
                       className="h-16 w-16 rounded-full object-cover"
-                      onError={(e) => { e.target.onerror = null; e.target.src = Profiles; }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profiles;
+                      }}
                     />
                   ) : (
                     <div className="h-16 w-16 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-lg uppercase font-gilroy">
-                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0].tenantInitials || "?"}
+                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0]
+                        .tenantInitials || "-"}
                     </div>
                   )}
 
                   <div className="ml-2.5">
                     <span className="block font-semibold text-lg font-gilroy">
-                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0].tenantFullName}
+                      {
+                        state.PgList?.isClickedBed?.currentTenantInfo?.[0]
+                          .tenantFullName
+                      }
                     </span>
 
                     <div className="flex gap-6 mt-1 text-xs font-gilroy">
@@ -785,7 +702,6 @@ function PgList() {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -794,7 +710,6 @@ function PgList() {
 
         {selectedHostel && (
           <div>
-
             {!state.login.isTrigger && (
               <div className="flex justify-between items-center mb-6">
                 <label className="ms-2 text-lg font-semibold font-gilroy text-gray-900">
@@ -814,19 +729,24 @@ function PgList() {
             {!canReadPayingGuests ? (
               <div className="flex flex-col items-center justify-center h-screen">
                 <img src={EmptyState} alt="Empty State" className="-mt-28" />
-                <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
+                <ErrorMessage
+                  message={["You do not have access to view paying guest"]}
+                  type="warning"
+                />
               </div>
             ) : floorList?.length > 0 ? (
               <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ml-2 md:ml-0">
-
                 <div className="sticky top-24 z-10">
-
                   <div className="flex justify-center mb-2">
                     <div
                       onClick={handlePrev}
                       className="border border-gray-200 rounded-full  cursor-pointer"
                     >
-                      <ArrowUp2 size={32} variant="Bold" color={visibleRange[0] === 0 ? "gray" : "#000"} />
+                      <ArrowUp2
+                        size={32}
+                        variant="Bold"
+                        color={visibleRange[0] === 0 ? "gray" : "#000"}
+                      />
                     </div>
                   </div>
 
@@ -839,15 +759,27 @@ function PgList() {
                           className={`mb-3 flex flex-col justify-center items-center rounded-xl h-24 w-24 cursor-pointer
                     ${Number(floorClick) === Number(floor.id) ? "bg-blue-50 border-2 border-[#1E45E1]" : "bg-white border-1 border-gray-300"}`}
                         >
-                          <div className={`text-2xl font-gilroy font-semibold ${Number(floorClick) === Number(floor.id) ? "text-blue-700" : "text-gray-700"}`}>
-                            {floor.name ? (isNaN(floor.name) ? floor.name.charAt(0) : floor.name) : floor.id}
+                          <div
+                            className={`text-2xl font-gilroy font-semibold ${Number(floorClick) === Number(floor.id) ? "text-blue-700" : "text-gray-700"}`}
+                          >
+                            {floor.name
+                              ? isNaN(floor.name)
+                                ? floor.name.charAt(0)
+                                : floor.name
+                              : floor.id}
                           </div>
 
-                          <div className={`text-sm font-gilroy font-semibold text-center px-2 break-words ${Number(floorClick) === Number(floor.id) ? "text-blue-700" : "text-gray-700"}`}>
-                            {typeof floor.name === "string" && floor.name.trim() !== "" && floor.name !== "null" ? floor.name : floor.id}
+                          <div
+                            className={`text-sm font-gilroy font-semibold text-center px-2 break-words ${Number(floorClick) === Number(floor.id) ? "text-blue-700" : "text-gray-700"}`}
+                          >
+                            {typeof floor.name === "string" &&
+                            floor.name.trim() !== "" &&
+                            floor.name !== "null"
+                              ? floor.name
+                              : floor.id}
                           </div>
                         </div>
-                      ) : null
+                      ) : null,
                     )}
                   </div>
 
@@ -856,11 +788,18 @@ function PgList() {
                       onClick={handleNext}
                       className="border border-gray-200 rounded-full cursor-pointer"
                     >
-                      <ArrowDown2 size={32} variant="Bold" color={visibleRange[1] === numberOfFloors - 1 ? "gray" : "#000"} />
+                      <ArrowDown2
+                        size={32}
+                        variant="Bold"
+                        color={
+                          visibleRange[1] === numberOfFloors - 1
+                            ? "gray"
+                            : "#000"
+                        }
+                      />
                     </div>
                   </div>
                 </div>
-
 
                 <div className="md:w-11/12 lg:w-full md:pl-4 flex flex-col h-full ">
                   <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3">
@@ -871,12 +810,13 @@ function PgList() {
 
                       {!state.login.isTrigger && (
                         <div
-                          className={`lg:hidden md:mt-3 cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
-                            }`}
+                          className={`lg:hidden md:mt-3 cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center ${
+                            showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
+                          }`}
                           onClick={handleShowDots}
                         >
                           <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
-                           {showDots && (
+                          {showDots && (
                             <div
                               ref={popupRef}
                               className="bg-gray-50 absolute right-10 top-28 border border-gray-300 rounded-lg shadow-md w-36 z-50"
@@ -885,13 +825,26 @@ function PgList() {
                                 <div
                                   onClick={
                                     canUpdatePayingGuests
-                                      ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                                      ? () =>
+                                          handleEditFloor(
+                                            floorClick,
+                                            showHostelDetails.id,
+                                            floorName,
+                                          )
                                       : undefined
                                   }
-                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                                 >
-                                  <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
-                                  <span className={`text-sm font-medium font-gilroy ${!canUpdatePayingGuests ? 'text-gray-400 cursor-not-allowed' : 'text-blue-700 cursor-pointer'}`}
+                                  <Edit
+                                    size="16"
+                                    color={
+                                      !canUpdatePayingGuests
+                                        ? "#A0A0A0"
+                                        : "#1E45E1"
+                                    }
+                                  />
+                                  <span
+                                    className={`text-sm font-medium font-gilroy ${!canUpdatePayingGuests ? "text-gray-400 cursor-not-allowed" : "text-blue-700 cursor-pointer"}`}
                                   >
                                     Edit
                                   </span>
@@ -901,15 +854,26 @@ function PgList() {
                                 <div
                                   onClick={
                                     canDeletePayingGuests
-                                      ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                                      ? () =>
+                                          handleShowDelete(
+                                            floorClick,
+                                            showHostelDetails.id,
+                                            floorName,
+                                          )
                                       : undefined
                                   }
-
-                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                                 >
-                                  <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
+                                  <Trash
+                                    size="16"
+                                    color={
+                                      !canDeletePayingGuests
+                                        ? "#A0A0A0"
+                                        : "#FF0000"
+                                    }
+                                  />
                                   <span
-                                    className={`text-sm font-medium font-gilroy ${!canDeletePayingGuests ? 'text-[#A0A0A0] cursor-not-allowed' : 'text-[#FF0000] cursor-pointer'}`}
+                                    className={`text-sm font-medium font-gilroy ${!canDeletePayingGuests ? "text-[#A0A0A0] cursor-not-allowed" : "text-[#FF0000] cursor-pointer"}`}
                                   >
                                     Delete
                                   </span>
@@ -922,31 +886,50 @@ function PgList() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-y-2 gap-x-6 mt-2 md:grid-cols-3 lg:flex lg:flex-nowrap lg:items-center lg:gap-6 lg:mt-0 md:px-4">
-
                       <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                        <img className="w-4 h-4" alt="Available" src={availabeimg} />
+                        <img
+                          className="w-4 h-4"
+                          alt="Available"
+                          src={availabeimg}
+                        />
                         Available
                       </span>
 
                       {!state.login.isTrigger && (
                         <>
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img className="w-4 h-4" alt="Occupied" src={occubiedimg} />
+                            <img
+                              className="w-4 h-4"
+                              alt="Occupied"
+                              src={occubiedimg}
+                            />
                             Occupied
                           </span>
 
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img className="w-4 h-4" alt="Reserved" src={recerverimg} />
+                            <img
+                              className="w-4 h-4"
+                              alt="Reserved"
+                              src={recerverimg}
+                            />
                             Reserved
                           </span>
 
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img className="w-4 h-4" alt="Overdue" src={overdueimg} />
+                            <img
+                              className="w-4 h-4"
+                              alt="Overdue"
+                              src={overdueimg}
+                            />
                             Overdue
                           </span>
 
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img className="w-4 h-4" alt="Notice Period" src={noticeimg} />
+                            <img
+                              className="w-4 h-4"
+                              alt="Notice Period"
+                              src={noticeimg}
+                            />
                             Notice Period
                           </span>
                         </>
@@ -954,12 +937,13 @@ function PgList() {
 
                       {!state.login.isTrigger && (
                         <div
-                          className={`hidden lg:mr-1.5 lg:flex cursor-pointer h-7 w-7 rounded-full border border-gray-200 items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
-                            }`}
+                          className={`hidden lg:mr-1.5 lg:flex cursor-pointer h-7 w-7 rounded-full border border-gray-200 items-center justify-center ${
+                            showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
+                          }`}
                           onClick={handleShowDots}
                         >
                           <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
-                           {showDots && (
+                          {showDots && (
                             <div
                               ref={popupRef}
                               className="bg-gray-50 absolute right-32 top-28 border border-gray-300 rounded-lg shadow-md w-36 z-50"
@@ -968,13 +952,26 @@ function PgList() {
                                 <div
                                   onClick={
                                     canUpdatePayingGuests
-                                      ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                                      ? () =>
+                                          handleEditFloor(
+                                            floorClick,
+                                            showHostelDetails.id,
+                                            floorName,
+                                          )
                                       : undefined
                                   }
-                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                                 >
-                                  <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
-                                  <span className={`text-sm font-medium font-gilroy ${!canUpdatePayingGuests ? 'text-gray-400 cursor-not-allowed' : 'text-blue-700 cursor-pointer'}`}
+                                  <Edit
+                                    size="16"
+                                    color={
+                                      !canUpdatePayingGuests
+                                        ? "#A0A0A0"
+                                        : "#1E45E1"
+                                    }
+                                  />
+                                  <span
+                                    className={`text-sm font-medium font-gilroy ${!canUpdatePayingGuests ? "text-gray-400 cursor-not-allowed" : "text-blue-700 cursor-pointer"}`}
                                   >
                                     Edit
                                   </span>
@@ -984,15 +981,26 @@ function PgList() {
                                 <div
                                   onClick={
                                     canDeletePayingGuests
-                                      ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                                      ? () =>
+                                          handleShowDelete(
+                                            floorClick,
+                                            showHostelDetails.id,
+                                            floorName,
+                                          )
                                       : undefined
                                   }
-
-                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                                  className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                                 >
-                                  <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
+                                  <Trash
+                                    size="16"
+                                    color={
+                                      !canDeletePayingGuests
+                                        ? "#A0A0A0"
+                                        : "#FF0000"
+                                    }
+                                  />
                                   <span
-                                    className={`text-sm font-medium font-gilroy ${!canDeletePayingGuests ? 'text-[#A0A0A0] cursor-not-allowed' : 'text-[#FF0000] cursor-pointer'}`}
+                                    className={`text-sm font-medium font-gilroy ${!canDeletePayingGuests ? "text-[#A0A0A0] cursor-not-allowed" : "text-[#FF0000] cursor-pointer"}`}
                                   >
                                     Delete
                                   </span>
@@ -1003,9 +1011,7 @@ function PgList() {
                         </div>
                       )}
                     </div>
-
                   </div>
-
 
                   <div className="overflow-y-auto h-full pr-2">
                     <ParticularHostelDetails
@@ -1014,19 +1020,14 @@ function PgList() {
                       phoneNumber={showHostelDetails.hostel_PhoneNo}
                     />
                   </div>
-
                 </div>
               </div>
-            )
-              :
-              (!loading) && (
-               <div className="w-full flex flex-col items-center justify-center animated-text">
+            ) : (
+              !loading && (
+                <div className="w-full flex flex-col items-center justify-center animated-text">
                   <div>
                     <div className="flex justify-center lg:mt-28 md:mt-16 2xl:mt-60">
-                      <img
-                        src={EmptyState}
-                        alt="Empty state"
-                      />
+                      <img src={EmptyState} alt="Empty state" />
                     </div>
                     <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
                       No floors available
@@ -1034,21 +1035,39 @@ function PgList() {
                     <div className="text-center font-gilroy font-medium text-sm text-gray-700">
                       There is no floor added to this paying guest.
                     </div>
-
                   </div>
-                </div> 
-
-              )}
+                </div>
+              )
+            )}
           </div>
         )}
 
         {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} />}
-        {showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
-        {showFloor && <AddFloor updateFloor={update} show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} openFloor={handleDIsplayFloorClick} editFloor={editFloor} />}
-        {showRoom && <AddRoom show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails} />}
-
+        {showDelete && (
+          <DeleteFloor
+            show={showDelete}
+            handleClose={handleCloseDelete}
+            currentItem={deleteFloor}
+          />
+        )}
+        {showFloor && (
+          <AddFloor
+            updateFloor={update}
+            show={showFloor}
+            handleClose={handleCloseFloor}
+            hostelFloor={hostelFloor}
+            openFloor={handleDIsplayFloorClick}
+            editFloor={editFloor}
+          />
+        )}
+        {showRoom && (
+          <AddRoom
+            show={showRoom}
+            handleClose={handlecloseRoom}
+            hostelDetails={hostelDetails}
+          />
+        )}
       </div>
-
     </>
   );
 }
