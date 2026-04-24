@@ -18,6 +18,8 @@ function ApiPagination({
   const [pageSize, setPageSize] = useState(sizeOptions[0]);
 
   const handleChangePage = (page) => {
+    console.log("pageeeeee", page);
+
     const p = Math.max(1, Math.min(page, totalPages));
     if (isTenantPagination) {
       onPageChange(p);
@@ -61,8 +63,13 @@ function ApiPagination({
   const selectedSizeOption =
     sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
 
-  const startIndex = (currentPage - 1) * size;
-  const endIndex = currentPage * size;
+  const displayPage = isTenantPagination ? currentPage : currentPage + 1;
+
+  const safePage = totalRecords === 0 ? 0 : displayPage;
+
+  const startIndex = totalRecords === 0 ? 0 : (displayPage - 1) * size;
+  const endIndex = totalRecords === 0 ? 0 : displayPage * size;
+  const uiPage = isTenantPagination ? currentPage : currentPage + 1;
 
   return (
     <>
@@ -86,10 +93,10 @@ function ApiPagination({
             </select>
           </div>
 
-          <div className="flex items-center px-2">
+          <div className="flex items-center px-2 py-0.5">
             <button
-              onClick={() => handleChangePage(currentPage - 1)}
-              disabled={currentPage === 1}
+              onClick={() => handleChangePage(uiPage - 1)}
+              disabled={uiPage === 1}
               className={`w-7 h-7 flex items-center justify-center rounded-full
               ${
                 currentPage === 1
@@ -102,13 +109,13 @@ function ApiPagination({
 
             <span className="text-sm text-[#374151] whitespace-nowrap px-2">
               {totalRecords === 0
-                ? "0"
+                ? "0 – 0"
                 : `${startIndex + 1} – ${Math.min(endIndex, totalRecords)}`}
             </span>
 
             <button
-              onClick={() => handleChangePage(currentPage + 1)}
-              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => handleChangePage(uiPage + 1)}
+              disabled={uiPage === totalPages || totalPages === 0}
               className={`w-7 h-7 flex items-center justify-center rounded-full
               ${
                 currentPage === totalPages || totalPages === 0

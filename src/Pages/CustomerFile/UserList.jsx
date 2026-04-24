@@ -1863,6 +1863,7 @@ function UserList(props) {
       ...base,
       minHeight: "32px",
       height: "32px",
+      width: "100%",
       border: "1px solid #D9D9D9",
       borderRadius: "8px",
       fontSize: "12px",
@@ -1871,30 +1872,64 @@ function UserList(props) {
       boxShadow: "none",
       cursor: "pointer",
       backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
     }),
+
     singleValue: (base) => ({
       ...base,
-      color: "#333333",
+      color: "#333",
       fontWeight: 500,
-      backgroundColor: "#F4F4F4",
     }),
-    option: (base, state) => ({
-      ...base,
-      backgroundColor: state.isSelected
-        ? "#1E45E1"
-        : state.isFocused
+
+    option: (base, state) => {
+      const isSelected = state.isSelected;
+
+      return {
+        ...base,
+        position: "relative",
+        fontSize: 13,
+        padding: "6px 12px",
+        // margin: "2px 10px",
+        backgroundColor: isSelected
           ? "#EEF2FF"
-          : "#F9FAFB",
-      color: state.isSelected ? "#fff" : "#111827",
-      cursor: "pointer",
+          : state.isFocused
+            ? "#F3F4F6"
+            : "#fff",
+        color: "#111827",
+        cursor: "pointer",
+
+        whiteSpace: "nowrap",
+        overflow: "visible",
+
+        paddingLeft: isSelected ? "9px" : "12px",
+
+        ...(isSelected && {
+          borderLeft: "3px solid #1E45E1",
+          fontWeight: 500,
+        }),
+      };
+    },
+
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#fff",
+      border: "1px solid #E5E7EB",
+      borderRadius: "8px",
+      padding: "6px 0",
+      zIndex: 9999,
+      width: "max-content",
+      minWidth: "100%",
     }),
-    valueContainer: (base, state) => ({
+
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "100px",
+      padding: 0,
+      overflowY: "auto",
+    }),
+
+    valueContainer: (base) => ({
       ...base,
       padding: "0 8px",
-      height: "32px",
     }),
 
     indicatorsContainer: (base) => ({
@@ -1907,35 +1942,8 @@ function UserList(props) {
       padding: "4px",
     }),
 
-    clearIndicator: () => ({
-      display: "none",
-    }),
-
     indicatorSeparator: () => ({
       display: "none",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#F9FAFB",
-      border: "1px solid #E5E7EB",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "12px",
-      zIndex: 9999,
-      width: "auto",
-      minWidth: "100%",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      color: "#FFF",
-      maxHeight: "100px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-      whiteSpace: "nowrap",
-      width: "auto",
     }),
   };
 
@@ -2248,7 +2256,7 @@ function UserList(props) {
               </div>
             )}
 
-            <div className="sticky top-0 bg-white z-20">
+            <div className="sticky top-0 bg-white z-50 container h-[60px]">
               <div className="flex items-center justify-between">
                 <div className="flex gap-6 mt-3">
                   {tabs?.map((tab) => (
@@ -2284,7 +2292,7 @@ function UserList(props) {
                           value={filterInput}
                           onChange={handlefilterInput}
                           disabled={!canReadTenant}
-                          className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                          className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
                         />
                         <SearchNormal1
                           size="18"
@@ -2348,7 +2356,7 @@ function UserList(props) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between !sticky !top-[45px] z-20 ">
+                    <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
                       <div className="flex flex-wrap items-center gap-3">
                         <div
                           className={`border border-gray-300 rounded-lg w-36 ${
@@ -2361,6 +2369,8 @@ function UserList(props) {
                             options={selectOptions}
                             styles={CustomStyles}
                             isDisabled={!canReadTenant}
+                            menuPlacement="auto"
+                            classNamePrefix="custom"
                             onChange={(e) => handleStatusFilter(e)}
                             value={
                               selectOptions.find(
@@ -2522,14 +2532,15 @@ function UserList(props) {
                         </span>
                       </div>
                     )}
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    {/* h-[calc(100vh-140px)] */}
+                    <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
                       >
-                        <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-50 text-[#6B7280] text-xs">
+                        <table className=" w-full font-gilroy ">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs">
                             <tr className="h-9">
                               {selectedColumns?.map((col, index) => {
                                 let stickyClass = "";
@@ -2553,7 +2564,7 @@ function UserList(props) {
                                 );
                               })}
 
-                              <th className="px-4 py-2.5 uppercase sticky right-0 z-50 bg-[#F9FAFB]">
+                              <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB]">
                                 Action
                               </th>
                             </tr>
@@ -2790,7 +2801,7 @@ function UserList(props) {
                                     <td
                                       className={`${
                                         isScrolling ? "!bg-white" : "bg-white"
-                                      } px-4 py-1 sticky right-0 !z-40 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                      } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
                                       {" "}
                                       <div

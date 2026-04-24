@@ -3039,7 +3039,7 @@ function UserListRoomDetail(props) {
                             First Name
                           </p>
                           <p className="text-sm font-semibold font-gilroy truncate hover:whitespace-normal hover:overflow-visible">
-                            {CustomerOverView?.firstName || "-"}
+                            {CustomerOverView?.firstName || ""}
                           </p>
                         </div>
 
@@ -3048,7 +3048,7 @@ function UserListRoomDetail(props) {
                             Last Name
                           </p>
                           <p className="text-sm font-semibold font-gilroy truncate hover:whitespace-normal hover:overflow-visible">
-                            {CustomerOverView?.lastName || "-"}
+                            {CustomerOverView?.lastName || ""}
                           </p>
                         </div>
 
@@ -3081,7 +3081,7 @@ function UserListRoomDetail(props) {
                             <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
                               {CustomerOverView?.mobileNo
                                 ? `+${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
-                                : "-"}
+                                : ""}
                             </span>
                           </div>
                         </div>
@@ -3157,7 +3157,7 @@ function UserListRoomDetail(props) {
                                   className="text-sm font-semibold font-gilroy mt-1 block truncate w-20"
                                   title={CustomerOverView.address?.houseNo}
                                 >
-                                  {CustomerOverView.address?.houseNo || "-"}
+                                  {CustomerOverView.address?.houseNo || ""}
                                 </span>
                               </div>
                             </div>
