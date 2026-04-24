@@ -61,8 +61,25 @@ function ApiPagination({
   const selectedSizeOption =
     sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
 
-  const startIndex = (currentPage - 1) * size;
-  const endIndex = currentPage * size;
+  console.log("currentPage", currentPage);
+
+  const displayPage = isTenantPagination ? currentPage : currentPage + 1;
+
+  const safePage = totalRecords === 0 ? 0 : displayPage;
+
+  const startIndex = safePage === 0 ? 0 : (safePage - 1) * size;
+  const endIndex = safePage === 0 ? 0 : safePage * size;
+
+  console.log(
+    "displayPage",
+    displayPage,
+    "isTenantPagination",
+    isTenantPagination,
+    "totalRecords",
+    totalRecords,
+    "size",
+    size,
+  );
 
   return (
     <>
@@ -102,7 +119,7 @@ function ApiPagination({
 
             <span className="text-sm text-[#374151] whitespace-nowrap px-2">
               {totalRecords === 0
-                ? "0"
+                ? "0 – 0"
                 : `${startIndex + 1} – ${Math.min(endIndex, totalRecords)}`}
             </span>
 
