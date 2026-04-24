@@ -12,15 +12,9 @@ function ApiPagination({
   onPageChange,
   onSizeChange,
   isTenantPagination,
-  size
+  size,
 }) {
-  const sizeOptions = [
-    // { value: 1, label: "1" },
-    { value: 10, label: "10" },
-    { value: 20, label: "20" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  const sizeOptions = [10, 20, 50, 100];
   const [pageSize, setPageSize] = useState(sizeOptions[0]);
 
   const handleChangePage = (page) => {
@@ -65,137 +59,69 @@ function ApiPagination({
   };
 
   const selectedSizeOption =
-  sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
+    sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
 
+  const startIndex = (currentPage - 1) * size;
+  const endIndex = currentPage * size;
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 z-50  border-t border-gray-200 px-6 py-1 bg-white">
-      <div className="flex items-center justify-between">
-        <div className="text-sm font-medium text-gray-700">
-          Total Records :{" "}
-          <span className="text-[#1E45E1] font-semibold">{totalRecords}</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">Size</span>
-            <Select
-              value={selectedSizeOption}
-              options={sizeOptions}
-              onChange={handleSizeChange}
-              isSearchable={false}
-              menuPlacement="top"
-              menuPortalTarget={document.body}
-              className="w-24 text-sm z-50 "
-              classNamePrefix="react-select"
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  minHeight: "32px",
-                  height: "32px",
-                  borderColor: "#D1D5DB",
-                  boxShadow: "none",
-                  cursor: "pointer",
-                }),
-                valueContainer: (base) => ({
-                  ...base,
-                  padding: "0 8px",
-                }),
-                indicatorsContainer: (base) => ({
-                  ...base,
-                  height: "32px",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  fontSize: "13px",
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "#E5F0FF" : "#fff",
-                  color: "#111827",
-                  fontFamily: "Gilroy",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#555",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                clearIndicator: () => ({
-                  display: "none",
-                }),
-                menuPortal: (base) => ({
-                  ...base,
-                  zIndex: 9999,
-                }),
+    <>
+      <div className="font-gilroy">
+        <div className="flex items-stretch border border-[#E5E7EB] rounded-md overflow-hidden">
+          <div className="bg-[#ebeef9] flex items-center px-3">
+            <select
+              value={size}
+              onChange={(e) => {
+                const newSize = Number(e.target.value);
+                onSizeChange?.(newSize);
+                onPageChange?.(1);
               }}
-            />
+              className="bg-transparent outline-none text-sm cursor-pointer h-full"
+            >
+              {sizeOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt} / page
+                </option>
+              ))}
+            </select>
           </div>
-          <ul className="flex items-center gap-2 m-0">
-            <li>
-              <button
-                onClick={() => handleChangePage(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`
-                  rounded-md  px-3 py-1.5 text-sm font-medium
-                  ${
-                    currentPage === 1
-                      ? " text-gray-400 cursor-not-allowed opacity-50"
-                      : " bg-white text-[#1E45E1] hover:bg-[#DCE9FF]"
-                  }
-                `}
-              >
-                <ArrowLeft2 size="18" />
-              </button>
-            </li>
 
-            {getPages().map((page, i) =>
-              page === "..." ? (
-                <li key={i} className="px-2 text-gray-400">
-                  …
-                </li>
-              ) : (
-                <li key={i}>
-                  <button
-                    onClick={() => {
-                      if (page !== currentPage) {
-                        handleChangePage(page);
-                      }
-                    }}
-                    className={`h-8 w-8 rounded-md text-sm font-semibold
-                      ${
-                        page === currentPage
-                          ? "bg-[#1E45E1] text-white"
-                          : "text-gray-700 hover:bg-gray-100"
-                      }
-                    `}
-                  >
-                    {page}
-                  </button>
-                </li>
-              ),
-            )}
+          <div className="flex items-center px-2">
+            <button
+              onClick={() => handleChangePage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`w-7 h-7 flex items-center justify-center rounded-full
+              ${
+                currentPage === 1
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-blue-100"
+              }`}
+            >
+              <ArrowLeft2 size="16" color="#1E45E1" />
+            </button>
 
-            <li>
-              <button
-                onClick={() => handleChangePage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`
-      rounded-md  px-3 py-1.5 text-sm font-medium
-      ${
-        currentPage === totalPages
-          ? " text-[#9CA3AF] cursor-not-allowed opacity-50"
-          : " text-[#1E45E1] bg-white hover:bg-[#E7F1FF]"
-      }
-    `}
-              >
-                <ArrowRight2 size="18" />
-              </button>
-            </li>
-          </ul>
+            <span className="text-sm text-[#374151] whitespace-nowrap px-2">
+              {totalRecords === 0
+                ? "0"
+                : `${startIndex + 1} – ${Math.min(endIndex, totalRecords)}`}
+            </span>
+
+            <button
+              onClick={() => handleChangePage(currentPage + 1)}
+              disabled={currentPage === totalPages || totalPages === 0}
+              className={`w-7 h-7 flex items-center justify-center rounded-full
+              ${
+                currentPage === totalPages || totalPages === 0
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-blue-100"
+              }`}
+            >
+              <ArrowRight2 size="16" color="#1E45E1" />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 ApiPagination.propTypes = {
@@ -203,6 +129,8 @@ ApiPagination.propTypes = {
   totalPages: PropTypes.number.isRequired,
   totalRecords: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
-  onSizeChange: PropTypes.func.isRequired,
+  onSizeChange: PropTypes.func,
+  size: PropTypes.number,
+  isTenantPagination: PropTypes.bool,
 };
 export default ApiPagination;
