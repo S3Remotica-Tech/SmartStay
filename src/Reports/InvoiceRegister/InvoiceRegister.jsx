@@ -804,7 +804,7 @@ function InvoiceRegister() {
           </div>
         )}
 
-        <div className="mt-3 ms-1 me-1 overflow-x-auto">
+        <div className="mt-3 ms-1 me-1 overflow-x-auto ">
           <div className="flex gap-4 flex-nowrap">
             {stats.map((item, i) => (
               <div
@@ -850,7 +850,7 @@ function InvoiceRegister() {
         <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
           <div
             ref={tableRef}
-            className=" overflow-y-auto relative max-h-[400px] rounded-xl "
+            className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
           >
             <table className="w-full  text-[12px] font-gilroy ">
               <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">

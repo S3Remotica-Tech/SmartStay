@@ -2249,7 +2249,7 @@ function UserList(props) {
               </div>
             )}
 
-            <div className="sticky top-0 bg-white z-20">
+            <div className="sticky top-0 bg-white z-50">
               <div className="flex items-center justify-between">
                 <div className="flex gap-6 mt-3">
                   {tabs?.map((tab) => (
@@ -2285,7 +2285,7 @@ function UserList(props) {
                           value={filterInput}
                           onChange={handlefilterInput}
                           disabled={!canReadTenant}
-                          className="w-full bg-transparent text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                          className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
                         />
                         <SearchNormal1
                           size="18"
@@ -2349,7 +2349,7 @@ function UserList(props) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between !sticky !top-[45px] z-50 ">
+                    <div className="flex flex-wrap items-center justify-between !sticky !top-[45px] z-50  bg-white">
                       <div className="flex flex-wrap items-center gap-3">
                         <div
                           className={`border border-gray-300 rounded-lg w-36 ${
@@ -2525,11 +2525,12 @@ function UserList(props) {
                         </span>
                       </div>
                     )}
+                    {/* h-[calc(100vh-140px)] */}
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative  h-fit rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs">

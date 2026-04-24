@@ -18,6 +18,8 @@ function ApiPagination({
   const [pageSize, setPageSize] = useState(sizeOptions[0]);
 
   const handleChangePage = (page) => {
+    console.log("pageeeeee", page);
+
     const p = Math.max(1, Math.min(page, totalPages));
     if (isTenantPagination) {
       onPageChange(p);
@@ -61,25 +63,13 @@ function ApiPagination({
   const selectedSizeOption =
     sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
 
-  console.log("currentPage", currentPage);
-
   const displayPage = isTenantPagination ? currentPage : currentPage + 1;
 
   const safePage = totalRecords === 0 ? 0 : displayPage;
 
-  const startIndex = safePage === 0 ? 0 : (safePage - 1) * size;
-  const endIndex = safePage === 0 ? 0 : safePage * size;
-
-  console.log(
-    "displayPage",
-    displayPage,
-    "isTenantPagination",
-    isTenantPagination,
-    "totalRecords",
-    totalRecords,
-    "size",
-    size,
-  );
+  const startIndex = totalRecords === 0 ? 0 : (displayPage - 1) * size;
+  const endIndex = totalRecords === 0 ? 0 : displayPage * size;
+  const uiPage = isTenantPagination ? currentPage : currentPage + 1;
 
   return (
     <>
@@ -103,10 +93,10 @@ function ApiPagination({
             </select>
           </div>
 
-          <div className="flex items-center px-2">
+          <div className="flex items-center px-2 py-0.5">
             <button
-              onClick={() => handleChangePage(currentPage - 1)}
-              disabled={currentPage === 1}
+              onClick={() => handleChangePage(uiPage - 1)}
+              disabled={uiPage === 1}
               className={`w-7 h-7 flex items-center justify-center rounded-full
               ${
                 currentPage === 1
@@ -124,8 +114,8 @@ function ApiPagination({
             </span>
 
             <button
-              onClick={() => handleChangePage(currentPage + 1)}
-              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => handleChangePage(uiPage + 1)}
+              disabled={uiPage === totalPages || totalPages === 0}
               className={`w-7 h-7 flex items-center justify-center rounded-full
               ${
                 currentPage === totalPages || totalPages === 0
