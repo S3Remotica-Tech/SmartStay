@@ -17,6 +17,7 @@ import {
   AddCircle,
   Notification1,
   Edit,
+  ArrowUp,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -3484,8 +3485,8 @@ function UserListRoomDetail(props) {
                           Financial details
                         </label>
                         <div className="w-full mb-0 md:mb-0">
-                          <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 mb-4">
-                            <div className="flex flex-col items-start">
+                          <div className="grid grid-cols-2 gap-1 mb-4">
+                            <div className=" flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Monthly Rent
                                 {canUpdateTenant &&
@@ -3505,16 +3506,31 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
                             {CustomerOverView?.isNewRentApplied && (
-                              <div className="flex flex-col items-start">
-                                <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
-                                  Monthly New Rent
-                                </div>
-                                <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
-                                  ₹{CustomerOverView.newRentAmount ?? 0}
+                              <div className=" bg-[#FFF8EB] rounded-xl px-2 py-2 flex flex-col items-start">
+                                <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
+                                  New Monthly Rent
                                 </p>
+
+                                <p className="text-sm font-semibold text-black font-gilroy mt-1 mb-0">
+                                  ₹ {CustomerOverView?.newRentAmount ?? 0}
+                                </p>
+
+                                <div
+                                  className="flex items-center gap-1 mt-2 text-[11px] text-[#C27B0D] 
+                                font-medium font-gilroy"
+                                >
+                                  <ArrowUp
+                                    size="14"
+                                    className="shrink-0 mt-[2px]"
+                                  />
+
+                                  <span className="leading-tight">
+                                    {`Rent Update Scheduled, Effective from ${CustomerOverView?.newRentLabel || ""}`}
+                                  </span>
+                                </div>
                               </div>
                             )}
-                            <div className="flex flex-col items-start">
+                            <div className=" flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount
                                 {canUpdateTenant &&
@@ -3537,7 +3553,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                            <div className="flex flex-col items-start">
+                            <div className="  flex flex-col items-start">
                               <div className="text-xs font-medium font-gilroy">
                                 Booking Amount
                               </div>
@@ -3550,7 +3566,7 @@ function UserListRoomDetail(props) {
 
                             {CustomerOverView.hostelInfo?.maintenance !==
                               null && (
-                              <div className="flex flex-col items-start">
+                              <div className=" flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">
                                   Maintenance
                                 </div>
@@ -3564,7 +3580,7 @@ function UserListRoomDetail(props) {
                               (item, index) => (
                                 <div
                                   key={index}
-                                  className="flex flex-col items-start"
+                                  className=" flex flex-col items-start"
                                 >
                                   <div className="text-xs font-medium font-gilroy">
                                     {item.type}
