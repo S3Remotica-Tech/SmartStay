@@ -1466,7 +1466,7 @@ const InvoicePage = () => {
               </div>
             </div>
 
-            <div className={` flex justify-end gap-2 mr-2 `}>
+            <div className={` flex items-center justify-end gap-2 mr-2 `}>
               <div className="relative">
                 <button
                   disabled
@@ -1574,6 +1574,14 @@ const InvoicePage = () => {
                   </div>
                 )}
               </div>
+              <div>
+                <Setting3
+                  // onClick={() => setOpen(!open)}
+                  className="cursor-not-allowed"
+                  size="22"
+                  color="#4B4B4B"
+                />
+              </div>
 
               <div className="mr-2">
                 <PaginationList
@@ -1633,14 +1641,6 @@ const InvoicePage = () => {
                           <tr className="h-9">
                             <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
                               <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 overflow-hidden flex items-center justify-center">
-                                  <img
-                                    src={Cell}
-                                    alt="settings"
-                                    onClick={() => setOpen(!open)}
-                                    className="scale-150"
-                                  />
-                                </div>
                                 <input
                                   type="checkbox"
                                   className="rounded cursor-pointer"
@@ -1721,13 +1721,13 @@ const InvoicePage = () => {
 
                           <div
                             className={`
-                                fixed top-[180px] left-[280px] h-fit w-[390px]
-                                bg-white z-50
-                                border-r border-[#E5E7EB]
-                                shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
-                                transform transition-transform duration-300 ease-in-out
-                                ${open ? "translate-x-0" : "-translate-x-full"}
-                              `}
+        fixed top-[180px] right-10 h-fit w-[350px]
+        bg-white z-50
+        border-r border-[#E5E7EB]
+        shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
+        transform transition-transform duration-300 ease-in-out
+        ${open ? "translate-x-0" : "-translate-x-full"}
+      `}
                           >
                             <div className="p-3 border-b">
                               <div className="flex items-center gap-2 justify-between mb-2">
