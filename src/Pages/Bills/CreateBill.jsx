@@ -62,33 +62,24 @@ function CreateBill() {
   // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
 
   useEffect(() => {
-  if (id || billData?.customerId) {
-    const selectedCustomer = state.UsersList.TenantList.find(
-      (u) => u.customerId === (id || billData?.customerId)
-    );
+    if (id || billData?.customerId) {
+      const selectedCustomer = state.UsersList.TenantList.find(
+        (u) => u.customerId === (id || billData?.customerId),
+      );
 
-    console.log("selectedCustomer", selectedCustomer);
+      console.log("selectedCustomer", selectedCustomer);
 
-    if (selectedCustomer) {
-      setCustomerName(selectedCustomer.customerId);
+      if (selectedCustomer) {
+        setCustomerName(selectedCustomer.customerId);
+      }
     }
-  }
-}, [id, state.UsersList?.TenantList, billData]);
+  }, [id, state.UsersList?.TenantList, billData]);
 
-const customerOptions =
-  state.UsersList?.TenantList?.map((u) => ({
-    value: u.customerId,
-    label: u.fullName,
-  })) || [];
-
-
-
-
-
-
-
-
-
+  const customerOptions =
+    state.UsersList?.TenantList?.map((u) => ({
+      value: u.customerId,
+      label: u.fullName,
+    })) || [];
 
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
@@ -734,10 +725,10 @@ const customerOptions =
     }
     const changedRows = getChangedRows();
 
-    if (changedRows.length === 0) {
-      setTableErrmsg("No changes detected to update");
-      return;
-    }
+    // if (changedRows.length === 0) {
+    //   setTableErrmsg("No changes detected to update");
+    //   return;
+    // }
     if (billData?.invoiceId) {
       setFormLoading(true);
       dispatch({
@@ -893,9 +884,12 @@ const customerOptions =
             </label>
 
             <Select
-             options={customerOptions}
+              options={customerOptions}
               onChange={handleCustomerName}
-              value={customerOptions.find((opt) => opt.value === customername) || null}
+              value={
+                customerOptions.find((opt) => opt.value === customername) ||
+                null
+              }
               isDisabled={billData}
               placeholder="Select Customer"
               classNamePrefix="custom"
@@ -1096,8 +1090,8 @@ const customerOptions =
                   <div className="col-span-5 px-2 my-2">
                     <input
                       type="text"
-                      // disabled={u.isFromApi}
-                      disabled={u.isRent}
+                      disabled={u.isFromApi}
+                      // disabled={u.isRent}
                       value={u.am_name}
                       onChange={(e) =>
                         handleNewRowChange(index, "am_name", e.target.value)
@@ -1131,10 +1125,10 @@ const customerOptions =
 
                   <div className="col-span-1 flex justify-center">
                     <CloseCircle
-                      onClick={() => !u.isRent && handleDeleteNewRow(index)}
+                      onClick={() => !u.isFromApi && handleDeleteNewRow(index)}
                       size="24"
                       className={`${
-                        u.isRent
+                        u.isFromApi
                           ? "text-gray-400 cursor-not-allowed opacity-40"
                           : "text-red-500 cursor-pointer"
                       }`}

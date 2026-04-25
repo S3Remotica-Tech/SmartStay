@@ -1446,8 +1446,6 @@ const InvoicePage = () => {
                   menuPlacement="auto"
                   noOptionsMessage={() => "No options"}
                   styles={CustomStyles}
-                  menuPlacement="auto"
-                  classNamePrefix="custom"
                 />
               </div>
 
