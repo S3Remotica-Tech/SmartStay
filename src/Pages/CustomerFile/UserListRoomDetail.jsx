@@ -3357,7 +3357,7 @@ function UserListRoomDetail(props) {
 
                 <div className=" gap-2">
                   <div className="flex flex-col w-full md:mb-0 px-2 sm:px-0">
-                    <div className="bg-white border border-[#E5E7EB] rounded-[20px] p-4 sm:p-[20px] w-full mx-0 sm:ml-[10px] sm:mr-0  min-h-[500px] overflow-y-auto">
+                    <div className="bg-white border border-[#E5E7EB] rounded-[20px] p-3 sm:p-[20px] w-full mx-0 sm:ml-[10px] sm:mr-0  min-h-[500px] overflow-y-auto">
                       <div className="flex flex-col justify-between border-0 p-1 bg-transparent">
                         <div className="flex flex-row justify-between">
                           <div className="text-base font-semibold font-gilroy">
@@ -3485,8 +3485,8 @@ function UserListRoomDetail(props) {
                           Financial details
                         </label>
                         <div className="w-full mb-0 md:mb-0">
-                          <div className="grid grid-cols-2 gap-1 mb-4">
-                            <div className=" flex flex-col items-start">
+                          <div className="grid grid-cols-12 gap-1  mb-4">
+                            <div className="col-span-12 lg:col-span-5 flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Monthly Rent
                                 {canUpdateTenant &&
@@ -3506,31 +3506,33 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
                             {CustomerOverView?.isNewRentApplied && (
-                              <div className=" bg-[#FFF8EB] rounded-xl px-2 py-2 flex flex-col items-start">
+                              <div
+                                className="col-span-12 lg:col-span-7 bg-[#FFF8EB] rounded-xl px-3 w-full
+                              py-2 flex flex-col items-start min-w-0"
+                              >
                                 <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
                                   New Monthly Rent
                                 </p>
-
                                 <p className="text-sm font-semibold text-black font-gilroy mt-1 mb-0">
                                   ₹ {CustomerOverView?.newRentAmount ?? 0}
                                 </p>
 
-                                <div
-                                  className="flex items-center gap-1 mt-2 text-[11px] text-[#C27B0D] 
-                                font-medium font-gilroy"
-                                >
+                                <div className="flex items-start gap-1 mt-2 text-[12px] text-[#C27B0D] font-medium font-gilroy w-full min-w-0">
                                   <ArrowUp
                                     size="14"
                                     className="shrink-0 mt-[2px]"
                                   />
 
-                                  <span className="leading-tight">
-                                    {`Rent Update Scheduled, Effective from ${CustomerOverView?.newRentLabel || ""}`}
+                                  <span className="break-words min-w-0">
+                                    Rent Update Scheduled, Effective from{" "}
+                                    <span className="font-semibold break-words">
+                                      {CustomerOverView?.newRentLabel || ""}
+                                    </span>
                                   </span>
                                 </div>
                               </div>
                             )}
-                            <div className=" flex flex-col items-start">
+                            <div className=" col-span-12 lg:col-span-5 flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount
                                 {canUpdateTenant &&
@@ -3553,7 +3555,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                            <div className="  flex flex-col items-start">
+                            <div className=" col-span-12 lg:col-span-7 flex flex-col items-start">
                               <div className="text-xs font-medium font-gilroy">
                                 Booking Amount
                               </div>
@@ -3566,7 +3568,7 @@ function UserListRoomDetail(props) {
 
                             {CustomerOverView.hostelInfo?.maintenance !==
                               null && (
-                              <div className=" flex flex-col items-start">
+                              <div className="col-span-12 lg:col-span-5 flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">
                                   Maintenance
                                 </div>
@@ -3580,7 +3582,7 @@ function UserListRoomDetail(props) {
                               (item, index) => (
                                 <div
                                   key={index}
-                                  className=" flex flex-col items-start"
+                                  className=" col-span-12 lg:col-span-7 flex flex-col items-start"
                                 >
                                   <div className="text-xs font-medium font-gilroy">
                                     {item.type}
