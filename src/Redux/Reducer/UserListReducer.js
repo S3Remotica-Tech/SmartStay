@@ -172,7 +172,6 @@ export const initialState = {
   templatesGlobalImagesDeleteStatusCode: 0,
   tenantListGetSuccessCode: 0,
   TenantList: [],
-
   tenantFilters: {
     status: [],
     tenantStatusLabel: [],

@@ -139,7 +139,6 @@ function EditRentalAmount({ show, handleClose }) {
       //   formattedDate = dayjs(effectiveFrom, "MM/YYYY").format("DD-MM-YYYY");
     }
 
-    console.log("formattedDate", formattedDate);
     const oldAmount = Number(CustomerOverView.hostelInfo.monthlyRent);
 
     const newAmount = Number(monthlyRent);
@@ -187,23 +186,26 @@ function EditRentalAmount({ show, handleClose }) {
   const billStartDate =
     state?.Settings?.SettingsBillsGetRecurring?.billStartDate;
 
+  const billDueDate = state?.Settings?.SettingsBillsGetRecurring?.billDueDate;
+
   const typeOfBilling =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling;
 
   const disabledDate = (current) => {
     if (!current) return false;
-    const today = dayjs();
-      if (typeOfBilling === "Joining Date Based") {
-      const start = today.add(1, "month").startOf("month"); 
-      const end = today.add(3, "month").endOf("month"); 
 
+    const today = dayjs();
+
+    if (typeOfBilling === "Joining Date Based") {
+      const start = today.add(1, "month").startOf("month");
+      const end = today.add(3, "month").endOf("month");
       return current.isBefore(start, "month") || current.isAfter(end, "month");
     }
 
     let cycleMonth = today.month();
     let cycleYear = today.year();
 
-    if (today.date() >= billStartDate) {
+    if (today.date() > billStartDate) {
       const nextMonth = today.add(1, "month");
       cycleMonth = nextMonth.month();
       cycleYear = nextMonth.year();
@@ -215,7 +217,7 @@ function EditRentalAmount({ show, handleClose }) {
       .date(billStartDate)
       .startOf("day");
 
-    const end = start.add(3, "month").subtract(1, "day").endOf("day");
+    const end = start.add(2, "month").date(billDueDate).endOf("day");
 
     return current.isBefore(start, "day") || current.isAfter(end, "day");
   };

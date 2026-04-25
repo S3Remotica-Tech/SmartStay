@@ -901,18 +901,24 @@ function UserList(props) {
   const [showAbove, setShowAbove] = useState(false);
 
   const handleShowDots = (id, event) => {
-    if (activeRow === id) {
-      setActiveRow(null);
-    } else {
-      setActiveRow(id);
-    }
+    setActiveRow((prev) => (prev === id ? null : id));
     setSearch(false);
 
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
-    const popupLeft = left - 210;
+    const rect = event.currentTarget.getBoundingClientRect();
 
-    setPopupPosition({ top: popupTop, left: popupLeft });
+    const popupHeight = 120;
+    const spaceBelow = window.innerHeight - rect.bottom;
+
+    if (spaceBelow < popupHeight) {
+      setShowAbove(true);
+    } else {
+      setShowAbove(false);
+    }
+
+    setPopupPosition({
+      top: rect.bottom,
+      left: rect.left,
+    });
   };
 
   useEffect(() => {
@@ -2248,7 +2254,7 @@ function UserList(props) {
   return (
     <div className=" bg-white font-gilroy ">
       {userList && (
-        <div>
+        
           <div className="font-gilroy font-medium text-base">
             {loading && (
               <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
@@ -2256,63 +2262,61 @@ function UserList(props) {
               </div>
             )}
 
-            <div className="sticky top-0 bg-white z-50 container h-[60px]">
-              <div className="flex items-center justify-between">
-                <div className="flex gap-6 mt-3">
-                  {tabs?.map((tab) => (
-                    <button
-                      key={tab.key}
-                      onClick={() => handleChange(tab.key)}
-                      className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
+            <div className="flex items-center justify-between sticky top-0 bg-white z-50 container min-h-[60px] sm:min-h-[60px]">
+              <div className="flex gap-6">
+                {tabs?.map((tab) => (
+                  <button
+                    key={tab.key}
+                    onClick={() => handleChange(tab.key)}
+                    className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
             ${
               value === tab.key
                 ? "text-[#222222] border-[#1E45E1]"
                 : "text-[#4B4B4B] border-transparent"
             }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
 
-                <div className="flex items-center gap-3 flex-wrap">
-                  {value === "1" && (
-                    <div className="relative min-w-[180px] max-w-[260px]">
-                      <div
-                        className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+              <div className="flex items-center gap-3 flex-wrap">
+                {value === "1" && (
+                  <div className="relative min-w-[180px] max-w-[260px]">
+                    <div
+                      className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
     ${
       canReadTenant
         ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
         : "border-gray-200 opacity-60 cursor-not-allowed"
     }`}
-                      >
-                        <input
-                          type="text"
-                          placeholder="Search..."
-                          value={filterInput}
-                          onChange={handlefilterInput}
-                          disabled={!canReadTenant}
-                          className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
-                        />
-                        <SearchNormal1
-                          size="18"
-                          color={canReadTenant ? "#6B7280" : "#A0A0A0"}
-                          className="mr-2"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {value === "4" && (
-                    <button
-                      disabled={!canWriteWalkin}
-                      onClick={handleShow}
-                      className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
                     >
-                      + Walk-In
-                    </button>
-                  )}
-                </div>
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={filterInput}
+                        onChange={handlefilterInput}
+                        disabled={!canReadTenant}
+                        className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
+                      />
+                      <SearchNormal1
+                        size="18"
+                        color={canReadTenant ? "#6B7280" : "#A0A0A0"}
+                        className="mr-2"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {value === "4" && (
+                  <button
+                    disabled={!canWriteWalkin}
+                    onClick={handleShow}
+                    className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
+                  >
+                    + Walk-In
+                  </button>
+                )}
               </div>
             </div>
 
@@ -2827,16 +2831,17 @@ function UserList(props) {
                                           user?.apiCall?.customerId && (
                                           <div
                                             ref={popupRef}
-                                            className="fixed top-10  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                            className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                             style={{
                                               top: showAbove
                                                 ? popupPosition.top -
                                                   (popupRef.current
-                                                    ?.offsetHeight || 100) -
+                                                    ?.offsetHeight || 120) -
                                                   10
-                                                : popupPosition.top,
-                                              left: popupPosition.left - 30,
-                                              transform: "translateZ(0)",
+                                                : popupPosition.top + 5,
+                                              left: popupPosition.left - 250,
+                                              position: "fixed",
+                                              zIndex: 1000,
                                             }}
                                           >
                                             <div className="flex flex-col divide-y divide-gray-200">
@@ -3194,7 +3199,7 @@ function UserList(props) {
               />
             )}
           </div>
-        </div>
+        
       )}
 
       {isFilterOpen && (

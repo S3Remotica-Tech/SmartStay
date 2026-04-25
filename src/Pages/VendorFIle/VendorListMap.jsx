@@ -6,11 +6,10 @@ import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 // import "./VendorListMap.css";
 // import "./vendor.css";
-import { useHasPermission } from '../../Utils/Permission';
+import { useHasPermission } from "../../Utils/Permission";
 
 function VendorListMap(props) {
   const [showDots, setShowDots] = useState(null);
-
 
   const {
     // canWriteModule: canWriteVendor,
@@ -19,11 +18,8 @@ function VendorListMap(props) {
     canDeleteModule: canDeleteVendor,
   } = useHasPermission("Vendor");
 
-
   // const canUpdateVendor = useHasPermission("Vendor", "canUpdate")
   // const canDeleteVendor = useHasPermission("Vendor", "canDelete")
-
-
 
   const popupRef = useRef(null);
 
@@ -72,34 +68,39 @@ function VendorListMap(props) {
     });
   });
 
-
-
-
   const isValid = (value) => {
-    return value !== null && value !== undefined && value !== "undefined" && value !== "";
+    return (
+      value !== null &&
+      value !== undefined &&
+      value !== "undefined" &&
+      value !== ""
+    );
   };
-
 
   return (
     <>
-
       <div
         key={props.vendor?.id}
         className="mt-1 rounded-[16px] border border-[#E6E6E6] bg-white animated-text
-                 overflow-auto"
+                 overflow-auto "
       >
         <div className="p-4">
-
           <div className="flex justify-between items-center flex-wrap">
             <div className="flex gap-2">
               <div
-                className="flex items-center justify-center rounded-full bg-[#C6D1FF] text-[#1E45E1] font-gilroy font-semibold text-[20px] uppercase w-16 h-16"
+                className="flex items-center justify-center 
+             rounded-full overflow-hidden 
+             bg-[#C6D1FF] text-[#1E45E1] 
+             font-gilroy font-semibold text-[20px] uppercase 
+             w-16 h-16"
               >
                 {props.vendor?.profilePic?.trim() ? (
                   <Image
                     src={props.vendor.profilePic}
                     alt={props.vendor?.fullName || "Vendor"}
-                    className="rounded-full object-cover"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   `${props.vendor?.firstName?.[0] || ""}${props.vendor?.lastName?.[0] || ""}`
@@ -126,7 +127,6 @@ function VendorListMap(props) {
                 className={`flex items-center justify-center rounded-full border border-[#EFEFEF] cursor-pointer relative 
               ${showDots ? "bg-[#E7F1FF] z-[1000]" : "bg-white z-auto"} h-10 w-10`}
               >
-
                 <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
 
                 {showDots && (
@@ -135,14 +135,23 @@ function VendorListMap(props) {
                     className="absolute right-[45px] -top-5 w-[160px] flex flex-col items-start rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] z-[1000]"
                   >
                     <div
-                      onClick={() => canUpdateVendor && handleEdit(props.vendor)}
-                      className={`flex items-center gap-2 w-full px-3 py-2 rounded-t-[10px] cursor-pointer ${canUpdateVendor ? "hover:bg-[#EDF2FF]" : "opacity-50 cursor-not-allowed"
-                        }`}
+                      onClick={() =>
+                        canUpdateVendor && handleEdit(props.vendor)
+                      }
+                      className={`flex items-center gap-2 w-full px-3 py-2 rounded-t-[10px] cursor-pointer ${
+                        canUpdateVendor
+                          ? "hover:bg-[#EDF2FF]"
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
                     >
-                      <Edit size={16} color={canUpdateVendor ? "#1E45E1" : "#A9A9A9"} />
+                      <Edit
+                        size={16}
+                        color={canUpdateVendor ? "#1E45E1" : "#A9A9A9"}
+                      />
                       <span
-                        className={`text-[14px] font-gilroy font-semibold ${canUpdateVendor ? "text-[#222]" : "text-[#A9A9A9]"
-                          }`}
+                        className={`text-[14px] font-gilroy font-semibold ${
+                          canUpdateVendor ? "text-[#222]" : "text-[#A9A9A9]"
+                        }`}
                       >
                         Edit
                       </span>
@@ -151,14 +160,23 @@ function VendorListMap(props) {
                     <div className="h-[1px] bg-[#F0F0F0]" />
 
                     <div
-                      onClick={() => canDeleteVendor && handleDelete(props.vendor)}
-                      className={`flex items-center gap-2 w-full px-3 py-2 rounded-b-[10px] cursor-pointer ${canDeleteVendor ? "hover:bg-[#FFF0F0]" : "opacity-50 cursor-not-allowed"
-                        }`}
+                      onClick={() =>
+                        canDeleteVendor && handleDelete(props.vendor)
+                      }
+                      className={`flex items-center gap-2 w-full px-3 py-2 rounded-b-[10px] cursor-pointer ${
+                        canDeleteVendor
+                          ? "hover:bg-[#FFF0F0]"
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
                     >
-                      <Trash size={16} color={canDeleteVendor ? "red" : "#A9A9A9"} />
+                      <Trash
+                        size={16}
+                        color={canDeleteVendor ? "red" : "#A9A9A9"}
+                      />
                       <span
-                        className={`text-[14px] font-gilroy font-semibold ${canDeleteVendor ? "text-red-600" : "text-[#A9A9A9]"
-                          }`}
+                        className={`text-[14px] font-gilroy font-semibold ${
+                          canDeleteVendor ? "text-red-600" : "text-[#A9A9A9]"
+                        }`}
                       >
                         Delete
                       </span>
@@ -171,10 +189,12 @@ function VendorListMap(props) {
 
           <hr className="my-2 border border-[#E7E7E7]" />
 
-          <div className="flex justify-between items-center flex-wrap mb-4">
+          <div className="flex justify-between items-center flex-wrap mb-1">
             <div className="mb-2 leading-none">
               <div className="pb-1">
-                <label className="text-[14px] font-gilroy font-medium text-slate-600">Email ID</label>
+                <label className="text-[14px] font-gilroy font-medium text-slate-600">
+                  Email ID
+                </label>
               </div>
               <div>
                 <label className="text-[16px] font-gilroy font-semibold text-[#222]">
@@ -185,7 +205,7 @@ function VendorListMap(props) {
               </div>
             </div>
 
-            <div className="mb-2 leading-none">
+            <div className="mb-1 leading-none">
               <div className="pb-1">
                 <label className="text-[14px] font-gilroy font-medium text-slate-600">
                   Contact Number
@@ -194,7 +214,10 @@ function VendorListMap(props) {
               <div>
                 <label className="text-[16px] font-gilroy font-semibold text-[#222]">
                   {props.vendor?.mobile && (
-                    <>+{props.vendor.mobile.slice(0, 2)} {props.vendor.mobile.slice(2)}</>
+                    <>
+                      +{props.vendor.mobile.slice(0, 2)}{" "}
+                      {props.vendor.mobile.slice(2)}
+                    </>
                   )}
                 </label>
               </div>
@@ -205,23 +228,29 @@ function VendorListMap(props) {
             <div className="flex justify-between flex-wrap">
               <div className="max-w-[75%]">
                 <div className="pb-1">
-                  <label className="text-[14px] font-gilroy font-medium text-slate-600 mb-1">Address</label>
+                  <label className="text-[14px] font-gilroy font-medium text-slate-600 mb-1">
+                    Address
+                  </label>
                 </div>
                 <label className="text-[16px] font-gilroy font-semibold text-[#222] break-words">
-                  {isValid(props.vendor?.houseNo) && `${props.vendor.houseNo}, `}
+                  {isValid(props.vendor?.houseNo) &&
+                    `${props.vendor.houseNo}, `}
                   {isValid(props.vendor?.area) && `${props.vendor.area}, `}
-                  {isValid(props.vendor?.landMark) && `${props.vendor.landMark}, `}
+                  {isValid(props.vendor?.landMark) &&
+                    `${props.vendor.landMark}, `}
                   {isValid(props.vendor?.city) && `${props.vendor.city}, `}
-                  {isValid(props.vendor?.state) && `${props.vendor.state}${props.vendor.country ? " " : ""},`}
+                  {isValid(props.vendor?.state) &&
+                    `${props.vendor.state}${props.vendor.country ? " " : ""},`}
                   <br />
-                  {props.vendor.country} {isValid(props.vendor?.pinCode) && `- ${props.vendor.pinCode}`}
+                  {props.vendor.country}{" "}
+                  {isValid(props.vendor?.pinCode) &&
+                    `- ${props.vendor.pinCode}`}
                 </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </>
   );
 }

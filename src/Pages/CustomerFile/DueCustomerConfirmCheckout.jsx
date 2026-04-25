@@ -139,11 +139,12 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
   }, []);
 
   const handleConfirmCheckout = () => {
-    if (data?.apiCall?.customerId || data?.tenetId) {
+    if (data?.apiCall?.customerId || data?.tenetId || data?.customerId) {
       dispatch({
         type: "CONFIRMCHECKOUT",
         payload: {
-          customerId: data?.apiCall?.customerId || data?.tenetId,
+          customerId:
+            data?.apiCall?.customerId || data?.tenetId || data?.customerId,
           comments: comments,
         },
       });
@@ -170,12 +171,13 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
   useEffect(() => {
     if (
       state.login.selectedHostel_Id &&
-      (data?.apiCall?.customerId || data?.tenetId)
+      (data?.apiCall?.customerId || data?.tenetId || data?.customerId)
     ) {
       dispatch({
         type: "GETINITIALIZECHECKOUT",
         payload: {
-          customerId: data?.apiCall?.customerId || data?.tenetId,
+          customerId:
+            data?.apiCall?.customerId || data?.tenetId || data?.customerId,
           hostelId: state.login.selectedHostel_Id,
         },
       });
