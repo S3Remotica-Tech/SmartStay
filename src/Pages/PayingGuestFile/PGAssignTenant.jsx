@@ -653,8 +653,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
       value: u.customerId,
       label: u.fullName,
     })) || [];
-    
+
   const isComingSoon = true;
+  
   return (
     <>
       <Modal

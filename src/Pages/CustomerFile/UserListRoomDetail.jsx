@@ -3092,7 +3092,7 @@ function UserListRoomDetail(props) {
                   <div className=" bg-white  overflow-hidden border border-[#E5E7EB] rounded-[20px] p-4">
                     <div className="card-header flex justify-between items-center border-0 bg-transparent">
                       <div className="card-header p-0 border-0 bg-transparent w-full">
-                        <div className="flex items-center justify-start gap-4 w-full border-0 -mt-2">
+                        <div className="flex items-center justify-around gap-4 w-full border-0 -mt-2">
                           <div
                             onClick={() => setActiveTab("kyc")}
                             className={`flex items-center cursor-pointer px-3 py-1.5 font-semibold 
@@ -3107,38 +3107,38 @@ function UserListRoomDetail(props) {
     ${activeTab === "manual" ? "border-b-2 border-[#1E45E1] text-[#1E45E1]" : "border-b-2 border-transparent text-[#555]"} font-gilroy whitespace-nowrap`}
                           >
                             Manual Address
-                          </div>
-                          {activeTab === "manual" && (
-                            <span
-                              className={
-                                isEditDisabled
-                                  ? "cursor-not-allowed opacity-60"
-                                  : "cursor-pointer"
-                              }
-                            >
-                              <div
-                                onClick={() => {
-                                  if (!isEditDisabled) {
-                                    handleEditAddressDetailsShow(
-                                      CustomerOverView,
-                                    );
-                                  }
-                                }}
-                                className="h-10 w-10 flex justify-center items-center relative z-[1000]"
+                            {activeTab === "manual" && (
+                              <span
+                                className={
+                                  isEditDisabled
+                                    ? "cursor-not-allowed opacity-60"
+                                    : "cursor-pointer"
+                                }
                               >
-                                <img
-                                  src={EditImage}
-                                  alt="edit"
-                                  className="h-4 w-4"
-                                  style={{
-                                    filter: isEditDisabled
-                                      ? "grayscale(100%)"
-                                      : "none",
+                                <div
+                                  onClick={() => {
+                                    if (!isEditDisabled) {
+                                      handleEditAddressDetailsShow(
+                                        CustomerOverView,
+                                      );
+                                    }
                                   }}
-                                />
-                              </div>
-                            </span>
-                          )}
+                                  className="h-10 w-10 flex justify-center items-center relative z-[1000]"
+                                >
+                                  <img
+                                    src={EditImage}
+                                    alt="edit"
+                                    className="h-4 w-4"
+                                    style={{
+                                      filter: isEditDisabled
+                                        ? "grayscale(100%)"
+                                        : "none",
+                                    }}
+                                  />
+                                </div>
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -632,7 +632,6 @@ function PgList() {
     dispatch(triggerPG(false));
   }, []);
 
-  console.log("isClickedBed &&&", state.PgList.isClickedBed);
 
   return (
     <>
