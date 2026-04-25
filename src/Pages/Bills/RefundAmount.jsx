@@ -47,8 +47,8 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
   const handleRefundAmount = (e) => {
     const value = e.target.value.trim();
-    const maxRefund = Number(
-      state.InvoiceList?.refundDetails?.refundableAmount || 0,
+    const maxRefund = Math.abs(
+      Number(state.InvoiceList?.refundDetails?.pendingRefund || 0),
     );
 
     // if (!/^\d*$/.test(value)) return;

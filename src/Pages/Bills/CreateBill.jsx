@@ -27,7 +27,6 @@ function CreateBill() {
   const location = useLocation();
   const { id, billData } = location.state || {};
 
-  console.log("id", id);
   const [formLoading, setFormLoading] = useState(false);
 
   const [dropdownValue, setDropdownValue] = useState("");
@@ -67,7 +66,7 @@ function CreateBill() {
         (u) => u.customerId === (id || billData?.customerId),
       );
 
-      console.log("selectedCustomer", selectedCustomer);
+      // console.log("selectedCustomer", selectedCustomer);
 
       if (selectedCustomer) {
         setCustomerName(selectedCustomer.customerId);
@@ -99,7 +98,7 @@ function CreateBill() {
     }
   }, [hostelId]);
 
-  console.log("billData", billData);
+  // console.log("billData", billData);
   useEffect(() => {
     if (billData) {
       dispatch({
@@ -130,7 +129,7 @@ function CreateBill() {
     }
   }, [customername]);
 
-  console.log("customername", customername);
+  // console.log("customername", customername);
 
   useEffect(() => {
     if (!billData) {
@@ -589,7 +588,7 @@ function CreateBill() {
     const selectedUser =
       state.UsersList?.customerdetails?.hostelInfo?.joiningDate;
 
-    console.log("selectedUser", selectedUser);
+    // console.log("selectedUser", selectedUser);
     if (selectedUser) {
       const formattedJoiningDate = dayjs(selectedUser, "DD/MM/YYYY").format(
         "YYYY-MM-DD",
