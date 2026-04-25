@@ -62,17 +62,33 @@ function CreateBill() {
   // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
 
   useEffect(() => {
-    if (id && state.UsersList?.TenantList?.length > 0) {
-      const selectedCustomer = state.UsersList.TenantList.find(
-        (u) => u.customerId === id,
-      );
-      console.log("selectedCustomer", selectedCustomer);
+  if (id || billData?.customerId) {
+    const selectedCustomer = state.UsersList.TenantList.find(
+      (u) => u.customerId === (id || billData?.customerId)
+    );
 
-      if (selectedCustomer) {
-        setCustomerName(selectedCustomer.customerId);
-      }
+    console.log("selectedCustomer", selectedCustomer);
+
+    if (selectedCustomer) {
+      setCustomerName(selectedCustomer.customerId);
     }
-  }, [id, state.UsersList?.TenantList]);
+  }
+}, [id, state.UsersList?.TenantList, billData]);
+
+const customerOptions =
+  state.UsersList?.TenantList?.map((u) => ({
+    value: u.customerId,
+    label: u.fullName,
+  })) || [];
+
+
+
+
+
+
+
+
+
 
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
@@ -651,7 +667,7 @@ function CreateBill() {
 
   useEffect(() => {
     if (!billData) return;
-    setCustomerName(billData.customerId || CustomerOverView?.customerId);
+    setCustomerName(billData.customerId || CustomerOverView?.customerId || id);
     setInvoiceNumber(billData.invoiceNumber);
     setInvoiceDate(
       dayjs(
@@ -877,26 +893,9 @@ function CreateBill() {
             </label>
 
             <Select
-              options={
-                state.UsersList?.TenantList?.length > 0
-                  ? state.UsersList.TenantList.map((u) => ({
-                      value: u.customerId,
-                      label: u.fullName,
-                    }))
-                  : []
-              }
+             options={customerOptions}
               onChange={handleCustomerName}
-              value={
-                customername
-                  ? {
-                      value: customername,
-                      label:
-                        state.UsersList?.TenantList?.find(
-                          (u) => u.customerId === customername,
-                        )?.fullName || "Select Customer",
-                    }
-                  : null
-              }
+              value={customerOptions.find((opt) => opt.value === customername) || null}
               isDisabled={billData}
               placeholder="Select Customer"
               classNamePrefix="custom"
