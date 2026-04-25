@@ -143,6 +143,7 @@ function UserListInvoice(props) {
         billData: data,
       },
     });
+    dispatch({ type: "USERROOMAVAILABLETRUE" });
   };
 
   const handleMakeDiscount = (item) => {
@@ -398,7 +399,6 @@ function UserListInvoice(props) {
                               </span>
                             </div>
                           </td>
-                         
 
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                             {view?.invoiceGeneratedDate}
