@@ -235,7 +235,7 @@ function UserListRoomDetail(props) {
     // canReadModule: canReadBooking,
   } = useHasPermission("Booking");
 
-  console.log("documentvalue", documentvalue);
+  // console.log("documentvalue", documentvalue);
 
   const {
     canWriteModule: canWriteAmenities,

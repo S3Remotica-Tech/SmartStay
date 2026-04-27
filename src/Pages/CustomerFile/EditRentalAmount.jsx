@@ -199,6 +199,7 @@ function EditRentalAmount({ show, handleClose }) {
     if (typeOfBilling === "Joining Date Based") {
       const start = today.add(1, "month").startOf("month");
       const end = today.add(3, "month").endOf("month");
+
       return current.isBefore(start, "month") || current.isAfter(end, "month");
     }
 
@@ -211,15 +212,11 @@ function EditRentalAmount({ show, handleClose }) {
       cycleYear = nextMonth.year();
     }
 
-    const start = dayjs()
-      .year(cycleYear)
-      .month(cycleMonth)
-      .date(billStartDate)
-      .startOf("day");
+    const start = dayjs().year(cycleYear).month(cycleMonth).date(billStartDate);
 
-    const end = start.add(2, "month").date(billDueDate).endOf("day");
+    const end = start.add(2, "month"); // no need dueDate here for month picker
 
-    return current.isBefore(start, "day") || current.isAfter(end, "day");
+    return current.isBefore(start, "month") || current.isAfter(end, "month");
   };
 
   useEffect(() => {
