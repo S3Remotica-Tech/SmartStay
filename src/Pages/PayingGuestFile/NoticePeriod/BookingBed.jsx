@@ -299,7 +299,7 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
       value: u.customerId,
       label: u.fullName,
     })) || [];
-  const isComingSoon = true;
+  const isComingSoon = false;
   return (
     <div>
       <Modal show={show} onHide={handleClose} backdrop="static" centered>

@@ -654,8 +654,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
       label: u.fullName,
     })) || [];
 
-  const isComingSoon = true;
-  
+  const isComingSoon = false;
+
   return (
     <>
       <Modal

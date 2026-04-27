@@ -866,7 +866,7 @@ function BookingModal(props) {
                         }
                         placeholder="Select a Room"
                         classNamePrefix="custom"
-                        menuPlacement="auto"
+                        menuPlacement="top"
                         styles={{
                           control: (base) => ({
                             ...base,
@@ -969,7 +969,7 @@ function BookingModal(props) {
                       }
                       placeholder="Select a Bed"
                       classNamePrefix="custom"
-                      menuPlacement="auto"
+                      menuPlacement="top"
                       styles={{
                         control: (base) => ({
                           ...base,
