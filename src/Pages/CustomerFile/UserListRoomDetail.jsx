@@ -3523,11 +3523,8 @@ function UserListRoomDetail(props) {
                                     className="shrink-0 mt-[2px]"
                                   />
 
-                                  <span className="break-words min-w-0">
-                                    Rent Update Scheduled, Effective from{" "}
-                                    <span className="font-semibold break-words">
-                                      {CustomerOverView?.newRentLabel || ""}
-                                    </span>
+                                  <span className="font-semibold break-words  min-w-0">
+                                    {CustomerOverView?.newRentLabel || ""}
                                   </span>
                                 </div>
                               </div>

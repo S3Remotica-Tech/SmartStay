@@ -40,6 +40,7 @@ import FileAdd from "../../Assets/Images/New_images/file_add.svg";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
+import { ArrowUp } from "iconsax-react";
 function CustomerProfile(props) {
   const state = useSelector((state) => state);
 
@@ -1142,7 +1143,7 @@ function CustomerProfile(props) {
                       >
                         <div className="card-body border-0 p-0">
                           <div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-3">
                               <div className="flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
                                   Monthly Rent
@@ -1155,6 +1156,31 @@ function CustomerProfile(props) {
                               </div>
 
                               {CustomerOverView?.isNewRentApplied && (
+                                <div
+                                  className=" bg-[#FFF8EB] rounded-xl px-3 w-full
+                              py-2 flex flex-col items-start min-w-0"
+                                >
+                                  <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
+                                    New Monthly Rent
+                                  </p>
+                                  <p className="text-sm font-semibold text-black font-gilroy mt-1 mb-0">
+                                    ₹ {CustomerOverView?.newRentAmount ?? 0}
+                                  </p>
+
+                                  <div className="flex items-start gap-1 mt-2 text-[12px] text-[#C27B0D] font-medium font-gilroy w-full min-w-0">
+                                    <ArrowUp
+                                      size="14"
+                                      className="shrink-0 mt-[2px]"
+                                    />
+
+                                    <span className="font-semibold break-words  min-w-0">
+                                      {CustomerOverView?.newRentLabel || ""}
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* {CustomerOverView?.isNewRentApplied && (
                                 <div className="flex flex-col items-start">
                                   <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
                                     Monthly New Rent
@@ -1163,7 +1189,7 @@ function CustomerProfile(props) {
                                     ₹{CustomerOverView.newRentAmount ?? 0}
                                   </p>
                                 </div>
-                              )}
+                              )} */}
 
                               <div className="flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
