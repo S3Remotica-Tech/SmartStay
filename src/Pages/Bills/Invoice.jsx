@@ -1325,7 +1325,7 @@ const InvoicePage = () => {
     <div className="bg-white font-gilroy">
       {showAllBill && (
         <div className="w-full p-0">
-          <div className="flex items-center justify-between sticky top-0 bg-white z-50 container min-h-[60px] sm:min-h-[60px]">
+          <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
             <div className="flex lg:justify-start justify-center items-center flex-wrap">
               <label className="text-lg text-black font-semibold font-gilroy">
                 Invoice
