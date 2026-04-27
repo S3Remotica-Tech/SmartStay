@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { CloseCircle, Crown1 } from "iconsax-react";
+import { Add, CloseCircle, Crown1 } from "iconsax-react";
 
 const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
   const state = useSelector((state) => state);
@@ -23,10 +23,10 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-gilroy ">
-        <div className="bg-white w-[420px] rounded-xl p-6 relative">
-          <CloseCircle
-            size="20"
-            className="absolute right-4 top-4 cursor-pointer text-red-500"
+        <div className="bg-white w-fit rounded-xl p-6 relative">
+          <Add
+            size="26"
+            className="absolute right-4 top-4 cursor-pointer text-red-500 rotate-45"
             onClick={handleClose}
           />
 

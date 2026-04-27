@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { CloseCircle, Lock } from "iconsax-react";
+import { Add, Lock } from "iconsax-react";
 
 const ResetMpin = ({ show, handleClose }) => {
   const state = useSelector((state) => state);
@@ -56,11 +56,11 @@ const ResetMpin = ({ show, handleClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-gilroy ">
       <div className="bg-white w-fit rounded-2xl p-6 relative shadow-lg">
-        <CloseCircle
-          size="22"
-          className="absolute right-4 top-4 cursor-pointer text-red-500"
-          onClick={handleClose}
-        />
+        <Add
+                   size="26"
+                   className="absolute right-4 top-4 cursor-pointer text-red-500 rotate-45"
+                   onClick={handleClose}
+                 />
 
         <div className="flex items-center gap-2 mb-1">
           <h2 className="text-[20px] font-semibold mb-2 text-[#1F2633] ">
@@ -88,9 +88,6 @@ const ResetMpin = ({ show, handleClose }) => {
                 autoCorrect="off"
                 autoCapitalize="off"
                 spellCheck={false}
-                data-lpignore="true"
-                data-form-type="other"
-                name={`mpin-${i}-${Date.now()}`}
                 onChange={(e) => handleChange(e, i, "mpin")}
                 onKeyDown={(e) => handleKeyDown(e, i, "mpin")}
                 className="w-12 h-12 text-center text-lg border rounded focus:ring-2 focus:ring-blue-500 outline-none"
@@ -124,14 +121,14 @@ const ResetMpin = ({ show, handleClose }) => {
 
         <div className="flex justify-end gap-3 mt-4">
           <button
-            className="px-5 py-2 border rounded-xl text-sm text-[#64748B]"
+            className="px-5 py-2 border rounded text-sm text-[#64748B]"
             onClick={handleClose}
           >
             Cancel
           </button>
 
           <button
-            className={`px-5 py-2 rounded-xl text-sm text-white transition bg-[#1E45E1] cursor-pointer
+            className={`px-5 py-2 rounded text-sm text-white transition bg-[#1E45E1] cursor-pointer
             `}
           >
             Proceed
