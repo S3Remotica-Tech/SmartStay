@@ -142,7 +142,11 @@ function CustomerProfile(props) {
   // }, [details]);
 
   const handleBack = () => {
-    navigate(`/tenant/${state.login.selectedHostel_Id}`);
+   navigate(`/tenant/${state.login.selectedHostel_Id}`, {
+  state: {
+    isCheckoutWay: true,
+  },
+});
     dispatch(checkoutCustomerProfile(true));
     props.setcheckoutTableShow(true);
     props.handleCloseCheckoutProfile(false);

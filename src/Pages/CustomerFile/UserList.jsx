@@ -198,6 +198,16 @@ function UserList(props) {
   } = useHasPermission("Booking");
 
   const isTenantForm = location.state?.isTenantForm || false;
+  const isCheckoutWay = location.state?.isCheckoutWay || false;
+
+  useEffect(() => {
+    if (isTenantForm) {
+      setValue("4");
+      setShowMenu(true);
+    } else if (isCheckoutWay) {
+      setValue("3");
+    }
+  }, [isTenantForm, isCheckoutWay]);
 
   const [debouncedInput, setDebouncedInput] = useState(filterInput);
   const [statusfilter, setStatusFilter] = useState("ALL");
@@ -209,15 +219,6 @@ function UserList(props) {
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
   };
-
-  console.log("chipssssss", chips);
-
-  useEffect(() => {
-    if (isTenantForm) {
-      setValue("4");
-      setShowMenu(true);
-    }
-  }, [isTenantForm]);
 
   const handleInvoiceNumber = (e) => {
     setInvoiceNumber(e.target.value);
@@ -2254,768 +2255,759 @@ function UserList(props) {
   return (
     <div className=" bg-white font-gilroy ">
       {userList && (
-        
-          <div className="font-gilroy font-medium text-base">
-            {loading && (
-              <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-              </div>
-            )}
+        <div className="font-gilroy font-medium text-base">
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
+              <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
+            </div>
+          )}
 
-            <div className="flex items-center justify-between sticky top-0 bg-white z-50 container min-h-[60px] sm:min-h-[60px]">
-              <div className="flex gap-6">
-                {tabs?.map((tab) => (
-                  <button
-                    key={tab.key}
-                    onClick={() => handleChange(tab.key)}
-                    className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
+          <div className="flex items-center justify-between sticky top-0 bg-white z-50 container min-h-[60px] sm:min-h-[60px]">
+            <div className="flex gap-6">
+              {tabs?.map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => handleChange(tab.key)}
+                  className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
             ${
               value === tab.key
                 ? "text-[#222222] border-[#1E45E1]"
                 : "text-[#4B4B4B] border-transparent"
             }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-              <div className="flex items-center gap-3 flex-wrap">
-                {value === "1" && (
-                  <div className="relative min-w-[180px] max-w-[260px]">
-                    <div
-                      className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+            <div className="flex items-center gap-3 flex-wrap">
+              {value === "1" && (
+                <div className="relative min-w-[180px] max-w-[260px]">
+                  <div
+                    className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
     ${
       canReadTenant
         ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
         : "border-gray-200 opacity-60 cursor-not-allowed"
     }`}
-                    >
-                      <input
-                        type="text"
-                        placeholder="Search..."
-                        value={filterInput}
-                        onChange={handlefilterInput}
-                        disabled={!canReadTenant}
-                        className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
-                      />
-                      <SearchNormal1
-                        size="18"
-                        color={canReadTenant ? "#6B7280" : "#A0A0A0"}
-                        className="mr-2"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {value === "4" && (
-                  <button
-                    disabled={!canWriteWalkin}
-                    onClick={handleShow}
-                    className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
                   >
-                    + Walk-In
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {value === "1" && (
-              <>
-                {!canReadTenant ? (
-                  <div className="flex flex-col items-center justify-center mt-24">
-                    <img src={Emptystate} alt="Empty State" />
-                    <ErrorMessage
-                      message={["You do not have access to view Tenant"]}
-                      type="warning"
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={filterInput}
+                      onChange={handlefilterInput}
+                      disabled={!canReadTenant}
+                      className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
+                    />
+                    <SearchNormal1
+                      size="18"
+                      color={canReadTenant ? "#6B7280" : "#A0A0A0"}
+                      className="mr-2"
                     />
                   </div>
-                ) : (
-                  <div className="">
-                    <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
-                      {stats?.map((item, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          {item.highlight && (
-                            <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
-                              {item.icon && (
-                                <ArrowDown
-                                  color="#FF9500"
-                                  size="18"
-                                  className="rotate-[310deg]"
-                                />
-                              )}
-                            </div>
-                          )}
+                </div>
+              )}
 
-                          <div>
-                            <div className="text-xs text-[#6B7280] flex items-center gap-1">
-                              {item.label}
-                            </div>
+              {value === "4" && (
+                <button
+                  disabled={!canWriteWalkin}
+                  onClick={handleShow}
+                  className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
+                >
+                  + Walk-In
+                </button>
+              )}
+            </div>
+          </div>
 
-                            <div className="text-lg font-semibold text-[#111827]">
-                              {item.value}
-                            </div>
+          {value === "1" && (
+            <>
+              {!canReadTenant ? (
+                <div className="flex flex-col items-center justify-center mt-24">
+                  <img src={Emptystate} alt="Empty State" />
+                  <ErrorMessage
+                    message={["You do not have access to view Tenant"]}
+                    type="warning"
+                  />
+                </div>
+              ) : (
+                <div className="">
+                  <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
+                    {stats?.map((item, index) => (
+                      <div key={index} className="flex items-center gap-3">
+                        {item.highlight && (
+                          <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                            {item.icon && (
+                              <ArrowDown
+                                color="#FF9500"
+                                size="18"
+                                className="rotate-[310deg]"
+                              />
+                            )}
+                          </div>
+                        )}
+
+                        <div>
+                          <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                            {item.label}
+                          </div>
+
+                          <div className="text-lg font-semibold text-[#111827]">
+                            {item.value}
                           </div>
                         </div>
-                      ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div
+                        className={`border border-gray-300 rounded-lg w-36 ${
+                          statusfilter
+                            ? "bg-gray-100 text-gray-700"
+                            : "bg-white"
+                        }`}
+                      >
+                        <Select
+                          options={selectOptions}
+                          styles={CustomStyles}
+                          isDisabled={!canReadTenant}
+                          menuPlacement="auto"
+                          classNamePrefix="custom"
+                          onChange={(e) => handleStatusFilter(e)}
+                          value={
+                            selectOptions.find(
+                              (opt) => opt.value === statusfilter,
+                            ) || null
+                          }
+                          id="statusselect"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <Select
+                          isDisabled={!canReadTenant}
+                          options={monthOptions}
+                          value={selectedMonth}
+                          onChange={handleMonthChange}
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          noOptionsMessage={() => "No options"}
+                          styles={CustomStyles}
+                        />
+                      </div>
+
+                      <div
+                        className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                      >
+                        <Filter
+                          size={16}
+                          onClick={() => {
+                            if (canReadTenant) {
+                              setIsFilterOpen(true);
+                            }
+                          }}
+                          className={`transition-opacity duration-300 ${
+                            canReadTenant
+                              ? "cursor-pointer opacity-100 pointer-events-auto"
+                              : "cursor-not-allowed opacity-40 pointer-events-none"
+                          }`}
+                        />
+                      </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
-                      <div className="flex flex-wrap items-center gap-3">
+                    <div
+                      className={` flex items-center justify-end gap-2 mr-2 `}
+                    >
+                      <button
+                        disabled
+                        className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
+                      >
                         <div
-                          className={`border border-gray-300 rounded-lg w-36 ${
-                            statusfilter
-                              ? "bg-gray-100 text-gray-700"
-                              : "bg-white"
-                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsOpen(!isOpen);
+                          }}
+                          className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-gray-100 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          <Select
-                            options={selectOptions}
-                            styles={CustomStyles}
-                            isDisabled={!canReadTenant}
-                            menuPlacement="auto"
-                            classNamePrefix="custom"
-                            onChange={(e) => handleStatusFilter(e)}
-                            value={
-                              selectOptions.find(
-                                (opt) => opt.value === statusfilter,
-                              ) || null
-                            }
-                            id="statusselect"
-                          />
-                        </div>
+                          {(() => {
+                            const SelectedIcon = ListOptions.find(
+                              (item) => item.key === view,
+                            )?.img;
+                            return SelectedIcon ? (
+                              <SelectedIcon size="18" color="#4B4B4B" />
+                            ) : null;
+                          })()}
 
-                        <div className="flex items-center gap-3">
-                          <Select
-                            isDisabled={!canReadTenant}
-                            options={monthOptions}
-                            value={selectedMonth}
-                            onChange={handleMonthChange}
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No options"}
-                            styles={CustomStyles}
-                          />
-                        </div>
+                          <span className="text-sm text-gray-700">{view}</span>
 
-                        <div
-                          className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                        >
-                          <Filter
-                            size={16}
-                            onClick={() => {
-                              if (canReadTenant) {
-                                setIsFilterOpen(true);
-                              }
-                            }}
-                            className={`transition-opacity duration-300 ${
-                              canReadTenant
-                                ? "cursor-pointer opacity-100 pointer-events-auto"
-                                : "cursor-not-allowed opacity-40 pointer-events-none"
+                          <ArrowDown2
+                            size="16"
+                            color="#4B4B4B"
+                            className={`transition-transform duration-200 ${
+                              isOpen ? "rotate-180" : ""
                             }`}
                           />
                         </div>
-                      </div>
 
-                      <div
-                        className={` flex items-center justify-end gap-2 mr-2 `}
-                      >
-                        <button
-                          disabled
-                          className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
-                        >
+                        {isOpen && (
                           <div
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsOpen(!isOpen);
-                            }}
-                            className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-gray-100 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
+                            ref={listRef}
+                            className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
                           >
-                            {(() => {
-                              const SelectedIcon = ListOptions.find(
-                                (item) => item.key === view,
-                              )?.img;
-                              return SelectedIcon ? (
-                                <SelectedIcon size="18" color="#4B4B4B" />
-                              ) : null;
-                            })()}
+                            {ListOptions.map((item) => {
+                              const Icon = item.img;
 
-                            <span className="text-sm text-gray-700">
-                              {view}
-                            </span>
-
-                            <ArrowDown2
-                              size="16"
-                              color="#4B4B4B"
-                              className={`transition-transform duration-200 ${
-                                isOpen ? "rotate-180" : ""
-                              }`}
-                            />
-                          </div>
-
-                          {isOpen && (
-                            <div
-                              ref={listRef}
-                              className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
-                            >
-                              {ListOptions.map((item) => {
-                                const Icon = item.img;
-
-                                return (
+                              return (
+                                <div
+                                  key={item.key}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setView(item.key);
+                                    setIsOpen(false);
+                                  }}
+                                  className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
+                                    view === item.key
+                                      ? "bg-[#F7FAFF] font-medium "
+                                      : ""
+                                  }`}
+                                >
                                   <div
-                                    key={item.key}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setView(item.key);
-                                      setIsOpen(false);
-                                    }}
-                                    className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
+                                    className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
                                       view === item.key
-                                        ? "bg-[#F7FAFF] font-medium "
+                                        ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
                                         : ""
                                     }`}
                                   >
-                                    <div
-                                      className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
-                                        view === item.key
-                                          ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
-                                          : ""
-                                      }`}
-                                    >
-                                      <Icon size="16" color="#4B4B4B" />
-                                      {item.label}
-                                    </div>
+                                    <Icon size="16" color="#4B4B4B" />
+                                    {item.label}
                                   </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </button>
-                        <div>
-                          <Setting3
-                            onClick={() => setOpen(!open)}
-                            className="cursor-pointer"
-                            size="22"
-                            color="#4B4B4B"
-                          />
-                        </div>
-
-                        {formattedData?.length > 0 && (
-                          <ApiPagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            totalRecords={totalRecords}
-                            onPageChange={handlePageChange}
-                            onSizeChange={handleSizeChange}
-                            isTenantPagination={true}
-                            size={size}
-                          />
+                                </div>
+                              );
+                            })}
+                          </div>
                         )}
+                      </button>
+                      <div>
+                        <Setting3
+                          onClick={() => setOpen(!open)}
+                          className="cursor-pointer"
+                          size="22"
+                          color="#4B4B4B"
+                        />
                       </div>
+
+                      {formattedData?.length > 0 && (
+                        <ApiPagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          totalRecords={totalRecords}
+                          onPageChange={handlePageChange}
+                          onSizeChange={handleSizeChange}
+                          isTenantPagination={true}
+                          size={size}
+                        />
+                      )}
                     </div>
-                    {chips?.length > 0 && (
-                      <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
-                        <div className="flex flex-wrap gap-2 flex-1">
-                          {chips.map((chip) => (
-                            <span
-                              key={chip.key}
-                              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
-                            >
-                              {chip.label} :
-                              <span className="text-gray-900">
-                                {chip.value}
-                              </span>
-                            </span>
-                          ))}
-                        </div>
-                        <span
-                          className="text-blue-600 text-sm font-medium cursor-pointer"
-                          onClick={handleReset}
-                        >
-                          Reset
-                        </span>
+                  </div>
+                  {chips?.length > 0 && (
+                    <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
+                      <div className="flex flex-wrap gap-2 flex-1">
+                        {chips.map((chip) => (
+                          <span
+                            key={chip.key}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                          >
+                            {chip.label} :
+                            <span className="text-gray-900">{chip.value}</span>
+                          </span>
+                        ))}
                       </div>
-                    )}
-                    {/* h-[calc(100vh-140px)] */}
-                    <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                      <div
-                        id="tableContainer"
-                        ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                      <span
+                        className="text-blue-600 text-sm font-medium cursor-pointer"
+                        onClick={handleReset}
                       >
-                        <table className=" w-full font-gilroy ">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs">
-                            <tr className="h-9">
-                              {selectedColumns?.map((col, index) => {
-                                let stickyClass = "";
+                        Reset
+                      </span>
+                    </div>
+                  )}
+                  {/* h-[calc(100vh-140px)] */}
+                  <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div
+                      id="tableContainer"
+                      ref={tableContainerRef}
+                      className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                    >
+                      <table className=" w-full font-gilroy ">
+                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs">
+                          <tr className="h-9">
+                            {selectedColumns?.map((col, index) => {
+                              let stickyClass = "";
 
-                                if (index === 0) {
-                                  stickyClass =
-                                    "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                                }
-                                //  else if (index === 1) {
-                                //   stickyClass =
-                                //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                                // }
+                              if (index === 0) {
+                                stickyClass =
+                                  "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                              }
+                              //  else if (index === 1) {
+                              //   stickyClass =
+                              //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
+                              // }
 
-                                return (
-                                  <th
-                                    key={col.key}
-                                    className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                                  >
-                                    {col.fieldName}
-                                  </th>
-                                );
-                              })}
+                              return (
+                                <th
+                                  key={col.key}
+                                  className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                                >
+                                  {col.fieldName}
+                                </th>
+                              );
+                            })}
 
-                              <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB]">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {Array.isArray(formattedData) &&
-                            formattedData?.length > 0 ? (
-                              formattedData?.map((user, index) => {
-                                return (
-                                  <tr
-                                    onClick={() =>
-                                      handleRoomDetailsPage(user?.apiCall)
-                                    }
-                                    key={user?.apiCall?.customerId || index}
-                                    className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                            <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB]">
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Array.isArray(formattedData) &&
+                          formattedData?.length > 0 ? (
+                            formattedData?.map((user, index) => {
+                              return (
+                                <tr
+                                  onClick={() =>
+                                    handleRoomDetailsPage(user?.apiCall)
+                                  }
+                                  key={user?.apiCall?.customerId || index}
+                                  className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
-                                  >
-                                    {selectedColumns?.map((col, index) => {
-                                      const baseClass = `
+                                >
+                                  {selectedColumns?.map((col, index) => {
+                                    const baseClass = `
   ${columnStyles[col.fieldName] || "px-4"}
   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
 `;
 
-                                      let stickyClass = "";
+                                    let stickyClass = "";
 
-                                      if (index === 0) {
-                                        stickyClass = `sticky left-[0px] z-30  w-[80px] ${
-                                          isScrolling
-                                            ? "!bg-white"
-                                            : "!bg-transparent"
-                                        }`;
-                                      }
-                                      // else if (index === 1) {
-                                      //   stickyClass = `sticky left-[85px] z-30 ${
-                                      //     isScrolling
-                                      //       ? "!bg-white"
-                                      //       : "!bg-transparent"
-                                      //   }`;
-                                      // }
+                                    if (index === 0) {
+                                      stickyClass = `sticky left-[0px] z-30  w-[80px] ${
+                                        isScrolling
+                                          ? "!bg-white"
+                                          : "!bg-transparent"
+                                      }`;
+                                    }
+                                    // else if (index === 1) {
+                                    //   stickyClass = `sticky left-[85px] z-30 ${
+                                    //     isScrolling
+                                    //       ? "!bg-white"
+                                    //       : "!bg-transparent"
+                                    //   }`;
+                                    // }
 
-                                      const finalClass = `${baseClass} ${stickyClass}`;
+                                    const finalClass = `${baseClass} ${stickyClass}`;
 
-                                      switch (col.fieldName) {
-                                        case "Profile Pic":
-                                          return (
-                                            <td
-                                              key={col.fieldName}
-                                              className={`px-4 ${finalClass}`}
-                                            >
-                                              {typeof user?.profilePic ===
-                                                "string" &&
-                                              user.profilePic.startsWith(
-                                                "http",
-                                              ) ? (
-                                                <img
-                                                  src={user.profilePic}
-                                                  className="w-8 h-8 rounded-full"
-                                                  alt="profile"
-                                                />
-                                              ) : (
-                                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                                  {typeof user?.profilePic ===
-                                                  "string"
-                                                    ? user.profilePic
-                                                    : "NA"}
-                                                </div>
-                                              )}
-                                            </td>
-                                          );
+                                    switch (col.fieldName) {
+                                      case "Profile Pic":
+                                        return (
+                                          <td
+                                            key={col.fieldName}
+                                            className={`px-4 ${finalClass}`}
+                                          >
+                                            {typeof user?.profilePic ===
+                                              "string" &&
+                                            user.profilePic.startsWith(
+                                              "http",
+                                            ) ? (
+                                              <img
+                                                src={user.profilePic}
+                                                className="w-8 h-8 rounded-full"
+                                                alt="profile"
+                                              />
+                                            ) : (
+                                              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                                {typeof user?.profilePic ===
+                                                "string"
+                                                  ? user.profilePic
+                                                  : "NA"}
+                                              </div>
+                                            )}
+                                          </td>
+                                        );
 
-                                        case "Full Name":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={finalClass}
-                                            >
-                                              <div className="relative group w-[100px] ">
-                                                <span className="block w-full truncate text-sm text-[#111928] ">
-                                                  {user.fullName}
-                                                </span>
+                                      case "Full Name":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={finalClass}
+                                          >
+                                            <div className="relative group w-[100px] ">
+                                              <span className="block w-full truncate text-sm text-[#111928] ">
+                                                {user.fullName}
+                                              </span>
 
-                                                <div
-                                                  className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                              <div
+                                                className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
-                                                >
-                                                  {user?.fullName}
-                                                </div>
+                                              >
+                                                {user?.fullName}
                                               </div>
-                                            </td>
-                                          );
+                                            </div>
+                                          </td>
+                                        );
 
-                                        case "Status":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={finalClass}
+                                      case "Status":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={finalClass}
+                                          >
+                                            <span
+                                              className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                              style={{
+                                                backgroundColor:
+                                                  statusStyles[user.status]
+                                                    ?.bg || "#EEE",
+                                              }}
                                             >
                                               <span
-                                                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                                className="h-2 w-2 rounded-full"
                                                 style={{
                                                   backgroundColor:
                                                     statusStyles[user.status]
-                                                      ?.bg || "#EEE",
+                                                      ?.text || "#333",
                                                 }}
-                                              >
-                                                <span
-                                                  className="h-2 w-2 rounded-full"
-                                                  style={{
-                                                    backgroundColor:
-                                                      statusStyles[user.status]
-                                                        ?.text || "#333",
-                                                  }}
-                                                ></span>
+                                              ></span>
 
-                                                {user.status}
-                                              </span>
-                                            </td>
-                                          );
+                                              {user.status}
+                                            </span>
+                                          </td>
+                                        );
 
-                                        case "Joining Date":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={`${finalClass} truncate text-[#6B7280] font-medium`}
-                                            >
-                                              {user.joiningDate}
-                                            </td>
-                                          );
-
-                                        case "Mobile No":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={finalClass}
-                                            >
-                                              {user.mobile}
-                                            </td>
-                                          );
-
-                                        case "Floor":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={finalClass}
-                                            >
-                                              {user.floorName}
-                                            </td>
-                                          );
-
-                                        case "Room":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.roomName}
-                                            </td>
-                                          );
-
-                                        case "Bed":
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.bedName}
-                                            </td>
-                                          );
-                                        case "Email ID":
-                                          return (
-                                            <td
-                                              key={col.fieldName}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.emailId}
-                                            </td>
-                                          );
-                                        case "Booking Date":
-                                          return (
-                                            <td
-                                              key={col.fieldName}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.bookingDate}
-                                            </td>
-                                          );
-                                        case "Monthly Rent":
-                                          return (
-                                            <td
-                                              key={col.fieldName}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.monthlyRent}
-                                            </td>
-                                          );
-                                        case "Advance":
-                                          return (
-                                            <td
-                                              key={col.fieldName}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.advanceAmount}
-                                            </td>
-                                          );
-                                        case "Booking Amount":
-                                          return (
-                                            <td
-                                              key={col.fieldName}
-                                              className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                            >
-                                              {user.bookingAmount}
-                                            </td>
-                                          );
-                                        default:
-                                          return (
-                                            <td
-                                              key={col.key}
-                                              className={finalClass}
-                                            >
-                                              {typeof user[
-                                                columnKeyMap[col.fieldName]
-                                              ] === "object"
-                                                ? "-"
-                                                : (user[
-                                                    columnKeyMap[col.fieldName]
-                                                  ] ?? "-")}
-                                            </td>
-                                          );
-                                      }
-                                    })}
-
-                                    <td
-                                      className={`${
-                                        isScrolling ? "!bg-white" : "bg-white"
-                                      } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                                    >
-                                      {" "}
-                                      <div
-                                        className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleShowDots(
-                                            user.apiCall.customerId,
-                                            e,
-                                          );
-                                        }}
-                                      >
-                                        <PiDotsThreeOutlineVerticalFill
-                                          className={`h-5 w-5 rotate-90 ${
-                                            activeRow ===
-                                            user?.apiCall?.customerId
-                                              ? "text-[#1E45E1]"
-                                              : "text-gray-500"
-                                          }`}
-                                        />
-
-                                        {activeRow ===
-                                          user?.apiCall?.customerId && (
-                                          <div
-                                            ref={popupRef}
-                                            className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                            style={{
-                                              top: showAbove
-                                                ? popupPosition.top -
-                                                  (popupRef.current
-                                                    ?.offsetHeight || 120) -
-                                                  10
-                                                : popupPosition.top + 5,
-                                              left: popupPosition.left - 250,
-                                              position: "fixed",
-                                              zIndex: 1000,
-                                            }}
+                                      case "Joining Date":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={`${finalClass} truncate text-[#6B7280] font-medium`}
                                           >
-                                            <div className="flex flex-col divide-y divide-gray-200">
-                                              {user.status === "Checked In" && (
-                                                <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteCheckout &&
-                                                      handleCustomerCheckout(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={addcircle}
-                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Move to Notice Period
-                                                    </span>
-                                                  </div>
+                                            {user.joiningDate}
+                                          </td>
+                                        );
 
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleCustomerReAssign(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Change Bed
-                                                    </span>
-                                                  </div>
-                                                </>
-                                              )}
+                                      case "Mobile No":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={finalClass}
+                                          >
+                                            {user.mobile}
+                                          </td>
+                                        );
 
-                                              {user.status ===
-                                                "Notice Period" && (
-                                                <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleBacktoCheckout(user)
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Cancel Check-Out
-                                                    </span>
-                                                  </div>
+                                      case "Floor":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={finalClass}
+                                          >
+                                            {user.floorName}
+                                          </td>
+                                        );
 
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteCheckout &&
-                                                      handleCheckoutGenrateNew(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={logout}
-                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy">
-                                                      Generate
-                                                    </span>
-                                                  </div>
-                                                </>
-                                              )}
+                                      case "Room":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.roomName}
+                                          </td>
+                                        );
 
-                                              {user.status ===
-                                                "Settlement Generated" && (
+                                      case "Bed":
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.bedName}
+                                          </td>
+                                        );
+                                      case "Email ID":
+                                        return (
+                                          <td
+                                            key={col.fieldName}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.emailId}
+                                          </td>
+                                        );
+                                      case "Booking Date":
+                                        return (
+                                          <td
+                                            key={col.fieldName}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.bookingDate}
+                                          </td>
+                                        );
+                                      case "Monthly Rent":
+                                        return (
+                                          <td
+                                            key={col.fieldName}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.monthlyRent}
+                                          </td>
+                                        );
+                                      case "Advance":
+                                        return (
+                                          <td
+                                            key={col.fieldName}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.advanceAmount}
+                                          </td>
+                                        );
+                                      case "Booking Amount":
+                                        return (
+                                          <td
+                                            key={col.fieldName}
+                                            className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          >
+                                            {user.bookingAmount}
+                                          </td>
+                                        );
+                                      default:
+                                        return (
+                                          <td
+                                            key={col.key}
+                                            className={finalClass}
+                                          >
+                                            {typeof user[
+                                              columnKeyMap[col.fieldName]
+                                            ] === "object"
+                                              ? "-"
+                                              : (user[
+                                                  columnKeyMap[col.fieldName]
+                                                ] ?? "-")}
+                                          </td>
+                                        );
+                                    }
+                                  })}
+
+                                  <td
+                                    className={`${
+                                      isScrolling ? "!bg-white" : "bg-white"
+                                    } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  >
+                                    {" "}
+                                    <div
+                                      className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleShowDots(
+                                          user.apiCall.customerId,
+                                          e,
+                                        );
+                                      }}
+                                    >
+                                      <PiDotsThreeOutlineVerticalFill
+                                        className={`h-5 w-5 rotate-90 ${
+                                          activeRow ===
+                                          user?.apiCall?.customerId
+                                            ? "text-[#1E45E1]"
+                                            : "text-gray-500"
+                                        }`}
+                                      />
+
+                                      {activeRow ===
+                                        user?.apiCall?.customerId && (
+                                        <div
+                                          ref={popupRef}
+                                          className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                          style={{
+                                            top: showAbove
+                                              ? popupPosition.top -
+                                                (popupRef.current
+                                                  ?.offsetHeight || 120) -
+                                                10
+                                              : popupPosition.top + 5,
+                                            left: popupPosition.left - 250,
+                                            position: "fixed",
+                                            zIndex: 1000,
+                                          }}
+                                        >
+                                          <div className="flex flex-col divide-y divide-gray-200">
+                                            {user.status === "Checked In" && (
+                                              <>
                                                 <div
                                                   onClick={() =>
                                                     canWriteCheckout &&
-                                                    handleConformCheckout(user)
+                                                    handleCustomerCheckout(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                  style={{ marginLeft: 12 }}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={addcircle}
+                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Move to Notice Period
+                                                  </span>
+                                                </div>
+
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteTenant &&
+                                                    handleCustomerReAssign(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Change Bed
+                                                  </span>
+                                                </div>
+                                              </>
+                                            )}
+
+                                            {user.status ===
+                                              "Notice Period" && (
+                                              <>
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteTenant &&
+                                                    handleBacktoCheckout(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Cancel Check-Out
+                                                  </span>
+                                                </div>
+
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteCheckout &&
+                                                    handleCheckoutGenrateNew(
+                                                      user,
+                                                    )
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={logout}
                                                     className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
                                                   />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Check-Out
+                                                  <span className="text-sm font-medium font-gilroy">
+                                                    Generate
                                                   </span>
                                                 </div>
-                                              )}
+                                              </>
+                                            )}
 
-                                              {user.status === "Booked" && (
-                                                <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleBookingAssign(user)
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                                            {user.status ===
+                                              "Settlement Generated" && (
+                                              <div
+                                                onClick={() =>
+                                                  canWriteCheckout &&
+                                                  handleConformCheckout(user)
+                                                }
+                                                className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
+                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                style={{ marginLeft: 12 }}
+                                              >
+                                                <img
+                                                  src={logout}
+                                                  className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                />
+                                                <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                  Check-Out
+                                                </span>
+                                              </div>
+                                            )}
+
+                                            {user.status === "Booked" && (
+                                              <>
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteTenant &&
+                                                    handleBookingAssign(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={addcircle}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Check-In
-                                                    </span>
-                                                  </div>
+                                                >
+                                                  <img
+                                                    src={addcircle}
+                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Check-In
+                                                  </span>
+                                                </div>
 
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteBooking &&
-                                                      handleInActive(user)
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteBooking &&
+                                                    handleInActive(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition
                   ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Make as Inactive
-                                                    </span>
-                                                  </div>
-                                                </>
-                                              )}
-                                            </div>
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Make as Inactive
+                                                  </span>
+                                                </div>
+                                              </>
+                                            )}
                                           </div>
-                                        )}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                );
-                              })
-                            ) : (
-                              <tr>
-                                <td
-                                  colSpan={selectedColumns?.length + 2}
-                                  className="py-10 text-center text-sm text-red-800 font-semibold"
-                                >
-                                  No Data Found
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={selectedColumns?.length + 2}
+                                className="py-10 text-center text-sm text-red-800 font-semibold"
+                              >
+                                No Data Found
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
 
-                        {open && (
-                          <>
-                            <div
-                              className="fixed inset-0 bg-black/20 z-50 "
-                              onClick={() => setOpen(false)}
-                            />
+                      {open && (
+                        <>
+                          <div
+                            className="fixed inset-0 bg-black/20 z-50 "
+                            onClick={() => setOpen(false)}
+                          />
 
-                            <div
-                              className={`
+                          <div
+                            className={`
         fixed top-[180px] right-10 h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -3023,183 +3015,179 @@ function UserList(props) {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-                            >
-                              <div className="relative">
-                                {customizeLoading && (
-                                  <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                                    <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-                                  </div>
-                                )}
-                                <div className="p-3 border-b ">
-                                  <div className="flex items-center gap-2 justify-between mb-2">
-                                    <div className="text-[16px] text-[#333333] font-semibold ">
-                                      Customize Tabs{" "}
-                                    </div>
-                                    <div
-                                      onClick={() => {
-                                        setCustomizeItems((prev) =>
-                                          prev.map((i) => ({
-                                            ...i,
-                                            selected: !allSelected,
-                                          })),
-                                        );
-
-                                        setError("");
-                                      }}
-                                      className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                                    >
-                                      {" "}
-                                      <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                      <span>
-                                        {allSelected
-                                          ? "Unselect all"
-                                          : "Select all"}
-                                      </span>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                                    <SearchNormal1 size={16} color="#98A2B3" />
-                                    <input
-                                      value={searchText}
-                                      onChange={(e) =>
-                                        setSearchText(e.target.value)
-                                      }
-                                      placeholder="Search"
-                                      className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                                    />
-                                  </div>
-                                </div>
-
-                                <DndContext
-                                  collisionDetection={closestCenter}
-                                  onDragEnd={(event) => {
-                                    const { active, over } = event;
-                                    if (!over) return;
-                                    if (active.id !== over?.id) {
-                                      const oldIndex = customizeItems.findIndex(
-                                        (i) => i.key === active.id,
-                                      );
-                                      const newIndex = customizeItems.findIndex(
-                                        (i) => i.key === over.id,
-                                      );
-
-                                      setCustomizeItems(
-                                        arrayMove(
-                                          customizeItems,
-                                          oldIndex,
-                                          newIndex,
-                                        ),
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <SortableContext
-                                    items={customizeItems.map((i) => i.key)}
-                                    strategy={verticalListSortingStrategy}
-                                  >
-                                    <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                      {filteredCustomizeItems.length === 0 ? (
-                                        <div className="text-sm text-gray-400 text-center py-3">
-                                          No results found
-                                        </div>
-                                      ) : (
-                                        filteredCustomizeItems.map((item) => (
-                                          <SortableItem
-                                            key={item.key}
-                                            item={item}
-                                          />
-                                        ))
-                                      )}
-                                    </div>
-                                  </SortableContext>
-                                </DndContext>
-                              </div>
-                              {error && (
-                                <div className="flex justify-center my-2">
-                                  <ErrorMessage
-                                    message={error}
-                                    type="warning"
-                                  />
+                          >
+                            <div className="relative">
+                              {customizeLoading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                                  <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
                                 </div>
                               )}
+                              <div className="p-3 border-b ">
+                                <div className="flex items-center gap-2 justify-between mb-2">
+                                  <div className="text-[16px] text-[#333333] font-semibold ">
+                                    Customize Tabs{" "}
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      setCustomizeItems((prev) =>
+                                        prev.map((i) => ({
+                                          ...i,
+                                          selected: !allSelected,
+                                        })),
+                                      );
 
-                              <div className="p-3 border-t flex gap-2">
-                                <button
-                                  onClick={handleResetCustomize}
-                                  className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
-                                >
-                                  Reset
-                                </button>
-                                <button
-                                  onClick={handleSave}
-                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
-                                >
-                                  Save
-                                </button>
+                                      setError("");
+                                    }}
+                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                  >
+                                    {" "}
+                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                    <span>
+                                      {allSelected
+                                        ? "Unselect all"
+                                        : "Select all"}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                  <SearchNormal1 size={16} color="#98A2B3" />
+                                  <input
+                                    value={searchText}
+                                    onChange={(e) =>
+                                      setSearchText(e.target.value)
+                                    }
+                                    placeholder="Search"
+                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                  />
+                                </div>
                               </div>
+
+                              <DndContext
+                                collisionDetection={closestCenter}
+                                onDragEnd={(event) => {
+                                  const { active, over } = event;
+                                  if (!over) return;
+                                  if (active.id !== over?.id) {
+                                    const oldIndex = customizeItems.findIndex(
+                                      (i) => i.key === active.id,
+                                    );
+                                    const newIndex = customizeItems.findIndex(
+                                      (i) => i.key === over.id,
+                                    );
+
+                                    setCustomizeItems(
+                                      arrayMove(
+                                        customizeItems,
+                                        oldIndex,
+                                        newIndex,
+                                      ),
+                                    );
+                                  }
+                                }}
+                              >
+                                <SortableContext
+                                  items={customizeItems.map((i) => i.key)}
+                                  strategy={verticalListSortingStrategy}
+                                >
+                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                    {filteredCustomizeItems.length === 0 ? (
+                                      <div className="text-sm text-gray-400 text-center py-3">
+                                        No results found
+                                      </div>
+                                    ) : (
+                                      filteredCustomizeItems.map((item) => (
+                                        <SortableItem
+                                          key={item.key}
+                                          item={item}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                                </SortableContext>
+                              </DndContext>
                             </div>
-                          </>
-                        )}
-                      </div>
+                            {error && (
+                              <div className="flex justify-center my-2">
+                                <ErrorMessage message={error} type="warning" />
+                              </div>
+                            )}
+
+                            <div className="p-3 border-t flex gap-2">
+                              <button
+                                onClick={handleResetCustomize}
+                                className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                              >
+                                Reset
+                              </button>
+                              <button
+                                onClick={handleSave}
+                                className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
-                )}
+                </div>
+              )}
 
-                {customerReassign === true ? (
-                  <CustomerReAssign
-                    customerReassign={customerReassign}
-                    setCustomerReAssign={setCustomerReAssign}
-                    reAssignDetail={reAssignDetail}
-                  />
-                ) : null}
+              {customerReassign === true ? (
+                <CustomerReAssign
+                  customerReassign={customerReassign}
+                  setCustomerReAssign={setCustomerReAssign}
+                  reAssignDetail={reAssignDetail}
+                />
+              ) : null}
 
-                {customerCheckoutpage === true ? (
-                  <CustomerCheckout
-                    customerCheckoutpage={customerCheckoutpage}
-                    setCustomerCheckoutpage={setCustomerCheckoutpage}
-                    // uniqueostel_Id={uniqueostel_Id}
-                    bedData={customercheckoutdata}
-                  />
-                ) : null}
-              </>
-            )}
+              {customerCheckoutpage === true ? (
+                <CustomerCheckout
+                  customerCheckoutpage={customerCheckoutpage}
+                  setCustomerCheckoutpage={setCustomerCheckoutpage}
+                  // uniqueostel_Id={uniqueostel_Id}
+                  bedData={customercheckoutdata}
+                />
+              ) : null}
+            </>
+          )}
 
-            {value === "3" && (
-              <UserlistCheckout
-                id={props.id}
-                uniqueostel_Id={uniqueostel_Id}
-                setUniqostel_Id={setUniqostel_Id}
-                // filteredUsers={filteredUsers}
-                filterInput={filterInput}
-                setAddCheckoutForm={setAddCheckoutForm}
-                checkoutaddform={checkoutaddform}
-                search={search}
-                checkoutDateRange={checkoutDateRange}
-                filterStatus={filterStatus}
-                resetPage={resetPage}
-                setResetPage={setResetPage}
-              />
-            )}
+          {value === "3" && (
+            <UserlistCheckout
+              id={props.id}
+              uniqueostel_Id={uniqueostel_Id}
+              setUniqostel_Id={setUniqostel_Id}
+              // filteredUsers={filteredUsers}
+              filterInput={filterInput}
+              setAddCheckoutForm={setAddCheckoutForm}
+              checkoutaddform={checkoutaddform}
+              search={search}
+              checkoutDateRange={checkoutDateRange}
+              filterStatus={filterStatus}
+              resetPage={resetPage}
+              setResetPage={setResetPage}
+            />
+          )}
 
-            {value === "4" && (
-              <UserlistWalkin
-                id={props.id}
-                // customerrolePermission={customerrolePermission}
-                // customerWalkInAddPermission={customerWalkInAddPermission}
-                uniqueostel_Id={uniqueostel_Id}
-                setUniqostel_Id={setUniqostel_Id}
-                // filteredUsers={filteredUsers}
-                filterInput={filterInput}
-                search={search}
-                walkinDateRange={walkinDateRange}
-                filterStatus={filterStatus}
-                resetPage={resetPage}
-                setResetPage={setResetPage}
-              />
-            )}
-          </div>
-        
+          {value === "4" && (
+            <UserlistWalkin
+              id={props.id}
+              // customerrolePermission={customerrolePermission}
+              // customerWalkInAddPermission={customerWalkInAddPermission}
+              uniqueostel_Id={uniqueostel_Id}
+              setUniqostel_Id={setUniqostel_Id}
+              // filteredUsers={filteredUsers}
+              filterInput={filterInput}
+              search={search}
+              walkinDateRange={walkinDateRange}
+              filterStatus={filterStatus}
+              resetPage={resetPage}
+              setResetPage={setResetPage}
+            />
+          )}
+        </div>
       )}
 
       {isFilterOpen && (

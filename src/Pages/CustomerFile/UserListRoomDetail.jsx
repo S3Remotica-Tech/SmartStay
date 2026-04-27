@@ -235,7 +235,7 @@ function UserListRoomDetail(props) {
     // canReadModule: canReadBooking,
   } = useHasPermission("Booking");
 
-  console.log("documentvalue", documentvalue);
+  // console.log("documentvalue", documentvalue);
 
   const {
     canWriteModule: canWriteAmenities,
@@ -3485,8 +3485,8 @@ function UserListRoomDetail(props) {
                           Financial details
                         </label>
                         <div className="w-full mb-0 md:mb-0">
-                          <div className="grid grid-cols-12 gap-1  mb-4">
-                            <div className="col-span-12 lg:col-span-5 flex flex-col items-start">
+                          <div className="grid grid-cols-2 gap-1  mb-4">
+                            <div className="flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Monthly Rent
                                 {canUpdateTenant &&
@@ -3507,7 +3507,7 @@ function UserListRoomDetail(props) {
                             </div>
                             {CustomerOverView?.isNewRentApplied && (
                               <div
-                                className="col-span-12 lg:col-span-7 bg-[#FFF8EB] rounded-xl px-3 w-full
+                                className=" bg-[#FFF8EB] rounded-xl px-3 w-full
                               py-2 flex flex-col items-start min-w-0"
                               >
                                 <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
@@ -3529,7 +3529,7 @@ function UserListRoomDetail(props) {
                                 </div>
                               </div>
                             )}
-                            <div className=" col-span-12 lg:col-span-5 flex flex-col items-start">
+                            <div className="  flex flex-col items-start">
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Advance Amount
                                 {canUpdateTenant &&
@@ -3552,7 +3552,7 @@ function UserListRoomDetail(props) {
                               </p>
                             </div>
 
-                            <div className=" col-span-12 lg:col-span-7 flex flex-col items-start">
+                            <div className="  flex flex-col items-start">
                               <div className="text-xs font-medium font-gilroy">
                                 Booking Amount
                               </div>
@@ -3565,7 +3565,7 @@ function UserListRoomDetail(props) {
 
                             {CustomerOverView.hostelInfo?.maintenance !==
                               null && (
-                              <div className="col-span-12 lg:col-span-5 flex flex-col items-start">
+                              <div className=" flex flex-col items-start">
                                 <div className="text-xs font-medium font-gilroy">
                                   Maintenance
                                 </div>
@@ -3579,7 +3579,7 @@ function UserListRoomDetail(props) {
                               (item, index) => (
                                 <div
                                   key={index}
-                                  className=" col-span-12 lg:col-span-7 flex flex-col items-start"
+                                  className="  flex flex-col items-start"
                                 >
                                   <div className="text-xs font-medium font-gilroy">
                                     {item.type}
