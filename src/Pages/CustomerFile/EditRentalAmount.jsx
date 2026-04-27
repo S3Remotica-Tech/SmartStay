@@ -214,7 +214,7 @@ function EditRentalAmount({ show, handleClose }) {
 
     const start = dayjs().year(cycleYear).month(cycleMonth).date(billStartDate);
 
-    const end = start.add(2, "month"); // no need dueDate here for month picker
+    const end = start.add(2, "month");
 
     return current.isBefore(start, "month") || current.isAfter(end, "month");
   };
