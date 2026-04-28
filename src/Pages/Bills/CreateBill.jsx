@@ -1044,10 +1044,6 @@ function CreateBill() {
               }),
             }}
           />
-
-          {tableErrmsg.trim() !== "" && (
-            <ErrorMessage message={tableErrmsg} type="error" />
-          )}
         </div>
       </div>
 
@@ -1142,6 +1138,9 @@ function CreateBill() {
           <ErrorMessage message={allfielderrmsg} type="error" />
         )}
 
+        {tableErrmsg.trim() !== "" && (
+          <ErrorMessage message={tableErrmsg} type="error" />
+        )}
         {state.InvoiceList.unableAddInvoiceDetailsError && (
           <ErrorMessage
             message={state.InvoiceList.unableAddInvoiceDetailsError}

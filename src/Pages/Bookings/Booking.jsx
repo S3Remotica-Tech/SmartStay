@@ -55,6 +55,7 @@ function Booking() {
   };
 
   const selectOptions = [{ label: "All", value: "ALL" }];
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const monthOptions = [
     { value: "this_month", label: "This Month" },
@@ -179,6 +180,43 @@ function Booking() {
   const isComingSoon =
     import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
 
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedRows(tableData.map((item) => item.id));
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
+  const handleRowSelect = (id) => {
+    setSelectedRows((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
+  };
+
+  const tableData = [
+    {
+      invoiceNo: "INV-001",
+      name: "John Doe",
+      type: "Rent",
+      invoiceDate: "01 Apr 2026",
+      dueDate: "05 Apr 2026",
+      amount: "₹10,000",
+      due: "₹2,000",
+      status: "Pending",
+    },
+    {
+      invoiceNo: "INV-002",
+      name: "Arun Kumar",
+      type: "Maintenance",
+      invoiceDate: "02 Apr 2026",
+      dueDate: "06 Apr 2026",
+      amount: "₹8,000",
+      due: "₹0",
+      status: "Paid",
+    },
+  ];
+
   return (
     <div className="h-screen overflow-hidden flex flex-col bg-white relative font-gilroy">
       {applyInvoice && (
@@ -301,7 +339,7 @@ function Booking() {
         )}
       </div>
 
-      <div className="h-[calc(100vh-140px)] overflow-y-auto px-4 pb-4">
+      <div className="">
         {!canReadBooking ? (
           <div className="h-full flex flex-col items-center justify-center">
             <img src={EmptyState} alt="Empty" className="max-w-full h-auto" />
@@ -311,17 +349,98 @@ function Booking() {
             />
           </div>
         ) : (
-          <div
-            className={`-mt-36 grid ${showBookingPdf ? "grid-cols-12" : "grid-cols-1"} gap-0`}
-          >
-            <div className={showBookingPdf ? "col-span-4" : "col-span-12"}>
-              {
-                isComingSoon ? 
-                 <ComingSoon />
-                 :
-                 ""
-              }
-             
+          <div>
+            <div>
+              {isComingSoon ? (
+                <ComingSoon />
+              ) : (
+                <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
+                  <div className="overflow-auto h-[calc(100vh-140px)] rounded-xl">
+                    <table className="w-full table-fixed font-gilroy">
+                      <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs uppercase">
+                        <tr className="h-9">
+                          <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
+                            <input
+                              type="checkbox"
+                              checked={
+                                selectedRows.length === tableData.length &&
+                                tableData.length > 0
+                              }
+                              onChange={handleSelectAll}
+                            />
+                          </th>
+
+                          <th className=" px-2">Invoice No</th>
+                          <th className=" px-2">Name</th>
+                          <th className=" px-2">Type</th>
+                          <th className=" px-2">Invoice Date</th>
+                          <th className=" px-2">Due Date</th>
+                          <th className=" px-2">Amount</th>
+                          <th className=" px-2">Due</th>
+                          <th className="px-2">Status</th>
+
+                          <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB]">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {tableData.map((item) => (
+                          <tr
+                            key={item.id}
+                            className="border-b last:border-0 text-sm"
+                          >
+                            <td className="px-4 py-2.5 sticky left-0 bg-white z-40 w-[80px]">
+                              <input
+                                type="checkbox"
+                                checked={selectedRows.includes(item.id)}
+                                onChange={() => handleRowSelect(item.id)}
+                              />
+                            </td>
+
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.invoiceNo}
+                            </td>
+                            <td className="w-[250px] px-2 py-2.5">
+                              {item.name}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.type}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.invoiceDate}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.dueDate}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.amount}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.due}
+                            </td>
+
+                            <td className="w-[270px] px-2 py-2.5">
+                              <span
+                                className={`px-2 py-1 text-xs rounded ${
+                                  item.status === "Paid"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-yellow-100 text-yellow-700"
+                                }`}
+                              >
+                                {item.status}
+                              </span>
+                            </td>
+
+                            <td className="w-[230px] px-2 py-2.5 sticky right-0 bg-white z-40"></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
             {showBookingPdf && (
               <div className="col-span-8 border-l border-gray-300">
