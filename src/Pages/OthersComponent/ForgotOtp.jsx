@@ -1,23 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { CloseCircle } from 'iconsax-react';
+import React, { useState, useRef, useEffect } from "react";
+import { Modal, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 // import { MdError } from "react-icons/md";
-import ErrorMessage from '../../Components/ErrorMessage'
-
-
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
-
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [otpValue, setOtpValue] = useState('');
+  const [otpValue, setOtpValue] = useState("");
 
-  const [loading, setLoading] = useState(true)
-
-
+  const [loading, setLoading] = useState(true);
 
   const inputRefs = [
     useRef(null),
@@ -27,37 +22,31 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
     useRef(null),
     useRef(null),
   ];
-  const [otpErrors, setOtpErrors] = useState('')
+  const [otpErrors, setOtpErrors] = useState("");
 
   const handleOtpInputChange = (e, index) => {
-
-    setOtpErrors('')
-    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
+    setOtpErrors("");
+    dispatch({ type: "CLEAR_OTP_INVALID_ERROR" });
 
     if (e.target.value.length === 1 && index < inputRefs.length - 1) {
       inputRefs[index + 1].current.focus();
     }
-    const updatedOtpValue = inputRefs.map(ref => ref.current.value).join('');
+    const updatedOtpValue = inputRefs.map((ref) => ref.current.value).join("");
     setOtpValue(updatedOtpValue);
   };
 
-
   const handleInternalClose = () => {
-    setOtpErrors('');
-    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' });
-    setOtpValue('');
-    inputRefs.forEach(ref => {
-      if (ref.current) ref.current.value = '';
+    setOtpErrors("");
+    dispatch({ type: "CLEAR_OTP_INVALID_ERROR" });
+    setOtpValue("");
+    inputRefs.forEach((ref) => {
+      if (ref.current) ref.current.value = "";
     });
     handleModalClose();
   };
 
-
-
-
-
   const handleOtpVerify = () => {
-    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
+    dispatch({ type: "CLEAR_OTP_INVALID_ERROR" });
     if (!otpValue) {
       setOtpErrors("Please enter valid otp");
       return;
@@ -65,84 +54,92 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
     if (otpValue) {
       dispatch({
         type: "OTPVERIFYFORGOTPASSWORD",
-        payload: { Email_Id: Email_Id, OTP: otpValue },
+        payload: { userId: state.NewPass?.userId, OTP: otpValue },
       });
-      setLoading(true)
+      setLoading(true);
       if (inputRefs) {
         inputRefs.forEach((ref) => {
           if (ref.current) ref.current.value = null;
         });
       }
     }
-
   };
-
 
   useEffect(() => {
     if (state.NewPass?.otpInvalidError) {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }, [state.NewPass?.otpInvalidError])
-
+  }, [state.NewPass?.otpInvalidError]);
 
   const handleSendOtp = () => {
     if (Email_Id) {
-      dispatch({ type: 'OTPSEND', payload: { email: Email_Id } });
-      setLoading(true)
+      dispatch({ type: "OTPSEND", payload: Email_Id });
+      setLoading(true);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (state.NewPass?.statusCode === 200) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_OTP_STATUS_CODE' })
-      }, 1000)
-
+        dispatch({ type: "CLEAR_OTP_STATUS_CODE" });
+      }, 1000);
     }
-
-  }, [state.NewPass?.statusCode])
-
-
+  }, [state.NewPass?.statusCode]);
 
   const handleKeyDown = (e, index) => {
     if (
-      (e.key === 'Backspace' || e.key === 'Delete') &&
-      e.target.value === '' &&
+      (e.key === "Backspace" || e.key === "Delete") &&
+      e.target.value === "" &&
       index > 0
     ) {
       inputRefs[index - 1].current.focus();
     }
   };
 
-
-
-
   return (
     <Modal show={show} onHide={handleInternalClose} backdrop="static">
-      <Modal.Header >
-        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>OTP Verification</Modal.Title>
+      <Modal.Header>
+        <Modal.Title
+          style={{
+            fontSize: 18,
+            color: "#222222",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+          }}
+        >
+          OTP Verification
+        </Modal.Title>
 
         <CloseCircle size="24" color="#000" onClick={handleModalClose} />
       </Modal.Header>
       <Modal.Body style={{ position: "relative" }}>
-
-
-
-
-
-        <div className='d-flex justify-content-start mb-3'>
-          <p id="Text-Mobile" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Enter 6 Digit OTP Number</p>
+        <div className="d-flex justify-content-start mb-3">
+          <p
+            id="Text-Mobile"
+            style={{
+              fontSize: 14,
+              color: "#222222",
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+            }}
+          >
+            Enter 6 Digit OTP Number
+          </p>
         </div>
-        <div className='d-flex justify-content-evenly mt-2 ' style={{ position: "relative" }}>
-
-
+        <div
+          className="d-flex justify-content-evenly mt-2 "
+          style={{ position: "relative" }}
+        >
           {inputRefs.map((ref, index) => (
             <div key={index}>
               <input
-                style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
                 id="Bottom-border"
                 type="text"
                 aria-label=".form-control-lg example"
@@ -157,52 +154,73 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
         </div>
       </Modal.Body>
 
-
-      {loading && <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'transparent',
-          opacity: 0.75,
-          zIndex: 10,
-        }}
-      >
+      {loading && (
         <div
           style={{
-            borderTop: '4px solid #1E45E1',
-            borderRight: '4px solid transparent',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            animation: 'spin 1s linear infinite',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
+            opacity: 0.75,
+            zIndex: 10,
           }}
-        ></div>
-      </div>}
+        >
+          <div
+            style={{
+              borderTop: "4px solid #1E45E1",
+              borderRight: "4px solid transparent",
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
+        </div>
+      )}
 
+      {otpErrors ? (
+        <div className="flex justify-center my-2">
+          <ErrorMessage message={otpErrors} type="error" />
+        </div>
+      ) : null}
 
-      {otpErrors ? 
-       <ErrorMessage message={otpErrors} type="error" />
-        : null}
-
-
-
-      {state.NewPass?.otpInvalidError ? 
-           <ErrorMessage message={state.NewPass?.otpInvalidError} type="error" />
-        : null}
-
-
-
+      {state.NewPass?.otpInvalidError ? (
+        <ErrorMessage message={state.NewPass?.otpInvalidError} type="error" />
+      ) : null}
 
       <Modal.Footer>
-        <Button onClick={handleSendOtp} style={{ padding: "10px 15px", width: 130, backgroundColor: "#DCDCDC", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", border: "1px solid  #DCDCDC", color: "#222" }}>
+        <Button
+          onClick={handleSendOtp}
+          style={{
+            padding: "10px 15px",
+            width: 130,
+            backgroundColor: "#DCDCDC",
+            fontWeight: 600,
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Gilroy",
+            border: "1px solid  #DCDCDC",
+            color: "#222",
+          }}
+        >
           Resend Otp
         </Button>
-        <Button onClick={handleOtpVerify} style={{ padding: "10px 15px", width: 130, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
+        <Button
+          onClick={handleOtpVerify}
+          style={{
+            padding: "10px 15px",
+            width: 130,
+            backgroundColor: "#1E45E1",
+            fontWeight: 600,
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Gilroy",
+          }}
+        >
           Verify
         </Button>
       </Modal.Footer>

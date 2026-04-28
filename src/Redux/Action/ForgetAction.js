@@ -1,34 +1,22 @@
-// import AxiosConfig from "../../WebService/AxiosConfig"
-// import axios from 'axios'
+import ConfigV2 from "../../WebService/ConfigV2";
+import axios from "axios";
 
-// import ConfigV1 from '../../WebService/ConfigV1';
-
-
-
-export  function forgetpage() {
-   new Promise((resolve) => {
-  resolve({status: 200});
-})
-  }
- 
-export  function registerStudent() {
-    
-    new Promise((resolve) => {
-  resolve({status: 200});
-})
- }
-   
- export  function otpSend() {
- new Promise((resolve) => {
-  resolve({status: 200});
-})
+export async function forgetpage() {
+   return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/verify-otp`, verify);
 }
 
+export function registerStudent() {
+  new Promise((resolve) => {
+    resolve({ status: 200 });
+  });
+}
 
+export async function otpSend(emailId) {
+  return await axios.get(
+    `${ConfigV2.apiBaseUrl}/v2/users/request-otp/${emailId}`,
+  );
+}
 
-
-export function OTPverificationForForgotPassword() {
-    new Promise((resolve) => {
-  resolve({status: 200});
-})
-   } 
+export async function OTPverificationForForgotPassword(verify) {
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/verify-otp`, verify);
+}

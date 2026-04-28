@@ -395,10 +395,10 @@ const InvoiceTable = (props) => {
                         className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                       >
-                        <img
-                          src={Edit}
-                          alt="Edit"
-                          className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`}
+                        <Edit
+                          size="16"
+                          color={canWriteInvoice ? "#1E45E1" : "#A9A9A9"}
+                          variant="Linear"
                         />
                         <span className="text-sm font-medium text-[#222]">
                           Unpaid
