@@ -1060,8 +1060,7 @@ function SettingGeneral() {
     setShowOpenAdminProfileEdit(false);
   };
 
-  console.log("showVerify", showVerify);
-
+  const isDev = import.meta.env.MODE === "development";
   return (
     <>
       {logoutformshow && (
@@ -1180,13 +1179,13 @@ function SettingGeneral() {
                             {openMenu && (
                               <div
                                 ref={menuRef}
-                                className="absolute top-11 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-md z-50"
+                                className="absolute top-11 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-sm z-50 px-2 py-2"
                               >
                                 <div
                                   onClick={() => {
                                     handleAdminEdit();
                                   }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
@@ -1199,7 +1198,7 @@ function SettingGeneral() {
                                 >
                                   <Edit size="16" color="#1E45E1" />
                                   <label
-                                    className={`text-sm font-medium font-gilroy ${
+                                    className={`text-sm font-medium font-gilroy  rounded-lg ${
                                       canUpdateProfile
                                         ? "text-black cursor-pointer"
                                         : "text-gray-400 cursor-not-allowed"
@@ -1213,7 +1212,7 @@ function SettingGeneral() {
                                   onClick={() => {
                                     handleOpenAdminProfile(account);
                                   }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
@@ -1226,7 +1225,7 @@ function SettingGeneral() {
                                 >
                                   <PasswordCheck size="16" color="#FF9500" />
                                   <label
-                                    className={`text-sm font-medium font-gilroy ${
+                                    className={`text-sm font-medium font-gilroy  whitespace-nowrap ${
                                       canUpdateProfile
                                         ? "text-black cursor-pointer"
                                         : "text-gray-400 cursor-not-allowed"
@@ -1235,36 +1234,37 @@ function SettingGeneral() {
                                     Change Password
                                   </label>
                                 </div>
-
-                                <div
-                                  onClick={() => {
-                                    handleResetPin(account);
-                                  }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+                                {isDev && (
+                                  <div
+                                    onClick={() => {
+                                      handleResetPin(account);
+                                    }}
+                                    className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
-                                  onMouseEnter={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                      "#EDF2FF")
-                                  }
-                                  onMouseLeave={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                      "#FFFFFF")
-                                  }
-                                >
-                                  <ArrowSwapHorizontal
-                                    size="16"
-                                    color="#28303F"
-                                  />
-                                  <label
-                                    className={`text-sm font-medium font-gilroy ${
-                                      canUpdateProfile
-                                        ? "text-black cursor-pointer"
-                                        : "text-gray-400 cursor-not-allowed"
-                                    }`}
+                                    onMouseEnter={(e) =>
+                                      (e.currentTarget.style.backgroundColor =
+                                        "#EDF2FF")
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.currentTarget.style.backgroundColor =
+                                        "#FFFFFF")
+                                    }
                                   >
-                                    Reset m-Pin
-                                  </label>
-                                </div>
+                                    <ArrowSwapHorizontal
+                                      size="16"
+                                      color="#28303F"
+                                    />
+                                    <label
+                                      className={`text-sm font-medium font-gilroy  whitespace-nowrap ${
+                                        canUpdateProfile
+                                          ? "text-black cursor-pointer"
+                                          : "text-gray-400 cursor-not-allowed"
+                                      }`}
+                                    >
+                                      Reset m-Pin
+                                    </label>
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
