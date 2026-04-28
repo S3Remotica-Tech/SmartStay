@@ -1,41 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useRef, useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./Forgetpass.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Forgot from '../Assets/Images/New_images/forgot.png'
-import Logo from '../Assets/Images/New_images/Group.png'
-import { Eye, EyeSlash } from 'iconsax-react';
-import ForgotOtp from '../Pages/OthersComponent/ForgotOtp'
+import { useDispatch, useSelector } from "react-redux";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Forgot from "../Assets/Images/New_images/forgot.png";
+import Logo from "../Assets/Images/New_images/Group.png";
+import { Eye, EyeSlash } from "iconsax-react";
+import ForgotOtp from "../Pages/OthersComponent/ForgotOtp";
 // import { IoIosCheckmark } from "react-icons/io";
 // import { MdError } from "react-icons/md";
-import LoaderComponent from '../Pages/OthersComponent/LoaderComponent'
-import ErrorMessage from '../Components/ErrorMessage'
+import LoaderComponent from "../Pages/OthersComponent/LoaderComponent";
+import ErrorMessage from "../Components/ErrorMessage";
 
 function ForgetPasswordPage() {
-
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState();
   const [showOtpVerification, setShowOtpVerification] = useState(false);
-  const [newPassword, setNewPassword] = useState(false)
-  const [showLoader, setShowLoader] = useState(false)
-  const [showEmailSend, setShowEmailSend] = useState(true)
+  const [newPassword, setNewPassword] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+  const [showEmailSend, setShowEmailSend] = useState(true);
   const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(null);
   const [isLowerCaseEnough, setLowerCaseEnough] = useState(null);
   const [isNumericEnough, setNumericEnough] = useState(null);
-  const [allError, setAllError] = useState('')
-  const [confirmationError, setConfirmationError] = useState('')
+  const [allError, setAllError] = useState("");
+  const [confirmationError, setConfirmationError] = useState("");
   const [passwordChanged, setPasswordChanged] = useState(false);
-  const [emailError, setEmailError] = useState('')
-  const [generalError, setGeneralError] = useState('')
-  const [sendEmailError, setSendMailError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [emailError, setEmailError] = useState("");
+  const [generalError, setGeneralError] = useState("");
+  const [sendEmailError, setSendMailError] = useState("");
+  const [loading, setLoading] = useState(false);
   const inputRefs = [
     useRef(null),
     useRef(null),
@@ -45,56 +44,55 @@ function ForgetPasswordPage() {
     useRef(null),
   ];
 
-
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState("");
   const [showPassword, setShowpassword] = useState(false);
-  const [confirmpassword, setConfirmPassword] = useState('')
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   let navigate = useNavigate();
 
-
-
   const handleEmailid = (e) => {
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     const email = e.target.value.toLowerCase();
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-    dispatch({ type: 'CLEAR_ERROR' });
-    setGeneralError('');
+    dispatch({ type: "CLEAR_ERROR" });
+    setGeneralError("");
     setEmail(email);
-    setSendMailError('');
-
+    setSendMailError("");
 
     if (!emailRegex.test(email)) {
-      setEmailError('Please Enter  Valid Email ID');
+      setEmailError("Please Enter  Valid Email ID");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
-
-
   const handlePasswordReset = () => {
     if (!password && !confirmpassword) {
-      setAllError('Please Enter password and confirm password ');
+      setAllError("Please Enter password and confirm password ");
       return;
     }
 
     if (password !== confirmpassword) {
-      setConfirmationError('Please Enter Confirm Password Same as Password');
+      setConfirmationError("Please Enter Confirm Password Same as Password");
       return;
     }
 
     if (password && confirmpassword && email) {
       dispatch({
-        type: 'FORGETPAGE',
-        payload: { NewPassword: password, email: email, confirm_password: confirmpassword }
+        type: "FORGETPAGE",
+        payload: {
+          password: password,
+          userId: state.NewPass?.userId,
+          otp: state.NewPass?.Otp,
+          // confirm_password: confirmpassword,
+        },
       });
-      setLoading(true)
+      setLoading(true);
 
       if (inputRefs) {
-        inputRefs.forEach(ref => {
+        inputRefs.forEach((ref) => {
           if (ref.current) {
             ref.current.value = null;
           }
@@ -103,45 +101,40 @@ function ForgetPasswordPage() {
     }
   };
 
-
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    };
+  }, []);
 
   const handleAccountVerification = () => {
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     if (!email) {
-      setGeneralError('Please Enter Email Address');
-      setEmailError('');
+      setGeneralError("Please Enter Email Id");
+
       return;
     }
 
-
-
-    dispatch({ type: 'OTPSEND', payload: { email: email } });
+    dispatch({ type: "OTPSEND", payload: email });
     setShowLoader(true);
   };
 
-
-
   const handleLogin = () => {
     setTimeout(() => {
-      navigate('/hostel-management-login')
-    }, 1000)
-  }
-
+      navigate("/hostel-management-login");
+    }, 1000);
+  };
 
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
   };
 
-
-
-
-
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    setAllError('')
+    setAllError("");
     setPasswordChanged(true);
     const password = e.target.value;
     let errorMessages = [];
-
 
     if (password.length >= 8) {
       setIsPasswordLongEnough(true);
@@ -161,135 +154,110 @@ function ForgetPasswordPage() {
       setNumericEnough(false);
     }
 
-
     if (/\s/.test(password)) {
-      errorMessages.push('Password cannot contain spaces.');
+      errorMessages.push("Password cannot contain spaces.");
     } else if (password.length < 8) {
-      errorMessages.push('8 characters minimum');
+      errorMessages.push("8 characters minimum");
     } else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
-      errorMessages.push('One uppercase and lowercase');
+      errorMessages.push("One uppercase and lowercase");
     } else if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
-      errorMessages.push('Numeric and Special symbols');
-
+      errorMessages.push("Numeric and Special symbols");
     }
   };
 
-
   const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value)
-    setAllError('')
-  }
+    setConfirmPassword(e.target.value);
+    setAllError("");
+  };
 
   const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword)
-  }
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   const handleCloseModal = () => {
-    dispatch({ type: 'CLEAR_ERROR_OTP_CODE' })
-    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
+    dispatch({ type: "CLEAR_ERROR_OTP_CODE" });
+    dispatch({ type: "CLEAR_OTP_INVALID_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     setShowOtpVerification(false);
   };
   const hanldeBackToLogin = () => {
-    setShowEmailSend(true)
-    setNewPassword(false)
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setShowEmailSend(true);
+    setNewPassword(false);
     navigate("/All_Landing_pages");
-
-  }
+  };
 
   const hanldeBackToLoginPassword = () => {
     setTimeout(() => {
-      setShowEmailSend(true)
-      setNewPassword(false)
-    }, 100)
+      setShowEmailSend(true);
+      setNewPassword(false);
+    }, 100);
     navigate("/All_Landing_pages");
-  }
-
+  };
 
   useEffect(() => {
     const appearOptions = {
-      threshold: 0.5
+      threshold: 0.5,
     };
-    const faders = document.querySelectorAll('.fade-in');
+    const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (entries) {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           return;
-        }
-        else {
-          entry.target.classList.add('appear');
+        } else {
+          entry.target.classList.add("appear");
           appearOnScro1l.unobserve(entry.target);
         }
-      })
-    }, appearOptions)
-    faders.forEach(fader => {
+      });
+    }, appearOptions);
+    faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
-    })
+    });
   });
-
 
   useEffect(() => {
     if (state.NewPass?.statusCode === 200) {
-      setShowLoader(false)
+      setShowLoader(false);
       setShowOtpVerification(true);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_OTP_STATUS_CODE' })
-      }, 1000)
-
+        dispatch({ type: "CLEAR_OTP_STATUS_CODE" });
+      }, 1000);
     }
-
-  }, [state.NewPass?.statusCode])
+  }, [state.NewPass?.statusCode]);
 
   useEffect(() => {
     if (state.NewPass.statusCodeForgotOtp === 200) {
-      setNewPassword(true)
-      setShowEmailSend(false)
-      setShowOtpVerification(false)
+      setNewPassword(true);
+      setShowEmailSend(false);
+      setShowOtpVerification(false);
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE' })
-      }, 1000)
-
+        dispatch({ type: "REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE" });
+      }, 1000);
     }
+  }, [state.NewPass.statusCodeForgotOtp]);
 
-  }, [state.NewPass.statusCodeForgotOtp])
+  console.log("state", state.NewPass);
 
   useEffect(() => {
-    if (state.NewPass?.sendEmailStatusCode === 203 || state.NewPass?.EmailErrorStatusCode === 201) {
-      setShowLoader(false)
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_EMAIL_ERROR' })
-        dispatch({ type: 'CLEAR_SEND_EMAIL_ERROR' })
-      }, 1000)
-    }
-
-  }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
-
-
-
-  useEffect(() => {
-    if (state.NewPass?.sendEmailStatusCode === 203 || state.NewPass?.EmailErrorStatusCode === 201) {
+    if (state.NewPass?.emailError) {
       setShowLoader(false);
-      setEmailError(state.NewPass?.emailError)
-      setSendMailError(state.NewPass?.sendEmailError)
-
-
     }
-  }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
+  }, [state.NewPass?.emailError]);
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
       setShowLoader(false);
-      navigate("/hostel-management-login")
+      navigate("/hostel-management-login");
       setEmail("");
       setPassword("");
-      setConfirmPassword('')
-      setIsPasswordLongEnough(false)
-      setLowerCaseEnough(false)
-      setNumericEnough(false)
+      setConfirmPassword("");
+      setIsPasswordLongEnough(false);
+      setLowerCaseEnough(false);
+      setNumericEnough(false);
 
       if (inputRefs) {
-        inputRefs.forEach(ref => {
+        inputRefs.forEach((ref) => {
           if (ref.current) {
             ref.current.value = null;
           }
@@ -299,29 +267,22 @@ function ForgetPasswordPage() {
       setShowOtpVerification(false);
       setNewPassword(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NEW_PASSWORD_STATUS_CODE' })
-      }, 2000)
-
-
-
+        dispatch({ type: "CLEAR_NEW_PASSWORD_STATUS_CODE" });
+      }, 2000);
     }
   }, [state.NewPass?.status_codes]);
 
-
-
-
   return (
-
     <div className="w-full h-screen font-gilroy">
-
-      {
-        showEmailSend && <>
+      {showEmailSend && (
+        <>
           <div className="ml-5 mb-5">
             <div className="grid grid-cols-2 gap-x-1 gap-y-4">
               <div className="p-20 relative">
                 <div
                   className="flex items-center gap-1 mb-1 cursor-pointer"
-                  onClick={hanldeBackToLogin}>
+                  onClick={hanldeBackToLogin}
+                >
                   <img src={Logo} alt="logo" className="w-[25px] h-[25px]" />
 
                   <span className="text-[#1E45E1] font-extrabold font-gilroy">
@@ -341,14 +302,12 @@ function ForgetPasswordPage() {
                   </p>
                 </div>
 
-
                 <div className="grid">
-
                   <div className="w-full lg:w-[91.666667%] md:w-full">
                     <div className="mt-4 mb-3">
-
                       <label className="text-[14px] font-medium text-[#222222] font-gilroy">
-                        Email ID <span className="text-red-500 text-[20px]">*</span>
+                        Email ID{" "}
+                        <span className="text-red-500 text-[20px]">*</span>
                       </label>
 
                       <input
@@ -369,23 +328,24 @@ function ForgetPasswordPage() {
                         <ErrorMessage message={generalError} type="error" />
                       )}
 
-                      <div className="mb-1 p-1">
-                        {emailError ? (
+                      {emailError ? (
+                        <div className="mb-1 p-1">
                           <ErrorMessage message={emailError} type="error" />
-                        ) : null}
-                      </div>
+                        </div>
+                      ) : null}
 
-                      <div className="mb-1 p-1">
-                        {sendEmailError ? (
-                          <ErrorMessage message={sendEmailError} type="error" />
-                        ) : null}
-                      </div>
-
+                      {state.NewPass?.emailError ? (
+                        <div className="mb-1 p-1">
+                          <ErrorMessage
+                            message={state.NewPass?.emailError}
+                            type="error"
+                          />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
                   <div className="w-full px-0 md:w-full mb-1 flex gap-5 items-center">
-
                     <button
                       onClick={handleAccountVerification}
                       className="w-full h-[50px] rounded-[12px] px-4 py-[10px] 
@@ -395,12 +355,8 @@ function ForgetPasswordPage() {
                       Continue
                     </button>
 
-                    <div>
-                      {showLoader && <LoaderComponent />}
-                    </div>
-
+                    <div>{showLoader && <LoaderComponent />}</div>
                   </div>
-
                 </div>
 
                 <div className="mt-3 mb-2 text-[14px] font-normal font-montserrat">
@@ -414,7 +370,6 @@ function ForgetPasswordPage() {
                     </span>
                   </label>
                 </div>
-
               </div>
 
               <div className="w-full flex justify-center mt-24">
@@ -429,192 +384,186 @@ function ForgetPasswordPage() {
             </div>
           </div>
         </>
-      }
+      )}
 
-      {showOtpVerification && <>
-        <ForgotOtp show={showOtpVerification} handleModalClose={handleCloseModal} Email_Id={email} />
-      </>}
+      {showOtpVerification && (
+        <>
+          <ForgotOtp
+            show={showOtpVerification}
+            handleModalClose={handleCloseModal}
+            Email_Id={email}
+          />
+        </>
+      )}
 
+      {newPassword && (
+        <>
+          <div className="ml-5 mb-5 relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1">
+              <div className="p-6 md:p-12 lg:p-[80px]">
+                <div
+                  className="flex items-center gap-1 mb-1 cursor-pointer"
+                  onClick={hanldeBackToLoginPassword}
+                >
+                  <img src={Logo} alt="logo" className="h-[25px] w-[25px]" />
 
-      {newPassword && <>
+                  <label className="text-[#1E45E1] font-extrabold font-gilroy">
+                    Smartstay
+                  </label>
+                </div>
 
-        <div className="ml-5 mb-5 relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1">
-            <div className="p-6 md:p-12 lg:p-[80px]">
+                <div className="mt-3 mb-1">
+                  <label className="text-[32px] font-semibold text-[#222222] font-gilroy">
+                    Setup your password
+                  </label>
+                </div>
 
-              <div className="flex items-center gap-1 mb-1 cursor-pointer" onClick={hanldeBackToLoginPassword}>
+                <div className="mt-1 mb-1">
+                  <label className="text-[16px] font-normal text-[#4B4B4B] font-montserrat">
+                    Fill in the details below to create your publisher account
+                  </label>
+                </div>
 
-                <img
-                  src={Logo}
-                  alt="logo"
-                  className="h-[25px] w-[25px]"
-                />
-
-                <label className="text-[#1E45E1] font-extrabold font-gilroy">
-                  Smartstay
-                </label>
-
-              </div>
-
-
-
-              <div className="mt-3 mb-1">
-                <label className="text-[32px] font-semibold text-[#222222] font-gilroy">
-                  Setup your password
-                </label>
-              </div>
-
-              <div className="mt-1 mb-1">
-                <label className="text-[16px] font-normal text-[#4B4B4B] font-montserrat">
-                  Fill in the details below to create your publisher account
-                </label>
-              </div>
-
-              <div className="relative mt-4 grid gap-y-3">
-
-                <div className="w-full lg:w-[91.666667%]">
-                  <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">Password
-                    <span className="text-red-500 text-[22px]">*</span></Form.Label>
-                  <InputGroup>
-                    <Form.Control
-                      size="lg"
-                      value={password}
-                      onChange={handlePassword}
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Password"
-                      className={`relative shadow-none !border !border-[#E0ECFF]
+                <div className="relative mt-4 grid gap-y-3">
+                  <div className="w-full lg:w-[91.666667%]">
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                      Password
+                      <span className="text-red-500 text-[22px]">*</span>
+                    </Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                        size="lg"
+                        value={password}
+                        onChange={handlePassword}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        className={`relative shadow-none !border !border-[#E0ECFF]
   text-[16px] text-[#222222] font-gilroy
   ${password ? "font-semibold" : "font-medium"}
   focus:outline-none`}
+                      />
 
-                    />
+                      <InputGroup.Text
+                        className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? (
+                          <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                        ) : (
+                          <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                        )}
+                      </InputGroup.Text>
+                    </InputGroup>
+                  </div>
 
-                    <InputGroup.Text
-                      className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
-                      onClick={togglePasswordVisibility} >
-
-                      {showPassword ? (
-                        <Eye size="20" color="rgba(30, 69, 225, 1)" />
-                      ) : (
-
-                        <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-                      )}
-                    </InputGroup.Text>
-
-                  </InputGroup>
-                </div>
-
-                <div className="w-full lg:w-[91.666667%]">
-                  <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">Confirm Password
-                    <span className="text-red-500 text-[22px]">*</span></Form.Label>
-                  <InputGroup>
-                    <Form.Control
-                      size="lg"
-                      value={confirmpassword}
-                      onChange={handleConfirmPassword}
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Password"
-                      className={`relative shadow-none !border !border-[#E0ECFF]
+                  <div className="w-full lg:w-[91.666667%]">
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                      Confirm Password
+                      <span className="text-red-500 text-[22px]">*</span>
+                    </Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                        size="lg"
+                        value={confirmpassword}
+                        onChange={handleConfirmPassword}
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Password"
+                        className={`relative shadow-none !border !border-[#E0ECFF]
   text-[16px] text-[#222222] font-gilroy
   ${password ? "font-semibold" : "font-medium"}
   focus:outline-none`}
-                    />
-                    <InputGroup.Text className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
-                      onClick={toggleConfirmPasswordVisibility} >
-                      {showConfirmPassword ? (
-                        <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                      />
+                      <InputGroup.Text
+                        className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
+                        onClick={toggleConfirmPasswordVisibility}
+                      >
+                        {showConfirmPassword ? (
+                          <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                        ) : (
+                          <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                        )}
+                      </InputGroup.Text>
+                    </InputGroup>
+                  </div>
+
+                  {passwordChanged && (
+                    <div>
+                      {isPasswordLongEnough ? (
+                        <ErrorMessage
+                          message={["8 characters minimum"]}
+                          type="success"
+                        />
                       ) : (
-
-                        <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                        <ErrorMessage
+                          message={["8 characters minimum"]}
+                          type="error"
+                        />
                       )}
-                    </InputGroup.Text>
 
-                  </InputGroup>
-                </div>
+                      {isLowerCaseEnough ? (
+                        <ErrorMessage
+                          message={["One uppercase and lowercase"]}
+                          type="success"
+                        />
+                      ) : (
+                        <ErrorMessage
+                          message={["One uppercase and lowercase"]}
+                          type="error"
+                        />
+                      )}
 
+                      {isNumericEnough ? (
+                        <ErrorMessage
+                          message={["Numeric and Special symbols"]}
+                          type="success"
+                        />
+                      ) : (
+                        <ErrorMessage
+                          message={["Numeric and Special symbols"]}
+                          type="error"
+                        />
+                      )}
+                    </div>
+                  )}
 
-                {passwordChanged && (
-                  <div>
+                  {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center h-1/2 bg-transparent opacity-75 z-10">
+                      <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
 
-                    {isPasswordLongEnough ? (
-                      <ErrorMessage message={["8 characters minimum"]} type="success" />
+                  {allError && <ErrorMessage message={allError} type="error" />}
 
-                    ) : (
-                      <ErrorMessage message={["8 characters minimum"]} type="error" />
+                  {confirmationError ? (
+                    <ErrorMessage message={confirmationError} type="error" />
+                  ) : null}
 
-                    )}
-
-
-                    {isLowerCaseEnough ? (
-                      <ErrorMessage message={["One uppercase and lowercase"]} type="success" />
-                    ) : (
-                      <ErrorMessage message={["One uppercase and lowercase"]} type="error" />
-                    )}
-
-
-                    {isNumericEnough ? (
-
-                      <ErrorMessage message={["Numeric and Special symbols"]} type="success" />
-
-                    ) : (
-                      <ErrorMessage message={["Numeric and Special symbols"]} type="error" />
-                    )}
+                  <div className="w-full lg:w-[91.666667%] mt-2 mb-1">
+                    <button
+                      onClick={handlePasswordReset}
+                      className="w-full bg-blue-700 rounded-xl py-2.5 h-12 font-montserrat font-semibold text-base text-white"
+                    >
+                      Continue
+                    </button>
                   </div>
-
-                )}
-
-                {loading && (
-                  <div className="absolute inset-0 flex items-center justify-center h-1/2 bg-transparent opacity-75 z-10">
-                    <div className="w-10 h-10 border-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
-                  </div>
-                )}
-
-                {allError && (
-                  <ErrorMessage message={allError} type="error" />
-
-                )}
-
-                {confirmationError ?
-                  <ErrorMessage message={confirmationError} type="error" />
-                  : null}
-
-
-                <div className="w-full lg:w-[91.666667%] mt-2 mb-1">
-                  <button
-                    onClick={handlePasswordReset}
-                    className="w-full bg-blue-700 rounded-xl py-2.5 h-12 font-montserrat font-semibold text-base text-white"
-                  >
-                    Continue
-                  </button>
                 </div>
-
               </div>
 
-            </div>
-
-            <div className="p-6 md:p-12 lg:p-[80px]">
-              <div>
-                <img src={Forgot} alt='forget' className='w-[460px] h-[460px]' />
+              <div className="p-6 md:p-12 lg:p-[80px]">
+                <div>
+                  <img
+                    src={Forgot}
+                    alt="forget"
+                    className="w-[460px] h-[460px]"
+                  />
+                </div>
               </div>
-
             </div>
-
-
           </div>
-        </div>
-
-      </>
-      }
-
-
+        </>
+      )}
     </div>
-
-
-
-
   );
-};
+}
 
 export default ForgetPasswordPage;
-
-

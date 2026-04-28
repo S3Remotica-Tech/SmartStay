@@ -3,7 +3,7 @@ export const initialState = {
     errorMessage: '',
     errorPassword: '',
     OTP: '',
-    OtpError: '',
+    forgotPasswordError: '',
     emailError: '',
     statusCode: 0,
     status_Code: 0,
@@ -15,6 +15,8 @@ export const initialState = {
     otpVerify: '',
     statusCodeForgotOtp: 0,
     otpInvalidError: '',
+    userId: "",
+    Otp : ""
 }
 
 const ForgetReducer = (state = initialState, action) => {
@@ -41,27 +43,34 @@ const ForgetReducer = (state = initialState, action) => {
         case 'OTP_SEND':
             return {
                 ...state,
-                statusCode: action.payload.statusCode
+                statusCode: action.payload.statusCode,
+                userId: action.payload.userId
             }
         case 'CLEAR_OTP_STATUS_CODE':
             return { ...state, statusCode: 0 }
         case 'EMAIL_ERROR':
-            return { ...state, emailError: action.payload.response, EmailErrorStatusCode: action.payload.statusCode }
+            return { ...state, emailError: action.payload }
         case 'CLEAR_EMAIL_ERROR':
-            return { ...state, EmailErrorStatusCode: 0, }
-        case 'OTP_ERROR':
-            return { ...state, OtpError: action.payload }
+            return { ...state, emailError: "" }
+        case 'FORGOT_CHANGE_ERROR':
+            return { ...state, forgotPasswordError: action.payload }
+
+case 'REMOVE_FORGOT_CHANGE_ERROR':
+            return { ...state, forgotPasswordError:  }
+
+
         case 'SEND_EMAIL_ERROR':
-            return { ...state, sendEmailError: action.payload.response, sendEmailStatusCode: action.payload.statusCode }
+            return { ...state, sendEmailError: action.payload}
         case 'CLEAR_SEND_EMAIL_ERROR':
-            return { ...state, sendEmailStatusCode: 0, }
+            return { ...state, sendEmailError: "" }
         case 'OTPVERIFY_FORGOT_PASSWORD':
             return {
                 ...state,
-                statusCodeForgotOtp: action.payload.statusCode
+                statusCodeForgotOtp: action.payload.statusCode,
+                Otp: action.payload.Otp
             }
         case 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE':
-            return { ...state, statusCodeForgotOtp: 0, otpVerify: '' }
+            return { ...state, statusCodeForgotOtp: 0,  }
         case 'OTP_INVALID_ERROR':
             return { ...state, otpInvalidError: action.payload }
         case 'CLEAR_OTP_INVALID_ERROR':
