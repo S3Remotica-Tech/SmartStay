@@ -250,24 +250,7 @@ function CreateBill() {
 
     setInvoiceDate(selectedDate);
     setInvoiceDateErrmsg("");
-
-    // const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
-    // setFormatInvoiceDate(formattedDate);
   };
-
-  // const handleDueDate = (selectedDates) => {
-  //     setAllFieldErrmsg("");
-  //     const date = selectedDates;
-  //     setInvoiceDueDate(date);
-  //     if (!selectedDates) {
-  //         setInvoiceDueDateErrmsg("Please Select Date");
-  //     } else {
-  //         setInvoiceDueDateErrmsg("");
-  //     }
-
-  //     // const formattedDate = formatDateForPayloadmanualinvoice(date);
-  //     // setFormatDueDate(formattedDate);
-  // };
 
   const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
@@ -641,18 +624,18 @@ function CreateBill() {
   // console.log("billData", billData)
   const [originalRows, setOriginalRows] = useState([]);
 
-  const getChangedRows = () => {
-    return newRows.filter((row, index) => {
-      const original = originalRows[index];
+  // const getChangedRows = () => {
+  //   return newRows.filter((row, index) => {
+  //     const original = originalRows[index];
 
-      if (!original) return true;
+  //     if (!original) return true;
 
-      return (
-        row.am_name !== original.am_name ||
-        Number(row.amount) !== Number(original.amount)
-      );
-    });
-  };
+  //     return (
+  //       row.am_name !== original.am_name ||
+  //       Number(row.amount) !== Number(original.amount)
+  //     );
+  //   });
+  // };
   const CustomerOverView = state?.UsersList?.customerdetails;
 
   useEffect(() => {
@@ -722,7 +705,7 @@ function CreateBill() {
     if (hasError) {
       return;
     }
-    const changedRows = getChangedRows();
+    // const changedRows = getChangedRows();
 
     // if (changedRows.length === 0) {
     //   setTableErrmsg("No changes detected to update");
@@ -734,7 +717,7 @@ function CreateBill() {
         type: "MANUAL-INVOICE-EDIT",
         hostelId: state.login.selectedHostel_Id,
         invoiceId: billData?.invoiceId,
-        payload: changedRows.map((row) => ({
+        payload: newRows?.map((row) => ({
           type: row.am_name,
           amount: parseFloat(row.amount),
         })),
@@ -745,6 +728,8 @@ function CreateBill() {
       setAllFieldErrmsg("");
     }
   };
+
+  console.log("newRows", newRows);
 
   useEffect(() => {
     if (

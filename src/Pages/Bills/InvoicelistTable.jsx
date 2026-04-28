@@ -66,10 +66,12 @@ const InvoiceTable = (props) => {
 
   const handleShowform = (props) => {
     props.OnHandleshowform(props);
+    setShowDots(false);
   };
 
   const handleEdit = (props) => {
     props.OnHandleshowEditform(props.item);
+    setShowDots(false);
   };
 
   const handleInvoicepdf = (item) => {
@@ -79,6 +81,7 @@ const InvoiceTable = (props) => {
 
   const handleBillDelete = (props) => {
     props.OnHandleshowDeleteform(props);
+    setShowDots(false);
   };
 
   const handleWriteOffFrom = () => {
