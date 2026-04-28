@@ -2564,7 +2564,7 @@ function UserList(props) {
                               );
                             })}
 
-                            <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB]">
+                            <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB] text-center">
                               Action
                             </th>
                           </tr>

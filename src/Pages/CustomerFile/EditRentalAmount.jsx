@@ -191,22 +191,50 @@ function EditRentalAmount({ show, handleClose }) {
   const typeOfBilling =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling;
 
+  // const disabledDate = (current) => {
+  //   if (!current) return false;
+
+  //   const today = dayjs();
+
+  //   if (typeOfBilling === "Joining Date Based") {
+  //     const start = today.add(1, "month").startOf("month");
+  //     const end = today.add(3, "month").endOf("month");
+
+  //     return current.isBefore(start, "month") || current.isAfter(end, "month");
+  //   }
+
+  //   let cycleMonth = today.month();
+  //   let cycleYear = today.year();
+
+  //   if (today.date() > billStartDate) {
+  //     const nextMonth = today.add(1, "month");
+  //     cycleMonth = nextMonth.month();
+  //     cycleYear = nextMonth.year();
+  //   }
+
+  //   const start = dayjs().year(cycleYear).month(cycleMonth).date(billStartDate);
+
+  //   const end = start.add(2, "month");
+
+  //   return current.isBefore(start, "month") || current.isAfter(end, "month");
+  // };
+
   const disabledDate = (current) => {
     if (!current) return false;
 
     const today = dayjs();
 
     if (typeOfBilling === "Joining Date Based") {
-      const start = today.add(1, "month").startOf("month");
-      const end = today.add(3, "month").endOf("month");
+      const start = today.startOf("month");
+      const end = today.add(2, "month").endOf("month");
 
-      return current.isBefore(start, "month") || current.isAfter(end, "month");
+      return current.isBefore(start, "day") || current.isAfter(end, "day");
     }
 
     let cycleMonth = today.month();
     let cycleYear = today.year();
 
-    if (today.date() > billStartDate) {
+    if (today.date() >= billStartDate) {
       const nextMonth = today.add(1, "month");
       cycleMonth = nextMonth.month();
       cycleYear = nextMonth.year();
@@ -216,7 +244,7 @@ function EditRentalAmount({ show, handleClose }) {
 
     const end = start.add(2, "month");
 
-    return current.isBefore(start, "month") || current.isAfter(end, "month");
+    return current.isBefore(start, "day") || current.isAfter(end, "day");
   };
 
   useEffect(() => {
