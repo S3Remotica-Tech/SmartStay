@@ -841,7 +841,7 @@ function SettingGeneral() {
     if (state.Settings.statusCodeForCheckPassword === 200) {
       setVerfifyLoading(false);
       handleCloseChangepassword();
-      // handleConfirmPass();
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_GENERAL_PASSWORD_CHECK" });
       }, 200);
