@@ -2262,7 +2262,7 @@ function UserList(props) {
             </div>
           )}
 
-          <div className="flex items-center justify-between sticky top-0 bg-white z-50 container min-h-[60px] sm:min-h-[60px]">
+          <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
             <div className="flex gap-6">
               {tabs?.map((tab) => (
                 <button

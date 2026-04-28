@@ -2,12 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
-import {
-  Button,
-  Form,
-  FormControl,
-  InputGroup,
-} from "react-bootstrap";
+import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import img2 from "../../Assets/Images/New_images/settingeye.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
@@ -21,12 +16,12 @@ import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
 // import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
-import '../Settings/SettingAll.css'
+import "../Settings/SettingAll.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { CloseCircle, PasswordCheck } from "iconsax-react";
-import '../Settings/SettingGeneral.css';
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import { CloseCircle, PasswordCheck, ArrowSwapHorizontal } from "iconsax-react";
+import "../Settings/SettingGeneral.css";
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Card } from "react-bootstrap";
@@ -35,7 +30,9 @@ import {
   Sms,
   LogoutCurve,
   Crown1,
-  Edit, CardSend, Shield
+  Edit,
+  CardSend,
+  Shield,
 } from "iconsax-react";
 import Logout from "../../Components/Logout";
 import RecentActivity from "./RecentActivity";
@@ -43,25 +40,31 @@ import ManagedUsers from "./ManagedUsers";
 import AdminChangePassword from "./AdminChangePassword";
 import AdminProfileEdit from "./AdminProfileEdit";
 import ComingSoon from "../../Utils/ComingSoon";
+import ConfirmIdentity from "./ResetPin/ConfirmIdentity";
+import VerifyOtp from "./ResetPin/VerifyOtp";
+import ResetMpin from "./ResetPin/ResetMpin";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
-  const [formLoading, setFormLoading] = useState(false)
-  const [verifyLoading, setVerfifyLoading] = useState(false)
-  const [changeLoading, setChangeLoading] = useState(false)
-
+  const [formLoading, setFormLoading] = useState(false);
+  const [verifyLoading, setVerfifyLoading] = useState(false);
+  const [changeLoading, setChangeLoading] = useState(false);
+  const [showVerify, setShowVerify] = useState(false);
+  const [showMpin, setShowMpin] = useState(false);
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [showOpenAdminProfile, setShowOpenAdminProfile] = useState(false);
-  const [showOpenAdminProfileEdit, setShowOpenAdminProfileEdit] = useState(false);
+  const [confirmIdentity, setConfirmIdentity] = useState(false);
+  const [showOpenAdminProfileEdit, setShowOpenAdminProfileEdit] =
+    useState(false);
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState("masters");
 
   const tabs = [
     { key: "masters", label: "Masters" },
     { key: "recent", label: "Recent Activity" },
-    { key: "users", label: "Managed Users" }
+    { key: "users", label: "Managed Users" },
   ];
 
   const [firstName, setFirstName] = useState("");
@@ -74,7 +77,7 @@ function SettingGeneral() {
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
   const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("")
+  const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
 
   const [password, setPassword] = useState("");
@@ -108,12 +111,11 @@ function SettingGeneral() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
-  const [newPassError, setNewPassError] = useState("")
+  const [newPassError, setNewPassError] = useState("");
   const [generalFilterddata, setGeneralFilterddata] = useState([]);
 
-
-  const [loading, setLoading] = useState(false)
-  const [generalDeleteError, setGeneralDeleteError] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [generalDeleteError, setGeneralDeleteError] = useState("");
 
   const {
     canWriteModule: canWriteProfile,
@@ -121,7 +123,6 @@ function SettingGeneral() {
     canUpdateModule: canUpdateProfile,
     canDeleteModule: canDeleteProfile,
   } = useHasPermission("Profile");
-
 
   const firstNameRef = useRef(null);
   const emailRef = useRef(null);
@@ -131,6 +132,23 @@ function SettingGeneral() {
   const pincodeRef = useRef(null);
   const stateRef = useRef(null);
 
+  const handleCloseShowVerify = () => {
+    setShowVerify(false);
+  };
+
+  const handleShowVerify = () => {
+    setConfirmIdentity(false);
+    setShowVerify(true);
+  };
+
+  const handleShowMpin = () => {
+    setShowVerify(false);
+    setShowMpin(true);
+  };
+
+  const handleCloseMpin = () => {
+    setShowMpin(false);
+  };
 
   useEffect(() => {
     if (!canReadProfile) {
@@ -138,18 +156,14 @@ function SettingGeneral() {
     }
   }, [canReadProfile]);
 
-
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
-
-
+  }, [state.UsersList?.accessRestrictionError]);
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -181,9 +195,15 @@ function SettingGeneral() {
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
     { value: "Uttarakhand", label: "Uttarakhand" },
     { value: "West Bengal", label: "West Bengal" },
-    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+    {
+      value: "Andaman and Nicobar Islands",
+      label: "Andaman and Nicobar Islands",
+    },
     { value: "Chandigarh", label: "Chandigarh" },
-    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+    {
+      value: "Dadra and Nagar Haveli and Daman and Diu",
+      label: "Dadra and Nagar Haveli and Daman and Diu",
+    },
     { value: "Delhi", label: "Delhi" },
     { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
     { value: "Ladakh", label: "Ladakh" },
@@ -191,36 +211,37 @@ function SettingGeneral() {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-
   const handleNewPassword = (e) => {
-    const newPassword = e.target.value
+    const newPassword = e.target.value;
     setNewPassword(e.target.value);
-    setNewPassError("")
-
+    setNewPassError("");
 
     const hasUppercase = /[A-Z]/.test(newPassword);
     const hasNumber = /[0-9]/.test(newPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setNewPassError("Password must include a capital letter, a number, and a special character.");
+      setNewPassError(
+        "Password must include a capital letter, a number, and a special character.",
+      );
     } else {
       setNewPassError("");
     }
   };
 
   const handleConfirmPassword = (e) => {
-    const ConfirmPassword = e.target.value
+    const ConfirmPassword = e.target.value;
     setConfirmPassword(e.target.value);
-    setConformPasswordError("")
-
+    setConformPasswordError("");
 
     const hasUppercase = /[A-Z]/.test(ConfirmPassword);
     const hasNumber = /[0-9]/.test(ConfirmPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(ConfirmPassword);
 
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setConformPasswordError("Password must include a capital letter, a number, and a special character.");
+      setConformPasswordError(
+        "Password must include a capital letter, a number, and a special character.",
+      );
     } else {
       setConformPasswordError("");
     }
@@ -231,13 +252,12 @@ function SettingGeneral() {
   //   setConfirmPass(true);
   // };
 
-
   const handleCloseConfirmPass = () => {
     setConfirmPass(false);
-    setConformPasswordError("")
-    setConfirmPassword("")
-    setNewPassword("")
-    setNewPassError("")
+    setConformPasswordError("");
+    setConfirmPassword("");
+    setNewPassword("");
+    setNewPassError("");
   };
 
   const handleChangePassword = (pass) => {
@@ -247,21 +267,21 @@ function SettingGeneral() {
   const handleCloseChangepassword = () => {
     setChangePassword(false);
     setPassError("");
-    setCheckPassword("")
-
-
+    setCheckPassword("");
   };
 
   const handleCheckPassword = (e) => {
-    const CheckPassword = e.target.value
+    const CheckPassword = e.target.value;
     setCheckPassword(e.target.value);
     setPassError("");
 
     const hasUppercase = /[A-Z]/.test(CheckPassword);
     const hasNumber = /[0-9]/.test(CheckPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(CheckPassword)
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(CheckPassword);
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setPassError("Password must include a capital letter, a number, and a special character.");
+      setPassError(
+        "Password must include a capital letter, a number, and a special character.",
+      );
     } else {
       setPassError("");
     }
@@ -275,7 +295,6 @@ function SettingGeneral() {
   //         setPassError("Please Enter Password");
   //         break;
 
-
   //       default:
   //         break;
   //     }
@@ -285,39 +304,40 @@ function SettingGeneral() {
   // }
 
   const handleCheckPasswordChange = () => {
-    dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
     if (!checkPassword) {
       setPassError("Please Enter Password");
-      return
+      return;
     }
     if (checkPassword && checkPassword.length < 8) {
       setPassError("Password must be at least 8 characters");
-      return
+      return;
     }
-
 
     const hasUppercase = /[A-Z]/.test(checkPassword);
     const hasNumber = /[0-9]/.test(checkPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(checkPassword)
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(checkPassword);
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setPassError("Password must include a capital letter, a number, and a special character.");
-      return
+      setPassError(
+        "Password must include a capital letter, a number, and a special character.",
+      );
+      return;
     } else {
       setPassError("");
     }
 
     if (checkPassword) {
-      dispatch({ type: "CHECKPASSWORD", payload: { adminId: passId, password: checkPassword } });
-      setVerfifyLoading(true)
+      dispatch({
+        type: "CHECKPASSWORD",
+        payload: { adminId: passId, password: checkPassword },
+      });
+      setVerfifyLoading(true);
     }
-  }
-
-
+  };
 
   const handlegeneralform = (userId) => {
     setGeneralEdit((prevId) => (prevId === userId ? null : userId));
   };
-
 
   const handleDelete = (user) => {
     setDeleteId(user.userId);
@@ -326,21 +346,20 @@ function SettingGeneral() {
 
   const handleCloseDeleteFormShow = () => {
     setDeleteForm(false);
-    setGeneralDeleteError("")
-    dispatch({ type: "CLEAR_DELETE_GENERAL_ERROR" })
-  }
+    setGeneralDeleteError("");
+    dispatch({ type: "CLEAR_DELETE_GENERAL_ERROR" });
+  };
 
   const handleConformDelete = () => {
     if (deleteId) {
       dispatch({ type: "GENERALDELETEGENERAL", payload: deleteId });
     }
-  }
-
+  };
 
   const handleShowFormGreneral = () => {
     setShowFormGeneral(true);
     setEdit(false);
-  }
+  };
 
   const handleClose = () => {
     setShowFormGeneral(false);
@@ -348,37 +367,36 @@ function SettingGeneral() {
     setLastName("");
     setEmailId("");
     setFile("");
-    setProfileImage("")
+    setProfileImage("");
     setPassword("");
     setPhone("");
     setFirstNameError("");
     setEmailError("");
     setHouseNo("");
     setStreet("");
-    setLandmark("")
+    setLandmark("");
     setPincode("");
     setCity("");
-    setStateName("")
-    setHouse_NoError("")
-    setStreetError("")
-    setCityError("")
-    setLandmarkError("")
-    setPincodeError("")
-    setStateNameError("")
+    setStateName("");
+    setHouse_NoError("");
+    setStreetError("");
+    setCityError("");
+    setLandmarkError("");
+    setPincodeError("");
+    setStateNameError("");
     setPhoneError("");
     setPasswordError("");
     setFormError("");
-    setEmailError("")
-    setEmailErrorMessage("")
-    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
-  }
+    setEmailError("");
+    setEmailErrorMessage("");
+    dispatch({ type: "CLEAR_GENERAL_EMAIL_ERROR" });
+  };
 
-  const [profileimage, setProfileImage] = useState(null)
+  const [profileimage, setProfileImage] = useState(null);
 
   const handleImageChange = async (event) => {
-
     const fileImage = event.target.files[0];
-    setProfileImage(fileImage)
+    setProfileImage(fileImage);
     if (fileImage) {
       const options = {
         maxSizeMB: 1,
@@ -393,7 +411,7 @@ function SettingGeneral() {
       }
       setFormError("");
     }
-  }
+  };
 
   const handleFirstName = (e) => {
     const value = e.target.value;
@@ -404,7 +422,7 @@ function SettingGeneral() {
     setFirstName(value);
     setFirstNameError("");
     setFormError("");
-  }
+  };
 
   const handlelastName = (e) => {
     const value = e.target.value;
@@ -415,8 +433,7 @@ function SettingGeneral() {
     setLastName(value);
 
     setFormError("");
-  }
-
+  };
 
   const handlePhone = (e) => {
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
@@ -446,12 +463,11 @@ function SettingGeneral() {
 
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
-  }
-
+  };
 
   const handleEmailId = (e) => {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
+    dispatch({ type: "CLEAR_GENERAL_EMAIL_ERROR" });
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
     setFormError("");
@@ -470,16 +486,9 @@ function SettingGeneral() {
       setEmailErrorMessage("");
       setFormError("");
     }
-
-
-  }
-
-
+  };
 
   const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
-
-
-
 
   const handleHouseNo = (e) => {
     const value = e.target.value;
@@ -514,9 +523,6 @@ function SettingGeneral() {
     }
   };
 
-
-
-
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
@@ -531,8 +537,6 @@ function SettingGeneral() {
       setPincodeError("");
       setFormError("");
     }
-
-
   };
 
   const handleCity = (e) => {
@@ -543,53 +547,24 @@ function SettingGeneral() {
       setCityError("");
       setFormError("");
     }
-
-  }
-
+  };
 
   const handlePassword = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setPasswordError("");
 
-
-
-
-    // if (!newPassword) {
-    //   setPasswordError("Please Enter Password");
-    //   return;
-    // }
-    // if (newPassword && newPassword.length < 8) {
-    //   setPasswordError("Password must be at least 8 characters long");
-    //   return;
-    // }
-    // const hasUppercase = /[A-Z]/.test(newPassword);
-    // const hasNumber = /[0-9]/.test(newPassword);
-    // const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
-    // if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-    //   setPasswordError(
-    //     "Password must include a capital letter, a number, and a special character"
-    //   );
-    //   return;
-    // }
-
-    // If valid setPasswordError("");
     setFormError("");
   };
-
 
   const MobileNumber = `${Phone}`;
 
   const handleEditGeneralUser = (user) => {
-
-    // const phoneNumber = String(user.mobileNo || "");
-    // const countryCode = mobileNo.slice(0, mobileNo.length - 10);
-    // const mobileNumber = mobileNo.slice(-10);
     setEdit(true);
     setShowFormGeneral(true);
 
     setFile(user.profilePic === "0" ? null : user.profilePic);
-    setProfileImage(user.profilePic === "0" ? null : user.profilePic)
+    setProfileImage(user.profilePic === "0" ? null : user.profilePic);
     setFirstName(user.firstName);
     setLastName(user.lastName);
     setPhone(user.mobileNo);
@@ -598,29 +573,12 @@ function SettingGeneral() {
 
     setHouseNo(user.houseNo);
     setStreet(user.street);
-    setLandmark(user.landmark)
+    setLandmark(user.landmark);
     setPincode(user.pincode);
     setCity(user.city);
     setStateName(user.state);
 
-
     setEditId(user.userId);
-    // setPassword(user.password);
-
-    // setInitialStateAssign({
-    //   file: user.profilePic === "0" ? null : user.profilePic || null,
-    //   firstName: user.firstName || "",
-    //   lastName: user.lastName || "",
-    //   Phone: user.mobileNo || "",
-    //   emilId: user.mailId || "",
-    //   house_no: user.houseNo || '',
-    //   street: user.street || '',
-    //   pincode: user.pincode || '',
-    //   city: user.city || '',
-    //   landmark: user.landmark || '',
-    //   state: user.state || '',
-
-    // });
 
     setInitialStateAssign({
       file: user.profilePic === "0" ? null : user.profilePic || null,
@@ -634,9 +592,8 @@ function SettingGeneral() {
       city: user.city || "",
       landmark: user.landmark || "",
       state: user.state || "",
-      countryCode: user.countryCode || ""
+      countryCode: user.countryCode || "",
     });
-
   };
 
   const validateField = (value, fieldName) => {
@@ -679,35 +636,28 @@ function SettingGeneral() {
     Phone: "",
     emilId: "",
     address: "",
-    house_no: '',
-    street: '',
-    city: '',
-    pincode: '',
-    landmark: '',
-    state: '',
+    house_no: "",
+    street: "",
+    city: "",
+    pincode: "",
+    landmark: "",
+    state: "",
     countryCode: "",
     file: null,
   });
-
 
   function isValidEmail(email) {
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     return emailRegex.test(email);
   }
 
-
-
-
-
   const handleSave = () => {
-
-    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
-    dispatch({ type: 'CLEAR_MOBILE_ERROR' })
+    dispatch({ type: "CLEAR_GENERAL_EMAIL_ERROR" });
+    dispatch({ type: "CLEAR_MOBILE_ERROR" });
 
     let hasError = false;
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-    const normalize = (v) => (v ?? "");
-
+    const normalize = (v) => v ?? "";
 
     const validations = [
       validateField(firstName, "firstName"),
@@ -719,7 +669,6 @@ function SettingGeneral() {
       validateField(state_name, "state_name"),
     ];
 
-
     if (!Phone) {
       setPhoneError("Please Enter Mobile Number");
       hasError = true;
@@ -729,7 +678,6 @@ function SettingGeneral() {
     } else {
       setPhoneError("");
     }
-
 
     if (!edit) {
       if (!password) {
@@ -747,59 +695,43 @@ function SettingGeneral() {
 
         if (!hasUppercase || !hasNumber || !hasSpecialChar) {
           setPasswordError(
-            "Password must include a capital letter, a number, and a special character"
+            "Password must include a capital letter, a number, and a special character",
           );
           hasError = true;
         }
       }
     }
 
-
-
     if (!pincode) {
       setPincodeError("Please Enter Pincode");
       hasError = true;
-    }
-    else if (!/^\d{6}$/.test(pincode)) {
+    } else if (!/^\d{6}$/.test(pincode)) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
       hasError = true;
-    }
-    else if (pincode === "000000") {
+    } else if (pincode === "000000") {
       setPincodeError("Pin Code cannot be all zeros");
       hasError = true;
-    }
-    else if (pincode[0] === "0") {
+    } else if (pincode[0] === "0") {
       setPincodeError("Pin Code cannot start with 0");
       hasError = true;
-    }
-    else if (pincode && String(pincode).slice(-3) === "000") {
+    } else if (pincode && String(pincode).slice(-3) === "000") {
       setPincodeError("Last 3 digits cannot be 000");
       hasError = true;
-    }
-    else {
+    } else {
       setPincodeError("");
     }
-
-
 
     if (emilId) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       if (!emailRegex.test(emilId.toLowerCase())) {
-        setEmailError("Please Enter Valid Email Id"); hasError = true;
+        setEmailError("Please Enter Valid Email Id");
+        hasError = true;
       } else setEmailError("");
     }
-
-
-
-
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) {
       return;
     }
-
-
-
-
 
     const AddPayload = {
       accountInfo: {
@@ -813,12 +745,12 @@ function SettingGeneral() {
         city: city,
         pincode: pincode,
         state: state_name,
-        password: password
+        password: password,
       },
       profilePic: profileimage,
     };
 
-    const isFile = v => v instanceof File || v instanceof Blob;
+    const isFile = (v) => v instanceof File || v instanceof Blob;
 
     const payloadForApi = {
       adminId: editId,
@@ -832,19 +764,13 @@ function SettingGeneral() {
         landmark,
         city,
         pincode: Number(pincode),
-        state: state_name
+        state: state_name,
       },
 
-      profilePic: isFile(profileimage) ? profileimage : null
+      profilePic: isFile(profileimage) ? profileimage : null,
     };
 
-
-
-
-
-
     if (edit && editId) {
-
       const isChanged =
         normalize(firstName) !== normalize(initialStateAssign.firstName) ||
         normalize(lastName) !== normalize(initialStateAssign.lastName) ||
@@ -855,51 +781,41 @@ function SettingGeneral() {
         normalize(city) !== normalize(initialStateAssign.city) ||
         Number(pincode) !== Number(initialStateAssign.pincode ?? "") ||
         normalize(state_name) !== normalize(initialStateAssign.state) ||
-        String(Phone).replace(/\s+/g, "") !== String(initialStateAssign.Phone ?? "").replace(/\s+/g, "") ||
+        String(Phone).replace(/\s+/g, "") !==
+          String(initialStateAssign.Phone ?? "").replace(/\s+/g, "") ||
         // check profile pic safely
         (profileimage && profileimage !== initialStateAssign.file);
 
-
-
-
-
       if (!isChanged) {
-
         setFormError("No Changes Detected");
-        return
+        return;
       }
 
       // dispatch({
       //   type: "EDITGENERALSETTING",
-      //     adminId: editId, 
+      //     adminId: editId,
       //     payload: {
       //      EditPayload,
       //     profilePic: profileimage
       //   }
       // })
       if (isChanged) {
-
         dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
-        setFormLoading(true)
+        setFormLoading(true);
       }
 
-
-
       setFormError("");
-
     }
 
     if (!edit) {
       dispatch({ type: "ADDGENERALSETTING", payload: AddPayload });
-      setFormLoading(true)
+      setFormLoading(true);
     }
-
   };
-
 
   useEffect(() => {
     if (state.Settings.notmatchpass) {
-      setVerfifyLoading(false)
+      setVerfifyLoading(false);
       setPassError(state.Settings.notmatchpass);
     }
   }, [state.Settings.notmatchpass]);
@@ -911,7 +827,7 @@ function SettingGeneral() {
   }, [state.Settings.generalDeleteError]);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
 
     dispatch({ type: "GETALLGENERAL" });
     const timeout = setTimeout(() => {
@@ -921,20 +837,16 @@ function SettingGeneral() {
     return () => clearTimeout(timeout);
   }, [state.login.selectedHostel_Id]);
 
-
-
   useEffect(() => {
     if (state.Settings.statusCodeForCheckPassword === 200) {
-      setVerfifyLoading(false)
+      setVerfifyLoading(false);
       handleCloseChangepassword();
-      // handleConfirmPass();
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_GENERAL_PASSWORD_CHECK" });
       }, 200);
     }
   }, [state.Settings.statusCodeForCheckPassword]);
-
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -951,20 +863,19 @@ function SettingGeneral() {
 
   useEffect(() => {
     if (state.Settings?.generalEmailError) {
-      setFormLoading(false)
+      setFormLoading(false);
     }
   }, [state.Settings?.generalEmailError]);
 
   useEffect(() => {
     if (state.Settings?.generalMobileError) {
-      setFormLoading(false)
+      setFormLoading(false);
     }
   }, [state.Settings?.generalMobileError]);
 
-
   useEffect(() => {
     if (state.Settings?.StatusCodeForSettingGeneral === 201) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
       setTimeout(() => {
@@ -975,7 +886,7 @@ function SettingGeneral() {
 
   useEffect(() => {
     if (state.Settings?.EditStatusCodeForSettingGeneral === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
       setTimeout(() => {
@@ -983,9 +894,6 @@ function SettingGeneral() {
       }, 200);
     }
   }, [state.Settings?.EditStatusCodeForSettingGeneral]);
-
-
-
 
   useEffect(() => {
     if (state.Settings?.statusCodeForGeneralDelete === 200) {
@@ -998,23 +906,19 @@ function SettingGeneral() {
     }
   }, [state.Settings?.statusCodeForGeneralDelete]);
 
-
-
-
-
   useEffect(() => {
-    if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201 || state.Settings?.StatusCodeforGetGeneral === 204) {
+    if (
+      state.Settings?.StatusCodeforGetGeneral === 200 ||
+      state.Settings?.StatusCodeforGetGeneral === 201 ||
+      state.Settings?.StatusCodeforGetGeneral === 204
+    ) {
       setGeneralFilterddata(state.Settings?.settingGetGeneralData || []);
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_GET_ALL_GENERAL' })
-      }, 1000)
-
+        dispatch({ type: "CLEAR_GET_ALL_GENERAL" });
+      }, 1000);
     }
   }, [state.Settings?.StatusCodeforGetGeneral]);
-
-
-
 
   const ConformvalidateField = (value, fieldName) => {
     if (!value || (typeof value === "string" && value.trim() === "")) {
@@ -1035,8 +939,7 @@ function SettingGeneral() {
   };
 
   const handleSavePassword = () => {
-
-    dispatch({ type: 'CLEAR_CONFORM_PASSWORD_MATCHES' })
+    dispatch({ type: "CLEAR_CONFORM_PASSWORD_MATCHES" });
     if (!ConformvalidateField(newPassword, "newPassword"));
     if (!ConformvalidateField(confirmPassword, "confirmPassword"));
 
@@ -1045,46 +948,50 @@ function SettingGeneral() {
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setNewPassError("Password must include a capital letter, a number, and a special character.");
-      return
+      setNewPassError(
+        "Password must include a capital letter, a number, and a special character.",
+      );
+      return;
     } else {
       setNewPassError("");
     }
-
 
     const hasUpperCase = /[A-Z]/.test(confirmPassword);
     const hAsNumber = /[0-9]/.test(confirmPassword);
     const hasSpecialCHar = /[!@#$%^&*(),.?":{}|<>]/.test(confirmPassword);
 
     if (!hasUpperCase || !hAsNumber || !hasSpecialCHar) {
-      setConformPasswordError("Password must include a capital letter, a number, and a special character.");
-      return
+      setConformPasswordError(
+        "Password must include a capital letter, a number, and a special character.",
+      );
+      return;
     } else {
       setConformPasswordError("");
     }
 
-
-
     if (newPassword && confirmPassword) {
       dispatch({
         type: "GENERALPASSWORDCHANGES",
-        payload: { id: passId, new_pass: newPassword, cn_pass: confirmPassword },
+        payload: {
+          id: passId,
+          new_pass: newPassword,
+          cn_pass: confirmPassword,
+        },
       });
-      setChangeLoading(true)
+      setChangeLoading(true);
     }
-
-  }
+  };
 
   useEffect(() => {
     if (state.Settings.conformPassNotmatch) {
-      setChangeLoading(false)
+      setChangeLoading(false);
       setConformPasswordError(state.Settings.conformPassNotmatch);
     }
   }, [state.Settings.conformPassNotmatch]);
 
   useEffect(() => {
     if (state.Settings.StatusCodeforGeneralPassword === 200) {
-      setChangeLoading(false)
+      setChangeLoading(false);
       handleCloseConfirmPass();
       setTimeout(() => {
         dispatch({ type: "CLEAR_GENERAL_PASSWORD_CHANGES" });
@@ -1094,21 +1001,17 @@ function SettingGeneral() {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
+  }, [state.createAccount?.networkError]);
 
-  }, [state.createAccount?.networkError])
-
-
-  const account = state.createAccount?.accountList
-
+  const account = state.createAccount?.accountList;
 
   const [openMenu, setOpenMenu] = React.useState(false);
   const menuRef = React.useRef(null);
-
 
   React.useEffect(() => {
     const handleClickOutside = (e) => {
@@ -1132,60 +1035,87 @@ function SettingGeneral() {
   };
 
   const handleOpenAdminProfile = () => {
-    setShowOpenAdminProfile(true)
-  }
+    setShowOpenAdminProfile(true);
+  };
+
+  const handleResetPin = () => {
+    setConfirmIdentity(true);
+  };
+  const handleCloseResetPin = () => {
+    setConfirmIdentity(false);
+  };
 
   const handleCloseAdminProfile = () => {
-    dispatch({ type: 'REMOVE_UPDATE_CHANGEPASSWORD_ERROR' })
-    setShowOpenAdminProfile(false)
-  }
+    dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
+    setShowOpenAdminProfile(false);
+  };
 
   const handleAdminEdit = () => {
-    setShowOpenAdminProfileEdit(true)
-  }
+    setShowOpenAdminProfileEdit(true);
+  };
 
   const handleCloseAdminEdit = () => {
-    dispatch({ type: 'REMOVE_UPDATE_PROFILE_ERROR' })
-    dispatch({ type: 'REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR' })
-    setShowOpenAdminProfileEdit(false)
-  }
+    dispatch({ type: "REMOVE_UPDATE_PROFILE_ERROR" });
+    dispatch({ type: "REMOVE_UPDATE_PROFILE_PHONE_NUM_ERROR" });
+    setShowOpenAdminProfileEdit(false);
+  };
 
+  const isDev = import.meta.env.MODE === "development";
   return (
     <>
-      {
-        logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
-      }
+      {logoutformshow && (
+        <Logout show={logoutformshow} handleClose={handleCloseLogout} />
+      )}
 
+      {showMpin && <ResetMpin show={showMpin} handleClose={handleCloseMpin} />}
 
-      {
-        showOpenAdminProfile && <AdminChangePassword show={showOpenAdminProfile} handleClose={handleCloseAdminProfile} />
-      }
+      {showVerify && (
+        <VerifyOtp
+          show={showVerify}
+          handleClose={handleCloseShowVerify}
+          onConfirmSuccess={handleShowMpin}
+        />
+      )}
 
-      {
-        showOpenAdminProfileEdit && <AdminProfileEdit show={showOpenAdminProfileEdit} handleClose={handleCloseAdminEdit} />
-      }
+      {confirmIdentity && (
+        <ConfirmIdentity
+          show={confirmIdentity}
+          handleClose={handleCloseResetPin}
+          onVerifySuccess={handleShowVerify}
+        />
+      )}
 
+      {showOpenAdminProfile && (
+        <AdminChangePassword
+          show={showOpenAdminProfile}
+          handleClose={handleCloseAdminProfile}
+        />
+      )}
 
+      {showOpenAdminProfileEdit && (
+        <AdminProfileEdit
+          show={showOpenAdminProfileEdit}
+          handleClose={handleCloseAdminEdit}
+        />
+      )}
 
       <div className="relative">
-
         <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
-
           <div className="w-full flex justify-center md:justify-start mt-0">
             <label className="text-black font-semibold text-lg font-gilroy whitespace-nowrap">
               General Settings
             </label>
           </div>
 
-
           <div className="w-full flex justify-center md:justify-end mt-0">
             <button
               disabled={!canWriteProfile}
               onClick={handleShowFormGreneral}
-              className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${canWriteProfile
-                ? "hover:bg-blue-800"
-                : "cursor-not-allowed opacity-50"
-                }`}
+              className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${
+                canWriteProfile
+                  ? "hover:bg-blue-800"
+                  : "cursor-not-allowed opacity-50"
+              }`}
             >
               + Create Master
             </button>
@@ -1200,390 +1130,468 @@ function SettingGeneral() {
             </div>
           )}
 
-          {
-            !canReadProfile ? (
-              <div className="flex flex-col items-center justify-center mt-24">
-
-                <img
-                  src={Emptystate}
-                  alt="Empty State"
-
-                />
-                <ErrorMessage message={['You do not have access to view General']} type="warning" />
-
-              </div>
-            )
-              : (
-                // <div className="sticky top-0 bg-white z-[900] ">
-                <div className="sticky top-0 bg-white z-[900] flex flex-col h-full">
-                  {account?.roleId === 1 && (
-                     <div className="bg-white rounded-lg border border-gray-300 p-4 md:p-2 font-gilroy">
-                       <div className="flex w-full gap-4 md:gap-3">
-                        <div>
-                          {
-                            account?.profilePic ? (
-                              <img
-                                src={account.profilePic}
-                                alt="profile"
-                                 className="w-14 h-14 min-w-[56px] min-h-[56px] md:w-12 md:h-12 md:min-w-[48px] md:min-h-[48px] rounded-full object-cover -mt-2"
-                              />
-                            ) : (
-                              <div
-                              className="w-14 h-14 md:w-12 md:h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-lg md:text-base font-gilroy uppercase"
-                              >
-                                {account?.initial}
-                              </div>
-                            )
-                          }
+          {!canReadProfile ? (
+            <div className="flex flex-col items-center justify-center mt-24">
+              <img src={Emptystate} alt="Empty State" />
+              <ErrorMessage
+                message={["You do not have access to view General"]}
+                type="warning"
+              />
+            </div>
+          ) : (
+            // <div className="sticky top-0 bg-white z-[900] ">
+            <div className="sticky top-0 bg-white z-[900] flex flex-col h-full">
+              {account?.roleId === 1 && (
+                <div className="bg-white rounded-lg border border-gray-300 p-4 md:p-2 font-gilroy">
+                  <div className="flex w-full gap-4 md:gap-3">
+                    <div>
+                      {account?.profilePic ? (
+                        <img
+                          src={account.profilePic}
+                          alt="profile"
+                          className="w-14 h-14 min-w-[56px] min-h-[56px] md:w-12 md:h-12 md:min-w-[48px] md:min-h-[48px] rounded-full object-cover -mt-2"
+                        />
+                      ) : (
+                        <div className="w-14 h-14 md:w-12 md:h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-lg md:text-base font-gilroy uppercase">
+                          {account?.initial}
                         </div>
-                        <div className="w-full">
-                          <div className="flex justify-between items-center">
+                      )}
+                    </div>
+                    <div className="w-full">
+                      <div className="flex justify-between items-center">
+                        <div className="w-full -mt-4">
+                          <span
+                            className="text-lg font-semibold text-gray-900 capitalize block truncate"
+                            title={`${account.firstName} ${account.lastName}`}
+                          >
+                            {account.firstName} {account.lastName}
+                          </span>
+                        </div>
 
-                            <div className="w-full -mt-4">
-                              <span
-                                className="text-lg font-semibold text-gray-900 capitalize block truncate"
-                                title={`${account.firstName} ${account.lastName}`}
-                              >
-                                {account.firstName} {account.lastName}
-                              </span>
-                            </div>
-
-                            <div class="relative -mt-4">
+                        <div class="relative -mt-4">
+                          <div
+                            onClick={() => setOpenMenu(!openMenu)}
+                            className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${
+                              openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
+                            }`}
+                          >
+                            <PiDotsThreeOutlineVerticalFill className="h-5 w-5 cursor-pointer" />
+                            {openMenu && (
                               <div
-                                onClick={() => setOpenMenu(!openMenu)}
-                                className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
-                                  }`}
+                                ref={menuRef}
+                                className="absolute top-11 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-sm z-50 px-2 py-2"
                               >
-                                <PiDotsThreeOutlineVerticalFill className="h-5 w-5 cursor-pointer" />
-                                {openMenu && (
-                                  <div
-                                    ref={menuRef}
-                                    className="absolute top-11 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-md z-50"
+                                <div
+                                  onClick={() => {
+                                    handleAdminEdit();
+                                  }}
+                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg
+              ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
+                                  onMouseEnter={(e) =>
+                                    (e.currentTarget.style.backgroundColor =
+                                      "#EDF2FF")
+                                  }
+                                  onMouseLeave={(e) =>
+                                    (e.currentTarget.style.backgroundColor =
+                                      "#FFFFFF")
+                                  }
+                                >
+                                  <Edit size="16" color="#1E45E1" />
+                                  <label
+                                    className={`text-sm font-medium font-gilroy  rounded-lg ${
+                                      canUpdateProfile
+                                        ? "text-black cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                    }`}
                                   >
+                                    Edit
+                                  </label>
+                                </div>
 
-                                    <div
-                                      onClick={() => { handleAdminEdit() }}
-                                      className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+                                <div
+                                  onClick={() => {
+                                    handleOpenAdminProfile(account);
+                                  }}
+                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
-                                      onMouseEnter={(e) =>
-                                        (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                      }
-                                      onMouseLeave={(e) =>
-                                        (e.currentTarget.style.backgroundColor = "#FFFFFF")
-                                      }
-                                    >
-                                      <Edit
-                                        size="16"
-                                        color="#1E45E1"
-                                      />
-                                      <label className={`text-sm font-medium font-gilroy ${canUpdateProfile ? "text-black cursor-pointer" : "text-gray-400 cursor-not-allowed"
-                                        }`}>Edit</label>
-                                    </div>
-
-                                    <div
-                                      onClick={() => {
-                                        handleOpenAdminProfile(account)
-                                      }}
-                                      className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-t-lg 
+                                  onMouseEnter={(e) =>
+                                    (e.currentTarget.style.backgroundColor =
+                                      "#EDF2FF")
+                                  }
+                                  onMouseLeave={(e) =>
+                                    (e.currentTarget.style.backgroundColor =
+                                      "#FFFFFF")
+                                  }
+                                >
+                                  <PasswordCheck size="16" color="#FF9500" />
+                                  <label
+                                    className={`text-sm font-medium font-gilroy  whitespace-nowrap ${
+                                      canUpdateProfile
+                                        ? "text-black cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                    }`}
+                                  >
+                                    Change Password
+                                  </label>
+                                </div>
+                                {isDev && (
+                                  <div
+                                    onClick={() => {
+                                      handleResetPin(account);
+                                    }}
+                                    className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
-                                      onMouseEnter={(e) =>
-                                        (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                      }
-                                      onMouseLeave={(e) =>
-                                        (e.currentTarget.style.backgroundColor = "#FFFFFF")
-                                      }
+                                    onMouseEnter={(e) =>
+                                      (e.currentTarget.style.backgroundColor =
+                                        "#EDF2FF")
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.currentTarget.style.backgroundColor =
+                                        "#FFFFFF")
+                                    }
+                                  >
+                                    <ArrowSwapHorizontal
+                                      size="16"
+                                      color="#28303F"
+                                    />
+                                    <label
+                                      className={`text-sm font-medium font-gilroy  whitespace-nowrap ${
+                                        canUpdateProfile
+                                          ? "text-black cursor-pointer"
+                                          : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                     >
-                                      <PasswordCheck
-                                        size="16"
-                                        color="#FF9500"
-                                      />
-                                      <label className={`text-sm font-medium font-gilroy ${canUpdateProfile ? "text-black cursor-pointer" : "text-gray-400 cursor-not-allowed"
-                                        }`}>Change Password</label>
-                                    </div>
+                                      Reset m-Pin
+                                    </label>
                                   </div>
                                 )}
                               </div>
-                            </div>
-                          </div>
-
-                          <div className="flex justify-between items-center -mt-2">
-                            <div className="flex items-center gap-1.5 text-xs text-yellow-500 bg-yellow-50 px-2 py-0.5 rounded-full font-gilroy w-max">
-                              {account?.roleName} <Crown1 size={14} color="#FF9900" />
-                            </div>
-
-                            <div>
-                              <label className="text-gray-400 text-sm font-normal font-gilroy">
-                                {account?.lastUpdated}
-                              </label>
-                            </div>
+                            )}
                           </div>
                         </div>
                       </div>
 
-                         <hr className="my-2 md:my-1 border border-gray-200" />
-
-                         <div className="flex flex-col lg:flex-row lg:justify-between mt-2 md:mt-1">
-                           <div className="flex flex-wrap gap-4 md:gap-3 mt-2 md:mt-1">
-                          <div className="flex items-center gap-1.5 text-sm text-gray-600">
-                            <Call size={14} color="#1E45E1" />
-                            + {account.countryCode} {account.mobileNo}
-                          </div>
-
-                          <div className="hidden md:block w-px h-7 bg-gray-300" />
-
-                          <div className="flex items-center gap-1.5 text-sm text-blue-600">
-                            <Sms size={14} color="#1E45E1" />
-                            {account.mailId}
-                            <span>
-                              <CardSend size={16} color="#292D32" />
-                            </span>
-                          </div>
+                      <div className="flex justify-between items-center -mt-2">
+                        <div className="flex items-center gap-1.5 text-xs text-yellow-500 bg-yellow-50 px-2 py-0.5 rounded-full font-gilroy w-max">
+                          {account?.roleName}{" "}
+                          <Crown1 size={14} color="#FF9900" />
                         </div>
 
-                        <div className="relative group mt-3 lg:mt-2 w-full lg:w-fit flex justify-start lg:justify-end">
-                          <button
-                            onClick={handleShowLogout}
-                            className="inline-flex items-center justify-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
-                          >
-                            <LogoutCurve size={16} color="#FF0000" />
-
-                            <span className="inline lg:inline">Logout</span>
-                          </button>
-
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 
-      hidden group-hover:block lg:hidden
-      bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
-                            Logout
-                          </div>
+                        <div>
+                          <label className="text-gray-400 text-sm font-normal font-gilroy">
+                            {account?.lastUpdated}
+                          </label>
                         </div>
+                      </div>
+                    </div>
+                  </div>
 
+                  <hr className="my-2 md:my-1 border border-gray-200" />
+
+                  <div className="flex flex-col lg:flex-row lg:justify-between mt-2 md:mt-1">
+                    <div className="flex flex-wrap gap-4 md:gap-3 mt-2 md:mt-1">
+                      <div className="flex items-center gap-1.5 text-sm text-gray-600">
+                        <Call size={14} color="#1E45E1" />+{" "}
+                        {account.countryCode} {account.mobileNo}
                       </div>
 
+                      <div className="hidden md:block w-px h-7 bg-gray-300" />
+
+                      <div className="flex items-center gap-1.5 text-sm text-blue-600">
+                        <Sms size={14} color="#1E45E1" />
+                        {account.mailId}
+                        <span>
+                          <CardSend size={16} color="#292D32" />
+                        </span>
+                      </div>
                     </div>
 
-                  )}
-
-                  <div className="flex border-b border-gray-200 h-fit gap-8 font-gilroy">
-                    {tabs.map((tab) => (
-                      <div
-                        key={tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                        className={`relative px-1 py-3 text-sm cursor-pointer ${activeTab === tab.key ? "font-semibold text-[#1E45E1" : "font-medium text-gray-500"
-                          }`}
+                    <div className="relative group mt-3 lg:mt-2 w-full lg:w-fit flex justify-start lg:justify-end">
+                      <button
+                        onClick={handleShowLogout}
+                        className="inline-flex items-center justify-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
                       >
-                        {tab.label}
+                        <LogoutCurve size={16} color="#FF0000" />
 
-                        {activeTab === tab.key && (
-                          <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#1E45E1] rounded"></div>
-                        )}
+                        <span className="inline lg:inline">Logout</span>
+                      </button>
+
+                      <div
+                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 
+      hidden group-hover:block lg:hidden
+      bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50"
+                      >
+                        Logout
                       </div>
-                    ))}
+                    </div>
                   </div>
-                  {
-                    activeTab === "masters" && (
-                      <div
-                        className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${generalFilterddata && generalFilterddata.length > 0
-                          ? "overflow-y-auto"
-                          : "flex items-center justify-center"
-                          }`}
-                      >
-                        {generalFilterddata && generalFilterddata.length > 0 ? (
-                          generalFilterddata.map((item) => {
-                            const imageUrl = item.profilePic;
-                            return (
-
-
-                              <div
-                                className="bg-white rounded-xl p-3 mt-2 border border-gray-200"
-                                key={item.userId}
-                              >
-                                <div className="flex flex-wrap justify-between items-center w-full">
-                                  <div className="flex items-center w-100">
-                                    {
-                                      imageUrl ? (
-                                        <img
-                                          src={imageUrl}
-                                          alt={item.firstName || "Default Profile"}
-                                          className="h-12 w-12 rounded-full object-cover"
-                                        />
-                                      ) : (
-                                        <div className="h-12 w-12 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-base uppercase">
-                                          {item.initials}
-                                        </div>
-                                      )
-                                    }
-                                    <div className="ml-2 w-100">
-                                      <div className="flex justify-between items-center w-full">
-
-                                        <div
-                                          className="mb-0 text-base font-semibold font-gilroy h-fit truncate ml-1"
-                                          title={`${item.firstName} ${item.lastName}`}
-                                        >
-                                          {item.firstName} {item.lastName}
-                                        </div>
-
-                                        <div
-                                          className={`ml-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${generalEdit === item.userId ? 'z-[1000]' : ''
-                                            }`}
-                                          onClick={() => handlegeneralform(item.userId)}
-                                        >
-                                          <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
-
-                                          {generalEdit === item.userId && (
-                                            <div
-                                              ref={popupRef}
-                                              className={`absolute top-10 ${window.innerWidth <= 404 ? 'right-auto w-24 text-[13px]' : 'right-10 w-32 text-[14px]'
-                                                } flex flex-col items-start bg-[#F9F9F9] border border-[#EBEBEB] rounded-lg p-0 z-[1050]`}
-                                            >
-
-                                              <div className="w-full rounded-lg bg-[#F9F9F9]">
-
-                                                <div
-                                                  onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
-                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#EDF2FF')}
-                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#F9F9F9')}
-                                                  className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-t-lg ${canUpdateProfile ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'
-                                                    }`}
-                                                >
-                                                  <Edit
-                                                    size={16}
-                                                    color="#1E45E1"
-                                                    className={canUpdateProfile ? '' : 'filter grayscale brightness-[70%]'}
-                                                  />
-                                                  <label
-                                                    className={`text-[14px] font-medium font-gilroy ${canUpdateProfile ? 'text-black cursor-pointer' : 'text-gray-400 cursor-not-allowed'
-                                                      }`}
-                                                  >
-                                                    Edit
-                                                  </label>
-                                                </div>
-
-                                                <div className="h-px bg-[#F0F0F0] m-0" />
-
-                                                <div
-                                                  onClick={() => canDeleteProfile && handleDelete(item)}
-                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#FFF0F0')}
-                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#F9F9F9')}
-                                                  className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-b-lg ${canDeleteProfile ? 'cursor-pointer opacity-100' : 'cursor-not-allowed opacity-50'
-                                                    }`}
-                                                >
-                                                  <img
-                                                    src={Delete}
-                                                    alt="Delete"
-                                                    className={canDeleteProfile ? '' : 'filter grayscale brightness-[70%]'}
-                                                    style={{ height: 16, width: 16 }}
-                                                  />
-                                                  <label
-                                                    className={`text-[14px] font-medium font-gilroy ${canDeleteProfile ? 'text-red-600 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
-                                                      }`}
-                                                  >
-                                                    Delete
-                                                  </label>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
-
-
-                                      <div className="flex justify-between items-center w-full">
-
-                                        <div className="flex items-center gap-1 text-sm text-[#3A90E5] bg-[#F0F7FF] px-2 py-1 rounded-full font-gilroy w-fit">
-                                          {item.roleName} <Shield size={14} color="#3A90E5" />
-                                        </div>
-
-                                        <div>
-                                          <label className="text-gray-400 text-sm font-normal font-gilroy">
-                                            Profile last updated - 20/11/25
-                                          </label>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-
-                                </div>
-
-                                <hr className="my-2 border border-gray-200" />
-
-                                {/* <div className="flex justify-between w-full"> */}
-                                <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between w-full gap-2">
-                                  <div className="flex gap-4 mt-2">
-                                    <div className="flex items-center gap-1.5 text-sm text-gray-600 font-gilroy">
-                                      <Call size={14} color="#1E45E1" />
-                                      +{item.countryCode} {item.mobileNo}
-                                    </div>
-
-                                    <div className="w-px h-7 border border-gray-300" />
-
-                                    <div className="flex items-center gap-1.5 text-sm text-blue-700 font-gilroy">
-                                      <Sms size={14} color="#1E45E1" />
-                                      {item.mailId}
-                                      <span>
-                                        <CardSend size={16} color="#292D32" />
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
-                                    <img
-                                      src={img2}
-                                      width={20}
-                                      height={20}
-                                      alt="icon"
-                                      className={canWriteProfile ? '' : 'filter grayscale brightness-[70%]'}
-                                    />
-                                    <p
-                                      onClick={() => canWriteProfile && handleChangePassword(item)}
-                                      className={`mb-0 mx-2 text-sm font-semibold font-montserrat ${canWriteProfile ? 'text-blue-700 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
-                                        }`}
-                                    >
-                                      Change Password
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-
-                            );
-                          })
-                        ) :
-                          !loading && (
-                            <div className="flex flex-col items-center text-center animated-text 2xl:-mt-44">
-                              <img
-                                src={EmptyState}
-                                alt="emptystate"
-                                className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48  object-contain lg:mt-3 "
-                              />
-                              <div className="pb-1 mt-1 text-center font-gilroy font-semibold lg:text-lg 2xl:text-lg md:text-base text-gray-700">
-                                No Profile
-                              </div>
-                              <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                                There are no Profile available.
-                              </div>
-                            </div>
-                          )
-                        }
-
-                      </div>
-                    )}
-
-                  {
-                    activeTab === "recent"
-                      ? (import.meta.env.MODE === "development"
-                        ? <RecentActivity />
-                        : <ComingSoon />
-                      )
-                      : activeTab === "users"
-                        ? <ManagedUsers />
-                        : null
-                  }
-
                 </div>
               )}
 
-        </div>
+              <div className="flex border-b border-gray-200 h-fit gap-8 font-gilroy">
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.key}
+                    onClick={() => setActiveTab(tab.key)}
+                    className={`relative px-1 py-3 text-sm cursor-pointer ${
+                      activeTab === tab.key
+                        ? "font-semibold text-[#1E45E1"
+                        : "font-medium text-gray-500"
+                    }`}
+                  >
+                    {tab.label}
 
+                    {activeTab === tab.key && (
+                      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#1E45E1] rounded"></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {activeTab === "masters" && (
+                <div
+                  className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${
+                    generalFilterddata && generalFilterddata.length > 0
+                      ? "overflow-y-auto"
+                      : "flex items-center justify-center"
+                  }`}
+                >
+                  {generalFilterddata && generalFilterddata.length > 0
+                    ? generalFilterddata.map((item) => {
+                        const imageUrl = item.profilePic;
+                        return (
+                          <div
+                            className="bg-white rounded-xl p-3 mt-2 border border-gray-200"
+                            key={item.userId}
+                          >
+                            <div className="flex flex-wrap justify-between items-center w-full">
+                              <div className="flex items-center w-100">
+                                {imageUrl ? (
+                                  <img
+                                    src={imageUrl}
+                                    alt={item.firstName || "Default Profile"}
+                                    className="h-12 w-12 rounded-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="h-12 w-12 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-base uppercase">
+                                    {item.initials}
+                                  </div>
+                                )}
+                                <div className="ml-2 w-100">
+                                  <div className="flex justify-between items-center w-full">
+                                    <div
+                                      className="mb-0 text-base font-semibold font-gilroy h-fit truncate ml-1"
+                                      title={`${item.firstName} ${item.lastName}`}
+                                    >
+                                      {item.firstName} {item.lastName}
+                                    </div>
+
+                                    <div
+                                      className={`ml-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${
+                                        generalEdit === item.userId
+                                          ? "z-[1000]"
+                                          : ""
+                                      }`}
+                                      onClick={() =>
+                                        handlegeneralform(item.userId)
+                                      }
+                                    >
+                                      <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
+
+                                      {generalEdit === item.userId && (
+                                        <div
+                                          ref={popupRef}
+                                          className={`absolute top-10 ${
+                                            window.innerWidth <= 404
+                                              ? "right-auto w-24 text-[13px]"
+                                              : "right-10 w-32 text-[14px]"
+                                          } flex flex-col items-start bg-[#F9F9F9] border border-[#EBEBEB] rounded-lg p-0 z-[1050]`}
+                                        >
+                                          <div className="w-full rounded-lg bg-[#F9F9F9]">
+                                            <div
+                                              onClick={() =>
+                                                canUpdateProfile &&
+                                                handleEditGeneralUser(item)
+                                              }
+                                              onMouseEnter={(e) =>
+                                                (e.currentTarget.style.backgroundColor =
+                                                  "#EDF2FF")
+                                              }
+                                              onMouseLeave={(e) =>
+                                                (e.currentTarget.style.backgroundColor =
+                                                  "#F9F9F9")
+                                              }
+                                              className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-t-lg ${
+                                                canUpdateProfile
+                                                  ? "cursor-pointer opacity-100"
+                                                  : "cursor-not-allowed opacity-50"
+                                              }`}
+                                            >
+                                              <Edit
+                                                size={16}
+                                                color="#1E45E1"
+                                                className={
+                                                  canUpdateProfile
+                                                    ? ""
+                                                    : "filter grayscale brightness-[70%]"
+                                                }
+                                              />
+                                              <label
+                                                className={`text-[14px] font-medium font-gilroy ${
+                                                  canUpdateProfile
+                                                    ? "text-black cursor-pointer"
+                                                    : "text-gray-400 cursor-not-allowed"
+                                                }`}
+                                              >
+                                                Edit
+                                              </label>
+                                            </div>
+
+                                            <div className="h-px bg-[#F0F0F0] m-0" />
+
+                                            <div
+                                              onClick={() =>
+                                                canDeleteProfile &&
+                                                handleDelete(item)
+                                              }
+                                              onMouseEnter={(e) =>
+                                                (e.currentTarget.style.backgroundColor =
+                                                  "#FFF0F0")
+                                              }
+                                              onMouseLeave={(e) =>
+                                                (e.currentTarget.style.backgroundColor =
+                                                  "#F9F9F9")
+                                              }
+                                              className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-b-lg ${
+                                                canDeleteProfile
+                                                  ? "cursor-pointer opacity-100"
+                                                  : "cursor-not-allowed opacity-50"
+                                              }`}
+                                            >
+                                              <img
+                                                src={Delete}
+                                                alt="Delete"
+                                                className={
+                                                  canDeleteProfile
+                                                    ? ""
+                                                    : "filter grayscale brightness-[70%]"
+                                                }
+                                                style={{
+                                                  height: 16,
+                                                  width: 16,
+                                                }}
+                                              />
+                                              <label
+                                                className={`text-[14px] font-medium font-gilroy ${
+                                                  canDeleteProfile
+                                                    ? "text-red-600 cursor-pointer"
+                                                    : "text-gray-400 cursor-not-allowed"
+                                                }`}
+                                              >
+                                                Delete
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  <div className="flex justify-between items-center w-full">
+                                    <div className="flex items-center gap-1 text-sm text-[#3A90E5] bg-[#F0F7FF] px-2 py-1 rounded-full font-gilroy w-fit">
+                                      {item.roleName}{" "}
+                                      <Shield size={14} color="#3A90E5" />
+                                    </div>
+
+                                    <div>
+                                      <label className="text-gray-400 text-sm font-normal font-gilroy">
+                                        Profile last updated - 20/11/25
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <hr className="my-2 border border-gray-200" />
+
+                            {/* <div className="flex justify-between w-full"> */}
+                            <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between w-full gap-2">
+                              <div className="flex gap-4 mt-2">
+                                <div className="flex items-center gap-1.5 text-sm text-gray-600 font-gilroy">
+                                  <Call size={14} color="#1E45E1" />+
+                                  {item.countryCode} {item.mobileNo}
+                                </div>
+
+                                <div className="w-px h-7 border border-gray-300" />
+
+                                <div className="flex items-center gap-1.5 text-sm text-blue-700 font-gilroy">
+                                  <Sms size={14} color="#1E45E1" />
+                                  {item.mailId}
+                                  <span>
+                                    <CardSend size={16} color="#292D32" />
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
+                                <img
+                                  src={img2}
+                                  width={20}
+                                  height={20}
+                                  alt="icon"
+                                  className={
+                                    canWriteProfile
+                                      ? ""
+                                      : "filter grayscale brightness-[70%]"
+                                  }
+                                />
+                                <p
+                                  onClick={() =>
+                                    canWriteProfile &&
+                                    handleChangePassword(item)
+                                  }
+                                  className={`mb-0 mx-2 text-sm font-semibold font-montserrat ${
+                                    canWriteProfile
+                                      ? "text-blue-700 cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                  }`}
+                                >
+                                  Change Password
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })
+                    : !loading && (
+                        <div className="flex flex-col items-center text-center animated-text 2xl:-mt-44">
+                          <img
+                            src={EmptyState}
+                            alt="emptystate"
+                            className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48  object-contain lg:mt-3 "
+                          />
+                          <div className="pb-1 mt-1 text-center font-gilroy font-semibold lg:text-lg 2xl:text-lg md:text-base text-gray-700">
+                            No Profile
+                          </div>
+                          <div className="text-center font-gilroy font-medium text-sm text-gray-700">
+                            There are no Profile available.
+                          </div>
+                        </div>
+                      )}
+                </div>
+              )}
+
+              {activeTab === "recent" ? (
+                import.meta.env.MODE === "development" ? (
+                  <RecentActivity />
+                ) : (
+                  <ComingSoon />
+                )
+              ) : activeTab === "users" ? (
+                <ManagedUsers />
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
 
       <Modal
@@ -1592,18 +1600,12 @@ function SettingGeneral() {
         centered
         backdrop="static"
         dialogClassName="custom-delete-modal"
-
-
       >
-
         <Modal.Header className="!border-b-0">
-          <Modal.Title
-            className="!w-full !text-center mt-1 !text-[18px] !font-semibold !text-[#222222] !font-gilroy"
-          >
+          <Modal.Title className="!w-full !text-center mt-1 !text-[18px] !font-semibold !text-[#222222] !font-gilroy">
             Delete General?
           </Modal.Title>
         </Modal.Header>
-
 
         <Modal.Body className="!text-center !text-sm !font-medium !font-gilroy !text-gray-500 !-mt-7">
           Are you sure you want to delete this General?
@@ -1637,10 +1639,8 @@ function SettingGeneral() {
         onHide={() => handleCloseChangepassword()}
         backdrop="static"
         centered
-      // dialogClassName="custom-modal"
-
+        // dialogClassName="custom-modal"
       >
-
         <Modal.Header className="relative flex items-center justify-between">
           <div className="text-xl font-semibold font-gilroy">
             Change Password
@@ -1653,7 +1653,6 @@ function SettingGeneral() {
             className="cursor-pointer"
           />
         </Modal.Header>
-
 
         <Modal.Body className="font-gilroy mt-0 pt-0">
           <Form.Group>
@@ -1679,7 +1678,12 @@ function SettingGeneral() {
                 {showPassword ? (
                   <img src={eye} alt="Hide Password" width={20} height={20} />
                 ) : (
-                  <img src={eyeClosed} alt="Show Password" width={20} height={20} />
+                  <img
+                    src={eyeClosed}
+                    alt="Show Password"
+                    width={20}
+                    height={20}
+                  />
                 )}
               </InputGroup.Text>
             </InputGroup>
@@ -1704,15 +1708,12 @@ function SettingGeneral() {
         </Modal.Footer>
       </Modal>
 
-
       <Modal
         show={confirmPass}
         onHide={() => handleCloseConfirmPass()}
         backdrop="static"
         centered
-
       >
-
         <Modal.Header style={{ marginBottom: "", position: "relative" }}>
           <div
             style={{
@@ -1724,14 +1725,18 @@ function SettingGeneral() {
             Confirm Password
           </div>
 
-          <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass}
-            style={{ cursor: 'pointer' }} />
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleCloseConfirmPass}
+            style={{ cursor: "pointer" }}
+          />
         </Modal.Header>
         <Modal.Body className="pt-2">
-          <div className="col-lg-12 
+          <div
+            className="col-lg-12 
            col-md-12 col-sm-12 col-xs-12"
           >
-
             <Form.Group className="mb-3">
               <Form.Label
                 style={{
@@ -1741,7 +1746,7 @@ function SettingGeneral() {
                   fontWeight: 500,
                 }}
               >
-                New Password {" "}
+                New Password{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <InputGroup>
@@ -1790,15 +1795,11 @@ function SettingGeneral() {
               </InputGroup>
               {newPassError && (
                 <ErrorMessage message={newPassError} type="error" />
-
               )}
-
-
             </Form.Group>
-
-
           </div>
-          <div className="col-lg-12 
+          <div
+            className="col-lg-12 
            col-md-12 col-sm-12 col-xs-12"
           >
             <Form.Group className="mb-3">
@@ -1810,7 +1811,7 @@ function SettingGeneral() {
                   fontWeight: 500,
                 }}
               >
-                Confirm Password {" "}
+                Confirm Password{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <InputGroup>
@@ -1861,40 +1862,40 @@ function SettingGeneral() {
               {conformPasswordError && (
                 <ErrorMessage message={conformPasswordError} type="error" />
               )}
-
             </Form.Group>
-
-
-
-
           </div>
         </Modal.Body>
-        {changeLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
+        {changeLoading && (
           <div
             style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              opacity: 0.75,
+              zIndex: 10,
             }}
-          ></div>
-        </div>}
-        <Modal.Footer className="d-flex justify-content-center " style={{ border: "done" }}>
+          >
+            <div
+              style={{
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
+              }}
+            ></div>
+          </div>
+        )}
+        <Modal.Footer
+          className="d-flex justify-content-center "
+          style={{ border: "done" }}
+        >
           <Button
             className="col-12"
             style={{
@@ -1904,14 +1905,12 @@ function SettingGeneral() {
               borderRadius: "12px",
               fontSize: "14px",
               fontFamily: "Montserrat, sans-serif",
-
             }}
             onClick={handleSavePassword}
           >
             Save Password
           </Button>
         </Modal.Footer>
-
       </Modal>
 
       <Modal
@@ -1921,7 +1920,6 @@ function SettingGeneral() {
         centered
         dialogClassName="md:!h-[75vh]"
       >
-
         <Modal.Header className="relative mb-2 flex items-center justify-between">
           <div className="text-xl font-semibold font-gilroy">
             {edit ? "Edit General" : "Add General"}
@@ -1936,7 +1934,6 @@ function SettingGeneral() {
         </Modal.Header>
 
         <div className="font-gilroy flex items-center ml-2.5">
-
           <div className="h-20 w-20 relative">
             <Image
               src={
@@ -1950,12 +1947,11 @@ function SettingGeneral() {
               className="h-20 w-20 object-cover"
             />
 
-            <label htmlFor="imageInput" className="absolute bottom-0 right-1 cursor-pointer">
-              <Image
-                src={Plus}
-                roundedCircle
-                className="h-5 w-5"
-              />
+            <label
+              htmlFor="imageInput"
+              className="absolute bottom-0 right-1 cursor-pointer"
+            >
+              <Image src={Plus} roundedCircle className="h-5 w-5" />
 
               <input
                 type="file"
@@ -1982,8 +1978,8 @@ function SettingGeneral() {
             </div>
           </div>
         </div>
- 
-      <Modal.Body className="font-gilroy show-scroll mt-0 mr-3 max-h-80 md:!max-h-[50vh] overflow-y-auto">
+
+        <Modal.Body className="font-gilroy show-scroll mt-0 mr-3 max-h-80 md:!max-h-[50vh] overflow-y-auto">
           <div className="grid grid-cols-12 gap-x-4">
             <div className="col-span-12 md:col-span-6">
               <Form.Group>
@@ -2018,7 +2014,6 @@ function SettingGeneral() {
                   className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
                 />
               </Form.Group>
-
             </div>
 
             <div className="col-span-12 md:col-span-6 mb-0">
@@ -2050,9 +2045,14 @@ function SettingGeneral() {
               </Form.Group>
 
               {phoneError && <ErrorMessage message={phoneError} type="error" />}
-              {phoneErrorMessage && <ErrorMessage message={phoneErrorMessage} type="error" />}
+              {phoneErrorMessage && (
+                <ErrorMessage message={phoneErrorMessage} type="error" />
+              )}
               {state.Settings?.generalMobileError && (
-                <ErrorMessage message={state.Settings?.generalMobileError} type="error" />
+                <ErrorMessage
+                  message={state.Settings?.generalMobileError}
+                  type="error"
+                />
               )}
             </div>
 
@@ -2076,10 +2076,16 @@ function SettingGeneral() {
 
               {emailError && <ErrorMessage message={emailError} type="error" />}
               {state.Settings?.generalEmailError && (
-                <ErrorMessage message={state.Settings?.generalEmailError} type="error" />
+                <ErrorMessage
+                  message={state.Settings?.generalEmailError}
+                  type="error"
+                />
               )}
               {emailErrorMessage && (
-                <ErrorMessage message={state.Settings?.generalEmailError} type="error" />
+                <ErrorMessage
+                  message={state.Settings?.generalEmailError}
+                  type="error"
+                />
               )}
             </div>
 
@@ -2099,7 +2105,6 @@ function SettingGeneral() {
                       value={password}
                       onChange={(e) => handlePassword(e)}
                       className="h-12 w-full rounded-lg border border-gray-300 pl-3 pr-10 text-base text-gray-600 font-gilroy font-medium shadow-none focus:outline-none focus:ring-0"
-
                     />
                     <InputGroup.Text
                       onClick={() => setShowPassword(!showPassword)}
@@ -2231,9 +2236,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
 
-              {cityError && (
-                <ErrorMessage message={cityError} type="error" />
-              )}
+              {cityError && <ErrorMessage message={cityError} type="error" />}
             </div>
 
             <div className="col-span-12">
@@ -2313,7 +2316,6 @@ function SettingGeneral() {
                 <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
-
           </div>
           {formError && (
             <div className="flex justify-center mt-1">
@@ -2328,10 +2330,9 @@ function SettingGeneral() {
           </div>
         )}
 
-
         <Modal.Footer className="flex justify-center border-0">
-
-          <Button disabled={formLoading}
+          <Button
+            disabled={formLoading}
             className="!w-full !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"
             onClick={handleSave}
           >
@@ -2339,16 +2340,7 @@ function SettingGeneral() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
     </>
   );
 }
 export default withErrorBoundary(SettingGeneral);
-
-
-
-
-
-
-
