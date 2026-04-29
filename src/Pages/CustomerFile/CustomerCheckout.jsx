@@ -64,17 +64,25 @@ function CustomerCheckout(props) {
   //   }
   // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
+  console.log("props.bedData", props.bedData?.joiningDate);
+
   useEffect(() => {
     if (
       props.bedData.actualJoining ||
+      props.bedData?.joiningDate ||
       props.bedData.currentTenantInfo?.[0].joiningDate
     ) {
       setJoiningDate(
         props.bedData.actualJoining ||
-          props.bedData.currentTenantInfo?.[0].joiningDate,
+          props.bedData.currentTenantInfo?.[0].joiningDate ||
+          props.bedData?.joiningDate,
       );
     }
-  }, [props.bedData.actualJoining, props.bedData.currentTenantInfo]);
+  }, [
+    props.bedData.actualJoining,
+    props.bedData.currentTenantInfo,
+    props.bedData?.joiningDate,
+  ]);
 
   const handleCloseCheckout = () => {
     dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
@@ -390,7 +398,12 @@ function CustomerCheckout(props) {
                     } focus:outline-none`}
                   />
                 </div>
-
+                {state.UsersList.errorMessageAddCheckOut && (
+                  <ErrorMessage
+                    message={state.UsersList.errorMessageAddCheckOut}
+                    type="error"
+                  />
+                )}
                 <div className="flex justify-end gap-3 mt-3">
                   <button
                     onClick={handleCloseCheckout}
@@ -406,13 +419,6 @@ function CustomerCheckout(props) {
                     Save Changes
                   </button>
                 </div>
-
-                {state.UsersList.errorMessageAddCheckOut && (
-                  <ErrorMessage
-                    message={state.UsersList.errorMessageAddCheckOut}
-                    type="error"
-                  />
-                )}
               </div>
             </Modal.Body>
           </Modal.Dialog>

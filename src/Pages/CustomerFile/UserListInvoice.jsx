@@ -582,7 +582,7 @@ function UserListInvoice(props) {
 
                                         {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
                                         {view?.totalAmount < 0 &&
-                                          view?.paymentStatus !== "Refund" &&
+                                          view?.paymentStatus !== "Refunded" &&
                                           view?.paymentStatus !==
                                             "Cancelled" && (
                                             <button

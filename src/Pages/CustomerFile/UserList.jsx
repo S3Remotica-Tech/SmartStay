@@ -573,6 +573,7 @@ function UserList(props) {
   }, [isReading]);
 
   useEffect(() => {
+    setPage(1);
     setUniqostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
@@ -2021,7 +2022,7 @@ function UserList(props) {
     })) || [];
 
   const [selectedMonth, setSelectedMonth] = useState();
-  
+
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
 

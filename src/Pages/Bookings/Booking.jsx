@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import { CloseCircle, Filter, SearchNormal1, Setting3 } from "iconsax-react";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -20,6 +19,21 @@ import ApplyBookingModal from "./ApplyInvoices";
 import ComingSoon from "../../Utils/ComingSoon";
 import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
+import { IoMdMenu } from "react-icons/io";
+import {
+  Filter,
+  Export,
+  ArrowLeft,
+  ArrowUp2,
+  ArrowSwapVertical,
+  Setting3,
+  SearchNormal1,
+  Buildings,
+  ArrowDown2,
+  ArrowDown,
+  CloseCircle,
+} from "iconsax-react";
+import ApiPagination from "../../Components/ApiPagination";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -39,6 +53,13 @@ function Booking() {
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
+  const tableContainerRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const lastScrollLeftRef = useRef(0);
+  const listRef = useRef(null);
+  const tableRef = useRef(null);
   const {
     // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
@@ -63,7 +84,36 @@ function Booking() {
   //   }, [canReadBooking]);
 
   const sortedData = [];
+  useEffect(() => {
+    const container = tableContainerRef.current;
+    if (!container) return;
 
+    const handleScroll = () => {
+      const current = container.scrollLeft;
+      if (current === 0) {
+        setIsScrolling(false);
+        lastScrollLeftRef.current = current;
+        return;
+      }
+
+      if (Math.abs(current - lastScrollLeftRef.current) < 2) {
+        return;
+      }
+      if (current > lastScrollLeftRef.current) {
+        setIsScrolling(true);
+      } else {
+        setIsScrolling(true);
+      }
+
+      lastScrollLeftRef.current = current;
+    };
+
+    container.addEventListener("scroll", handleScroll);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   useEffect(() => {
     setShowBookingPdf(false);
   }, []);
@@ -200,7 +250,9 @@ function Booking() {
   };
 
   useEffect(() => {
-    const cols = state?.UsersList?.Users?.columnList || [];
+    const cols =
+      // state?.UsersList?.Users?.columnList ||
+      [];
 
     const formatted = cols.map((col) => ({
       ...col,
@@ -321,9 +373,87 @@ function Booking() {
     }
   };
 
+  const SortableItem = ({ item }) => {
+    const { attributes, listeners, setNodeRef, transform, transition } =
+      useSortable({ id: item.key });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+    };
+
+    return (
+      <label
+        ref={setNodeRef}
+        style={style}
+        className="flex items-center gap-3 text-sm cursor-pointer bg-white"
+      >
+        <span
+          {...attributes}
+          {...listeners}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
+        </span>
+
+        <input
+          type="checkbox"
+          checked={item.selected}
+          className="w-4 h-4 accent-[#1E45E1] rounded"
+          onChange={() => {
+            setCustomizeItems((prev = []) =>
+              prev.map((i) =>
+                i.key === item.key ? { ...i, selected: !i.selected } : i,
+              ),
+            );
+          }}
+        />
+
+        <span className="text-[#101828] text-base">{item.fieldName}</span>
+      </label>
+    );
+  };
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+  const currentPage = state?.UsersList?.Users?.currentPage ?? 1;
+
+  const totalPages = state?.UsersList?.Users?.totalPages ?? 1;
+
+  const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [state.reports?.tenantFilters]);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
   return (
     // <div className="h-screen overflow-hidden flex flex-col bg-white relative font-gilroy">
-    <div className=" bg-white font-gilroy ">
+    <div className=" bg-white font-gilroy  mr-2 ">
       <div className="">
         <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
           <label className="text-lg text-black font-semibold font-gilroy">
@@ -338,7 +468,7 @@ function Booking() {
                   placeholder="Search"
                   value={filterInput}
                   onChange={handlefilterInput}
-                  disabled={canReadBooking}
+                  disabled={isComingSoon}
                   className="flex-1 h-full px-2 text-sm font-gilroy
                      outline-none border-none focus:ring-0"
                 />
@@ -368,10 +498,11 @@ function Booking() {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
+        <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
           <div className="flex flex-wrap items-center gap-3">
             <div className="w-[150px]">
               <Select
+                menuPlacement="auto"
                 isDisabled={isComingSoon}
                 options={selectOptions}
                 styles={CustomStyles}
@@ -384,13 +515,13 @@ function Booking() {
             </div>
 
             <Select
+              menuPlacement="auto"
               isDisabled={isComingSoon}
               options={monthOptions}
               value={selectedMonth}
               onChange={handleMonthChange}
               styles={CustomStyles}
               classNamePrefix="custom"
-              menuPlacement="auto"
               noOptionsMessage={() => "No options"}
             />
 
@@ -402,15 +533,27 @@ function Booking() {
             >
               <Filter size={18} />
             </button>
+          </div>
 
-            <div>
-              <Setting3
-                onClick={() => setOpen(!open)}
-                className="cursor-pointer"
-                size="22"
-                color="#4B4B4B"
-              />
-            </div>
+          <div className="flex  items-center gap-3">
+            <Setting3
+              onClick={() => setOpen(!open)}
+              className="cursor-pointer"
+              size="22"
+              color="#4B4B4B"
+            />
+
+            {/* {formattedData?.length > 0 && ( */}
+            <ApiPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              onPageChange={handlePageChange}
+              onSizeChange={handleSizeChange}
+              isTenantPagination={true}
+              size={size}
+            />
+            {/* )} */}
           </div>
         </div>
       </div>
@@ -431,9 +574,13 @@ function Booking() {
                 <ComingSoon />
               ) : (
                 <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
-                  <div className="overflow-auto h-[calc(100vh-140px)] rounded-xl">
-                    <table className="w-full table-fixed font-gilroy">
-                      <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs uppercase">
+                  <div
+                    id="tableContainer"
+                    ref={tableContainerRef}
+                    className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                  >
+                    <table className="w-full  font-gilroy">
+                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                         <tr className="h-9">
                           <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
                             <input
@@ -450,6 +597,9 @@ function Booking() {
                           <th className=" px-2">Booking date</th>
                           <th className=" px-2">Tenant NamE</th>
                           <th className=" px-2">Mobile No</th>
+                          <th className=" px-2">Floor</th>
+                          <th className=" px-2">Room</th>
+                          <th className=" px-2">Bed</th>
                           <th className=" px-2">Amount</th>
                           <th className="px-2">Status</th>
                           <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB]">
@@ -483,6 +633,15 @@ function Booking() {
                             </td>
                             <td className="w-[230px] px-2 py-2.5">
                               {item.invoiceDate}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.dueDate}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.dueDate}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.dueDate}
                             </td>
                             <td className="w-[230px] px-2 py-2.5">
                               {item.dueDate}
