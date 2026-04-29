@@ -573,6 +573,7 @@ function UserList(props) {
   }, [isReading]);
 
   useEffect(() => {
+    setPage(1);
     setUniqostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
@@ -2021,6 +2022,7 @@ function UserList(props) {
     })) || [];
 
   const [selectedMonth, setSelectedMonth] = useState();
+
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
 
@@ -2063,7 +2065,7 @@ function UserList(props) {
     });
   }, [debouncedInput, statusfilter, page, size, selectedMonth]);
 
-  console.log("statusfilter", statusfilter);
+  // console.log("statusfilter", statusfilter);
 
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =

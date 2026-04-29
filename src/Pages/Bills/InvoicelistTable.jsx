@@ -92,6 +92,7 @@ const InvoiceTable = (props) => {
     setWriteOffForm(false);
   };
   const handleRefundAmount = (details) => {
+    setShowDots(false);
     setRefundDetails(details.item);
     setPayableForm(true);
   };

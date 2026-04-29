@@ -16,10 +16,9 @@ function ApiPagination({
 }) {
   const sizeOptions = [10, 20, 50, 100];
   const [pageSize, setPageSize] = useState(sizeOptions[0]);
+  const [open, setOpen] = useState(false);
 
   const handleChangePage = (page) => {
-    console.log("pageeeeee", page);
-
     const p = Math.max(1, Math.min(page, totalPages));
     if (isTenantPagination) {
       onPageChange(p);
@@ -74,35 +73,98 @@ function ApiPagination({
   return (
     <>
       <div className="font-gilroy">
-        <div className="flex items-stretch border border-[#E5E7EB] rounded-md overflow-hidden">
-          <div className="bg-[#ebeef9] flex items-center px-3">
-            <select
-              value={size}
-              onChange={(e) => {
-                const newSize = Number(e.target.value);
-                onSizeChange?.(newSize);
-                onPageChange?.(1);
-              }}
-              className="bg-transparent outline-none text-sm cursor-pointer h-full"
-            >
-              {sizeOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt} / page
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="flex items-stretch border border-[#E5E7EB] rounded-md ">
+          {/* <div className="bg-[#ebeef9] flex items-center px-3">
+              <select
+                value={size}
+                onChange={(e) => {
+                  const newSize = Number(e.target.value);
+                  onSizeChange?.(newSize);
+                  onPageChange?.(1);
+                }}
+                className="bg-transparent outline-none text-sm cursor-pointer h-full"
+              >
+                {sizeOptions.map((opt) => (
+                  <option
+                    key={opt}
+                    value={opt}
+                    style={{ border: "4px solid #222222" }}
+                  >
+                    {opt} / page
+                  </option>
+                ))}
+              </select>
+            </div> */}
+
+          <Select
+            menuPlacement="auto"
+            menuPosition="absolute"
+            value={sizeOptions
+              .map((opt) => ({ value: opt, label: `${opt} / page` }))
+              .find((o) => o.value === size)}
+            onChange={(selected) => {
+              const newSize = selected.value;
+              onSizeChange?.(newSize);
+              onPageChange?.(1);
+            }}
+            options={sizeOptions.map((opt) => ({
+              value: opt,
+              label: `${opt} / page`,
+            }))}
+            isSearchable={false}
+            className="w-full text-sm"
+            styles={{
+              control: (base) => ({
+                ...base,
+                backgroundColor: "#ebeef9",
+                border: "none",
+                boxShadow: "none",
+                minHeight: "100%",
+                cursor: "pointer",
+                paddingLeft: "20px",
+              }),
+              valueContainer: (base) => ({
+                ...base,
+                padding: "0px",
+              }),
+              dropdownIndicator: (base) => ({
+                ...base,
+                padding: "4px",
+              }),
+              indicatorSeparator: () => ({
+                display: "none",
+              }),
+              menu: (base) => ({
+                ...base,
+                left: 0,
+                // width: "150px",
+                marginTop: 4,
+                zIndex: 9999,
+              }),
+              option: (base, state) => ({
+                ...base,
+                fontSize: "14px",
+                backgroundColor: state.isSelected
+                  ? "#E0E7FF"
+                  : state.isFocused
+                    ? "#F3F4F6"
+                    : "#fff",
+                color: "#111827",
+                cursor: "pointer",
+              }),
+            }}
+          />
 
           <div className="flex items-center px-2 py-0.5">
             <button
               onClick={() => handleChangePage(uiPage - 1)}
               disabled={uiPage === 1}
               className={`w-7 h-7 flex items-center justify-center rounded-full
-              ${
-                currentPage === 1
-                  ? "cursor-not-allowed opacity-50"
-                  : "hover:bg-blue-100"
-              }`}
+                ${
+                  currentPage === 1
+                    ? "cursor-not-allowed opacity-50"
+                    : "hover:bg-blue-100"
+                }`}
             >
               <ArrowLeft2 size="16" color="#1E45E1" />
             </button>
@@ -117,11 +179,11 @@ function ApiPagination({
               onClick={() => handleChangePage(uiPage + 1)}
               disabled={uiPage === totalPages || totalPages === 0}
               className={`w-7 h-7 flex items-center justify-center rounded-full
-              ${
-                currentPage === totalPages || totalPages === 0
-                  ? "cursor-not-allowed opacity-50"
-                  : "hover:bg-blue-100"
-              }`}
+                ${
+                  currentPage === totalPages || totalPages === 0
+                    ? "cursor-not-allowed opacity-50"
+                    : "hover:bg-blue-100"
+                }`}
             >
               <ArrowRight2 size="16" color="#1E45E1" />
             </button>

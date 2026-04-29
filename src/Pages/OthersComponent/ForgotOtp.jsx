@@ -54,7 +54,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
     if (otpValue) {
       dispatch({
         type: "OTPVERIFYFORGOTPASSWORD",
-        payload: { userId: state.NewPass?.userId, OTP: otpValue },
+        payload: { userId: state.NewPass?.userId, otp: otpValue },
       });
       setLoading(true);
       if (inputRefs) {

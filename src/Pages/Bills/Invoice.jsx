@@ -269,6 +269,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
+      setPage(1);
     }
   }, [state.login.selectedHostel_Id]);
 
