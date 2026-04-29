@@ -1063,11 +1063,11 @@ function CreateBill() {
               {newRows.map((u, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-10 items-center border-t"
+                  className="grid grid-cols-10 items-center border-t gap-2"
                 >
                   <div className="col-span-1 text-center py-2">{index + 1}</div>
 
-                  <div className="col-span-5 px-2 my-2">
+                  <div className="col-span-5 my-2 ">
                     <input
                       type="text"
                       disabled={u.isFromApi}
@@ -1081,7 +1081,7 @@ function CreateBill() {
                     />
                   </div>
 
-                  <div className="col-span-3 px-2">
+                  <div className="col-span-3 ">
                     <input
                       type="text"
                       // onKeyDown={(e) => {
@@ -1103,7 +1103,7 @@ function CreateBill() {
                     />
                   </div>
 
-                  <div className="col-span-1 flex justify-center">
+                  <div className="col-span-1 flex justify-start">
                     <CloseCircle
                       onClick={() => !u.isFromApi && handleDeleteNewRow(index)}
                       size="24"
@@ -1125,38 +1125,13 @@ function CreateBill() {
                 Total Amount :
                 <span className="font-semibold text-black  ">
                   {" "}
-                  ₹{totalAmount}
+                 ₹{Number(totalAmount || 0).toFixed(2)}
                 </span>
               </h5>
             </div>
           </div>
         </>
       )}
-
-      <div>
-        {allfielderrmsg.trim() !== "" && (
-          <ErrorMessage message={allfielderrmsg} type="error" />
-        )}
-
-        {tableErrmsg.trim() !== "" && (
-          <ErrorMessage message={tableErrmsg} type="error" />
-        )}
-        {state.InvoiceList.unableAddInvoiceDetailsError && (
-          <ErrorMessage
-            message={state.InvoiceList.unableAddInvoiceDetailsError}
-            type="error"
-          />
-        )}
-
-        {state.InvoiceList.recurringEditError && (
-          <div className="flex justify-center my-1">
-            <ErrorMessage
-              message={state.InvoiceList.recurringEditError}
-              type="error"
-            />
-          </div>
-        )}
-      </div>
 
       {formLoading && (
         <div className="absolute top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
@@ -1177,7 +1152,30 @@ function CreateBill() {
           </button>
         </div>
       </div>
+      <div>
+        {tableErrmsg.trim() !== "" && (
+          <ErrorMessage message={tableErrmsg} type="error" />
+        )}
+        {allfielderrmsg.trim() !== "" && (
+          <ErrorMessage message={allfielderrmsg} type="error" />
+        )}
 
+        {state.InvoiceList.unableAddInvoiceDetailsError && (
+          <ErrorMessage
+            message={state.InvoiceList.unableAddInvoiceDetailsError}
+            type="error"
+          />
+        )}
+
+        {state.InvoiceList.recurringEditError && (
+          <div className="flex justify-center my-1">
+            <ErrorMessage
+              message={state.InvoiceList.recurringEditError}
+              type="error"
+            />
+          </div>
+        )}
+      </div>
       <div className="mb-3"></div>
     </div>
   );
