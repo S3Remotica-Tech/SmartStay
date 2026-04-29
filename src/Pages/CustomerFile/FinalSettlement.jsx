@@ -1638,7 +1638,7 @@ function FinalSettlement() {
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Total Deductions</p>
                       <p className="text-sm font-medium text-red-600">
-                        - ₹ {totalDeductions}
+                         ₹ {totalDeductions}
                       </p>
                     </div>
 

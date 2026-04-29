@@ -228,7 +228,10 @@ function EditRentalAmount({ show, handleClose }) {
       const start = today.startOf("month");
       const end = today.add(2, "month").endOf("month");
 
-      return current.isBefore(start, "day") || current.isAfter(end, "day");
+      return (
+        current.startOf("month").isBefore(start, "month") ||
+        current.startOf("month").isAfter(end, "month")
+      );
     }
 
     let cycleMonth = today.month();
@@ -240,13 +243,15 @@ function EditRentalAmount({ show, handleClose }) {
       cycleYear = nextMonth.year();
     }
 
-    const start = dayjs().year(cycleYear).month(cycleMonth).date(billStartDate);
+    const start = dayjs().year(cycleYear).month(cycleMonth).startOf("month");
 
-    const end = start.add(2, "month");
+    const end = start.add(2, "month").endOf("month");
 
-    return current.isBefore(start, "day") || current.isAfter(end, "day");
+    return (
+      current.startOf("month").isBefore(start, "month") ||
+      current.startOf("month").isAfter(end, "month")
+    );
   };
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
