@@ -84,7 +84,7 @@ function Banking() {
   // const canUpdateBanking = useHasPermission("Banking", "canUpdate");
   // const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
-  console.log("transactionFilterddata", transactionFilterddata)
+  // console.log("transactionFilterddata", transactionFilterddata)
   useEffect(() => {
     if (!canReadBanking) {
       setLoader(false);
@@ -144,7 +144,7 @@ function Banking() {
     }
   }, [hostel_id]);
 
-  console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
+  // console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
 
   useEffect(() => {
     setLoader(false);

@@ -54,7 +54,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
       type: "CUSTOMERDETAILS",
       payload: { customerId: customerId },
     });
-    console.log("executeddddddddddd");
+    // console.log("executeddddddddddd");
     dispatch({
       type: "INITIALIZECANCELCHECKOUT",
       payload: {
@@ -64,7 +64,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     });
   }, [customerId]);
 
-  console.log("customerId", customerId);
+  // console.log("customerId", customerId);
 
   const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
 
@@ -112,7 +112,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     }
   };
 
-  console.log("checkInDetails", checkInDetails);
+  // console.log("checkInDetails", checkInDetails);
 
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {

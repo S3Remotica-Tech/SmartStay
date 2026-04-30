@@ -170,7 +170,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     dispatch({ type: "CLEAR_PAYABLE_AMOUNT" });
   };
 
-  console.log("invoiceList", invoiceList);
+  // console.log("invoiceList", invoiceList);
   useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("");

@@ -198,7 +198,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     return null;
   };
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <div>

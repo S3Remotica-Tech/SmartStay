@@ -234,7 +234,7 @@ function BankingAddForm(props) {
   };
 
 
-  console.log("props.editAddBank", props.editAddBank)
+  // console.log("props.editAddBank", props.editAddBank)
 
   useEffect(() => {
     if (props.editAddBank && props.editAddBank.bankingId) {
@@ -616,8 +616,8 @@ function BankingAddForm(props) {
       return;
     }
 
-    console.log("accountName", accountName, "description", description)
-    console.log("initialStateAssign", initialStateAssign)
+    // console.log("accountName", accountName, "description", description)
+    // console.log("initialStateAssign", initialStateAssign)
     if (props.edit) {
       const isChanged =
         accountName !== initialStateAssign.accountName ||

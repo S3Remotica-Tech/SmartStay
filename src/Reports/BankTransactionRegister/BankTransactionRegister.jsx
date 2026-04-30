@@ -30,7 +30,6 @@ function BankTransactionRegister() {
   const [register, setRegister] = useState(false)
   const [open, setOpen] = useState(false);
 
-console.log("invoiceFilter",invoiceFilter)
 
 
   useEffect(() => {

@@ -99,7 +99,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
 
   const handleDownload = (rowData) => {
-    console.log("rowData", rowData)
+    // console.log("rowData", rowData)
     if (rowData) {
       dispatch({
         type: "INVOICEPDF",

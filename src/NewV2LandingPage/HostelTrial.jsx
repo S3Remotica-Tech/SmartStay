@@ -11,7 +11,7 @@ function HostelTrial() {
     let navigate = useNavigate();
 
     const handleNavigateDemo = () => {
-        console.log("calledddd")
+        // console.log("calledddd")
         navigate("/demo");
     };
 

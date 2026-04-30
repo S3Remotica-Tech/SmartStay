@@ -165,7 +165,7 @@ function UserList(props) {
   const location = useLocation();
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-
+  // console.log("pageeeeeeeeeeeeeee", page);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [isScrolling, setIsScrolling] = useState(false);
   const startIndex = (page - 1) * pageSize;
@@ -199,6 +199,12 @@ function UserList(props) {
 
   const isTenantForm = location.state?.isTenantForm || false;
   const isCheckoutWay = location.state?.isCheckoutWay || false;
+
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      setPage(1);
+    }
+  }, [value, state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (isTenantForm) {
@@ -573,28 +579,25 @@ function UserList(props) {
   }, [isReading]);
 
   useEffect(() => {
-    setPage(1);
     setUniqostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
   const [userListDetail, setUserListDetail] = useState([]);
 
+  // useEffect(() => {
+  //   if (state.UsersList?.Users) {
+  //     setLoading(false);
+  //   }
+  // }, [state.UsersList?.Users]);
+
   useEffect(() => {
     if (state.UsersList?.Users) {
       setLoading(false);
+      setIsFilterOpen(false);
+      setUserListDetail(state.UsersList?.Users);
+      dispatch({ type: "REMOVE_STATUS_CODE_USER" });
     }
   }, [state.UsersList?.Users]);
-
-  useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
-      setLoading(false);
-      setIsFilterOpen(false);
-      setUserListDetail(state.UsersList.Users);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 100);
-    }
-  }, [state.UsersList?.UserListStatusCode]);
 
   // console.log("state.UsersList.Users", state.UsersList.Users);
 
@@ -2002,6 +2005,9 @@ function UserList(props) {
 
     return obj;
   });
+
+  // console.log("formattedData", formattedData);
+  // console.log("userListDetail", userListDetail);
 
   const filterOptionsData = useSelector(
     (state) => state.UsersList?.Users?.filterOptions,

@@ -14,7 +14,6 @@ function PremiumPlan() {
   const currentPlan = state?.Settings?.currentPlanDetails;
 
   const handleNavigatePlan = (tabName) => {
-    console.log("tabName", tabName);
     const hostelId = state.login?.selectedHostel_Id;
     if (hostelId) {
       navigate(`/settings/${hostelId}/${tabName}`);

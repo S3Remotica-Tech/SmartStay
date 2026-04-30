@@ -418,8 +418,7 @@ function ReceiptRegister() {
 
     const receiptFilters = state.reports?.receiptRegisterFilters;
 
-    console.log("invoiceFilters", receiptFilters);
-
+ 
     const filters = {
       startDate: startDate,
       endDate: endDate,

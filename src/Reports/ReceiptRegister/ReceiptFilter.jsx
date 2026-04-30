@@ -291,7 +291,6 @@ function ReceiptFilter({ show, handleClose, size,  startDate, endDate }) {
             payload: ReceiptFilter
         });
 
-        console.log("ReceiptFilter", ReceiptFilter)
 
         const hasFilters = Object.values(ReceiptFilter).some(
             v => v !== undefined && v !== "" && v !== 0

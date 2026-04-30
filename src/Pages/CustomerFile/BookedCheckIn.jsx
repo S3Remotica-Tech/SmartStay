@@ -246,7 +246,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     }
   };
 
-  console.log("bookingDetails", bookingDetails);
+  // console.log("bookingDetails", bookingDetails);
 
   useEffect(() => {
     if (bookingDetails?.apiCall?.customerId) {

@@ -34,6 +34,7 @@ import {
   CloseCircle,
 } from "iconsax-react";
 import ApiPagination from "../../Components/ApiPagination";
+import BookingsFilter from "./BookingsFilter";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -42,7 +43,7 @@ function Booking() {
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [search, setSearch] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
-  // const [showBillsFilter, setShowBillsFilter] = useSta te(false);
+  const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
@@ -311,13 +312,13 @@ function Booking() {
   };
 
   const handleShowFilterBills = () => {
-    // setShowBillsFilter(true)
+    setShowBillsFilter(true)
   };
 
-  // const handleCloseFilterBills = () => {
-  //     // setShowBillsFilter(false)
+  const handleCloseFilterBills = () => {
+      setShowBillsFilter(false)
 
-  // }
+  }
 
   const handleApplyInvoices = () => {
     setApplyInvoice(true);
@@ -452,8 +453,7 @@ function Booking() {
     setSize(sizeValue);
   };
   return (
-    // <div className="h-screen overflow-hidden flex flex-col bg-white relative font-gilroy">
-    <div className=" bg-white font-gilroy  mr-2 ">
+     <div className=" bg-white font-gilroy  mr-2 ">
       <div className="">
         <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
           <label className="text-lg text-black font-semibold font-gilroy">
@@ -820,6 +820,10 @@ function Booking() {
           handleClose={handleCloseApplyInvoices}
         />
       )}
+
+      {
+        showBillsFilter && <BookingsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
+      }
     </div>
   );
 }

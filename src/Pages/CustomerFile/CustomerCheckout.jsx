@@ -64,24 +64,27 @@ function CustomerCheckout(props) {
   //   }
   // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
-  console.log("props.bedData", props.bedData?.joiningDate);
+  // console.log("props.bedData", props.bedData?.joiningDate);
 
   useEffect(() => {
     if (
       props.bedData.actualJoining ||
       props.bedData?.joiningDate ||
-      props.bedData.currentTenantInfo?.[0].joiningDate
+      props.bedData.currentTenantInfo?.[0].joiningDate ||
+      props.bedData?.hostelInfo?.joiningDate
     ) {
       setJoiningDate(
         props.bedData.actualJoining ||
           props.bedData.currentTenantInfo?.[0].joiningDate ||
-          props.bedData?.joiningDate,
+          props.bedData?.joiningDate ||
+          props.bedData?.hostelInfo?.joiningDate,
       );
     }
   }, [
     props.bedData.actualJoining,
     props.bedData.currentTenantInfo,
     props.bedData?.joiningDate,
+    props.bedData?.hostelInfo?.joiningDate,
   ]);
 
   const handleCloseCheckout = () => {
@@ -183,7 +186,7 @@ function CustomerCheckout(props) {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
-  console.log("props.bedData", props.bedData);
+  // console.log("props.bedData", props.bedData);
 
   const tenant = props.bedData?.currentTenantInfo?.[0] || props.bedData;
 

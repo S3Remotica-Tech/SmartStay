@@ -48,7 +48,7 @@ function UserListInvoice(props) {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-  console.log("invoiceFilterddata", invoiceFilterddata);
+  // console.log("invoiceFilterddata", invoiceFilterddata);
 
   const handleShowDots = (item, event) => {
     if (activeId === item.invoiceId) {
@@ -92,7 +92,7 @@ function UserListInvoice(props) {
   const isExportAllow = isValidSubscription && canReadInvoice;
 
   const handleInvoicepdf = (rowData) => {
-    console.log("rowData", rowData);
+    // console.log("rowData", rowData);
     if (rowData.invoiceId) {
       dispatch({
         type: "INVOICEPDF",
@@ -116,7 +116,7 @@ function UserListInvoice(props) {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const handleRecordPayment = (item) => {
-    console.log("item *******", item);
+    // console.log("item *******", item);
     setShowform(true);
     setSelectedUserId(CustomerOverView?.customerId);
     setInvoiceList({

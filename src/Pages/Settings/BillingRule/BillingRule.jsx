@@ -36,7 +36,7 @@ function BillingRule() {
 
   };
 
-  console.log("recurringBills", recurringBills)
+
 
   // const handleCloseLongStay = () => {
   //   dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
