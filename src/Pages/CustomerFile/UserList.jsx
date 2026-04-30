@@ -86,6 +86,7 @@ import { TiTick } from "react-icons/ti";
 // import zIndex from "@mui/material/styles/zIndex";
 import TenantListFilter from "./TenantListFilter";
 import ApiPagination from "../../Components/ApiPagination";
+import AddTenant from "../PayingGuestFile/AddTenant";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -3392,7 +3393,8 @@ function UserList(props) {
       ) : null}
 
       {showMenu && (
-        <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
+        // <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
+        <AddTenant showMenu={showMenu} handleClose={handleCloseAddCustomer} />
       )}
 
       {BookingAssignForm && (
