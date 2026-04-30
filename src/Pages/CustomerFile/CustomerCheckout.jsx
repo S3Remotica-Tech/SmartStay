@@ -70,18 +70,21 @@ function CustomerCheckout(props) {
     if (
       props.bedData.actualJoining ||
       props.bedData?.joiningDate ||
-      props.bedData.currentTenantInfo?.[0].joiningDate
+      props.bedData.currentTenantInfo?.[0].joiningDate ||
+      props.bedData?.hostelInfo?.joiningDate
     ) {
       setJoiningDate(
         props.bedData.actualJoining ||
           props.bedData.currentTenantInfo?.[0].joiningDate ||
-          props.bedData?.joiningDate,
+          props.bedData?.joiningDate ||
+          props.bedData?.hostelInfo?.joiningDate,
       );
     }
   }, [
     props.bedData.actualJoining,
     props.bedData.currentTenantInfo,
     props.bedData?.joiningDate,
+    props.bedData?.hostelInfo?.joiningDate,
   ]);
 
   const handleCloseCheckout = () => {
