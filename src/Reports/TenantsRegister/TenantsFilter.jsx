@@ -27,7 +27,6 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size,  }) {
     const savedFilters = state.reports?.tenantRegisterFilters;
 
 
-    console.log("selectedTenantStatusOptions", selectedTenantStatusOptions)
 
     useEffect(() => {
         if (show && savedFilters) {

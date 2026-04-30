@@ -109,7 +109,7 @@ function Receipt() {
     }, [state.createAccount?.networkError])
 
     const handleReceiptDetail = (item) => {
-        console.log("item", item)
+      
 
         if (item.transactionId) {
 

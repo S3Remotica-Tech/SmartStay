@@ -128,8 +128,7 @@ function* handleNotification(action) {
 function* handleFCM_Token(args) {
   try {
     const response = yield call(FCM_Token, args.payload);
-    // console.log("response",response)
-    if (response?.status === 200) {
+      if (response?.status === 200) {
       yield put({ type: 'FCM_TOKEN', payload: { response: response.data, statusCode: response?.status } });
 
     }

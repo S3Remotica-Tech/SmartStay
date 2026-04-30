@@ -20,7 +20,7 @@ function RequestedAmenities() {
     state.UsersList?.customerdetails?.assignedAmenities || [];
 
   const handleShowAssignAmenities = (item) => {
-    console.log("itemmmm", item);
+    // console.log("itemmmm", item);
   };
 
   return (

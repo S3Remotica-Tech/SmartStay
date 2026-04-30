@@ -107,8 +107,7 @@ export async function DeletecomplaintType(complaintId) {
 
 
 export async function AddEBBillingUnit({ hostelId, ebConfigs }) {
-  console.log("ebConfigs",ebConfigs)
-  return await AxiosConfigV2.put(
+   return await AxiosConfigV2.put(
     `/v2/hostel/electricity/config/${hostelId}`,
     null,
     {

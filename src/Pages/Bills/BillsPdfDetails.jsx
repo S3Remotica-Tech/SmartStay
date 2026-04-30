@@ -53,7 +53,7 @@ function BillsPdfDetails() {
     }
 
 
-    console.log("rowData Tenant Overview", rowData)
+    // console.log("rowData Tenant Overview", rowData)
 
 
 

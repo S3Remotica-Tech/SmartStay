@@ -37,7 +37,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }
   }, []);
 
-  console.log("refundDetails", refundDetails);
+  // console.log("refundDetails", refundDetails);
 
   const bankOptions =
     state.InvoiceList?.refundDetails?.listBanks?.map((bank) => ({

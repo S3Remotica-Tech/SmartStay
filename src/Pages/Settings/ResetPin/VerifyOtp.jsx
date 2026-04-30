@@ -22,7 +22,7 @@ const VerifyOtp = ({ show, handleClose, onConfirmSuccess }) => {
 
   const handleSubmit = () => {
     //  if (!password.trim()) return;
-    console.log("Executedddddd");
+   
     onConfirmSuccess(true);
   };
 

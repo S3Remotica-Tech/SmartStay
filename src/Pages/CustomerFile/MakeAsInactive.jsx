@@ -140,7 +140,7 @@ function MakeAsInactive({
     }
   }, [inActiveDetails]);
 
-  console.log("inActiveDetails", inActiveDetails);
+  // console.log("inActiveDetails", inActiveDetails);
 
   const profilePic = inActiveDetails?.profilePic;
 

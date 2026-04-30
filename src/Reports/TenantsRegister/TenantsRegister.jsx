@@ -363,7 +363,6 @@ function TenantsRegister() {
   useEffect(() => {
     if (state?.reports?.reportsTenantsPdfSuccess === 200) {
       const pdfUrl = state?.reports?.reportsTenantsPdf;
-      console.log("pdfUrl", pdfUrl);
       setLoading(false);
       if (pdfUrl) {
         window.open(pdfUrl, "_blank");

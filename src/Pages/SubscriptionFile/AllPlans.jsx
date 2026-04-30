@@ -48,7 +48,7 @@ function AllPlans() {
     }
   };
 
-  console.log("formLoading", formLoading);
+
 
   return (
     <div className="relative">

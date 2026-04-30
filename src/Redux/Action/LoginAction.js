@@ -192,8 +192,7 @@ export async function UpdateProfile(params) {
 // Owner Update password
 
 export async function UpdatePassword(datum) {
-  console.log("datum", datum)
-  return await AxiosConfigV2.post(`/v2/profile/reset-password`, datum);
+   return await AxiosConfigV2.post(`/v2/profile/reset-password`, datum);
 }
 
 
@@ -270,8 +269,7 @@ export async function FCM_Token(token) {
 
 
 export async function LogoutAdmin(logout) {
-  // console.log("logout",logout)
-    return await AxiosConfigV2.post('/v2/profile/logout',logout,{
+     return await AxiosConfigV2.post('/v2/profile/logout',logout,{
     data:logout
    
   })
@@ -279,7 +277,6 @@ export async function LogoutAdmin(logout) {
 
 
 export async function demoRequest(demo) {
-  // console.log("logout",logout)
     return await AxiosConfigV2.post('/v2/demo/request',demo,{
     data:demo
    

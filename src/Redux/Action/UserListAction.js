@@ -610,8 +610,7 @@ export async function customerReAssignBed(hostelId, customerId, datum) {
 }
 
 export async function customerAddContact(contact) {
-  console.log("contact", contact);
-
+  
   return await AxiosConfigV2.put(
     `/v2/customers/additional-contacts/${contact.hostelId}/${contact.customerId}`,
     contact,

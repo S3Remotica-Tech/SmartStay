@@ -472,7 +472,7 @@ function SettingManage() {
 
 
   const handleEditHostel = (hostelDetails) => {
-    console.log("hostelDetails", hostelDetails)
+   
     setShowAddPg(true);
     setEditHostelDetails(hostelDetails);
   };

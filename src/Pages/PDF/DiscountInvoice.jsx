@@ -9,7 +9,7 @@ import { Add } from "iconsax-react";
 
 function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
   const state = useSelector((state) => state);
-  console.log("EDIT DATA", editData);
+  // console.log("EDIT DATA", editData);
   const [discountInput, setDiscountInput] = useState("");
   const [discountInputError, setDiscountInputError] = useState("");
   const [reasonError, setReasonError] = useState("");
@@ -23,10 +23,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
-
-  console.log("discountAmount", discountAmount);
-  console.log("discountPercent", discountPercent);
-  console.log("discountInput", discountInput);
 
   const handleDiscountChange = (e) => {
     const value = e.target.value;
@@ -46,7 +42,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
     const numValue = parseFloat(value);
 
-    console.log("numValue", numValue);
+  
     setDiscountInput(numValue);
 
     if (baseAmount === 0) return;
@@ -97,7 +93,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
 
-  console.log("pdfDetails", pdfDetails);
 
   // const Amount =
   // pdfDetails?.invoiceInfo?.subTotal ||
@@ -122,7 +117,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     discountPercent < 1
       ? discountPercent.toFixed(2)
       : Math.round(discountPercent);
-  console.log("calculatedDiscount", calculatedDiscount);
+
 
   const reasonOptions = [
     { value: "loyalty", label: "Loyalty Discount" },

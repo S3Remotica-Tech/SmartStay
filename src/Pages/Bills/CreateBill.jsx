@@ -729,7 +729,7 @@ function CreateBill() {
     }
   };
 
-  console.log("newRows", newRows);
+  // console.log("newRows", newRows);
 
   useEffect(() => {
     if (

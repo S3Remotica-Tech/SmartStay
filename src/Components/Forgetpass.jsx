@@ -237,7 +237,7 @@ function ForgetPasswordPage() {
     }
   }, [state.NewPass.statusCodeForgotOtp]);
 
-  console.log("state", state.NewPass);
+  // console.log("state", state.NewPass);
 
   useEffect(() => {
     if (state.NewPass?.emailError) {

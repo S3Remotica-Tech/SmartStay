@@ -41,7 +41,7 @@ function CustomerReAssign(props) {
   const [availableBed, setAvailableBed] = useState("");
   // const [bedWarning, setBedWarning] = useState('')
 
-  console.log("props", props);
+  // console.log("props", props);
   const rentRef = useRef(null);
   const floorRef = useRef(null);
   const roomRef = useRef(null);
@@ -445,7 +445,7 @@ function CustomerReAssign(props) {
     }
   }, [props.reAssignDetail?.apiCall?.customerId]);
 
-  console.log("props", props);
+  // console.log("props", props);
 
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
@@ -537,7 +537,7 @@ function CustomerReAssign(props) {
   const tenant = state.UsersList?.customerdetails;
   const imageSrc = tenant?.profilePic;
 
-  console.log("tenant", tenant);
+  // console.log("tenant", tenant);
 
   return (
     <>

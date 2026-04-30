@@ -16,7 +16,7 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
 
   const handleSubmit = () => {
     //  if (!password.trim()) return;
-    console.log("Executedddddd");
+    
     onVerifySuccess(true);
   };
 

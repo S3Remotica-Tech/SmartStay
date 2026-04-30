@@ -145,7 +145,6 @@ function* handleEditInvoiceDiscount(action) {
 
 function* handleRefuseInvoiceDiscount(action) {
    try {
-      console.log("SAGA START → REFUSE_DISCOUNT action:", action.payload);
 
       const response = yield call(RefuseInvoiceDiscount, action.payload);
 
@@ -158,8 +157,7 @@ function* handleRefuseInvoiceDiscount(action) {
             }
          });
 
-         console.log("REDUX UPDATED → REFUSE_DISCOUNT_REDUCER");
-
+        
          var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -189,8 +187,7 @@ function* handleRefuseInvoiceDiscount(action) {
       }
 
    } catch (error) {
-      console.log("ERROR → REFUSE_DISCOUNT:", error);
-
+     
       yield* handleApiError(error);
 
       if (error?.status === 400 || error?.status === 403) {
@@ -199,8 +196,7 @@ function* handleRefuseInvoiceDiscount(action) {
             payload: error.response?.data
          });
 
-         console.log("REDUX ERROR → REFUSE_DISCOUNT_REDUCER_ERROR");
-      }
+               }
    }
 }
 

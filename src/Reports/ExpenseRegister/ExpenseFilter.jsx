@@ -290,8 +290,6 @@ function ExpenseFilter({ show, handleClose, size,  startDate, endDate }) {
             payload: expnseFilter
         });
 
-        console.log("expnseFilter", expnseFilter)
-
 
         const hasFilters = Object.values(expnseFilter).some(
             v => v !== undefined && v !== "" && v !== 0

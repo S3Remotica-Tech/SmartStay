@@ -222,7 +222,7 @@ function UserlistForm(props) {
     }
   };
 
-  console.log("props.EditObj", props.EditObj);
+  // console.log("props.EditObj", props.EditObj);
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {

@@ -76,7 +76,7 @@ function FinalSettlement() {
     setShowRoomReading(false);
   };
 
-  console.log("data", data);
+  // console.log("data", data);
 
   const customerId =
     data?.apiCall?.customerId || data?.customerId || data?.tenetId;
@@ -224,7 +224,7 @@ function FinalSettlement() {
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
-  console.log("data", data);
+  // console.log("data", data);
   useEffect(() => {
     if (state.UsersList.conformChekoutError) {
       setFormLoading(false);

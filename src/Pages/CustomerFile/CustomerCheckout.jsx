@@ -64,7 +64,7 @@ function CustomerCheckout(props) {
   //   }
   // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
-  console.log("props.bedData", props.bedData?.joiningDate);
+  // console.log("props.bedData", props.bedData?.joiningDate);
 
   useEffect(() => {
     if (
@@ -186,7 +186,7 @@ function CustomerCheckout(props) {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
-  console.log("props.bedData", props.bedData);
+  // console.log("props.bedData", props.bedData);
 
   const tenant = props.bedData?.currentTenantInfo?.[0] || props.bedData;
 
