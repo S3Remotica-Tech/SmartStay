@@ -27,15 +27,17 @@ import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
 import Store_Icon from "../../Assets/Images/store_icon.png";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import ErrorMessage from "../../Components/ErrorMessage";
+import AddTenantBookingCheckin from "./AddTenantBookingCheckin";
 
 function AddTenant({ showMenu, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
-  const [firstname, setFirstname] = useState("");
+  const [firstname, setFirstname] = useState("Mathu");
   const [lastname, setLastname] = useState("");
-  const [Phone, setPhone] = useState("");
+  const [Phone, setPhone] = useState("9965003581");
   const [step, setStep] = useState(1);
+  const [hovered, setHovered] = useState(null);
   const [Email, setEmail] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
@@ -1408,7 +1410,11 @@ function AddTenant({ showMenu, handleClose }) {
                         </h5>
 
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="relative group border border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50">
+                          <div
+                            onMouseEnter={() => setHovered("aadhaar")}
+                            onMouseLeave={() => setHovered(null)}
+                            className="relative   border border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50"
+                          >
                             {aadhaarFile && isImage(aadhaarFile) ? (
                               <img
                                 src={URL.createObjectURL(aadhaarFile)}
@@ -1440,21 +1446,21 @@ function AddTenant({ showMenu, handleClose }) {
                               />
                             </label>
 
-                            {aadhaarFile && (
+                            {aadhaarFile && hovered === "aadhaar" && (
                               <div
                                 onClick={handleDeleteAadhaar}
-                                className="absolute left-full ml-2 top-1/2 -translate-y-1/2
-    bg-white rounded-full p-1 shadow-md
-    opacity-0 invisible
-    group-hover:opacity-100 group-hover:visible
-    transition duration-200"
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md cursor-pointer"
                               >
                                 <Trash size="16" color="#EF4444" />
                               </div>
                             )}
                           </div>
 
-                          <div className="relative group border border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50">
+                          <div
+                            onMouseEnter={() => setHovered("pan")}
+                            onMouseLeave={() => setHovered(null)}
+                            className="relative group border border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50"
+                          >
                             {panFile && isImage(panFile) ? (
                               <img
                                 src={URL.createObjectURL(panFile)}
@@ -1484,14 +1490,10 @@ function AddTenant({ showMenu, handleClose }) {
                               />
                             </label>
 
-                            {panFile && (
+                            {panFile && hovered === "pan" && (
                               <div
                                 onClick={handleDeletePan}
-                                className="absolute left-full ml-2 top-1/2 -translate-y-1/2
-    bg-white rounded-full p-1 shadow-md
-    opacity-0 invisible
-    group-hover:opacity-100 group-hover:visible
-    transition duration-200"
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md cursor-pointer"
                               >
                                 <Trash size="16" color="#EF4444" />
                               </div>
@@ -1499,10 +1501,11 @@ function AddTenant({ showMenu, handleClose }) {
                           </div>
                         </div>
 
-                        <div className="mt-2 text-xs text-[#623C00] bg-yellow-50 p-2 rounded  flex items-center gap-1">
+                        <div className="mt-2 text-xs text-[#623C00] bg-yellow-50 p-2 rounded  flex items-center  gap-1">
                           <AiOutlineExclamationCircle
                             color="#795216"
                             size="16"
+                            className=" flex-shrink-0"
                           />
                           Identity documents are encrypted and stored securely.
                           Verification typically takes 2-4hours after
@@ -1691,7 +1694,7 @@ function AddTenant({ showMenu, handleClose }) {
                           </button>
                           <button
                             className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-                            // onClick={handleNext}
+                            onClick={() => setStep(3)}
                           >
                             Next
                           </button>
@@ -1699,6 +1702,8 @@ function AddTenant({ showMenu, handleClose }) {
                       </div>
                     </div>
                   )}
+
+                  {step === 3 && <AddTenantBookingCheckin />}
                 </div>
               </div>
             </div>
