@@ -2,33 +2,37 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
-import Whatsapp from '../../Assets/Images/whatsapp.png'
-import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'
-import Whatsapp_white from '../../Assets/Images/whatsapp_white.png'
-import Mail from '../../Assets/Images/gmail.png'
-import Mail_white from '../../Assets/Images/gmail_white.png'
-import Message_text from '../../Assets/Images/message-text.png'
-import Message_text_white from '../../Assets/Images/message-white.png'
+import Whatsapp from "../../Assets/Images/whatsapp.png";
+import Whatsapp_blue from "../../Assets/Images/whatsapp_blue.png";
+import Whatsapp_white from "../../Assets/Images/whatsapp_white.png";
+import Mail from "../../Assets/Images/gmail.png";
+import Mail_white from "../../Assets/Images/gmail_white.png";
+import Message_text from "../../Assets/Images/message-text.png";
+import Message_text_white from "../../Assets/Images/message-white.png";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile, DocumentDownload, Edit, RefreshSquare } from 'iconsax-react'
+import {
+  Location,
+  Call,
+  Profile,
+  DocumentDownload,
+  Edit,
+  RefreshSquare,
+} from "iconsax-react";
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
-import { useHasPermission } from '../../Utils/Permission';
+import { useHasPermission } from "../../Utils/Permission";
 import DiscountInvoice from "./DiscountInvoice";
 import WaiveOFFConfirm from "./WaiveOFFConfirm";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
-
-
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
-
   const state = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,13 +40,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [isOpenPayment, setIsOpenPayment] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [refundDetails, setRefundDetails] = useState('')
+  const [refundDetails, setRefundDetails] = useState("");
   const modalRef = useRef(null);
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
   const innerScrollRef = useRef(null);
-  const [pdfLoading, setPdfLoading] = useState(false)
+  const [pdfLoading, setPdfLoading] = useState(false);
   const [showWaiveModal, setShowWaiveModal] = useState(false);
   const menuItems = [
     {
@@ -67,15 +71,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
 
   const [invoiceList, setInvoiceList] = useState({
-    balanceDue: '',
-    invoiceId: '',
-    invoiceDate: '',
-
+    balanceDue: "",
+    invoiceId: "",
+    invoiceDate: "",
   });
 
   const [openMenu, setOpenMenu] = useState(false);
@@ -86,17 +88,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const handleCloseForm = () => {
-
     setShowform(false);
-    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
-    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+    dispatch({ type: "CLEAR_PAYABLE_AMOUNT" });
+    dispatch({ type: "CLEAR_INVALID_DETAILS_ERROR" });
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
   };
 
   const handleCloseConfirm = () => {
-    setShowWaiveModal(false)
-  }
-
+    setShowWaiveModal(false);
+  };
 
   const handleDownload = (rowData) => {
     // console.log("rowData", rowData)
@@ -108,17 +108,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           invoiceId: rowData?.invoiceId,
         },
       });
-      setPdfLoading(true)
+      setPdfLoading(true);
     }
-
-
   };
 
   useEffect(() => {
-
-    setIsVisible(true)
-  }, [rowData])
-
+    setIsVisible(true);
+  }, [rowData]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -148,106 +144,101 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       const pdfUrl = state?.InvoiceList?.invoicePDF;
       if (pdfUrl) {
         window.open(pdfUrl, "_blank");
-        setPdfLoading(false)
-        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' })
+        setPdfLoading(false);
+        dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   // Add and Edit
   useEffect(() => {
-    if (state.InvoiceList.pdfErrorMessage || state.createAccount?.networkError || state.InvoiceList?.sharePdfError) {
-      setPdfLoading(false)
+    if (
+      state.InvoiceList.pdfErrorMessage ||
+      state.createAccount?.networkError ||
+      state.InvoiceList?.sharePdfError
+    ) {
+      setPdfLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_PDF_ERROR" });
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'REMOVE_SHARE_PDF_ERROR' })
-
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+        dispatch({ type: "REMOVE_SHARE_PDF_ERROR" });
       }, 100);
     }
-  }, [state.InvoiceList.pdfErrorMessage, state.createAccount?.networkError, state.InvoiceList?.sharePdfError]);
+  }, [
+    state.InvoiceList.pdfErrorMessage,
+    state.createAccount?.networkError,
+    state.InvoiceList?.sharePdfError,
+  ]);
 
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
-      setShowDiscountInvoice(false)
+      setShowDiscountInvoice(false);
       dispatch({
-        type: 'GETPARTICULARBILLSDETAILS',
+        type: "GETPARTICULARBILLSDETAILS",
         payload: {
           hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId
-        }
-      })
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
-      })
+        dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
+      });
     }
-  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
 
   useEffect(() => {
     if (state.InvoiceList.sharePdfSuccess) {
-      setPdfLoading(false)
+      setPdfLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_GET_SHARE_PDF' })
+        dispatch({ type: "REMOVE_GET_SHARE_PDF" });
       }, 100);
-
     }
-
-  }, [state.InvoiceList.sharePdfSuccess])
-
+  }, [state.InvoiceList.sharePdfSuccess]);
 
   useEffect(() => {
     if (state.InvoiceList.createRefundStatusCode === 200) {
-      setPayableForm(false)
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      setPayableForm(false);
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_CREATE_REFUND' })
-      }, 100)
+        dispatch({ type: "REMOVE_CREATE_REFUND" });
+      }, 100);
     }
-
-  }, [state.InvoiceList.createRefundStatusCode])
-
+  }, [state.InvoiceList.createRefundStatusCode]);
 
   const handleBackInvoice = () => {
     if (isReportsInvoiceRegisterWay) {
       navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
     } else if (isTenantWay) {
-      navigate(`/tenant/details/${pdfDetails?.customerInfo?.customerId}`)
+      navigate(`/tenant/details/${pdfDetails?.customerInfo?.customerId}`);
       dispatch({ type: "UPDATE_USERSLIST_TRUE" });
-
     } else {
       navigate(`/invoice/${state.login?.selectedHostel_Id}`);
     }
-
-
-  }
-
-
-
-
+  };
 
   const handleShareClick = () => {
     setIsOpen(!isOpen);
   };
 
   const handleMenuClick = async (key) => {
-
     setIsOpen(false);
 
     if (String(key) === "whatsapp") {
       dispatch({
-        type: 'GETSHAREPDF',
+        type: "GETSHAREPDF",
         payload: {
           hostelId: pdfDetails?.hostelId,
           invoiceId: pdfDetails?.invoiceId,
         },
-      })
+      });
 
-      setPdfLoading(true)
-
+      setPdfLoading(true);
     }
   };
-
 
   const {
     canWriteModule: canWriteInvoice,
@@ -256,102 +247,88 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
-  const isValidSubscription = state.UsersList?.hotelDetailsinPg?.isSubscriptionActive
-  const isExportAllow = isValidSubscription && canReadInvoice
-
-
+  const isValidSubscription =
+    state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
+  const isExportAllow = isValidSubscription && canReadInvoice;
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
-
-
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
-
 
   const templateColor = pdfDetails?.configurations?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
 
   const textStyle = isGradient
     ? {
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      background: templateColor,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-    }
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        background: templateColor,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+      }
     : {
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      color: templateColor || "#1E45E1",
-    };
-
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        color: templateColor || "#1E45E1",
+      };
 
   const getIconStyle = (templateColor) => {
     const isGradient = templateColor?.includes("linear-gradient");
 
     return isGradient
       ? {
-        background: templateColor,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }
+          background: templateColor,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }
       : { color: templateColor || "#4B4B4B" };
   };
 
-
   const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
     (sum, item) => sum + Number(item.amount || 0),
-    0
+    0,
   );
 
-
   const showRentalPeriod =
-    pdfDetails?.configurations?.invoiceType === 'Rent' &&
-    pdfDetails?.invoiceType !== 'SETTLEMENT';
-
-
-
+    pdfDetails?.configurations?.invoiceType === "Rent" &&
+    pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
     setShowform(true);
-    setSelectedUserId(pdfDetails?.customerInfo?.customerId)
+    setSelectedUserId(pdfDetails?.customerInfo?.customerId);
     // setInvoiceValue(pdfDetails)
     setInvoiceList({
       balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
       invoiceId: pdfDetails?.invoiceId,
       invoiceDate: pdfDetails?.invoiceDate,
-    })
-  }
-
+    });
+  };
 
   const handleNavigateRefund = (pdfDetails) => {
-
-    setRefundDetails(pdfDetails)
-    setPayableForm(true)
-  }
+    setRefundDetails(pdfDetails);
+    setPayableForm(true);
+  };
   const handleCloseRefundAmount = () => {
-    setPayableForm(false)
-  }
+    setPayableForm(false);
+  };
 
   const handleWaiveOff = () => {
-    setOpen(false)
-    setShowWaiveModal(true)
-  }
-
+    setOpen(false);
+    setShowWaiveModal(true);
+  };
 
   const handleMakeDiscount = () => {
-    setOpen(false)
-    setShowDiscountInvoice(true)
-    setIsEdit(false)
-  }
+    setOpen(false);
+    setShowDiscountInvoice(true);
+    setIsEdit(false);
+  };
 
   const handleCloseFormDiscount = () => {
-    setShowDiscountInvoice(false)
-  }
-
+    setShowDiscountInvoice(false);
+  };
 
   const statusClasses = {
     Pending: {
@@ -384,33 +361,36 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     },
   };
 
-
   const isPending = pdfDetails?.invoiceInfo?.paymentStatus === "Pending";
 
   const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
-  const isRent = pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
+  const isRent =
+    pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
 
   const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
 
-  const showSplitButton = isPending && (isSettlement || isRent) && isNotDiscounted;
-
+  const showSplitButton =
+    isPending && (isSettlement || isRent) && isNotDiscounted;
 
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
-      setShowDiscountInvoice(false)
+      setShowDiscountInvoice(false);
       dispatch({
-        type: 'GETPARTICULARBILLSDETAILS', payload: {
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
           hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId
-        }
-      })
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_INVOICE_DISCOUNT_REDUCER' })
-      })
+        dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
+      });
     }
-
-  }, [state.InvoiceList?.makeInvoiceDiscountStatus])
+  }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
 
   useEffect(() => {
     const handleClickOutside = () => setOpenMenu(false);
@@ -421,14 +401,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   useEffect(() => {
     if (state.InvoiceList?.editInvoiceDiscountStatus === 200) {
       dispatch({
-        type: 'INVOICESLISTFILTER',
-        payload: { hostelId: state.login.selectedHostel_Id }
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER' })
-      }, 100)
-
+        dispatch({ type: "REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER" });
+      }, 100);
     }
   }, [state.InvoiceList?.editInvoiceDiscountStatus]);
 
@@ -436,27 +415,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     if (state.InvoiceList?.refuseDiscountStatus === 204) {
       setShowRefuseModal(false);
       dispatch({
-        type: 'GETPARTICULARBILLSDETAILS', payload: {
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
           hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId
-        }
-      })
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
 
       dispatch({
-        type: 'INVOICESLISTFILTER',
-        payload: { hostelId: state.login.selectedHostel_Id }
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
       setTimeout(() => {
-        dispatch({ type: 'REFUSE_DISCOUNT_REDUCER_CLEAR' })
-      }, 100)
-
-
+        dispatch({ type: "REFUSE_DISCOUNT_REDUCER_CLEAR" });
+      }, 100);
     }
   }, [state.InvoiceList?.refuseDiscountStatus]);
 
-
   const handleRefuse = () => {
-
     const payload = {
       hostelId: pdfDetails?.hostelId,
       invoiceId: pdfDetails?.invoiceId,
@@ -464,15 +440,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     if (pdfDetails?.hostelId && pdfDetails?.invoiceId) {
       dispatch({
         type: "REFUSE_DISCOUNT",
-        payload
+        payload,
       });
     }
-  }
-
-
-
-
-
+  };
 
   return (
     <div className="relative">
@@ -495,11 +466,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 `}
       </style>
 
-
       <div className="border-l border-gray-200">
-
         <div className="flex justify-between items-center bg-white border-b border-gray-200 min-h-[50px] w-full sticky top-0 z-10 px-2">
-
           <div className="flex items-center gap-2">
             <div className="pl-1">
               <label className="text-[16px] text-black font-semibold font-gilroy">
@@ -533,13 +501,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             </div>
           </div>
 
-
           <div className="flex items-center gap-2">
-
-
             <div
-              className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${isExportAllow ? "cursor-pointer" : "cursor-not-allowed opacity-50"
-                }`}
+              className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${
+                isExportAllow
+                  ? "cursor-pointer"
+                  : "cursor-not-allowed opacity-50"
+              }`}
               onClick={() => {
                 if (isExportAllow) handleDownload(rowData);
               }}
@@ -561,7 +529,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               />
             </button>
 
-
             <div className="relative inline-block">
               <div
                 className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-lg cursor-pointer bg-[#1E45E1]"
@@ -577,7 +544,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </span>
               </div>
 
-
               {isOpen && (
                 <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
                   {menuItems.map((item) => {
@@ -588,21 +554,18 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         ref={modalRef}
                         key={item.key}
                         className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
-                  ${isDisabled
-                            ? "bg-gray-100 cursor-not-allowed opacity-60"
-                            : hoveredItem === item.key
-                              ? "bg-[#1E45E1] text-white cursor-pointer"
-                              : "bg-white cursor-pointer"
-                          }`}
+                  ${
+                    isDisabled
+                      ? "bg-gray-100 cursor-not-allowed opacity-60"
+                      : hoveredItem === item.key
+                        ? "bg-[#1E45E1] text-white cursor-pointer"
+                        : "bg-white cursor-pointer"
+                  }`}
                         onMouseEnter={() =>
                           !isDisabled && setHoveredItem(item.key)
                         }
-                        onMouseLeave={() =>
-                          !isDisabled && setHoveredItem(null)
-                        }
-                        onClick={() =>
-                          !isDisabled && handleMenuClick(item.key)
-                        }
+                        onMouseLeave={() => !isDisabled && setHoveredItem(null)}
+                        onClick={() => !isDisabled && handleMenuClick(item.key)}
                       >
                         <img
                           src={
@@ -615,12 +578,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         />
 
                         <span
-                          className={`text-[13px] font-normal font-gilroy ${isDisabled
-                            ? "text-gray-400"
-                            : hoveredItem === item.key
-                              ? "text-white"
-                              : "text-[#212529]"
-                            }`}
+                          className={`text-[13px] font-normal font-gilroy ${
+                            isDisabled
+                              ? "text-gray-400"
+                              : hoveredItem === item.key
+                                ? "text-white"
+                                : "text-[#212529]"
+                          }`}
                         >
                           {item.label}
                         </span>
@@ -631,18 +595,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               )}
             </div>
 
-
             <div className="mr-3">
               <IoClose
                 className="h-5 w-5 text-red-500 cursor-pointer"
                 onClick={handleBackInvoice}
               />
             </div>
-
           </div>
         </div>
-
-
 
         <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F7F8FC]   flex justify-center p-3 show-scrolls">
           {pdfLoading && (
@@ -650,20 +610,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
             </div>
           )}
-          {isVisible &&
+          {isVisible && (
             <div className="w-[90%] rounded-lg mb-5">
-
-
               <div
                 ref={innerScrollRef}
                 className="bg-white rounded-lg  shadow-md"
               >
-
-
                 <div className="p-2 rounded-t-lg">
                   <div className="grid grid-cols-1 sm:grid-cols-2 items-center px-3 gap-4">
-
-
                     <div className="flex justify-start">
                       <img
                         src={
@@ -674,14 +628,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         alt="logo"
                         className="mt-2 max-w-[134px] rounded object-contain"
                         style={{
-                          height: pdfDetails?.configurations?.hostelLogo ? 50 : 25,
+                          height: pdfDetails?.configurations?.hostelLogo
+                            ? 50
+                            : 25,
                         }}
                       />
                     </div>
 
-
                     <div className="mt-2 sm:pl-4">
-
                       <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
                         {pdfDetails?.stayInfo?.hostelName}
                       </div>
@@ -689,13 +643,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
                         {pdfDetails?.configurations?.address}
                       </div>
-
                     </div>
-
                   </div>
                 </div>
 
-                <hr className="m-0"
+                <hr
+                  className="m-0"
                   style={{
                     border: "none",
                     height: "1px",
@@ -705,30 +658,47 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   }}
                 />
 
-                <div className="bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
+                <div
+                  className="bg-white rounded-bottom  position-relative"
+                  style={{ width: "100%" }}
+                >
                   <div className="text-center pt-2 pb-1">
-                    <h5 style={{ ...textStyle, fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600 }}>
-
-                      {
-                        pdfDetails?.invoiceType === 'SETTLEMENT'
-                          ? "Final Settlement Invoice"
-                          : pdfDetails?.configurations?.invoiceType === 'Advance'
-                            ? "Security Deposit"
-                            : pdfDetails?.configurations?.invoiceType === 'Rent'
-                              ? "Payment Bills"
-                              : "Invoice"
-                      }
-
-
-
+                    <h5
+                      style={{
+                        ...textStyle,
+                        fontSize: "17px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {pdfDetails?.invoiceType === "SETTLEMENT"
+                        ? "Final Settlement Invoice"
+                        : pdfDetails?.configurations?.invoiceType === "Advance"
+                          ? "Security Deposit"
+                          : pdfDetails?.configurations?.invoiceType === "Rent"
+                            ? "Payment Bills"
+                            : "Invoice"}
                     </h5>
                   </div>
 
-
                   <div className="row px-4 mt-1">
-                    <div className="col-md-5 mb-3" style={{ fontFamily: "Gilroy", fontSize: 13, color: "#222" }}>
-
-                      <div className="mb-2" style={{ fontSize: 11, fontWeight: 600, fontStyle: "italic", ...textStyle }}>
+                    <div
+                      className="col-md-5 mb-3"
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: 13,
+                        color: "#222",
+                      }}
+                    >
+                      <div
+                        className="mb-2"
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          fontStyle: "italic",
+                          ...textStyle,
+                        }}
+                      >
                         Bill to:
                       </div>
 
@@ -736,8 +706,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         <span style={getIconStyle(templateColor)}>
                           <Profile size="16" variant="Bold" />
                         </span>
-                        <span style={{ fontWeight: 600, color: "#171717", fontSize: 12 }} className="ms-1">
-                          : {""}{pdfDetails?.customerInfo?.fullName}
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            color: "#171717",
+                            fontSize: 12,
+                          }}
+                          className="ms-1"
+                        >
+                          : {""}
+                          {pdfDetails?.customerInfo?.fullName}
                         </span>
                       </div>
 
@@ -745,9 +723,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         <span style={getIconStyle(templateColor)}>
                           <Call size="16" variant="Bold" />
                         </span>
-                        <span style={{ color: "#171717", fontSize: 12 }} className="ms-1">
-                          : {""}{pdfDetails?.customerInfo?.customerMobileNo &&
-                            pdfDetails.customerInfo.customerMobileNo !== "undefined"
+                        <span
+                          style={{ color: "#171717", fontSize: 12 }}
+                          className="ms-1"
+                        >
+                          : {""}
+                          {pdfDetails?.customerInfo?.customerMobileNo &&
+                          pdfDetails.customerInfo.customerMobileNo !==
+                            "undefined"
                             ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
                             : ""}
                         </span>
@@ -757,25 +740,23 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         <span style={getIconStyle(templateColor)}>
                           <IoBed style={{ fontSize: 16 }} />
                         </span>
-                        <span style={{ color: "#171717", fontSize: 12 }} className="d-flex align-items-center ms-1">
+                        <span
+                          style={{ color: "#171717", fontSize: 12 }}
+                          className="d-flex align-items-center ms-1"
+                        >
                           {pdfDetails?.stayInfo?.floorName && (
                             <>
-                              : {""}{pdfDetails.stayInfo.floorName} , {""}
-
+                              : {""}
+                              {pdfDetails.stayInfo.floorName} , {""}
                             </>
                           )}
-
                           {pdfDetails?.stayInfo?.roomName && (
                             <>
                               {pdfDetails.stayInfo.roomName} {""}
-
                             </>
-                          )} {""}
-
-                          -
-                          {""}         {pdfDetails?.stayInfo?.bedName}
+                          )}{" "}
+                          {""}-{""} {pdfDetails?.stayInfo?.bedName}
                         </span>
-
                       </div>
 
                       <div className="d-flex ">
@@ -783,69 +764,223 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           <Location size="16" variant="Bold" />
                         </span>
 
-                        <div style={{ color: "#171717", fontSize: 12 }} className="ms-1" >
+                        <div
+                          style={{ color: "#171717", fontSize: 12 }}
+                          className="ms-1"
+                        >
                           : {""} {pdfDetails?.customerInfo?.fullAddress}
-
-
                         </div>
                       </div>
-
                     </div>
 
                     <div className="col-md-7 mb-1 ps-5 mt-2 ">
                       <div className="row">
+                        <div
+                          className="col-6 text-muted  text-end mt-1"
+                          style={{
+                            fontSize: "10px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 400,
+                            color: "#4B4B4B",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          Invoice :
+                        </div>
+                        <div
+                          className="col-6 text-start mt-1"
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "rgba(23, 23, 23, 1)",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {pdfDetails?.invoiceNumber}
+                        </div>
 
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.invoiceNumber}</div>
+                        <div
+                          className="col-6 text-muted  text-end mt-1"
+                          style={{
+                            fontSize: "10px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 400,
+                            color: "#4B4B4B",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          Invoice Date :
+                        </div>
+                        <div
+                          className="col-6  text-start mt-1"
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "rgba(23, 23, 23, 1)",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {pdfDetails?.invoiceDate}
+                        </div>
 
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice Date :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.invoiceDate}</div>
+                        <div
+                          className="col-6 text-muted  text-end mt-1"
+                          style={{
+                            fontSize: "10px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 400,
+                            color: "#4B4B4B",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          Due date :
+                        </div>
+                        <div
+                          className="col-6 text-start mt-1"
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "rgba(23, 23, 23, 1)",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {pdfDetails?.dueDate}
+                        </div>
 
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Due date :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.dueDate}</div>
-
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Joining date :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
-                        {showRentalPeriod && <>
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Rental Period :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.invoiceInfo?.invoicePeriod}</div>
-                        </>}
+                        <div
+                          className="col-6 text-muted  text-end mt-1"
+                          style={{
+                            fontSize: "10px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 400,
+                            color: "#4B4B4B",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          Joining date :
+                        </div>
+                        <div
+                          className="col-6  text-start mt-1"
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "rgba(23, 23, 23, 1)",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {pdfDetails?.customerInfo?.joiningDate}
+                        </div>
+                        {showRentalPeriod && (
+                          <>
+                            <div
+                              className="col-6 text-muted  text-end mt-1"
+                              style={{
+                                fontSize: "10px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 400,
+                                color: "#4B4B4B",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              Rental Period :
+                            </div>
+                            <div
+                              className="col-6  text-start mt-1"
+                              style={{
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "rgba(23, 23, 23, 1)",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {pdfDetails?.invoiceInfo?.invoicePeriod}
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
 
-
                 <div className="px-5 ">
                   <div className="mb-1">
-                    <label style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, ...textStyle }}>Payment Summary</label>
+                    <label
+                      style={{
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        ...textStyle,
+                      }}
+                    >
+                      Payment Summary
+                    </label>
                   </div>
-                  {
-                    pdfDetails?.invoiceType === 'SETTLEMENT' ?
-                      <>
-                        <div className="" style={{ fontFamily: "Gilroy" }}>
-                          <Row style={{ border: "1px solid #DFDFDF", borderRadius: 8 }}>
+                  {pdfDetails?.invoiceType === "SETTLEMENT" ? (
+                    <>
+                      <div className="" style={{ fontFamily: "Gilroy" }}>
+                        <Row
+                          style={{
+                            border: "1px solid #DFDFDF",
+                            borderRadius: 8,
+                          }}
+                        >
+                          <Col md={6} className="p-1">
+                            <Table responsive className="mb-0">
+                              <thead>
+                                <tr style={{ backgroundColor: "#FFF" }}>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                      textTransform: "capitalize",
+                                    }}
+                                  >
+                                    {pdfDetails?.invoiceInfo?.totalAmount > 0
+                                      ? "Payment"
+                                      : "Refund"}
+                                  </th>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    AMOUNT / INR
+                                  </th>
+                                </tr>
+                              </thead>
 
-                            <Col md={6} className="p-1">
-                              <Table responsive className="mb-0">
-                                <thead>
-                                  <tr style={{ backgroundColor: "#FFF" }}>
-                                    <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform: "capitalize" }}>{pdfDetails?.invoiceInfo?.totalAmount > 0 ? "Payment" : "Refund"}</th>
-                                    <th
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 600,
-                                        color: "#222222",
-                                        textAlign: "right",
-                                      }}
-                                    >
-                                      AMOUNT / INR
-                                    </th>
-                                  </tr>
-                                </thead>
-
-                                <tbody>
-                                  {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
+                              <tbody>
+                                {pdfDetails?.invoiceInfo?.invoiceItems?.map(
+                                  (item, index) => (
                                     <tr key={index}>
                                       <td
                                         style={{
@@ -867,20 +1002,501 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                         ₹ {Number(item.amount)}
                                       </td>
                                     </tr>
-                                  ))}
+                                  ),
+                                )}
+                              </tbody>
+                            </Table>
+                          </Col>
 
+                          <Col md={6} className="p-1">
+                            <Table responsive className="mb-0">
+                              <thead>
+                                <tr style={{ backgroundColor: "#FFF" }}>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                      textTransform: "capitalize",
+                                    }}
+                                  >
+                                    Deductions
+                                  </th>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    AMOUNT / INR
+                                  </th>
+                                </tr>
+                              </thead>
 
-                                </tbody>
-                              </Table>
+                              <tbody>
+                                {pdfDetails?.invoiceInfo?.listDeductions
+                                  .length > 0 ? (
+                                  pdfDetails?.invoiceInfo?.listDeductions?.map(
+                                    (item, index) => (
+                                      <tr key={index}>
+                                        <td
+                                          style={{
+                                            fontSize: 12,
+                                            color: "#2D2D2D",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {item.type}
+                                        </td>
+                                        <td
+                                          style={{
+                                            fontSize: 12,
+                                            color: "#2D2D2D",
+                                            fontWeight: 600,
+                                            textAlign: "right",
+                                          }}
+                                        >
+                                          ₹ {item.amount}
+                                        </td>
+                                      </tr>
+                                    ),
+                                  )
+                                ) : (
+                                  <tr>
+                                    <td
+                                      colSpan="2"
+                                      style={{
+                                        fontSize: 12,
+                                        textAlign: "start",
+                                        color: "#2D2D2D",
+                                        fontWeight: 500,
+                                        backgroundColor: "",
+                                      }}
+                                    >
+                                      No Deductions
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </Table>
+                          </Col>
 
-                            </Col>
+                          <Col md={6} className="p-1">
+                            <div
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                borderTop: "1px solid #DFDFDF",
+                                padding: "10px 12px",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                color: "#2D2D2D",
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <span>Total</span>
+                              <span>
+                                ₹ {pdfDetails?.invoiceInfo?.subTotal || 0}
+                              </span>
+                            </div>
+                          </Col>
 
+                          <Col md={6} className="p-1">
+                            <div
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                borderTop: "1px solid #DFDFDF",
+                                padding: "10px 12px",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                color: "#2D2D2D",
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <span style={{ color: "#FF0000" }}>
+                                Total Deductions
+                              </span>
+                              <span>₹ {totalDeductions || 0}</span>
+                            </div>
+                          </Col>
+                        </Row>
+                      </div>
+                      <div className="my-3 w-full flex justify-end">
+                        <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Grand Total
+                            </span>
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.totalAmount || 0,
+                              )}
+                            </span>
+                          </div>
 
-                            <Col md={6} className="p-1">
-                              <Table responsive className="mb-0">
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Payment Made
+                            </span>
+                            <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                            </span>
+                          </div>
+                          {pdfDetails?.invoiceInfo?.isDiscounted && (
+                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                                Discount Applied
+                              </span>
+                              <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                ₹{" "}
+                                {Number(
+                                  pdfDetails?.invoiceInfo?.discountAmount || 0,
+                                )}
+                              </span>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between items-center text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Balance Due
+                            </span>
+                            <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.balanceAmount || 0,
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : pdfDetails?.configurations?.invoiceType === "Advance" ? (
+                    <div
+                      className="table-responsive row justify-content-between mt-0 mb-2 p-3 "
+                      style={{ fontFamily: "Gilroy, sans-serif" }}
+                    >
+                      <table
+                        className="p-0"
+                        style={{
+                          width: "100%",
+                          borderCollapse: "separate",
+                          borderSpacing: 0,
+                          border: "1px solid #dee2e6",
+                          borderRadius: "12px",
+                          overflow: "hidden",
+                          fontFamily: "Gilroy, sans-serif",
+                        }}
+                      >
+                        <thead>
+                          <tr>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "left",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "10%",
+                              }}
+                            >
+                              S.NO
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "left",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "60%",
+                              }}
+                            >
+                              DESCRIPTION
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "right",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "30%",
+                              }}
+                            >
+                              AMOUNT / INR
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {pdfDetails?.invoiceInfo?.invoiceItems?.map(
+                            (item, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  backgroundColor: "#fff",
+                                }}
+                              >
+                                <td
+                                  style={{
+                                    padding: "10px 14px",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    textAlign: "left",
+                                    verticalAlign: "middle",
+                                  }}
+                                >
+                                  1
+                                </td>
+                                <td
+                                  style={{
+                                    padding: "10px 14px",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    color: "#444",
+                                    textAlign: "left",
+                                    verticalAlign: "middle",
+                                  }}
+                                >
+                                  Security Deposit (Advance)
+                                </td>
+                                <td
+                                  style={{
+                                    padding: "10px 14px",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    color: "#444",
+                                    textAlign: "right",
+                                    verticalAlign: "middle",
+                                  }}
+                                >
+                                  Rs. {item.amount?.toLocaleString("en-IN")}
+                                </td>
+                              </tr>
+                            ),
+                          )}
+                          <tr
+                            style={{
+                              backgroundColor: "#F9F9F9",
+                              fontWeight: 600,
+                            }}
+                          >
+                            <td
+                              colSpan="2"
+                              style={{
+                                textAlign: "left",
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                color: "#000",
+                              }}
+                            >
+                              Total
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "right",
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                color: "#000",
+                              }}
+                            >
+                              ₹ {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div className="my-3 w-full flex justify-end">
+                        <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Grand Total
+                            </span>
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.totalAmount || 0,
+                              )}
+                            </span>
+                          </div>
+
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Payment Made
+                            </span>
+                            <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                            </span>
+                          </div>
+
+                          <div className="flex justify-between items-center text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Balance Due
+                            </span>
+                            <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.balanceAmount || 0,
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="" style={{ fontFamily: "Gilroy" }}>
+                        <Row
+                          style={{
+                            border: "1px solid #DFDFDF",
+                            borderRadius: 8,
+                            margin: 0,
+                          }}
+                        >
+                          <Col
+                            md={hasTax > 0 ? 6 : 12}
+                            className="p-2"
+                            style={{ borderRight: "none" }}
+                          >
+                            <Table responsive bordered={false} className="mb-0">
+                              <thead>
+                                <tr style={{ backgroundColor: "#FFF" }}>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                    }}
+                                  >
+                                    S.NO
+                                  </th>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    DESCRIPTION
+                                  </th>
+                                  <th
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      color: "#222222",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    AMOUNT / INR
+                                  </th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {pdfDetails?.invoiceInfo?.invoiceItems?.map(
+                                  (item, index) => (
+                                    <tr key={index}>
+                                      <td
+                                        style={{
+                                          fontSize: 12,
+                                          color: "#2D2D2D",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {index + 1}
+                                      </td>
+                                      <td
+                                        style={{
+                                          fontSize: 12,
+                                          color: "#2D2D2D",
+                                          fontWeight: 500,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {item.description}
+                                      </td>
+                                      <td
+                                        style={{
+                                          fontSize: 12,
+                                          textAlign: "right",
+                                          fontWeight: 600,
+                                          color: "#2D2D2D",
+                                        }}
+                                      >
+                                        ₹{" "}
+                                        {Number(item.amount).toLocaleString(
+                                          "en-IN",
+                                        )}
+                                      </td>
+                                    </tr>
+                                  ),
+                                )}
+
+                                <tr
+                                  style={{
+                                    backgroundColor: "#FAFBFF",
+                                    fontWeight: 600,
+                                    borderTop: "1px solid #DFDFDF",
+                                  }}
+                                >
+                                  <td
+                                    colSpan={2}
+                                    style={{
+                                      fontSize: 14,
+                                      color: "#2D2D2D",
+                                      fontWeight: 500,
+                                      textAlign: hasTax ? "start" : "center",
+                                      paddingLeft: !hasTax && 150,
+                                    }}
+                                  >
+                                    Total
+                                  </td>
+                                  <td
+                                    style={{
+                                      textAlign: "right",
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      color: "#2D2D2D",
+                                    }}
+                                  >
+                                    ₹{" "}
+                                    {Number(
+                                      pdfDetails?.invoiceInfo?.subTotal || 0,
+                                    ).toLocaleString("en-IN")}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </Table>
+                          </Col>
+
+                          {hasTax && (
+                            <Col md={6} className="p-2">
+                              <Table
+                                responsive
+                                bordered={false}
+                                className="mb-0"
+                              >
                                 <thead>
                                   <tr style={{ backgroundColor: "#FFF" }}>
-                                    <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform: "capitalize" }}>Deductions</th>
+                                    <th
+                                      style={{
+                                        fontSize: 12,
+                                        fontWeight: 600,
+                                        color: "#222222",
+                                      }}
+                                    >
+                                      OTHERS
+                                    </th>
                                     <th
                                       style={{
                                         fontSize: 12,
@@ -895,519 +1511,123 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                 </thead>
 
                                 <tbody>
-
-                                  {pdfDetails?.invoiceInfo?.listDeductions.length > 0 ? pdfDetails?.invoiceInfo?.listDeductions?.map((item, index) => (
-                                    <tr key={index}>
-                                      <td
-                                        style={{
-                                          fontSize: 12,
-                                          color: "#2D2D2D",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {item.type}
-                                      </td>
-                                      <td
-                                        style={{
-                                          fontSize: 12,
-                                          color: "#2D2D2D",
-                                          fontWeight: 600,
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        ₹{" "}
-
-                                        {item.amount}
-                                      </td>
-                                    </tr>
-
-                                  ))
-                                    :
-                                    <tr>
-                                      <td colSpan="2" style={{ fontSize: 12, textAlign: "start", color: "#2D2D2D", fontWeight: 500, backgroundColor: "" }}>
-                                        No Deductions
-                                      </td>
-
-                                    </tr>}
-
-
-                                </tbody>
-                              </Table>
-
-
-                            </Col>
-
-
-
-
-
-                            <Col md={6} className="p-1">
-                              <div
-                                style={{
-                                  backgroundColor: "#FAFBFF",
-                                  borderTop: "1px solid #DFDFDF",
-                                  padding: "10px 12px",
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  color: "#2D2D2D",
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                <span>Total</span>
-                                <span>₹ {pdfDetails?.invoiceInfo?.subTotal || 0}</span>
-                              </div>
-                            </Col>
-
-
-
-                            <Col md={6} className="p-1">
-                              <div
-                                style={{
-                                  backgroundColor: "#FAFBFF",
-                                  borderTop: "1px solid #DFDFDF",
-                                  padding: "10px 12px",
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  color: "#2D2D2D",
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                <span style={{ color: "#FF0000" }}>Total Deductions</span>
-                                <span>₹ {totalDeductions || 0}</span>
-                              </div>
-                            </Col>
-
-                          </Row>
-
-                        </div>
-                        <div className="my-3 w-full flex justify-end">
-                          <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
-
-                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                Grand Total
-                              </span>
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
-                              </span>
-                            </div>
-
-                            <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                Payment Made
-                              </span>
-                              <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
-                                ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
-                              </span>
-                            </div>
-                            {
-                              pdfDetails?.invoiceInfo?.isDiscounted &&
-
-                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Discount Applied
-                                </span>
-                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
-                                </span>
-                              </div>
-                            }
-
-                            <div className="flex justify-between items-center text-[12px] font-semibold">
-                              <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                Balance Due
-                              </span>
-                              <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                                ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
-                              </span>
-                            </div>
-
-                          </div>
-                        </div>
-                      </>
-
-                      :
-
-
-                      pdfDetails?.configurations?.invoiceType === 'Advance' ?
-                        <div
-                          className="table-responsive row justify-content-between mt-0 mb-2 p-3 "
-                          style={{ fontFamily: "Gilroy, sans-serif" }}
-                        >
-                          <table className="p-0"
-                            style={{
-                              width: "100%",
-                              borderCollapse: "separate",
-                              borderSpacing: 0,
-                              border: "1px solid #dee2e6",
-                              borderRadius: "12px",
-                              overflow: "hidden",
-                              fontFamily: "Gilroy, sans-serif",
-                            }}
-                          >
-                            <thead>
-                              <tr>
-                                <th
-                                  style={{
-                                    padding: "10px 14px",
-                                    fontSize: "13px",
-                                    fontWeight: 600,
-                                    color: "#000",
-                                    textAlign: "left",
-                                    borderBottom: "1px solid #dee2e6",
-                                    width: "10%",
-                                  }}
-                                >
-                                  S.NO
-                                </th>
-                                <th
-                                  style={{
-                                    padding: "10px 14px",
-                                    fontSize: "13px",
-                                    fontWeight: 600,
-                                    color: "#000",
-                                    textAlign: "left",
-                                    borderBottom: "1px solid #dee2e6",
-                                    width: "60%",
-                                  }}
-                                >
-                                  DESCRIPTION
-                                </th>
-                                <th
-                                  style={{
-                                    padding: "10px 14px",
-                                    fontSize: "13px",
-                                    fontWeight: 600,
-                                    color: "#000",
-                                    textAlign: "right",
-                                    borderBottom: "1px solid #dee2e6",
-                                    width: "30%",
-                                  }}
-                                >
-                                  AMOUNT / INR
-                                </th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
-                                <tr key={index}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                  }}
-                                >
-                                  <td
-                                    style={{
-                                      padding: "10px 14px",
-                                      fontSize: "13px",
-                                      fontWeight: 500,
-                                      textAlign: "left",
-                                      verticalAlign: "middle",
-                                    }}
-                                  >
-                                    1
-                                  </td>
-                                  <td
-                                    style={{
-                                      padding: "10px 14px",
-                                      fontSize: "13px",
-                                      fontWeight: 500,
-                                      color: "#444",
-                                      textAlign: "left",
-                                      verticalAlign: "middle",
-                                    }}
-                                  >
-                                    Security Deposit (Advance)
-                                  </td>
-                                  <td
-                                    style={{
-                                      padding: "10px 14px",
-                                      fontSize: "13px",
-                                      fontWeight: 500,
-                                      color: "#444",
-                                      textAlign: "right",
-                                      verticalAlign: "middle",
-                                    }}
-                                  >
-                                    Rs. {item.amount?.toLocaleString("en-IN")}
-                                  </td>
-                                </tr>
-
-                              ))}
-                              <tr
-                                style={{
-                                  backgroundColor: "#F9F9F9",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                <td
-                                  colSpan="2"
-                                  style={{
-                                    textAlign: "left",
-                                    padding: "10px 14px",
-                                    fontSize: "13px",
-                                    color: "#000",
-                                  }}
-                                >
-                                  Total
-                                </td>
-                                <td
-                                  style={{
-                                    textAlign: "right",
-                                    padding: "10px 14px",
-                                    fontSize: "13px",
-                                    color: "#000",
-                                  }}
-                                >
-                                  ₹{" "}
-                                  {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
-                                </td>
-                              </tr>
-
-                            </tbody>
-                          </table>
-
-                          <div className="my-3 w-full flex justify-end">
-                            <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
-
-                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Grand Total
-                                </span>
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Payment Made
-                                </span>
-                                <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Balance Due
-                                </span>
-                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
-                                </span>
-                              </div>
-
-                            </div>
-                          </div>
-
-
-
-                        </div>
-
-                        :
-                        <>
-                          <div className="" style={{ fontFamily: "Gilroy" }}>
-                            <Row
-                              style={{
-                                border: "1px solid #DFDFDF",
-                                borderRadius: 8,
-                                margin: 0,
-                              }}
-                            >
-
-                              <Col
-                                md={hasTax > 0 ? 6 : 12}
-                                className="p-2"
-                                style={{ borderRight: "none" }}
-                              >
-                                <Table responsive bordered={false} className="mb-0">
-                                  <thead>
-                                    <tr style={{ backgroundColor: "#FFF" }}>
-                                      <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>S.NO</th>
-                                      <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textAlign: "center" }}>DESCRIPTION</th>
-                                      <th
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 600,
-                                          color: "#222222",
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        AMOUNT / INR
-                                      </th>
-                                    </tr>
-                                  </thead>
-
-                                  <tbody>
-                                    {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
-                                      <tr key={index}>
-                                        <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500 }}>
-                                          {index + 1}
-                                        </td>
-                                        <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500, textAlign: "center" }}>
-                                          {item.description}
-                                        </td>
-                                        <td
-                                          style={{
-                                            fontSize: 12,
-                                            textAlign: "right",
-                                            fontWeight: 600,
-                                            color: "#2D2D2D",
-                                          }}
-                                        >
-                                          ₹ {Number(item.amount).toLocaleString("en-IN")}
-                                        </td>
-                                      </tr>
-                                    ))}
-
-                                    <tr
+                                  <tr>
+                                    <td
                                       style={{
-                                        backgroundColor: "#FAFBFF",
-                                        fontWeight: 600,
-                                        borderTop: "1px solid #DFDFDF",
+                                        fontSize: 12,
+                                        color: "#2D2D2D",
+                                        fontWeight: 500,
                                       }}
                                     >
-                                      <td colSpan={2} style={{ fontSize: 14, color: "#2D2D2D", fontWeight: 500, textAlign: hasTax ? "start" : "center", paddingLeft: !hasTax && 150 }}>
-                                        Total
-                                      </td>
-                                      <td
-                                        style={{
-                                          textAlign: "right",
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          color: "#2D2D2D",
-                                        }}
-                                      >
-                                        ₹ {Number(pdfDetails?.invoiceInfo?.subTotal || 0).toLocaleString("en-IN")}
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </Table>
-                              </Col>
+                                      GST (
+                                      {pdfDetails?.invoiceInfo?.taxPercentage}%)
+                                    </td>
+                                    <td
+                                      style={{
+                                        fontSize: 12,
+                                        color: "#2D2D2D",
+                                        fontWeight: 600,
+                                        textAlign: "right",
+                                      }}
+                                    >
+                                      ₹{" "}
+                                      {Number(
+                                        pdfDetails?.invoiceInfo?.taxAmount,
+                                      ).toLocaleString("en-IN", {
+                                        minimumFractionDigits: 2,
+                                      })}
+                                    </td>
+                                  </tr>
 
+                                  <tr
+                                    style={{
+                                      backgroundColor: "#FAFBFF",
+                                      fontWeight: 600,
+                                      borderTop: "1px solid #DFDFDF",
+                                    }}
+                                  >
+                                    <td
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#2D2D2D",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Total
+                                    </td>
+                                    <td
+                                      style={{
+                                        textAlign: "right",
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        color: "#2D2D2D",
+                                      }}
+                                    >
+                                      ₹{" "}
+                                      {Number(
+                                        pdfDetails?.invoiceInfo?.taxAmount || 0,
+                                      ).toLocaleString("en-IN")}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </Table>
+                            </Col>
+                          )}
+                        </Row>
+                      </div>
 
-                              {hasTax && (
-                                <Col md={6} className="p-2">
-                                  <Table responsive bordered={false} className="mb-0">
-                                    <thead>
-                                      <tr style={{ backgroundColor: "#FFF" }}>
-                                        <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>OTHERS</th>
-                                        <th
-                                          style={{
-                                            fontSize: 12,
-                                            fontWeight: 600,
-                                            color: "#222222",
-                                            textAlign: "right",
-                                          }}
-                                        >
-                                          AMOUNT / INR
-                                        </th>
-                                      </tr>
-                                    </thead>
-
-                                    <tbody>
-                                      <tr>
-                                        <td style={{ fontSize: 12, color: "#2D2D2D", fontWeight: 500 }}>
-                                          GST ({pdfDetails?.invoiceInfo?.taxPercentage}%)
-                                        </td>
-                                        <td
-                                          style={{
-                                            fontSize: 12,
-                                            color: "#2D2D2D",
-                                            fontWeight: 600,
-                                            textAlign: "right",
-                                          }}
-                                        >
-                                          ₹{" "}
-                                          {Number(pdfDetails?.invoiceInfo?.taxAmount).toLocaleString("en-IN", {
-                                            minimumFractionDigits: 2,
-                                          })}
-                                        </td>
-                                      </tr>
-
-                                      <tr
-                                        style={{
-                                          backgroundColor: "#FAFBFF",
-                                          fontWeight: 600,
-                                          borderTop: "1px solid #DFDFDF",
-                                        }}
-                                      >
-                                        <td style={{ fontSize: 14, color: "#2D2D2D", fontWeight: 500 }}>Total</td>
-                                        <td
-                                          style={{
-                                            textAlign: "right",
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            color: "#2D2D2D",
-                                          }}
-                                        >
-                                          ₹{" "}
-                                          {Number(pdfDetails?.invoiceInfo?.taxAmount || 0).toLocaleString("en-IN")}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </Table>
-                                </Col>
+                      <div className="my-3 w-full flex justify-end">
+                        <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Grand Total
+                            </span>
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.totalAmount || 0,
                               )}
-                            </Row>
-
-
-
-
+                            </span>
                           </div>
 
-
-
-                          <div className="my-3 w-full flex justify-end">
-                            <div className="w-[260px] px-3 py-2 rounded bg-[#F8F8F8] text-[13px] font-semibold">
-
-                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Grand Total
-                                </span>
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Payment Made
-                                </span>
-                                <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Discount Applied
-                                </span>
-                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center text-[12px] font-semibold">
-                                <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
-                                  Balance Due
-                                </span>
-                                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                                  ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
-                                </span>
-                              </div>
-
-                            </div>
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Payment Made
+                            </span>
+                            <span className="text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                            </span>
                           </div>
 
-                        </>
-                  }
+                          <div className="flex justify-between items-center mb-2 text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Discount Applied
+                            </span>
+                            <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.discountAmount || 0,
+                              )}
+                            </span>
+                          </div>
 
-
+                          <div className="flex justify-between items-center text-[12px] font-semibold">
+                            <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
+                              Balance Due
+                            </span>
+                            <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.balanceAmount || 0,
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-
 
                 <div className="px-5 mt-1">
                   <div className="row">
@@ -1417,57 +1637,129 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           fontSize: "11px",
                           fontFamily: "Gilroy",
                           fontWeight: 800,
-                          marginBottom: "12px", ...textStyle
+                          marginBottom: "12px",
+                          ...textStyle,
                         }}
                       >
                         ACCOUNT DETAILS
                       </h6>
 
                       <div className="mb-1">
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy", }}>
+                        <label
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 500,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
                           Account No:
                         </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy", }}>
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            color: "#171717",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
                           {pdfDetails?.accountDetails?.accountNo || "N/A"}
                         </span>
                       </div>
 
                       <div className="mb-1">
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                        <label
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 500,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
                           IFSC Code:
                         </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}> {pdfDetails?.accountDetails?.ifscCode || "N/A"}</span>
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            color: "#171717",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          {" "}
+                          {pdfDetails?.accountDetails?.ifscCode || "N/A"}
+                        </span>
                       </div>
 
                       <div className="mb-1">
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                        <label
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 500,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
                           Bank Name:
                         </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.bankName || "N/A"}</span>
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            color: "#171717",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          {pdfDetails?.accountDetails?.bankName || "N/A"}
+                        </span>
                       </div>
 
                       <div>
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                        <label
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 500,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
                           UPI Details:
                         </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.upiId || "N/A"}</span>
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            color: "#171717",
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          {pdfDetails?.accountDetails?.upiId || "N/A"}
+                        </span>
                       </div>
                     </div>
 
                     <div className="col-md-2"></div>
 
                     <div className="col-md-4 d-flex flex-column justify-content-between">
-
                       <div className="d-flex justify-content-center mb-2">
-                        {pdfDetails?.accountDetails?.qrCode ?
+                        {pdfDetails?.accountDetails?.qrCode ? (
                           <img
-                            src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : ""}
+                            src={
+                              pdfDetails?.accountDetails?.qrCode
+                                ? pdfDetails?.accountDetails?.qrCode
+                                : ""
+                            }
                             alt="Barcode"
-                            style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
+                            style={{
+                              height: "auto",
+                              maxWidth: 150,
+                              borderRadius: 2,
+                            }}
                             className="img-fluid"
                           />
-                          :
-                          ""}
+                        ) : (
+                          ""
+                        )}
                       </div>
 
                       {/* <div className="d-flex justify-content-end">
@@ -1486,8 +1778,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </div>
 
                 <div className="flex flex-wrap justify-between items-center mt-4 mb-5 px-5">
-
-
                   <div className="w-full md:w-8/12 bg-[#F5F7FFBD] px-1 py-2 rounded">
                     <h4 className="text-[11px] font-[Gilroy] font-semibold text-[#4B4B4B]">
                       Terms and Conditions
@@ -1497,7 +1787,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       {pdfDetails?.configurations?.termAndCondition}
                     </p>
                   </div>
-
 
                   <div className="w-full md:w-4/12 flex flex-col justify-end items-end mt-4 md:mt-0">
                     {pdfDetails?.configurations?.signatureUrl && (
@@ -1512,92 +1801,106 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       Authorized Signature
                     </p>
                   </div>
-
                 </div>
 
-                {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 && !showDiscountInvoice && (
-                  <div className="fixed bottom-16 right-5 z-[999] animate-slideIn">
-
-                    <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
-
-                      <div className="flex items-center gap-3">
-                        <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                          <span className="text-[16px]">✓</span>
-                        </span>
-
-                        <div className="flex flex-col">
-                          <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                            Discount Applied
+                {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
+                  pdfDetails?.invoiceInfo?.paymentStatus === "Pending" &&
+                  !showDiscountInvoice && (
+                    <div className="fixed bottom-16 right-5 z-[999] animate-slideIn">
+                      <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
+                        <div className="flex items-center gap-3">
+                          <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                            <span className="text-[16px]">✓</span>
                           </span>
 
-                          <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
-                            ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
-                            <span className="pl-2">Were applied on this invoice</span>
-                          </span>
+                          <div className="flex flex-col">
+                            <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                              Discount Applied
+                            </span>
+
+                            <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
+                              ₹{" "}
+                              {Number(
+                                pdfDetails?.invoiceInfo?.discountAmount || 0,
+                              )}
+                              <span className="pl-2">
+                                Were applied on this invoice
+                              </span>
+                            </span>
+                          </div>
                         </div>
-                      </div>
 
-                      <PiDotsThreeOutlineVerticalFill
-                        className="cursor-pointer text-gray-600"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOpenMenu(!openMenu);
-                        }}
-                      />
+                        <PiDotsThreeOutlineVerticalFill
+                          className="cursor-pointer text-gray-600"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenMenu(!openMenu);
+                          }}
+                        />
 
-                      {openMenu && (
-                        <div
-                          className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-
-
-                          <button disabled={!canUpdateInvoice}
-                            onClick={() => {
-                              setIsEdit(true);
-                              setEditData(pdfDetails?.discountDetails || pdfDetails?.invoiceInfo);
-                              setShowDiscountInvoice(true);
-                              setOpenMenu(false);
-                            }}
-                            className={`
-    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${canUpdateInvoice
-                                ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
-                                : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"}
-  `}                          >
-                            <Edit size={16} className={canUpdateInvoice ? "" : "opacity-50"} />
-                            Edit
-                          </button>
-
-
-                          <div className="h-px bg-gray-200 mx-2" />
-
-
-                          <button
-                            disabled={!canDeleteInvoice}
-                            onClick={() => {
-                              setShowRefuseModal(true);
-                              setOpenMenu(false);
-                              setSelectedInvoice(pdfDetails);
-                            }}
-                            className={`
-    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${canDeleteInvoice
-                                ? "text-red-600 hover:bg-red-50 cursor-pointer"
-                                : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"}
-  `}
+                        {openMenu && (
+                          <div
+                            className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
+                            onClick={(e) => e.stopPropagation()}
                           >
-                            <IoClose className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`} />
-                            Refuse with invoice
-                          </button>
+                            <button
+                              disabled={!canUpdateInvoice}
+                              onClick={() => {
+                                setIsEdit(true);
+                                setEditData(
+                                  pdfDetails?.discountDetails ||
+                                    pdfDetails?.invoiceInfo,
+                                );
+                                setShowDiscountInvoice(true);
+                                setOpenMenu(false);
+                              }}
+                              className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${
+      canUpdateInvoice
+        ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
+        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+    }
+  `}
+                            >
+                              <Edit
+                                size={16}
+                                className={canUpdateInvoice ? "" : "opacity-50"}
+                              />
+                              Edit
+                            </button>
 
-                        </div>
-                      )}
+                            <div className="h-px bg-gray-200 mx-2" />
+
+                            <button
+                              disabled={!canDeleteInvoice}
+                              onClick={() => {
+                                setShowRefuseModal(true);
+                                setOpenMenu(false);
+                                setSelectedInvoice(pdfDetails);
+                              }}
+                              className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${
+      canDeleteInvoice
+        ? "text-red-600 hover:bg-red-50 cursor-pointer"
+        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+    }
+  `}
+                            >
+                              <IoClose
+                                className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
+                              />
+                              Refuse with invoice
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                <hr className="mb-2"
+                <hr
+                  className="mb-2"
                   style={{
                     border: "none",
                     height: "1px",
@@ -1610,99 +1913,94 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   <div
                     className="text-center rounded-bottom d-flex justify-content-between"
                     style={{
-                      borderTopRightRadius: '38px',
-                      borderTopLeftRadius: '38px',
+                      borderTopRightRadius: "38px",
+                      borderTopLeftRadius: "38px",
                     }}
                   >
-
                     <p
                       className="mb-0"
                       style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
+                        fontSize: "13px",
+                        fontFamily: "Gilroy",
                         fontWeight: 500,
-                        color: '#4B4B4B',
+                        color: "#4B4B4B",
                       }}
                     >
-                      Email: {" "}
+                      Email:{" "}
                       <span
                         style={{
-                          fontSize: '13px',
-                          fontFamily: 'Gilroy',
+                          fontSize: "13px",
+                          fontFamily: "Gilroy",
                           fontWeight: 600,
-                          color: '#222222',
+                          color: "#222222",
                         }}
                       >
                         {pdfDetails?.emailId}
                       </span>
                     </p>
 
-
                     <p
                       className="mb-0"
                       style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
+                        fontSize: "13px",
+                        fontFamily: "Gilroy",
                         fontWeight: 500,
-                        color: '#4B4B4B',
+                        color: "#4B4B4B",
                       }}
                     >
-                      Contact: {" "}
+                      Contact:{" "}
                       <span
                         style={{
-                          fontSize: '13px',
-                          fontFamily: 'Gilroy',
+                          fontSize: "13px",
+                          fontFamily: "Gilroy",
                           fontWeight: 600,
-                          color: '#222222',
+                          color: "#222222",
                         }}
                       >
-                        {pdfDetails?.mobile && `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+                        {pdfDetails?.mobile &&
+                          `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
                       </span>
                     </p>
                   </div>
                 </div>
-
-
               </div>
-
             </div>
-
-          }
-
-
+          )}
         </div>
       </div>
 
-
       {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
         <div className="sticky bottom-0 left-0 right-0 z-[1000] bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
-
-
           <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
             <span className="font-semibold text-[16px] text-[#222]">
               {pdfDetails?.invoiceInfo?.totalAmount < 0
-                ? "Refund Made" : "Payments Made"
-                 }
+                ? "Refund Made"
+                : "Payments Made"}
             </span>
 
-
-            {pdfDetails?.paymentHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount > 0
-              ? <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black"> No Payments made yet!</span>
-              : pdfDetails?.refundHistory?.length === 0 && pdfDetails?.invoiceInfo?.totalAmount < 0
-                ? <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">No Refund made yet!</span>
-                : ""}
+            {pdfDetails?.paymentHistory?.length === 0 &&
+            pdfDetails?.invoiceInfo?.totalAmount > 0 ? (
+              <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black">
+                {" "}
+                No Payments made yet!
+              </span>
+            ) : pdfDetails?.refundHistory?.length === 0 &&
+              pdfDetails?.invoiceInfo?.totalAmount < 0 ? (
+              <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">
+                No Refund made yet!
+              </span>
+            ) : (
+              ""
+            )}
 
             <div className="flex items-center gap-2">
-
-
               {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
                 <div className="relative inline-flex" ref={menuRef}>
-
-
                   <button
                     disabled={!canWriteInvoice}
                     onClick={() => {
-                      if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails);
+                      if (canWriteInvoice)
+                        handleNavigateRecordPayment(pdfDetails);
                     }}
                     className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm px-4 py-2 
         ${showSplitButton ? "rounded-l-md" : "rounded-md"} 
@@ -1712,24 +2010,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     Record Payment
                   </button>
 
-                  {
-                    showSplitButton &&
+                  {showSplitButton && (
                     <button
                       onClick={() => setOpen(!open)}
                       className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
                     >
                       <ArrowDown2
                         size="16"
-                        className={`transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
-                          }`}
+                        className={`transition-transform duration-300 ${
+                          open ? "rotate-180" : "rotate-0"
+                        }`}
                       />
                     </button>
-                  }
+                  )}
 
                   {open && (
                     <div className="absolute right-0 top-[-100px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-xl z-50">
-
-                      <button disabled
+                      <button
+                        disabled
                         onClick={handleWaiveOff}
                         // disabled={!canWriteInvoice}
                         className={`w-full text-left px-4 py-2 text-sm disabled:cursor-not-allowed disabled:text-gray-200
@@ -1748,12 +2046,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       >
                         Make Discount
                       </button>
-
                     </div>
                   )}
                 </div>
               )}
-
 
               {pdfDetails?.invoiceInfo?.totalAmount < 0 &&
                 Number(pdfDetails?.invoiceInfo?.balanceAmount) !== 0 && (
@@ -1766,35 +2062,34 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   </button>
                 )}
 
-
-              {
-                (
-                  isOpenPayment ? (
-                    <ArrowUp2
-                      size="18" variant="Bold"
-                      color="#1E45E1"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => { setIsOpenPayment(false); setIsOpen(false) }}
-                    />
-                  ) : (
-                    <ArrowDown2
-                      size="18" variant="Bold"
-                      color="#1E45E1"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => { setIsOpenPayment(true); setIsOpen(false) }}
-                    />
-                  )
-                )
-              }
-
+              {isOpenPayment ? (
+                <ArrowUp2
+                  size="18"
+                  variant="Bold"
+                  color="#1E45E1"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setIsOpenPayment(false);
+                    setIsOpen(false);
+                  }}
+                />
+              ) : (
+                <ArrowDown2
+                  size="18"
+                  variant="Bold"
+                  color="#1E45E1"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setIsOpenPayment(true);
+                    setIsOpen(false);
+                  }}
+                />
+              )}
             </div>
           </div>
 
-
           {isOpenPayment && (
             <div>
-
-
               {pdfDetails?.paymentHistory?.length > 0 && (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -1840,7 +2135,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   </table>
                 </div>
               )}
-
 
               {pdfDetails?.refundHistory?.length > 0 && (
                 <div className="overflow-x-auto mt-2">
@@ -1888,7 +2182,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </div>
               )}
 
-
               <div className="flex justify-end px-5 py-2 border-t ">
                 <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
                   Balance Due
@@ -1897,57 +2190,49 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   ₹{pdfDetails?.invoiceInfo?.balanceAmount}
                 </span>
               </div>
-
-
             </div>
           )}
-
-
-
-
         </div>
       )}
-      {showWaiveModal &&
+      {showWaiveModal && (
         <WaiveOFFConfirm
           show={showWaiveModal}
           handleClose={handleCloseConfirm}
-
         />
-      }
+      )}
 
       {/* {
         showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
       } */}
-      {
-        showDiscountInvoice && (
-          <DiscountInvoice
-            show={showDiscountInvoice}
-            handleClose={handleCloseFormDiscount}
-            isEdit={isEdit}
-            editData={isEdit ? editData : ""}
-          />
-        )
-      }
+      {showDiscountInvoice && (
+        <DiscountInvoice
+          show={showDiscountInvoice}
+          handleClose={handleCloseFormDiscount}
+          isEdit={isEdit}
+          editData={isEdit ? editData : ""}
+        />
+      )}
 
       {showform && (
-        <RecordPayment show={showform} handleClose={handleCloseForm}
+        <RecordPayment
+          show={showform}
+          handleClose={handleCloseForm}
           selectedUserId={selectedUserId}
           invoiceList={invoiceList}
         />
-
       )}
 
-
-      {payapleform &&
-        <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
-
-      }
+      {payapleform && (
+        <RefundAmount
+          show={payapleform}
+          handleClose={handleCloseRefundAmount}
+          refundDetails={refundDetails}
+        />
+      )}
 
       {showRefuseModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30">
-
           <div className="bg-white shadow-lg rounded-lg w-[90%] max-w-md p-4">
-
             <h2 className="text-black font-gilroy text-[17.24px] font-semibold leading-[24.9px] tracking-normal">
               Refuse Discount !
             </h2>
@@ -1964,14 +2249,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 Cancel
               </button>
 
-
               <button
                 onClick={handleRefuse}
                 className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white font-gilroy"
               >
                 Yes, Refuse
               </button>
-
             </div>
           </div>
         </div>
@@ -1985,6 +2268,5 @@ InvoiceCard.propTypes = {
   isReportsInvoiceRegisterWay: PropTypes.bool,
   isTenantWay: PropTypes.bool,
 };
-
 
 export default withErrorBoundary(InvoiceCard);
