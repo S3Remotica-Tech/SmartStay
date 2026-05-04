@@ -14,7 +14,8 @@ import {
   Edit2,
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-
+import { IoBedOutline } from "react-icons/io5";
+import PgLayoutView from "./PgLayoutView";
 const reasonOptions = [
   { value: "maintenance", label: "Maintenance" },
   { value: "others", label: "Others" },
@@ -144,6 +145,7 @@ function AddTenantBookingCheckin({ handleClose }) {
     { reason_name: "", amount: "", showInput: false },
   ]);
   const [modeOfPayment, setModeOfPayment] = useState("");
+  const [pgLayout, setPgLatyout] = useState(false);
   const [joiningDate, setJoiningDate] = useState("");
   const [advanceAmount, setAdvanceAmount] = useState("");
   const [checkinFloor, setCheckinFloor] = useState(null);
@@ -281,6 +283,15 @@ function AddTenantBookingCheckin({ handleClose }) {
     if (!selectedOption) return;
 
     setModeOfPayment(selectedOption);
+  };
+
+  const handleBedLayoutPreview = () => {
+    setPgLatyout(true);
+    console.log("callledddd");
+  };
+
+  const handleClosePgLayOut = () => {
+    setPgLatyout(false);
   };
 
   return (
@@ -558,9 +569,19 @@ function AddTenantBookingCheckin({ handleClose }) {
           </div>
 
           <div className="mb-2">
-            <label className="text-sm font-medium text-[#222222] mb-2 block">
-              Select Stay Details{" "}
-            </label>
+            <div className="flex justify-between mb-2 ">
+              <div>
+                <label className="text-sm font-medium text-[#222222] mb-2 block">
+                  Select Stay Details
+                </label>
+              </div>
+              <button
+                onClick={handleBedLayoutPreview}
+                className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
+              >
+                <IoBedOutline className="text-[12px]" /> Bed Layout View
+              </button>
+            </div>
 
             <div className="grid grid-cols-3 gap-3">
               <div>
@@ -776,7 +797,7 @@ function AddTenantBookingCheckin({ handleClose }) {
                         />
                       )}
                       <CloseCircle
-                        variant="Bulk"
+                        variant="Bold"
                         size="20"
                         className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
                         onClick={() => handleRemoveField(index)}
@@ -843,6 +864,10 @@ function AddTenantBookingCheckin({ handleClose }) {
             </div>
           </div>
         </div>
+      )}
+
+      {pgLayout && (
+        <PgLayoutView show={pgLayout} handleClose={handleClosePgLayOut} />
       )}
     </div>
   );

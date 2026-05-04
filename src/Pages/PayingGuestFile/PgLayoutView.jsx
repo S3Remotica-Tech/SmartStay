@@ -1,0 +1,295 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Add,
+  AddCircle,
+  CloseCircle,
+  Trash,
+  Edit,
+  Setting3,
+  MessageQuestion,
+  Edit2,
+} from "iconsax-react";
+import ErrorMessage from "../../Components/ErrorMessage";
+import Green from "../../Assets/Images/New_images/Frame.png";
+import White from "../../Assets/Images/New_images/empty_bed.png";
+import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
+import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
+import overDude from "../../Assets/Images/New_images/overDue.png";
+
+function PgLayoutView({ show, handleClose }) {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+
+  if (!show) return null;
+
+  const [floorClick, setFloorClick] = useState("");
+  useEffect(() => {
+    if (state?.UsersList?.floorList?.length > 0) {
+      setFloorClick(state?.UsersList?.floorList[0]?.id);
+    } else {
+      setFloorClick(null);
+    }
+  }, [state?.UsersList?.floorList]);
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      //    dispatch({
+      //      type: "PARTICULAR_HOSTEL_DETAILS",
+      //      payload: { hostel_id: hostel_Id },
+      //    });
+      dispatch({
+        type: "ALLFLOORLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  console.log("state.UsersList.floorList", state?.UsersList?.floorList);
+  const handleFloorClick = (floorNumber) => {
+    setFloorClick(floorNumber);
+    dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: floorNumber } });
+  };
+
+  const roomList = Array.isArray(state?.PgList?.roomsList)
+    ? state.PgList.roomsList
+    : [];
+
+  console.log("roomList", roomList);
+
+  useEffect(() => {
+    if (roomList.length > 0) {
+      roomList.forEach((room) => {
+        dispatch({
+          type: "GETALLBEDSLIST",
+          payload: { roomId: room.id },
+        });
+      });
+    }
+  }, [roomList]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="w-full max-w-[900px] h-[95vh]  bg-white rounded-[20px] flex  shadow-lg">
+        <div className="w-full h-full rounded-[20px]">
+          <div className="flex justify-between items-start px-3 py-4 sticky top-0 z-10 bg-white w-full border-[#eee] rounded-[20px]">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
+              {state?.UsersList?.floorList?.map((floor) => (
+                <div
+                  key={floor.id}
+                  onClick={() => handleFloorClick(floor.id, floor.name)}
+                  className={`flex-shrink-0 flex flex-col justify-center items-center rounded-xl h-24 w-24 cursor-pointer
+        ${
+          Number(floorClick) === Number(floor.id)
+            ? "bg-blue-50 border-2 border-[#1E45E1]"
+            : "bg-white border border-gray-300"
+        }`}
+                >
+                  {/* Top Letter / Number */}
+                  <div
+                    className={`text-2xl font-gilroy font-semibold ${
+                      Number(floorClick) === Number(floor.id)
+                        ? "text-blue-700"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {floor.name
+                      ? isNaN(floor.name)
+                        ? floor.name.charAt(0)
+                        : floor.name
+                      : floor.id}
+                  </div>
+
+                  {/* Full Name */}
+                  <div
+                    className={`text-sm font-gilroy font-semibold text-center px-2 break-words ${
+                      Number(floorClick) === Number(floor.id)
+                        ? "text-blue-700"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {typeof floor.name === "string" &&
+                    floor.name.trim() !== "" &&
+                    floor.name !== "null"
+                      ? floor.name
+                      : floor.id}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <Add
+                size="24"
+                color="#FF0000"
+                onClick={handleClose}
+                className="cursor-pointer rotate-45"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-3 mt-4 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[400px] overflow-y-auto px-3">
+            {roomList.length > 0 ? (
+              roomList?.map((room) => {
+                const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
+
+                const filteredBeds = state.login.isTrigger
+                  ? bedsForRoom.filter((bed) => !bed.isOccupied)
+                  : bedsForRoom;
+                return (
+                  <div
+                    key={room.id}
+                    className="border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white  overflow-y-auto "
+                  >
+                    <div className="bg-[#E0ECFF] border-b border-[#E6E6E6] rounded-t-xl p-2.5">
+                      <div className="text-[14px] font-semibold text-[#222222] truncate">
+                        {room.name}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
+                      {Array.isArray(filteredBeds) &&
+                      filteredBeds.length > 0 ? (
+                        filteredBeds.map((bed) => (
+                          <div
+                            key={`${bed.roomId}-${bed.id}`}
+                            className={`w-full flex justify-center px-1 `}
+                          >
+                            <div
+                              className={`flex flex-col items-center justify-start w-20 `}
+                            >
+                              <div className="relative w-9 h-10">
+                                {state.login.isTrigger &&
+                                  Number(selectedBed?.bedId) ===
+                                    Number(bed.id) &&
+                                  Number(selectedBed?.roomId) ===
+                                    Number(bed.roomId) && (
+                                    <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
+                                      <img
+                                        src={Tick}
+                                        alt="alt-image"
+                                        className="h-5 w-5 cursor-pointer"
+                                      />
+                                    </div>
+                                  )}
+
+                                {bed.isBooked && bed.onNotice && (
+                                  <div className="action-circle">
+                                    {bed.onNotice && bed.overDue && bed.isBooked
+                                      ? 3
+                                      : 2}
+
+                                    <div className="action-icons">
+                                      {bed.isBooked && (
+                                        <img
+                                          src={recerverimg}
+                                          alt="occupied"
+                                          height={20}
+                                          width={20}
+                                          className="cursor-pointer"
+                                        />
+                                      )}
+
+                                      {bed.onNotice && (
+                                        <img
+                                          src={noticeimg}
+                                          alt="notice"
+                                          height={20}
+                                          width={20}
+                                          className="cursor-pointer"
+                                        />
+                                      )}
+
+                                      {bed.overDue && (
+                                        <img
+                                          src={overDude}
+                                          alt="overDude"
+                                          height={20}
+                                          width={20}
+                                          className="cursor-pointer"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {!bed.isBooked &&
+                                  !bed.onNotice &&
+                                  bed.overDue && (
+                                    <img
+                                      src={overDude}
+                                      alt="overDude"
+                                      height={20}
+                                      width={20}
+                                      className="absolute inset-y-px -right-2.5 cursor-pointer"
+                                    />
+                                  )}
+
+                                {bed.isBooked && !bed.onNotice && (
+                                  <img
+                                    src={recerverimg}
+                                    alt="booking"
+                                    height={20}
+                                    width={20}
+                                    className="absolute inset-y-px -right-2.5 cursor-pointer"
+                                  />
+                                )}
+
+                                {bed.onNotice && !bed.isBooked && (
+                                  <img
+                                    src={noticeimg}
+                                    alt="notice"
+                                    height={20}
+                                    width={20}
+                                    className="absolute inset-y-px -right-2.5 cursor-pointer"
+                                  />
+                                )}
+
+                                <img
+                                  className={`mt-1 h-10 w-9 `}
+                                  src={bed.isOccupied ? Green : White}
+                                  alt="bedd"
+                                />
+                              </div>
+
+                              <div className="pt-2 text-xs font-semibold font-montserrat">
+                                {bed.bedName}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="col-span-full flex flex-col items-center justify-center py-2">
+                          <label className="text-xs font-gilroy text-neutral-600 whitespace-nowrap">
+                            No beds available
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div
+                className="flex items-center justify-center text-center w-full font-gilroy px-3 fade-in bg-white overflow-hidden"
+                style={{ height: "calc(100vh - 120px)" }}
+              >
+                <div className="flex flex-col items-center">
+                  <div className="mt-2 text-[20px] font-semibold text-[#4B4B4B]">
+                    {" "}
+                    No rooms available{" "}
+                  </div>
+                  <div className="mt-1 text-[16px] font-medium text-[#4B4B4B]">
+                    {" "}
+                    There is no room added in this floor.{" "}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default PgLayoutView;

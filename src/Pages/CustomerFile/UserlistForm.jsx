@@ -10,26 +10,130 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle } from "iconsax-react";
+import { AddCircle, CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 import { Trash } from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
+import { IoBedOutline } from "react-icons/io5";
+import PgLayoutView from "../PayingGuestFile/PgLayoutView";
 
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    width: "100%",
+    minWidth: "100%",
+    minHeight: "45px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "100%",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 function UserlistForm(props) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-
+  const [pgLayout, setPgLatyout] = useState(false);
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
   const [RoomRent, setRoomRent] = useState("");
   const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
-
+  const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
@@ -222,7 +326,7 @@ function UserlistForm(props) {
     }
   };
 
-  // console.log("props.EditObj", props.EditObj);
+  console.log("props.EditObj", props.EditObj);
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
@@ -663,683 +767,612 @@ function UserlistForm(props) {
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
+  const handleBedLayoutPreview = () => {
+    setPgLatyout(true);
+  };
+
+  const handleClosePgLayOut = () => {
+    setPgLatyout(false);
+  };
+
   return (
-    <div>
-      <Modal
-        show={props.showAssignMenu}
-        onHide={handleCloseAssign}
-        backdrop="static"
-        centered
-        dialogClassName="custom-modals-style font-gilroy"
-      >
-        <Modal.Dialog className="m-0 p-0 max-w-[950px] pr-2.5 rounded-2xl">
-          <Modal.Body>
-            <div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="w-full max-w-[550px]  bg-white rounded-[20px]  shadow-lg">
+        <div className="px-4 py-3">
+          <div className="pt-0 relative border-0 flex justify-between mb-2">
+            <div className="text-xl font-semibold font-gilroy">
+              Tenant Check-In
+            </div>
+
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handleCloseAssign}
+              className="cursor-pointer"
+            />
+          </div>
+
+          <div className="flex items-center gap-3 mb-3  bg-[#F7F9FF] px-3 py-2 rounded">
+            {file && file !== "0" ? (
+              <Image
+                src={file || props.EditObj?.fullName}
+                roundedCircle
+                className="h-14 w-14"
+                alt="image"
+              />
+            ) : (
+              <div className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center text-xl !font-semibold font-gilroy">
+                {props.EditObj?.initials || "-"}
+              </div>
+            )}
+            <div className="">
               <div>
-                <Modal.Header className="pt-0 relative border-0">
-                  <div className="text-xl font-semibold font-gilroy">
-                    Tenant Check-In
-                  </div>
-
-                  <CloseCircle
-                    size="24"
-                    color="#000"
-                    onClick={handleCloseAssign}
-                    className="cursor-pointer"
-                  />
-                </Modal.Header>
-
-                <div className="flex items-center gap-3 mb-3 ml-3">
-                  {file && file !== "0" ? (
-                    <Image
-                      src={file || props.EditObj?.fullName}
-                      roundedCircle
-                      className="h-14 w-14"
-                      alt="image"
-                    />
-                  ) : (
-                    <div className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center text-xl !font-semibold font-gilroy">
-                      {props.EditObj?.initials || "-"}
-                    </div>
-                  )}
-
-                  <div>
-                    <p className="mb-1 mt-2 text-lg font-gilroy font-semibold  truncate max-w-[150px]">
-                      {firstname}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-1 p-1 w-full bg-[#F7F9FF] rounded-lg">
-                  <div className="flex gap-2 w-full">
-                    <button
-                      onClick={() => setActiveTab("LONG")}
-                      className={`flex-1 py-2 text-center rounded-md font-gilroy font-semibold ${
-                        activeTab === "LONG"
-                          ? "!bg-[#1E45E1] text-white"
-                          : "!bg-[#F7F9FF] text-black"
-                      }`}
-                    >
-                      Long Stay
-                    </button>
-
-                    <button
-                      onClick={() => setActiveTab("SHORT")}
-                      className={`flex-1 py-2 text-center rounded font-gilroy font-semibold ${
-                        activeTab === "SHORT"
-                          ? "!bg-[#1E45E1] text-white"
-                          : "!bg-[#F7F9FF] text-black"
-                      }`}
-                    >
-                      Short Stay
-                    </button>
-                  </div>
-                </div>
-
-                {activeTab === "LONG" ? (
-                  <>
-                    <div className="show-scroll p-2 mt-2 me-1 max-h-[300px] overflow-y-scroll">
-                      <div className="grid grid-cols-12 gap-x-4">
-                        <div className="col-span-12 mb-2">
-                          <Form.Group controlId="purchaseDate">
-                            <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                              Joining Date{" "}
-                              <span className="text-red-500 text-xl">*</span>
-                            </Form.Label>
-
-                            <div className="datepicker-wrapper relative w-full">
-                              <DatePicker
-                                className="w-full h-12 cursor-pointer font-gilroy"
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={
-                                  selectedDate ? dayjs(selectedDate) : null
-                                }
-                                onChange={(date) =>
-                                  handleJoiningDateChange(date)
-                                }
-                                getPopupContainer={(triggerNode) =>
-                                  triggerNode.closest(".show-scroll") ||
-                                  document.body
-                                }
-                                disabledDate={(current) =>
-                                  current && current > dayjs().endOf("day")
-                                }
-                              />
-                            </div>
-                          </Form.Group>
-
-                          {dateError && (
-                            <ErrorMessage message={dateError} type="error" />
-                          )}
-
-                          {joiningDateErrmsg.trim() !== "" && (
-                            <ErrorMessage
-                              message={joiningDateErrmsg}
-                              type="error"
-                            />
-                          )}
-                        </div>
-
-                        <div className="col-span-12 mb-2">
-                          <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                            Floor{" "}
-                            <span className="text-red-500 text-xl">*</span>
-                          </Form.Label>
-
-                          <Select
-                            isDisabled={!selectedDate}
-                            options={
-                              state.UsersList.floorList?.map((u) => ({
-                                value: u.id,
-                                label: u.name,
-                              })) || []
-                            }
-                            onChange={handleFloor}
-                            value={
-                              state.UsersList.floorList?.find(
-                                (option) => option.id === Floor,
-                              )
-                                ? {
-                                    value: Floor,
-                                    label: state.UsersList.floorList.find(
-                                      (option) => option.id === Floor,
-                                    )?.name,
-                                  }
-                                : null
-                            }
-                            placeholder="Select a Floor"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "50px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#9aa0a6",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                display: "inline-block",
-                                fill: "currentColor",
-                                lineHeight: 1,
-                                stroke: "currentColor",
-                                strokeWidth: 0,
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                              }),
-                            }}
-                          />
-
-                          {floorError && (
-                            <ErrorMessage message={floorError} type="error" />
-                          )}
-                        </div>
-
-                        <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
-                          <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                            Room <span className="text-red-500 text-xl">*</span>
-                          </Form.Label>
-
-                          <Select
-                            isDisabled={!selectedDate || !Floor}
-                            options={roomOptions}
-                            onChange={(selectedOption) =>
-                              handleRooms(selectedOption?.value)
-                            }
-                            value={
-                              state.PgList?.roomsList?.find(
-                                (option) => option.id === Rooms,
-                              )
-                                ? {
-                                    value: Rooms,
-                                    label: state.PgList?.roomsList.find(
-                                      (option) => option.id === Rooms,
-                                    )?.name,
-                                  }
-                                : null
-                            }
-                            placeholder="Select a Room"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "50px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#9aa0a6",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                display: "inline-block",
-                                fill: "currentColor",
-                                lineHeight: 1,
-                                stroke: "currentColor",
-                                strokeWidth: 0,
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                              }),
-                            }}
-                          />
-
-                          {roomError && (
-                            <ErrorMessage message={roomError} type="error" />
-                          )}
-                        </div>
-
-                        <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 mb-2">
-                          <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                            Bed <span className="text-red-500 text-xl">*</span>
-                          </Form.Label>
-
-                          <Select
-                            isDisabled={!selectedDate}
-                            options={
-                              availableBed
-                                ? availableBed
-                                    .filter(
-                                      (item) =>
-                                        item &&
-                                        item?.bedName !== "0" &&
-                                        item?.bedName !== "undefined" &&
-                                        item?.bedName !== "" &&
-                                        item?.bedName !== "null",
-                                    )
-                                    .map((item) => ({
-                                      value: item?.bedId,
-                                      label: item?.bedName,
-                                    }))
-                                : []
-                            }
-                            onChange={handleBed}
-                            value={
-                              availableBed
-                                ? (() => {
-                                    const selected = availableBed?.find(
-                                      (option) => option?.bedId === Bed,
-                                    );
-                                    return selected
-                                      ? {
-                                          value: selected.bedId,
-                                          label: selected.bedName,
-                                        }
-                                      : null;
-                                  })()
-                                : null
-                            }
-                            placeholder="Select a Bed"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "50px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#9aa0a6",
-                                fontWeight: 500,
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                display: "inline-block",
-                                fill: "currentColor",
-                                lineHeight: 1,
-                                stroke: "currentColor",
-                                strokeWidth: 0,
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                              }),
-                            }}
-                          />
-
-                          {state.UsersList?.bedAvailableError ? (
-                            <ErrorMessage
-                              message={state.UsersList?.bedAvailableError}
-                              type="error"
-                            />
-                          ) : null}
-                          {bedWarning ? (
-                            <ErrorMessage message={bedWarning} type="error" />
-                          ) : null}
-
-                          {bedError && (
-                            <ErrorMessage message={bedError} type="error" />
-                          )}
-                        </div>
-
-                        <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-                          <Form.Group>
-                            <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                              Advance Amount
-                              <span className="text-red-500 text-xl">*</span>
-                            </Form.Label>
-                            <FormControl
-                              type="text"
-                              placeholder="Enter Amount"
-                              value={AdvanceAmount}
-                              onChange={handleAdvanceAmount}
-                              className={`text-base text-gray-700 font-gilroy ${AdvanceAmount ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
-                            />
-                          </Form.Group>
-                          {advanceAmountError && (
-                            <ErrorMessage
-                              message={advanceAmountError}
-                              type="error"
-                            />
-                          )}
-                        </div>
-
-                        <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-                          <Form.Group>
-                            <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                              Rental Amount
-                              <span className="text-red-500 text-xl">*</span>
-                            </Form.Label>
-                            <FormControl
-                              type="text"
-                              value={RoomRent}
-                              placeholder={
-                                placeHolderRoomRent
-                                  ? `Selected Bed Rent is ${placeHolderRoomRent}`
-                                  : "Enter Amount"
-                              }
-                              onChange={handleRoomRent}
-                              className={`text-base text-gray-700 font-gilroy ${RoomRent ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
-                            />
-                          </Form.Group>
-                          {roomrentError && (
-                            <ErrorMessage
-                              message={roomrentError}
-                              type="error"
-                            />
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
-                        <div className="flex justify-between items-center p-4">
-                          <div>
-                            <label className="text-sm font-medium font-gilroy">
-                              Non Refundable Amount
-                            </label>
-                          </div>
-                          <div>
-                            <button
-                              onClick={handleAddField}
-                              className="flex items-center gap-1.5 bg-blue-700 text-white font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
-                            >
-                              <img
-                                src={addcircle}
-                                alt="Assign Bed"
-                                className="h-4 w-4 filter brightness-0 invert"
-                              />
-                              Add
-                            </button>
-                          </div>
-                        </div>
-
-                        {fields.map((item, index) => {
-                          const isMaintenanceSelected = fields.some(
-                            (field) => field.reason === "maintenance",
-                          );
-
-                          const filteredOptions = reasonOptions.map((opt) => {
-                            if (opt.value === "maintenance") {
-                              return {
-                                ...opt,
-                                isDisabled:
-                                  isMaintenanceSelected &&
-                                  item.reason !== "maintenance",
-                              };
-                            }
-                            return opt;
-                          });
-
-                          return (
-                            <div className="flex gap-3 mb-3 px-4" key={index}>
-                              <div className="flex-1">
-                                {!item.showInput ? (
-                                  <Select
-                                    options={filteredOptions}
-                                    value={
-                                      filteredOptions.find(
-                                        (opt) => opt.value === item.reason_name,
-                                      ) || null
-                                    }
-                                    onChange={(selectedOption) => {
-                                      const selectedValue =
-                                        selectedOption.value;
-
-                                      if (selectedValue === "others") {
-                                        handleInputChange(
-                                          index,
-                                          "reason",
-                                          "others",
-                                        );
-                                      } else {
-                                        handleInputChange(
-                                          index,
-                                          "reason",
-                                          selectedValue,
-                                        );
-                                      }
-                                    }}
-                                    isDisabled={item.reason === "maintenance"}
-                                    menuPlacement="auto"
-                                    styles={{
-                                      control: (base) => ({
-                                        ...base,
-                                        height: "50px",
-                                        border: "1px solid #D9D9D9",
-                                        borderRadius: "8px",
-                                        fontSize: "16px",
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                      }),
-                                      menu: (base) => ({
-                                        ...base,
-                                        backgroundColor: "#f8f9fa",
-                                        border: "1px solid #ced4da",
-                                        fontFamily: "Gilroy",
-                                      }),
-                                      menuList: (base) => ({
-                                        ...base,
-                                        backgroundColor: "#f8f9fa",
-                                        maxHeight: "120px",
-                                        padding: 0,
-                                        scrollbarWidth: "thin",
-                                        overflowY: "auto",
-                                        fontFamily: "Gilroy",
-                                      }),
-                                      placeholder: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                      }),
-                                      dropdownIndicator: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                        display: "inline-block",
-                                        fill: "currentColor",
-                                        lineHeight: 1,
-                                        stroke: "currentColor",
-                                        strokeWidth: 0,
-                                        cursor: "pointer",
-                                      }),
-                                      indicatorSeparator: () => ({
-                                        display: "none",
-                                      }),
-                                      option: (base, state) => ({
-                                        ...base,
-                                        cursor: state.isDisabled
-                                          ? "not-allowed"
-                                          : "pointer",
-                                        backgroundColor: state.isFocused
-                                          ? "#E7F1FF"
-                                          : state.isDisabled
-                                            ? "#f0f0f0"
-                                            : "#fff",
-                                        color: state.isDisabled
-                                          ? "#aaa"
-                                          : "#000",
-                                      }),
-                                    }}
-                                  />
-                                ) : (
-                                  <>
-                                    <input
-                                      type="text"
-                                      placeholder="Enter custom reason"
-                                      value={item.customReason}
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          index,
-                                          "customReason",
-                                          e.target.value,
-                                        )
-                                      }
-                                      className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
-                                    />
-                                  </>
-                                )}
-                                {errors[index]?.reason && (
-                                  <ErrorMessage
-                                    message={errors[index]?.reason}
-                                    type="error"
-                                  />
-                                )}
-                              </div>
-
-                              <div className="flex-1">
-                                <input
-                                  type="text"
-                                  placeholder="Enter amount"
-                                  value={item.amount}
-                                  //                               onKeyDown={(e) => {
-                                  //   if (e.key === "." || e.key === "e" || e.key === "-") {
-                                  //     e.preventDefault();
-                                  //   }
-                                  // }}
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      index,
-                                      "amount",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
-                                />
-                                {errors[index]?.amount && (
-                                  <ErrorMessage
-                                    message={errors[index]?.amount}
-                                    type="error"
-                                  />
-                                )}
-                              </div>
-
-                              <div className="col-md-1 flex justify-center items-center p-0">
-                                <Trash
-                                  size={20}
-                                  color="red"
-                                  variant="Bold"
-                                  className="cursor-pointer"
-                                  onClick={() => handleRemoveField(index)}
-                                />
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <Button
-                      disabled={formLoading}
-                      className="w-full mt-2 h-[50px] !bg-[#1E45E1] text-white !font-semibold !text-lg !rounded-xl !font-gilroy"
-                      style={{ fontFamily: "Montserrat" }}
-                      onClick={handleSaveUserlistAddUser}
-                    >
-                      Check-In
-                    </Button>
-                  </>
-                ) : (
-                  activeTab === "SHORT" && <FormComingSoon />
-                )}
+                <p className="mb-1 mt-2 text-lg font-gilroy font-semibold  truncate max-w-[150px]">
+                  {firstname}
+                </p>
+              </div>
+              <div className="text-xs text-[#4B4B4B]">
+                {props.EditObj?.mobile}
               </div>
             </div>
-          </Modal.Body>
+          </div>
 
-          {(formLoading || loading) && (
-            <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
-              <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
+          <div className="mt-1 p-1 w-full bg-[#F7F9FF] rounded-lg">
+            <div className="flex gap-2 w-full">
+              <button
+                onClick={() => setActiveTab("LONG")}
+                className={`flex-1 py-2 text-center rounded-md font-gilroy font-semibold ${
+                  activeTab === "LONG"
+                    ? "!bg-[#1E45E1] text-white"
+                    : "!bg-[#F7F9FF] text-black"
+                }`}
+              >
+                Long Stay
+              </button>
+
+              <button
+                onClick={() => setActiveTab("SHORT")}
+                className={`flex-1 py-2 text-center rounded font-gilroy font-semibold ${
+                  activeTab === "SHORT"
+                    ? "!bg-[#1E45E1] text-white"
+                    : "!bg-[#F7F9FF] text-black"
+                }`}
+              >
+                Short Stay
+              </button>
             </div>
+          </div>
+
+          {activeTab === "LONG" ? (
+            <>
+              <div className="show-scroll p-2 mt-2 me-1 max-h-[300px] overflow-y-scroll">
+                <div className="grid grid-cols-12 gap-x-4 mb-2">
+                  <div className="col-span-12 mb-2">
+                    <Form.Group controlId="purchaseDate">
+                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                        Joining Date{" "}
+                        <span className="text-red-500 text-xl">*</span>
+                      </Form.Label>
+
+                      <div className="datepicker-wrapper relative w-full">
+                        <DatePicker
+                          className="w-full h-12 cursor-pointer font-gilroy"
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={selectedDate ? dayjs(selectedDate) : null}
+                          onChange={(date) => handleJoiningDateChange(date)}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".show-scroll") || document.body
+                          }
+                          disabledDate={(current) =>
+                            current && current > dayjs().endOf("day")
+                          }
+                        />
+                      </div>
+                    </Form.Group>
+
+                    {dateError && (
+                      <ErrorMessage message={dateError} type="error" />
+                    )}
+
+                    {joiningDateErrmsg.trim() !== "" && (
+                      <ErrorMessage message={joiningDateErrmsg} type="error" />
+                    )}
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="flex justify-between mb-2 ">
+                    <div>
+                      <label className="text-sm font-medium text-[#222222] mb-2 block">
+                        Select Stay Details
+                      </label>
+                    </div>
+                    <button
+                      onClick={handleBedLayoutPreview}
+                      className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
+                    >
+                      <IoBedOutline className="text-[12px]" /> Bed Layout View
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="mb-2 w-full ">
+                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                        Floor <span className="text-red-500 text-xl">*</span>
+                      </Form.Label>
+
+                      <Select
+                        isDisabled={!selectedDate}
+                        options={
+                          state.UsersList.floorList?.map((u) => ({
+                            value: u.id,
+                            label: u.name,
+                          })) || []
+                        }
+                        onChange={handleFloor}
+                        value={
+                          state.UsersList.floorList?.find(
+                            (option) => option.id === Floor,
+                          )
+                            ? {
+                                value: Floor,
+                                label: state.UsersList.floorList.find(
+                                  (option) => option.id === Floor,
+                                )?.name,
+                              }
+                            : null
+                        }
+                        placeholder="Select a Floor"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={CustomStyles}
+                      />
+
+                      {floorError && (
+                        <ErrorMessage message={floorError} type="error" />
+                      )}
+                    </div>
+                    <div className="mb-2  w-full ">
+                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                        Room <span className="text-red-500 text-xl">*</span>
+                      </Form.Label>
+
+                      <Select
+                        isDisabled={!selectedDate || !Floor}
+                        options={roomOptions}
+                        onChange={(selectedOption) =>
+                          handleRooms(selectedOption?.value)
+                        }
+                        value={
+                          state.PgList?.roomsList?.find(
+                            (option) => option.id === Rooms,
+                          )
+                            ? {
+                                value: Rooms,
+                                label: state.PgList?.roomsList.find(
+                                  (option) => option.id === Rooms,
+                                )?.name,
+                              }
+                            : null
+                        }
+                        placeholder="Select a Room"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={CustomStyles}
+                      />
+
+                      {roomError && (
+                        <ErrorMessage message={roomError} type="error" />
+                      )}
+                    </div>
+                    <div className="mb-2  w-full ">
+                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                        Bed <span className="text-red-500 text-xl">*</span>
+                      </Form.Label>
+
+                      <Select
+                        isDisabled={!selectedDate}
+                        options={
+                          availableBed
+                            ? availableBed
+                                .filter(
+                                  (item) =>
+                                    item &&
+                                    item?.bedName !== "0" &&
+                                    item?.bedName !== "undefined" &&
+                                    item?.bedName !== "" &&
+                                    item?.bedName !== "null",
+                                )
+                                .map((item) => ({
+                                  value: item?.bedId,
+                                  label: item?.bedName,
+                                }))
+                            : []
+                        }
+                        onChange={handleBed}
+                        value={
+                          availableBed
+                            ? (() => {
+                                const selected = availableBed?.find(
+                                  (option) => option?.bedId === Bed,
+                                );
+                                return selected
+                                  ? {
+                                      value: selected.bedId,
+                                      label: selected.bedName,
+                                    }
+                                  : null;
+                              })()
+                            : null
+                        }
+                        placeholder="Select a Bed"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={CustomStyles}
+                      />
+
+                      {state.UsersList?.bedAvailableError ? (
+                        <ErrorMessage
+                          message={state.UsersList?.bedAvailableError}
+                          type="error"
+                        />
+                      ) : null}
+                      {bedWarning ? (
+                        <ErrorMessage message={bedWarning} type="error" />
+                      ) : null}
+
+                      {bedError && (
+                        <ErrorMessage message={bedError} type="error" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 gap-x-4">
+                  <div className="col-span-12">
+                    <Form.Group>
+                      <div className="flex items-center justify-between ">
+                        <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                          Advance amount ₹ (INR)
+                          {!isAdvanceRefused && (
+                            <span className="text-red-500 text-xl">*</span>
+                          )}
+                        </Form.Label>
+
+                        <div className="flex items-center justify-between mt-1 gap-2  mb-2">
+                          <span className="text-xs text-gray-700 font-medium">
+                            Do you want to refuse advance amount?
+                          </span>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsAdvanceRefused(!isAdvanceRefused);
+                              if (!isAdvanceRefused) setAdvanceAmount("");
+                            }}
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                              isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                            }`}
+                          >
+                            <span
+                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                                isAdvanceRefused
+                                  ? "translate-x-6"
+                                  : "translate-x-1"
+                              }`}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                      <FormControl
+                        type="text"
+                        placeholder="Enter Amount"
+                        value={AdvanceAmount}
+                        onChange={handleAdvanceAmount}
+                        disabled={isAdvanceRefused}
+                        className={`text-[14px] text-gray-700 font-gilroy ${
+                          AdvanceAmount ? "font-semibold" : "font-medium"
+                        } shadow-none border h-12 rounded-md ${
+                          isAdvanceRefused
+                            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                            : "border-gray-300"
+                        }`}
+                      />
+                    </Form.Group>
+
+                    {!isAdvanceRefused && advanceAmountError && (
+                      <ErrorMessage message={advanceAmountError} type="error" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
+                  <div className="flex justify-between items-center p-4">
+                    <div>
+                      <label className="text-sm font-medium font-gilroy">
+                        Non Refundable Amount
+                      </label>
+                    </div>
+                    <div className="">
+                      <button
+                        onClick={handleAddField}
+                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF] text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
+                      >
+                        <AddCircle color="#1E45E1" size="14" />
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  {fields.map((item, index) => {
+                    const isMaintenanceSelected = fields.some(
+                      (field) => field.reason === "maintenance",
+                    );
+
+                    const filteredOptions = reasonOptions.map((opt) => {
+                      if (opt.value === "maintenance") {
+                        return {
+                          ...opt,
+                          isDisabled:
+                            isMaintenanceSelected &&
+                            item.reason !== "maintenance",
+                        };
+                      }
+                      return opt;
+                    });
+
+                    return (
+                      <div className="flex gap-3 mb-3 px-4" key={index}>
+                        <div className="flex-1">
+                          {!item.showInput ? (
+                            <Select
+                              options={filteredOptions}
+                              value={
+                                filteredOptions.find(
+                                  (opt) => opt.value === item.reason_name,
+                                ) || null
+                              }
+                              onChange={(selectedOption) => {
+                                const selectedValue = selectedOption.value;
+
+                                if (selectedValue === "others") {
+                                  handleInputChange(index, "reason", "others");
+                                } else {
+                                  handleInputChange(
+                                    index,
+                                    "reason",
+                                    selectedValue,
+                                  );
+                                }
+                              }}
+                              isDisabled={item.reason === "maintenance"}
+                              menuPlacement="auto"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  display: "inline-block",
+                                  fill: "currentColor",
+                                  lineHeight: 1,
+                                  stroke: "currentColor",
+                                  strokeWidth: 0,
+                                  cursor: "pointer",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: state.isDisabled
+                                    ? "not-allowed"
+                                    : "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#E7F1FF"
+                                    : state.isDisabled
+                                      ? "#f0f0f0"
+                                      : "#fff",
+                                  color: state.isDisabled ? "#aaa" : "#000",
+                                }),
+                              }}
+                            />
+                          ) : (
+                            <>
+                              <input
+                                type="text"
+                                placeholder="Enter custom reason"
+                                value={item.customReason}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    index,
+                                    "customReason",
+                                    e.target.value,
+                                  )
+                                }
+                                className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
+                              />
+                            </>
+                          )}
+                          {errors[index]?.reason && (
+                            <ErrorMessage
+                              message={errors[index]?.reason}
+                              type="error"
+                            />
+                          )}
+                        </div>
+
+                        <div className="flex-1 relative">
+                          <input
+                            type="text"
+                            placeholder="Enter amount"
+                            value={item.amount}
+                            //                               onKeyDown={(e) => {
+                            //   if (e.key === "." || e.key === "e" || e.key === "-") {
+                            //     e.preventDefault();
+                            //   }
+                            // }}
+                            onChange={(e) =>
+                              handleInputChange(index, "amount", e.target.value)
+                            }
+                            className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+                          />
+                          {errors[index]?.amount && (
+                            <ErrorMessage
+                              message={errors[index]?.amount}
+                              type="error"
+                            />
+                          )}
+                          <CloseCircle
+                            variant="Bold"
+                            size="20"
+                            className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                            onClick={() => handleRemoveField(index)}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-[11px] text-gray-500 mt-2">
+                  Note: These charges are deducted from the initial security
+                  deposit or collected at the time of check-in and are not
+                  refundable in any cost.
+                </p>
+
+                <div className="mb-2">
+                  <Form.Group>
+                    <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                      Rental amount-Base ₹(INR){" "}
+                      <span className="text-red-500 text-xl">*</span>
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      value={RoomRent}
+                      placeholder={
+                        placeHolderRoomRent
+                          ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                          : "Enter Amount"
+                      }
+                      onChange={handleRoomRent}
+                      className={`text-base text-gray-700 font-gilroy ${RoomRent ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
+                    />
+                  </Form.Group>
+                  {roomrentError && (
+                    <ErrorMessage message={roomrentError} type="error" />
+                  )}
+                </div>
+
+                <div className="">
+                  <div
+                    className="rounded-xl p-4 text-white shadow-md
+        bg-gradient-to-r from-[#1E3A8A] to-[#2563EB]"
+                  >
+                    <p className="text-xs uppercase tracking-wide opacity-80 mb-1">
+                      Summary
+                    </p>
+
+                    <h2 className="text-2xl font-semibold mb-3">₹ 20,000.00</h2>
+
+                    <div className="border-t border-white/20 mb-3"></div>
+
+                    <div className="text-xs space-y-2">
+                      <div className="flex justify-between">
+                        <span>1. Advance Amount</span>
+                        <span>₹ 12,500.00</span>
+                      </div>
+
+                      <div className="flex justify-between">
+                        <span>
+                          2. Non Refundable Amount
+                          <span className="opacity-70">
+                            {" "}
+                            (Deducted from Advance 1)
+                          </span>
+                        </span>
+                        <span>- ₹ 2,800.00</span>
+                      </div>
+
+                      <div className="flex justify-between">
+                        <span>
+                          3. Base Rent
+                          <span className="opacity-70"> (Pro-rate)</span>
+                        </span>
+                        <span>₹ 7,500.00</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-gray-500 mt-2">
+                    Note: System automatically generates a separate invoices for
+                    Advance & Base Rent
+                  </p>
+
+                  <div className="flex items-center gap-2 my-4">
+                    <input
+                      type="checkbox"
+                      className="cursor-pointer accent-green-600 w-4 h-4 "
+                    />
+                    <span className="text-[#0A090B] text-sm ">
+                      Everything is Correct – Proceed to Check-in
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  disabled={formLoading}
+                  className="px-4 mt-2 h-[40px] !bg-[#1E45E1] text-white !font-semibold !text-lg !rounded !font-gilroy"
+                  style={{ fontFamily: "Montserrat" }}
+                  onClick={handleSaveUserlistAddUser}
+                >
+                  Check-In
+                </button>
+              </div>
+            </>
+          ) : (
+            activeTab === "SHORT" && <FormComingSoon />
           )}
-        </Modal.Dialog>
-      </Modal>
+        </div>
+      </div>
+
+      {(formLoading || loading) && (
+        <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
+          <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {pgLayout && (
+        <PgLayoutView show={pgLayout} handleClose={handleClosePgLayOut} />
+      )}
     </div>
   );
 }

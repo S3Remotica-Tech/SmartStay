@@ -632,7 +632,6 @@ function PgList() {
     dispatch(triggerPG(false));
   }, []);
 
-
   return (
     <>
       {loading && (
