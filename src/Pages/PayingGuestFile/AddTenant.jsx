@@ -20,6 +20,9 @@ import {
   AddCircle,
   DocumentUpload,
   Trash,
+  ArrowForward,
+  DocumentText,
+  TableDocument,
 } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Flipbackward from "../../Assets/Images/flip-backward.png";
@@ -747,7 +750,7 @@ function AddTenant({ showMenu, handleClose }) {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="w-full h-full flex items-center justify-center p-2">
+        <div className="w-full h-full flex items-center justify-center p-2 ">
           <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
               <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
@@ -755,16 +758,10 @@ function AddTenant({ showMenu, handleClose }) {
                 <div
                   className={`rounded-full flex items-center justify-center w-8 h-8 border ${step === 1 ? "bg-[#1E45E1]" : "bg-white"} border-[#1E45E1]`}
                 >
-                  {step === 1 ? (
-                    <img
-                      src={Store_Icon}
-                      alt="storeicon"
-                      height={15}
-                      width={15}
-                    />
-                  ) : (
-                    <RiShoppingBag3Line className="text-[#1E45E1]" />
-                  )}
+                  <TableDocument
+                    size="16"
+                    color={step === 1 ? "#FFFFFF" : "#1E45E1"}
+                  />
                 </div>
                 <span className="ml-2 font-gilroy text-sm">
                   Step 1
@@ -776,13 +773,12 @@ function AddTenant({ showMenu, handleClose }) {
               </div>
               <div className="flex items-center mb-4">
                 <div
-                  className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
+                  className={`rounded-full flex items-center  justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
                 >
-                  <img
-                    src={step === 2 ? Flipbackward : FlipbackwardBlue}
-                    alt="Flipbackwardicon"
-                    height={15}
-                    width={15}
+                  <DocumentText
+                    size="20"
+                    color={step === 2 ? "#FFFFFF" : "#1E45E1"}
+                    className=" flex-shrink-0"
                   />
                 </div>
                 <span className="ml-2 font-gilroy text-sm">
@@ -798,11 +794,10 @@ function AddTenant({ showMenu, handleClose }) {
                 <div
                   className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
                 >
-                  <img
-                    src={step === 3 ? Flipbackward : FlipbackwardBlue}
-                    alt="Flipbackwardicon"
-                    height={15}
-                    width={15}
+                  <DocumentText
+                    size="20"
+                    color={step === 3 ? "#FFFFFF" : "#1E45E1"}
+                    className=" flex-shrink-0"
                   />
                 </div>
                 <span className="ml-2 font-gilroy text-sm">
@@ -873,7 +868,7 @@ function AddTenant({ showMenu, handleClose }) {
                                 <div className="flex-1 h-px bg-gray-300"></div>
                               </div>
                               <div className="flex justify-center w-full ">
-                                <Button
+                                <button
                                   className="!font-gilroy text-sm !border !border-[#F4F8FF] !bg-[#F4F8FF]
                                        !text-[#1E45E1]
                                        !font-semibold !rounded-md !py-2.5 !px-4 !mb-2   w-full
@@ -881,7 +876,7 @@ function AddTenant({ showMenu, handleClose }) {
                                   onClick={handleAddManually}
                                 >
                                   Add Manually
-                                </Button>
+                                </button>
                               </div>
                             </div>
                             {/* <div className="bg-white border border-[#FFFFFF] rounded-lg shadow-sm overflow-hidden">
@@ -951,7 +946,7 @@ function AddTenant({ showMenu, handleClose }) {
                                 details.
                               </div>
                               <div>
-                                <Button
+                                <button
                                   className="!font-gilroy text-xs !border !border-[#1E45E1] !bg-[#1E45E1]
                                        !text-white
                                        !font-semibold !rounded-md !py-2 !px-10 !mb-2   w-full
@@ -959,7 +954,7 @@ function AddTenant({ showMenu, handleClose }) {
                                   onClick={() => setIsAlreadyTenant(true)}
                                 >
                                   Existing User
-                                </Button>
+                                </button>
                               </div>
                             </div>
 
@@ -1364,20 +1359,20 @@ function AddTenant({ showMenu, handleClose }) {
                               </Form.Group>
                             </div>
                             <div className="d-flex justify-content-end mt-3">
-                              <Button
+                              <button
                                 disabled={formLoading || isAlredayTenant}
                                 className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
                                 onClick={handleSaveUserlist}
                               >
                                 Save Draft
-                              </Button>
-                              <Button
+                              </button>
+                              <button
                                 disabled={isAlredayTenant}
                                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                                 onClick={handleNext}
                               >
                                 Next
-                              </Button>
+                              </button>
                             </div>
 
                             {/* <div className="flex justify-end mt-3">
@@ -1703,7 +1698,9 @@ function AddTenant({ showMenu, handleClose }) {
                     </div>
                   )}
 
-                  {step === 3 && <AddTenantBookingCheckin />}
+                  {step === 3 && (
+                    <AddTenantBookingCheckin handleClose={handleClose} />
+                  )}
                 </div>
               </div>
             </div>
