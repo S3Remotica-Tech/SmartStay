@@ -17,14 +17,17 @@ import White from "../../Assets/Images/New_images/empty_bed.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
+import Tick from "../../Assets/v2Images/Tick.svg";
 
-function PgLayoutView({ show, handleClose }) {
+function PgLayoutView({ show, handleClose, selectedBedDetails }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  const [selectedBed, setSelectedBed] = useState("");
 
   if (!show) return null;
 
   const [floorClick, setFloorClick] = useState("");
+
   useEffect(() => {
     if (state?.UsersList?.floorList?.length > 0) {
       setFloorClick(state?.UsersList?.floorList[0]?.id);
@@ -34,10 +37,6 @@ function PgLayoutView({ show, handleClose }) {
   }, [state?.UsersList?.floorList]);
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      //    dispatch({
-      //      type: "PARTICULAR_HOSTEL_DETAILS",
-      //      payload: { hostel_id: hostel_Id },
-      //    });
       dispatch({
         type: "ALLFLOORLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -55,8 +54,6 @@ function PgLayoutView({ show, handleClose }) {
     ? state.PgList.roomsList
     : [];
 
-  console.log("roomList", roomList);
-
   useEffect(() => {
     if (roomList.length > 0) {
       roomList.forEach((room) => {
@@ -68,9 +65,28 @@ function PgLayoutView({ show, handleClose }) {
     }
   }, [roomList]);
 
+  useEffect(() => {
+    if (floorClick) {
+      dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: floorClick } });
+    }
+  }, [floorClick]);
+
+  const handleSelectBed = (bed) => {
+    setSelectedBed(bed);
+  };
+
+  const SharingTypeFilter = roomList?.filter((view) => {
+    return view.id === selectedBed?.roomId;
+  });
+
+  const handleConfirmSelected = () => {
+    selectedBedDetails(selectedBed)
+    handleClose();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-[900px] h-[95vh]  bg-white rounded-[20px] flex  shadow-lg">
+      <div className="w-full max-w-[900px] h-fit  bg-white rounded-[20px] flex  shadow-lg">
         <div className="w-full h-full rounded-[20px]">
           <div className="flex justify-between items-start px-3 py-4 sticky top-0 z-10 bg-white w-full border-[#eee] rounded-[20px]">
             <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
@@ -82,10 +98,9 @@ function PgLayoutView({ show, handleClose }) {
         ${
           Number(floorClick) === Number(floor.id)
             ? "bg-blue-50 border-2 border-[#1E45E1]"
-            : "bg-white border border-gray-300"
+            : "bg-white border-2 border-gray-300"
         }`}
                 >
-                  {/* Top Letter / Number */}
                   <div
                     className={`text-2xl font-gilroy font-semibold ${
                       Number(floorClick) === Number(floor.id)
@@ -100,7 +115,6 @@ function PgLayoutView({ show, handleClose }) {
                       : floor.id}
                   </div>
 
-                  {/* Full Name */}
                   <div
                     className={`text-sm font-gilroy font-semibold text-center px-2 break-words ${
                       Number(floorClick) === Number(floor.id)
@@ -117,17 +131,18 @@ function PgLayoutView({ show, handleClose }) {
                 </div>
               ))}
             </div>
-            <div>
+            <button className="px-2 py-2 bg-gray-200 rounded flex gap-1 ">
               <Add
                 size="24"
                 color="#FF0000"
                 onClick={handleClose}
                 className="cursor-pointer rotate-45"
               />
-            </div>
+              Close
+            </button>
           </div>
 
-          <div className="grid gap-3 mt-4 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[400px] overflow-y-auto px-3">
+          <div className="grid gap-3 mt-1 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[350px] overflow-y-auto px-3 show-scrolls">
             {roomList.length > 0 ? (
               roomList?.map((room) => {
                 const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
@@ -140,9 +155,12 @@ function PgLayoutView({ show, handleClose }) {
                     key={room.id}
                     className="border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white  overflow-y-auto "
                   >
-                    <div className="bg-[#E0ECFF] border-b border-[#E6E6E6] rounded-t-xl p-2.5">
+                    <div className="bg-[#E0ECFF] border-b border-[#E6E6E6] rounded-t-xl p-2">
                       <div className="text-[14px] font-semibold text-[#222222] truncate">
-                        {room.name}
+                        Room no. {room.name}
+                      </div>
+                      <div className="text-xs text-[#7C7C7C]">
+                        {room?.sharingType}{" "}
                       </div>
                     </div>
 
@@ -158,9 +176,7 @@ function PgLayoutView({ show, handleClose }) {
                               className={`flex flex-col items-center justify-start w-20 `}
                             >
                               <div className="relative w-9 h-10">
-                                {state.login.isTrigger &&
-                                  Number(selectedBed?.bedId) ===
-                                    Number(bed.id) &&
+                                {Number(selectedBed?.id) === Number(bed.id) &&
                                   Number(selectedBed?.roomId) ===
                                     Number(bed.roomId) && (
                                     <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
@@ -245,7 +261,8 @@ function PgLayoutView({ show, handleClose }) {
                                 )}
 
                                 <img
-                                  className={`mt-1 h-10 w-9 `}
+                                  onClick={() => handleSelectBed(bed)}
+                                  className={`mt-1 h-10 w-9 cursor-pointer `}
                                   src={bed.isOccupied ? Green : White}
                                   alt="bedd"
                                 />
@@ -286,6 +303,32 @@ function PgLayoutView({ show, handleClose }) {
               </div>
             )}
           </div>
+
+          {selectedBed?.id && (
+            <div className=" flex flex-wrap items-center justify-center border-t bg-white p-2 rounded-b-[20px]">
+              <div>
+                <div>
+                  <span className="text-base font-medium font-gilroy text-blue-700">
+                    {` ${selectedBed?.floorName || "N/A"} | ${selectedBed?.roomName || "N/A"} | ${selectedBed.bedName || "-"}`}
+                  </span>
+                </div>
+                <div>
+                  <label className="m-0 text-sm font-semibold font-gilroy text-neutral-600">
+                    {SharingTypeFilter[0]?.sharingType} |{" "}
+                    {selectedBed?.rentAmount} / Monthly
+                  </label>
+                </div>
+              </div>
+              <div className="ml-[200px]">
+                <button
+                  onClick={handleConfirmSelected}
+                  className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
+                >
+                  Select
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

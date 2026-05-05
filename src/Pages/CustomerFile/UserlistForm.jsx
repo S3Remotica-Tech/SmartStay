@@ -775,6 +775,14 @@ function UserlistForm(props) {
     setPgLatyout(false);
   };
 
+  const handleSelectedBedDetails = (details) => {
+    console.log("details ******************", details);
+    setRooms(details?.roomId);
+    setBed(details?.id);
+
+    setFloor(details?.floorId);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-[550px]  bg-white rounded-[20px]  shadow-lg">
@@ -1294,7 +1302,7 @@ function UserlistForm(props) {
                 <div className="">
                   <div
                     className="rounded-xl p-4 text-white shadow-md
-        bg-gradient-to-r from-[#1E3A8A] to-[#2563EB]"
+       bg-[#132197]"
                   >
                     <p className="text-xs uppercase tracking-wide opacity-80 mb-1">
                       Summary
@@ -1371,7 +1379,11 @@ function UserlistForm(props) {
       )}
 
       {pgLayout && (
-        <PgLayoutView show={pgLayout} handleClose={handleClosePgLayOut} />
+        <PgLayoutView
+          show={pgLayout}
+          handleClose={handleClosePgLayOut}
+          selectedBedDetails={handleSelectedBedDetails}
+        />
       )}
     </div>
   );
