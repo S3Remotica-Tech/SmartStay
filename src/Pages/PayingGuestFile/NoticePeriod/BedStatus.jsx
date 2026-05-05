@@ -710,12 +710,11 @@ function NoticeBedStatusDetails({
                         </div>
                         <div>
                           <label className="font-gilroy text-sm text-blue-600 font-semibold">
-                            {tenant?.lastInvoiceNumber || "N/A"}{" "}
-                            {tenant?.totalInvoices > 1 &&
-                              `& ${tenant.totalInvoices}`}
-                            {tenant?.totalInvoices > 2 && (
-                              <span className="ml-1 font-normal">
-                                (+{tenant.totalInvoices - 1} more)
+                            {tenant?.lastInvoiceNumber || "N/A"}
+
+                            {tenant?.totalInvoices > 1 && (
+                              <span className="ml-1 font-normal text-blue-600">
+                                & {tenant.totalInvoices - 1} more
                               </span>
                             )}
                           </label>
@@ -1013,7 +1012,7 @@ function NoticeBedStatusDetails({
                           </div>
                         </div>
 
-                        <div className="flex justify-between mb-1">
+                        {/* <div className="flex justify-between mb-1">
                           <div>
                             <label className="font-gilroy text-sm text-gray-900">
                               Last Invoice
@@ -1031,7 +1030,7 @@ function NoticeBedStatusDetails({
                               )}
                             </label>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     ))}
                   </div>
