@@ -1,13 +1,9 @@
 // import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-
-
-
 // export async function AddBooking(datum) {
 
 //   const formData = new FormData();
-
 
 //   if (datum.id) formData.append('id', datum.id);
 //   if (datum.profile) formData.append('profile', datum.profile);
@@ -26,7 +22,6 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   if (datum.pin_code) formData.append("pin_code", datum.pin_code)
 //   if (datum.state) formData.append("state", datum.state)
 
-
 //   try {
 
 //     const response = await AxiosConfig.post('/add_booking', formData, {
@@ -40,18 +35,15 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //     return response.data;
 //   } catch (error) {
 //     console.error("Axios Error:", error);
-//     throw error; 
+//     throw error;
 //   }
 // }
 
-
 // v1
-
 
 // export async function AddBooking(datum) {
 
 //   const formData = new FormData();
-
 
 //   if (datum.id) formData.append('id', datum.id);
 //   if (datum.profile) formData.append('profile', datum.profile);
@@ -74,8 +66,6 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   if (datum.customer_Id) formData.append("customer_Id", datum.customer_Id)
 //   if (datum.state) formData.append("state", datum.state)
 
-
-
 //   try {
 
 //     const response = await AxiosConfig.post('/add_booking', formData, {
@@ -89,51 +79,60 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //     return response.data;
 //   } catch (error) {
 //     console.error("Axios Error:", error);
-//     throw error; 
-//   } 
+//     throw error;
+//   }
 // }
-
 
 // v2
 
-
 export async function AddBooking(booking) {
-  return await AxiosConfigV2.post(`/v2/customers/booking/${booking.hostelId}`, booking, {
-    data: booking
-  })
+  return await AxiosConfigV2.post(
+    `/v2/customers/booking/${booking.hostelId}`,
+    booking,
+    {
+      data: booking,
+    },
+  );
 }
 
-
-
-
-export function GetAddBooking() {
-  new Promise((resolve) => {
-    resolve({ status: 200 });
-  })
+export async function GetBooking(hostelId) {
+  return await AxiosConfigV2.get(`/v2//${hostelId}`);
 }
+
+export async function ApplyInvoice(booking) {
+  return await AxiosConfigV2.post(
+    `/v2/customers/apply/${booking.hostelId}`,
+    booking,
+    {
+      data: booking,
+    },
+  );
+}
+
 export function DeleteBooking() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function assignBooking() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
-
 
 export function assignBookingBed() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
-
 export async function bookingInActive(book) {
-
-  return await AxiosConfigV2.put(`/v2/bookings/cancel/${book.customerId}`, book, {
-    data: book
-  })
+  return await AxiosConfigV2.put(
+    `/v2/bookings/cancel/${book.customerId}`,
+    book,
+    {
+      data: book,
+    },
+  );
 }

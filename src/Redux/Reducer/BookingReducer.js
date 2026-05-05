@@ -13,16 +13,17 @@ export const initialState = {
   availableBedBooking: [],
   statusCodeForBedBooking: "",
   ErrorAssignBooking: "",
-  ErrorAssignBookingDate: '',
-  ErrorAssignBookingMobile: '',
+  ErrorAssignBookingDate: "",
+  ErrorAssignBookingMobile: "",
   StatusCodeInactiveCode: 0,
   bookingBedError: "",
-  bookingMakeAsError: ''
+  bookingMakeAsError: "",
+  applyinvoiceSuccessCode: 0,
 };
 
 const BookingReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'RESET_ALL':
+    case "RESET_ALL":
       return initialState;
     case "ADD_USER_BOOKING":
       return {
@@ -30,17 +31,21 @@ const BookingReducer = (state = initialState, action) => {
         statusCodeForAddBooking: action.payload.statusCode,
       };
 
+    case "APPLY_INVOICE_REDUCER":
+      return { ...state, applyinvoiceSuccessCode: action.payload.statusCode };
+    case "REMOVE_APPLY_INVOICE_REDUCER":
+      return { ...state, applyinvoiceSuccessCode: 0 };
+
     case "BOOKING_PHONE_ERROR":
       return { ...state, bookingPhoneError: action.payload };
     case "CLEAR_PHONE_ERROR":
       return { ...state, bookingPhoneError: "" };
 
-    case 'ERROR_MAKEASINACTIVE':
+    case "ERROR_MAKEASINACTIVE":
       return { ...state, bookingMakeAsError: action.payload };
 
-    case 'REMOVE_ERROR_MAKEASINACTIVE':
-      return { ...state, bookingMakeAsError: '' };
-
+    case "REMOVE_ERROR_MAKEASINACTIVE":
+      return { ...state, bookingMakeAsError: "" };
 
     case "BOOKING_EMAIL_ERROR":
       return { ...state, bookingEmailError: action.payload };
@@ -83,9 +88,6 @@ const BookingReducer = (state = initialState, action) => {
     case "ERROR_BOOKING_REMOVE":
       return { ...state, bookingBedError: "" };
 
-
-
-
     case "ALREADY_MOBILE_ERROR":
       return { ...state, ErrorAssignBookingMobile: action.payload };
     case "REMOVE_ALREADY_MOBILE_ERROR":
@@ -96,20 +98,18 @@ const BookingReducer = (state = initialState, action) => {
     case "REMOVE_ERROR_ASSIGN_BOOKING":
       return { ...state, ErrorAssignBooking: "" };
 
-
     case "BOOKING_BED_DETAILS":
       return {
         ...state,
         statusCodeForBedBooking: action.payload.statusCode,
       };
 
-    case 'BOOKING_INACTIVE':
-      return { ...state, StatusCodeInactiveCode: action.payload.statusCode }
-    case 'CLEAR_BOOKING_InActive':
-      return { ...state, StatusCodeInactiveCode: 0 }
+    case "BOOKING_INACTIVE":
+      return { ...state, StatusCodeInactiveCode: action.payload.statusCode };
+    case "CLEAR_BOOKING_InActive":
+      return { ...state, StatusCodeInactiveCode: 0 };
     default:
       return state;
   }
-
 };
 export default BookingReducer;
