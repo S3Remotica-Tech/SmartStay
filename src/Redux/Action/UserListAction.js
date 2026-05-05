@@ -22,15 +22,17 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 // v2
 export async function userlist(users) {
-   return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
-    params: {
-      name: users.name || "",
-      type: users.type || "",
-      page: users.page,
-      size: users.size,
-      period: users.period,
-      sharingType: users.sharingType
-    },
+  const params = {};
+
+  if (users.name) params.name = users.name;
+  if (users.type) params.type = users.type;
+  if (users.page) params.page = users.page;
+  if (users.size) params.size = users.size;
+  if (users.period) params.period = users.period;
+  if (users.sharingType) params.sharingType = users.sharingType;
+
+  return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
+    params,
   });
 }
 

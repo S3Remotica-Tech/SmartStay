@@ -268,8 +268,12 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setHostelId(state.login.selectedHostel_Id);
       setPage(1);
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -877,12 +881,6 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode]);
 
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "BANKINGLIST", payload: hostelId });
-    }
-  }, [hostelId]);
-
   // useEffect(() => {
   //   if (state.bankingDetails.statusCodeForGetBanking === 200) {
   //     // setBanking(state.bankingDetails.bankingList.banks);
@@ -974,12 +972,6 @@ const InvoicePage = () => {
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate]);
-
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
-    }
-  }, [hostelId]);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
@@ -1907,7 +1899,10 @@ const InvoicePage = () => {
 
       {showRecurringBillForm && (
         <>
-          <RecurringBill hostelId={hostelId} onhandleback={handleBackBill} />
+          <RecurringBill
+            hostelId={state.login.selectedHostel_Id}
+            onhandleback={handleBackBill}
+          />
         </>
       )}
 

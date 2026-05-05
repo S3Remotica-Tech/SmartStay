@@ -242,6 +242,8 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
+  console.log("state", state);
+
   const options = [
     { key: "Name", label: "Name" },
     { key: "Status", label: "Status" },
@@ -599,7 +601,7 @@ function UserList(props) {
     }
   }, [state.UsersList?.Users]);
 
-  // console.log("state.UsersList.Users", state.UsersList.Users);
+  console.log("state.UsersList.Users", state.UsersList.Users);
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -960,11 +962,6 @@ function UserList(props) {
   }, [state?.Booking?.statusCodeForAddBooking]);
 
   const [search, setSearch] = useState(false);
-
-  // const sortedData = React.useMemo(() => {
-  //   const items = search || filterStatus ? filteredUsers : userListDetail;
-  //   return Array.isArray(items) ? items : [];
-  // }, [search, filterStatus, filteredUsers, userListDetail]);
 
   const stats = [
     {
@@ -2044,6 +2041,7 @@ function UserList(props) {
 
   useEffect(() => {
     const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    if (!state.login.selectedHostel_Id) return;
     dispatch({
       type: "USERLIST",
       payload: {
