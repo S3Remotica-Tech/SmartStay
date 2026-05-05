@@ -150,7 +150,7 @@ function OccupiedBedStatus({
               </div>
             </Modal.Header>
 
-            <Modal.Body className="pt-1 pb-0">
+            <Modal.Body className="pt-1 pb-0 max-h-[450px] show-scrolls">
               <div className="grid grid-cols-1 mt-1">
                 <div className="col-span-1">
                   <label className="mt-0 mb-1 text-base text-[#222222] font-gilroy font-medium">
@@ -405,19 +405,19 @@ function OccupiedBedStatus({
                             <div
                               className={`flex gap-2 items-center p-2 rounded-t-lg ${
                                 canWriteCustomers
-                                  ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]"
+                                  ? "cursor-not-allowed opacity-100 hover:bg-[#F0F4FF]"
                                   : "cursor-not-allowed opacity-50"
                               }`}
                             >
                               <AddCircle
                                 size={18}
                                 color={
-                                  canWriteCustomers ? "#1E45E1" : "#A0A0A0"
+                                  canWriteCustomers ? "#A0A0A0" : "#A0A0A0"
                                 }
                                 className="ml-1"
                               />
                               <label
-                                className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-[#222222]" : "text-gray-300"}`}
+                                className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-gray-500 cursor-not-allowed" : "text-gray-300"}`}
                               >
                                 Check-In
                               </label>
