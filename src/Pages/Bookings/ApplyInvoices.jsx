@@ -123,7 +123,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: advanceDetails?.invoiceId,
-        amount: applyAmountForInvoice,
+        // invoice: applyAmountForInvoice,
       },
     });
     setFormLoading(true);
@@ -208,110 +208,115 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
               </div>
             </div>
           </div>
+          <div className="overflow-y-auto show-scrolls max-h-[400px]">
+            <div className="bg-white rounded-xl border border-[#E8E8E8]">
+              <div className="overflow-auto h-fit">
+                <table className="w-full text-sm">
+                  <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
+                    <tr className="rounded-tl-xl rounded-tr-xl">
+                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                        TYPE
+                      </th>
+                      <th className="text-left px-4 py-2">INV NO</th>
+                      <th className="text-left px-4 py-2">DUE DATE</th>
+                      <th className="text-left px-4 py-2">INVOICE AMOUNT</th>
+                      <th className="text-left px-4 py-2">INVOICE BALANCE</th>
+                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                        AMOUNT TO APPLY
+                      </th>
+                    </tr>
+                  </thead>
 
-          <div className="bg-white rounded-xl border border-[#E8E8E8]">
-            <div className="overflow-auto h-[200px]">
-              <table className="w-full text-sm">
-                <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
-                  <tr className="rounded-tl-xl rounded-tr-xl">
-                    <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
-                      TYPE
-                    </th>
-                    <th className="text-left px-4 py-2">INV NO</th>
-                    <th className="text-left px-4 py-2">DUE DATE</th>
-                    <th className="text-left px-4 py-2">INVOICE AMOUNT</th>
-                    <th className="text-left px-4 py-2">INVOICE BALANCE</th>
-                    <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
-                      AMOUNT TO APPLY
-                    </th>
-                  </tr>
-                </thead>
+                  <tbody>
+                    {initializeDetails?.listInvoices?.length > 0 ? (
+                      initializeDetails.listInvoices.map((item, index) => (
+                        <tr key={index} className="border-t  whitespace-nowrap">
+                          <td className="px-4 py-2 font-semibold">
+                            {item.invoiceType}
+                          </td>
 
-                <tbody>
-                  {initializeDetails?.listInvoices?.length > 0 ? (
-                    initializeDetails.listInvoices.map((item, index) => (
-                      <tr key={index} className="border-t  whitespace-nowrap">
-                        <td className="px-4 py-2 font-semibold">
-                          {item.invoiceType}
-                        </td>
+                          <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
+                            {item.invoiceNumber}
+                          </td>
 
-                        <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
-                          {item.invoiceNumber}
-                        </td>
+                          <td className="px-4 py-2 text-gray-500">
+                            {item.dueDate}
+                          </td>
 
-                        <td className="px-4 py-2 text-gray-500">
-                          {item.dueDate}
-                        </td>
+                          <td className="font-semibold px-4 py-2">
+                            ₹{item.invoiceAmount}
+                          </td>
 
-                        <td className="font-semibold px-4 py-2">
-                          ₹{item.invoiceAmount}
-                        </td>
+                          <td className="px-4 py-2 font-semibold">
+                            ₹{item.pendingAmount}
+                          </td>
 
-                        <td className="px-4 py-2 font-semibold">
-                          ₹{item.pendingAmount}
-                        </td>
-
-                        <td className="px-4 py-2 font-semibold">
-                          <input
-                            type="number"
-                            value={
-                              applyAmountForInvoice.find(
-                                (i) => i.targetInvoiceId === item.invoiceId,
-                              )?.amount || ""
-                            }
-                            onChange={(e) =>
-                              handleApplyAmountChange(index, e.target.value)
-                            }
-                            placeholder="₹ 0.00"
-                            className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                              item.applyAmount ? "font-semibold" : "font-medium"
-                            }`}
-                          />
+                          <td className="px-4 py-2 font-semibold">
+                            <input
+                              type="number"
+                              value={
+                                applyAmountForInvoice.find(
+                                  (i) => i.targetInvoiceId === item.invoiceId,
+                                )?.amount || ""
+                              }
+                              onChange={(e) =>
+                                handleApplyAmountChange(index, e.target.value)
+                              }
+                              placeholder="₹ 0.00"
+                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
+                                item.applyAmount
+                                  ? "font-semibold"
+                                  : "font-medium"
+                              }`}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="text-center text-red-600 py-5"
+                        >
+                          No invoices found
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={6} className="text-center text-red-600 py-5">
-                        No invoices found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          {error && (
-            <div className="mb-3">
-              <ErrorMessage message={error} type="error" />
-            </div>
-          )}
-          {state?.Booking?.applyRedeemError && (
-            <div className="mb-3">
-              <ErrorMessage
-                message={state?.Booking?.applyRedeemError}
-                type="error"
-              />
-            </div>
-          )}
-          <div className="mt-6 flex justify-end">
-            <div className="bg-gray-100 px-4 py-3 rounded-lg">
-              <div className="flex justify-between text-sm text-gray-500 mb-2 gap-6">
-                <span>Amount Applied</span>
-                <span className="font-semibold text-black">
-                  ₹ {totalApplied.toFixed(2)}{" "}
-                </span>
+                    )}
+                  </tbody>
+                </table>
               </div>
+            </div>
+            {error && (
+              <div className="mb-3">
+                <ErrorMessage message={error} type="error" />
+              </div>
+            )}
+            {state?.Booking?.applyRedeemError && (
+              <div className="mb-3">
+                <ErrorMessage
+                  message={state?.Booking?.applyRedeemError}
+                  type="error"
+                />
+              </div>
+            )}
+            <div className="mt-6 flex justify-end">
+              <div className="bg-gray-100 px-4 py-3 rounded-lg">
+                <div className="flex justify-between text-sm text-gray-500 mb-2 gap-6">
+                  <span>Amount Applied</span>
+                  <span className="font-semibold text-black">
+                    ₹ {totalApplied.toFixed(2)}{" "}
+                  </span>
+                </div>
 
-              <div className="flex justify-between text-sm text-gray-500 gap-6">
-                <span>Available Balance</span>
-                <span className="font-semibold text-black">
-                  ₹ {remainingBalance.toFixed(2)}
-                </span>
+                <div className="flex justify-between text-sm text-gray-500 gap-6">
+                  <span>Available Balance</span>
+                  <span className="font-semibold text-black">
+                    ₹ {remainingBalance.toFixed(2)}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-
           <div className="mt-6 flex justify-end gap-3">
             <button
               onClick={handleClose}

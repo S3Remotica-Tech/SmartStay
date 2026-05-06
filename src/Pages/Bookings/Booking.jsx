@@ -33,6 +33,7 @@ import {
   ArrowDown,
   CloseCircle,
   Document,
+  Link21,
 } from "iconsax-react";
 import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
@@ -556,6 +557,23 @@ function Booking() {
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
+  const handleNavigatePdf = (invoiceId) => {
+    if (invoiceId) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: invoiceId,
+        },
+      });
+      navigate(`/booking/details/${invoiceId}`, {
+        state: {
+          rowData: invoiceId,
+        },
+      });
+    }
+  };
+
   return (
     <div className=" bg-white font-gilroy  mr-2 ">
       {loading && (
@@ -701,116 +719,156 @@ function Booking() {
                           <th className=" px-2">Bed</th>
                           <th className=" px-2">Amount</th>
                           <th className="px-2">Status</th>
-                          <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB]">
+                          <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
                             Action
                           </th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {bookingList?.advanceInvoiceList?.map((item, index) => (
-                          <tr
-                            key={item.invoiceId}
-                            className="border-b last:border-0 text-sm"
-                          >
-                            <td className="px-4 py-2.5 sticky left-0 bg-white z-40 w-[80px]">
-                              <input
-                                disabled
-                                type="checkbox"
-                                checked={selectedRows.includes(item.id)}
-                                onChange={() => handleRowSelect(item.id)}
-                              />
-                            </td>
-
-                            <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold">
-                              {item.invoiceNumber}
-                            </td>
-                            <td className="w-[250px] px-2 py-2.5 text-[#222222]">
-                              {item.bookingDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center text-gray-700 font-semibold shrink-0">
-                                  {item?.profilePic ? (
-                                    <img
-                                      src={item.profilePic}
-                                      alt="profile"
-                                      className="w-full h-full object-cover"
-                                    />
-                                  ) : (
-                                    item?.initials || "NA"
-                                  )}
-                                </div>
-
-                                <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                  {item.fullName}
-                                </div>
-                              </div>
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
-                              {item.mobileNumber}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.floorName}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.roomName}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.bedName}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.invoiceAmount}
-                            </td>
-
-                            <td className="w-[270px] px-2 py-2.5">
-                              <span
-                                className={`px-2 py-1 text-xs rounded ${
-                                  item.status === "Paid"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
-                                }`}
+                        {bookingList?.advanceInvoiceList?.length > 0 ? (
+                          bookingList?.advanceInvoiceList?.map(
+                            (item, index) => (
+                              <tr
+                                onClick={() =>
+                                  handleNavigatePdf(item.invoiceId)
+                                }
+                                key={item.invoiceId}
+                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                                    cursor-pointer group  hover:!bg-gray-50"
                               >
-                                {item.status || "N/A"}
-                              </span>
-                            </td>
+                                <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
+                                  <input
+                                    disabled
+                                    type="checkbox"
+                                    checked={selectedRows.includes(item.id)}
+                                    onChange={() => handleRowSelect(item.id)}
+                                  />
+                                </td>
 
-                            <td className="w-[230px] px-2 py-2.5 sticky right-0 bg-white z-40">
-                              <div className="cursor-pointer flex justify-center items-center relative">
-                                <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
-                                  onClick={(e) => handleShowDots(e, index)}
-                                />
-                                {showDots === index && (
-                                  <div
-                                    ref={popupRef}
-                                    className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
-                                    style={{
-                                      top: showAbove
-                                        ? popupPosition.top -
-                                          (popupRef.current?.offsetHeight ||
-                                            100) -
-                                          20
-                                        : popupPosition.top - 35,
-                                      left: popupPosition.left,
-                                    }}
-                                  >
-                                    <div
-                                      onClick={() => handleApplyInvoices(item)}
-                                      className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px]
-      ${canWriteBooking ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                    >
-                                      <Document color="#1E45E1" size="14" />
-                                      <span className="text-sm font-medium text-[#222]">
-                                        Apply Invoices
-                                      </span>
+                                <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold">
+                                  {item.invoiceNumber}
+                                </td>
+                                <td className="w-[250px] px-2 py-2.5 text-[#222222]">
+                                  {item.bookingDate}
+                                </td>
+                                <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center text-gray-700 font-semibold shrink-0">
+                                      {item?.profilePic ? (
+                                        <img
+                                          src={item.profilePic}
+                                          alt="profile"
+                                          className="w-full h-full object-cover"
+                                        />
+                                      ) : (
+                                        item?.initials || "NA"
+                                      )}
+                                    </div>
+
+                                    <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                      {item.fullName}
                                     </div>
                                   </div>
-                                )}
-                              </div>
+                                </td>
+                                <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                                  {item.mobileNumber}
+                                </td>
+                                <td className="w-[230px] px-2 py-2.5">
+                                  {item.floorName}
+                                </td>
+                                <td className="w-[230px] px-2 py-2.5">
+                                  {item.roomName}
+                                </td>
+                                <td className="w-[230px] px-2 py-2.5">
+                                  {item.bedName}
+                                </td>
+                                <td className="w-[230px] px-2 py-2.5">
+                                  ₹ {item.invoiceAmount}
+                                </td>
+
+                                <td className="w-[270px] px-2 py-2.5">
+                                  <span
+                                    className={`px-2 py-1 text-xs rounded ${
+                                      item.status === "Paid"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-yellow-100 text-yellow-700"
+                                    }`}
+                                  >
+                                    {item.status || "N/A"}
+                                  </span>
+                                </td>
+
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                >
+                                  <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
+                                    <PiDotsThreeOutlineVerticalFill
+                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleShowDots(e, index);
+                                      }}
+                                    />
+                                    {showDots === index && (
+                                      <div
+                                        ref={popupRef}
+                                        className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                100) -
+                                              20
+                                            : popupPosition.top - 35,
+                                          left: popupPosition.left,
+                                        }}
+                                      >
+                                        <button
+                                          disabled={!canWriteBooking}
+                                          onClick={() =>
+                                            handleApplyInvoices(item)
+                                          }
+                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px]
+    ${
+      !canWriteBooking
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                                        >
+                                          <Link21
+                                            color={`${canWriteBooking ? "#1E45E1" : "#A9A9A9"}`}
+                                            size="16"
+                                          />
+                                          <span
+                                            className={` text-sm font-medium text-[#222] ${
+                                              !canWriteBooking
+                                                ? "cursor-not-allowed opacity-50 bg-gray-100"
+                                                : "cursor-pointer hover:bg-[#EDF2FF]"
+                                            }`}
+                                          >
+                                            Apply Invoices
+                                          </span>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            ),
+                          )
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={12}
+                              className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
+                            >
+                              No Data Found
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                     {open && (
