@@ -698,7 +698,7 @@ function Booking() {
                     <table className="w-full  font-gilroy">
                       <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                         <tr className="h-9">
-                          <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
+                          <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
                             <input
                               disabled
                               type="checkbox"
@@ -815,22 +815,23 @@ function Booking() {
                                     {showDots === index && (
                                       <div
                                         ref={popupRef}
-                                        className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                                        className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
                                               (popupRef.current?.offsetHeight ||
                                                 100) -
                                               20
-                                            : popupPosition.top - 35,
+                                            : popupPosition.top,
                                           left: popupPosition.left,
                                         }}
                                       >
                                         <button
                                           disabled={!canWriteBooking}
-                                          onClick={() =>
-                                            handleApplyInvoices(item)
-                                          }
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleApplyInvoices(item);
+                                          }}
                                           className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px]
     ${
       !canWriteBooking

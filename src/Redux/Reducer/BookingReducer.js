@@ -21,6 +21,7 @@ export const initialState = {
   applyinvoiceSuccessCode: 0,
   initializeRedeemSuccessCode: 0,
   initializeRedeem: "",
+  applyRedeemError: "",
 };
 
 const BookingReducer = (state = initialState, action) => {
