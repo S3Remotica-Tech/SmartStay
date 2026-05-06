@@ -80,7 +80,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails }) {
   });
 
   const handleConfirmSelected = () => {
-    selectedBedDetails(selectedBed)
+    selectedBedDetails(selectedBed);
     handleClose();
   };
 
@@ -188,77 +188,83 @@ function PgLayoutView({ show, handleClose, selectedBedDetails }) {
                                     </div>
                                   )}
 
-                                {bed.isBooked && bed.onNotice && (
-                                  <div className="action-circle">
-                                    {bed.onNotice && bed.overDue && bed.isBooked
-                                      ? 3
-                                      : 2}
+                                {(bed.isBooked ||
+                                  bed.onNotice ||
+                                  bed.overDue) &&
+                                  (() => {
+                                    const activeStatuses = [
+                                      bed.isBooked,
+                                      bed.onNotice,
+                                      bed.overDue,
+                                    ].filter(Boolean);
 
-                                    <div className="action-icons">
-                                      {bed.isBooked && (
-                                        <img
-                                          src={recerverimg}
-                                          alt="occupied"
-                                          height={20}
-                                          width={20}
-                                          className="cursor-pointer"
-                                        />
-                                      )}
+                                    const count = activeStatuses.length;
 
-                                      {bed.onNotice && (
-                                        <img
-                                          src={noticeimg}
-                                          alt="notice"
-                                          height={20}
-                                          width={20}
-                                          className="cursor-pointer"
-                                        />
-                                      )}
+                                    if (count === 1) {
+                                      return (
+                                        <div className="absolute -top-[2px] -right-[10px]">
+                                          {bed.isBooked && (
+                                            <img
+                                              src={recerverimg}
+                                              className="w-[20px] h-[20px] flex-shrink-0"
+                                            />
+                                          )}
+                                          {bed.onNotice && (
+                                            <img
+                                              src={noticeimg}
+                                              className="w-[20px] h-[20px] flex-shrink-0"
+                                            />
+                                          )}
+                                          {bed.overDue && (
+                                            <img
+                                              src={overDude}
+                                              className="w-[20px] h-[20px] flex-shrink-0"
+                                            />
+                                          )}
+                                        </div>
+                                      );
+                                    }
 
-                                      {bed.overDue && (
-                                        <img
-                                          src={overDude}
-                                          alt="overDude"
-                                          height={20}
-                                          width={20}
-                                          className="cursor-pointer"
-                                        />
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
+                                    return (
+                                      <div
+                                        className={`absolute -top-[2px] -right-[10px] w-[22px] h-[22px]  ${hoveredBedId !== bed.id && count ? "border-2  bg-white border-green-600 rounded-full " : " bg-transparent"} text-[12px] font-bold text-green-600 flex items-center justify-center cursor-pointer`}
+                                        onMouseEnter={() =>
+                                          setHoveredBedId(bed.id)
+                                        }
+                                        onMouseLeave={() =>
+                                          setHoveredBedId(null)
+                                        }
+                                      >
+                                        {hoveredBedId !== bed.id && count}
 
-                                {!bed.isBooked &&
-                                  !bed.onNotice &&
-                                  bed.overDue && (
-                                    <img
-                                      src={overDude}
-                                      alt="overDude"
-                                      height={20}
-                                      width={20}
-                                      className="absolute inset-y-px -right-2.5 cursor-pointer"
-                                    />
-                                  )}
-
-                                {bed.isBooked && !bed.onNotice && (
-                                  <img
-                                    src={recerverimg}
-                                    alt="booking"
-                                    height={20}
-                                    width={20}
-                                    className="absolute inset-y-px -right-2.5 cursor-pointer"
-                                  />
-                                )}
-
-                                {bed.onNotice && !bed.isBooked && (
-                                  <img
-                                    src={noticeimg}
-                                    alt="notice"
-                                    height={20}
-                                    width={20}
-                                    className="absolute inset-y-px -right-2.5 cursor-pointer"
-                                  />
-                                )}
+                                        {hoveredBedId === bed.id && (
+                                          <div
+                                            className="absolute top-0 left-0 -translate-x-1/2 bg-white rounded-full px-[6px] py-[3px]
+                             flex items-center gap-[4px] shadow-md w-fit"
+                                          >
+                                            {bed.isBooked && (
+                                              <img
+                                                src={recerverimg}
+                                                className="w-[18px] h-[18px] flex-shrink-0"
+                                              />
+                                            )}
+                                            {bed.onNotice && (
+                                              <img
+                                                src={noticeimg}
+                                                className="w-[18px] h-[18px] flex-shrink-0"
+                                              />
+                                            )}
+                                            {bed.overDue && (
+                                              <img
+                                                src={overDude}
+                                                className="w-[18px] h-[18px] flex-shrink-0"
+                                              />
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })()}
 
                                 <img
                                   onClick={() => handleSelectBed(bed)}
