@@ -796,7 +796,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
                         >
                           {hoveredBedId !== bed.id && count}
 
-                          {/* Icons (show on hover) */}
                           {hoveredBedId === bed.id && (
                             <div
                               className="absolute top-0 left-0 -translate-x-1/2 bg-white rounded-full px-[6px] py-[3px]
