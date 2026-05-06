@@ -124,7 +124,7 @@ function CreateBill() {
       const SelectedCustomerRoomRent =
         state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
 
-      if (SelectedCustomerRoomRent) {
+      if (SelectedCustomerRoomRent && customername) {
         setNewRows((prevRows) => {
           const roomRentIndex = prevRows.findIndex(
             (row) => row.am_name === "Room Rent",
