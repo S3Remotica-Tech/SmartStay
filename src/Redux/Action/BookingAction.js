@@ -95,8 +95,19 @@ export async function AddBooking(booking) {
   );
 }
 
-export async function GetBooking(hostelId) {
-  return await AxiosConfigV2.get(`/v2//${hostelId}`);
+
+
+export async function GetBooking(book) {
+  const params = {};
+  // if (users.name) params.name = users.name;
+  // if (users.type) params.type = users.type;
+  if (book.page) params.page = book.page;
+  if (book.size) params.size = book.size;
+  // if (users.period) params.period = users.period;
+  // if (users.sharingType) params.sharingType = users.sharingType;
+  return await AxiosConfigV2.get(`/v2/bills/advances/${book.hostelId}`, {
+    params,
+  });
 }
 
 export async function ApplyInvoice(booking) {
@@ -106,6 +117,12 @@ export async function ApplyInvoice(booking) {
     {
       data: booking,
     },
+  );
+}
+
+export async function advanceRedeemInitialize(hostel) {
+  return await AxiosConfigV2.get(
+    `/v2/bills/redeem/initialize/${hostel.hostelId}/${hostel.advanceInvoiceId}`,
   );
 }
 

@@ -10,52 +10,51 @@ import "../Bills/Invoices.css";
 import "flatpickr/dist/themes/material_blue.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-import '../OthersComponent/BillPdfModal.css';
-import {  useLocation } from "react-router-dom";
+import "../OthersComponent/BillPdfModal.css";
+import { useLocation } from "react-router-dom";
 import BookingPdfModal from "./BookingPdfModal";
 
-
 function BookingsPdfDetails() {
-
-
   const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 
-
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
-  const [rowDatas, setRowDatas] = useState('')
+  const [rowDatas, setRowDatas] = useState("");
   const invoiceRefs = useRef({});
-
 
   const { rowData } = location.state || {};
 
-
   useEffect(() => {
-    setSelectedInvoiceId(rowData.transactionId)
-  }, [rowData])
+    setSelectedInvoiceId(rowData);
+  }, [rowData]);
 
   // console.log("rowData", rowData)
 
   const handleDisplayInvoiceDownload = (item) => {
     // console.log("itemmmmm", item)
-    setRowDatas(item)
-    setSelectedInvoiceId(item.transactionId)
+    setRowDatas(item);
+    setSelectedInvoiceId(item.transactionId);
     if (item?.transactionId && state.login.selectedHostel_Id) {
-
-      dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: item.transactionId } })
+      dispatch({
+        type: "RECEIPTPDF_NEWCHANGES",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          transactionId: item.transactionId,
+        },
+      });
     }
   };
 
   // console.log("state", state.InvoiceList)
 
   useEffect(() => {
-    if (rowData?.transactionId) {
-      setSelectedInvoiceId(rowData.transactionId);
+    if (rowData) {
+      setSelectedInvoiceId(rowData);
 
       setTimeout(() => {
-        invoiceRefs.current[rowData.transactionId]?.scrollIntoView({
+        invoiceRefs.current[rowData]?.scrollIntoView({
           behavior: "smooth",
           block: "center",
         });
@@ -63,183 +62,85 @@ function BookingsPdfDetails() {
     }
   }, [rowData]);
 
-
-
-
-
-
-
   return (
-    <Row className="p-0" style={{ width: "100%", }}>
-      <Col className="p-0"
-        lg={4}
-        md={4}
-        sm={12}
-        xs={12}
-      >
-
-        <div
-          className="container sticky-top bg-white"
-          style={{
-            zIndex: 0,
-            height: 'auto',
-            // margin: (DownloadInvoice) ? 0 : 3,
-            paddingBottom: 0,
-            borderBottom: "1px solid #E5E7EB",
-            boxShadow: "initial"
-          }}
-        >
-          <div className="d-flex justify-content-between align-items-center flex-wrap mb-2">
-            <div className="" style={{
-              marginTop: 12,
-            }}>
-              <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Receipt</label>
-            </div>
-
+    <div className="w-full grid grid-cols-12 font-gilroy">
+      <div className="col-span-12 md:col-span-4 border-r">
+        <div className="sticky top-0 bg-white z-10 border-b px-4 py-3">
+          <div className="flex justify-between items-center">
+            <label className="text-[18px] font-semibold text-black">
+              Bookings
+            </label>
           </div>
         </div>
-        <div
-          className="show-scroll p-2 mt-2"
-          style={{ height: "90vh", overflowY: "auto" }}
-        >
-          {state.InvoiceList.ReceiptList &&
-            state.InvoiceList.ReceiptList?.map((item) => (
-              <>
-                <div key={item.transactionId} ref={(el) => (invoiceRefs.current[item.transactionId] = el)}
-                  className="mb-3  shadow-sm rounded"
-                  style={{
-                    padding: "12px 12px", cursor: "pointer",
 
-                    backgroundColor: String(selectedInvoiceId) === String(item.transactionId) ? "#E8EDFF" : "#FFFFFF"
-                  }}
-                >
-                  <div className="d-flex align-items-start justify-content-between">
-                    <div>
-                      {
-                        item.profilePic && item.profilePic !== "0" ? (
-                          <img
-                            src={item.profilePic}
-                            alt="User"
-                            style={{
-                              height: 40,
-                              width: 40,
-                              borderRadius: "50%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              height: 40,
-                              width: 40,
-                              borderRadius: "50%",
-                               backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                                                           fontWeight: 600,
-                              fontSize: 14,
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            {item.initials}
-                          </div>
-                        )
-                      }
+        <div className="h-[90vh] overflow-y-auto p-2 space-y-3">
+          {state?.Booking?.tenantBookingList?.advanceInvoiceList?.map(
+            (item) => (
+              <div
+                key={item.invoiceId}
+                ref={(el) => (invoiceRefs.current[item.invoiceId] = el)}
+                className={`p-3 rounded shadow-sm cursor-pointer transition
+            ${
+              String(selectedInvoiceId) === String(item.invoiceId)
+                ? "bg-[#E8EDFF]"
+                : "bg-white hover:bg-gray-50"
+            }
+          `}
+              >
+                <div className="flex justify-between items-start">
+                  <div className="shrink-0">
+                    {item.profilePic && item.profilePic !== "0" ? (
+                      <img
+                        src={item.profilePic}
+                        alt="User"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center text-sm font-semibold uppercase">
+                        {item.initials}
+                      </div>
+                    )}
+                  </div>
 
+                  <div className="flex-1 ml-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <div
+                        className="text-sm font-semibold text-[#222] cursor-pointer"
+                        onClick={() => {
+                          setSelectedInvoiceId(item.invoiceId);
+                          handleDisplayInvoiceDownload(item);
+                        }}
+                      >
+                        {item.fullName || "Unnamed"}
+                      </div>
+
+                      <div className="text-sm font-semibold text-[#222]">
+                        ₹ {item.availableAmount || "0"}
+                      </div>
                     </div>
 
-                    <div className="flex-grow-1 ms-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <div
-                          className="Invoice_Name d-flex flex-wrap"
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            color: "#222",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setSelectedInvoiceId(item.transactionId);
-                            handleDisplayInvoiceDownload(item)
-                          }}
-                        >
-                          {item.fullName || "Unnamed"}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            color: "#222",
-                          }}
-                        >
-                          ₹ {item.paidAmount || "0"}
-                        </div>
+                    <div className="flex justify-between items-center">
+                      <div className="text-xs text-[#555]">
+                        {item?.bookingDate}
                       </div>
 
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            color: "#555",
-                          }}
-                        >
-                          {item?.paidAt}
-                        </div>
-                        <span
-                          style={{
-                            fontSize: "10px",
-                            backgroundColor: "#D9FFD9",
-                            color: "#000",
-                            borderRadius: "14px",
-                            fontFamily: "Gilroy",
-                            padding: "4px 10px",
-                            height: "24px",
-                            lineHeight: "16px",
-                            display: "inline-flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          {item?.paymentStatus === "PAID" ? "Paid" : "Unpaid"}
-                        </span>
-                      </div>
+                      <span className="text-[10px] bg-green-100 text-black rounded-full px-3 py-1 flex items-center">
+                        {item?.paymentStatus === "PAID" ? "Paid" : "Unpaid"}
+                      </span>
                     </div>
                   </div>
                 </div>
-
-
-
-              </>
-            ))}
+              </div>
+            ),
+          )}
         </div>
-
-
-
-
-      </Col>
-
-      <Col className="p-0 m-0"
-        lg={8}
-        md={8}
-        sm={8}
-        xs={8}
-      >
-        <BookingPdfModal
-          rowData={rowData || rowDatas}
-        />
-
-
-      </Col>
-
-
-
-    </Row>
-  )
+      </div>
+     
+      <div className="col-span-12 md:col-span-8">
+        <BookingPdfModal rowData={rowData || rowDatas} />
+      </div>
+    </div>
+  );
 }
 
-export default BookingsPdfDetails
+export default BookingsPdfDetails;

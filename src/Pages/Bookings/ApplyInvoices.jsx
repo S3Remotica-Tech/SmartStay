@@ -1,226 +1,350 @@
-
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { 
-    // useEffect, 
-    useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Table, Form } from "react-bootstrap";
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { ArrowRight } from "iconsax-react";
+import ErrorMessage from "../../Components/ErrorMessage";
 
-const initialData = [
-    {
-        type: "Rental",
-        invNo: "#INV-987",
-        dueDate: "11 Dec 2025",
-        invoiceAmount: 4500,
-        invoiceBalance: 4500,
-        applyAmount: "",
-    },
-    {
-        type: "Advance",
-        invNo: "#ADV-287",
-        dueDate: "12 Dec 2025",
-        invoiceAmount: 5000,
-        invoiceBalance: 5000,
-        applyAmount: "",
-    },
-];
+function ApplyBookingModal({ show, handleClose, advanceDetails }) {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
+  const [error, setError] = useState("");
+  const [applyAmountForInvoice, setApplyAmountForInvoice] = useState([]);
+  const [formLoading, setFormLoading] = useState(false);
 
+  const handleApplyAmountChange = (index, value) => {
+    dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
+    setError("");
 
+    const invoice = initializeDetails.listInvoices[index];
+    const invoiceId = invoice.invoiceId;
 
+    if (value === "") {
+      const updated = applyAmountForInvoice.filter(
+        (item) => item.targetInvoiceId !== invoiceId,
+      );
+      setApplyAmountForInvoice(updated);
+      return;
+    }
 
-function ApplyBookingModal({ show, handleClose }) {
-
-
-    const [sortedData, setSortedData] = useState(initialData);
-
-    const handleApplyAmountChange = (index, value) => {
-        if (value === "") {
-            const updatedData = [...sortedData];
-            updatedData[index].applyAmount = "";
-            setSortedData(updatedData);
-            return;
-        }
-
-        if (!/^\d+$/.test(value)) return;
-
-        const sanitizedValue = value.replace(/^0+(?!$)/, "");
-
-        const updatedData = [...sortedData];
-        updatedData[index].applyAmount = sanitizedValue;
-        setSortedData(updatedData);
-    };
-
-
-
-
-
-
-
-
-
-
-
-    return (
-        <Modal show={show} onHide={handleClose} centered size="lg">
-            <div className="font-gilroy p-4">
-                <div className="flex justify-between items-center mb-4" >
-                    <h5 className="m-0 font-semibold text-base">
-                        Apply Booking to Invoice
-                    </h5>
-
-                    <span className="cursor-pointer text-lg font-medium text-red-500" 
-                        onClick={handleClose}
-                    >
-                        ✕
-                    </span>
-                </div>
-
-
-                <div className='flex justify-between items-center bg-gray-50 p-4 rounded mb-4'>
-                    <div className="flex gap-3">
-                        <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
-                            SK
-                        </div>
-
-                        <div>
-                            <div className="font-medium text-lg text-gray-800">Ravi Kumar</div>
-                            <div className="text-xs">
-                                <span className="bg-yellow-100 text-[10px] text-gray-900 px-3 py-1.5 rounded-md">First Floor 
-                                </span>
-                                &nbsp; | &nbsp;
-                                 <span className="bg-[#FFE0D9] text-[10px] text-[#222222] px-[14px] py-[6px] rounded-[10px]"> G105 - B02</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="text-xs text-gray-400">
-                            Booking Amount
-                        </div>
-                        <div className="flex items-center gap-2 font-semibold">
-
-                            <div>
-                                <label>₹500</label>
-                            </div>
-                            <Button className="bg-[#16A34A] border-0 font-medium px-[11px] py-[6px] text-[10px]" >
-                                Apply
-                            </Button>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-                <Table
-                    responsive="md"
-                >
-
-                    <thead className='sticky top-0 z-10 bg-gray-50 text-gray-400 text-xs font-medium'>
-                        <tr>
-                            <th className="align-middle text-left text-gray-400 text-xs font-medium">TYPE </th>
-
-                            <th className="text-left text-gray-400 text-xs font-medium" >INV NO </th>
-
-                            <th className="text-left text-gray-400 text-xs font-medium" > DUE DATE</th>
-
-                            <th className="text-left text-gray-400 text-xs font-medium">INVOICE AMOUNT </th>
-
-                            <th className="text-left text-gray-400 text-xs font-medium"> INVOICE BALANCE </th>
-
-                            <th className="text-left text-gray-400 text-xs font-medium">AMOUNT TO APPLY </th>
-
-                        </tr>
-                    </thead>
-
-
-
-                    <tbody>
-                        {sortedData && sortedData.length > 0 ? (
-                            sortedData.map((item, index) => (
-                                <tr key={index} style={{ fontSize: 14, }}>
-                                    <td>{item.type}</td>
-
-                                    <td className='!text-[#2563EB] cursor pointer'>
-                                        {item.invNo}
-                                    </td>
-
-                                    <td>{item.dueDate}</td>
-
-                                    <td className='font-semibold'>
-                                        ₹{item.invoiceAmount.toFixed(2)}
-                                    </td>
-
-                                    <td>₹{item.invoiceBalance.toFixed(2)}</td>
-
-
-                                    <td>
-                                        <Form.Control
-                                            type="number"
-                                            value={item.applyAmount}
-                                            onChange={(e) =>
-                                                handleApplyAmountChange(index, e.target.value)
-                                            }
-                                            placeholder="₹ 0.00"
-                                              className={`text-sm h-[34px] text-left rounded-md border border-gray-200 pr-[10px] shadow-none ${item.applyAmount ? 'font-semibold' : 'font-medium'}`}
-                                        />
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={6} className="text-center py-5">
-                                    No invoices found
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-
-
-                </Table>
-
-
-                <div className="mt-6 flex justify-end w-full"
-                >
-                    <div className="bg-gray-100 px-5 py-3 rounded-[10px]">
-                        <div className="flex justify-between mb-2 gap-2.5"
-                        >
-                            <div className="text-xs text-[#64748B]">
-                                Amount Applied
-                            </div>
-                            <div className="font-semibold">₹ 0.00</div>
-                        </div>
-
-                        <div
-                            className="flex justify-between"
-                        >
-                            <div className="text-xs text-[#64748B]">
-                                Available Balance
-                            </div>
-                            <div className="font-semibold ml-4">₹ 500.00</div>
-                        </div>
-                    </div>
-                </div>
-
-
-                {/* Actions */}
-                <div className="mt-6 flex justify-end gap-3"
-                >
-                    <Button variant="light" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button className="bg-[#16A34A] border-0 font-medium px-[11px] py-[6px] text-[10px]" >
-                        Apply →
-                    </Button>
-                </div>
-            </div>
-        </Modal>
+    if (!/^\d+$/.test(value)) {
+      setError("Only numbers are allowed");
+      return;
+    }
+    let amount = Number(value);
+    if (amount > Number(invoice.pendingAmount)) {
+      setError("Cannot exceed invoice balance");
+      amount = Number(invoice.pendingAmount);
+    }
+    const otherApplied = applyAmountForInvoice.reduce(
+      (sum, item) =>
+        item.targetInvoiceId !== invoiceId
+          ? sum + Number(item.amount || 0)
+          : sum,
+      0,
     );
+
+    if (amount + otherApplied > bookingAmount) {
+      setError("Total exceeds booking amount");
+      amount = bookingAmount - otherApplied;
+    }
+
+    let updated = [...applyAmountForInvoice];
+
+    const existingIndex = updated.findIndex(
+      (item) => item.targetInvoiceId === invoiceId,
+    );
+
+    if (existingIndex > -1) {
+      updated[existingIndex] = {
+        targetInvoiceId: invoiceId,
+        amount: amount,
+      };
+    } else {
+      updated.push({
+        targetInvoiceId: invoiceId,
+        amount: amount,
+      });
+    }
+
+    setApplyAmountForInvoice(
+      updated.filter((item) => item.targetInvoiceId && item.amount >= 0),
+    );
+  };
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+    dispatch({
+      type: "REDEEM_ADVANCE_INITIALIZE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        advanceInvoiceId: advanceDetails?.invoiceId,
+      },
+    });
+  }, [state.login.selectedHostel_Id]);
+
+  const initializeDetails = state?.Booking?.initializeRedeem;
+
+  const bookingAmount = Number(
+    initializeDetails?.advanceInfo?.advanceAmount || 0,
+  );
+
+  const totalApplied = applyAmountForInvoice.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+  const remainingBalance = bookingAmount - totalApplied;
+
+  useEffect(() => {
+    console.log("applyAmountForInvoice", applyAmountForInvoice);
+  }, [applyAmountForInvoice]);
+
+  const handleApplySubmit = () => {
+    dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
+    if (error) return;
+
+    let validationError = "";
+
+    if (totalApplied === 0) {
+      validationError = "Please enter at least one amount";
+    } else if (totalApplied > bookingAmount) {
+      validationError = "Applied amount exceeds booking amount";
+    }
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    dispatch({
+      type: "APPLY_INVOICE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        invoiceId: advanceDetails?.invoiceId,
+        // invoice: applyAmountForInvoice,
+      },
+    });
+    setFormLoading(true);
+  };
+
+  useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 200) {
+      setFormLoading(false);
+      handleClose();
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
+
+  useEffect(() => {
+    return () => {
+      setError("");
+      dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state?.Booking?.applyRedeemError) {
+      setFormLoading(false);
+    }
+  }, [state?.Booking?.applyRedeemError]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
+        <div className="flex justify-between items-center p-3 border-b">
+          <h5 className="font-semibold text-lg text-black">
+            Apply Booking to Invoice
+          </h5>
+
+          <button
+            onClick={handleClose}
+            className="text-red-500 text-lg font-bold hover:scale-110 transition"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="p-3">
+          <div className="flex justify-between items-center bg-[#F7F8FCA8] p-3 rounded mb-4">
+            <div className="flex gap-3">
+              <div className="w-14 h-14 rounded-full overflow-hidden bg-[#E2E8F0]  flex items-center justify-center text-gray-700 font-semibold">
+                {initializeDetails?.customerInfo?.profilePic ? (
+                  <img
+                    src={initializeDetails.customerInfo.profilePic}
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  initializeDetails?.customerInfo?.initials || "NA"
+                )}
+              </div>
+
+              <div>
+                <div className="font-medium text-lg text-gray-800 mb-1">
+                  {initializeDetails?.customerInfo?.fullName}
+                </div>
+
+                <div className="text-xs flex items-center gap-2">
+                  <span className="bg-yellow-100 text-[12px] px-3 py-1.5 rounded-md text-black">
+                    {initializeDetails?.customerInfo?.floorName}
+                  </span>
+
+                  <span className="text-gray-400">|</span>
+
+                  <span className="bg-[#FFE0D9] text-[12px] px-3 py-1.5 rounded-md text-black">
+                    {initializeDetails?.customerInfo?.roomName} -{" "}
+                    {initializeDetails?.customerInfo?.bedName}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-right">
+              <div className="text-sm text-gray-400">Booking Amount</div>
+              <div className="font-semibold text-lg">
+                ₹ {initializeDetails?.advanceInfo?.advanceAmount}
+              </div>
+            </div>
+          </div>
+          <div className="overflow-y-auto show-scrolls max-h-[400px]">
+            <div className="bg-white rounded-xl border border-[#E8E8E8]">
+              <div className="overflow-auto h-fit">
+                <table className="w-full text-sm">
+                  <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
+                    <tr className="rounded-tl-xl rounded-tr-xl">
+                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                        TYPE
+                      </th>
+                      <th className="text-left px-4 py-2">INV NO</th>
+                      <th className="text-left px-4 py-2">DUE DATE</th>
+                      <th className="text-left px-4 py-2">INVOICE AMOUNT</th>
+                      <th className="text-left px-4 py-2">INVOICE BALANCE</th>
+                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                        AMOUNT TO APPLY
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {initializeDetails?.listInvoices?.length > 0 ? (
+                      initializeDetails.listInvoices.map((item, index) => (
+                        <tr key={index} className="border-t  whitespace-nowrap">
+                          <td className="px-4 py-2 font-semibold">
+                            {item.invoiceType}
+                          </td>
+
+                          <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
+                            {item.invoiceNumber}
+                          </td>
+
+                          <td className="px-4 py-2 text-gray-500">
+                            {item.dueDate}
+                          </td>
+
+                          <td className="font-semibold px-4 py-2">
+                            ₹{item.invoiceAmount}
+                          </td>
+
+                          <td className="px-4 py-2 font-semibold">
+                            ₹{item.pendingAmount}
+                          </td>
+
+                          <td className="px-4 py-2 font-semibold">
+                            <input
+                              type="number"
+                              value={
+                                applyAmountForInvoice.find(
+                                  (i) => i.targetInvoiceId === item.invoiceId,
+                                )?.amount || ""
+                              }
+                              onChange={(e) =>
+                                handleApplyAmountChange(index, e.target.value)
+                              }
+                              placeholder="₹ 0.00"
+                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
+                                item.applyAmount
+                                  ? "font-semibold"
+                                  : "font-medium"
+                              }`}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="text-center text-red-600 py-5"
+                        >
+                          No invoices found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {error && (
+              <div className="mb-3">
+                <ErrorMessage message={error} type="error" />
+              </div>
+            )}
+            {state?.Booking?.applyRedeemError && (
+              <div className="mb-3">
+                <ErrorMessage
+                  message={state?.Booking?.applyRedeemError}
+                  type="error"
+                />
+              </div>
+            )}
+            <div className="mt-6 flex justify-end">
+              <div className="bg-gray-100 px-4 py-3 rounded-lg">
+                <div className="flex justify-between text-sm text-gray-500 mb-2 gap-6">
+                  <span>Amount Applied</span>
+                  <span className="font-semibold text-black">
+                    ₹ {totalApplied.toFixed(2)}{" "}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-sm text-gray-500 gap-6">
+                  <span>Available Balance</span>
+                  <span className="font-semibold text-black">
+                    ₹ {remainingBalance.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 flex justify-end gap-3">
+            <button
+              onClick={handleClose}
+              className="px-4 py-2 bg-gray-100 rounded-md text-sm"
+            >
+              Cancel
+            </button>
+
+            <button
+              disabled={formLoading}
+              onClick={handleApplySubmit}
+              className="bg-[#1E45E1] flex gap-2  items-center text-white px-4 py-2 rounded-md text-sm"
+            >
+              Apply <ArrowRight size="14" />
+            </button>
+          </div>
+        </div>
+        {formLoading && (
+          <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
+            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 ApplyBookingModal.propTypes = {
-  show: PropTypes.bool,        
+  show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
 };
 
