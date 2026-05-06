@@ -1,7 +1,7 @@
 export const initialState = {
   addBookind: [],
   statusCodeForAddBooking: 0,
-  CustomerBookingList: [],
+  tenantBookingList: [],
   statusCodeGetBooking: 0,
   bookingError: "",
   deleteBooking: [],
@@ -19,6 +19,8 @@ export const initialState = {
   bookingBedError: "",
   bookingMakeAsError: "",
   applyinvoiceSuccessCode: 0,
+  initializeRedeemSuccessCode: 0,
+  initializeRedeem: "",
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -35,6 +37,24 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, applyinvoiceSuccessCode: action.payload.statusCode };
     case "REMOVE_APPLY_INVOICE_REDUCER":
       return { ...state, applyinvoiceSuccessCode: 0 };
+
+    case "ERROR_APPLY_INVOICE":
+      return { ...state, applyRedeemError: action.payload };
+
+    case "REMOVE_ERROR_APPLY_INVOICE":
+      return { ...state, applyRedeemError: "" };
+
+    case "REDEEM_ADVANCE_INITIALIZE":
+      return {
+        ...state,
+        initializeRedeemSuccessCode: action.payload.statusCode,
+        initializeRedeem: action.payload.response,
+      };
+    case "REMOVE_REDEEM_ADVANCE_INITIALIZE":
+      return {
+        ...state,
+        initializeRedeemSuccessCode: 0,
+      };
 
     case "BOOKING_PHONE_ERROR":
       return { ...state, bookingPhoneError: action.payload };
@@ -58,7 +78,7 @@ const BookingReducer = (state = initialState, action) => {
     case "BOOKING_LIST":
       return {
         ...state,
-        CustomerBookingList: action.payload.response,
+        tenantBookingList: action.payload.response,
         statusCodeGetBooking: action.payload.statusCode,
       };
     case "CLEAR_BOOKING_LIST":

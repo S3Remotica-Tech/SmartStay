@@ -7,6 +7,7 @@ import {
   assignBookingBed,
   bookingInActive,
   ApplyInvoice,
+  advanceRedeemInitialize,
 } from "../Action/BookingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,6 +30,21 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleAdvanceRedeemInitialize(action) {
+  try {
+    const response = yield call(advanceRedeemInitialize, action.payload);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "REDEEM_ADVANCE_INITIALIZE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -127,8 +143,11 @@ function* handleApplyInvoice(action) {
     yield* handleApiError(error);
 
     if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({ type: "ERROR_BOOKING", payload: error.response.data });
+      if (error.status) {
+        yield put({
+          type: "ERROR_APPLY_INVOICE",
+          payload: error.response.data,
+        });
       }
     }
   }
@@ -347,6 +366,10 @@ function refreshToken(response) {
 }
 
 function* CreateBookinSaga() {
+  yield takeEvery(
+    "REDEEM_ADVANCE_INITIALIZE_SAGA",
+    handleAdvanceRedeemInitialize,
+  );
   yield takeEvery("ADD_BOOKING", handleAddBooking);
   yield takeEvery("APPLY_INVOICE_SAGA", handleApplyInvoice);
   yield takeEvery("GET_BOOKING_LIST", handleGetBooking);

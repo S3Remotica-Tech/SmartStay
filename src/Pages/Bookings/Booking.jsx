@@ -32,16 +32,20 @@ import {
   ArrowDown2,
   ArrowDown,
   CloseCircle,
+  Document,
 } from "iconsax-react";
 import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function Booking() {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [search, setSearch] = useState(false);
+  const [bookingList, setBookingList] = useState([]);
   const [statusfilter, setStatusfilter] = useState("");
   const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
@@ -61,30 +65,37 @@ function Booking() {
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  const [showDots, setShowDots] = useState("");
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showAbove, setShowAbove] = useState(false);
+  const [advanceDetails, setAdvanceDetails] = useState("");
+  const popupRef = useRef(null);
   const {
-    // canWriteModule: canWriteBooking,
+    canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
     // canUpdateModule: canUpdateInvoice,
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Booking");
 
-  // useEffect(() => {
-  //     if (state.UsersList?.accessRestrictionError) {
-  //     // setLoading(false)
-  //       setTimeout(() => {
-  //         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-  //       }, 1000)
-  //     }
+  useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
+    }
+  }, [state.UsersList?.accessRestrictionError]);
 
-  //   }, [state.UsersList?.accessRestrictionError])
-
-  // useEffect(() => {
-  //     if (!canReadBooking) {
-  //       // setLoading(false);
-  //     }
-  //   }, [canReadBooking]);
+  useEffect(() => {
+    if (!canReadBooking) {
+      setLoading(false);
+    }
+  }, [canReadBooking]);
 
   const sortedData = [];
+
   useEffect(() => {
     const container = tableContainerRef.current;
     if (!container) return;
@@ -115,9 +126,32 @@ function Booking() {
       container.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   useEffect(() => {
     setShowBookingPdf(false);
   }, []);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+    setPage(1);
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+    setLoading(true);
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeGetBooking) {
+      setBookingList(state?.Booking?.tenantBookingList);
+      setLoading(false);
+      dispatch({ type: "CLEAR_BOOKING_LIST" });
+    }
+  }, [state?.Booking?.statusCodeGetBooking]);
 
   const handleSearch = () => {
     setSearch(!search);
@@ -312,16 +346,17 @@ function Booking() {
   };
 
   const handleShowFilterBills = () => {
-    setShowBillsFilter(true)
+    setShowBillsFilter(true);
   };
 
   const handleCloseFilterBills = () => {
-      setShowBillsFilter(false)
+    setShowBillsFilter(false);
+  };
 
-  }
-
-  const handleApplyInvoices = () => {
+  const handleApplyInvoices = (item) => {
     setApplyInvoice(true);
+    setAdvanceDetails(item);
+    setShowDots("");
   };
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
@@ -332,6 +367,8 @@ function Booking() {
 
   const isComingSoon =
     import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
+
+  const tableData = [];
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -347,7 +384,24 @@ function Booking() {
     );
   };
 
-  const tableData = [];
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
+
+  const handleShowDots = (event, index) => {
+    setShowDots((prev) => (prev === index ? null : index));
+
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + height / 2;
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+  };
 
   const handleSave = () => {
     setError("");
@@ -435,11 +489,12 @@ function Booking() {
       clearTimeout(timeout);
     };
   }, []);
-  const currentPage = state?.UsersList?.Users?.currentPage ?? 1;
 
-  const totalPages = state?.UsersList?.Users?.totalPages ?? 1;
+  const currentPage = bookingList?.currentPage ?? 1;
 
-  const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
+  const totalPages = bookingList?.totalPage ?? 1;
+
+  const totalRecords = bookingList?.totalNoOfInvoices ?? 0;
 
   useEffect(() => {
     setPage(1);
@@ -452,8 +507,62 @@ function Booking() {
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
   };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+
+    if (!state.login.selectedHostel_Id) return;
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        // name: debouncedInput || "",
+        // type: statusValue,
+        page: page,
+        size: size,
+        // period: selectedMonth?.value,
+      },
+    });
+
+    setLoading(true);
+
+    // const filters = {
+    //   status: statusfilter ? [statusfilter] : [],
+    //   search: debouncedInput?.trim() || "",
+    //   period: selectedMonth?.value ? selectedMonth?.value : "",
+    //   periodLabel: selectedMonth?.label ? selectedMonth?.label : "",
+    // };
+
+    // dispatch({
+    //   type: "SET_TENANT_TABLE_FILTERS",
+    //   payload: filters,
+    // });
+  }, [page, size]);
+
+  useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 200) {
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
+
   return (
-     <div className=" bg-white font-gilroy  mr-2 ">
+    <div className=" bg-white font-gilroy  mr-2 ">
+      {loading && (
+        <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
+          <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
+        </div>
+      )}
       <div className="">
         <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
           <label className="text-lg text-black font-semibold font-gilroy">
@@ -470,7 +579,7 @@ function Booking() {
                   onChange={handlefilterInput}
                   disabled={isComingSoon}
                   className="flex-1 h-full px-2 text-sm font-gilroy
-                     outline-none border-none focus:ring-0"
+                     outline-none border-none focus:ring-0  rounded-xl"
                 />
                 <span className="px-2 flex items-center">
                   <SearchNormal1
@@ -483,17 +592,6 @@ function Booking() {
                   />
                 </span>
               </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                disabled={isComingSoon}
-                onClick={handleApplyInvoices}
-                className="bg-[#1E45E1] text-white text-sm font-semibold font-gilroy
-                 rounded-lg px-3 py-2.5 min-w-[150px] whitespace-nowrap disabled:bg-gray-200 cursor-not-allowed"
-              >
-                Apply Invoices
-              </button>
             </div>
           </div>
         </div>
@@ -543,17 +641,17 @@ function Booking() {
               color="#4B4B4B"
             />
 
-            {/* {formattedData?.length > 0 && ( */}
-            <ApiPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-              onPageChange={handlePageChange}
-              onSizeChange={handleSizeChange}
-              isTenantPagination={true}
-              size={size}
-            />
-            {/* )} */}
+            {bookingList?.advanceInvoiceList?.length > 0 && (
+              <ApiPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalRecords={totalRecords}
+                onPageChange={handlePageChange}
+                onSizeChange={handleSizeChange}
+                isTenantPagination={true}
+                size={size}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -584,6 +682,7 @@ function Booking() {
                         <tr className="h-9">
                           <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
                             <input
+                              disabled
                               type="checkbox"
                               checked={
                                 selectedRows.length === tableData.length &&
@@ -609,48 +708,59 @@ function Booking() {
                       </thead>
 
                       <tbody>
-                        {tableData.map((item) => (
+                        {bookingList?.advanceInvoiceList?.map((item, index) => (
                           <tr
-                            key={item.id}
+                            key={item.invoiceId}
                             className="border-b last:border-0 text-sm"
                           >
                             <td className="px-4 py-2.5 sticky left-0 bg-white z-40 w-[80px]">
                               <input
+                                disabled
                                 type="checkbox"
                                 checked={selectedRows.includes(item.id)}
                                 onChange={() => handleRowSelect(item.id)}
                               />
                             </td>
 
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.invoiceNo}
+                            <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold">
+                              {item.invoiceNumber}
                             </td>
-                            <td className="w-[250px] px-2 py-2.5">
-                              {item.name}
+                            <td className="w-[250px] px-2 py-2.5 text-[#222222]">
+                              {item.bookingDate}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center text-gray-700 font-semibold shrink-0">
+                                  {item?.profilePic ? (
+                                    <img
+                                      src={item.profilePic}
+                                      alt="profile"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    item?.initials || "NA"
+                                  )}
+                                </div>
+
+                                <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                  {item.fullName}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                              {item.mobileNumber}
                             </td>
                             <td className="w-[230px] px-2 py-2.5">
-                              {item.type}
+                              {item.floorName}
                             </td>
                             <td className="w-[230px] px-2 py-2.5">
-                              {item.invoiceDate}
+                              {item.roomName}
                             </td>
                             <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
+                              {item.bedName}
                             </td>
                             <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.amount}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.due}
+                              {item.invoiceAmount}
                             </td>
 
                             <td className="w-[270px] px-2 py-2.5">
@@ -661,11 +771,44 @@ function Booking() {
                                     : "bg-yellow-100 text-yellow-700"
                                 }`}
                               >
-                                {item.status}
+                                {item.status || "N/A"}
                               </span>
                             </td>
 
-                            <td className="w-[230px] px-2 py-2.5 sticky right-0 bg-white z-40"></td>
+                            <td className="w-[230px] px-2 py-2.5 sticky right-0 bg-white z-40">
+                              <div className="cursor-pointer flex justify-center items-center relative">
+                                <PiDotsThreeOutlineVerticalFill
+                                  className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
+                                  onClick={(e) => handleShowDots(e, index)}
+                                />
+                                {showDots === index && (
+                                  <div
+                                    ref={popupRef}
+                                    className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                                    style={{
+                                      top: showAbove
+                                        ? popupPosition.top -
+                                          (popupRef.current?.offsetHeight ||
+                                            100) -
+                                          20
+                                        : popupPosition.top - 35,
+                                      left: popupPosition.left,
+                                    }}
+                                  >
+                                    <div
+                                      onClick={() => handleApplyInvoices(item)}
+                                      className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px]
+      ${canWriteBooking ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                                    >
+                                      <Document color="#1E45E1" size="14" />
+                                      <span className="text-sm font-medium text-[#222]">
+                                        Apply Invoices
+                                      </span>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -818,12 +961,16 @@ function Booking() {
         <ApplyBookingModal
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
+          advanceDetails={advanceDetails}
         />
       )}
 
-      {
-        showBillsFilter && <BookingsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
-      }
+      {showBillsFilter && (
+        <BookingsFilter
+          show={showBillsFilter}
+          handleClose={handleCloseFilterBills}
+        />
+      )}
     </div>
   );
 }
