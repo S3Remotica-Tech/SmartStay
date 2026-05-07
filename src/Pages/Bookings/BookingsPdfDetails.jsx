@@ -65,8 +65,8 @@ function BookingsPdfDetails() {
   }, [rowData]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 h-screen overflow-hidden">
-      <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto ">
+    <div className="grid grid-cols-1 md:grid-cols-12 h-screen ">
+      <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto  ">
         <div className="sticky top-0 bg-white z-20  overflow-hidden">
           <div className="flex justify-between items-center flex-wrap ">
             <div className="min-h-[50px] px-1 py-2">
@@ -104,7 +104,7 @@ function BookingsPdfDetails() {
           </div>
         </div>
 
-        <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto  overflow-x-visible">
+        <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto show-scrolls  overflow-x-visible">
           {state?.Booking?.tenantBookingList?.advanceInvoiceList?.length > 0 ? (
             state?.Booking?.tenantBookingList?.advanceInvoiceList?.map(
               (item) => (
@@ -220,8 +220,10 @@ ${
         </div>
       </div>
 
-      <div className="col-span-12 md:col-span-8">
-        <BookingPdfModal rowData={rowData || rowDatas} />
+      <div className="md:col-span-8 h-screen overflow-hidden">
+        <div className="h-screen overflow-y-auto">
+          <BookingPdfModal rowData={rowData || rowDatas} />
+        </div>
       </div>
     </div>
   );

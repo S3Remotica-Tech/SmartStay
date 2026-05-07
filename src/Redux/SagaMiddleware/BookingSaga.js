@@ -125,7 +125,7 @@ console.log("response", response)
         type: "APPLY_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
-      toast.success(`${response.data}`, {
+      toast.success(`Updated Successfully`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,

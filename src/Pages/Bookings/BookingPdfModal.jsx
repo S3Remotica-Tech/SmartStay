@@ -193,10 +193,10 @@ const InvoiceCard = ({ rowData }) => {
   }, [state.InvoiceList.sharePdfSuccess]);
 
   return (
-    <div className="sticky top-0 z-[100] bg-white">
-      <div>
-        <div className="flex justify-between items-center border-l border-[#E5E7EB]">
-          <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0]">
+    <div className=" bg-white font-gilroy">
+      <div className="border-l border-gray-200">
+        <div className="flex justify-between items-center bg-white  border-gray-200 min-h-[50px] w-full sticky top-0 z-10 px-2">
+          <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0] px-2">
             <div className="flex items-center gap-2">
               <div className="pl-1">
                 <label className="text-[14px] font-medium text-[#222222] font-gilroy">
@@ -437,7 +437,7 @@ const InvoiceCard = ({ rowData }) => {
                     </label>
                   </div>
 
-                  <div className="border border-[#DFDFDF] rounded-lg overflow-hidden">
+                  <div className="border border-[#DFDFDF] rounded-lg ">
                     <div className="overflow-x-auto">
                       <table className="w-full border-collapse">
                         <thead className="bg-white text-[#6B7280] text-xs uppercase">
