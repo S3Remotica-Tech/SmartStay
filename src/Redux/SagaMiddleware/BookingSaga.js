@@ -103,6 +103,8 @@ function* handleApplyInvoice(action) {
   try {
     const response = yield call(ApplyInvoice, action.payload);
 
+console.log("response", response)
+
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -118,7 +120,7 @@ function* handleApplyInvoice(action) {
       padding: "10px",
     };
 
-    if (response?.status === 200) {
+    if (response?.status === 201) {
       yield put({
         type: "APPLY_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
