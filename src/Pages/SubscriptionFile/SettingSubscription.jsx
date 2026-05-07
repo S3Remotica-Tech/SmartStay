@@ -42,7 +42,7 @@ function SettingSubscription() {
   const dispatch = useDispatch();
   const [plan, setPlan] = useState(false);
   const [changePlan, setChangePlan] = useState(false);
-    const [planCode, setPlanCode] = useState("");
+  const [planCode, setPlanCode] = useState("");
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
   const [hostelCount, setHostelCount] = useState("0");
@@ -53,7 +53,7 @@ function SettingSubscription() {
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
   const [formLoading, setFormLoading] = useState(false);
- 
+
   const {
     canWriteModule: canWriteSubscription,
     canReadModule: canReadSubscription,
@@ -175,7 +175,7 @@ function SettingSubscription() {
 
   const currentPlan = state?.Settings?.currentPlanDetails;
 
- 
+  console.log("currentPlan", currentPlan);
 
   const onMessageReceived = (message) => {
     // console.log("Payment update:", message);
@@ -229,11 +229,11 @@ function SettingSubscription() {
         ) : (
           <div>
             <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy overflow-visible">
-              {currentPlan?.planName === "Advance" ? (
+              {currentPlan?.status === "Advance" ? (
                 <PremiumPlan />
-              ) : currentPlan?.planName === "Basic" ? (
+              ) : currentPlan?.status === "BASIC" ? (
                 <BasicPlan />
-              ) : currentPlan?.planName === "Trial" &&
+              ) : currentPlan?.status === "TRIAL" &&
                 currentPlan?.numberOfDaysRemaining > 0 ? (
                 <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
                   <div className="flex justify-between items-center">
@@ -369,7 +369,7 @@ function SettingSubscription() {
                   </div>
                 )
               )}
-              {currentPlan?.planName === "Trial" && <AllPlans />}
+              {currentPlan?.status === "TRIAL" && <AllPlans />}
             </div>
           </div>
         )}
