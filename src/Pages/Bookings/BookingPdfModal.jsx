@@ -33,6 +33,7 @@ const InvoiceCard = ({ rowData }) => {
   const dispatch = useDispatch();
   const modalRef = useRef(null);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [activeTab, setActiveTab] = useState("payments");
 
   const menuItems = [
     {
@@ -67,7 +68,7 @@ const InvoiceCard = ({ rowData }) => {
 
   const innerScrollRef = useRef(null);
 
-  console.log("rowData", rowData);
+  // console.log("rowData", rowData);
 
   const handleDownload = async () => {
     if (rowData || pdfDetails?.hostelId) {
@@ -82,7 +83,19 @@ const InvoiceCard = ({ rowData }) => {
       setPdfLoading(true);
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state?.InvoiceList?.invoicePDF;
@@ -192,11 +205,25 @@ const InvoiceCard = ({ rowData }) => {
     }
   }, [state.InvoiceList.sharePdfSuccess]);
 
+  useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
+
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
+
   return (
-    <div className="sticky top-0 z-[100] bg-white">
-      <div>
-        <div className="flex justify-between items-center border-l border-[#E5E7EB]">
-          <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0]">
+    <div className=" bg-white font-gilroy">
+      <div className="border-l border-gray-200">
+        <div className="flex justify-between items-center bg-white  border-gray-200 min-h-[50px] w-full sticky top-0 z-10 px-2">
+          <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0] px-2">
             <div className="flex items-center gap-2">
               <div className="pl-1">
                 <label className="text-[14px] font-medium text-[#222222] font-gilroy">
@@ -408,7 +435,7 @@ const InvoiceCard = ({ rowData }) => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-[180px_10px_1fr] flex items-center">
+                    <div className="grid grid-cols-[140px_10px_1fr] flex items-center">
                       {[
                         ["Invoice", pdfDetails?.invoiceNumber],
                         ["Invoice Date", pdfDetails?.invoiceDate],
@@ -437,7 +464,7 @@ const InvoiceCard = ({ rowData }) => {
                     </label>
                   </div>
 
-                  <div className="border border-[#DFDFDF] rounded-lg overflow-hidden">
+                  <div className="border border-[#DFDFDF] rounded-lg ">
                     <div className="overflow-x-auto">
                       <table className="w-full border-collapse">
                         <thead className="bg-white text-[#6B7280] text-xs uppercase">
@@ -721,10 +748,30 @@ const InvoiceCard = ({ rowData }) => {
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
-        <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
-          <span className="font-semibold text-[16px] text-[#222]">
-            Payments Made
-          </span>
+        <div className="flex justify-between items-center px-4 py-2 cursor-pointer ">
+          <div className="flex  gap-4">
+            <div
+              onClick={() => setActiveTab("payments")}
+              className={`px-1 py-2 cursor-pointer text-sm font-medium ${
+                activeTab === "payments"
+                  ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
+                  : "text-black "
+              }`}
+            >
+              Payments Made
+            </div>
+
+            <div
+              onClick={() => setActiveTab("invoices")}
+              className={`px-1 py-2 cursor-pointer text-sm font-medium ${
+                activeTab === "invoices"
+                  ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
+                  : "text-black border-0"
+              }`}
+            >
+              Applied Invoices
+            </div>
+          </div>
 
           <div className="flex items-center gap-2">
             <div className="relative inline-flex">
@@ -782,60 +829,74 @@ const InvoiceCard = ({ rowData }) => {
 
         {isOpenPayment && (
           <div>
-            {pdfDetails?.paymentHistory?.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                    <tr>
-                      <th className="text-left px-3 py-2">DATE</th>
-                      <th className="text-left px-3 py-2">REF NO</th>
-                      <th className="text-left px-3 py-2">PAYMENT MODE</th>
-                      <th className="text-left px-3 py-2">AMOUNT</th>
-                      <th className="text-left px-3 py-2">STATUS</th>
-                    </tr>
-                  </thead>
+            {activeTab === "payments" && (
+              <div>
+                {pdfDetails?.paymentHistory?.length > 0 && (
+                  <div className="overflow-x-auto px-4">
+                    <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50 text-[#6B7280] text-xs font-semibold rounded-xl">
+                          <tr>
+                            <th className="text-left px-3 py-2">DATE</th>
+                            <th className="text-left px-3 py-2">REF NO</th>
+                            <th className="text-left px-3 py-2">
+                              PAYMENT MODE
+                            </th>
+                            <th className="text-left px-3 py-2">AMOUNT</th>
+                            <th className="text-left px-3 py-2">STATUS</th>
+                          </tr>
+                        </thead>
 
-                  <tbody>
-                    {pdfDetails.paymentHistory.map((item, index) => (
-                      <tr key={index} className="border-t">
-                        <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                          {item.date || item.paidDate || "-"}
-                        </td>
+                        <tbody>
+                          {pdfDetails.paymentHistory.map((item, index) => (
+                            <tr key={index} className="border-t">
+                              <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                {item.date || item.paidDate || "-"}
+                              </td>
 
-                        <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                          {item.transactionReferenceId ||
-                            item.referenceNumber ||
-                            "-"}
-                        </td>
+                              <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                {item.transactionReferenceId ||
+                                  item.referenceNumber ||
+                                  "-"}
+                              </td>
 
-                        <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                          {item.bankAccount}
-                        </td>
+                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                {item.bankAccount}
+                              </td>
 
-                        <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                          ₹{item.amount}
-                        </td>
+                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                ₹{item.amount}
+                              </td>
 
-                        <td className="px-3 py-2">
-                          <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                            ● Paid
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                              <td className="px-3 py-2">
+                                <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                                  ● Paid
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-end px-5 py-2 border-t mt-2 ">
+                  <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
+                    Balance Due
+                  </span>
+                  <span className="text-sm text-red-500 font-medium">
+                    ₹{pdfDetails?.invoiceInfo?.balanceAmount}
+                  </span>
+                </div>
               </div>
             )}
 
-            <div className="flex justify-end px-5 py-2 border-t ">
-              <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
-                Balance Due
-              </span>
-              <span className="text-sm text-red-500 font-medium">
-                ₹{pdfDetails?.invoiceInfo?.balanceAmount}
-              </span>
-            </div>
+            {activeTab === "invoices" && (
+              <div className="p-4 text-sm text-gray-600">
+                Applied invoices content here...
+              </div>
+            )}
           </div>
         )}
       </div>
