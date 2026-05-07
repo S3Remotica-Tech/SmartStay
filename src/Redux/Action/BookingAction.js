@@ -95,8 +95,6 @@ export async function AddBooking(booking) {
   );
 }
 
-
-
 export async function GetBooking(book) {
   const params = {};
   // if (users.name) params.name = users.name;
@@ -112,10 +110,9 @@ export async function GetBooking(book) {
 
 export async function ApplyInvoice(booking) {
   return await AxiosConfigV2.post(
-    `/v2/customers/apply/${booking.hostelId}`,
-    booking,
+    `/v2/bills/redeem/${booking?.hostelId}/${booking?.invoiceId}`,
     {
-      data: booking,
+      listItems: booking?.listItems,
     },
   );
 }

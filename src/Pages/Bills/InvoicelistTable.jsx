@@ -309,7 +309,7 @@ const InvoiceTable = (props) => {
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
         </td>
 
-        <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
+        {/* <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
           {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
             <span className="bg-[#FFD9D9] rounded-[13px] px-3 py-1">
@@ -318,7 +318,7 @@ const InvoiceTable = (props) => {
           )}
 
           {props.item?.paymentStatus === "Paid" && (
-            <span className="cursor-pointer bg-[#B3E5BB4D] rounded-[14px] px-3 py-1">
+            <span className="cursor-pointer bg-green-100 rounded-[14px] px-3 py-1">
               {props.item?.paymentStatus}
             </span>
           )}
@@ -337,6 +337,45 @@ const InvoiceTable = (props) => {
           )}
           {props.item?.isCancelled && (
             <span className="bg-[#FFE6B3] rounded-[14px] px-3 py-1">
+              Cancelled
+            </span>
+          )}
+        </td> */}
+
+        <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
+          {(props.item?.paymentStatus === "Pending" ||
+            props.item?.paymentStatus === "Partial Payment") && (
+            <span className="inline-flex items-center gap-2 bg-[#FFD9D9] rounded-[13px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-red-500"></span>
+              {props.item?.paymentStatus}
+            </span>
+          )}
+
+          {props.item?.paymentStatus === "Paid" && (
+            <span className="inline-flex items-center gap-2 cursor-pointer bg-green-100 rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-green-600"></span>
+              {props.item?.paymentStatus}
+            </span>
+          )}
+
+          {(props.item?.paymentStatus === "Refunded" ||
+            props.item?.paymentStatus === "Partially Refunded") && (
+            <span className="inline-flex items-center gap-2 bg-[#FFF3CD] rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+              {props.item?.paymentStatus}
+            </span>
+          )}
+
+          {props.item?.paymentStatus === "Pending Refund" && (
+            <span className="inline-flex items-center gap-2 bg-[#FFE6B3] rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+              {props.item?.paymentStatus}
+            </span>
+          )}
+
+          {props.item?.isCancelled && (
+            <span className="inline-flex items-center gap-2 bg-[#FFE6B3] rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-gray-500"></span>
               Cancelled
             </span>
           )}

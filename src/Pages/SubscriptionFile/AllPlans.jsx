@@ -48,8 +48,6 @@ function AllPlans() {
     }
   };
 
-
-
   return (
     <div className="relative">
       {formLoading && (
@@ -75,7 +73,7 @@ function AllPlans() {
                 minHeight: "60px",
               }}
             >
-              <span className="text-xs font-bold">{plan.price}</span>
+              <span className="text-xs font-bold truncate">{plan.price}</span>
               <span className="text-xs">{plan.period}</span>
             </div>
 

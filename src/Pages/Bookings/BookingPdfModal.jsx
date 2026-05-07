@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
 import DownLoad from "../../Assets/Images/New_images/searchss.png";
 import Whatsapp from "../../Assets/Images/whatsapp.png";
@@ -30,7 +30,8 @@ import ApplyBookingModal from "./ApplyInvoices";
 const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const modalRef = useRef(null);
   const [hoveredItem, setHoveredItem] = useState(null);
 
   const menuItems = [
@@ -58,6 +59,7 @@ const InvoiceCard = ({ rowData }) => {
   const [isOpenPayment, setIsOpenPayment] = useState(false);
   const cardRef = useRef(null);
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -65,7 +67,32 @@ const InvoiceCard = ({ rowData }) => {
 
   const innerScrollRef = useRef(null);
 
-  const handleDownload = async () => {};
+  console.log("rowData", rowData);
+
+  const handleDownload = async () => {
+    if (rowData || pdfDetails?.hostelId) {
+      dispatch({
+        type: "INVOICEPDF",
+        payload: {
+          hostelId: pdfDetails?.hostelId || rowData,
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
+
+      setPdfLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    if (state.InvoiceList?.statusCodeForPDf === 200) {
+      const pdfUrl = state?.InvoiceList?.invoicePDF;
+      if (pdfUrl) {
+        window.open(pdfUrl, "_blank");
+        setPdfLoading(false);
+        dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+      }
+    }
+  }, [state.InvoiceList?.statusCodeForPDf]);
 
   const handleBackInvoice = () => {
     navigate(`/booking/${state.login?.selectedHostel_Id}`);
@@ -79,6 +106,9 @@ const InvoiceCard = ({ rowData }) => {
   // const isValid = (value) => {
   //   return value !== null && value !== undefined && value !== "undefined" && value !== "";
   // };
+  const isValidSubscription =
+    state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
+  const isExportAllow = isValidSubscription && canReadBooking;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -89,21 +119,16 @@ const InvoiceCard = ({ rowData }) => {
   const handleMenuClick = async (key) => {
     setIsOpen(false);
 
-    if (key === "whatsapp") {
-      // try {
-      //   dispatch({
-      //     type: "SET_TRIGGER_SOURCE",
-      //     payload: "whatsapp",
-      //   });
-      //   dispatch({
-      //     type: "INVOICEPDF",
-      //     payload: {
-      //       id: idforwhats,
-      //     },
-      //   });
-      // } catch (error) {
-      //   console.error("Error sending WhatsApp with PDF:", error);
-      // }
+    if (String(key) === "whatsapp") {
+      dispatch({
+        type: "GETSHAREPDF",
+        payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
+
+      setPdfLoading(true);
     }
   };
 
@@ -158,12 +183,20 @@ const InvoiceCard = ({ rowData }) => {
     setApplyInvoice(false);
   };
 
+  useEffect(() => {
+    if (state.InvoiceList.sharePdfSuccess) {
+      setPdfLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_SHARE_PDF" });
+      }, 100);
+    }
+  }, [state.InvoiceList.sharePdfSuccess]);
+
   return (
     <div className="sticky top-0 z-[100] bg-white">
       <div>
         <div className="flex justify-between items-center border-l border-[#E5E7EB]">
           <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0]">
-            {/* LEFT */}
             <div className="flex items-center gap-2">
               <div className="pl-1">
                 <label className="text-[14px] font-medium text-[#222222] font-gilroy">
@@ -184,10 +217,8 @@ const InvoiceCard = ({ rowData }) => {
               </div>
             </div>
 
-            {/* RIGHT */}
             <div>
               <div className="flex gap-2">
-                {/* DOWNLOAD */}
                 <div
                   className="flex justify-center items-center border rounded-[8px] cursor-pointer h-[30px] w-[30px]"
                   onClick={handleDownload}
@@ -199,7 +230,6 @@ const InvoiceCard = ({ rowData }) => {
                   />
                 </div>
 
-                {/* SHARE */}
                 <div className="relative inline-block">
                   <div
                     className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
@@ -216,44 +246,60 @@ const InvoiceCard = ({ rowData }) => {
                   </div>
 
                   {isOpen && (
-                    <div className="absolute left-0 mt-2 p-2 shadow rounded-[8px] bg-white w-[160px] z-10">
-                      {menuItems.map((item) => (
-                        <div
-                          key={item.key}
-                          className={`flex items-center mb-2 p-1 rounded cursor-pointer ${
-                            hoveredItem === item.key
-                              ? "bg-[#1E45E1]"
-                              : "bg-white"
-                          }`}
-                          onMouseEnter={() => setHoveredItem(item.key)}
-                          onMouseLeave={() => setHoveredItem(null)}
-                          onClick={() => handleMenuClick(item.key)}
-                        >
-                          <img
-                            src={
-                              hoveredItem === item.key
-                                ? item.iconWhite
-                                : item.icon
+                    <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
+                      {menuItems.map((item) => {
+                        const isDisabled = !isExportAllow;
+
+                        return (
+                          <div
+                            ref={modalRef}
+                            key={item.key}
+                            className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
+                  ${
+                    isDisabled
+                      ? "bg-gray-100 cursor-not-allowed opacity-60"
+                      : hoveredItem === item.key
+                        ? "bg-[#1E45E1] text-white cursor-pointer"
+                        : "bg-white cursor-pointer"
+                  }`}
+                            onMouseEnter={() =>
+                              !isDisabled && setHoveredItem(item.key)
                             }
-                            className="mr-2"
-                            alt={item.label}
-                          />
-                          <span
-                            className={`text-[13px] font-normal font-gilroy ${
-                              hoveredItem === item.key
-                                ? "text-white"
-                                : "text-[#212529]"
-                            }`}
+                            onMouseLeave={() =>
+                              !isDisabled && setHoveredItem(null)
+                            }
+                            onClick={() =>
+                              !isDisabled && handleMenuClick(item.key)
+                            }
                           >
-                            {item.label}
-                          </span>
-                        </div>
-                      ))}
+                            <img
+                              src={
+                                !isDisabled && hoveredItem === item.key
+                                  ? item.iconWhite
+                                  : item.icon
+                              }
+                              className="mr-2"
+                              alt={item.label}
+                            />
+
+                            <span
+                              className={`text-[13px] font-normal font-gilroy ${
+                                isDisabled
+                                  ? "text-gray-400"
+                                  : hoveredItem === item.key
+                                    ? "text-white"
+                                    : "text-[#212529]"
+                              }`}
+                            >
+                              {item.label}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
 
-                {/* CLOSE */}
                 <div>
                   <IoClose
                     className="h-[20px] w-[20px] cursor-pointer text-red-500"
@@ -265,7 +311,13 @@ const InvoiceCard = ({ rowData }) => {
           </div>
         </div>
 
-        <div className="bg-[#F7F8FC] h-[90vh] overflow-y-auto overflow-x-hidden flex justify-center p-3 show-scrolls">
+        <div className="relative h-[calc(100vh-80px)] overflow-y-auto bg-[#F7F8FC]   flex justify-center p-3 show-scrolls">
+          {pdfLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+              <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
+
           {isVisible && (
             <div className="w-[90%] rounded-lg">
               <div
@@ -767,52 +819,6 @@ const InvoiceCard = ({ rowData }) => {
                         <td className="px-3 py-2">
                           <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
                             ● Paid
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
-            {pdfDetails?.refundHistory?.length > 0 && (
-              <div className="overflow-x-auto mt-2">
-                <table className="w-full text-sm">
-                  <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                    <tr>
-                      <th className="text-left px-3 py-2">DATE</th>
-                      <th className="text-left px-3 py-2">REF NO</th>
-                      <th className="text-left px-3 py-2">RETURNED FROM</th>
-                      <th className="text-left px-3 py-2">AMOUNT</th>
-                      <th className="text-left px-3 py-2">STATUS</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {pdfDetails.refundHistory.map((item, index) => (
-                      <tr key={index} className="border-t">
-                        <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                          {item.date || item.paidDate || "-"}
-                        </td>
-
-                        <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                          {item.transactionReferenceId ||
-                            item.referenceNumber ||
-                            "-"}
-                        </td>
-
-                        <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                          {item.bankAccount}
-                        </td>
-
-                        <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                          ₹{item.amount}
-                        </td>
-
-                        <td className="px-3 py-2">
-                          <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                            ● Refunded
                           </span>
                         </td>
                       </tr>

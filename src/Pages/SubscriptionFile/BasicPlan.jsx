@@ -49,7 +49,6 @@ function SubscriptionCard() {
           </button>
         </div>
 
-        
         <div className="grid grid-cols-3 mt-2 gap-4">
           <div className="flex gap-2 items-start">
             <Calendar size={16} className="text-[#4B4B4B]" />
@@ -76,8 +75,8 @@ function SubscriptionCard() {
           </div>
         </div>
       </div>
-
-      <div className="p-3 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
+      {/*  UPGRADE PREMIUM  */}
+      {/* <div className="p-3 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
         <div className="flex justify-between items-center mb-2">
           <div>
             <p className="font-semibold text-[#222] text-[16px]">
@@ -102,7 +101,7 @@ function SubscriptionCard() {
             Upgrade Now
           </button>
         </div>
-      </div>
+      </div> */}
 
       <h5 className="mt-4 mb-1 text-[#222] font-semibold text-[16px]">
         Billing History

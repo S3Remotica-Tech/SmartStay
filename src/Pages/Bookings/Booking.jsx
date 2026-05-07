@@ -553,7 +553,7 @@ function Booking() {
   }, [page, size]);
 
   useEffect(() => {
-    if (state?.Booking?.applyinvoiceSuccessCode === 200) {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
@@ -749,8 +749,8 @@ function Booking() {
                                 <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold">
                                   {item.invoiceNumber}
                                 </td>
-                                <td className="w-[250px] px-2 py-2.5 text-[#222222]">
-                                  {item.bookingDate}
+                                <td className="w-[250px] px-2 py-2.5 text-[#222222] text-center">
+                                  {item.bookingDate || "-"}
                                 </td>
                                 <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
                                   <div className="flex items-center gap-3">
@@ -789,13 +789,11 @@ function Booking() {
 
                                 <td className="w-[270px] px-2 py-2.5">
                                   <span
-                                    className={`px-2 py-1 text-xs rounded ${
-                                      item.status === "Paid"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-yellow-100 text-yellow-700"
-                                    }`}
+                                    className={`px-2 py-1 text-xs inline-flex items-center gap-2 
+                                      whitespace-nowrap rounded-lg bg-green-100 text-black `}
                                   >
-                                    {item.status || "N/A"}
+                                    <span className="h-2 w-2 rounded-full bg-green-600 "></span>
+                                    Paid
                                   </span>
                                 </td>
 

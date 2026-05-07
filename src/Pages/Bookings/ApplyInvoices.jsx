@@ -23,7 +23,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
 
     if (value === "") {
       const updated = applyAmountForInvoice.filter(
-        (item) => item.targetInvoiceId !== invoiceId,
+        (item) => item.invoiceId !== invoiceId,
       );
       setApplyAmountForInvoice(updated);
       return;
@@ -40,13 +40,11 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
     }
     const otherApplied = applyAmountForInvoice.reduce(
       (sum, item) =>
-        item.targetInvoiceId !== invoiceId
-          ? sum + Number(item.amount || 0)
-          : sum,
+        item.invoiceId !== invoiceId ? sum + Number(item.amount || 0) : sum,
       0,
     );
 
-    if (amount + otherApplied > bookingAmount) {
+    if (amount + Number(otherApplied) > bookingAmount) {
       setError("Total exceeds booking amount");
       amount = bookingAmount - otherApplied;
     }
@@ -54,23 +52,23 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
     let updated = [...applyAmountForInvoice];
 
     const existingIndex = updated.findIndex(
-      (item) => item.targetInvoiceId === invoiceId,
+      (item) => item.invoiceId === invoiceId,
     );
 
     if (existingIndex > -1) {
       updated[existingIndex] = {
-        targetInvoiceId: invoiceId,
+        invoiceId: invoiceId,
         amount: amount,
       };
     } else {
       updated.push({
-        targetInvoiceId: invoiceId,
+        invoiceId: invoiceId,
         amount: amount,
       });
     }
 
     setApplyAmountForInvoice(
-      updated.filter((item) => item.targetInvoiceId && item.amount >= 0),
+      updated.filter((item) => item.invoiceId && item.amount >= 0),
     );
   };
 
@@ -88,7 +86,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
   const initializeDetails = state?.Booking?.initializeRedeem;
 
   const bookingAmount = Number(
-    initializeDetails?.advanceInfo?.advanceAmount || 0,
+    initializeDetails?.advanceInfo?.advanceBalanceAmount || 0,
   );
 
   const totalApplied = applyAmountForInvoice.reduce(
@@ -103,7 +101,6 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
-    if (error) return;
 
     let validationError = "";
 
@@ -113,24 +110,24 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
       validationError = "Applied amount exceeds booking amount";
     }
 
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+    setError(validationError);
+
+    if (validationError) return;
 
     dispatch({
       type: "APPLY_INVOICE_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: advanceDetails?.invoiceId,
-        // invoice: applyAmountForInvoice,
+        listItems: applyAmountForInvoice,
       },
     });
+
     setFormLoading(true);
   };
 
   useEffect(() => {
-    if (state?.Booking?.applyinvoiceSuccessCode === 200) {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       setFormLoading(false);
       handleClose();
       dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
@@ -145,10 +142,11 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
   }, []);
 
   useEffect(() => {
-    if (state?.Booking?.applyRedeemError) {
+    if (state?.Booking?.applyRedeemError || state.createAccount?.networkError) {
       setFormLoading(false);
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
-  }, [state?.Booking?.applyRedeemError]);
+  }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -204,7 +202,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
             <div className="text-right">
               <div className="text-sm text-gray-400">Booking Amount</div>
               <div className="font-semibold text-lg">
-                ₹ {initializeDetails?.advanceInfo?.advanceAmount}
+                ₹ {initializeDetails?.advanceInfo?.advanceBalanceAmount}
               </div>
             </div>
           </div>
@@ -256,7 +254,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
                               type="number"
                               value={
                                 applyAmountForInvoice.find(
-                                  (i) => i.targetInvoiceId === item.invoiceId,
+                                  (i) => i.invoiceId === item.invoiceId,
                                 )?.amount || ""
                               }
                               onChange={(e) =>
@@ -278,7 +276,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
                           colSpan={6}
                           className="text-center text-red-600 py-5"
                         >
-                          No invoices found
+                          No pending invoices found
                         </td>
                       </tr>
                     )}
