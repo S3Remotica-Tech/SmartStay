@@ -254,7 +254,7 @@ function UserListRoomDetail(props) {
     scrollTo,
     isDashboardWay,
     isBillWay,
-    isReceiptWay,
+    isReceiptWay,isBookingWay
   } = location.state || {};
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
@@ -2324,7 +2324,9 @@ function UserListRoomDetail(props) {
       navigate(`/invoice/${state.login.selectedHostel_Id}`);
     } else if (isReceiptWay) {
       navigate(`/receipts/${state.login.selectedHostel_Id}`);
-    } else {
+    } else if(isBookingWay) {
+       navigate(`/booking/${state.login.selectedHostel_Id}`);
+    }else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     }
   };

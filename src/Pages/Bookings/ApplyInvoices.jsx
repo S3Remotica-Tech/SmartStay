@@ -130,7 +130,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       setFormLoading(false);
       handleClose();
-      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+      
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 

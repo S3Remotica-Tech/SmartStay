@@ -438,7 +438,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 System Filter
               </label>
             </div>
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Status
               </Form.Label>
@@ -453,7 +453,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Period

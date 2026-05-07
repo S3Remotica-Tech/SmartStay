@@ -554,6 +554,16 @@ function Booking() {
 
   useEffect(() => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
@@ -569,6 +579,23 @@ function Booking() {
       navigate(`/booking/details/${invoiceId}`, {
         state: {
           rowData: invoiceId,
+        },
+      });
+    }
+  };
+
+  const handleNavigateTenantProfile = (view) => {
+    if (view) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: view.customerId },
+      });
+      navigate(`/tenant/details/${view.customerId}`, {
+        state: {
+          customerId: view.customerId,
+          IsOverView: true,
+          totriggerBillTap: false,
+          isBookingWay: true,
         },
       });
     }
@@ -616,7 +643,7 @@ function Booking() {
 
         <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="w-[150px]">
+            {/* <div className="w-[150px]">
               <Select
                 menuPlacement="auto"
                 isDisabled={isComingSoon}
@@ -628,7 +655,7 @@ function Booking() {
                 aria-label="Select"
                 id="statusselect"
               />
-            </div>
+            </div> */}
 
             <Select
               menuPlacement="auto"
@@ -734,7 +761,7 @@ function Booking() {
                                   handleNavigatePdf(item.invoiceId)
                                 }
                                 key={item.invoiceId}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                                className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
                               >
                                 <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
@@ -746,7 +773,7 @@ function Booking() {
                                   />
                                 </td>
 
-                                <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold">
+                                <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold hover:underline">
                                   {item.invoiceNumber}
                                 </td>
                                 <td className="w-[250px] px-2 py-2.5 text-[#222222] text-center">
@@ -766,7 +793,13 @@ function Booking() {
                                       )}
                                     </div>
 
-                                    <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                    <div
+                                      className="text-sm font-semibold text-[#1E45E1] hover:underline whitespace-nowrap"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleNavigateTenantProfile(item);
+                                      }}
+                                    >
                                       {item.fullName}
                                     </div>
                                   </div>
