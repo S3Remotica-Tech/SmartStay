@@ -2018,12 +2018,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         {open && (
           <div
             ref={menuRef}
-            className="font-gilroy mt-2 w-fit px-2 py-2 bg-white border border-gray-200 rounded-lg shadow-xl z-50"
+            className="font-gilroy mt-2 !w-fit px-2 py-2 bg-white flex flex-col border border-gray-200 rounded-lg shadow-xl z-50"
           >
             <button
               disabled
               onClick={handleWaiveOff}
-              className={`w-full text-left px-4 py-2 text-sm  rounded-md w-fit
+              className={`w-full text-left px-4 py-2 text-sm  rounded-md !w-fit
         disabled:cursor-not-allowed disabled:text-gray-200
         ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
@@ -2038,7 +2038,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 handleApplyInvoices("mathu");
               }}
               disabled={!canWriteInvoice}
-              className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  w-fit
+              className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  !w-fit
         ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
             >
