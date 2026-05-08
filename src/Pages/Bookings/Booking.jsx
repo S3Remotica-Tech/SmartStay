@@ -606,6 +606,9 @@ function Booking() {
       dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [state.createAccount?.networkError]);
+
+  console.log("state", state);
+
   return (
     <div className=" bg-white font-gilroy  mr-2 ">
       {loading && (

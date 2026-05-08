@@ -31,6 +31,8 @@ import { useHasPermission } from "../../Utils/Permission";
 import DiscountInvoice from "./DiscountInvoice";
 import WaiveOFFConfirm from "./WaiveOFFConfirm";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import ApplyBookingModal from "../../Pages/Bookings/ApplyInvoices";
+import { TiTick } from "react-icons/ti";
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const state = useSelector((state) => state);
@@ -48,6 +50,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const innerScrollRef = useRef(null);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showWaiveModal, setShowWaiveModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("payments");
   const menuItems = [
     {
       label: "Send Mail",
@@ -70,7 +73,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
-
+  const [applyInvoice, setApplyInvoice] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
 
@@ -112,6 +115,20 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   };
 
+  const handleApplyInvoices = (data) => {
+    console.log("executed", data);
+    setApplyInvoice(true);
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    console.log("applyInvoice updated:", applyInvoice);
+  }, [applyInvoice]);
+
+  const handleCloseApplyInvoices = () => {
+    setApplyInvoice(false);
+  };
+
   useEffect(() => {
     setIsVisible(true);
   }, [rowData]);
@@ -150,7 +167,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
-  // Add and Edit
   useEffect(() => {
     if (
       state.InvoiceList.pdfErrorMessage ||
@@ -369,8 +385,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
 
-  const showSplitButton =
-    isPending && (isSettlement || isRent) && isNotDiscounted;
+  const showSplitButton = true;
+  const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
@@ -1803,102 +1819,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   </div>
                 </div>
 
-                {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
-                  pdfDetails?.invoiceInfo?.paymentStatus === "Pending" &&
-                  !showDiscountInvoice && (
-                    <div className="fixed bottom-16 right-5 z-[999] animate-slideIn">
-                      <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
-                        <div className="flex items-center gap-3">
-                          <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                            <span className="text-[16px]">✓</span>
-                          </span>
-
-                          <div className="flex flex-col">
-                            <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                              Discount Applied
-                            </span>
-
-                            <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
-                              ₹{" "}
-                              {Number(
-                                pdfDetails?.invoiceInfo?.discountAmount || 0,
-                              )}
-                              <span className="pl-2">
-                                Were applied on this invoice
-                              </span>
-                            </span>
-                          </div>
-                        </div>
-
-                        <PiDotsThreeOutlineVerticalFill
-                          className="cursor-pointer text-gray-600"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenMenu(!openMenu);
-                          }}
-                        />
-
-                        {openMenu && (
-                          <div
-                            className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <button
-                              disabled={!canUpdateInvoice}
-                              onClick={() => {
-                                setIsEdit(true);
-                                setEditData(
-                                  pdfDetails?.discountDetails ||
-                                    pdfDetails?.invoiceInfo,
-                                );
-                                setShowDiscountInvoice(true);
-                                setOpenMenu(false);
-                              }}
-                              className={`
-    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${
-      canUpdateInvoice
-        ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
-        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
-    }
-  `}
-                            >
-                              <Edit
-                                size={16}
-                                className={canUpdateInvoice ? "" : "opacity-50"}
-                              />
-                              Edit
-                            </button>
-
-                            <div className="h-px bg-gray-200 mx-2" />
-
-                            <button
-                              disabled={!canDeleteInvoice}
-                              onClick={() => {
-                                setShowRefuseModal(true);
-                                setOpenMenu(false);
-                                setSelectedInvoice(pdfDetails);
-                              }}
-                              className={`
-    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${
-      canDeleteInvoice
-        ? "text-red-600 hover:bg-red-50 cursor-pointer"
-        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
-    }
-  `}
-                            >
-                              <IoClose
-                                className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
-                              />
-                              Refuse with invoice
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
                 <hr
                   className="mb-2"
                   style={{
@@ -1969,14 +1889,205 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         </div>
       </div>
 
+      <div className="fixed bottom-16 right-5 z-50 flex flex-col gap-3 items-end">
+        {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
+          pdfDetails?.invoiceInfo?.paymentStatus === "Pending" &&
+          !showDiscountInvoice && (
+            <div className=" animate-slideIn">
+              <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
+                <div className="flex items-center gap-3">
+                  <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                    <span className="text-[16px]">
+                      {" "}
+                      <TiTick className="text-base" />{" "}
+                    </span>
+                  </span>
+
+                  <div className="flex flex-col">
+                    <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                      Discount Applied
+                    </span>
+
+                    <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
+                      ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
+                      <span className="pl-2">Were applied on this invoice</span>
+                    </span>
+                  </div>
+                </div>
+
+                <PiDotsThreeOutlineVerticalFill
+                  className="cursor-pointer text-gray-600"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenMenu(!openMenu);
+                  }}
+                />
+
+                {openMenu && (
+                  <div
+                    className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      disabled={!canUpdateInvoice}
+                      onClick={() => {
+                        setIsEdit(true);
+                        setEditData(
+                          pdfDetails?.discountDetails ||
+                            pdfDetails?.invoiceInfo,
+                        );
+                        setShowDiscountInvoice(true);
+                        setOpenMenu(false);
+                      }}
+                      className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${
+      canUpdateInvoice
+        ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
+        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+    }
+  `}
+                    >
+                      <Edit
+                        size={16}
+                        className={canUpdateInvoice ? "" : "opacity-50"}
+                      />
+                      Edit
+                    </button>
+
+                    <div className="h-px bg-gray-200 mx-2" />
+
+                    <button
+                      disabled={!canDeleteInvoice}
+                      onClick={() => {
+                        setShowRefuseModal(true);
+                        setOpenMenu(false);
+                        setSelectedInvoice(pdfDetails);
+                      }}
+                      className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${
+      canDeleteInvoice
+        ? "text-red-600 hover:bg-red-50 cursor-pointer"
+        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+    }
+  `}
+                    >
+                      <IoClose
+                        className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
+                      />
+                      Refuse with invoice
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+        <div className=" animate-slideIn">
+          <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
+            <div className="flex items-center gap-1">
+              <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                <span className="text-[16px]">
+                  <TiTick className="text-base" />
+                </span>
+              </span>
+              <div className="flex flex-col">
+                <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                  Credits Available:{" "}
+                  <span
+                    className={`text-[#1E45E1] font-semibold text-sm ${
+                      canWriteInvoice
+                        ? "cursor-pointer"
+                        : "opacity-50 cursor-not-allowed"
+                    }`}
+                    onClick={(e) => {
+                      if (!canWriteInvoice) return;
+                      e.stopPropagation();
+                      handleApplyInvoices();
+                    }}
+                  >
+                    Apply Now
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {open && (
+          <div
+            ref={menuRef}
+            className="font-gilroy mt-2 w-fit px-2 py-2 bg-white border border-gray-200 rounded-lg shadow-xl z-50"
+          >
+            <button
+              disabled
+              onClick={handleWaiveOff}
+              className={`w-full text-left px-4 py-2 text-sm  rounded-md w-fit
+        disabled:cursor-not-allowed disabled:text-gray-200
+        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+      `}
+            >
+              Waive Off
+            </button>
+
+            <button
+              onClick={(e) => {
+                if (!canWriteInvoice) return;
+                e.stopPropagation();
+                handleApplyInvoices("mathu");
+              }}
+              disabled={!canWriteInvoice}
+              className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  w-fit
+        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+      `}
+            >
+              Adjust with Advance
+            </button>
+
+            {isDiscount && (
+              <button
+                onClick={handleMakeDiscount}
+                disabled={!canWriteInvoice}
+                className={`w-full text-left px-4 py-2 text-sm rounded-md w-fit
+        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+      `}
+              >
+                Make Discount
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
       {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
-        <div className="sticky bottom-0 left-0 right-0 z-[1000] bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
+        <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
           <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
-            <span className="font-semibold text-[16px] text-[#222]">
-              {pdfDetails?.invoiceInfo?.totalAmount < 0
-                ? "Refund Made"
-                : "Payments Made"}
-            </span>
+            <div className="flex  gap-4">
+              <div
+                onClick={() => setActiveTab("payments")}
+                className={`px-1 py-2 cursor-pointer text-sm font-medium ${
+                  activeTab === "payments"
+                    ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
+                    : "text-black "
+                }`}
+              >
+                {pdfDetails?.invoiceInfo?.totalAmount < 0
+                  ? "Refund Made"
+                  : "Payments Made"}
+              </div>
+
+              <div
+                onClick={() => setActiveTab("invoices")}
+                className={`px-1 py-2 cursor-pointer text-sm font-medium ${
+                  activeTab === "invoices"
+                    ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
+                    : "text-black border-0"
+                }`}
+              >
+                Applied Invoices
+              </div>
+            </div>
 
             {pdfDetails?.paymentHistory?.length === 0 &&
             pdfDetails?.invoiceInfo?.totalAmount > 0 ? (
@@ -1995,7 +2106,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
             <div className="flex items-center gap-2">
               {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
-                <div className="relative inline-flex" ref={menuRef}>
+                <div className="relative inline-flex">
                   <button
                     disabled={!canWriteInvoice}
                     onClick={() => {
@@ -2022,31 +2133,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         }`}
                       />
                     </button>
-                  )}
-
-                  {open && (
-                    <div className="absolute right-0 top-[-100px] mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-xl z-50">
-                      <button
-                        disabled
-                        onClick={handleWaiveOff}
-                        // disabled={!canWriteInvoice}
-                        className={`w-full text-left px-4 py-2 text-sm disabled:cursor-not-allowed disabled:text-gray-200
-              ${canWriteInvoice ? "hover:bg-gray-100" : "opacity-50 cursor-not-allowed"}
-            `}
-                      >
-                        Waive Off
-                      </button>
-
-                      <button
-                        onClick={handleMakeDiscount}
-                        disabled={!canWriteInvoice}
-                        className={`w-full text-left px-4 py-2 text-sm
-              ${canWriteInvoice ? "hover:bg-blue-50" : "opacity-50 cursor-not-allowed"}
-            `}
-                      >
-                        Make Discount
-                      </button>
-                    </div>
                   )}
                 </div>
               )}
@@ -2090,95 +2176,113 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
           {isOpenPayment && (
             <div>
-              {pdfDetails?.paymentHistory?.length > 0 && (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                      <tr>
-                        <th className="text-left px-3 py-2">DATE</th>
-                        <th className="text-left px-3 py-2">REF NO</th>
-                        <th className="text-left px-3 py-2">PAYMENT MODE</th>
-                        <th className="text-left px-3 py-2">AMOUNT</th>
-                        <th className="text-left px-3 py-2">STATUS</th>
-                      </tr>
-                    </thead>
+              {activeTab === "payments" && (
+                <div>
+                  {pdfDetails?.paymentHistory?.length > 0 && (
+                    <div className="overflow-x-auto px-4">
+                      <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                        <table className="w-full text-sm">
+                          <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                            <tr>
+                              <th className="text-left px-3 py-2">DATE</th>
+                              <th className="text-left px-3 py-2">REF NO</th>
+                              <th className="text-left px-3 py-2">
+                                PAYMENT MODE
+                              </th>
+                              <th className="text-left px-3 py-2">AMOUNT</th>
+                              <th className="text-left px-3 py-2">STATUS</th>
+                            </tr>
+                          </thead>
 
-                    <tbody>
-                      {pdfDetails.paymentHistory.map((item, index) => (
-                        <tr key={index} className="border-t">
-                          <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                            {item.date || item.paidDate || "-"}
-                          </td>
+                          <tbody>
+                            {pdfDetails.paymentHistory.map((item, index) => (
+                              <tr key={index} className="border-t">
+                                <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                  {item.date || item.paidDate || "-"}
+                                </td>
 
-                          <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                            {item.transactionReferenceId ||
-                              item.referenceNumber ||
-                              "-"}
-                          </td>
+                                <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                  {item.transactionReferenceId ||
+                                    item.referenceNumber ||
+                                    "-"}
+                                </td>
 
-                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                            {item.bankAccount}
-                          </td>
+                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                  {item.bankAccount}
+                                </td>
 
-                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                            ₹{item.amount}
-                          </td>
+                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                  ₹{item.amount}
+                                </td>
 
-                          <td className="px-3 py-2">
-                            <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                              ● Paid
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                                <td className="px-3 py-2">
+                                  <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                                    ● Paid
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {pdfDetails?.refundHistory?.length > 0 && (
+                    <div className="overflow-x-auto px-4">
+                      <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                        <table className="w-full text-sm">
+                          <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                            <tr>
+                              <th className="text-left px-3 py-2">DATE</th>
+                              <th className="text-left px-3 py-2">REF NO</th>
+                              <th className="text-left px-3 py-2">
+                                RETURNED FROM
+                              </th>
+                              <th className="text-left px-3 py-2">AMOUNT</th>
+                              <th className="text-left px-3 py-2">STATUS</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {pdfDetails.refundHistory.map((item, index) => (
+                              <tr key={index} className="border-t">
+                                <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                  {item.date || item.paidDate || "-"}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                  {item.transactionReferenceId ||
+                                    item.referenceNumber ||
+                                    "-"}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                  {item.bankAccount}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                  ₹{item.amount}
+                                </td>
+
+                                <td className="px-3 py-2">
+                                  <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                                    ● Refunded
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
-              {pdfDetails?.refundHistory?.length > 0 && (
-                <div className="overflow-x-auto mt-2">
-                  <table className="w-full text-sm">
-                    <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                      <tr>
-                        <th className="text-left px-3 py-2">DATE</th>
-                        <th className="text-left px-3 py-2">REF NO</th>
-                        <th className="text-left px-3 py-2">RETURNED FROM</th>
-                        <th className="text-left px-3 py-2">AMOUNT</th>
-                        <th className="text-left px-3 py-2">STATUS</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {pdfDetails.refundHistory.map((item, index) => (
-                        <tr key={index} className="border-t">
-                          <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                            {item.date || item.paidDate || "-"}
-                          </td>
-
-                          <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                            {item.transactionReferenceId ||
-                              item.referenceNumber ||
-                              "-"}
-                          </td>
-
-                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                            {item.bankAccount}
-                          </td>
-
-                          <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                            ₹{item.amount}
-                          </td>
-
-                          <td className="px-3 py-2">
-                            <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                              ● Refunded
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              {activeTab === "invoices" && (
+                <div className="p-4 text-sm text-gray-600">
+                  Applied invoices content here...
                 </div>
               )}
 
@@ -2194,6 +2298,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           )}
         </div>
       )}
+
       {showWaiveModal && (
         <WaiveOFFConfirm
           show={showWaiveModal}
@@ -2201,9 +2306,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         />
       )}
 
-      {/* {
-        showDiscountInvoice && <DiscountInvoice show={showDiscountInvoice} handleClose={handleCloseFormDiscount} />
-      } */}
+      {applyInvoice && (
+        <ApplyBookingModal
+          show={applyInvoice}
+          handleClose={handleCloseApplyInvoices}
+          advanceDetails={pdfDetails}
+        />
+      )}
       {showDiscountInvoice && (
         <DiscountInvoice
           show={showDiscountInvoice}

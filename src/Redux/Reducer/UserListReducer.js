@@ -171,6 +171,7 @@ export const initialState = {
   successTenantCustomizeColumns: 0,
   templatesGlobalImagesDeleteStatusCode: 0,
   tenantListGetSuccessCode: 0,
+  bedInitiaLizeError: "",
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -379,6 +380,11 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, bedError: action.payload };
     case "REMOVE_BED_AVAILABLE_ERROR_BOOKED":
       return { ...state, bedError: "" };
+
+case 'ERROR_INITIALIZE_BED':
+   return { ...state, bedInitiaLizeError: action.payload };
+case 'REMOVE_ERROR_INITIALIZE_BED':
+   return { ...state, bedInitiaLizeError: "" };
 
     case "ROOM_READING_ERROR":
       return { ...state, roomReadingError: action.payload };
