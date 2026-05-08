@@ -34,6 +34,8 @@ function MakeAsInactive({
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [paymentError, setPaymentError] = useState("");
 
+  console.log("inActiveDetails", inActiveDetails);
+
   const handleInActiveReason = (e) => {
     setInActiveComments(e.target.value);
   };
@@ -85,7 +87,9 @@ function MakeAsInactive({
           cancelDate: formattedDate,
           reason: inActiveComments,
           customerId:
-            inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId,
+            inActiveDetails?.apiCall?.customerId ||
+            inActiveDetails?.tenetId ||
+            inActiveDetails?.customerId,
           bankId: modeOfPayment,
         },
       });
@@ -117,11 +121,17 @@ function MakeAsInactive({
 
   useEffect(() => {
     if (!inActiveDetails) return;
-    if (inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId) {
+    if (
+      inActiveDetails?.apiCall?.customerId ||
+      inActiveDetails?.tenetId ||
+      inActiveDetails?.customerId
+    ) {
       dispatch({
         type: "INITIALIZECANCELBOOKING",
         payload:
-          inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId,
+          inActiveDetails?.apiCall?.customerId ||
+          inActiveDetails?.tenetId ||
+          inActiveDetails?.customerId,
       });
     }
   }, [inActiveDetails]);
@@ -129,12 +139,18 @@ function MakeAsInactive({
   const CustomerOverView = state?.UsersList?.customerdetails;
 
   useEffect(() => {
-    if (inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId) {
+    if (
+      inActiveDetails?.apiCall?.customerId ||
+      inActiveDetails?.tenetId ||
+      inActiveDetails?.customerId
+    ) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: {
           customerId:
-            inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId,
+            inActiveDetails?.apiCall?.customerId ||
+            inActiveDetails?.tenetId ||
+            inActiveDetails?.customerId,
         },
       });
     }
@@ -187,6 +203,7 @@ function MakeAsInactive({
           <div className="h-14 w-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xl font-semibold font-gilroy">
             {inActiveDetails?.profilePic ||
               inActiveDetails?.tenantInitials ||
+              inActiveDetails?.initials ||
               "-"}
           </div>
         )}

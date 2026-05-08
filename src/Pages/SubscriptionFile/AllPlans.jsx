@@ -23,7 +23,7 @@ function AllPlans() {
   const plans = state?.Settings?.planList?.map((item) => ({
     planCode: item.planCode,
     title: `${item.planName} Plan`,
-    price: `₹${item.price}`,
+    finalPrice: `₹${item.finalPrice}`,
     period: item.frequency,
     features: [...new Set(item.features)],
     bgcolor:
@@ -47,6 +47,8 @@ function AllPlans() {
       setFormLoading(true);
     }
   };
+
+  console.log("plans", plans);
 
   return (
     <div className="relative">
@@ -73,7 +75,9 @@ function AllPlans() {
                 minHeight: "60px",
               }}
             >
-              <span className="text-xs font-bold truncate">{plan.price}</span>
+              <span className="text-xs font-bold truncate">
+                {plan.finalPrice}
+              </span>
               <span className="text-xs">{plan.period}</span>
             </div>
 

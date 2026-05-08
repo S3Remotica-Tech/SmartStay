@@ -76,7 +76,7 @@ function FinalSettlement() {
     setShowRoomReading(false);
   };
 
-  // console.log("data", data);
+  // console.log("ReturnAmount", ReturnAmount);
 
   const customerId =
     data?.apiCall?.customerId || data?.customerId || data?.tenetId;
@@ -359,13 +359,11 @@ function FinalSettlement() {
 
       const appliedDiscount = Number(discount) || 0;
       finalAmount -= appliedDiscount;
-      //  if (amountTobePaid < 0) {
-      //     finalAmount  = finalAmount;
-      // } else {
-      //    finalAmount = finalAmount - appliedDiscount
-      // }
 
-      setReturnAmount(finalAmount);
+      const normalizedAmount =
+        finalAmount > -1 && finalAmount < 0 ? 0 : finalAmount;
+
+      setReturnAmount(normalizedAmount);
     }
   }, [finalSettlementList, fields, discount]);
 
@@ -1638,7 +1636,7 @@ function FinalSettlement() {
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Total Deductions</p>
                       <p className="text-sm font-medium text-red-600">
-                         ₹ {totalDeductions}
+                        ₹ {totalDeductions}
                       </p>
                     </div>
 

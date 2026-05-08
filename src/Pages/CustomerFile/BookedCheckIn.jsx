@@ -42,6 +42,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
   const [errors, setErrors] = useState("");
   const [bookingAmount, setBookingAmount] = useState("");
 
+  console.log("bookingDetails", bookingDetails);
+
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
@@ -61,6 +63,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
   const handleAdvanceAmount = (e) => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const advanceAmount = e.target.value;
     if (!/^\d*$/.test(advanceAmount)) {
       return;
@@ -71,6 +74,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
   const handleRoomRent = (e) => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
       return;
@@ -85,6 +89,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
   const handleInputChange = (index, field, value) => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const updatedFields = [...fields];
     const updatedErrors = [...errors];
 
@@ -138,6 +143,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
   const handleSaveBooking = async () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     let hasError = false;
     setRoomRentError("");
     setAdvanceAmountError("");
@@ -228,7 +234,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
       dispatch({
         type: "BOOKINGTOCHECKIN",
         payload: {
-          customerId: bookingDetails?.apiCall?.customerId,
+          customerId:
+            bookingDetails?.apiCall?.customerId || bookingDetails?.customerId,
           bookingId: state.UsersList?.bookedDetails?.bookingId,
           joiningDate: formattedDate,
           advanceAmount: Number(AdvanceAmount),
@@ -249,20 +256,24 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
   // console.log("bookingDetails", bookingDetails);
 
   useEffect(() => {
-    if (bookingDetails?.apiCall?.customerId) {
+    if (bookingDetails?.apiCall?.customerId || bookingDetails?.customerId) {
       dispatch({
         type: "BOOKEDDETAILS",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          customerId: bookingDetails?.apiCall?.customerId,
+          customerId:
+            bookingDetails?.apiCall?.customerId || bookingDetails?.customerId,
         },
       });
       dispatch({
         type: "CUSTOMERDETAILS",
-        payload: { customerId: bookingDetails?.apiCall?.customerId },
+        payload: {
+          customerId:
+            bookingDetails?.apiCall?.customerId || bookingDetails?.customerId,
+        },
       });
     }
-  }, [bookingDetails]);
+  }, []);
 
   useEffect(() => {
     if (
@@ -453,6 +464,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                               dispatch({
                                 type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED",
                               });
+                              dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
                               dispatch(
                                 JoininDatecustomer(date ? date.toDate() : null),
                               );
@@ -741,12 +753,19 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                   </div>
                 )}
 
+                {state.UsersList.bedInitiaLizeError && (
+                  <div className="d-flex justify-center">
+                    <ErrorMessage
+                      message={state.UsersList.bedInitiaLizeError}
+                      type="error"
+                    />
+                  </div>
+                )}
+
                 <Button
                   className="w-full h-12 mt-2 !rounded-[10px] !bg-[#1E45E1] text-white !text-lg !font-semibold font-gilroy"
                   disabled={
-                    state.UsersList.bedError ||
-                    formLoading ||
-                    !state.UsersList?.bookedDetails?.canCheckIn
+                    formLoading || !state.UsersList?.bookedDetails?.canCheckIn
                   }
                   onClick={handleSaveBooking}
                 >
