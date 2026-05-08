@@ -88,8 +88,8 @@ function PremiumPlan() {
         Billing History
       </h5>
 
-      <div className="mt-4">
-        <div className="max-h-[200px] overflow-y-auto  border-[#E8E8E8] show-scrolls">
+      <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] mt-4 ">
+        <div className="max-h-[200px] overflow-y-auto  rounded-xl border-[#E8E8E8] show-scrolls">
           <table className="w-full text-sm text-[#222]">
             <thead className="bg-gray-50 sticky top-0 z-40 text-[#6B7280] text-xs">
               <tr className="h-8">

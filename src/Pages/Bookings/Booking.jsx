@@ -600,7 +600,12 @@ function Booking() {
       });
     }
   };
-
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
   return (
     <div className=" bg-white font-gilroy  mr-2 ">
       {loading && (
@@ -817,7 +822,7 @@ function Booking() {
                                   {item.bedName}
                                 </td>
                                 <td className="w-[230px] px-2 py-2.5">
-                                  ₹ {item.invoiceAmount}
+                                  ₹ {item.availableAmount}
                                 </td>
 
                                 <td className="w-[270px] px-2 py-2.5">
