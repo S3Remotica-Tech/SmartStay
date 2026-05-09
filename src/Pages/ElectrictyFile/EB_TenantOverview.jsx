@@ -25,7 +25,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
   const [tenantReadingList, setTenantreadingList] = useState([]);
 
-  // console.log("tenant called", tenant)
+  // console.log("tenant called", tenant);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id && tenant?.customerId) {
@@ -152,13 +152,19 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             </span>
           </div>
 
-          <div className="bg-white rounded-[15px] border border-gray-200">
+          <div className="bg-white rounded-[15px] p-2 border border-gray-200">
             <div className="flex items-center gap-2 p-1">
-              <img
-                src={tenant?.profilePic || Profile}
-                alt="Profile"
-                className="w-20 h-20 rounded-full ml-3"
-              />
+              {tenant?.profilePic ? (
+                <img
+                  src={tenant.profilePic}
+                  alt="Profile"
+                  className="w-20 h-20 rounded-full ml-3 object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-full font-gilroy ml-3 bg-gray-200 flex items-center justify-center text-2xl font-semibold text-[#44536A]">
+                  {tenant?.initials || "-"}
+                </div>
+              )}
 
               <div>
                 <p className="mb-1 text-[17px] font-semibold font-gilroy flex gap-1">

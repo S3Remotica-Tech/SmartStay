@@ -2009,12 +2009,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   Credits Available:{" "}
                   <span
                     className={`text-[#1E45E1] font-semibold text-sm ${
-                      canWriteInvoice
+                      canUpdateInvoice
                         ? "cursor-pointer"
                         : "opacity-50 cursor-not-allowed"
                     }`}
                     onClick={(e) => {
-                      if (!canWriteInvoice) return;
+                      if (!canUpdateInvoice) return;
                       e.stopPropagation();
                       handleApplyInvoices("called");
                     }}
@@ -2128,13 +2128,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         {isRedeemAvailable && (
                           <button
                             onClick={(e) => {
-                              if (!canWriteInvoice) return;
+                              if (!canUpdateInvoice) return;
                               e.stopPropagation();
                               handleApplyInvoices();
                             }}
-                            disabled={!canWriteInvoice}
+                            disabled={!canUpdateInvoice}
                             className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  !w-fit
-        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+        ${canUpdateInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
                           >
                             Adjust with Advance
