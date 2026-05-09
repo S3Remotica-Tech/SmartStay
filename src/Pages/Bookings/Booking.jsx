@@ -853,7 +853,7 @@ function Booking() {
                                         handleShowDots(e, index);
                                       }}
                                     />
-                                    {showDots === index && item.canRedeem && (
+                                    {showDots === index && (
                                       <div
                                         ref={popupRef}
                                         className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
@@ -868,27 +868,36 @@ function Booking() {
                                         }}
                                       >
                                         <button
-                                          disabled={!canUpdateInvoice}
+                                          disabled={
+                                            !canUpdateInvoice || !item.canRedeem
+                                          }
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             handleApplyInvoices(item);
                                           }}
-                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px]
-    ${
-      !canUpdateInvoice
-        ? "cursor-not-allowed opacity-50 bg-gray-100"
-        : "cursor-pointer hover:bg-[#EDF2FF]"
-    }`}
+                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+      ${
+        !canUpdateInvoice || !item.canRedeem
+          ? "cursor-not-allowed opacity-50 bg-gray-100"
+          : "cursor-pointer hover:bg-[#EDF2FF]"
+      }`}
                                         >
                                           <Link21
-                                            color={`${canUpdateInvoice ? "#1E45E1" : "#A9A9A9"}`}
+                                            color={
+                                              !canUpdateInvoice ||
+                                              !item.canRedeem
+                                                ? "#A9A9A9"
+                                                : "#1E45E1"
+                                            }
                                             size="16"
                                           />
+
                                           <span
-                                            className={` text-sm font-medium text-[#222] ${
-                                              !canUpdateInvoice
-                                                ? "cursor-not-allowed opacity-50 bg-gray-100"
-                                                : "cursor-pointer hover:bg-[#EDF2FF]"
+                                            className={`text-sm font-medium ${
+                                              !canUpdateInvoice ||
+                                              !item.canRedeem
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
                                             }`}
                                           >
                                             Apply Invoices

@@ -114,8 +114,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   };
 
-  const handleApplyInvoices = (data) => {
-    console.log("data", data);
+  const handleApplyInvoices = () => {
     setApplyInvoice(true);
     setOpen(false);
   };
@@ -1504,15 +1503,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
                   Credits Available:{" "}
                   <span
-                    className={`text-[#1E45E1] font-semibold text-sm ${
-                      canUpdateInvoice
-                        ? "cursor-pointer"
-                        : "opacity-50 cursor-not-allowed"
-                    }`}
+                    className={`font-semibold text-sm transition-all duration-150
+    ${
+      !canUpdateInvoice || !isRedeemAvailable
+        ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
+        : "text-[#1E45E1] cursor-pointer"
+    }`}
                     onClick={(e) => {
-                      if (!canUpdateInvoice) return;
+                      if (!canUpdateInvoice || !isRedeemAvailable) return;
+
                       e.stopPropagation();
-                      handleApplyInvoices("called");
+                      handleApplyInvoices();
                     }}
                   >
                     Apply Now
@@ -1614,34 +1615,38 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         <button
                           disabled
                           onClick={handleWaiveOff}
-                          className={`w-full text-left px-4 py-2 text-sm  rounded-md !w-fit whitespace-nowrap 
+                          className={`w-full text-left px-4 py-2 text-sm  rounded-md  whitespace-nowrap 
         disabled:cursor-not-allowed disabled:text-gray-200
         ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
                         >
                           Waive Off
                         </button>
-                        {isRedeemAvailable && (
-                          <button
-                            onClick={(e) => {
-                              if (!canUpdateInvoice) return;
-                              e.stopPropagation();
-                              handleApplyInvoices();
-                            }}
-                            disabled={!canUpdateInvoice}
-                            className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  !w-fit
-        ${canUpdateInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
-      `}
-                          >
-                            Adjust with Advance
-                          </button>
-                        )}
+
+                        <button
+                          onClick={(e) => {
+                            if (!canUpdateInvoice || !isRedeemAvailable) return;
+
+                            e.stopPropagation();
+                            handleApplyInvoices();
+                          }}
+                          disabled={!canUpdateInvoice || !isRedeemAvailable}
+                          className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  transition-all duration-150
+    ${
+      !canUpdateInvoice || !isRedeemAvailable
+        ? "opacity-50 cursor-not-allowed bg-gray-100 text-[#A9A9A9]"
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }
+  `}
+                        >
+                          Adjust with Advance
+                        </button>
 
                         {isDiscount && (
                           <button
                             onClick={handleMakeDiscount}
                             disabled={!canWriteInvoice}
-                            className={`w-full text-left px-4 py-2 text-sm rounded-md w-fit whitespace-nowrap 
+                            className={`w-full text-left px-4 py-2 text-sm rounded-md  whitespace-nowrap 
         ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
                           >
