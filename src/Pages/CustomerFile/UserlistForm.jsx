@@ -18,7 +18,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "../PayingGuestFile/PgLayoutView";
-
+import { Add, ArrowDown2, ArrowUp2, InfoCircle } from "iconsax-react";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -155,6 +155,20 @@ function UserlistForm(props) {
   const [bedWarning, setBedWarning] = useState("");
 
   const [fields, setFields] = useState([]);
+  const [collectFullRent, setCollectFullRent] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleCheckboxChange = (e) => {
+    setCollectFullRent(e.target.checked);
+  };
+
+  const handleAccordionToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleAdd = () => {
+    console.log("Add clicked");
+  };
 
   const roomOptions =
     state.PgList?.roomsList?.map((item) => ({
@@ -853,7 +867,7 @@ function UserlistForm(props) {
 
           {activeTab === "LONG" ? (
             <>
-              <div className="show-scroll p-2 mt-2 me-1 max-h-[300px] overflow-y-scroll">
+              <div className="show-scroll p-2 mt-2 me-1 max-h-[400px] overflow-y-scroll">
                 <div className="grid grid-cols-12 gap-x-4 mb-2">
                   <div className="col-span-12 mb-2">
                     <Form.Group controlId="purchaseDate">
@@ -1297,6 +1311,60 @@ function UserlistForm(props) {
                   {roomrentError && (
                     <ErrorMessage message={roomrentError} type="error" />
                   )}
+                </div>
+
+                <div className="w-full max-w-[680px] bg-white">
+                  <div className="flex items-center gap-2 px-1 py-3">
+                    <input
+                      type="checkbox"
+                      checked={collectFullRent}
+                      onChange={handleCheckboxChange}
+                      className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+                    />
+
+                    <label className="text-[15px] text-[#222222] font-medium flex items-center gap-2">
+                      Do you want to collect Full Rent for current month?
+                      <InfoCircle
+                        size="16"
+                        color="#9CA3AF"
+                        variant="Linear"
+                        className="cursor-pointer"
+                      />
+                    </label>
+                  </div>
+
+                  <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
+                    <div
+                      onClick={handleAccordionToggle}
+                      className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
+                    >
+                      <h3 className="text-[14px] font-medium text-[#222222]">
+                        Add Onetime Payment
+                      </h3>
+
+                      {isOpen ? (
+                        <ArrowUp2 size="20" color="#4B5563" variant="Linear" />
+                      ) : (
+                        <ArrowDown2
+                          size="20"
+                          color="#4B5563"
+                          variant="Linear"
+                        />
+                      )}
+                    </div>
+
+                    {isOpen && (
+                      <div className="p-4 bg-[#F7FAFF]">
+                        <button
+                          onClick={handleAdd}
+                          className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                        >
+                          <Add size="16" color="#4F46E5" variant="Linear" />
+                          Add
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="">
