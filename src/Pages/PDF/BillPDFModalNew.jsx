@@ -698,7 +698,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           ? "Security Deposit"
                           : pdfDetails?.configurations?.invoiceType === "Rent"
                             ? "Payment Bills"
-                            : "Invoice"}
+                            : "Booking Invoice"}
                     </h5>
                   </div>
 
@@ -788,11 +788,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
                           {pdfDetails?.dueDate}
                         </div>
-
-                        <div className="truncate text-right text-[10px] font-normal text-[#4B4B4B]">
-                          Joining date :
-                        </div>
-
+                        {pdfDetails?.configurations?.invoiceType !==
+                          "Booking" && (
+                          <div className="truncate text-right text-[10px] font-normal text-[#4B4B4B]">
+                            Joining date :
+                          </div>
+                        )}
                         <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
                           {pdfDetails?.customerInfo?.joiningDate}
                         </div>
