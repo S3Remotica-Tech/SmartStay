@@ -8,6 +8,7 @@ import {
   bookingInActive,
   ApplyInvoice,
   advanceRedeemInitialize,
+  ApplyAdvanceInvoice,
 } from "../Action/BookingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -99,11 +100,64 @@ function* handleAddBooking(action) {
   }
 }
 
+function* handleApplyAdvanceInvoice(action) {
+  try {
+    const response = yield call(ApplyAdvanceInvoice, action.payload);
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "APPLY_ADVANCE_INVOICE_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Updated Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error.code === "ERR_BAD_REQUEST") {
+      if (error.status) {
+        yield put({
+          type: "ERROR_APPLY_ADVANCE_INVOICE",
+          payload: error.response.data,
+        });
+      }
+    }
+  }
+}
+
 function* handleApplyInvoice(action) {
   try {
     const response = yield call(ApplyInvoice, action.payload);
 
-console.log("response", response)
+    console.log("response", response);
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -372,6 +426,7 @@ function* CreateBookinSaga() {
     "REDEEM_ADVANCE_INITIALIZE_SAGA",
     handleAdvanceRedeemInitialize,
   );
+  yield takeEvery("APPLY_ADVANCE_INVOICE_SAGA", handleApplyAdvanceInvoice);
   yield takeEvery("ADD_BOOKING", handleAddBooking);
   yield takeEvery("APPLY_INVOICE_SAGA", handleApplyInvoice);
   yield takeEvery("GET_BOOKING_LIST", handleGetBooking);

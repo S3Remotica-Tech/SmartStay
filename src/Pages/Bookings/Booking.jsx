@@ -74,11 +74,13 @@ function Booking() {
   const [advanceDetails, setAdvanceDetails] = useState("");
   const popupRef = useRef(null);
   const {
-    canWriteModule: canWriteBooking,
+    // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
     // canUpdateModule: canUpdateInvoice,
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Booking");
+
+  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Bills");
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -866,27 +868,36 @@ function Booking() {
                                         }}
                                       >
                                         <button
-                                          disabled={!canWriteBooking}
+                                          disabled={
+                                            !canUpdateInvoice || !item.canRedeem
+                                          }
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             handleApplyInvoices(item);
                                           }}
-                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px]
-    ${
-      !canWriteBooking
-        ? "cursor-not-allowed opacity-50 bg-gray-100"
-        : "cursor-pointer hover:bg-[#EDF2FF]"
-    }`}
+                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+      ${
+        !canUpdateInvoice || !item.canRedeem
+          ? "cursor-not-allowed opacity-50 bg-gray-100"
+          : "cursor-pointer hover:bg-[#EDF2FF]"
+      }`}
                                         >
                                           <Link21
-                                            color={`${canWriteBooking ? "#1E45E1" : "#A9A9A9"}`}
+                                            color={
+                                              !canUpdateInvoice ||
+                                              !item.canRedeem
+                                                ? "#A9A9A9"
+                                                : "#1E45E1"
+                                            }
                                             size="16"
                                           />
+
                                           <span
-                                            className={` text-sm font-medium text-[#222] ${
-                                              !canWriteBooking
-                                                ? "cursor-not-allowed opacity-50 bg-gray-100"
-                                                : "cursor-pointer hover:bg-[#EDF2FF]"
+                                            className={`text-sm font-medium ${
+                                              !canUpdateInvoice ||
+                                              !item.canRedeem
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
                                             }`}
                                           >
                                             Apply Invoices

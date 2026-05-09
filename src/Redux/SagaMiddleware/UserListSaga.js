@@ -892,7 +892,7 @@ function* handleBookedDetails(action) {
     if (error.code === "ERR_BAD_REQUEST") {
       if (error?.status === 400 || error?.response?.status === 400) {
         yield put({
-          type: "ERROR",
+          type: "ERROR_INITIALIZE_BED",
           payload: error.response.data,
         });
         yield put({

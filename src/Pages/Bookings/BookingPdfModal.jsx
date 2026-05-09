@@ -55,6 +55,7 @@ const InvoiceCard = ({ rowData }) => {
       key: "whatsapp",
     },
   ];
+  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Bills");
 
   const [isVisible, setIsVisible] = useState(true);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
@@ -150,7 +151,7 @@ const InvoiceCard = ({ rowData }) => {
   console.log("pdfDetails", pdfDetails);
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
-
+  const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
   const templateColor = pdfDetails?.configurations?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
 
@@ -776,24 +777,29 @@ const InvoiceCard = ({ rowData }) => {
           <div className="flex items-center gap-2">
             <div className="relative inline-flex">
               <button
-                disabled={!canWriteBooking}
+                disabled={!canUpdateInvoice || !isRedeemAvailable}
                 onClick={() => handleApplyInvoices()}
-                className={`flex items-center gap-2 px-3 py-2 border-b border-[#E7E7E7] rounded-[10px]
+                className={`flex items-center gap-2 px-3 py-2 border-b border-[#E7E7E7] rounded-[10px] transition-all duration-150
     ${
-      !canWriteBooking
+      !canUpdateInvoice || !isRedeemAvailable
         ? "cursor-not-allowed opacity-50 bg-gray-100"
-        : "cursor-pointer bg-gray-200"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
     }`}
               >
                 <Link21
-                  color={`${canWriteBooking ? "#1E45E1" : "#A9A9A9"}`}
+                  color={
+                    !canUpdateInvoice || !isRedeemAvailable
+                      ? "#A9A9A9"
+                      : "#1E45E1"
+                  }
                   size="16"
                 />
+
                 <span
-                  className={` text-sm font-medium text-[#222] ${
-                    !canWriteBooking
-                      ? "cursor-not-allowed opacity-50 bg-gray-100"
-                      : "cursor-pointer "
+                  className={`text-sm font-medium ${
+                    !canUpdateInvoice || !isRedeemAvailable
+                      ? "text-[#A9A9A9]"
+                      : "text-[#222222]"
                   }`}
                 >
                   Apply Invoices

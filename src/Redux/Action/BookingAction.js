@@ -123,6 +123,15 @@ export async function advanceRedeemInitialize(hostel) {
   );
 }
 
+export async function ApplyAdvanceInvoice(advance) {
+  return await AxiosConfigV2.post(
+    `/v2/${advance?.hostelId}/${advance?.invoiceId}`,
+    {
+      listItems: advance?.listItems,
+    },
+  );
+}
+
 export function DeleteBooking() {
   new Promise((resolve) => {
     resolve({ status: 200 });
