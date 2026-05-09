@@ -102,7 +102,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   };
 
   const handleDownload = (rowData) => {
-    // console.log("rowData", rowData)
     if (rowData) {
       dispatch({
         type: "INVOICEPDF",
@@ -116,7 +115,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   };
 
   const handleApplyInvoices = (data) => {
-    console.log("executed", data);
+    console.log("data", data);
     setApplyInvoice(true);
     setOpen(false);
   };
@@ -388,6 +387,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const showSplitButton = true;
   const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
+  const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
+
+  const hasPayments = pdfDetails?.paymentHistory?.length > 0;
+  const hasRefunds = pdfDetails?.refundHistory?.length > 0;
+
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
       setShowDiscountInvoice(false);
@@ -460,6 +464,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
 
   return (
     <div className="relative">
@@ -1889,7 +1899,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         </div>
       </div>
 
-      <div className="fixed bottom-16 right-5 z-50 flex flex-col gap-3 items-end">
+      <div
+        className={`fixed  right-14 ${isOpenPayment ? "bottom-[200px]" : "bottom-16"} z-50 flex flex-col gap-3 items-end`}
+      >
         {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
           pdfDetails?.invoiceInfo?.paymentStatus === "Pending" &&
           !showDiscountInvoice && (
@@ -2004,7 +2016,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     onClick={(e) => {
                       if (!canWriteInvoice) return;
                       e.stopPropagation();
-                      handleApplyInvoices();
+                      handleApplyInvoices("called");
                     }}
                   >
                     Apply Now
@@ -2014,50 +2026,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             </div>
           </div>
         </div>
-
-        {open && (
-          <div
-            ref={menuRef}
-            className="font-gilroy mt-2 !w-fit px-2 py-2 bg-white flex flex-col border border-gray-200 rounded-lg shadow-xl z-50"
-          >
-            <button
-              disabled
-              onClick={handleWaiveOff}
-              className={`w-full text-left px-4 py-2 text-sm  rounded-md !w-fit
-        disabled:cursor-not-allowed disabled:text-gray-200
-        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
-      `}
-            >
-              Waive Off
-            </button>
-
-            <button
-              onClick={(e) => {
-                if (!canWriteInvoice) return;
-                e.stopPropagation();
-                handleApplyInvoices("mathu");
-              }}
-              disabled={!canWriteInvoice}
-              className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  !w-fit
-        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
-      `}
-            >
-              Adjust with Advance
-            </button>
-
-            {isDiscount && (
-              <button
-                onClick={handleMakeDiscount}
-                disabled={!canWriteInvoice}
-                className={`w-full text-left px-4 py-2 text-sm rounded-md w-fit
-        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
-      `}
-              >
-                Make Discount
-              </button>
-            )}
-          </div>
-        )}
       </div>
 
       {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
@@ -2065,7 +2033,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
             <div className="flex  gap-4">
               <div
-                onClick={() => setActiveTab("payments")}
+                onClick={() => {
+                  setActiveTab("payments");
+                  setIsOpenPayment(true);
+                }}
                 className={`px-1 py-2 cursor-pointer text-sm font-medium ${
                   activeTab === "payments"
                     ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
@@ -2078,24 +2049,29 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </div>
 
               <div
-                onClick={() => setActiveTab("invoices")}
+                onClick={() => {
+                  setActiveTab("invoices");
+                  setIsOpenPayment(true);
+                }}
                 className={`px-1 py-2 cursor-pointer text-sm font-medium ${
                   activeTab === "invoices"
                     ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
                     : "text-black border-0"
                 }`}
               >
-                Applied Invoices
+                Deducted From
               </div>
             </div>
 
             {pdfDetails?.paymentHistory?.length === 0 &&
+            activeTab === "payments" &&
             pdfDetails?.invoiceInfo?.totalAmount > 0 ? (
               <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black">
                 {" "}
                 No Payments made yet!
               </span>
             ) : pdfDetails?.refundHistory?.length === 0 &&
+              activeTab === "payments" &&
               pdfDetails?.invoiceInfo?.totalAmount < 0 ? (
               <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">
                 No Refund made yet!
@@ -2120,20 +2096,65 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     <Add size="16" color="#FFFFFF" />
                     Record Payment
                   </button>
+                  <div className="relative inline-flex" ref={menuRef}>
+                    {showSplitButton && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpen(!open);
+                        }}
+                        className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
+                      >
+                        <ArrowDown2
+                          size="16"
+                          className={`transition-transform duration-300 ${
+                            open ? "rotate-180" : "rotate-0"
+                          }`}
+                        />
+                      </button>
+                    )}
+                    {open && (
+                      <div className="absolute bottom-14 right-0 font-gilroy  !w-fit px-2 py-2 bg-white flex flex-col border border-gray-200 rounded-lg shadow-xl z-50">
+                        <button
+                          disabled
+                          onClick={handleWaiveOff}
+                          className={`w-full text-left px-4 py-2 text-sm  rounded-md !w-fit whitespace-nowrap 
+        disabled:cursor-not-allowed disabled:text-gray-200
+        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+      `}
+                        >
+                          Waive Off
+                        </button>
+                        {isRedeemAvailable && (
+                          <button
+                            onClick={(e) => {
+                              if (!canWriteInvoice) return;
+                              e.stopPropagation();
+                              handleApplyInvoices();
+                            }}
+                            disabled={!canWriteInvoice}
+                            className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  !w-fit
+        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+      `}
+                          >
+                            Adjust with Advance
+                          </button>
+                        )}
 
-                  {showSplitButton && (
-                    <button
-                      onClick={() => setOpen(!open)}
-                      className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
-                    >
-                      <ArrowDown2
-                        size="16"
-                        className={`transition-transform duration-300 ${
-                          open ? "rotate-180" : "rotate-0"
-                        }`}
-                      />
-                    </button>
-                  )}
+                        {isDiscount && (
+                          <button
+                            onClick={handleMakeDiscount}
+                            disabled={!canWriteInvoice}
+                            className={`w-full text-left px-4 py-2 text-sm rounded-md w-fit whitespace-nowrap 
+        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+      `}
+                          >
+                            Make Discount
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -2154,7 +2175,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   variant="Bold"
                   color="#1E45E1"
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setIsOpenPayment(false);
                     setIsOpen(false);
                   }}
@@ -2165,7 +2187,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   variant="Bold"
                   color="#1E45E1"
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setIsOpenPayment(true);
                     setIsOpen(false);
                   }}
@@ -2178,6 +2201,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             <div>
               {activeTab === "payments" && (
                 <div>
+                  {!hasPayments && !hasRefunds && (
+                    <div className="p-4 text-sm text-center text-red-600 font-medium">
+                      No Data Found
+                    </div>
+                  )}
+
+                  {/* {!hasPayments && hasRefunds && (
+                    <div className="p-4 text-sm text-center text-orange-600 font-medium">
+                      No Payments made yet!
+                    </div>
+                  )}
+
+                  {hasPayments && !hasRefunds && (
+                    <div className="p-4 text-sm text-center text-orange-600 font-medium">
+                      No Refund made yet!
+                    </div>
+                  )} */}
+
                   {pdfDetails?.paymentHistory?.length > 0 && (
                     <div className="overflow-x-auto px-4">
                       <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
@@ -2281,8 +2322,52 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               )}
 
               {activeTab === "invoices" && (
-                <div className="p-4 text-sm text-gray-600">
-                  Applied invoices content here...
+                <div className="overflow-x-auto px-4 mb-2">
+                  <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                    <table className="w-full text-sm">
+                      <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                        <tr>
+                          <th className="text-left px-3 py-2">DATE</th>
+                          <th className="text-left px-3 py-2">INV NO</th>
+                          <th className="text-left px-3 py-2">
+                            AMOUNT APPLIED
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {pdfDetails.invoiceInfo?.redemptionInfo?.redeemdList
+                          ?.length > 0 ? (
+                          pdfDetails.invoiceInfo?.redemptionInfo?.redeemdList?.map(
+                            (item, index) => (
+                              <tr key={index} className="border-t">
+                                <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                  {item.date || "-"}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                  {item.invoiceNo || "-"}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                  {item.amount}
+                                </td>
+                              </tr>
+                            ),
+                          )
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={12}
+                              className="text-center align-middle py-3 text-sm text-red-600 font-semibold"
+                            >
+                              No Data Found
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
 

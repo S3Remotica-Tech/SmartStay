@@ -22,6 +22,8 @@ export const initialState = {
   initializeRedeemSuccessCode: 0,
   initializeRedeem: "",
   applyRedeemError: "",
+  applyAdvanceInvoiceSuccessCode: 0,
+  applyAdvanceRedeemError: "",
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -38,6 +40,24 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, applyinvoiceSuccessCode: action.payload.statusCode };
     case "REMOVE_APPLY_INVOICE_REDUCER":
       return { ...state, applyinvoiceSuccessCode: 0 };
+
+    case "APPLY_ADVANCE_INVOICE_REDUCER":
+      return {
+        ...state,
+        applyAdvanceInvoiceSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_APPLY_ADVANCE_INVOICE_REDUCER":
+      return {
+        ...state,
+        applyAdvanceInvoiceSuccessCode: 0,
+      };
+
+    case "ERROR_APPLY_ADVANCE_INVOICE":
+      return { ...state, applyAdvanceRedeemError: action.payload };
+
+    case "REMOVE_ERROR_APPLY_ADVANCE_INVOICE":
+      return { ...state, applyAdvanceRedeemError: "" };
 
     case "ERROR_APPLY_INVOICE":
       return { ...state, applyRedeemError: action.payload };

@@ -851,7 +851,7 @@ function Booking() {
                                         handleShowDots(e, index);
                                       }}
                                     />
-                                    {showDots === index && (
+                                    {showDots === index && item.canRedeem && (
                                       <div
                                         ref={popupRef}
                                         className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
