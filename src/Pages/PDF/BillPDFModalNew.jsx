@@ -1615,10 +1615,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         <button
                           disabled
                           onClick={handleWaiveOff}
-                          className={`w-full text-left px-4 py-2 text-sm  rounded-md  whitespace-nowrap 
-        disabled:cursor-not-allowed disabled:text-gray-200
-        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
-      `}
+                          className={`w-full text-left px-4 py-2 text-sm rounded-md whitespace-nowrap transition-all 
+                            duration-150
+    ${
+      canWriteInvoice
+        ? "opacity-50 cursor-not-allowed text-[#A9A9A9] "
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }`}
                         >
                           Waive Off
                         </button>
@@ -1631,10 +1634,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             handleApplyInvoices();
                           }}
                           disabled={!canUpdateInvoice || !isRedeemAvailable}
-                          className={`w-full text-left px-4 py-2 text-sm whitespace-nowrap rounded-md  transition-all duration-150
+                          className={`w-full   disabled:text-gray-400 text-left px-4 py-2 text-sm 
+                            whitespace-nowrap rounded-md  transition-all duration-150
     ${
       !canUpdateInvoice || !isRedeemAvailable
-        ? "opacity-50 cursor-not-allowed bg-gray-100 text-[#A9A9A9]"
+        ? "opacity-50 cursor-not-allowed  text-[#A9A9A9]"
         : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
     }
   `}
