@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 // import "./UserList.css";
 import { Table, Button, Form, FormControl } from "react-bootstrap";
@@ -91,6 +92,7 @@ function UserList(props) {
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
   const { RangePicker } = DatePicker;
+  const [searchParams] = useSearchParams();
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
@@ -199,6 +201,14 @@ function UserList(props) {
 
   const isTenantForm = location.state?.isTenantForm || false;
   const isCheckoutWay = location.state?.isCheckoutWay || false;
+
+useEffect(() => {
+  const pageParam = Number(searchParams.get("page")) || 1;
+  const sizeParam = Number(searchParams.get("size")) || 20;
+
+  setPage(pageParam);
+  setSize(sizeParam);
+}, [searchParams]);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {

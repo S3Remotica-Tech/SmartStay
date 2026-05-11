@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom";
 import UnPaidInvoice from "./UnPaidInvoice";
 import { DiscountCircle, ReceiptEdit } from "iconsax-react";
 import DiscountInvoice from "../PDF/DiscountInvoice";
-import { Edit } from "iconsax-react";
+import { Edit, Link21 } from "iconsax-react";
+import ApplyBookingModal from "../Bookings/ApplyInvoices";
 
 const InvoiceTable = (props) => {
   const { item, selectedRows, handleRowSelect } = props;
@@ -23,7 +24,7 @@ const InvoiceTable = (props) => {
   const navigate = useNavigate();
   const [showDots, setShowDots] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
+  const [applyInvoice, setApplyInvoice] = useState(false);
   const [WriteoffForm, setWriteOffForm] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [refundDetails, setRefundDetails] = useState("");
@@ -33,7 +34,7 @@ const InvoiceTable = (props) => {
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [discountDetails, setDiscountDetails] = useState("");
   const [showAbove, setShowAbove] = useState(false);
-
+  const [advanceDetails, setAdvanceDetails] = useState("");
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
@@ -160,6 +161,14 @@ const InvoiceTable = (props) => {
     }
   };
 
+  const handleApplyInvoices = (item) => {
+    setApplyInvoice(true);
+    setAdvanceDetails(item);
+    setShowDots(false);
+  };
+  const handleCloseApplyInvoices = () => {
+    setApplyInvoice(false);
+  };
   const handleUnpaid = (item) => {
     setShowDots(false);
     setSelectedInvoice(item);
@@ -207,9 +216,9 @@ const InvoiceTable = (props) => {
         className="text-sm font-gilroy border-b border-[#E8E8E8]  hover:bg-gray-50"
       >
         <td
-          className={`px-4 w-[80px] py-1  ${
+          className={`px-4  py-1 w-[80px]    ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
+              ? ""
               : "align-middle"
           }`}
         >
@@ -224,11 +233,11 @@ const InvoiceTable = (props) => {
           </div>
         </td>
         <td
-          className={`w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
+          className={`w-[230px]  py-1  px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
              ${
                props.item.isDiscounted || props.item.isInvoicesApplied
-                 ? "align-top"
-                 : "align-middle"
+                 ? ""
+                 : "align-middle py-1"
              }`}
         >
           <div
@@ -243,14 +252,14 @@ const InvoiceTable = (props) => {
         </td>
 
         <td
-          className={`w-[250px] py-1 px-2 relative ${
+          className={`w-[250px]  py-1  px-2 relative ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle py-1"
           }`}
         >
           <div
-            className="flex items-center gap-2 cursor-pointer w-fit  group "
+            className={`flex items-center gap-2 cursor-pointer w-fit group `}
             onClick={() => handleNavigateTenantProfile(props.item)}
           >
             {props.item?.profilePic ? (
@@ -279,10 +288,10 @@ const InvoiceTable = (props) => {
         </td>
 
         <td
-          className={`w-[230px] py-1 px-2 relative  ${
+          className={`w-[230px]   py-1 px-2 relative  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle py-1"
           }`}
         >
           <div className="flex items-center gap-2 group w-fit">
@@ -306,76 +315,74 @@ const InvoiceTable = (props) => {
         </td>
 
         <td
-          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+          className={`w-[230px]   py-1 px-2 whitespace-nowrap  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle py-1"
           }`}
         >
           {props.item?.invoiceDate}
         </td>
 
         <td
-          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+          className={`w-[230px] px-2  py-1 whitespace-nowrap  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle  py-1"
           }`}
         >
           {props.item?.dueDate}
         </td>
 
-        <td
-          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
-            props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
-          }`}
-        >
-          <div className="flex flex-col">
-            <span>
+        <td className="w-[230px] px-2 py-1 relative align-middle whitespace-nowrap">
+          <div className="relative inline-block">
+            <span className="leading-5">
               ₹{Number(props.item?.invoiceAmount || 0).toLocaleString("en-IN")}
             </span>
 
-            {props.item.isDiscounted && (
-              <span className="text-[10px] text-[#64748B] mt-1">
-                Discount Applied : ₹
-                <span className="text-[12px] font-semibold">
-                  {Number(props.item?.discountAmount || 0).toLocaleString(
-                    "en-IN",
-                  )}
-                </span>
-              </span>
-            )}
-            {props.item.isInvoicesApplied && (
-              <span className="text-[10px] text-[#64748B] mt-1">
-                Adjusted from Advance : ₹
-                <span className="text-[12px] font-semibold">
-                  {" "}
-                  {Number(
-                    props.item?.invoicesApplied?.amountApplied || 0,
-                  ).toLocaleString("en-IN")}
-                </span>
-              </span>
+            {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+              <div className="sticky  left-0 mt-1 flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max">
+                {props.item.isDiscounted && (
+                  <span>
+                    Discount Applied : ₹
+                    <span className="text-[11px] font-semibold">
+                      {Number(props.item?.discountAmount || 0).toLocaleString(
+                        "en-IN",
+                      )}
+                    </span>
+                  </span>
+                )}
+
+                {props.item.isInvoicesApplied && (
+                  <span className="mt-1">
+                    Adjusted from Advance : ₹
+                    <span className="text-[11px] font-semibold">
+                      {Number(
+                        props.item?.invoicesApplied?.amountApplied || 0,
+                      ).toLocaleString("en-IN")}
+                    </span>
+                  </span>
+                )}
+              </div>
             )}
           </div>
         </td>
 
         <td
-          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+          className={`w-[230px]  px-2 whitespace-nowrap  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle py-1"
           }`}
         >
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
         </td>
 
         <td
-          className={`w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden  ${
+          className={`w-[270px] px-2 whitespace-nowrap overflow-hidden  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle  py-1"
           }`}
         >
           {(props.item?.paymentStatus === "Pending" ||
@@ -417,10 +424,10 @@ const InvoiceTable = (props) => {
         </td>
 
         <td
-          className={`w-[230px] py-1 px-2  ${
+          className={`w-[230px]   px-2  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
-              ? "align-top"
-              : "align-middle"
+              ? ""
+              : "align-middle py-1"
           }`}
         >
           <div className="w-full flex justify-start">
@@ -464,6 +471,39 @@ const InvoiceTable = (props) => {
                       </span>
                     </div>
                   )}
+
+                  <button
+                    disabled={!canUpdateInvoice || !props.item.canRedeem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleApplyInvoices(props.item);
+                    }}
+                    className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+      ${
+        !canUpdateInvoice || !props.item.canRedeem
+          ? "cursor-not-allowed opacity-50 bg-gray-100"
+          : "cursor-pointer hover:bg-[#EDF2FF]"
+      }`}
+                  >
+                    <Link21
+                      color={
+                        !canUpdateInvoice || !props.item.canRedeem
+                          ? "#A9A9A9"
+                          : "#1E45E1"
+                      }
+                      size="16"
+                    />
+
+                    <span
+                      className={`text-sm font-medium ${
+                        !canUpdateInvoice || !props.item.canRedeem
+                          ? "text-[#A9A9A9]"
+                          : "text-[#222222]"
+                      }`}
+                    >
+                      Apply Invoices
+                    </span>
+                  </button>
 
                   {props.item.invoiceMode === "Manual" &&
                     props.item?.paymentStatus === "Paid" &&
@@ -593,6 +633,13 @@ const InvoiceTable = (props) => {
           show={showDiscountInvoice}
           handleClose={handleCloseFormDiscount}
           discountDetails={discountDetails}
+        />
+      )}
+      {applyInvoice && (
+        <ApplyBookingModal
+          show={applyInvoice}
+          handleClose={handleCloseApplyInvoices}
+          advanceDetails={advanceDetails}
         />
       )}
 

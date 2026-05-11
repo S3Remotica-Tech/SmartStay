@@ -20,6 +20,7 @@ import {
   DocumentDownload,
   Edit,
   RefreshSquare,
+  Link21,
 } from "iconsax-react";
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -39,7 +40,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
-  const [isOpenPayment, setIsOpenPayment] = useState(false);
+  const [isOpenPayment, setIsOpenPayment] = useState(true);
   const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState("");
@@ -1534,7 +1535,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   setActiveTab("payments");
                   setIsOpenPayment(true);
                 }}
-                className={`px-1 py-2 cursor-pointer text-sm font-medium ${
+                className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${
                   activeTab === "payments"
                     ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
                     : "text-black "
@@ -1550,7 +1551,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   setActiveTab("invoices");
                   setIsOpenPayment(true);
                 }}
-                className={`px-1 py-2 cursor-pointer text-sm font-medium ${
+                className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${
                   activeTab === "invoices"
                     ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
                     : "text-black border-0"
@@ -1560,22 +1561,22 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </div>
             </div>
 
-            {pdfDetails?.paymentHistory?.length === 0 &&
+            {/* {pdfDetails?.paymentHistory?.length === 0 &&
             activeTab === "payments" &&
             pdfDetails?.invoiceInfo?.totalAmount > 0 ? (
-              <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black">
+              <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black whitespace-nowrap">
                 {" "}
                 No Payments made yet!
               </span>
             ) : pdfDetails?.refundHistory?.length === 0 &&
               activeTab === "payments" &&
               pdfDetails?.invoiceInfo?.totalAmount < 0 ? (
-              <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500">
+              <span className="bg-[#FFF8F8] px-4 py-2 rounded-md text-sm text-red-500 whitespace-nowrap">
                 No Refund made yet!
               </span>
             ) : (
               ""
-            )}
+            )} */}
 
             <div className="flex items-center gap-2">
               {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
@@ -1586,7 +1587,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       if (canWriteInvoice)
                         handleNavigateRecordPayment(pdfDetails);
                     }}
-                    className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm px-4 py-2 
+                    className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm whitespace-nowrap px-4 py-2 
         ${showSplitButton ? "rounded-l-md" : "rounded-md"} 
         disabled:opacity-50`}
                   >
@@ -1661,6 +1662,38 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     )}
                   </div>
                 </div>
+              )}
+
+              {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" && (
+                <button
+                  disabled={!canUpdateInvoice || isRedeemAvailable}
+                  onClick={() => handleApplyInvoices()}
+                  className={`flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px] 
+                  ${
+                    !canUpdateInvoice || isRedeemAvailable
+                      ? "cursor-not-allowed opacity-50 bg-gray-100"
+                      : "cursor-pointer hover:bg-[#EDF2FF]"
+                  }`}
+                >
+                  <Link21
+                    color={
+                      !canUpdateInvoice || isRedeemAvailable
+                        ? "#A9A9A9"
+                        : "#1E45E1"
+                    }
+                    size="16"
+                  />
+
+                  <span
+                    className={`text-sm font-medium ${
+                      !canUpdateInvoice || isRedeemAvailable
+                        ? "text-[#A9A9A9]"
+                        : "text-[#222222]"
+                    }`}
+                  >
+                    Apply Invoices
+                  </span>
+                </button>
               )}
 
               {pdfDetails?.invoiceInfo?.totalAmount < 0 &&
