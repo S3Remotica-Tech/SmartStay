@@ -265,7 +265,7 @@ const InvoiceTable = (props) => {
               </div>
             )}
 
-            <div className="truncate w-[120px] text-[#1E45E1] hover:underline ">
+            <div className="truncate w-[120px] text-[#1E45E1] hover:underline  ">
               {props.item?.fullName}
             </div>
             <span
@@ -338,19 +338,24 @@ const InvoiceTable = (props) => {
             </span>
 
             {props.item.isDiscounted && (
-              <span className="text-[11px] text-[#64748B] mt-1">
+              <span className="text-[10px] text-[#64748B] mt-1">
                 Discount Applied : ₹
-                {Number(props.item?.discountAmount || 0).toLocaleString(
-                  "en-IN",
-                )}
+                <span className="text-[12px] font-semibold">
+                  {Number(props.item?.discountAmount || 0).toLocaleString(
+                    "en-IN",
+                  )}
+                </span>
               </span>
             )}
             {props.item.isInvoicesApplied && (
-              <span className="text-[11px] text-[#64748B] mt-1">
+              <span className="text-[10px] text-[#64748B] mt-1">
                 Adjusted from Advance : ₹
-                {Number(
-                  props.item?.invoicesApplied?.amountApplied || 0,
-                ).toLocaleString("en-IN")}
+                <span className="text-[12px] font-semibold">
+                  {" "}
+                  {Number(
+                    props.item?.invoicesApplied?.amountApplied || 0,
+                  ).toLocaleString("en-IN")}
+                </span>
               </span>
             )}
           </div>
