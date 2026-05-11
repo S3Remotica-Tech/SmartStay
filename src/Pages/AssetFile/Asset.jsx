@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FormControl, InputGroup, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import AddAsset from "./AddAsset";
 import AssetListTable from "../../Pages/AssetFile/AssetListTable";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import { CloseCircle, SearchNormal1, Sort } from "iconsax-react";
+import { CloseCircle, SearchNormal1, Sort, Setting3 } from "iconsax-react";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -39,9 +39,10 @@ function Asset() {
   const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([]);
   const [filterexcelprice, setFilterExcelPrice] = useState("");
-
+  const [filterInput, setFilterInput] = useState("");
   const { canWriteModule: canWriteAssets, canReadModule: canReadAssets } =
     useHasPermission("Assets");
+  const tableContainerRef = useRef(null);
 
   useEffect(() => {
     if (!canReadAssets) {
@@ -333,11 +334,7 @@ function Asset() {
     }
   };
 
-  const filteredData = filterByPriceRange(getData);
-
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(filteredData) ? filteredData : [];
-  }, [filteredData]);
+  // const filteredData = filterByPriceRange(getData);
 
   const handleEditAsset = (item) => {
     setShow(true);
@@ -432,185 +429,181 @@ function Asset() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = sortedData.slice(startIndex, endIndex);
+  const paginatedData = getData.slice(startIndex, endIndex);
+
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+  };
 
   return (
     <>
-       <div className="bg-white font-gilroy">
-        <div className="flex justify-between items-center flex-wrap">
-          <div className="flex lg:justify-start justify-center items-center flex-wrap">
-            <label className="text-lg text-black font-semibold font-gilroy">
-              Assets
-            </label>
-          </div>
-
-          <div className="flex justify-between items-center flex-wrap p-2">
-            <div className="relative cursor-pointer mt-0 mr-3 flex flex-wrap">
-              <InputGroup className="max-w-full flex-nowrap">
-                <FormControl
-                  value={searchQuery}
-                  onChange={handleInputChange}
-                  className="w-full max-w-[235px] shadow-none border border-lightGray border-r-0 text-[10px] font-medium text-[#222]"
-                  placeholder="Search..."
-                />
-                <InputGroup.Text className="bg-white cursor-pointer">
-                  <CloseCircle
-                    size="24"
-                    color="#222"
-                    onClick={handleCloseSearch}
-                  />
-                </InputGroup.Text>
-              </InputGroup>
+      <div className="bg-white font-gilroy">
+        <div className="w-full p-0">
+          <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
+            <div className="flex lg:justify-start justify-center items-center flex-wrap">
+              <label className="text-lg text-black font-semibold font-gilroy">
+                Assets
+              </label>
             </div>
 
-            <div
-              className={`
-  ${canReadAssets ? "mr-2 mt-0 cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}
+            <div className="flex justify-between items-center gap-2 flex-wrap p-2">
+              <div
+                className={`flex items-center rounded-xl border px-3 py-1.5 !bg-white  transition
+                 ${
+                   canReadAssets
+                     ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                     : "border-gray-200 opacity-60 cursor-not-allowed"
+                 }`}
+              >
+                <input
+                  type="text"
+                  className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
+                  placeholder="Search"
+                  value={filterInput}
+                  onChange={(e) => handlefilterInput(e)}
+                  disabled={canReadAssets}
+                />
+
+                <SearchNormal1
+                  size="18"
+                  color={canReadAssets ? "#6B7280" : "#A0A0A0"}
+                  className="mr-2"
+                />
+              </div>
+
+              <div
+                className={`
+  ${canReadAssets ? "mr-2 mt-0 cursor-not-allowed opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}
   transition-opacity duration-300 ease-in-out
 `}
-            >
-              <img
-                src={excelimg}
-                alt="excel"
-                className="w-[38px] h-[38px]"
-                onClick={() => {
-                  if (canReadAssets) handleAssetsExcel();
-                }}
-              />
-            </div>
-
-            <div style={{}}>
-              <Button
-                disabled={!canWriteAssets}
-                onClick={handleShow}
-                className="font-gilroy !text-[14px] !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-[8px] p-2 w-[146px] whitespace-nowrap"
               >
-                {" "}
-                + Asset
-              </Button>
+                <img
+                  src={excelimg}
+                  alt="excel"
+                  className="w-[35px] h-[35px]"
+                  onClick={() => {
+                    if (canReadAssets) handleAssetsExcel();
+                  }}
+                />
+              </div>
+
+              <div style={{}}>
+                <Button
+                  disabled={!canWriteAssets}
+                  onClick={handleShow}
+                  className="font-gilroy !text-[14px] !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-[8px] p-2 w-[146px] whitespace-nowrap"
+                >
+                  {" "}
+                  + Asset
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {searchQuery && (
-          <div className="mt-5 mb-4 font-semibold text-[16px]">
-            {getData.length > 0 ? (
-              <span className="text-center font-semibold font-gilroy text-[16px] text-[rgba(100,100,100,1)]">
-                {getData.length} result{getData.length > 1 ? "s" : ""} found for{" "}
-                <span className="text-[rgba(34,34,34,1)]">
-                  &quot;{searchQuery}&quot;
-                </span>
-              </span>
-            ) : (
-              <span className="text-center font-semibold font-gilroy text-[16px] text-[rgba(100,100,100,1)]">
-                No results found for{" "}
-                <span className="text-center font-semibold font-gilroy text-[16px] text-[rgba(34,34,34,1)]">
-                  &quot;{searchQuery}&quot;
-                </span>
-              </span>
-            )}
-          </div>
-        )}
-
-        {!canReadAssets ? (
-          <>
-            <div className="flex flex-col items-center justify-center h-screen">
-              <img
-                src={EmptyState}
-                alt="Empty State"
-                className="max-w-full h-auto"
-              />
-
-              <ErrorMessage
-                message={["You do not have access to view Asset"]}
-                type="warning"
+          <div className={` flex items-center justify-end gap-2 mr-2 `}>
+            <div>
+              <Setting3
+                // onClick={() => setOpen(!open)}
+                className="cursor-not-allowed"
+                size="22"
+                color="#4B4B4B"
               />
             </div>
-          </>
-        ) : (
-          <div className="overflow-auto mb-5">
-            <div className="flex justify-end mt-2 mb-3 mr-2">
+
+            <div className="mr-2">
               <PaginationList
-                totalItems={sortedData.length}
+                totalItems={getData?.length}
                 itemsPerPage={pageSize}
                 currentPage={page}
                 onPageChange={(p) => setPage(p)}
                 onPageSizeChange={(size) => setPageSize(size)}
               />
             </div>
-            {sortedData && sortedData.length > 0 && (
-              <div className="relative h-[calc(100vh-155px)] flex flex-col mt-3">
-                <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
-                      <tr className="h-9">
-                        <th className="w-[230px] px-2">Product Name</th>
-                        <th className="w-[230px] px-2">Serial Number</th>
-                        <th className="w-[230px] px-2">Brand</th>
-                        <th className="w-[230px] px-2">Asset</th>
-                        <th className="w-[230px] px-2">Price</th>
-                        <th className="w-[230px] px-2">Purchase Date</th>
-                        <th className="w-[230px] px-2">Assigned</th>
-                        <th className="w-[230px] px-2">Action</th>
-                      </tr>
-                    </thead>
+          </div>
 
-                    <tbody>
-                      {sortedData && sortedData.length > 0 && (
-                        <>
-                          {/* {sortedData.map((item) => (
-                                <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id}
-                                  // assetEditPermission={assetEditPermission}
-                                  //  assetAddPermission={assetAddPermission} 
-                                  // assetDeletePermission={assetDeletePermission}
-                                  disableActions={state?.login?.planStatus === 0} />
-                              ))} */}
+          {!canReadAssets ? (
+            <>
+              <div className="flex flex-col items-center justify-center h-screen">
+                <img
+                  src={EmptyState}
+                  alt="Empty State"
+                  className="max-w-full h-auto"
+                />
 
-                          {paginatedData.map((item) => (
-                            <AssetListTable
-                              item={item}
-                              OnEditAsset={handleEditAsset}
-                              key={item.id}
-                              disableActions={state?.login?.planStatus === 0}
-                            />
-                          ))}
-                        </>
-                      )}
-                    </tbody>
-                  </table>
+                <ErrorMessage
+                  message={["You do not have access to view Asset"]}
+                  type="warning"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="relative">
+              {getData && getData?.length > 0 && (
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                  <div
+                    id="tableContainer"
+                    ref={tableContainerRef}
+                    className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  >
+                    <table className=" w-full font-gilroy">
+                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                        <tr className="h-9">
+                          <th className="w-[230px] px-2">Product Name</th>
+                          <th className="w-[230px] px-2">Serial Number</th>
+                          <th className="w-[230px] px-2">Brand</th>
+                          <th className="w-[230px] px-2">Asset</th>
+                          <th className="w-[230px] px-2">Price</th>
+                          <th className="w-[230px] px-2">Purchase Date</th>
+                          <th className="w-[230px] px-2">Assigned</th>
+                          <th className="w-[230px] px-2">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {paginatedData.map((item) => (
+                          <AssetListTable
+                            item={item}
+                            OnEditAsset={handleEditAsset}
+                            key={item.id}
+                            disableActions={state?.login?.planStatus === 0}
+                          />
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {!loading && getData && getData.length === 0 && (
+            <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-20">
+              <div>
+                <div className="flex justify-center mb-2 mt-8">
+                  <img src={EmptyState} alt="Empty state" />
+                </div>
+
+                <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
+                  No Assets available
+                </div>
+
+                <div className="text-center font-gilroy font-medium text-sm text-gray-700">
+                  There are no Assets added.
                 </div>
               </div>
-            )}
+
+              <div></div>
+            </div>
+          )}
+        </div>
+        {loading && (
+          <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-[40px] h-[40px] rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
           </div>
         )}
-        {!loading && sortedData && sortedData.length === 0 && (
-          <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-20">
-            <div>
-              <div className="flex justify-center mb-2 mt-8">
-                <img src={EmptyState} alt="Empty state" />
-              </div>
-
-              <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                No Assets available
-              </div>
-
-              <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                There are no Assets added.
-              </div>
-            </div>
-
-            <div></div>
-          </div>
+        {show && (
+          <AddAsset show={show} currentItem={currentItem} setShow={setShow} />
         )}
       </div>
-      {loading && (
-        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-          <div className="w-[40px] h-[40px] rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
-        </div>
-      )}
-      {show && (
-        <AddAsset show={show} currentItem={currentItem} setShow={setShow} />
-      )}
     </>
   );
 }
