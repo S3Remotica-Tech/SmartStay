@@ -1666,18 +1666,18 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
               {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" && (
                 <button
-                  disabled={!canUpdateInvoice || isRedeemAvailable}
+                  disabled={!canUpdateInvoice || !isRedeemAvailable}
                   onClick={() => handleApplyInvoices()}
                   className={`flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px] 
                   ${
-                    !canUpdateInvoice || isRedeemAvailable
+                    !canUpdateInvoice || !isRedeemAvailable
                       ? "cursor-not-allowed opacity-50 bg-gray-100"
                       : "cursor-pointer hover:bg-[#EDF2FF]"
                   }`}
                 >
                   <Link21
                     color={
-                      !canUpdateInvoice || isRedeemAvailable
+                      !canUpdateInvoice || !isRedeemAvailable
                         ? "#A9A9A9"
                         : "#1E45E1"
                     }
@@ -1686,7 +1686,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                   <span
                     className={`text-sm font-medium ${
-                      !canUpdateInvoice || isRedeemAvailable
+                      !canUpdateInvoice || !isRedeemAvailable
                         ? "text-[#A9A9A9]"
                         : "text-[#222222]"
                     }`}
