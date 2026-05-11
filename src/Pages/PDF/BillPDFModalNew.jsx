@@ -987,7 +987,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             <span className="text-[#4B4B4B] font-[Gilroy,sans-serif]">
                               Balance Due
                             </span>
-                            <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                            <span className="text-red-600 font-[Gilroy,sans-serif]">
                               ₹{" "}
                               {Number(
                                 pdfDetails?.invoiceInfo?.balanceAmount || 0,
@@ -1847,7 +1847,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             (item, index) => (
                               <tr key={index} className="border-t">
                                 <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                                  {item.date || "-"}
+                                  {item.redeemedOn || "-"}
                                 </td>
 
                                 <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">

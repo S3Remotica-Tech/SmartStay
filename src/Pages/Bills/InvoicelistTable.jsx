@@ -206,7 +206,13 @@ const InvoiceTable = (props) => {
         key={props.item.invoiceId}
         className="text-sm font-gilroy border-b border-[#E8E8E8]  hover:bg-gray-50"
       >
-        <td className="px-4 w-[80px]">
+        <td
+          className={`px-4 w-[80px] py-1  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           <div className="flex items-center justify-end">
             <input
               type="checkbox"
@@ -217,7 +223,14 @@ const InvoiceTable = (props) => {
             />
           </div>
         </td>
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer">
+        <td
+          className={`w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
+             ${
+               props.item.isDiscounted || props.item.isInvoicesApplied
+                 ? "align-top"
+                 : "align-middle"
+             }`}
+        >
           <div
             onClick={() => handleNavigatePDF(props.item)}
             className="Invoice_Name"
@@ -229,9 +242,15 @@ const InvoiceTable = (props) => {
           </div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 relative">
+        <td
+          className={`w-[250px] py-1 px-2 relative ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           <div
-            className="flex items-center gap-2 cursor-pointer w-fit  group"
+            className="flex items-center gap-2 cursor-pointer w-fit  group "
             onClick={() => handleNavigateTenantProfile(props.item)}
           >
             {props.item?.profilePic ? (
@@ -259,7 +278,13 @@ const InvoiceTable = (props) => {
           </div>
         </td>
 
-        <td className="w-[230px] py-1 px-2 relative">
+        <td
+          className={`w-[230px] py-1 px-2 relative  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           <div className="flex items-center gap-2 group w-fit">
             <span className="truncate max-w-[150px]">
               {props.item.invoiceType}
@@ -280,15 +305,33 @@ const InvoiceTable = (props) => {
           </div>
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td
+          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           {props.item?.invoiceDate}
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td
+          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           {props.item?.dueDate}
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td
+          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           <div className="flex flex-col">
             <span>
               ₹{Number(props.item?.invoiceAmount || 0).toLocaleString("en-IN")}
@@ -302,47 +345,34 @@ const InvoiceTable = (props) => {
                 )}
               </span>
             )}
+            {props.item.isInvoicesApplied && (
+              <span className="text-[11px] text-[#64748B] mt-1">
+                Adjusted from Advance : ₹
+                {Number(
+                  props.item?.invoicesApplied?.amountApplied || 0,
+                ).toLocaleString("en-IN")}
+              </span>
+            )}
           </div>
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td
+          className={`w-[230px] py-1 px-2 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
         </td>
 
-        {/* <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
-          {(props.item?.paymentStatus === "Pending" ||
-            props.item?.paymentStatus === "Partial Payment") && (
-            <span className="bg-[#FFD9D9] rounded-[13px] px-3 py-1">
-              {props.item?.paymentStatus}
-            </span>
-          )}
-
-          {props.item?.paymentStatus === "Paid" && (
-            <span className="cursor-pointer bg-green-100 rounded-[14px] px-3 py-1">
-              {props.item?.paymentStatus}
-            </span>
-          )}
-
-          {(props.item?.paymentStatus === "Refunded" ||
-            props.item?.paymentStatus === "Partially Refunded") && (
-            <span className="bg-[#FFF3CD] rounded-[14px] px-3 py-1">
-              {props.item?.paymentStatus}
-            </span>
-          )}
-
-          {props.item?.paymentStatus === "Pending Refund" && (
-            <span className="bg-[#FFE6B3] rounded-[14px] px-3 py-1">
-              {props.item?.paymentStatus}
-            </span>
-          )}
-          {props.item?.isCancelled && (
-            <span className="bg-[#FFE6B3] rounded-[14px] px-3 py-1">
-              Cancelled
-            </span>
-          )}
-        </td> */}
-
-        <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
+        <td
+          className={`w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
             <span className="inline-flex items-center gap-2 bg-[#FFD9D9] rounded-[13px] px-3 py-1 text-xs">
@@ -381,7 +411,13 @@ const InvoiceTable = (props) => {
           )}
         </td>
 
-        <td className="w-[230px] py-1 px-2">
+        <td
+          className={`w-[230px] py-1 px-2  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? "align-top"
+              : "align-middle"
+          }`}
+        >
           <div className="w-full flex justify-start">
             <div className="cursor-pointer flex justify-center items-center relative">
               <PiDotsThreeOutlineVerticalFill
