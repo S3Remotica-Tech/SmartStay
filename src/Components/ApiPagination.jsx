@@ -172,7 +172,7 @@ function ApiPagination({
             <span className="text-sm text-[#374151] whitespace-nowrap px-2">
               {totalRecords === 0
                 ? "0-0"
-                : `${uiPage}-${Math.min(size, totalRecords - startIndex)}`}
+                : `${uiPage} - ${Math.min(size, totalRecords - startIndex)}`}
             </span>
             <button
               onClick={() => handleChangePage(uiPage + 1)}

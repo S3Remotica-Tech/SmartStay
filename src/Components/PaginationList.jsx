@@ -66,7 +66,7 @@ function PaginationList({
           </select>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <button
             onClick={() => handleChangePage(currentPage - 1)}
             disabled={currentPage === 1}
@@ -75,15 +75,14 @@ function PaginationList({
           >
             <ArrowLeft2 size="16" color="#1E45E1" />
           </button>
-
-         <span className="text-sm text-[#374151] whitespace-nowrap px-2">
-  {totalItems === 0
-    ? "0-0"
-    : `${currentPage}-${Math.min(
-        itemsPerPage,
-        totalItems - startIndex
-      )}`}
-</span>
+          <span className="text-sm text-[#374151] whitespace-nowrap px-2">
+            {totalItems === 0
+              ? "0-0"
+              : `${currentPage} - ${Math.min(
+                  itemsPerPage,
+                  totalItems - startIndex,
+                )}`}
+          </span>
 
           <button
             onClick={() => handleChangePage(currentPage + 1)}
