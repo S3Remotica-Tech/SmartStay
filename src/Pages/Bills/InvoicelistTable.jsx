@@ -213,10 +213,11 @@ const InvoiceTable = (props) => {
     <>
       <tr
         key={props.item.invoiceId}
-        className="text-sm font-gilroy border-b border-[#E8E8E8]  hover:bg-gray-50"
+        className={`text-sm font-gilroy border-b border-[#E8E8E8] hover:bg-gray-50
+   `}
       >
         <td
-          className={`px-4  py-1 w-[80px]    ${
+          className={`px-4 py-1   w-[80px]    ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
               : "align-middle"
@@ -231,13 +232,16 @@ const InvoiceTable = (props) => {
               onChange={() => handleRowSelect(item.invoiceId)}
             />
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
         <td
-          className={`w-[230px]  py-1  px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
+          className={`w-[230px]    px-2 py-1 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
              ${
                props.item.isDiscounted || props.item.isInvoicesApplied
                  ? ""
-                 : "align-middle py-1"
+                 : "align-middle "
              }`}
         >
           <div
@@ -249,13 +253,16 @@ const InvoiceTable = (props) => {
               ? "0.00"
               : props.item?.invoiceNumber}
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
         <td
-          className={`w-[250px]  py-1  px-2 relative ${
+          className={`w-[250px]  px-2 py-1 relative ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle py-1"
+              : "align-middle "
           }`}
         >
           <div
@@ -285,13 +292,16 @@ const InvoiceTable = (props) => {
               {props.item?.fullName}
             </span>
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
         <td
-          className={`w-[230px]   py-1 px-2 relative  ${
+          className={`w-[230px]    px-2 py-1 relative  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle py-1"
+              : "align-middle "
           }`}
         >
           <div className="flex items-center gap-2 group w-fit">
@@ -312,36 +322,51 @@ const InvoiceTable = (props) => {
               {props.item.invoiceMode}
             </span>
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
         <td
-          className={`w-[230px]   py-1 px-2 whitespace-nowrap  ${
+          className={`w-[230px]    px-2 py-1 whitespace-nowrap  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle py-1"
+              : "align-middle"
           }`}
         >
           {props.item?.invoiceDate}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
         <td
-          className={`w-[230px] px-2  py-1 whitespace-nowrap  ${
+          className={`w-[230px] px-2 py-1 whitespace-nowrap  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle  py-1"
+              : "align-middle"
           }`}
         >
-          {props.item?.dueDate}
+          {props.item?.dueDate}{" "}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[230px] px-2 py-1 relative align-middle whitespace-nowrap">
+        <td
+          className={`w-[230px] px-2 py-1 relative align-middle whitespace-nowrap ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
           <div className="relative inline-block">
             <span className="leading-5">
               ₹{Number(props.item?.invoiceAmount || 0).toLocaleString("en-IN")}
             </span>
 
             {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-              <div className="sticky  left-0 mt-1 flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max">
+              <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
                 {props.item.isDiscounted && (
                   <span>
                     Discount Applied : ₹
@@ -354,7 +379,7 @@ const InvoiceTable = (props) => {
                 )}
 
                 {props.item.isInvoicesApplied && (
-                  <span className="mt-1">
+                  <span className="">
                     Adjusted from Advance : ₹
                     <span className="text-[11px] font-semibold">
                       {Number(
@@ -369,20 +394,23 @@ const InvoiceTable = (props) => {
         </td>
 
         <td
-          className={`w-[230px]  px-2 whitespace-nowrap  ${
+          className={`w-[230px]  px-2 py-1 whitespace-nowrap  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle py-1"
+              : "align-middle "
           }`}
         >
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
         <td
-          className={`w-[270px] px-2 whitespace-nowrap overflow-hidden  ${
+          className={`w-[270px] px-2 py-1 whitespace-nowrap overflow-hidden  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle  py-1"
+              : "align-middle "
           }`}
         >
           {(props.item?.paymentStatus === "Pending" ||
@@ -421,13 +449,16 @@ const InvoiceTable = (props) => {
               Cancelled
             </span>
           )}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
         <td
-          className={`w-[230px]   px-2  ${
+          className={`w-[230px] py-1   px-2  ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
-              : "align-middle py-1"
+              : "align-middle "
           }`}
         >
           <div className="w-full flex justify-start">
@@ -625,6 +656,9 @@ const InvoiceTable = (props) => {
               )}
             </div>
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
       </tr>
 
