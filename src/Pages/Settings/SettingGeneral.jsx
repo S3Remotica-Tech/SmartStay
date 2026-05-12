@@ -100,6 +100,7 @@ function SettingGeneral() {
   const [passwordError, setPasswordError] = useState("");
 
   const [formError, setFormError] = useState("");
+  const errorRef = useRef(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [changePassword, setChangePassword] = useState(false);
@@ -788,6 +789,14 @@ function SettingGeneral() {
 
       if (!isChanged) {
         setFormError("No Changes Detected");
+
+        setTimeout(() => {
+          errorRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 100);
+
         return;
       }
 
@@ -2318,7 +2327,7 @@ function SettingGeneral() {
             </div>
           </div>
           {formError && (
-            <div className="flex justify-center mt-1">
+            <div  ref={errorRef} className="flex justify-center mt-1">
               <ErrorMessage message={formError} type="error" />
             </div>
           )}
