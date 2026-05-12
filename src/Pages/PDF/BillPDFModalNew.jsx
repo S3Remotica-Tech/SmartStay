@@ -41,7 +41,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
-  const [isOpenPayment, setIsOpenPayment] = useState(true);
+  const [isOpenPayment, setIsOpenPayment] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState("");
@@ -1496,40 +1496,41 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </div>
             </div>
           )}
-
-        <div className=" animate-slideIn">
-          <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
-            <div className="flex items-center gap-1">
-              <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                <span className="text-[16px]">
-                  <TiTick className="text-base" />
+        {pdfDetails?.invoiceInfo?.avilableAmountToRedeem > 0 && (
+          <div className=" animate-slideIn">
+            <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
+              <div className="flex items-center gap-1">
+                <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                  <span className="text-[16px]">
+                    <TiTick className="text-base" />
+                  </span>
                 </span>
-              </span>
-              <div className="flex flex-col">
-                <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                  Credits Available :{" "}
-                  {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
-                  <span
-                    className={`font-semibold text-sm transition-all duration-150
+                <div className="flex flex-col">
+                  <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                    Credits Available :{" "}
+                    {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
+                    <span
+                      className={`font-semibold text-sm transition-all duration-150
     ${
       !canUpdateInvoice || !isRedeemAvailable
         ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
         : "text-[#1E45E1] cursor-pointer"
     }`}
-                    onClick={(e) => {
-                      if (!canUpdateInvoice || !isRedeemAvailable) return;
+                      onClick={(e) => {
+                        if (!canUpdateInvoice || !isRedeemAvailable) return;
 
-                      e.stopPropagation();
-                      handleApplyInvoices();
-                    }}
-                  >
-                    Apply Now
+                        e.stopPropagation();
+                        handleApplyInvoices();
+                      }}
+                    >
+                      Apply Now
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
@@ -1539,7 +1540,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               <div
                 onClick={() => {
                   setActiveTab("payments");
-                  setIsOpenPayment(true);
+                  // setIsOpenPayment(true);
                 }}
                 className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${
                   activeTab === "payments"
@@ -1555,7 +1556,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               <div
                 onClick={() => {
                   setActiveTab("invoices");
-                  setIsOpenPayment(true);
+                  // setIsOpenPayment(true);
                 }}
                 className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${
                   activeTab === "invoices"
@@ -1766,8 +1767,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   )} */}
 
                   {pdfDetails?.paymentHistory?.length > 0 && (
-                    <div className="overflow-x-auto px-4">
-                      <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div
+                        id="tableContainer"
+                        className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                      >
                         <table className="w-full text-sm">
                           <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
                             <tr>
@@ -1816,8 +1820,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   )}
 
                   {pdfDetails?.refundHistory?.length > 0 && (
-                    <div className="overflow-x-auto px-4">
-                      <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div
+                        id="tableContainer"
+                        className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                      >
                         <table className="w-full text-sm">
                           <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
                             <tr>
@@ -1868,8 +1875,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               )}
 
               {activeTab === "invoices" && (
-                <div className="overflow-x-auto px-4 mb-2">
-                  <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                  <div
+                    id="tableContainer"
+                    className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                  >
                     <table className="w-full text-sm">
                       <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
                         <tr>

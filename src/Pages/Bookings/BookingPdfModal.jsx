@@ -749,8 +749,8 @@ const InvoiceCard = ({ rowData }) => {
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
-        <div className="flex justify-between items-center px-4 py-2 cursor-pointer ">
-          <div className="flex  gap-4">
+        <div className="flex justify-between items-center px-4 py-2 !cursor-pointer ">
+          <div className="flex  gap-4 cursor-pointer">
             <div
               onClick={() => setActiveTab("payments")}
               className={`px-1 py-2 cursor-pointer text-sm font-medium ${
@@ -899,8 +899,53 @@ const InvoiceCard = ({ rowData }) => {
             )}
 
             {activeTab === "invoices" && (
-              <div className="p-4 text-sm text-gray-600">
-                Applied invoices content here...
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                >
+                  <table className="w-full text-sm">
+                    <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                      <tr>
+                        <th className="text-left px-3 py-2">DATE</th>
+                        <th className="text-left px-3 py-2">INV NO</th>
+                        <th className="text-left px-3 py-2">AMOUNT APPLIED</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {pdfDetails.invoiceInfo?.redemptionInfo?.redeemdList
+                        ?.length > 0 ? (
+                        pdfDetails.invoiceInfo?.redemptionInfo?.redeemdList?.map(
+                          (item, index) => (
+                            <tr key={index} className="border-t">
+                              <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                {item.redeemedOn || "-"}
+                              </td>
+
+                              <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                {item.invoiceNo || "-"}
+                              </td>
+
+                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                {item.amount}
+                              </td>
+                            </tr>
+                          ),
+                        )
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={12}
+                            className="text-center align-middle py-3 text-sm text-red-600 font-semibold"
+                          >
+                            No Data Found
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
