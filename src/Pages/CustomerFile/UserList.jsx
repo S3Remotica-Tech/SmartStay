@@ -202,13 +202,13 @@ function UserList(props) {
   const isTenantForm = location.state?.isTenantForm || false;
   const isCheckoutWay = location.state?.isCheckoutWay || false;
 
-useEffect(() => {
-  const pageParam = Number(searchParams.get("page")) || 1;
-  const sizeParam = Number(searchParams.get("size")) || 20;
+  useEffect(() => {
+    const pageParam = Number(searchParams.get("page")) || 1;
+    const sizeParam = Number(searchParams.get("size")) || 20;
 
-  setPage(pageParam);
-  setSize(sizeParam);
-}, [searchParams]);
+    setPage(pageParam);
+    setSize(sizeParam);
+  }, [searchParams]);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
@@ -851,7 +851,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
-      setCustomerBooking(state.Booking.CustomerBookingList.bookings);
+      setCustomerBooking(state.Booking?.CustomerBookingList?.bookings);
       setTimeout(() => {
         dispatch({ type: "CLEAR_BOOKING_LIST" });
       }, 2000);

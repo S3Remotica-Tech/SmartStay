@@ -19,17 +19,16 @@ import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import transArrow from "../../Assets/Images/New_images/arrow-transfer.png";
 import banklogo from "../../Assets/Images/New_images/bank_loga.png";
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
-
-
+import { Setting3, SearchNormal1 } from "iconsax-react";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -66,10 +65,11 @@ function Banking() {
   const [statusfilter, setStatusfilter] = useState("");
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
-  const [bankking, setBanking] = useState("")
-  const [selfTranfer, setSelfTransfer] = useState(false)
+  const [bankking, setBanking] = useState("");
+  const tableContainerRef = useRef(null);
+  const [selfTranfer, setSelfTransfer] = useState(false);
   const [amount, setAmount] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
   const {
     canWriteModule: canWriteBanking,
@@ -77,7 +77,6 @@ function Banking() {
     canUpdateModule: canUpdateBanking,
     canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
-
 
   // const canReadBanking = useHasPermission("Banking", "canRead");
   // const canWriteBanking = useHasPermission("Banking", "canWrite");
@@ -91,49 +90,28 @@ function Banking() {
     }
   }, [canReadBanking]);
 
-
-
-
   const isBankingForm = location.state?.isBankingForm || false;
 
-
-
   useEffect(() => {
-    setShowForm(isBankingForm)
-
+    setShowForm(isBankingForm);
   }, [isBankingForm]);
-
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoader(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 1000);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
-
+  }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-
-
   // useEffect(() => {
   //   setBankingRolePermission(state.createAccount.accountList);
   // }, [state.createAccount.accountList]);
-
-
 
   useEffect(() => {
     if (hostel_id) {
@@ -149,24 +127,32 @@ function Banking() {
   useEffect(() => {
     setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      settransactionFilterddata(state.bankingDetails?.bankingList?.listTransactions || []);
-      setOriginalBillsFilter(state.bankingDetails?.bankingList?.listTransactions)
-      setBanking(state.bankingDetails?.bankingList?.listBanks)
+      settransactionFilterddata(
+        state.bankingDetails?.bankingList?.listTransactions || [],
+      );
+      setOriginalBillsFilter(
+        state.bankingDetails?.bankingList?.listTransactions,
+      );
+      setBanking(state.bankingDetails?.bankingList?.listBanks);
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.statusCodeForGetBanking, state.bankingDetails?.bankingList]);
-
+  }, [
+    state.bankingDetails.statusCodeForGetBanking,
+    state.bankingDetails?.bankingList,
+  ]);
 
   useEffect(() => {
-    setLoader(false)
-  }, [state.bankingDetails?.bankingList?.listTransactions, state.bankingDetails?.bankingList?.listBanks])
-
+    setLoader(false);
+  }, [
+    state.bankingDetails?.bankingList?.listTransactions,
+    state.bankingDetails?.bankingList?.listBanks,
+  ]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForBankingNoData === 201) {
-      setLoader(false)
+      setLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_BANKING" });
       }, 200);
@@ -179,7 +165,6 @@ function Banking() {
     } else {
       setOpenMenuId(bankingId);
     }
-
   };
 
   useEffect(() => {
@@ -196,27 +181,26 @@ function Banking() {
   }, []);
 
   const handleAccountTypeChange = (item) => {
-
     setTypeId(item.bankingId);
     const defaultType = item.isDefault ? item.isDefault : 3;
     setDefaultType(defaultType);
     setSelectedAccountType(defaultType);
     setShowAccountTypeOptions((prevId) =>
-      prevId === item.bankingId ? null : item.bankingId
+      prevId === item.bankingId ? null : item.bankingId,
     );
   };
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
-      const clickedInside = event.target.closest('.account-type-wrapper');
+      const clickedInside = event.target.closest(".account-type-wrapper");
       if (!clickedInside) {
         setShowAccountTypeOptions(null);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutsideAccount);
+    document.addEventListener("mousedown", handleClickOutsideAccount);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutsideAccount);
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
     };
   }, []);
 
@@ -243,7 +227,7 @@ function Banking() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       setShowAccountTypeOptions(null);
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
@@ -254,23 +238,22 @@ function Banking() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
       handleCloseAddBalance();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 100);
-
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
 
   const handleOpenSelfTransfer = () => {
-    setOpenMenuId(null)
-    setSelfTransfer(true)
-  }
+    setOpenMenuId(null);
+    setSelfTransfer(true);
+  };
   const handleCloseSElfTransfer = () => {
-    setSelfTransfer(false)
-  }
+    setSelfTransfer(false);
+  };
 
   const handleEditAddBank = (item) => {
     setEdit(true);
@@ -281,8 +264,14 @@ function Banking() {
 
   const handleShowForm = () => {
     if (!state.login.selectedHostel_Id) {
-      toast.error('Please add a hostel before adding bank information.', {
-        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      toast.error("Please add a hostel before adding bank information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
       });
       return;
     }
@@ -314,18 +303,9 @@ function Banking() {
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
-
   };
 
-
-
-
-
-
-
-  const handleCloseTransactionDelete = () => {
-
-  };
+  const handleCloseTransactionDelete = () => {};
 
   // useEffect(() => {
   //   if (
@@ -347,25 +327,21 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-
-
     setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
 
     setTypeId(item.bankingId);
     setshowAddBalance(true);
-
   };
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
     setAddBankAmount("");
-    setAmountError("")
+    setAmountError("");
   };
-
 
   const [amountError, setAmountError] = useState("");
 
   const handleAddBankAmount = (e) => {
-    const value = (e.target.value)
+    const value = e.target.value;
     if (!/^\d*$/.test(value)) {
       return;
     }
@@ -380,18 +356,16 @@ function Banking() {
       setAmountError("Please Enter Amount");
       return;
     }
-    const hostelId = state.login.selectedHostel_Id
+    const hostelId = state.login.selectedHostel_Id;
     dispatch({
       type: "ADDBANKAMOUNT",
       payload: {
         hostelId,
-        data: { bankId: typeId, balance: AddBankAmount }
-      }
+        data: { bankId: typeId, balance: AddBankAmount },
+      },
     });
-    setFormLoading(true)
+    setFormLoading(true);
   };
-
-
 
   // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -426,7 +400,6 @@ function Banking() {
   //   return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
   // }, [transactionFilterddata]);
 
-
   // console.log("sortedData",sortedData)
 
   useEffect(() => {
@@ -444,16 +417,12 @@ function Banking() {
 
   const handleSearch = () => {
     setSearch(!search);
-
   };
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
     settransactionFilterddata(originalBillsFilter);
   };
-
-
-
 
   const handlefilterInput = (e) => {
     const input = e.target.value;
@@ -464,20 +433,17 @@ function Banking() {
       settransactionFilterddata(originalBillsFilter);
     } else {
       const filtered = originalBillsFilter.filter((item) =>
-        item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+        item.benificiary_name.toLowerCase().includes(input.toLowerCase()),
       );
       settransactionFilterddata(filtered);
     }
   };
 
-
-
-
   const handleUserSelect = (user) => {
     setFilterInput(user.benificiary_name);
 
     const selectedUserData = originalBillsFilter?.filter(
-      (item) => item.benificiary_name === user.benificiary_name
+      (item) => item.benificiary_name === user.benificiary_name,
     );
     settransactionFilterddata(selectedUserData);
 
@@ -493,19 +459,13 @@ function Banking() {
     if (value === "All") {
       settransactionFilterddata(originalBillsFilter);
     } else if (value === "date") {
-
       settransactionFilterddata(originalBillsFilter);
-    }
-
-    else {
+    } else {
       const filtered = originalBillsFilter?.filter((user) => {
         const isCredit = user.desc === "Invoice";
         const isDebit = user.desc !== "Invoice";
 
-        return (
-          (value === "1" && isCredit) ||
-          (value === "2" && isDebit)
-        );
+        return (value === "1" && isCredit) || (value === "2" && isDebit);
       });
       settransactionFilterddata(filtered);
     }
@@ -523,8 +483,10 @@ function Banking() {
 
     const filtered = originalBillsFilter?.filter((item) => {
       const itemDate = dayjs(item.date);
-      return itemDate.isSameOrAfter(dayjs(start), 'day') &&
-        itemDate.isSameOrBefore(dayjs(end), 'day');
+      return (
+        itemDate.isSameOrAfter(dayjs(start), "day") &&
+        itemDate.isSameOrBefore(dayjs(end), "day")
+      );
     });
 
     settransactionFilterddata(filtered);
@@ -537,23 +499,23 @@ function Banking() {
     }
   }, [filterStatus]);
 
-
   useEffect(() => {
-    if (originalBillsFilter?.length === 0 && transactionFilterddata?.length > 0) {
+    if (
+      originalBillsFilter?.length === 0 &&
+      transactionFilterddata?.length > 0
+    ) {
       setOriginalBillsFilter(transactionFilterddata);
     }
   }, [transactionFilterddata]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
+  }, [state.createAccount?.networkError]);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
@@ -575,114 +537,62 @@ function Banking() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedTransactions = transactionFilterddata?.slice(startIndex, endIndex);
+  const paginatedTransactions = transactionFilterddata?.slice(
+    startIndex,
+    endIndex,
+  );
   return (
     <>
-      <div className="overflow-hidden">
-
-        <div className="sticky top-0 bg-white">
-          <div
-            className="d-flex flex-wrap justify-content-between align-items-center ml-2">
-            <div>
+      <div className="bg-white font-gilroy">
+        <div className="w-full p-0">
+          <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
+            <div className="flex lg:justify-start justify-center items-center flex-wrap">
               <label className="text-lg text-black font-semibold font-gilroy">
                 Banking
               </label>
             </div>
 
             <div className="flex justify-between items-center flex-wrap md:flex-nowrap mt-2.5">
-              {search ? (
-                <>
-                  <div className="relative flex items-center mt-0 mb-[5px]"
+              <div className="relative flex items-center mt-0 mb-[5px]">
+                <div className="relative flex items-center w-full cursor-pointer">
+                  <div
+                    className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+    ${
+      canReadBanking
+        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+        : "border-gray-200 opacity-60 cursor-not-allowed"
+    }`}
                   >
-                    <div className="relative flex items-center w-full cursor-pointer">
-                      <Image
-                        src={searchteam}
-                        alt="Search"
-                        className="absolute w-6 h-6 pointer-events-none"
-                      />
-
-                      <div className="input-group">
-                        <span className="input-group-text bg-white border-l-0">
-                          <Image
-                            src={searchteam}
-                            className="w-5 h-5"
-                          />
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control border-start-0 shadow-none outline-none border-gray-300 border-l-0 w-40 h-10 font-gilroy "
-                          placeholder="Search"
-                          aria-label="Search"
-
-                          value={filterInput}
-                          onChange={(e) => handlefilterInput(e)}
-                        />
-                        <span className="input-group-text bg-white border-l-0">
-                          <img src={closecircle} alt="close" onClick={handleCloseSearch}
-                            className="w-5 h-5"
-                          />
-                        </span>
-                      </div>
-                    </div>
-
-                    {isDropdownVisible && transactionFilterddata?.length > 0 && (
-                      <div className="border border-[#d9d9d9] absolute top-11 left-0 z-50 p-2.5 rounded-md bg-white w-full"
-                      >
-                        <ul className={`show-scroll p-0 bg-white max-h-44 m-0 list-none rounded-md ${transactionFilterddata?.length > 1 ? 'min-h-24' : 'min-h-auto'
-                          } ${transactionFilterddata?.length > 3 ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
-
-                        >
-                          {transactionFilterddata?.map((user, index) => {
-                            return (
-                              <li
-                                key={index}
-                                className={`flex items-center cursor-pointer px-1.5 py-2.5 ${index !== transactionFilterddata.length - 1 ? 'border-b border-b-[#eee]' : 'border-b-0'
-                                  }`}
-                                onClick={() => handleUserSelect(user)}
-                              >
-
-                                <span>{user.benificiary_name}</span>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-
-
-                  <div className="pr-4">
-                    <Image
-                      src={searchteam}
-                      roundedCircle
-                      className={`w-6 h-6 rounded-full transition-opacity duration-300 ease-in-out
-      ${canReadBanking ? 'cursor-pointer opacity-100 pointer-events-auto' : 'cursor-not-allowed opacity-40 pointer-events-none'}`}
-                      onClick={handleSearch}
+                    <input
+                      disabled={!canReadBanking}
+                      type="text"
+                      className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                      placeholder="Search"
+                      aria-label="Search"
+                      value={filterInput}
+                      onChange={(e) => handlefilterInput(e)}
+                    />
+                    <SearchNormal1
+                      size="18"
+                      color={canReadBanking ? "#6B7280" : "#A0A0A0"}
+                      className="mr-2"
                     />
                   </div>
-
-                </>
-              )}
+                </div>
+              </div>
 
               <div className="pr-4">
                 <Image
                   src={Filters}
                   roundedCircle
                   className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
-      ${canReadBanking ? 'cursor-pointer opacity-100 pointer-events-auto' : 'cursor-not-allowed opacity-40 pointer-events-none'}`}
+      ${canReadBanking ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}`}
                   onClick={handleFilterd}
                 />
               </div>
 
-
-              {
-                filterStatus &&
-
+              {filterStatus && (
                 <div className="mr-4 border border-[#D4D4D4] rounded-md w-30">
-
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
@@ -696,8 +606,7 @@ function Banking() {
                     <option value="date">Date</option>
                   </Form.Select>
                 </div>
-
-              }
+              )}
               {statusfilter === "date" && (
                 <div className="mr-4">
                   <RangePicker
@@ -707,12 +616,9 @@ function Banking() {
                     className="h-9 rounded-md cursor-pointer"
                   />
                 </div>
-
               )}
 
-
               <div className="mr-2">
-
                 <Button
                   disabled={!canWriteBanking}
                   onClick={handleShowForm}
@@ -720,13 +626,11 @@ function Banking() {
                 >
                   + Add
                 </Button>
-
               </div>
             </div>
           </div>
           {!canReadBanking ? (
             <>
-
               <div className="flex flex-col items-center justify-center h-[60vh]">
                 <img
                   src={emptyimg}
@@ -734,13 +638,13 @@ function Banking() {
                   className="max-w-full h-auto"
                 />
 
-                <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
+                <ErrorMessage
+                  message={["You do not have access to view Banking"]}
+                  type="warning"
+                />
               </div>
-
             </>
           ) : (
-
-
             <div
               className="
     flex flex-row gap-4 mt-1 ml-1
@@ -750,12 +654,12 @@ function Banking() {
     scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200
   "
             >
-              {bankking && bankking.length > 0 ? (
-                bankking.map((item) => {
-                  return (
-                    <div
-                      key={item.id}
-                      className={` flex-shrink-0
+              {bankking && bankking.length > 0
+                ? bankking.map((item) => {
+                    return (
+                      <div
+                        key={item.id}
+                        className={` flex-shrink-0
             w-[280px]
             h-[180px]
             flex flex-col justify-between
@@ -764,151 +668,150 @@ function Banking() {
             overflow-hidden
             relative
            ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border border-gray-300 hover:shadow-md transition"} `}
+                      >
+                        <div className="p-4 overflow-y-auto">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-sm font-semibold font-gilroy mb-0">
+                                Type: {item?.accountType}
+                              </p>
 
-
-                    >
-
-                      <div className="p-4 overflow-y-auto" >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <p className="text-sm font-semibold font-gilroy mb-0">
-                              Type: {item?.accountType}
-                            </p>
-
-                            <p className="text-sm font-semibold text-gray-600 font-gilroy mb-0">
-                              {item.accountHolderName || item.benificiary_name}
-                            </p>
-                          </div>
-
-
-                          <div
-                            className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
-    ${item.isDeleted
-                                ? "cursor-not-allowed opacity-50 "
-                                : "cursor-pointer"
-                              }
-    ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
-  `}
-                            onClick={() => {
-                              if (!item.isDeleted) {
-                                handleShowDots(item.bankingId);
-                              }
-                            }}
-                          >
-                            <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
-                          </div>
-
-
-                          {openMenuId === item.bankingId && (
-                            <div
-                              ref={popupRef}
-                              className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
-                            >
-
-                              <button disabled
-                                // disabled={!(canWriteBanking && !item.isDeleted)}
-                                onClick={() => handleOpenSelfTransfer(item)}
-                                className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
-    disabled:cursor-not-allowed disabled:opacity-50
-    enabled:hover:bg-blue-100"
-                              >
-                                <img src={transArrow} alt="transArrow" className="h-4 w-4" />
-
-                                <span className="text-sm font-semibold font-gilroy">
-                                  Self Transfer
-                                </span>
-                              </button>
-
-                              <div className="h-px bg-gray-200" />
-
-
-                              <button
-                                disabled={!(canUpdateBanking && !item.isDeleted)}
-                                onClick={() => handleEditAddBank(item)}
-                                className="flex w-full items-center gap-2 px-3 py-2
-      disabled:cursor-not-allowed disabled:opacity-50
-      enabled:hover:bg-blue-100"
-                              >
-                                <Edit
-                                  size={16}
-                                  className="text-[#1E45E1] disabled:text-gray-400"
-                                />
-                                <span className="text-sm font-semibold font-gilroy">
-                                  Edit
-                                </span>
-                              </button>
-
-                              <div className="h-px bg-gray-200" />
-
-
-                              <button disabled
-                                // disabled={!(canDeleteBanking && !item.isDeleted)}
-                                onClick={() => handleDeleteForm(item)}
-                                className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
-    disabled:cursor-not-allowed disabled:opacity-50
-    enabled:hover:bg-red-50"
-                              >
-                                <Trash
-                                  size={16}
-                                  className="text-red-500 disabled:text-gray-400"
-                                />
-                                <span className="text-sm font-semibold text-red-500 font-gilroy">
-                                  Delete
-                                </span>
-                              </button>
+                              <p className="text-sm font-semibold text-gray-600 font-gilroy mb-0">
+                                {item.accountHolderName ||
+                                  item.benificiary_name}
+                              </p>
                             </div>
 
-                          )}
-                        </div>
+                            <div
+                              className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
+    ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
+    ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
+  `}
+                              onClick={() => {
+                                if (!item.isDeleted) {
+                                  handleShowDots(item.bankingId);
+                                }
+                              }}
+                            >
+                              <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
+                            </div>
 
-                        <p className="mt-2 text-lg font-medium font-gilroy">
-                          {item?.accountNumber ||
-                            item?.upiId ||
-                            item.creditCardNumber}
-                        </p>
-
-                        <div className="flex justify-between items-center mt-3">
-                          <div>
-                            <p className="text-sm text-gray-500 font-medium font-gilroy mb-0">
-                              {item.isDefault
-                                ? `Default: ${item.transactionType === "BOTH"
-                                  ? "Both A/C"
-                                  : item.transactionType + " A/C"
-                                }`
-                                : ""}
-                            </p>
-
-                            {item.isDefault === 0 && (
-                              <p
-                                className={`text-sm font-semibold font-gilroy ${canWriteBanking
-                                  ? "text-blue-600 cursor-pointer"
-                                  : "text-gray-300 cursor-not-allowed"
-                                  }`}
-                                onClick={() => {
-                                  if (canWriteBanking) {
-                                    handleAccountTypeChange(item);
-                                  }
-                                }}
+                            {openMenuId === item.bankingId && (
+                              <div
+                                ref={popupRef}
+                                className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
                               >
-                                Set as default account
-                              </p>
+                                <button
+                                  disabled
+                                  // disabled={!(canWriteBanking && !item.isDeleted)}
+                                  onClick={() => handleOpenSelfTransfer(item)}
+                                  className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
+    disabled:cursor-not-allowed disabled:opacity-50
+    enabled:hover:bg-blue-100"
+                                >
+                                  <img
+                                    src={transArrow}
+                                    alt="transArrow"
+                                    className="h-4 w-4"
+                                  />
+
+                                  <span className="text-sm font-semibold font-gilroy">
+                                    Self Transfer
+                                  </span>
+                                </button>
+
+                                <div className="h-px bg-gray-200" />
+
+                                <button
+                                  disabled={
+                                    !(canUpdateBanking && !item.isDeleted)
+                                  }
+                                  onClick={() => handleEditAddBank(item)}
+                                  className="flex w-full items-center gap-2 px-3 py-2
+      disabled:cursor-not-allowed disabled:opacity-50
+      enabled:hover:bg-blue-100"
+                                >
+                                  <Edit
+                                    size={16}
+                                    className="text-[#1E45E1] disabled:text-gray-400"
+                                  />
+                                  <span className="text-sm font-semibold font-gilroy">
+                                    Edit
+                                  </span>
+                                </button>
+
+                                <div className="h-px bg-gray-200" />
+
+                                <button
+                                  disabled
+                                  // disabled={!(canDeleteBanking && !item.isDeleted)}
+                                  onClick={() => handleDeleteForm(item)}
+                                  className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+    disabled:cursor-not-allowed disabled:opacity-50
+    enabled:hover:bg-red-50"
+                                >
+                                  <Trash
+                                    size={16}
+                                    className="text-red-500 disabled:text-gray-400"
+                                  />
+                                  <span className="text-sm font-semibold text-red-500 font-gilroy">
+                                    Delete
+                                  </span>
+                                </button>
+                              </div>
                             )}
                           </div>
 
-                          <span
-                            className={`text-sm font-semibold font-gilroy ${canWriteBanking
-                              ? "text-gray-400 cursor-not-allowed"
-                              : "text-gray-400 cursor-not-allowed"
+                          <p className="mt-2 text-lg font-medium font-gilroy">
+                            {item?.accountNumber ||
+                              item?.upiId ||
+                              item.creditCardNumber}
+                          </p>
+
+                          <div className="flex justify-between items-center mt-3">
+                            <div>
+                              <p className="text-sm text-gray-500 font-medium font-gilroy mb-0">
+                                {item.isDefault
+                                  ? `Default: ${
+                                      item.transactionType === "BOTH"
+                                        ? "Both A/C"
+                                        : item.transactionType + " A/C"
+                                    }`
+                                  : ""}
+                              </p>
+
+                              {item.isDefault === 0 && (
+                                <p
+                                  className={`text-sm font-semibold font-gilroy ${
+                                    canWriteBanking
+                                      ? "text-blue-600 cursor-pointer"
+                                      : "text-gray-300 cursor-not-allowed"
+                                  }`}
+                                  onClick={() => {
+                                    if (canWriteBanking) {
+                                      handleAccountTypeChange(item);
+                                    }
+                                  }}
+                                >
+                                  Set as default account
+                                </p>
+                              )}
+                            </div>
+
+                            <span
+                              className={`text-sm font-semibold font-gilroy ${
+                                canWriteBanking
+                                  ? "text-gray-400 cursor-not-allowed"
+                                  : "text-gray-400 cursor-not-allowed"
                               }`}
-                          >
-                            Change
-                          </span>
-                        </div>
+                            >
+                              Change
+                            </span>
+                          </div>
 
-
-                        {showAccountTypeOptions === item.bankingId && (
-                          <div
-                            className="
+                          {showAccountTypeOptions === item.bankingId && (
+                            <div
+                              className="
                   absolute top-16 left-12
                   bg-white
                   border border-gray-200
@@ -918,183 +821,175 @@ function Banking() {
                   shadow-md
                   z-[1000]
                 "
-                            onMouseDown={(e) => e.stopPropagation()}
-                          >
-                            <label className="block text-sm mb-1 font-gilroy font-medium">
-                              <input
-                                type="radio"
-                                name={`accountType-${item.bankingId}`}
-                                value={1}
-                                checked={selectedAccountType === 1}
-                                onChange={handleAccountTypeSelection}
-                              />{" "}
-                              Credit A/C
-                            </label>
+                              onMouseDown={(e) => e.stopPropagation()}
+                            >
+                              <label className="block text-sm mb-1 font-gilroy font-medium">
+                                <input
+                                  type="radio"
+                                  name={`accountType-${item.bankingId}`}
+                                  value={1}
+                                  checked={selectedAccountType === 1}
+                                  onChange={handleAccountTypeSelection}
+                                />{" "}
+                                Credit A/C
+                              </label>
 
-                            <label className="block text-sm mb-1 font-gilroy font-medium">
-                              <input
-                                type="radio"
-                                name={`accountType-${item.bankingId}`}
-                                value={2}
-                                checked={selectedAccountType === 2}
-                                onChange={handleAccountTypeSelection}
-                              />{" "}
-                              Debit A/C
-                            </label>
+                              <label className="block text-sm mb-1 font-gilroy font-medium">
+                                <input
+                                  type="radio"
+                                  name={`accountType-${item.bankingId}`}
+                                  value={2}
+                                  checked={selectedAccountType === 2}
+                                  onChange={handleAccountTypeSelection}
+                                />{" "}
+                                Debit A/C
+                              </label>
 
-                            <label className="block text-sm mb-1 font-gilroy font-medium">
-                              <input
-                                type="radio"
-                                name={`accountType-${item.bankingId}`}
-                                value={3}
-                                checked={selectedAccountType === 3}
-                                onChange={handleAccountTypeSelection}
-                              />{" "}
-                              Both A/C
-                            </label>
-                          </div>
-                        )}
-                      </div>
+                              <label className="block text-sm mb-1 font-gilroy font-medium">
+                                <input
+                                  type="radio"
+                                  name={`accountType-${item.bankingId}`}
+                                  value={3}
+                                  checked={selectedAccountType === 3}
+                                  onChange={handleAccountTypeSelection}
+                                />{" "}
+                                Both A/C
+                              </label>
+                            </div>
+                          )}
+                        </div>
 
+                        <div className="bg-[#F9FAFB] px-4 py-2 flex justify-between items-center">
+                          <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
+                            <img src={money} alt="money" className="h-4 w-4" />
+                            Balance
+                          </span>
 
-                      <div className="bg-blue-100 px-4 py-2 flex justify-between items-center">
-                        <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                          <img src={money} alt="money" className="h-4 w-4" />
-                          Balance
-                        </span>
-
-
-
-                        {item.accountBalance === 0 ||
+                          {item.accountBalance === 0 ||
                           item.accountBalance === "" ||
                           item.accountBalance === null ? (
-
-                          <span
-                            className={`text-sm font-semibold font-gilroy ${canWriteBanking && !item.isDeleted
-                              ? "text-blue-600 cursor-pointer"
-                              : "text-gray-400 cursor-not-allowed"
+                            <span
+                              className={`text-sm font-semibold font-gilroy ${
+                                canWriteBanking && !item.isDeleted
+                                  ? "text-blue-600 cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed"
                               }`}
-                            onClick={() => {
-                              if (canWriteBanking && !item.isDeleted) {
-                                handleShowAddBalance(item);
-                              }
-                            }}
-                          >
-                            +Add Amount
-                          </span>
-
-                        ) : (
-                          <span className="text-sm font-semibold text-black font-gilroy">
-                            ₹{item.accountBalance}
-                          </span>
-                        )}
+                              onClick={() => {
+                                if (canWriteBanking && !item.isDeleted) {
+                                  handleShowAddBalance(item);
+                                }
+                              }}
+                            >
+                              +Add Amount
+                            </span>
+                          ) : (
+                            <span className="text-sm font-semibold text-black font-gilroy">
+                              ₹{item.accountBalance}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              ) : null}
+                    );
+                  })
+                : null}
             </div>
-
           )}
 
-          <div>
-
-            {transactionFilterddata?.length > 0 ? (
-              <>
-
-                <div className="mb-2 mt-3">
-                  <div className="relative h-[280px] md:h-[200px] lg:h-[290px] 2xl:h-[600px] overflow-hidden">
-                    <div className="h-full overflow-y-auto overflow-x-auto show-scroll">
-
-                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-
-                        <thead className="bg-blue-100 sticky top-0 z-20">
-                          <tr className="h-9">
-                            <th className="w-[230px] px-2">Account Name</th>
-                            <th className="w-[230px] px-2">Date</th>
-                            <th className="w-[230px] px-2">Amount</th>
-                            <th className="w-[230px] px-2">Description</th>
-                            <th className="w-[230px] px-2">Transaction</th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          {paginatedTransactions?.map((user) => (
-                            <tr
-                              key={user.id}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
-                            >
-                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                {user.accountHolder}
-                              </td>
-                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                {user.createdAt}
-                              </td>
-                              <td className="w-[230px] px-2 py-1">
-                                {user.amount}
-                              </td>
-                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                {user.source}
-                              </td>
-                              <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                {user.type}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-
-                      </table>
-
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end mr-2">
-                  <PaginationList
-                    totalItems={transactionFilterddata.length}
-                    itemsPerPage={pageSize}
-                    currentPage={page}
-                    onPageChange={(p) => setPage(p)}
-                    onPageSizeChange={(size) => setPageSize(size)}
-                  />
-                </div>
-
-              </>
-            ) : (
-
-
+          <div className=" m-2">
+            <div className="flex justify-end items-center gap-2 mr-2 mb-3">
               <div>
-                {!loader && transactionFilterddata.length === 0 && canReadBanking && (
-                  <div className="flex justify-center mt-[105px] 2xl:mt-60">
-                    <div>
-                      <div className="text-center mb-2">
-                        <img
-                          src={emptyimg}
-                          alt="emptystate"
-                        />
-                      </div>
-                                     
-                      <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
-                        No Transaction
-                      </div>
-
-                      <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
-                        There are no Transaction available.
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {loader && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
-                    <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
-                  </div>
-                )}
+                <Setting3
+                  // onClick={() => setOpen(!open)}
+                  className="cursor-not-allowed"
+                  size="22"
+                  color="#4B4B4B"
+                />
               </div>
+              <PaginationList
+                totalItems={transactionFilterddata.length}
+                itemsPerPage={pageSize}
+                currentPage={page}
+                onPageChange={(p) => setPage(p)}
+                onPageSizeChange={(size) => setPageSize(size)}
+              />
+            </div>
 
-            )}
+            <div className="relative ">
+              {transactionFilterddata?.length > 0 ? (
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                  <div
+                    id="tableContainer"
+                    ref={tableContainerRef}
+                    className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  >
+                    <table className=" w-full font-gilroy">
+                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                        <tr className="h-9">
+                          <th className="w-[230px] px-2">Account Name</th>
+                          <th className="w-[230px] px-2">Date</th>
+                          <th className="w-[230px] px-2">Amount</th>
+                          <th className="w-[230px] px-2">Description</th>
+                          <th className="w-[230px] px-2">Transaction</th>
+                        </tr>
+                      </thead>
 
+                      <tbody>
+                        {paginatedTransactions?.map((user) => (
+                          <tr
+                            key={user.id}
+                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+                          >
+                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                              {user.accountHolder}
+                            </td>
+                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                              {user.createdAt}
+                            </td>
+                            <td className="w-[230px] px-2 py-1">
+                              {user.amount}
+                            </td>
+                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                              {user.source}
+                            </td>
+                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                              {user.type}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  {!loader &&
+                    transactionFilterddata.length === 0 &&
+                    canReadBanking && (
+                      <div className="flex justify-center mt-[105px] 2xl:mt-60">
+                        <div>
+                          <div className="text-center mb-2">
+                            <img src={emptyimg} alt="emptystate" />
+                          </div>
 
+                          <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
+                            No Transaction
+                          </div>
+
+                          <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
+                            There are no Transaction available.
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                  {loader && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                      <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <Modal
@@ -1110,14 +1005,11 @@ function Banking() {
               </Modal.Title>
             </Modal.Header>
 
-            <Modal.Body className="text-center !text-[14px] !font-medium !font-gilroy !text-[#646464] -mt-2.5"
-            >
+            <Modal.Body className="text-center !text-[14px] !font-medium !font-gilroy !text-[#646464] -mt-2.5">
               Are you sure you want to delete this Bank-details?
             </Modal.Body>
 
-            <Modal.Footer
-              className="flex content-center !border-t-0 -mt-2.5" >
-
+            <Modal.Footer className="flex content-center !border-t-0 -mt-2.5">
               <Button
                 className="me-2 w-full max-w-[160px] h-[52px] rounded-[8px] px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
                 onClick={handleCloseDelete}
@@ -1125,7 +1017,8 @@ function Banking() {
                 Cancel
               </Button>
 
-              <Button disabled
+              <Button
+                disabled
                 className="w-full max-w-[160px] h-[52px] rounded-[8px] px-3 py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold !text-[14px] !disabled:opacity-50 !disabled:cursor-not-allowed"
                 onClick={handleDeleteBank}
               >
@@ -1141,13 +1034,16 @@ function Banking() {
             centered
             className="modal-dialog-centered max-w-[353px] w-[80vw]"
           >
-            <Modal.Header className="relative"
-            >
-              <div className="text-[1.25rem] font-semibold font-gilroy" >
+            <Modal.Header className="relative">
+              <div className="text-[1.25rem] font-semibold font-gilroy">
                 Add Balance
               </div>
-              <CloseCircle size="24" color="#000" className="cursor pointer" onClick={handleCloseAddBalance} />
-
+              <CloseCircle
+                size="24"
+                color="#000"
+                className="cursor pointer"
+                onClick={handleCloseAddBalance}
+              />
             </Modal.Header>
             <Modal.Body className="pt-2">
               <div className="w-full">
@@ -1162,16 +1058,13 @@ function Banking() {
                     placeholder="Enter Account"
                     value={AddBankName}
                     className="text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
-
                   />
                 </Form.Group>
               </div>
 
               <div className="w-full">
                 <Form.Group className="mb-3">
-                  <Form.Label
-                    className="text-[0.875rem] text-[#222222] font-gilroy font-medium"
-                  >
+                  <Form.Label className="text-[0.875rem] text-[#222222] font-gilroy font-medium">
                     Balance {""}
                     <span className="text-red-500 text-[20px]"> * </span>
                   </Form.Label>
@@ -1181,11 +1074,9 @@ function Banking() {
                     value={AddBankAmount}
                     onChange={(e) => handleAddBankAmount(e)}
                     className="text-[1rem] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
-
                   />
                   {amountError && (
                     <ErrorMessage message={amountError} type="error" />
-
                   )}
                 </Form.Group>
 
@@ -1202,7 +1093,6 @@ function Banking() {
                   Add balance
                 </Button>
               </div>
-
             </Modal.Body>
 
             {formLoading && (
@@ -1210,25 +1100,31 @@ function Banking() {
                 <div className="w-[40px] h-[40px] rounded-full border-t-[4px] border-t-[#1E45E1] border-r-[4px] border-r-transparent animate-spin"></div>
               </div>
             )}
-
           </Modal>
 
-
-
-
-          <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
-
+          <Modal
+            show={selfTranfer}
+            onHide={handleCloseSElfTransfer}
+            centered
+            backdrop="static"
+          >
             <Modal.Header className="relative">
               <div className="text-[1.25rem] font-semibold font-gilroy text-[#1E45E1]">
                 Self Transfer
               </div>
-              <CloseCircle size="24" color="#000" className="cursor pointer" onClick={handleCloseSElfTransfer} />
-
+              <CloseCircle
+                size="24"
+                color="#000"
+                className="cursor pointer"
+                onClick={handleCloseSElfTransfer}
+              />
             </Modal.Header>
 
             <Modal.Body>
               <div>
-                <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy">From</h6>
+                <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy">
+                  From
+                </h6>
 
                 <div className="flex items-center p-3 border-b border-[#ccc]">
                   <img
@@ -1259,12 +1155,8 @@ function Banking() {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
-
-
-
 
               <div className="mb-3">
                 <h6 className="mt-1 text-[#4B4B4B] text-base font-medium font-gilroy">
@@ -1287,7 +1179,9 @@ function Banking() {
                     </div>
 
                     <div className="text-right font-gilroy">
-                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">Immanuel</div>
+                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                        Immanuel
+                      </div>
                       <div className="text-xs font-normal font-gilroy mb-0.5">
                         4561 2013 6210 6540
                       </div>
@@ -1315,7 +1209,9 @@ function Banking() {
                     </div>
 
                     <div className="text-right font-gilroy">
-                      <div className="font-medium text-[#1A1A1A] text-sm  mb-0.5">Immanuel</div>
+                      <div className="font-medium text-[#1A1A1A] text-sm  mb-0.5">
+                        Immanuel
+                      </div>
                       <div className="text-xs font-normal font-gilroy mb-0.5">
                         4561 2013 6210 6540
                       </div>
@@ -1327,9 +1223,10 @@ function Banking() {
                 </div>
               </div>
 
-
               <div className="input-group">
-                <span className="input-group-text bg-white border-r-0 rounded-l-md">₹</span>
+                <span className="input-group-text bg-white border-r-0 rounded-l-md">
+                  ₹
+                </span>
                 <input
                   type="text"
                   className="form-control border-l-0 rounded-r-md shadow-none outline-none font-gilroy"
@@ -1339,7 +1236,6 @@ function Banking() {
                 />
               </div>
 
-
               <div className="text-right mt-3">
                 <Button variant="primary" disabled>
                   {/* Transfer */} Coming Soon
@@ -1347,10 +1243,6 @@ function Banking() {
               </div>
             </Modal.Body>
           </Modal>
-
-
-
-
 
           {showForm === true ? (
             <BankingAddForm
@@ -1361,13 +1253,10 @@ function Banking() {
               setEditAddBank={setEditAddBank}
               setEdit={setEdit}
               edit={edit}
-
-
             />
           ) : null}
         </div>
       </div>
-
     </>
   );
 }

@@ -170,18 +170,12 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     dispatch({ type: "CLEAR_PAYABLE_AMOUNT" });
   };
 
-  // console.log("invoiceList", invoiceList);
   useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("");
       setBalance("");
       setTransactionId("");
       setSelectedDate(null);
-      setFormRecordLoading(false);
-      handleClose();
-      // setShowform(false)
-      // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
       if (invoiceList?.invoiceId) {
         dispatch({
           type: "GETPARTICULARBILLSDETAILS",
@@ -191,6 +185,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
           },
         });
       }
+      setFormRecordLoading(false);
+      handleClose();
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_RECORD_PAYMENT" });
@@ -820,11 +816,11 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
             </div>
           ) : null}
 
-        {formRecordLoading && (
-  <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 opacity-75">
-    <div className="w-10 h-10 border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
-  </div>
-)}
+          {formRecordLoading && (
+            <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 opacity-75">
+              <div className="w-10 h-10 border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
 
           <Modal.Footer style={{ border: "none" }}>
             <div className="text-end mt-4">

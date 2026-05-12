@@ -37,7 +37,8 @@ function FinalSettlement() {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [finalSettlementList, setFinalSettlementList] = useState();
   const [showWallet, setShowWallet] = useState(false);
-
+  const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
   const [showInvoices, setShowInvoices] = React.useState(false);
@@ -762,21 +763,24 @@ function FinalSettlement() {
             <div className="me-1">
               {/* unpaid invoice */}
 
-              <div className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy">
-                <div className="flex justify-between items-center px-[14px] py-[10px]">
+              <div
+                className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy cursor-pointer"
+                onClick={() => setShowInvoices((prev) => !prev)}
+              >
+                <div className="flex justify-between items-center p-3">
                   <div className="flex items-center gap-2">
                     <span className="rounded-[5px] p-1 flex cursor-pointer">
                       {showInvoices ? (
                         <ArrowUp2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowInvoices(false)}
+                          // onClick={() => setShowInvoices(false)}
                         />
                       ) : (
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowInvoices(true)}
+                          // onClick={() => setShowInvoices(true)}
                         />
                       )}
                     </span>
@@ -878,21 +882,20 @@ function FinalSettlement() {
 
               {/* refundable rent */}
 
-              <div className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy">
-                <div className="flex justify-between items-center px-[14px] py-[10px]">
+              <div
+                className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy cursor-pointer"
+                onClick={() => setShowRentDetails((prev) => !prev)}
+              >
+                <div className="flex justify-between items-center p-3">
                   <div className="flex items-center gap-2">
                     <span className="rounded-[5px] p-1 flex cursor-pointer">
                       {showRentDetails ? (
-                        <ArrowUp2
-                          size="16"
-                          color="#1E45E1"
-                          onClick={() => setShowRentDetails(false)}
-                        />
+                        <ArrowUp2 size="16" color="#1E45E1" />
                       ) : (
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowRentDetails(true)}
+                          // onClick={() => setShowRentDetails(true)}
                         />
                       )}
                     </span>
@@ -1052,21 +1055,24 @@ function FinalSettlement() {
 
               {/* Missed EB */}
 
-              <div className="mb-2 border border-gray-200 rounded-[10px] bg-white font-gilroy">
-                <div className="flex justify-between items-center px-4 py-3">
+              <div
+                className="mb-2 border border-gray-200 rounded-[10px] bg-white font-gilroy cursor-pointer"
+                onClick={() => setShowEbMissed((prev) => !prev)}
+              >
+                <div className="flex justify-between items-center px-3 py-3">
                   <div className="flex items-center gap-2">
                     <span className="cursor-pointer">
                       {showEbMissed ? (
                         <ArrowUp2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowEbMissed(false)}
+                          // onClick={() => setShowEbMissed(false)}
                         />
                       ) : (
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowEbMissed(true)}
+                          // onClick={() => setShowEbMissed(true)}
                         />
                       )}
                     </span>
@@ -1188,12 +1194,15 @@ function FinalSettlement() {
 
               {/* Wallet */}
 
-              <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
-                <div className="flex items-center justify-between px-3 py-2.5">
+              <div
+                className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy cursor-pointer"
+                onClick={() => setShowWallet((prev) => !prev)}
+              >
+                <div className="flex items-center justify-between px-3 py-3">
                   <div className="flex items-center gap-2">
                     <span
                       className="cursor-pointer"
-                      onClick={() => setShowWallet(!showWallet)}
+                      // onClick={() => setShowWallet(!showWallet)}
                     >
                       {showWallet ? (
                         <ArrowUp2 size="16" color="#1E45E1" />
@@ -1278,23 +1287,234 @@ function FinalSettlement() {
                 )}
               </div>
 
+              {/* Refundable Advance */}
+              <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
+                <div
+                  className="flex items-start justify-between px-3 py-3 cursor-pointer"
+                  onClick={() => setShowRefundableAdvance((prev) => !prev)}
+                >
+                  <div className="flex items-center gap-2">
+                    {showRefundableAdvance ? (
+                      <ArrowUp2 size="16" color="#1E45E1" />
+                    ) : (
+                      <ArrowDown2 size="16" color="#1E45E1" />
+                    )}
+
+                    <span className="text-sm font-semibold text-[#222222]">
+                      Refundable Advance
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-end">
+                    <span className="text-[15px] font-semibold text-[#222222]">
+                      ₹{" "}
+                      {finalSettlementList?.refundableAdvanceInfo?.amount || 0}
+                    </span>
+
+                    <span className="text-[12px] font-medium text-[#1E45E1] underline">
+                      {" "}
+                      Advance Number
+                      {
+                        finalSettlementList?.refundableAdvanceInfo
+                          ?.advanceNumber
+                      }
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    showRefundableAdvance ? "max-h-[500px]" : "max-h-0"
+                  }`}
+                >
+                  {showRefundableAdvance && (
+                    <>
+                      <hr className="m-0 border-[#E5E7EB]" />
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead className="bg-[#FAFAFA]">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Adjusted With
+                              </th>
+
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Date
+                              </th>
+
+                              <th className="px-4 py-3 text-right text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Applied Amount
+                              </th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {finalSettlementList?.refundableAdvanceInfo
+                              ?.transactions?.length > 0 ? (
+                              finalSettlementList.refundableAdvanceInfo.transactions.map(
+                                (txn, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-t border-[#E5E7EB]"
+                                  >
+                                    <td className="px-4 py-4 text-[13px] font-medium text-[#1E45E1] underline">
+                                      {txn.invoiceNumber || txn.source}
+                                    </td>
+
+                                    <td className="px-4 py-4 text-[13px] text-[#666666]">
+                                      {txn.date}
+                                    </td>
+
+                                    <td className="px-4 py-4 text-right text-[13px] font-medium text-[#222222]">
+                                      ₹ {txn.amount}
+                                    </td>
+                                  </tr>
+                                ),
+                              )
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={3}
+                                  className="px-4 py-4 text-center text-sm text-[#AA6805] "
+                                >
+                                  No refundable advance transactions available
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Booking */}
+
+              <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
+                <div
+                  className="flex items-start justify-between px-3 py-3 cursor-pointer"
+                  onClick={() => setShowBooking((prev) => !prev)}
+                >
+                  <div className="flex items-center gap-2">
+                    {showBooking ? (
+                      <ArrowUp2 size="16" color="#1E45E1" />
+                    ) : (
+                      <ArrowDown2 size="16" color="#1E45E1" />
+                    )}
+
+                    <span className="text-sm font-semibold text-[#222222]">
+                      Booking
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-end">
+                    <span
+                      className={`text-[15px] font-semibold ${
+                        finalSettlementList?.bookingInfo?.amount < 0
+                          ? "text-red-600"
+                          : "text-[#222222]"
+                      }`}
+                    >
+                      ₹ {finalSettlementList?.bookingInfo?.amount || 0}
+                    </span>
+
+                    <span className="text-[12px] font-medium text-[#1E45E1] underline">
+                      {finalSettlementList?.bookingInfo?.bookingNumber} Booking
+                      Number
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    showBooking ? "max-h-[500px]" : "max-h-0"
+                  }`}
+                >
+                  {showBooking && (
+                    <>
+                      <hr className="m-0 border-[#E5E7EB]" />
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead className="bg-[#FAFAFA]">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Adjusted With
+                              </th>
+
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Date
+                              </th>
+
+                              <th className="px-4 py-3 text-right text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Applied Amount
+                              </th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {finalSettlementList?.bookingInfo?.transactions
+                              ?.length > 0 ? (
+                              finalSettlementList.bookingInfo.transactions.map(
+                                (txn, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-t border-[#E5E7EB]"
+                                  >
+                                    <td className="px-4 py-4 text-[13px] font-medium text-[#1E45E1] underline">
+                                      {txn.invoiceNumber || txn.source}
+                                    </td>
+
+                                    <td className="px-4 py-4 text-[13px] text-[#666666]">
+                                      {txn.date}
+                                    </td>
+
+                                    <td className="px-4 py-4 text-right text-[13px] font-medium text-[#222222]">
+                                      ₹ {txn.amount}
+                                    </td>
+                                  </tr>
+                                ),
+                              )
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={3}
+                                  className="px-4 py-4 text-center text-sm text-[#AA6805] "
+                                >
+                                  No booking transactions available
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
               {/* deductions */}
 
-              <div className="mt-3 border border-gray-200 rounded-lg font-gilroy">
-                <div className="flex justify-between items-center px-[14px] py-[10px] cursor-pointer">
+              <div
+                className="mt-3 border border-gray-200 rounded-lg font-gilroy cursor-pointer"
+                onClick={() => setShowDeductions((prev) => !prev)}
+              >
+                <div className="flex justify-between items-center py-3 px-3 cursor-pointer">
                   <div className="flex items-center gap-2">
                     <span className="rounded-[5px] p-1 flex">
                       {showDeductions ? (
                         <ArrowUp2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowDeductions(false)}
+                          // onClick={() => setShowDeductions(false)}
                         />
                       ) : (
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          onClick={() => setShowDeductions(true)}
+                          // onClick={() => setShowDeductions(true)}
                         />
                       )}
                     </span>
@@ -1515,9 +1735,6 @@ function FinalSettlement() {
 
               {/* discount */}
 
-              {/* {
-                                !finalSettlementList?.currentMonthRentInfo?.isDiscountApplied && */}
-
               <div className="mt-3 border border-gray-200 rounded-lg font-gilroy">
                 <div className="flex justify-between items-center px-[14px] py-[10px] cursor-pointer">
                   <span className="text-sm font-semibold text-gray-900">
@@ -1658,17 +1875,6 @@ function FinalSettlement() {
                         }
                       </p>
                     </div>
-
-                    {/*
-    <div className="flex justify-between">
-      <p className="text-sm text-gray-600">
-        Refundable Wallet Amount
-      </p>
-      <p className="text-sm font-medium text-green-600">
-        ₹ {finalSettlementList?.walletInfo?.walletAmount}
-      </p>
-    </div>
-    */}
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 mb-10">

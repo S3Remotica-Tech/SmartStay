@@ -81,6 +81,7 @@ function BillsPdfDetails() {
                     invoiceId: item.invoiceId
                 }
             })
+            
 
         }
     };

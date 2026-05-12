@@ -1794,14 +1794,6 @@ const InvoicePage = () => {
                               </SortableContext>
                             </DndContext>
 
-                            {/* <div className="p-3 border-t flex gap-2">
-                                                        <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
-                                                          Cancel
-                                                        </button>
-                                                        <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
-                                                          Save
-                                                        </button>
-                                                      </div> */}
                             <div className="p-3 border-t flex justify-end gap-2">
                               <button className="px-4 py-2 text-sm border rounded-lg text-[#344054]">
                                 Cancel

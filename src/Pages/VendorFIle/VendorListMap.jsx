@@ -232,7 +232,7 @@ function VendorListMap(props) {
                     Address
                   </label>
                 </div>
-                <label className="text-[16px] font-gilroy font-semibold text-[#222] break-words">
+                <label className="text-[16px] font-gilroy font-semibold text-[#222] leading-[1.5] break-words">
                   {isValid(props.vendor?.houseNo) &&
                     `${props.vendor.houseNo}, `}
                   {isValid(props.vendor?.area) && `${props.vendor.area}, `}

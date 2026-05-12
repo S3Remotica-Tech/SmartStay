@@ -24,6 +24,7 @@ export const initialState = {
   applyRedeemError: "",
   applyAdvanceInvoiceSuccessCode: 0,
   applyAdvanceRedeemError: "",
+  advanceInitialize: "",
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -44,6 +45,7 @@ const BookingReducer = (state = initialState, action) => {
     case "APPLY_ADVANCE_INVOICE_REDUCER":
       return {
         ...state,
+        advanceInitialize: action.payload.response,
         applyAdvanceInvoiceSuccessCode: action.payload.statusCode,
       };
 
