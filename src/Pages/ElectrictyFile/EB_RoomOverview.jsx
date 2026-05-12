@@ -256,10 +256,14 @@ const EBRoomOverview = ({ onBack, room }) => {
             </div>
           ) : (
             <>
-              <div className="relative flex flex-col h-[calc(100vh-225px)]">
-                <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
                         <th className="w-[230px] px-2 whitespace-nowrap">
                           Billing month
@@ -351,10 +355,14 @@ const EBRoomOverview = ({ onBack, room }) => {
             </div>
           ) : (
             <>
-              <div className="relative flex flex-col h-[calc(100vh-225px)]">
-                <div className="flex-1 overflow-x-auto show-scroll mb-2 pb-2">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
                         <th className="w-[230px] px-2">
                           <div className="pl-1"> Name</div>

@@ -246,10 +246,14 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             </div>
           ) : (
             <>
-              <div className="flex flex-col h-[calc(100vh-230px)] px-1">
-                <div className="flex-1 overflow-y-auto overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
                         <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                           BILLING MONTH
@@ -335,10 +339,14 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             </div>
           ) : (
             <>
-              <div className="flex flex-col h-[calc(100vh-230px)] px-1">
-                <div className="flex-1 overflow-y-auto overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
                         <th className="px-2 whitespace-nowrap">
                           Billing month
