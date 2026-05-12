@@ -774,7 +774,7 @@ function Expenses({ allPageHostel_Id }) {
           </div>
         </div>
 
-        <div className="flex justify-end  gap-2 items-center ">
+        <div className="flex justify-end  gap-2  items-center ">
           <div>
             <Setting3
               // onClick={() => setOpen(!open)}
