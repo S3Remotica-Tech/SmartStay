@@ -1312,6 +1312,8 @@ function FinalSettlement() {
                     </span>
 
                     <span className="text-[12px] font-medium text-[#1E45E1] underline">
+                      {" "}
+                      Advance Number
                       {
                         finalSettlementList?.refundableAdvanceInfo
                           ?.advanceNumber
@@ -1419,7 +1421,8 @@ function FinalSettlement() {
                     </span>
 
                     <span className="text-[12px] font-medium text-[#1E45E1] underline">
-                      {finalSettlementList?.bookingInfo?.bookingNumber}
+                      {finalSettlementList?.bookingInfo?.bookingNumber} Booking
+                      Number
                     </span>
                   </div>
                 </div>
@@ -1872,8 +1875,6 @@ function FinalSettlement() {
                         }
                       </p>
                     </div>
-
-                   
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 mb-10">
