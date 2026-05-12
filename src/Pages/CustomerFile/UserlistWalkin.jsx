@@ -353,10 +353,14 @@ function UserlistWalkin() {
                 </div>
 
                 {sortedData.length > 0 && (
-                  <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
-                    <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                        <thead className="bg-blue-100 sticky top-0 z-20">
+                  <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div
+                      id="tableContainer"
+                      // ref={tableContainerRef}
+                      className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                    >
+                      <table className=" w-full font-gilroy">
+                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                           <tr className="h-9">
                             <th className="w-[230px] px-2">Name</th>
                             <th className="w-[230px] px-2">Email ID </th>
