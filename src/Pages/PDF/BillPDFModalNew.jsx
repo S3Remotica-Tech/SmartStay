@@ -392,7 +392,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const showSplitButton = true;
   const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
-  const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
+  const isRedeemAvailable = pdfDetails?.invoiceInfo?.isAvanceAvailableForRedeem;
 
   const hasPayments = pdfDetails?.paymentHistory?.length > 0;
   const hasRefunds = pdfDetails?.refundHistory?.length > 0;
@@ -1512,12 +1512,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     <span
                       className={`font-semibold text-sm transition-all duration-150
     ${
-      !canUpdateInvoice || !isRedeemAvailable
+      !canUpdateInvoice
         ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
         : "text-[#1E45E1] cursor-pointer"
     }`}
                       onClick={(e) => {
-                        if (!canUpdateInvoice || !isRedeemAvailable) return;
+                        if (!canUpdateInvoice) return;
 
                         e.stopPropagation();
                         handleApplyInvoices();
