@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Table, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
@@ -14,12 +13,12 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
   const [applyAmountForInvoice, setApplyAmountForInvoice] = useState([]);
   const [formLoading, setFormLoading] = useState(false);
 
-  const handleApplyAmountChange = (index, value) => {
+  const handleApplyAmountChange = (value) => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
     setError("");
 
-    const invoice = initializeDetails?.listInvoices?.[index];
-    const invoiceId = invoice.invoiceId;
+    const invoice = initializeDetails?.listInvoices;
+    const invoiceId = invoice?.invoiceId;
 
     if (value === "") {
       const updated = applyAmountForInvoice.filter(
@@ -34,9 +33,9 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
       return;
     }
     let amount = Number(value);
-    if (amount > Number(invoice.pendingAmount)) {
+    if (amount > Number(invoice?.pendingAmount)) {
       setError("Cannot exceed invoice balance");
-      amount = Number(invoice.pendingAmount);
+      amount = Number(invoice?.pendingAmount);
     }
     const otherApplied = applyAmountForInvoice.reduce(
       (sum, item) =>
@@ -89,7 +88,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
   console.log("initializeDetails", initializeDetails);
 
   const bookingAmount = Number(
-    initializeDetails?.listInvoices?.[0]?.availableBalance || 0,
+    initializeDetails?.listInvoices?.availableBalance || 0,
   );
 
   const totalApplied = applyAmountForInvoice.reduce(
@@ -150,8 +149,6 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
-  const tableData = [advanceDetails];
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
@@ -203,7 +200,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
 
             <div className="text-right">
               <div className="text-sm text-gray-400">
-                {initializeDetails?.listInvoices?.[0]?.invoiceType === "BOOKING"
+                {initializeDetails?.listInvoices?.invoiceType === "BOOKING"
                   ? "Booking"
                   : "Advance"}
                 Amount
@@ -233,50 +230,55 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                   </thead>
 
                   <tbody>
-                    {initializeDetails?.listInvoices?.length > 0 ? (
-                      initializeDetails?.listInvoices?.map((item, index) => (
-                        <tr key={index} className="border-t  whitespace-nowrap">
-                          <td className="px-4 py-2 font-semibold">
-                            {item.invoiceType}
-                          </td>
+                    {/* {initializeDetails?.listInvoices?.length > 0 ? (
+                      initializeDetails?.listInvoices?.map((item, index) => ( */}
+                    {initializeDetails?.listInvoices ? (
+                      <tr
+                        key={initializeDetails?.listInvoices?.invoiceId}
+                        className="border-t  whitespace-nowrap"
+                      >
+                        <td className="px-4 py-2 font-semibold">
+                          {initializeDetails?.listInvoices?.invoiceType}
+                        </td>
 
-                          <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
-                            {item.invoiceNumber}
-                          </td>
+                        <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
+                          {initializeDetails?.listInvoices?.invoiceNumber}
+                        </td>
 
-                          <td className="px-4 py-2 text-gray-500">
-                            {item.dueDate}
-                          </td>
+                        <td className="px-4 py-2 text-gray-500">
+                          {initializeDetails?.listInvoices?.dueDate}
+                        </td>
 
-                          <td className="font-semibold px-4 py-2">
-                            ₹{item.invoiceAmount}
-                          </td>
+                        <td className="font-semibold px-4 py-2">
+                          ₹{initializeDetails?.listInvoices?.invoiceAmount}
+                        </td>
 
-                          <td className="px-4 py-2 font-semibold">
-                            ₹{item.pendingAmount}
-                          </td>
+                        <td className="px-4 py-2 font-semibold">
+                          ₹{initializeDetails?.listInvoices?.pendingAmount}
+                        </td>
 
-                          <td className="px-4 py-2 font-semibold">
-                            <input
-                              type="number"
-                              value={
-                                applyAmountForInvoice.find(
-                                  (i) => i.invoiceId === item.invoiceId,
-                                )?.amount || ""
-                              }
-                              onChange={(e) =>
-                                handleApplyAmountChange(index, e.target.value)
-                              }
-                              placeholder="₹ 0.00"
-                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                                item.applyAmount
-                                  ? "font-semibold"
-                                  : "font-medium"
-                              }`}
-                            />
-                          </td>
-                        </tr>
-                      ))
+                        <td className="px-4 py-2 font-semibold">
+                          <input
+                            type="number"
+                            value={
+                              applyAmountForInvoice.find(
+                                (i) =>
+                                  i.invoiceId ===
+                                  initializeDetails?.listInvoices?.invoiceId,
+                              )?.amount || ""
+                            }
+                            onChange={(e) =>
+                              handleApplyAmountChange(e.target.value)
+                            }
+                            placeholder="₹ 0.00"
+                            className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
+                              initializeDetails?.listInvoices?.applyAmount
+                                ? "font-semibold"
+                                : "font-medium"
+                            }`}
+                          />
+                        </td>
+                      </tr>
                     ) : (
                       <tr>
                         <td
