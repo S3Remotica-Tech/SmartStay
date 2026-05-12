@@ -1496,6 +1496,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </div>
             </div>
           )}
+{
+  pdfDetails?.invoiceInfo?.avilableAmountToRedeem > 0 &&
 
         <div className=" animate-slideIn">
           <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
@@ -1530,6 +1532,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             </div>
           </div>
         </div>
+}
       </div>
 
       {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (

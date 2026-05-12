@@ -18,7 +18,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
     setError("");
 
-    const invoice = initializeDetails.listInvoices[index];
+    const invoice = initializeDetails?.listInvoices?.[index];
     const invoiceId = invoice.invoiceId;
 
     if (value === "") {
@@ -72,6 +72,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     );
   };
 
+  console.log("advanceDetails", advanceDetails);
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -88,7 +89,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
   console.log("initializeDetails", initializeDetails);
 
   const bookingAmount = Number(
-    initializeDetails?.listInvoices[0]?.availableBalance || 0,
+    initializeDetails?.listInvoices?.[0]?.availableBalance || 0,
   );
 
   const totalApplied = applyAmountForInvoice.reduce(
@@ -202,7 +203,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
 
             <div className="text-right">
               <div className="text-sm text-gray-400">
-                {initializeDetails?.listInvoices[0]?.invoiceType === "BOOKING"
+                {initializeDetails?.listInvoices?.[0]?.invoiceType === "BOOKING"
                   ? "Booking"
                   : "Advance"}
                 Amount
