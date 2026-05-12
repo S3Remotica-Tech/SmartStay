@@ -16,6 +16,7 @@ import { DiscountCircle, ReceiptEdit } from "iconsax-react";
 import DiscountInvoice from "../PDF/DiscountInvoice";
 import { Edit, Link21 } from "iconsax-react";
 import ApplyBookingModal from "../Bookings/ApplyInvoices";
+import ApplyAdvance from "./ApplyAdvance";
 
 const InvoiceTable = (props) => {
   const { item, selectedRows, handleRowSelect } = props;
@@ -380,7 +381,7 @@ const InvoiceTable = (props) => {
 
                 {props.item.isInvoicesApplied && (
                   <span className="">
-                    Adjusted from Advance : ₹
+                    Adjusted Amount : ₹
                     <span className="text-[11px] font-semibold">
                       {Number(
                         props.item?.invoicesApplied?.amountApplied || 0,
@@ -670,7 +671,7 @@ const InvoiceTable = (props) => {
         />
       )}
       {applyInvoice && (
-        <ApplyBookingModal
+        <ApplyAdvance
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={advanceDetails}

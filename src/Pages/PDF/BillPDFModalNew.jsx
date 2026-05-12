@@ -34,6 +34,7 @@ import WaiveOFFConfirm from "./WaiveOFFConfirm";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ApplyBookingModal from "../../Pages/Bookings/ApplyInvoices";
 import { TiTick } from "react-icons/ti";
+import ApplyAdvance from "../Bills/ApplyAdvance";
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const state = useSelector((state) => state);
@@ -52,6 +53,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showWaiveModal, setShowWaiveModal] = useState(false);
   const [activeTab, setActiveTab] = useState("payments");
+
+  const bookingCreditDetails = state?.Booking?.advanceInitialize;
+
   const menuItems = [
     {
       label: "Send Mail",
@@ -75,6 +79,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [applyBookingInvoice, setBookingApplyInvoice] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
 
@@ -1502,7 +1507,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </span>
               <div className="flex flex-col">
                 <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                  Credits Available:{" "}
+                  Credits Available :{" "}
+                  {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
                   <span
                     className={`font-semibold text-sm transition-all duration-150
     ${
@@ -1644,7 +1650,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   `}
                         >
-                          Adjust with Advance
+                          {pdfDetails?.configurations?.invoiceType === "Advance"
+                            ? "Apply to Invoice"
+                            : "Adjust with Advance"}
                         </button>
 
                         {isDiscount && (
@@ -1930,12 +1938,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       )}
 
       {applyInvoice && (
-        <ApplyBookingModal
+        <ApplyAdvance
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={pdfDetails}
         />
       )}
+
       {showDiscountInvoice && (
         <DiscountInvoice
           show={showDiscountInvoice}

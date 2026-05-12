@@ -124,11 +124,9 @@ export async function advanceRedeemInitialize(hostel) {
 }
 
 export async function ApplyAdvanceInvoice(advance) {
-  return await AxiosConfigV2.post(
-    `/v2/${advance?.hostelId}/${advance?.invoiceId}`,
-    {
-      listItems: advance?.listItems,
-    },
+  console.log("advance", advance);
+  return await AxiosConfigV2.get(
+    `/v2/bills/advances/${advance.hostelId}/${advance.invoiceId}`,
   );
 }
 
