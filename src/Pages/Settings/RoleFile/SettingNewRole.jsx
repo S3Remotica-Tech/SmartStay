@@ -362,14 +362,14 @@ function SettingNewRole() {
                             {showDots === index && view.editable && (
                               <div
                                 ref={popupRef}
-                                className="fixed bg-white border border-gray-200 rounded-lg shadow-md w-[140px] z-[1000]"
+                                className="fixed bg-white border border-gray-200 rounded-lg shadow-md px-2 py-2 w-[140px] z-[1000]"
                                 style={{
                                   top: popupPosition.top,
                                   left: popupPosition.left,
                                 }}
                               >
                                 <div
-                                  className={`flex items-center gap-2 px-3 py-2 ${
+                                  className={`flex items-center gap-2 px-3 py-2 rounded ${
                                     view.editable && canUpdateRole
                                       ? "cursor-pointer hover:bg-blue-50"
                                       : "opacity-50 cursor-not-allowed"
@@ -385,10 +385,8 @@ function SettingNewRole() {
                                   </span>
                                 </div>
 
-                                <div className="h-px bg-gray-200" />
-
                                 <div
-                                  className={`flex items-center gap-2 px-3 py-2 ${
+                                  className={`flex items-center gap-2 px-3 py-2  rounded ${
                                     view.editable && canDeleteRole
                                       ? "cursor-pointer hover:bg-blue-50"
                                       : "opacity-50 cursor-not-allowed"
