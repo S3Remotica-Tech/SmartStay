@@ -252,7 +252,7 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
-  console.log("state", state);
+  // console.log("state", state);
 
   const options = [
     { key: "Name", label: "Name" },
@@ -611,7 +611,7 @@ function UserList(props) {
     }
   }, [state.UsersList?.Users]);
 
-  console.log("state.UsersList.Users", state.UsersList.Users);
+  // console.log("state.UsersList.Users", state.UsersList.Users);
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -1717,7 +1717,8 @@ function UserList(props) {
   // }
 
   const handleCheckoutGenrateNew = (item) => {
-    navigate(`/tenant/final-settlement/${item?.customerId}`, {
+    // console.log("/tenant/final-settlement", item);
+    navigate(`/tenant/final-settlement/${item?.apiCall?.customerId}`, {
       state: {
         data: item,
       },
@@ -2856,7 +2857,7 @@ function UserList(props) {
                                             zIndex: 1000,
                                           }}
                                         >
-                                          <div className="flex flex-col divide-y divide-gray-200">
+                                          <div className="flex flex-col py-2 ">
                                             {user.status === "Checked In" && (
                                               <>
                                                 <div
@@ -2864,8 +2865,8 @@ function UserList(props) {
                                                     canWriteCheckout &&
                                                     handleCustomerCheckout(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={addcircle}
@@ -2881,8 +2882,8 @@ function UserList(props) {
                                                     canWriteTenant &&
                                                     handleCustomerReAssign(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={Addbook}
@@ -2903,8 +2904,8 @@ function UserList(props) {
                                                     canWriteTenant &&
                                                     handleBacktoCheckout(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-50" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={Addbook}
@@ -2922,8 +2923,8 @@ function UserList(props) {
                                                       user,
                                                     )
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={logout}
@@ -2943,8 +2944,8 @@ function UserList(props) {
                                                   canWriteCheckout &&
                                                   handleConformCheckout(user)
                                                 }
-                                                className={`flex items-center gap-2  px-3 py-2 transition min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                className={`flex items-center gap-2  px-3 py-2 transition rounded-md min-w-[150px]
+                ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 style={{ marginLeft: 12 }}
                                               >
                                                 <img
@@ -2964,8 +2965,8 @@ function UserList(props) {
                                                     canWriteTenant &&
                                                     handleBookingAssign(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteTenant ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={addcircle}
@@ -2981,8 +2982,8 @@ function UserList(props) {
                                                     canWriteBooking &&
                                                     handleInActive(user)
                                                   }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition
-                  ${canWriteBooking ? "cursor-pointer hover:bg-[#FFFBEF]" : "cursor-not-allowed opacity-60"}`}
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                 >
                                                   <img
                                                     src={Addbook}

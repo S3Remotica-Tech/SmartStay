@@ -249,9 +249,7 @@ function CheckOut() {
               <div>
                 {sortedData?.length > 0 ? (
                   <>
-                    <div
-                      className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}
-                    >
+                    <div className={`flex justify-end mr-2 `}>
                       <PaginationList
                         totalItems={sortedData.length}
                         itemsPerPage={pageSize}

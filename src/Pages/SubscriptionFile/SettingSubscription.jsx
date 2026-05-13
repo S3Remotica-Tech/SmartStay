@@ -199,6 +199,15 @@ function SettingSubscription() {
     }
   }, [state.Settings?.statusCodeUpgradePlan]);
 
+  useEffect(() => {
+    if (state.createAccount?.networkError || state.Settings?.upgradePlanError) {
+      setFormLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
+    }
+  }, [state.createAccount?.networkError, state.Settings?.upgradePlanError]);
   return (
     <div>
       <div className="h-screen flex flex-col bg-white relative">
@@ -229,12 +238,9 @@ function SettingSubscription() {
         ) : (
           <div>
             <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy overflow-visible">
-              {currentPlan?.status === "Advance" ? (
-                <PremiumPlan />
-              ) : currentPlan?.planName === "Basic" ? (
+              {currentPlan?.status === "ACTIVE" ? (
                 <BasicPlan />
-              ) : currentPlan?.planName === "Trial" &&
-                currentPlan?.numberOfDaysRemaining > 0 ? (
+              ) : currentPlan?.numberOfDaysRemaining > 0 ? (
                 <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
                   <div className="flex justify-between items-center">
                     <div className="flex flex-col items-start">
@@ -369,7 +375,8 @@ function SettingSubscription() {
                   </div>
                 )
               )}
-              {currentPlan?.planName === "Trial" && <AllPlans />}
+              {(currentPlan?.planName === "Trial" ||
+                currentPlan?.planName === "Extendable Trial") && <AllPlans />}
             </div>
           </div>
         )}

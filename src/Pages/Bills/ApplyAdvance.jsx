@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyAdvance({ show, handleClose, advanceDetails }) {
+function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
     setError("");
 
-    const invoice = initializeDetails?.listInvoices;
+    const invoice = initializeDetails?.currentInvoiceInfo;
     const invoiceId = invoice?.invoiceId;
 
     if (value === "") {
@@ -71,7 +71,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     );
   };
 
-  console.log("advanceDetails", advanceDetails);
+  // console.log("advanceDetails", advanceDetails);
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -85,10 +85,10 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
 
   const initializeDetails = state?.Booking?.advanceInitialize;
 
-  console.log("initializeDetails", initializeDetails);
+  // console.log("initializeDetails", initializeDetails);
 
   const bookingAmount = Number(
-    initializeDetails?.listInvoices?.availableBalance || 0,
+    initializeDetails?.advanceInfo?.availableBalance || 0,
   );
 
   const totalApplied = applyAmountForInvoice.reduce(
@@ -97,9 +97,9 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
   );
   const remainingBalance = bookingAmount - totalApplied;
 
-  useEffect(() => {
-    console.log("advanceDetails", advanceDetails);
-  }, [advanceDetails]);
+  // useEffect(() => {
+  //   // console.log("advanceDetails", advanceDetails);
+  // }, [advanceDetails]);
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
@@ -120,11 +120,10 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
       type: "APPLY_INVOICE_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        invoiceId: advanceDetails?.invoiceId,
+        invoiceId: initializeDetails?.advanceInfo?.invoiceId,
         listItems: applyAmountForInvoice,
       },
     });
-
     setFormLoading(true);
   };
 
@@ -149,11 +148,18 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
+  console.log(
+    "state?.Booking?.applyRedeemError",
+    state?.Booking?.applyRedeemError,
+  );
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
         <div className="flex justify-between items-center p-3 border-b">
-          <h5 className="font-semibold text-lg text-black">Apply to Invoice</h5>
+          <h5 className="font-semibold text-lg text-black capitalize">
+            Apply {label} to Invoice
+          </h5>
 
           <button
             onClick={handleClose}
@@ -200,7 +206,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
 
             <div className="text-right">
               <div className="text-sm text-gray-400">
-                {initializeDetails?.listInvoices?.invoiceType === "BOOKING"
+                {initializeDetails?.advanceInfo?.invoiceType === "BOOKING"
                   ? "Booking"
                   : "Advance"}
                 Amount
@@ -230,31 +236,30 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                   </thead>
 
                   <tbody>
-                    {/* {initializeDetails?.listInvoices?.length > 0 ? (
-                      initializeDetails?.listInvoices?.map((item, index) => ( */}
-                    {initializeDetails?.listInvoices ? (
+                    {initializeDetails?.currentInvoiceInfo ? (
                       <tr
-                        key={initializeDetails?.listInvoices?.invoiceId}
+                        key={initializeDetails?.currentInvoiceInfo?.invoiceId}
                         className="border-t  whitespace-nowrap"
                       >
                         <td className="px-4 py-2 font-semibold">
-                          {initializeDetails?.listInvoices?.invoiceType}
+                          {initializeDetails?.currentInvoiceInfo?.invoiceType}
                         </td>
 
                         <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
-                          {initializeDetails?.listInvoices?.invoiceNumber}
+                          {initializeDetails?.currentInvoiceInfo?.invoiceNumber}
                         </td>
 
                         <td className="px-4 py-2 text-gray-500">
-                          {initializeDetails?.listInvoices?.dueDate}
+                          {initializeDetails?.currentInvoiceInfo?.dueDate}
                         </td>
 
                         <td className="font-semibold px-4 py-2">
-                          ₹{initializeDetails?.listInvoices?.invoiceAmount}
+                          ₹{initializeDetails?.currentInvoiceInfo?.totalAmount}
                         </td>
 
                         <td className="px-4 py-2 font-semibold">
-                          ₹{initializeDetails?.listInvoices?.pendingAmount}
+                          ₹
+                          {initializeDetails?.currentInvoiceInfo?.pendingAmount}
                         </td>
 
                         <td className="px-4 py-2 font-semibold">
@@ -264,7 +269,8 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                               applyAmountForInvoice.find(
                                 (i) =>
                                   i.invoiceId ===
-                                  initializeDetails?.listInvoices?.invoiceId,
+                                  initializeDetails?.currentInvoiceInfo
+                                    ?.invoiceId,
                               )?.amount || ""
                             }
                             onChange={(e) =>
@@ -272,7 +278,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                             }
                             placeholder="₹ 0.00"
                             className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                              initializeDetails?.listInvoices?.applyAmount
+                              initializeDetails?.currentInvoiceInfo?.applyAmount
                                 ? "font-semibold"
                                 : "font-medium"
                             }`}

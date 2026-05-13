@@ -32,7 +32,7 @@ function UserlistWalkin() {
   const [dotsButton, setDotsButton] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
 
-  console.log("state", state);
+  // console.log("state", state);
 
   const {
     // canWriteModule: canWriteWalkin,
@@ -179,9 +179,9 @@ function UserlistWalkin() {
     };
   }, [popupRef]);
 
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(walkInCustomer) ? walkInCustomer : [];
-  }, [walkInCustomer]);
+  // const walkInCustomer = React.useMemo(() => {
+  //   return Array.isArray(walkInCustomer) ? walkInCustomer : [];
+  // }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
     // console.log("user", user);
@@ -316,7 +316,10 @@ function UserlistWalkin() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = sortedData?.slice(startIndex, endIndex);
+  const paginatedData = walkInCustomer?.slice(startIndex, endIndex);
+
+  console.log("walkInCustomer", walkInCustomer);
+  console.log("paginatedData", paginatedData);
 
   return (
     <>
@@ -340,11 +343,9 @@ function UserlistWalkin() {
               </div>
             ) : (
               <div className="px-0">
-                <div
-                  className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}
-                >
+                <div className={`flex justify-end mr-2 `}>
                   <PaginationList
-                    totalItems={sortedData.length}
+                    totalItems={walkInCustomer.length}
                     itemsPerPage={pageSize}
                     currentPage={page}
                     onPageChange={(p) => setPage(p)}
@@ -352,7 +353,7 @@ function UserlistWalkin() {
                   />
                 </div>
 
-                {sortedData.length > 0 && (
+                {paginatedData.length > 0 && (
                   <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                     <div
                       id="tableContainer"

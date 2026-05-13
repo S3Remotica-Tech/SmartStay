@@ -34,6 +34,7 @@ function AllPlans() {
   }));
 
   const handleUpgradePlan = (plan) => {
+    dispatch({ type: "CLEAR_NETWORK_ERROR" });
     if (plan) {
       dispatch({
         type: "UPGRADE_PLAN_SAGA",
@@ -49,6 +50,14 @@ function AllPlans() {
   };
 
   console.log("plans", plans);
+
+  useEffect(() => {
+    if (state.createAccount?.networkError || state.Settings?.upgradePlanError) {
+      setFormLoading(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError, state.Settings?.upgradePlanError]);
 
   return (
     <div className="relative">

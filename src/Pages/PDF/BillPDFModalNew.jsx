@@ -79,6 +79,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [label, setLabel] = useState("");
   const [applyBookingInvoice, setBookingApplyInvoice] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
@@ -120,7 +121,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   };
 
-  const handleApplyInvoices = () => {
+  const handleApplyInvoices = (Name) => {
+    setLabel(Name);
     setApplyInvoice(true);
     setOpen(false);
   };
@@ -472,9 +474,30 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   useEffect(() => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+
       dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
+
+  useEffect(() => {
+    if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
   return (
     <div className="relative">
@@ -1520,7 +1543,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         if (!canUpdateInvoice) return;
 
                         e.stopPropagation();
-                        handleApplyInvoices();
+                        handleApplyInvoices("booking");
                       }}
                     >
                       Apply Now
@@ -1639,7 +1662,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             if (!canUpdateInvoice || !isRedeemAvailable) return;
 
                             e.stopPropagation();
-                            handleApplyInvoices();
+                            handleApplyInvoices("Advance");
                           }}
                           disabled={!canUpdateInvoice || !isRedeemAvailable}
                           className={`w-full   disabled:text-gray-400 text-left px-4 py-2 text-sm 
@@ -1753,18 +1776,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       No Data Found
                     </div>
                   )}
-
-                  {/* {!hasPayments && hasRefunds && (
-                    <div className="p-4 text-sm text-center text-orange-600 font-medium">
-                      No Payments made yet!
-                    </div>
-                  )}
-
-                  {hasPayments && !hasRefunds && (
-                    <div className="p-4 text-sm text-center text-orange-600 font-medium">
-                      No Refund made yet!
-                    </div>
-                  )} */}
 
                   {pdfDetails?.paymentHistory?.length > 0 && (
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
@@ -1949,6 +1960,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
       {applyInvoice && (
         <ApplyAdvance
+          label={label}
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={pdfDetails}
