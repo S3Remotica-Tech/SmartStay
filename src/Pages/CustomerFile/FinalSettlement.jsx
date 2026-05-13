@@ -35,6 +35,7 @@ function FinalSettlement() {
   const [ReturnAmount, setReturnAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const breakdownRef = useRef(null);
   const [finalSettlementList, setFinalSettlementList] = useState();
   const [showWallet, setShowWallet] = useState(false);
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
@@ -713,7 +714,7 @@ function FinalSettlement() {
                   size={16}
                   color="#1E45E1"
                   className="cursor-pointer"
-                  onClick={() => setIsEditingDate(true)}
+                  onClick={(e) => (e.stopPropagation(), setIsEditingDate(true))}
                 />
               </span>
             )}
@@ -1540,7 +1541,10 @@ function FinalSettlement() {
 
                   <div
                     className="flex items-center gap-1 cursor-pointer"
-                    onClick={handleAddField}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddField();
+                    }}
                   >
                     <AddCircle size="18" color="#1E45E1" variant="Bold" />
                     <label className="text-[13px] text-gray-800 font-medium cursor-pointer">
@@ -1736,7 +1740,10 @@ function FinalSettlement() {
                                 color="red"
                                 variant="Bold"
                                 className="cursor-pointer"
-                                onClick={() => handleRemoveField(index)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveField(index);
+                                }}
                               />
                             )}
                           </div>
@@ -1824,7 +1831,16 @@ function FinalSettlement() {
       text-sm font-normal font-gilroy
       whitespace-nowrap
     "
-                  onClick={() => setShowBreakdown(!showBreakdown)}
+                  onClick={() => {
+                    setShowBreakdown(!showBreakdown);
+
+                    setTimeout(() => {
+                      breakdownRef.current?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                    }, 100);
+                  }}
                 >
                   View Breakdown
                   {showBreakdown ? (
@@ -1837,7 +1853,10 @@ function FinalSettlement() {
 
               {showBreakdown && (
                 <>
-                  <div className="rounded px-3 pt-1 font-gilroy space-y-1">
+                  <div
+                    ref={breakdownRef}
+                    className="rounded px-3 pt-1 font-gilroy space-y-1"
+                  >
                     <div className="flex justify-between">
                       <p className="text-base font-semibold text-gray-900">
                         Final Settlement
