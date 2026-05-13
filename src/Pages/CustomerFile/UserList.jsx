@@ -252,7 +252,7 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
-  console.log("state", state);
+  // console.log("state", state);
 
   const options = [
     { key: "Name", label: "Name" },
@@ -611,7 +611,7 @@ function UserList(props) {
     }
   }, [state.UsersList?.Users]);
 
-  console.log("state.UsersList.Users", state.UsersList.Users);
+  // console.log("state.UsersList.Users", state.UsersList.Users);
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
@@ -1717,7 +1717,8 @@ function UserList(props) {
   // }
 
   const handleCheckoutGenrateNew = (item) => {
-    navigate(`/tenant/final-settlement/${item?.customerId}`, {
+    // console.log("/tenant/final-settlement", item);
+    navigate(`/tenant/final-settlement/${item?.apiCall?.customerId}`, {
       state: {
         data: item,
       },

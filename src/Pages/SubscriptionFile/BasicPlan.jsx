@@ -31,7 +31,7 @@ function SubscriptionCard() {
           <div className="flex gap-3 mb-3">
             <div>
               <p className="font-semibold text-[#222] text-[16px]">
-                Basic Plan
+                {currentPlan?.planName}
               </p>
               <p className="font-medium text-[#4A4A4A] text-[14px]">
                 {currentPlan?.planAmount}

@@ -17,7 +17,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
     setError("");
 
-    const invoice = initializeDetails?.listInvoices;
+    const invoice = initializeDetails?.currentInvoiceInfo;
     const invoiceId = invoice?.invoiceId;
 
     if (value === "") {
@@ -88,7 +88,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
   console.log("initializeDetails", initializeDetails);
 
   const bookingAmount = Number(
-    initializeDetails?.listInvoices?.availableBalance || 0,
+    initializeDetails?.advanceInfo?.availableBalance || 0,
   );
 
   const totalApplied = applyAmountForInvoice.reduce(
@@ -200,7 +200,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
 
             <div className="text-right">
               <div className="text-sm text-gray-400">
-                {initializeDetails?.listInvoices?.invoiceType === "BOOKING"
+                {initializeDetails?.advanceInfo?.invoiceType === "BOOKING"
                   ? "Booking"
                   : "Advance"}
                 Amount
@@ -230,31 +230,30 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                   </thead>
 
                   <tbody>
-                    {/* {initializeDetails?.listInvoices?.length > 0 ? (
-                      initializeDetails?.listInvoices?.map((item, index) => ( */}
-                    {initializeDetails?.listInvoices ? (
+                    {initializeDetails?.currentInvoiceInfo ? (
                       <tr
-                        key={initializeDetails?.listInvoices?.invoiceId}
+                        key={initializeDetails?.currentInvoiceInfo?.invoiceId}
                         className="border-t  whitespace-nowrap"
                       >
                         <td className="px-4 py-2 font-semibold">
-                          {initializeDetails?.listInvoices?.invoiceType}
+                          {initializeDetails?.currentInvoiceInfo?.invoiceType}
                         </td>
 
                         <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
-                          {initializeDetails?.listInvoices?.invoiceNumber}
+                          {initializeDetails?.currentInvoiceInfo?.invoiceNumber}
                         </td>
 
                         <td className="px-4 py-2 text-gray-500">
-                          {initializeDetails?.listInvoices?.dueDate}
+                          {initializeDetails?.currentInvoiceInfo?.dueDate}
                         </td>
 
                         <td className="font-semibold px-4 py-2">
-                          ₹{initializeDetails?.listInvoices?.invoiceAmount}
+                          ₹{initializeDetails?.currentInvoiceInfo?.totalAmount}
                         </td>
 
                         <td className="px-4 py-2 font-semibold">
-                          ₹{initializeDetails?.listInvoices?.pendingAmount}
+                          ₹
+                          {initializeDetails?.currentInvoiceInfo?.pendingAmount}
                         </td>
 
                         <td className="px-4 py-2 font-semibold">
@@ -264,7 +263,8 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                               applyAmountForInvoice.find(
                                 (i) =>
                                   i.invoiceId ===
-                                  initializeDetails?.listInvoices?.invoiceId,
+                                  initializeDetails?.currentInvoiceInfo
+                                    ?.invoiceId,
                               )?.amount || ""
                             }
                             onChange={(e) =>
@@ -272,7 +272,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
                             }
                             placeholder="₹ 0.00"
                             className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                              initializeDetails?.listInvoices?.applyAmount
+                              initializeDetails?.currentInvoiceInfo?.applyAmount
                                 ? "font-semibold"
                                 : "font-medium"
                             }`}

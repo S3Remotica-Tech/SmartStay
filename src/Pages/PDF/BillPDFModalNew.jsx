@@ -476,6 +476,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
+  useEffect(() => {
+    if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+
+
+      
+    }
+  }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
+
   return (
     <div className="relative">
       <style>
@@ -1753,18 +1761,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       No Data Found
                     </div>
                   )}
-
-                  {/* {!hasPayments && hasRefunds && (
-                    <div className="p-4 text-sm text-center text-orange-600 font-medium">
-                      No Payments made yet!
-                    </div>
-                  )}
-
-                  {hasPayments && !hasRefunds && (
-                    <div className="p-4 text-sm text-center text-orange-600 font-medium">
-                      No Refund made yet!
-                    </div>
-                  )} */}
 
                   {pdfDetails?.paymentHistory?.length > 0 && (
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
