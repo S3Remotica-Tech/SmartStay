@@ -69,11 +69,11 @@ function AllPlans() {
       <h3 className="text-[#222222] font-semibold text-[16px] font-gilroy mt-2 mb-2">
         Choose Your Plan
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy max-h-[300px] overflow-y-auto show-scrolls ">
         {plans.map((plan, idx) => (
           <div
             key={idx}
-            className="relative p-3 mb-3 border-2 border-gray-200 rounded-lg z-10"
+            className="relative p-3 mb-3 border-2 border-gray-200 rounded-lg z-10 mt-4"
           >
             <div
               className="absolute -top-4 right-4 z-[9999] px-2.5 py-3 rounded-lg font-semibold text-center flex flex-col items-center shadow"
@@ -100,7 +100,7 @@ function AllPlans() {
             <hr className="my-2 border border-gray-200" />
             <span className="text-gray-700 text-xs">Which includes</span>
 
-            <div className="mt-2 max-h-44 overflow-y-auto show-scroll pr-1">
+            <div className="mt-2 max-h-44 overflow-y-auto show-scrolls pr-1">
               {plan.features.map((f, i) => (
                 <div key={i} className="flex items-start mb-2 mt-1 text-sm">
                   <FaSquareCheck className="text-[#1E45E1] mr-2 mt-0.5" />

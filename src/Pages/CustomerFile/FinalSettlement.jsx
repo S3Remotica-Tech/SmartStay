@@ -884,7 +884,10 @@ function FinalSettlement() {
 
               <div
                 className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy cursor-pointer"
-                onClick={() => setShowRentDetails((prev) => !prev)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowRentDetails((prev) => !prev);
+                }}
               >
                 <div className="flex justify-between items-center p-3">
                   <div className="flex items-center gap-2">
@@ -941,7 +944,10 @@ function FinalSettlement() {
                         </div>
 
                         <div
-                          onClick={() => setShowDetails(!showDetails)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowDetails(!showDetails);
+                          }}
                           className="flex cursor-pointer"
                         >
                           <span className="bg-blue-100 rounded-[5px] p-1">
