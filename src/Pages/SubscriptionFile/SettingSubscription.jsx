@@ -175,7 +175,7 @@ function SettingSubscription() {
 
   const currentPlan = state?.Settings?.currentPlanDetails;
 
-  console.log("currentPlan", currentPlan);
+  // console.log("currentPlan", currentPlan);
 
   const onMessageReceived = (message) => {
     // console.log("Payment update:", message);
@@ -375,8 +375,9 @@ function SettingSubscription() {
                   </div>
                 )
               )}
-              {(currentPlan?.planName === "Trial" ||
-                currentPlan?.planName === "Extendable Trial") && <AllPlans />}
+              {currentPlan?.planName?.toLowerCase().includes("trial") && (
+                <AllPlans />
+              )}
             </div>
           </div>
         )}

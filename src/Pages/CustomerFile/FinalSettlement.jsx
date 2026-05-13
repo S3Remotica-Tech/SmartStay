@@ -35,6 +35,7 @@ function FinalSettlement() {
   const [ReturnAmount, setReturnAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const breakdownRef = useRef(null);
   const [finalSettlementList, setFinalSettlementList] = useState();
   const [showWallet, setShowWallet] = useState(false);
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
@@ -628,19 +629,19 @@ function FinalSettlement() {
               {pgDetails?.floorName ||
                 data?.floorName ||
                 data?.hostelInfo?.floorName ||
-                customer.floorName}
+                customer?.floorName}
             </span>
 
             <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.roomName ||
                 data?.roomName ||
                 data?.hostelInfo?.roomName ||
-                customer.roomName}{" "}
+                customer?.roomName}{" "}
               -{" "}
               {pgDetails?.bedName ||
                 data?.bedName ||
                 data?.hostelInfo?.bedName ||
-                customer.bedName}
+                customer?.bedName}
             </span>
           </div>
 
@@ -713,7 +714,7 @@ function FinalSettlement() {
                   size={16}
                   color="#1E45E1"
                   className="cursor-pointer"
-                  onClick={() => setIsEditingDate(true)}
+                  onClick={(e) => (e.stopPropagation(), setIsEditingDate(true))}
                 />
               </span>
             )}
@@ -791,11 +792,11 @@ function FinalSettlement() {
                   </div>
 
                   <span className="text-base font-semibold text-gray-900">
-                    ₹
-                    {UnpaidInvoices?.reduce(
+                    ₹ {finalSettlementList?.settlementInfo?.unpaidInvoiceAmount}
+                    {/* {UnpaidInvoices?.reduce(
                       (sum, inv) => sum + Number(inv.payableAmount || 0),
                       0,
-                    ) || 0}
+                    ) || 0} */}
                   </span>
                 </div>
 
@@ -864,12 +865,16 @@ function FinalSettlement() {
                               </td>
 
                               <td className="px-2 py-2 text-end text-sm text-gray-800">
-                                ₹
-                                {UnpaidInvoices?.reduce(
+                                ₹{" "}
+                                {
+                                  finalSettlementList?.settlementInfo
+                                    ?.unpaidInvoiceAmount
+                                }
+                                {/* {UnpaidInvoices?.reduce(
                                   (sum, inv) =>
                                     sum + Number(inv.payableAmount || 0),
                                   0,
-                                ) || 0}
+                                ) || 0} */}
                               </td>
                             </tr>
                           </tbody>
@@ -884,7 +889,10 @@ function FinalSettlement() {
 
               <div
                 className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy cursor-pointer"
-                onClick={() => setShowRentDetails((prev) => !prev)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowRentDetails((prev) => !prev);
+                }}
               >
                 <div className="flex justify-between items-center p-3">
                   <div className="flex items-center gap-2">
@@ -941,7 +949,10 @@ function FinalSettlement() {
                         </div>
 
                         <div
-                          onClick={() => setShowDetails(!showDetails)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowDetails(!showDetails);
+                          }}
                           className="flex cursor-pointer"
                         >
                           <span className="bg-blue-100 rounded-[5px] p-1">
@@ -1001,9 +1012,10 @@ function FinalSettlement() {
 
                             <div
                               className="flex cursor-pointer"
-                              onClick={() =>
-                                setShowOtherCharges(!showOtherCharges)
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowOtherCharges(!showOtherCharges);
+                              }}
                             >
                               <span className="bg-blue-100 rounded-[5px] p-1">
                                 {showOtherCharges ? (
@@ -1529,7 +1541,10 @@ function FinalSettlement() {
 
                   <div
                     className="flex items-center gap-1 cursor-pointer"
-                    onClick={handleAddField}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddField();
+                    }}
                   >
                     <AddCircle size="18" color="#1E45E1" variant="Bold" />
                     <label className="text-[13px] text-gray-800 font-medium cursor-pointer">
@@ -1725,7 +1740,10 @@ function FinalSettlement() {
                                 color="red"
                                 variant="Bold"
                                 className="cursor-pointer"
-                                onClick={() => handleRemoveField(index)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveField(index);
+                                }}
                               />
                             )}
                           </div>
@@ -1813,7 +1831,16 @@ function FinalSettlement() {
       text-sm font-normal font-gilroy
       whitespace-nowrap
     "
-                  onClick={() => setShowBreakdown(!showBreakdown)}
+                  onClick={() => {
+                    setShowBreakdown(!showBreakdown);
+
+                    setTimeout(() => {
+                      breakdownRef.current?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                    }, 100);
+                  }}
                 >
                   View Breakdown
                   {showBreakdown ? (
@@ -1826,7 +1853,10 @@ function FinalSettlement() {
 
               {showBreakdown && (
                 <>
-                  <div className="rounded px-3 pt-1 font-gilroy space-y-1">
+                  <div
+                    ref={breakdownRef}
+                    className="rounded px-3 pt-1 font-gilroy space-y-1"
+                  >
                     <div className="flex justify-between">
                       <p className="text-base font-semibold text-gray-900">
                         Final Settlement
