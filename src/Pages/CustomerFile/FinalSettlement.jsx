@@ -628,19 +628,19 @@ function FinalSettlement() {
               {pgDetails?.floorName ||
                 data?.floorName ||
                 data?.hostelInfo?.floorName ||
-                customer.floorName}
+                customer?.floorName}
             </span>
 
             <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
               {pgDetails?.roomName ||
                 data?.roomName ||
                 data?.hostelInfo?.roomName ||
-                customer.roomName}{" "}
+                customer?.roomName}{" "}
               -{" "}
               {pgDetails?.bedName ||
                 data?.bedName ||
                 data?.hostelInfo?.bedName ||
-                customer.bedName}
+                customer?.bedName}
             </span>
           </div>
 
@@ -791,11 +791,11 @@ function FinalSettlement() {
                   </div>
 
                   <span className="text-base font-semibold text-gray-900">
-                    ₹
-                    {UnpaidInvoices?.reduce(
+                    ₹ {finalSettlementList?.settlementInfo?.unpaidInvoiceAmount}
+                    {/* {UnpaidInvoices?.reduce(
                       (sum, inv) => sum + Number(inv.payableAmount || 0),
                       0,
-                    ) || 0}
+                    ) || 0} */}
                   </span>
                 </div>
 
@@ -864,12 +864,16 @@ function FinalSettlement() {
                               </td>
 
                               <td className="px-2 py-2 text-end text-sm text-gray-800">
-                                ₹
-                                {UnpaidInvoices?.reduce(
+                                ₹{" "}
+                                {
+                                  finalSettlementList?.settlementInfo
+                                    ?.unpaidInvoiceAmount
+                                }
+                                {/* {UnpaidInvoices?.reduce(
                                   (sum, inv) =>
                                     sum + Number(inv.payableAmount || 0),
                                   0,
-                                ) || 0}
+                                ) || 0} */}
                               </td>
                             </tr>
                           </tbody>
@@ -1007,9 +1011,10 @@ function FinalSettlement() {
 
                             <div
                               className="flex cursor-pointer"
-                              onClick={() =>
-                                setShowOtherCharges(!showOtherCharges)
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowOtherCharges(!showOtherCharges);
+                              }}
                             >
                               <span className="bg-blue-100 rounded-[5px] p-1">
                                 {showOtherCharges ? (
