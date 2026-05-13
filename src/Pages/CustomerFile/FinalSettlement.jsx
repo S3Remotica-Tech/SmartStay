@@ -1301,23 +1301,20 @@ function FinalSettlement() {
                     )}
 
                     <span className="text-sm font-semibold text-[#222222]">
-                      Refundable Advance
+                      {finalSettlementList?.advanceItems?.label}
                     </span>
                   </div>
 
                   <div className="flex flex-col items-end">
                     <span className="text-[15px] font-semibold text-[#222222]">
                       ₹{" "}
-                      {finalSettlementList?.refundableAdvanceInfo?.amount || 0}
+                      {finalSettlementList?.advanceItems
+                        ?.availableAdvanceBalance || 0}
                     </span>
 
                     <span className="text-[12px] font-medium text-[#1E45E1] underline">
                       {" "}
-                      Advance Number
-                      {
-                        finalSettlementList?.refundableAdvanceInfo
-                          ?.advanceNumber
-                      }
+                      {finalSettlementList?.advanceItems?.invoiceNo}
                     </span>
                   </div>
                 </div>
@@ -1338,7 +1335,9 @@ function FinalSettlement() {
                               <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
                                 Adjusted With
                               </th>
-
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Type
+                              </th>
                               <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
                                 Date
                               </th>
@@ -1350,24 +1349,26 @@ function FinalSettlement() {
                           </thead>
 
                           <tbody>
-                            {finalSettlementList?.refundableAdvanceInfo
-                              ?.transactions?.length > 0 ? (
-                              finalSettlementList.refundableAdvanceInfo.transactions.map(
+                            {finalSettlementList?.advanceItems?.redeemedList
+                              ?.length > 0 ? (
+                              finalSettlementList?.advanceItems?.redeemedList?.map(
                                 (txn, index) => (
                                   <tr
                                     key={index}
                                     className="border-t border-[#E5E7EB]"
                                   >
-                                    <td className="px-4 py-4 text-[13px] font-medium text-[#1E45E1] underline">
-                                      {txn.invoiceNumber || txn.source}
+                                    <td className="px-4 py-3 text-[13px] font-medium text-[#1E45E1] underline">
+                                      {txn.invoiceNumber}
                                     </td>
-
-                                    <td className="px-4 py-4 text-[13px] text-[#666666]">
+                                    <td className="px-4 py-3 text-[13px] text-[#222222]">
+                                      {txn.invoiceType}
+                                    </td>
+                                    <td className="px-4 py-3 text-[13px] text-[#666666]">
                                       {txn.date}
                                     </td>
 
-                                    <td className="px-4 py-4 text-right text-[13px] font-medium text-[#222222]">
-                                      ₹ {txn.amount}
+                                    <td className="px-4 py-3 text-right text-[13px] font-medium text-[#222222]">
+                                      ₹ {txn.redeemedAmount}
                                     </td>
                                   </tr>
                                 ),
@@ -1405,24 +1406,21 @@ function FinalSettlement() {
                     )}
 
                     <span className="text-sm font-semibold text-[#222222]">
-                      Booking
+                      {finalSettlementList?.bookingItems?.label}
                     </span>
                   </div>
 
                   <div className="flex flex-col items-end">
                     <span
-                      className={`text-[15px] font-semibold ${
-                        finalSettlementList?.bookingInfo?.amount < 0
-                          ? "text-red-600"
-                          : "text-[#222222]"
-                      }`}
+                      className={`text-[15px] font-semibold text-[#222222] `}
                     >
-                      ₹ {finalSettlementList?.bookingInfo?.amount || 0}
+                      ₹{" "}
+                      {finalSettlementList?.bookingItems
+                        ?.availableAdvanceBalance || 0}
                     </span>
 
                     <span className="text-[12px] font-medium text-[#1E45E1] underline">
-                      {finalSettlementList?.bookingInfo?.bookingNumber} Booking
-                      Number
+                      {finalSettlementList?.bookingItems?.invoiceNo}
                     </span>
                   </div>
                 </div>
@@ -1443,6 +1441,9 @@ function FinalSettlement() {
                               <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
                                 Adjusted With
                               </th>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Type
+                              </th>
 
                               <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
                                 Date
@@ -1455,24 +1456,26 @@ function FinalSettlement() {
                           </thead>
 
                           <tbody>
-                            {finalSettlementList?.bookingInfo?.transactions
+                            {finalSettlementList?.bookingItems?.redeemedList
                               ?.length > 0 ? (
-                              finalSettlementList.bookingInfo.transactions.map(
+                              finalSettlementList.bookingItems.redeemedList?.map(
                                 (txn, index) => (
                                   <tr
                                     key={index}
                                     className="border-t border-[#E5E7EB]"
                                   >
-                                    <td className="px-4 py-4 text-[13px] font-medium text-[#1E45E1] underline">
-                                      {txn.invoiceNumber || txn.source}
+                                    <td className="px-4 py-3 text-[13px] font-medium text-[#1E45E1] underline">
+                                      {txn.invoiceNumber}
                                     </td>
-
-                                    <td className="px-4 py-4 text-[13px] text-[#666666]">
+                                    <td className="px-4 py-3 text-[13px] text-[#222222]">
+                                      {txn.invoiceType}
+                                    </td>
+                                    <td className="px-4 py-3 text-[13px] text-[#666666]">
                                       {txn.date}
                                     </td>
 
-                                    <td className="px-4 py-4 text-right text-[13px] font-medium text-[#222222]">
-                                      ₹ {txn.amount}
+                                    <td className="px-4 py-3 text-right text-[13px] font-medium text-[#222222]">
+                                      ₹ {txn.redeemedAmount}
                                     </td>
                                   </tr>
                                 ),

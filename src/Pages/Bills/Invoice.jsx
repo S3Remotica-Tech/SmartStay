@@ -1052,6 +1052,17 @@ const InvoicePage = () => {
   ]);
 
   useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
+
+  useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode === 200) {
       setLoading(false);
 

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyAdvance({ show, handleClose, advanceDetails }) {
+function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -71,7 +71,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     );
   };
 
-  console.log("advanceDetails", advanceDetails);
+  // console.log("advanceDetails", advanceDetails);
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -85,7 +85,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
 
   const initializeDetails = state?.Booking?.advanceInitialize;
 
-  console.log("initializeDetails", initializeDetails);
+  // console.log("initializeDetails", initializeDetails);
 
   const bookingAmount = Number(
     initializeDetails?.advanceInfo?.availableBalance || 0,
@@ -97,9 +97,9 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
   );
   const remainingBalance = bookingAmount - totalApplied;
 
-  useEffect(() => {
-    console.log("advanceDetails", advanceDetails);
-  }, [advanceDetails]);
+  // useEffect(() => {
+  //   // console.log("advanceDetails", advanceDetails);
+  // }, [advanceDetails]);
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
@@ -120,11 +120,10 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
       type: "APPLY_INVOICE_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        invoiceId: advanceDetails?.invoiceId,
+        invoiceId: initializeDetails?.advanceInfo?.invoiceId,
         listItems: applyAmountForInvoice,
       },
     });
-
     setFormLoading(true);
   };
 
@@ -149,11 +148,18 @@ function ApplyAdvance({ show, handleClose, advanceDetails }) {
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
+  console.log(
+    "state?.Booking?.applyRedeemError",
+    state?.Booking?.applyRedeemError,
+  );
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
         <div className="flex justify-between items-center p-3 border-b">
-          <h5 className="font-semibold text-lg text-black">Apply to Invoice</h5>
+          <h5 className="font-semibold text-lg text-black capitalize">
+            Apply {label} to Invoice
+          </h5>
 
           <button
             onClick={handleClose}
