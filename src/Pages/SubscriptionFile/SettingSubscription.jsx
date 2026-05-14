@@ -238,77 +238,75 @@ function SettingSubscription() {
         ) : (
           <div>
             <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy overflow-visible">
-              {currentPlan?.status === "ACTIVE" ? (
-                <BasicPlan />
-              ) : currentPlan?.numberOfDaysRemaining > 0 ? (
-                <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
-                  <div className="flex justify-between items-center">
-                    <div className="flex flex-col items-start">
-                      <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1 flex items-center gap-2">
-                        <TbCheck /> Free Trial
+              {currentPlan?.isTrial ? (
+                currentPlan?.numberOfDaysRemaining > 0 ? (
+                  <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
+                    <div className="flex justify-between items-center">
+                      <div className="flex flex-col items-start">
+                        <div className="bg-[#1E45E1] text-white px-3 py-1 rounded-xl text-[12px] font-medium w-max text-center mb-1 flex items-center gap-2">
+                          <TbCheck /> Free Trial
+                        </div>
+
+                        <h6 className="text-[16px] font-semibold text-[#222222]">
+                          You are in Free Trial
+                        </h6>
                       </div>
 
-                      <h6 className="text-[16px] font-semibold text-[#222222]">
-                        You are in Free Trial
-                      </h6>
-                    </div>
-
-                    <div>
-                      <span className="text-[16px] text-[#1E45E1] font-medium">
-                        {currentPlan?.numberOfDaysRemaining}{" "}
-                        {currentPlan?.numberOfDaysRemaining === 1
-                          ? "day"
-                          : "days"}{" "}
-                        left
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex gap-2 items-start">
-                      <Calendar size="16" color="#4B4B4B" />
-
-                      <div className="flex flex-col">
-                        <label className="text-[13px] font-normal text-[#4B4B4B]">
-                          Start Date
-                        </label>
-                        <label className="text-[16px] font-normal text-[#4B4B4B]">
-                          {currentPlan?.planStartDate}
-                        </label>
+                      <div>
+                        <span className="text-[16px] text-[#1E45E1] font-medium">
+                          {currentPlan?.numberOfDaysRemaining}{" "}
+                          {currentPlan?.numberOfDaysRemaining === 1
+                            ? "day"
+                            : "days"}{" "}
+                          left
+                        </span>
                       </div>
                     </div>
 
-                    <div className="flex gap-2 items-start">
-                      <Calendar size="16" color="#4B4B4B" />
+                    <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="flex gap-2 items-start">
+                        <Calendar size="16" color="#4B4B4B" />
 
-                      <div className="flex flex-col">
-                        <label className="text-[13px] font-normal text-[#4B4B4B]">
-                          End Date
-                        </label>
-                        <label className="text-[16px] font-normal text-[#4B4B4B]">
-                          {currentPlan?.planEndDate}
-                        </label>
+                        <div className="flex flex-col">
+                          <label className="text-[13px] font-normal text-[#4B4B4B]">
+                            Start Date
+                          </label>
+                          <label className="text-[16px] font-normal text-[#4B4B4B]">
+                            {currentPlan?.planStartDate}
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 items-start">
+                        <Calendar size="16" color="#4B4B4B" />
+
+                        <div className="flex flex-col">
+                          <label className="text-[13px] font-normal text-[#4B4B4B]">
+                            End Date
+                          </label>
+                          <label className="text-[16px] font-normal text-[#4B4B4B]">
+                            {currentPlan?.planEndDate}
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
-                    Upgrade to continue unlimited access once your trial ends.
-                  </div>
+                    <div className="mt-3 p-3 border-[0.5px] border-[#E0E0E0] bg-white rounded-xl text-[#4B4B4B] text-base font-normal">
+                      Upgrade to continue unlimited access once your trial ends.
+                    </div>
 
-                  <div className="flex justify-end">
-                    <button
-                      disabled
-                      className="mt-3 px-6 py-2.5 text-sm rounded-lg font-normal border-none
-    bg-[#1E45E1] 
-    disabled:bg-gray-200 disabled:text-gray-700 disabled:cursor-not-allowed"
-                    >
-                      Upgrade to Premium
-                    </button>
+                    <div className="flex justify-end">
+                      <button
+                        disabled
+                        className="mt-3 px-6 py-2.5 text-sm rounded-lg font-normal border-none
+          bg-[#1E45E1] 
+          disabled:bg-gray-200 disabled:text-gray-700 disabled:cursor-not-allowed"
+                      >
+                        Upgrade to Premium
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                currentPlan?.numberOfDaysRemaining < 0 && (
+                ) : currentPlan?.numberOfDaysRemaining <= 0 ? (
                   <div className="p-4 mb-4 rounded-[14px] bg-[#FFFAFA] border-2 border-[#FFB5B8]">
                     <div className="grid grid-cols-12 gap-3">
                       <div className="col-span-12 md:col-span-3 flex justify-center md:justify-start">
@@ -325,6 +323,7 @@ function SettingSubscription() {
                             Your Trial Expired
                           </span>
                         </div>
+
                         <div className="mt-1">
                           <span className="text-[#8E8E8E] text-sm font-normal">
                             Your free trial has ended. Subscribe now to continue
@@ -340,17 +339,21 @@ function SettingSubscription() {
                           Limited Access Mode
                         </span>
                       </div>
+
                       <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="space-y-1">
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Dashboard & Property Management
                           </div>
+
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Asset and Expenses Management
                           </div>
+
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Complaint Management
                           </div>
+
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> EB Calculation
                           </div>
@@ -360,12 +363,15 @@ function SettingSubscription() {
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Tenant & Room Management
                           </div>
+
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Auto Recurring Invoices
                           </div>
+
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Due Reminders (In-App & Email)
                           </div>
+
                           <div className="text-[#656565] text-sm font-medium line-through flex items-center gap-1">
                             <IoClose /> Rent Collection Tracking
                           </div>
@@ -373,11 +379,12 @@ function SettingSubscription() {
                       </div>
                     </div>
                   </div>
-                )
+                ) : null
+              ) : (
+                <BasicPlan />
               )}
-              {currentPlan?.planName?.toLowerCase().includes("trial") && (
-                <AllPlans />
-              )}
+
+              {currentPlan?.isTrial && <AllPlans />}
             </div>
           </div>
         )}

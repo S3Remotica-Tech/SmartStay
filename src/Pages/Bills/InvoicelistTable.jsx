@@ -210,6 +210,8 @@ const InvoiceTable = (props) => {
     }
   }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
 
+  console.log("props.item", props.item);
+
   return (
     <>
       <tr
@@ -472,7 +474,7 @@ const InvoiceTable = (props) => {
               {showDots && (
                 <div
                   ref={popupRef}
-                  className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                  className="fixed max-w-[250px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
                   style={{
                     top: showAbove
                       ? popupPosition.top -
@@ -510,14 +512,15 @@ const InvoiceTable = (props) => {
                       e.stopPropagation();
                       handleApplyInvoices(props.item);
                     }}
-                    className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
-      ${
-        !canUpdateInvoice || !props.item.canRedeem
-          ? "cursor-not-allowed opacity-50 bg-gray-100"
-          : "cursor-pointer hover:bg-[#EDF2FF]"
-      }`}
+                    className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !props.item.canRedeem
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
                   >
                     <Link21
+                      className="flex-shrink-0"
                       color={
                         !canUpdateInvoice || !props.item.canRedeem
                           ? "#A9A9A9"
@@ -533,7 +536,9 @@ const InvoiceTable = (props) => {
                           : "text-[#222222]"
                       }`}
                     >
-                      Apply Invoices
+                      {props.item?.invoiceType === "Advance"
+                        ? "Apply to Invoice"
+                        : "Adjust with Advance"}
                     </span>
                   </button>
 
@@ -672,6 +677,7 @@ const InvoiceTable = (props) => {
       )}
       {applyInvoice && (
         <ApplyAdvance
+          label={""}
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={advanceDetails}
