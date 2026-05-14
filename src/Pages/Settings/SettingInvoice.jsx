@@ -624,6 +624,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     setShowForm(true);
 
     setCardShow(false);
+
+    dispatch({
+      type: "GET_TEMPLATE_LIST",
+      payload: state.login.selectedHostel_Id,
+    });
+    setSelectedTab("rental_invoice");
   };
 
   const handleCloseForm = () => {
@@ -2464,7 +2470,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           >
                             Terms and Conditions
                           </h4>
-                          <p className="text-[9px] font-gilroy font-medium text-[#3D3D3D] whitespace-pre-line">
+                          <p className="text-[9px] font-gilroy font-medium text-[#3D3D3D] whitespace-pre-line break-words">
                             {terms}
                           </p>
                         </div>
@@ -2562,7 +2568,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
         cardshow && (
           <>
             {global ? (
-              <div className="h-[580px] lg:h-[580px] 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
+              <div className="h-[580px] lg:h-[650px] 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
                 <div className="bg-white sticky top-0 z-10 pb-2 h-20">
                   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
                     <label className="font-gilroy text-[18px] text-[#222] font-semibold">
@@ -2941,12 +2947,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                   </div>
 
                   {savebuttonshow && (
-                    <div className="flex justify-end">
+                    <div className="flex justify-end mb-4">
                       <button
                         disabled={!canUpdateInvoice}
                         type="button"
                         onClick={handleReset}
-                        className="!border !border-black text-black !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-3 disabled:opacity-50 mr-8"
+                        className="!border !border-black text-black !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50 mr-8"
                       >
                         Reset
                       </button>
@@ -2955,7 +2961,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         disabled={!canUpdateInvoice}
                         type="button"
                         onClick={handleSaveTemplate}
-                        className="bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-3 disabled:opacity-50"
+                        className="bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50"
                       >
                         {BillsTemplateList.mobile ? "Update" : "Save"}
                       </button>

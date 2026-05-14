@@ -209,11 +209,14 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
               <div className="text-sm text-gray-400">
                 {initializeDetails?.advanceInfo?.invoiceType === "BOOKING"
                   ? "Booking"
-                  : "Advance"}
+                  : "Advance"}{" "}
                 Amount
               </div>
               <div className="font-semibold text-lg">
                 ₹ {bookingAmount ?? 0}
+              </div>
+              <div className="font-semibold text-blue-600 text-sm">
+                {initializeDetails?.advanceInfo?.invoiceNumber}
               </div>
             </div>
           </div>
