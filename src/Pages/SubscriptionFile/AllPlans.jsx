@@ -60,7 +60,7 @@ function AllPlans() {
   }, [state.createAccount?.networkError, state.Settings?.upgradePlanError]);
 
   return (
-    <div className="relative">
+    <div className="relative ">
       {formLoading && (
         <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-white/60">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-700"></div>
@@ -69,7 +69,7 @@ function AllPlans() {
       <h3 className="text-[#222222] font-semibold text-[16px] font-gilroy mt-2 mb-2">
         Choose Your Plan
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy max-h-[300px] overflow-y-auto show-scrolls ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy max-h-[700px] overflow-y-auto show-scrolls ">
         {plans.map((plan, idx) => (
           <div
             key={idx}
