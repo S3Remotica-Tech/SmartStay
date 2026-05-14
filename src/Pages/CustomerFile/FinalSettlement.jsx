@@ -1556,7 +1556,10 @@ function FinalSettlement() {
                 {showDeductions && <hr className="m-0 border-gray-300" />}
 
                 {showDeductions && (
-                  <div className="px-[10px] py-2">
+                  <div
+                    className="px-[10px] py-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {fields.length === 0 && (
                       <div className="px-4 py-[14px] mx-3 my-2 text-center text-[13px] font-medium text-gray-500 bg-gray-50 rounded-md">
                         No deductions available
