@@ -939,6 +939,7 @@ const SecurityDepositInvoiceTemplate = ({
                   Terms and Conditions
                 </h4>
                 <p
+                  className="break-words"
                   style={{
                     whiteSpace: "pre-line",
                     fontSize: "9px",

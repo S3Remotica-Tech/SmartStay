@@ -346,9 +346,6 @@ const RentalReceiptPdfTemplate = ({
     BillsTemplateList &&
     BillsTemplateList.templates?.find((template) => template.type === "RENTAL");
 
- 
- 
-
   useEffect(() => {
     if (RentalreceiptTemplate) {
       const logo = BillsTemplateList?.isLogoCustomized
@@ -374,7 +371,7 @@ const RentalReceiptPdfTemplate = ({
 
       const signature = BillsTemplateList?.isSignatureCustomized
         ? RentalreceiptTemplate?.receiptSignatureUrl
-        : BillsTemplateList?.signature ;
+        : BillsTemplateList?.signature;
 
       setSignaturePreview(signature);
       setSignature(signature);
@@ -923,7 +920,7 @@ const RentalReceiptPdfTemplate = ({
                       Terms and Conditions
                     </h6>
 
-                    <p className="text-[9px] text-[#555] font-gilroy">
+                    <p className="text-[9px] text-[#555] font-gilroy break-words">
                       {terms}
                     </p>
                   </div>
