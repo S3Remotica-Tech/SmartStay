@@ -26,6 +26,7 @@ const InvoiceTable = (props) => {
   const [showDots, setShowDots] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [applyAdvance, setApplyAdvance] = useState(false);
   const [WriteoffForm, setWriteOffForm] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [refundDetails, setRefundDetails] = useState("");
@@ -36,6 +37,7 @@ const InvoiceTable = (props) => {
   const [discountDetails, setDiscountDetails] = useState("");
   const [showAbove, setShowAbove] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
+  const [label, setLabel] = useState("");
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
@@ -170,6 +172,18 @@ const InvoiceTable = (props) => {
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
   };
+
+  const handleBookingApplyRedeem = (item) => {
+    setApplyAdvance(true);
+    setAdvanceDetails(item);
+    setShowDots(false);
+    setLabel("Advance");
+  };
+
+  const handleCloseBookingApplyRedeem = (item) => {
+    setApplyAdvance(false);
+  };
+
   const handleUnpaid = (item) => {
     setShowDots(false);
     setSelectedInvoice(item);
@@ -506,7 +520,75 @@ const InvoiceTable = (props) => {
                     </div>
                   )}
 
-                  <button
+                  {props.item.canRedeem ? (
+                    <button
+                      disabled={!canUpdateInvoice}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBookingApplyRedeem(props.item);
+                      }}
+                      className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                    >
+                      <Link21
+                        className="flex-shrink-0"
+                        color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
+                        size="16"
+                      />
+
+                      <span
+                        className={`text-sm font-medium ${
+                          !canUpdateInvoice
+                            ? "text-[#A9A9A9]"
+                            : "text-[#222222]"
+                        }`}
+                      >
+                        Apply to Invoices
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      disabled={
+                        !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleApplyInvoices(props.item);
+                      }}
+                      className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !props.item?.canApplyFromAdvance
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                    >
+                      <Link21
+                        className="flex-shrink-0"
+                        color={
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                            ? "#A9A9A9"
+                            : "#1E45E1"
+                        }
+                        size="16"
+                      />
+
+                      <span
+                        className={`text-sm font-medium ${
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                            ? "text-[#A9A9A9]"
+                            : "text-[#222222]"
+                        }`}
+                      >
+                        Adjust with Advance
+                      </span>
+                    </button>
+                  )}
+
+                  {/* <button
                     disabled={!canUpdateInvoice || !props.item.canRedeem}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -536,11 +618,11 @@ const InvoiceTable = (props) => {
                           : "text-[#222222]"
                       }`}
                     >
-                      {props.item?.invoiceType === "Advance"
-                        ? "Apply to Invoice"
-                        : "Adjust with Advance"}
+                      {props.item?.canApplyFromAdvance
+                        ? "Adjust with Advance"
+                        : "Apply to Invoice"}
                     </span>
-                  </button>
+                  </button> */}
 
                   {props.item.invoiceMode === "Manual" &&
                     props.item?.paymentStatus === "Paid" &&
@@ -675,6 +757,16 @@ const InvoiceTable = (props) => {
           discountDetails={discountDetails}
         />
       )}
+
+      {applyAdvance && (
+        <ApplyBookingModal
+          show={applyAdvance}
+          handleClose={handleCloseBookingApplyRedeem}
+          advanceDetails={advanceDetails}
+          label={label}
+        />
+      )}
+
       {applyInvoice && (
         <ApplyAdvance
           label={""}

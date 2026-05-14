@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyBookingModal({ show, handleClose, advanceDetails }) {
+function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -95,10 +95,6 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
   );
   const remainingBalance = bookingAmount - totalApplied;
 
-  useEffect(() => {
-    console.log("applyAmountForInvoice", applyAmountForInvoice);
-  }, [applyAmountForInvoice]);
-
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
 
@@ -130,7 +126,6 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       setFormLoading(false);
       handleClose();
-      
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
@@ -153,7 +148,9 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
       <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
         <div className="flex justify-between items-center p-3 border-b">
           <h5 className="font-semibold text-lg text-black">
-            Apply Booking to Invoice
+            {label === "Advance"
+              ? "Apply to Invoice"
+              : "Apply Booking to Invoice"}
           </h5>
 
           <button
@@ -200,7 +197,10 @@ function ApplyBookingModal({ show, handleClose, advanceDetails }) {
             </div>
 
             <div className="text-right">
-              <div className="text-sm text-gray-400">Booking Amount</div>
+              <div className="text-sm text-gray-400">
+                {" "}
+                {label === "Advance" ? "Advance Amount" : "Booking Amount"}
+              </div>
               <div className="font-semibold text-lg">
                 ₹ {initializeDetails?.advanceInfo?.advanceBalanceAmount}
               </div>
