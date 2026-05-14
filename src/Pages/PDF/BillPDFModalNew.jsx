@@ -127,9 +127,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    console.log("applyInvoice updated:", applyInvoice);
-  }, [applyInvoice]);
+  
 
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);

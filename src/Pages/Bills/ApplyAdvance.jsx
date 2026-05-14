@@ -79,6 +79,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: advanceDetails?.invoiceId,
+        type: label === "booking" ? "Credit" : "",
       },
     });
   }, [state.login.selectedHostel_Id]);
