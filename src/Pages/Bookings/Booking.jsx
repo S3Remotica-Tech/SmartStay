@@ -368,8 +368,7 @@ function Booking() {
     setFilterInput(e.target.value);
   };
 
-  const isComingSoon =
-    import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
+  const isComingSoon = true;
 
   const tableData = [];
 
@@ -632,7 +631,7 @@ function Booking() {
                   placeholder="Search"
                   value={filterInput}
                   onChange={handlefilterInput}
-                  disabled={isComingSoon}
+                  disabled
                   className="flex-1 h-full px-2 text-sm font-gilroy
                      outline-none border-none focus:ring-0  rounded-xl"
                 />
@@ -680,9 +679,9 @@ function Booking() {
 
             <button
               onClick={() => canReadBooking && handleShowFilterBills()}
-              disabled={!canReadBooking}
+              disabled={!canReadBooking || isComingSoon}
               className={`border border-slate-300 rounded-full p-2
-            ${canReadBooking ? "" : "opacity-40 cursor-not-allowed"}`}
+            ${canReadBooking || isComingSoon ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
             >
               <Filter size={18} />
             </button>
@@ -690,8 +689,8 @@ function Booking() {
 
           <div className="flex  items-center gap-3">
             <Setting3
-              onClick={() => setOpen(!open)}
-              className="cursor-pointer"
+              // onClick={() => setOpen(!open)}
+              className="cursor-not-allowed"
               size="22"
               color="#4B4B4B"
             />
@@ -723,214 +722,205 @@ function Booking() {
         ) : (
           <div>
             <div>
-              {isComingSoon ? (
-                <ComingSoon />
-              ) : (
-                <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
-                  <div
-                    id="tableContainer"
-                    ref={tableContainerRef}
-                    className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-                  >
-                    <table className="w-full  font-gilroy">
-                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                        <tr className="h-9">
-                          <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
-                            <input
-                              disabled
-                              type="checkbox"
-                              checked={
-                                selectedRows.length === tableData.length &&
-                                tableData.length > 0
-                              }
-                              onChange={handleSelectAll}
-                            />
-                          </th>
+              <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
+                <div
+                  id="tableContainer"
+                  ref={tableContainerRef}
+                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                >
+                  <table className="w-full  font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                      <tr className="h-9">
+                        <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
+                          <input
+                            disabled
+                            type="checkbox"
+                            checked={
+                              selectedRows.length === tableData.length &&
+                              tableData.length > 0
+                            }
+                            onChange={handleSelectAll}
+                          />
+                        </th>
 
-                          <th className=" px-2">INV NO</th>
-                          <th className=" px-2">Booking date</th>
-                          <th className=" px-2">Tenant NamE</th>
-                          <th className=" px-2">Mobile No</th>
-                          <th className=" px-2">Floor</th>
-                          <th className=" px-2">Room</th>
-                          <th className=" px-2">Bed</th>
-                          <th className=" px-2">Amount</th>
-                          <th className="px-2">Status</th>
-                          <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
+                        <th className=" px-2">INV NO</th>
+                        <th className=" px-2">Booking date</th>
+                        <th className=" px-2">Tenant NamE</th>
+                        <th className=" px-2">Mobile No</th>
+                        <th className=" px-2">Floor</th>
+                        <th className=" px-2">Room</th>
+                        <th className=" px-2">Bed</th>
+                        <th className=" px-2">Amount</th>
+                        <th className="px-2">Status</th>
+                        <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
 
-                      <tbody>
-                        {bookingList?.advanceInvoiceList?.length > 0 ? (
-                          bookingList?.advanceInvoiceList?.map(
-                            (item, index) => (
-                              <tr
-                                onClick={() =>
-                                  handleNavigatePdf(item.invoiceId)
-                                }
-                                key={item.invoiceId}
-                                className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
+                    <tbody>
+                      {bookingList?.advanceInvoiceList?.length > 0 ? (
+                        bookingList?.advanceInvoiceList?.map((item, index) => (
+                          <tr
+                            onClick={() => handleNavigatePdf(item.invoiceId)}
+                            key={item.invoiceId}
+                            className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
-                              >
-                                <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
-                                  <input
-                                    disabled
-                                    type="checkbox"
-                                    checked={selectedRows.includes(item.id)}
-                                    onChange={() => handleRowSelect(item.id)}
-                                  />
-                                </td>
+                          >
+                            <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
+                              <input
+                                disabled
+                                type="checkbox"
+                                checked={selectedRows.includes(item.id)}
+                                onChange={() => handleRowSelect(item.id)}
+                              />
+                            </td>
 
-                                <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold hover:underline">
-                                  {item.invoiceNumber}
-                                </td>
-                                <td className="w-[250px] px-2 py-2.5 text-[#222222] text-center">
-                                  {item.bookingDate || "-"}
-                                </td>
-                                <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
-                                  <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center text-gray-700 font-semibold shrink-0">
-                                      {item?.profilePic ? (
-                                        <img
-                                          src={item.profilePic}
-                                          alt="profile"
-                                          className="w-full h-full object-cover"
-                                        />
-                                      ) : (
-                                        item?.initials || "NA"
-                                      )}
-                                    </div>
-
-                                    <div
-                                      className="text-sm font-semibold text-[#1E45E1] hover:underline whitespace-nowrap"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleNavigateTenantProfile(item);
-                                      }}
-                                    >
-                                      {item.fullName}
-                                    </div>
-                                  </div>
-                                </td>
-                                <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
-                                  {item.mobileNumber}
-                                </td>
-                                <td className="w-[230px] px-2 py-2.5">
-                                  {item.floorName}
-                                </td>
-                                <td className="w-[230px] px-2 py-2.5">
-                                  {item.roomName}
-                                </td>
-                                <td className="w-[230px] px-2 py-2.5">
-                                  {item.bedName}
-                                </td>
-                                <td className="w-[230px] px-2 py-2.5">
-                                  ₹ {item.availableAmount}
-                                </td>
-
-                                <td className="w-[270px] px-2 py-2.5">
-                                  <span
-                                    className={`px-2 py-1 text-xs inline-flex items-center gap-2 
-                                      whitespace-nowrap rounded-lg bg-green-100 text-black `}
-                                  >
-                                    <span className="h-2 w-2 rounded-full bg-green-600 "></span>
-                                    Paid
-                                  </span>
-                                </td>
-
-                                <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                                >
-                                  <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
-                                    <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleShowDots(e, index);
-                                      }}
+                            <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold hover:underline">
+                              {item.invoiceNumber}
+                            </td>
+                            <td className="w-[250px] px-2 py-2.5 text-[#222222] text-center">
+                              {item.bookingDate || "-"}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center text-gray-700 font-semibold shrink-0">
+                                  {item?.profilePic ? (
+                                    <img
+                                      src={item.profilePic}
+                                      alt="profile"
+                                      className="w-full h-full object-cover"
                                     />
-                                    {showDots === index && (
-                                      <div
-                                        ref={popupRef}
-                                        className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
-                                        style={{
-                                          top: showAbove
-                                            ? popupPosition.top -
-                                              (popupRef.current?.offsetHeight ||
-                                                100) -
-                                              20
-                                            : popupPosition.top,
-                                          left: popupPosition.left,
-                                        }}
-                                      >
-                                        <button
-                                          disabled={
-                                            !canUpdateInvoice || !item.canRedeem
-                                          }
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleApplyInvoices(item);
-                                          }}
-                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                                  ) : (
+                                    item?.initials || "NA"
+                                  )}
+                                </div>
+
+                                <div
+                                  className="text-sm font-semibold text-[#1E45E1] hover:underline whitespace-nowrap"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleNavigateTenantProfile(item);
+                                  }}
+                                >
+                                  {item.fullName}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                              {item.mobileNumber}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.floorName}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.roomName}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              {item.bedName}
+                            </td>
+                            <td className="w-[230px] px-2 py-2.5">
+                              ₹ {item.availableAmount}
+                            </td>
+
+                            <td className="w-[270px] px-2 py-2.5">
+                              <span
+                                className={`px-2 py-1 text-xs inline-flex items-center gap-2 
+                                      whitespace-nowrap rounded-lg bg-green-100 text-black `}
+                              >
+                                <span className="h-2 w-2 rounded-full bg-green-600 "></span>
+                                Paid
+                              </span>
+                            </td>
+
+                            <td
+                              className={`${
+                                isScrolling ? "!bg-white" : "bg-white"
+                              } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                            >
+                              <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
+                                <PiDotsThreeOutlineVerticalFill
+                                  className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleShowDots(e, index);
+                                  }}
+                                />
+                                {showDots === index && (
+                                  <div
+                                    ref={popupRef}
+                                    className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
+                                    style={{
+                                      top: showAbove
+                                        ? popupPosition.top -
+                                          (popupRef.current?.offsetHeight ||
+                                            100) -
+                                          20
+                                        : popupPosition.top,
+                                      left: popupPosition.left,
+                                    }}
+                                  >
+                                    <button
+                                      disabled={
+                                        !canUpdateInvoice || !item.canRedeem
+                                      }
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleApplyInvoices(item);
+                                      }}
+                                      className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
       ${
         !canUpdateInvoice || !item.canRedeem
           ? "cursor-not-allowed opacity-50 bg-gray-100"
           : "cursor-pointer hover:bg-[#EDF2FF]"
       }`}
-                                        >
-                                          <Link21
-                                            color={
-                                              !canUpdateInvoice ||
-                                              !item.canRedeem
-                                                ? "#A9A9A9"
-                                                : "#1E45E1"
-                                            }
-                                            size="16"
-                                          />
+                                    >
+                                      <Link21
+                                        color={
+                                          !canUpdateInvoice || !item.canRedeem
+                                            ? "#A9A9A9"
+                                            : "#1E45E1"
+                                        }
+                                        size="16"
+                                      />
 
-                                          <span
-                                            className={`text-sm font-medium ${
-                                              !canUpdateInvoice ||
-                                              !item.canRedeem
-                                                ? "text-[#A9A9A9]"
-                                                : "text-[#222222]"
-                                            }`}
-                                          >
-                                            Apply Invoices
-                                          </span>
-                                        </button>
-                                      </div>
-                                    )}
+                                      <span
+                                        className={`text-sm font-medium ${
+                                          !canUpdateInvoice || !item.canRedeem
+                                            ? "text-[#A9A9A9]"
+                                            : "text-[#222222]"
+                                        }`}
+                                      >
+                                        Apply Invoices
+                                      </span>
+                                    </button>
                                   </div>
-                                </td>
-                              </tr>
-                            ),
-                          )
-                        ) : (
-                          <tr>
-                            <td
-                              colSpan={12}
-                              className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
-                            >
-                              No Data Found
+                                )}
+                              </div>
                             </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                    {open && (
-                      <>
-                        <div
-                          className="fixed inset-0 bg-black/20 z-50 "
-                          onClick={() => setOpen(false)}
-                        />
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={12}
+                            className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
+                          >
+                            No Data Found
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                  {open && (
+                    <>
+                      <div
+                        className="fixed inset-0 bg-black/20 z-50 "
+                        onClick={() => setOpen(false)}
+                      />
 
-                        <div
-                          className={`
+                      <div
+                        className={`
                             fixed top-[180px] right-10 h-fit w-[350px]
                             bg-white z-50
                             border-r border-[#E5E7EB]
@@ -938,124 +928,112 @@ function Booking() {
                             transform transition-transform duration-300 ease-in-out
                             ${open ? "translate-x-0" : "-translate-x-full"}
                           `}
-                        >
-                          <div className="relative">
-                            {customizeLoading && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-                              </div>
-                            )}
-                            <div className="p-3 border-b ">
-                              <div className="flex items-center gap-2 justify-between mb-2">
-                                <div className="text-[16px] text-[#333333] font-semibold ">
-                                  Customize Tabs{" "}
-                                </div>
-                                <div
-                                  onClick={() => {
-                                    setCustomizeItems((prev) =>
-                                      prev.map((i) => ({
-                                        ...i,
-                                        selected: !allSelected,
-                                      })),
-                                    );
-
-                                    setError("");
-                                  }}
-                                  className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                                >
-                                  {" "}
-                                  <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                  <span>
-                                    {allSelected
-                                      ? "Unselect all"
-                                      : "Select all"}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                                <SearchNormal1 size={16} color="#98A2B3" />
-                                <input
-                                  value={searchText}
-                                  onChange={(e) =>
-                                    setSearchText(e.target.value)
-                                  }
-                                  placeholder="Search"
-                                  className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                                />
-                              </div>
-                            </div>
-
-                            <DndContext
-                              collisionDetection={closestCenter}
-                              onDragEnd={(event) => {
-                                const { active, over } = event;
-                                if (!over) return;
-                                if (active.id !== over?.id) {
-                                  const oldIndex = customizeItems.findIndex(
-                                    (i) => i.key === active.id,
-                                  );
-                                  const newIndex = customizeItems.findIndex(
-                                    (i) => i.key === over.id,
-                                  );
-
-                                  setCustomizeItems(
-                                    arrayMove(
-                                      customizeItems,
-                                      oldIndex,
-                                      newIndex,
-                                    ),
-                                  );
-                                }
-                              }}
-                            >
-                              <SortableContext
-                                items={customizeItems.map((i) => i.key)}
-                                strategy={verticalListSortingStrategy}
-                              >
-                                <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                  {filteredCustomizeItems.length === 0 ? (
-                                    <div className="text-sm text-gray-400 text-center py-3">
-                                      No results found
-                                    </div>
-                                  ) : (
-                                    filteredCustomizeItems.map((item) => (
-                                      <SortableItem
-                                        key={item.key}
-                                        item={item}
-                                      />
-                                    ))
-                                  )}
-                                </div>
-                              </SortableContext>
-                            </DndContext>
-                          </div>
-                          {error && (
-                            <div className="flex justify-center my-2">
-                              <ErrorMessage message={error} type="warning" />
+                      >
+                        <div className="relative">
+                          {customizeLoading && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                              <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
                             </div>
                           )}
+                          <div className="p-3 border-b ">
+                            <div className="flex items-center gap-2 justify-between mb-2">
+                              <div className="text-[16px] text-[#333333] font-semibold ">
+                                Customize Tabs{" "}
+                              </div>
+                              <div
+                                onClick={() => {
+                                  setCustomizeItems((prev) =>
+                                    prev.map((i) => ({
+                                      ...i,
+                                      selected: !allSelected,
+                                    })),
+                                  );
 
-                          <div className="p-3 border-t flex gap-2">
-                            <button
-                              onClick={handleResetCustomize}
-                              className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
-                            >
-                              Reset
-                            </button>
-                            <button
-                              onClick={handleSave}
-                              className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
-                            >
-                              Save
-                            </button>
+                                  setError("");
+                                }}
+                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                {" "}
+                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                <span>
+                                  {allSelected ? "Unselect all" : "Select all"}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                              <SearchNormal1 size={16} color="#98A2B3" />
+                              <input
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                placeholder="Search"
+                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                              />
+                            </div>
                           </div>
+
+                          <DndContext
+                            collisionDetection={closestCenter}
+                            onDragEnd={(event) => {
+                              const { active, over } = event;
+                              if (!over) return;
+                              if (active.id !== over?.id) {
+                                const oldIndex = customizeItems.findIndex(
+                                  (i) => i.key === active.id,
+                                );
+                                const newIndex = customizeItems.findIndex(
+                                  (i) => i.key === over.id,
+                                );
+
+                                setCustomizeItems(
+                                  arrayMove(customizeItems, oldIndex, newIndex),
+                                );
+                              }
+                            }}
+                          >
+                            <SortableContext
+                              items={customizeItems.map((i) => i.key)}
+                              strategy={verticalListSortingStrategy}
+                            >
+                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                {filteredCustomizeItems.length === 0 ? (
+                                  <div className="text-sm text-gray-400 text-center py-3">
+                                    No results found
+                                  </div>
+                                ) : (
+                                  filteredCustomizeItems.map((item) => (
+                                    <SortableItem key={item.key} item={item} />
+                                  ))
+                                )}
+                              </div>
+                            </SortableContext>
+                          </DndContext>
                         </div>
-                      </>
-                    )}
-                  </div>
+                        {error && (
+                          <div className="flex justify-center my-2">
+                            <ErrorMessage message={error} type="warning" />
+                          </div>
+                        )}
+
+                        <div className="p-3 border-t flex gap-2">
+                          <button
+                            onClick={handleResetCustomize}
+                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                          >
+                            Reset
+                          </button>
+                          <button
+                            onClick={handleSave}
+                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
             {showBookingPdf && (
               <div className="col-span-8 border-l border-gray-300">
