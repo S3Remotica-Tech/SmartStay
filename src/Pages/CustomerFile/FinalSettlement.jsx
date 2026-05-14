@@ -1376,7 +1376,7 @@ function FinalSettlement() {
                                       {txn.invoiceType}
                                     </td>
                                     <td className="px-4 py-3 text-[13px] text-[#666666]">
-                                      {txn.date}
+                                      {txn.redeemedDate}
                                     </td>
 
                                     <td className="px-4 py-3 text-right text-[13px] font-medium text-[#222222]">
@@ -1483,7 +1483,7 @@ function FinalSettlement() {
                                       {txn.invoiceType}
                                     </td>
                                     <td className="px-4 py-3 text-[13px] text-[#666666]">
-                                      {txn.date}
+                                      {txn.redeemedDate}
                                     </td>
 
                                     <td className="px-4 py-3 text-right text-[13px] font-medium text-[#222222]">
