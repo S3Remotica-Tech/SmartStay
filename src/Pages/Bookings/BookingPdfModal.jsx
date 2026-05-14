@@ -779,7 +779,7 @@ const InvoiceCard = ({ rowData }) => {
               <button
                 disabled={!canUpdateInvoice || !isRedeemAvailable}
                 onClick={() => handleApplyInvoices()}
-                className={`flex items-center gap-2 px-3 py-2 border-b border-[#E7E7E7] rounded-[10px] transition-all duration-150
+                className={`flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px] transition-all duration-150
     ${
       !canUpdateInvoice || !isRedeemAvailable
         ? "cursor-not-allowed opacity-50 bg-gray-100"
@@ -838,10 +838,13 @@ const InvoiceCard = ({ rowData }) => {
             {activeTab === "payments" && (
               <div>
                 {pdfDetails?.paymentHistory?.length > 0 && (
-                  <div className="overflow-x-auto px-4">
-                    <div className="rounded-md overflow-hidden border border-[#E5E7EB]">
+                  <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div
+                      id="tableContainer"
+                      className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                    >
                       <table className="w-full text-sm">
-                        <thead className="bg-gray-50 text-[#6B7280] text-xs font-semibold rounded-xl">
+                        <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
                           <tr>
                             <th className="text-left px-3 py-2">DATE</th>
                             <th className="text-left px-3 py-2">REF NO</th>

@@ -806,7 +806,7 @@ function CreateBill() {
         <div className="col-span-4">
           <div className="mb-3">
             <label className="font-[Gilroy] text-[14px] font-medium text-[#222]">
-              Customer <span className="text-red-500 text-[20px]">*</span>
+              Select Tenant <span className="text-red-500 text-[20px]">*</span>
             </label>
 
             <Select
