@@ -743,10 +743,12 @@ function Booking() {
                           />
                         </th>
 
-                        <th className=" px-2">INV NO</th>
-                        <th className=" px-2">Booking date</th>
-                        <th className=" px-2">Tenant NamE</th>
-                        <th className=" px-2">Mobile No</th>
+                        <th className=" px-2 whitespace-nowrap">INV NO</th>
+                        <th className=" px-2 whitespace-nowrap">
+                          Booking date
+                        </th>
+                        <th className=" px-2 whitespace-nowrap">Tenant NamE</th>
+                        <th className=" px-2 whitespace-nowrap">Mobile No</th>
                         <th className=" px-2">Floor</th>
                         <th className=" px-2">Room</th>
                         <th className=" px-2">Bed</th>
@@ -776,7 +778,7 @@ function Booking() {
                               />
                             </td>
 
-                            <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold hover:underline">
+                            <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold hover:underline whitespace-nowrap">
                               {item.invoiceNumber}
                             </td>
                             <td className="w-[250px] px-2 py-2.5 text-[#222222] text-center">
@@ -797,33 +799,33 @@ function Booking() {
                                 </div>
 
                                 <div
-                                  className="text-sm font-semibold text-[#1E45E1] hover:underline whitespace-nowrap"
+                                  className="text-sm font-semibold text-[#1E45E1]  whitespace-nowrap"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleNavigateTenantProfile(item);
+                                    // handleNavigateTenantProfile(item);
                                   }}
                                 >
                                   {item.fullName}
                                 </div>
                               </div>
                             </td>
-                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
+                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold whitespace-nowrap">
                               {item.mobileNumber}
                             </td>
-                            <td className="w-[230px] px-2 py-2.5">
+                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
                               {item.floorName}
                             </td>
-                            <td className="w-[230px] px-2 py-2.5">
+                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
                               {item.roomName}
                             </td>
-                            <td className="w-[230px] px-2 py-2.5">
+                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
                               {item.bedName}
                             </td>
-                            <td className="w-[230px] px-2 py-2.5">
+                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
                               ₹ {item.availableAmount}
                             </td>
 
-                            <td className="w-[270px] px-2 py-2.5">
+                            <td className="w-[270px] px-2 py-2.5 whitespace-nowrap">
                               <span
                                 className={`px-2 py-1 text-xs inline-flex items-center gap-2 
                                       whitespace-nowrap rounded-lg bg-green-100 text-black `}

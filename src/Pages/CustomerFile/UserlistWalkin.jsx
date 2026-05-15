@@ -69,14 +69,12 @@ function UserlistWalkin() {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList?.tenantListGetSuccessCode) {
+    if (state.UsersList?.TenantList) {
       setWalkingLoader(false);
       setWalkInCustomer(state.UsersList?.TenantList);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 100);
+      dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
     }
-  }, [state.UsersList?.tenantListGetSuccessCode]);
+  }, [state.UsersList?.TenantList]);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -129,6 +127,8 @@ function UserlistWalkin() {
       }, 1000);
     }
   }, [state.UsersList.deleteWalkInCustomerStatusCode]);
+
+  console.log("state.UsersList?.TenantList", state.UsersList?.TenantList);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
