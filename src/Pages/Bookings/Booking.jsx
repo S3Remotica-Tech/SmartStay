@@ -309,6 +309,7 @@ function Booking() {
     "Booking Date": "bookingDate",
     "Tenant Name": "tenantName",
     "Mobile No": "mobile",
+    "Joining Date": "joiningDate",
     Floor: "floorName",
     Room: "roomName",
     Bed: "bedName",
@@ -355,7 +356,6 @@ function Booking() {
     Room: "px-4",
     Bed: "px-4",
     Amount: "px-4",
-    Status: "px-4",
   };
 
   useEffect(() => {
@@ -591,7 +591,7 @@ function Booking() {
       dispatch({
         type: "GET_BOOKING_LIST",
         payload: {
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
           page: page,
           size: size,
         },
@@ -605,7 +605,7 @@ function Booking() {
     }
   }, [state.Booking?.successBookingCustomizeColumns]);
 
-  console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
+  // console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
 
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {
@@ -794,10 +794,6 @@ function Booking() {
                             stickyClass =
                               "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
                           }
-                          //  else if (index === 1) {
-                          //   stickyClass =
-                          //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                          // }
 
                           return (
                             <th
@@ -925,6 +921,16 @@ function Booking() {
                                     </td>
                                   );
 
+                                case "Joining Date":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <div className="relative group w-[100px] ">
+                                        <span className="block w-full truncate text-sm text-[#111928] ">
+                                          {item.joiningDate}
+                                        </span>
+                                      </div>
+                                    </td>
+                                  );
                                 case "Status":
                                   return (
                                     <td key={col.key} className={finalClass}>
