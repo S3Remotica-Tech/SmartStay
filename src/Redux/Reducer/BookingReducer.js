@@ -25,6 +25,7 @@ export const initialState = {
   applyAdvanceInvoiceSuccessCode: 0,
   applyAdvanceRedeemError: "",
   advanceInitialize: "",
+  successBookingCustomizeColumns: 0,
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -66,6 +67,14 @@ const BookingReducer = (state = initialState, action) => {
 
     case "REMOVE_ERROR_APPLY_INVOICE":
       return { ...state, applyRedeemError: "" };
+
+    case "CUSTOMIZE_COLUMNS_BOOKING_REDUCER":
+      return {
+        ...state,
+        successBookingCustomizeColumns: action.payload.statusCode,
+      };
+    case "REMOVE_CUSTOMIZE_COLUMNS_BOOKING_REDUCER":
+      return { ...state, successBookingCustomizeColumns: 0 };
 
     case "REDEEM_ADVANCE_INITIALIZE":
       return {

@@ -437,13 +437,13 @@ function Booking() {
     }));
 
     if (payload) {
-      // dispatch({
-      //   type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     customize: payload,
-      //   },
-      // });
+      dispatch({
+        type: "CUSTOMIZE_COLUMNS_BOOKING_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
       setCustomizeLoading(true);
     }
   };
@@ -585,6 +585,25 @@ function Booking() {
       dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
+
+  useEffect(() => {
+    if (state.UsersList?.successBookingCustomizeColumns === 200) {
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_COLUMNS_BOOKING_REDUCER" });
+      }, 100);
+    }
+  }, [state.UsersList?.successBookingCustomizeColumns]);
 
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {

@@ -9,6 +9,7 @@ import {
   ApplyInvoice,
   advanceRedeemInitialize,
   ApplyAdvanceInvoice,
+  bookingCustomizeData,
 } from "../Action/BookingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -343,6 +344,52 @@ function* handleBookingBed(userDetails) {
   }
 }
 
+function* handleBookingCustomizeData(action) {
+  try {
+    const response = yield call(bookingCustomizeData, action.payload);
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "CUSTOMIZE_COLUMNS_BOOKING_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      toast.success("Updated successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+  }
+}
+
 function* handleBookingInActive(action) {
   try {
     const response = yield call(bookingInActive, action.payload);
@@ -423,5 +470,6 @@ function* CreateBookinSaga() {
   yield takeEvery("ASSIGN_BOOKING", handleAsignBooking);
   yield takeEvery("BOOKINGBEDDETAILS", handleBookingBed);
   yield takeEvery("BOOKINGACTIVE", handleBookingInActive);
+  yield takeEvery("CUSTOMIZE_COLUMNS_BOOKING_SAGA", handleBookingCustomizeData);
 }
 export default CreateBookinSaga;

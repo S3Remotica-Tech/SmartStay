@@ -58,11 +58,11 @@ function BookingsFilter({ show, handleClose, size }) {
       );
       setRoom(selectedRoomOptions);
 
-      const selecteSharingType = SharingTypeOptions.find(
-        (option) => option.value === savedFilters?.sharingType,
-      );
+      // const selecteSharingType = SharingTypeOptions.find(
+      //   (option) => option.value === savedFilters?.sharingType,
+      // );
 
-      setSharingType(selecteSharingType);
+      // setSharingType(selecteSharingType);
     }
   }, [show]);
 
@@ -177,7 +177,7 @@ function BookingsFilter({ show, handleClose, size }) {
       value: item.id,
     })) || [];
 
-  const floorOptionsNormal =
+  const floorOptions =
     filterOptionsData?.floors?.map((item) => ({
       label: item.name,
       value: item.type,
@@ -188,11 +188,11 @@ function BookingsFilter({ show, handleClose, size }) {
       ?.filter((roomItem) =>
         floor?.length === 0
           ? true
-          : floor?.some((f) => f.value === roomItem.floorId),
+          : filterOptionsData?.floors?.some((f) => f.type === roomItem.floorId),
       )
       ?.map((item) => ({
-        label: item.label,
-        value: item.id,
+        label: item.roomName,
+        value: item.roomId,
       })) || [];
 
   const handleTenantChange = (e) => {
@@ -274,9 +274,6 @@ function BookingsFilter({ show, handleClose, size }) {
   const handlePaidMaxChange = (e) => {
     setPaidAmountMax(e.target.value);
   };
-
-  const selectedSharingOptions =
-    SharingTypeOptions.find((opt) => opt?.value === sharingType?.value) || null;
 
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;

@@ -163,3 +163,10 @@ export async function bookingInActive(book) {
     },
   );
 }
+
+export async function bookingCustomizeData(customer) {
+  return await AxiosConfigV2.put(
+    `/v2/table-config/booking/${customer.hostelId}`,
+    customer.customize,
+  );
+}
