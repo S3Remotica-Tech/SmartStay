@@ -305,6 +305,7 @@ function Booking() {
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
   const headerKeyMap = {
+    "Profile Pic": "profilePic",
     "Inv No": "invNo",
     "Booking Date": "bookingDate",
     "Tenant Name": "tenantName",
