@@ -175,29 +175,26 @@ function SettingSubscription() {
 
   const currentPlan = state?.Settings?.currentPlanDetails;
 
-  // console.log("currentPlan", currentPlan);
+  // const onMessageReceived = (message) => {
+  //   if (message.body === "success") {
+  //     window.location.reload();
+  //     setIsPaymentOpened(false);
+  //   }
+  // };
 
-  const onMessageReceived = (message) => {
-    // console.log("Payment update:", message);
-    if (message.body === "success") {
-      window.location.reload();
-    }
-  };
-
-  useEffect(() => {
-    if (state.Settings?.statusCodeUpgradePlan === 200) {
-      const reDirectURL = state.Settings.upgradePlan?.paymentLink;
-
-      if (reDirectURL) {
-        Connect(onMessageReceived, state.Settings.upgradePlan?.paymentLinkId);
-        // window.open(reDirectURL, "_self");
-        window.open(reDirectURL, "_blank");
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_UPGRADE_PLAN_REDUCER" });
-        }, 100);
-      }
-    }
-  }, [state.Settings?.statusCodeUpgradePlan]);
+  // useEffect(() => {
+  //   if (state.Settings?.statusCodeUpgradePlan === 200) {
+  //     setFormLoading(false);
+  //     const reDirectURL = state.Settings.upgradePlan?.paymentLink;
+  //     if (reDirectURL) {
+  //       Connect(onMessageReceived, state.Settings.upgradePlan?.paymentLinkId);
+  //       window.open(reDirectURL, "_blank");
+  //       setTimeout(() => {
+  //         dispatch({ type: "CLEAR_UPGRADE_PLAN_REDUCER" });
+  //       }, 100);
+  //     }
+  //   }
+  // }, [state.Settings?.statusCodeUpgradePlan]);
 
   useEffect(() => {
     if (state.createAccount?.networkError || state.Settings?.upgradePlanError) {

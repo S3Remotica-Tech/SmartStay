@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaSquareCheck } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
-
+import { Connect } from "../../WebService/SocketConfig";
 import { MdArrowRightAlt } from "react-icons/md";
 
 function AllPlans() {
@@ -14,9 +14,25 @@ function AllPlans() {
 
   const [formLoading, setFormLoading] = useState(false);
 
+  const onMessageReceived = (message) => {
+    // console.log("Payment update:", message);
+    if (message.body === "success") {
+      window.location.reload();
+      setIsPaymentOpened(false);
+    }
+  };
+
   useEffect(() => {
     if (state.Settings?.statusCodeUpgradePlan === 200) {
       setFormLoading(false);
+      const reDirectURL = state.Settings.upgradePlan?.paymentLink;
+      if (reDirectURL) {
+        Connect(onMessageReceived, state.Settings.upgradePlan?.paymentLinkId);
+        window.open(reDirectURL, "_blank");
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_UPGRADE_PLAN_REDUCER" });
+        }, 100);
+      }
     }
   }, [state.Settings?.statusCodeUpgradePlan]);
 
@@ -49,7 +65,7 @@ function AllPlans() {
     }
   };
 
-  console.log("plans", plans);
+  // console.log("plans", plans);
 
   useEffect(() => {
     if (state.createAccount?.networkError || state.Settings?.upgradePlanError) {
@@ -66,7 +82,7 @@ function AllPlans() {
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-700"></div>
         </div>
       )}
-      <h3 className="text-[#222222] font-semibold text-[16px] font-gilroy mt-2 mb-2">
+      <h3 className="text-[#222222] font-semibold text-[17px] font-gilroy my-2">
         Choose Your Plan
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1  font-gilroy max-h-[700px] overflow-y-auto show-scrolls ">
