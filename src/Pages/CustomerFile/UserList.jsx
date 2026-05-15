@@ -2804,11 +2804,11 @@ function UserList(props) {
                                             className={finalClass}
                                           >
                                             {typeof user[
-                                              columnKeyMap[col.fieldName]
+                                              headerKeyMap[col.fieldName]
                                             ] === "object"
                                               ? "-"
                                               : (user[
-                                                  columnKeyMap[col.fieldName]
+                                                  headerKeyMap[col.fieldName]
                                                 ] ?? "-")}
                                           </td>
                                         );

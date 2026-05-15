@@ -587,7 +587,7 @@ function Booking() {
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
   useEffect(() => {
-    if (state.UsersList?.successBookingCustomizeColumns === 200) {
+    if (state.Booking?.successBookingCustomizeColumns === 200) {
       dispatch({
         type: "GET_BOOKING_LIST",
         payload: {
@@ -603,7 +603,9 @@ function Booking() {
         dispatch({ type: "REMOVE_CUSTOMIZE_COLUMNS_BOOKING_REDUCER" });
       }, 100);
     }
-  }, [state.UsersList?.successBookingCustomizeColumns]);
+  }, [state.Booking?.successBookingCustomizeColumns]);
+
+  console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
 
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {
@@ -995,10 +997,10 @@ function Booking() {
                                   return (
                                     <td key={col.key} className={finalClass}>
                                       {typeof item[
-                                        columnKeyMap[col.fieldName]
+                                        headerKeyMap[col.fieldName]
                                       ] === "object"
                                         ? "-"
-                                        : (item[columnKeyMap[col.fieldName]] ??
+                                        : (item[headerKeyMap[col.fieldName]] ??
                                           "-")}
                                     </td>
                                   );

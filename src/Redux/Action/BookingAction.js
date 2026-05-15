@@ -164,9 +164,9 @@ export async function bookingInActive(book) {
   );
 }
 
-export async function bookingCustomizeData(customer) {
+export async function bookingCustomizeData(book) {
   return await AxiosConfigV2.put(
-    `/v2/table-config/booking/${customer.hostelId}`,
-    customer.customize,
+    `/v2/table-config/bookings/${book.hostelId}`,
+    book.customize,
   );
 }

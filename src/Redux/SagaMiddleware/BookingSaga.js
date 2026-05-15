@@ -346,7 +346,13 @@ function* handleBookingBed(userDetails) {
 
 function* handleBookingCustomizeData(action) {
   try {
+    console.log("SAGA START");
+
+    console.log("PAYLOAD", action.payload);
     const response = yield call(bookingCustomizeData, action.payload);
+    console.log("API COMPLETED");
+
+    console.log("response", response);
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -361,6 +367,8 @@ function* handleBookingCustomizeData(action) {
       alignItems: "center",
       padding: "10px",
     };
+
+    console.log("response", response);
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
