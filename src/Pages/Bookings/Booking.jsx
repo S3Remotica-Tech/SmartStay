@@ -722,7 +722,7 @@ function Booking() {
             />
 
             <button
-              onClick={() => canReadBooking && handleShowFilterBills()}
+              // onClick={() => canReadBooking && handleShowFilterBills()}
               disabled={!canReadBooking}
               className={`border border-slate-300 rounded-full p-2
             ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
@@ -1029,15 +1029,17 @@ function Booking() {
                                 {showDots === index && (
                                   <div
                                     ref={popupRef}
-                                    className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
+                                    className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                     style={{
                                       top: showAbove
                                         ? popupPosition.top -
                                           (popupRef.current?.offsetHeight ||
-                                            100) -
-                                          20
-                                        : popupPosition.top,
-                                      left: popupPosition.left,
+                                            120) -
+                                          10
+                                        : popupPosition.top + 5,
+                                      left: popupPosition.left - 40,
+                                      position: "fixed",
+                                      zIndex: 1000,
                                     }}
                                   >
                                     <button
