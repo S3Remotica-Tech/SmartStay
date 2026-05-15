@@ -152,7 +152,7 @@ function BookingsFilter({ show, handleClose, size }) {
   };
 
   const filterOptionsData = useSelector(
-    (state) => state.reports?.getTenantRegister?.filters,
+    (state) => state?.Booking?.tenantBookingList?.filterOptions,
   );
 
   const paymentModeOptions =
@@ -178,37 +178,13 @@ function BookingsFilter({ show, handleClose, size }) {
     })) || [];
 
   const floorOptionsNormal =
-    filterOptionsData?.floor?.map((item) => ({
-      label: item.label,
-      value: item.id,
-    })) || [];
-
-  const shareTypeWithFloorOption =
-    filterOptionsData?.sharingType?.find(
-      (view) => view.id === Number(sharingType?.value),
-    ) || null;
-
-  const floorOptions = sharingType?.value
-    ? shareTypeWithFloorOption?.floorIds?.map((floor) => {
-        const matchedFloor = floorOptionsNormal.find(
-          (f) => f.value === floor.id,
-        );
-
-        return {
-          label: matchedFloor?.label || floor.label,
-          value: floor.id,
-        };
-      }) || []
-    : floorOptionsNormal;
-
-  const SharingTypeOptions =
-    filterOptionsData?.sharingType?.map((item) => ({
-      label: item.label,
-      value: item.id,
+    filterOptionsData?.floors?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const roomOptions =
-    filterOptionsData?.room
+    filterOptionsData?.rooms
       ?.filter((roomItem) =>
         floor?.length === 0
           ? true
