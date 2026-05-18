@@ -879,12 +879,12 @@ function Booking() {
                                         className="relative group w-[100px] "
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          handleNavigateTenantProfile(
-                                            item?.apiCall,
-                                          );
+                                          // handleNavigateTenantProfile(
+                                          //   item?.apiCall,
+                                          // );
                                         }}
                                       >
-                                        <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold hover:underline">
+                                        <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
                                           {item.tenantName}
                                         </span>
 
