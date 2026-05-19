@@ -108,7 +108,7 @@ const Compliance = () => {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
 
@@ -476,20 +476,19 @@ const Compliance = () => {
 
   const [selectedUsername, setSelectedUserName] = useState("");
 
+  useEffect(() => {
+    if (!selectedUsername) return;
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: selectedUsername },
+    });
+  }, [selectedUsername]);
 
-  useEffect(()=>{
-      if (!selectedUsername) return;
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId:selectedUsername} });
-  
-  },[selectedUsername])
-  
- const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo
+  const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo;
   useEffect(() => {
     if (selectedUsername) {
-     
-     
       if (CustomerOverview) {
-              //  setHostelName(firstFilteredDetail.HostelName || "");
+        //  setHostelName(firstFilteredDetail.HostelName || "");
         setFloor(CustomerOverview.floorId || "");
         setBeds(CustomerOverview.bedId || "");
         setBedName(CustomerOverview.bedName || "");
@@ -515,14 +514,14 @@ const Compliance = () => {
     }
   }, [selectedUsername]);
 
- const handleCheckoutChange = (selectedOption) => {
-  setSelectedUserName(selectedOption?.value || "");
-  if (!selectedOption) {
-    setUserErrmsg("Please Select Name");
-  } else {
-    setUserErrmsg("");
-  }
-};
+  const handleCheckoutChange = (selectedOption) => {
+    setSelectedUserName(selectedOption?.value || "");
+    if (!selectedOption) {
+      setUserErrmsg("Please Select Name");
+    } else {
+      setUserErrmsg("");
+    }
+  };
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
@@ -1366,10 +1365,10 @@ const Compliance = () => {
                               return true;
                             }
 
-                           
-                              
-
-                            if (!CustomerOverview || !CustomerOverview.joiningDate) {
+                            if (
+                              !CustomerOverview ||
+                              !CustomerOverview.joiningDate
+                            ) {
                               return current && current > dayjs().endOf("day");
                             }
 

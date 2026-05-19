@@ -40,7 +40,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
   const [newRoomRent, setNewRoomRent] = useState("");
   const [sameAsCurrent, setSameAsCurrent] = useState(false);
   const [errors, setErrors] = useState({ date: "", rent: "" });
-
+  const CustomerOverView = state.UsersList?.customerdetails;
   const currentRoomRent = currentBed?.rentAmount || 0;
   const handleDateChange = (date) => {
     setSelectedDate(date ? date.toDate() : null);
@@ -71,14 +71,16 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     }
   };
 
-  useEffect(() => {
-    if (isPreviousBed?.currentTenantInfo?.[0]?.tenetId) {
-      dispatch({
-        type: "CUSTOMERDETAILS",
-        payload: { customerId: isPreviousBed?.currentTenantInfo?.[0]?.tenetId },
-      });
-    }
-  }, [isPreviousBed]);
+  console.log("CustomerOverView", CustomerOverView);
+
+  // useEffect(() => {
+  //   if (isPreviousBed?.currentTenantInfo?.[0]?.tenetId) {
+  //     dispatch({
+  //       type: "CUSTOMERDETAILS",
+  //       payload: { customerId: isPreviousBed?.currentTenantInfo?.[0]?.tenetId },
+  //     });
+  //   }
+  // }, [isPreviousBed]);
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
@@ -117,7 +119,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     if (state.login.selectedHostel_Id && datum) {
       const payload = {
         hostelId: state.login.selectedHostel_Id,
-        customerId: isPreviousBed?.currentTenantInfo?.[0]?.tenetId,
+        customerId: CustomerOverView?.customerId,
         datum,
       };
       dispatch({
@@ -144,8 +146,6 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
       dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     };
   }, []);
-
-  const CustomerOverView = state.UsersList.customerdetails;
 
   // const invoices = CustomerOverView?.invoiceResponseList || [];
   // const lastBillDate = invoices.length > 0

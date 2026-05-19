@@ -39,6 +39,8 @@ function BookingModal(props) {
   const [floorError, setFloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
+  const errorRef = useRef(null);
+
   // const [file, setFile] = useState(null);
 
   // useEffect(() => {
@@ -49,6 +51,16 @@ function BookingModal(props) {
   //   }
   // }, []);
 
+  useEffect(() => {
+    if (bedWarning && errorRef.current) {
+      errorRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      errorRef.current.focus?.();
+    }
+  }, [bedWarning]);
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -339,13 +351,13 @@ function BookingModal(props) {
     const selectedBedId = selectedOption?.value || "";
     setBed(selectedBedId);
 
-    const selectedBed = state.UsersList?.bednumberdetails?.find(
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
       (bed) => String(bed.bedId) === String(selectedBedId),
     );
 
     if (selectedBed) {
-      if (selectedBed.showWarning) {
-        setBedWarning(selectedBed.warningMessage);
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
       } else {
         setBedWarning("");
       }
@@ -477,7 +489,7 @@ function BookingModal(props) {
         show={props.add_bookingshow}
         onHide={handleCloseBooking}
         backdrop="static"
-        dialogClassName="custom-modals-style"
+        dialogClassName="tenantCheck-style"
         className="2xl:mt-24 mt-0 h-auto flex items-center justify-center"
       >
         <Modal.Header className="flex justify-between">
@@ -1025,10 +1037,6 @@ function BookingModal(props) {
                       }}
                     />
 
-                    {bedWarning ? (
-                      <ErrorMessage message={bedWarning} type="error" />
-                    ) : null}
-
                     {state.Booking?.bookingBedError ? (
                       <ErrorMessage
                         message={state.Booking?.bookingBedError}
@@ -1036,6 +1044,11 @@ function BookingModal(props) {
                       />
                     ) : null}
 
+                    {bedWarning ? (
+                      <div ref={errorRef} tabIndex={-1} className="">
+                        <ErrorMessage message={bedWarning} type="error" />
+                      </div>
+                    ) : null}
                     {bedError && (
                       <ErrorMessage message={bedError} type="error" />
                     )}

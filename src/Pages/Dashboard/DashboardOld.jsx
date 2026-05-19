@@ -20,7 +20,7 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
-import ErrorMessage from '../../Components/ErrorMessage';
+import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 import {
@@ -47,16 +47,15 @@ import coinImage from "../../Assets/Images/New_images/coinimage.png";
 import advancedHand from "../../Assets/Images/New_images/AdvancedHand.png";
 import newBooking from "../../Assets/Images/New_images/NewBooking.png";
 
-import { useHasPermission } from '../../Utils/Permission';
-
+import { useHasPermission } from "../../Utils/Permission";
 
 function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [dashboardList, setDashboardList] = useState('');
-    const [totalAmount, setTotalAmount] = useState([]);
-  
+  const [dashboardList, setDashboardList] = useState("");
+  const [totalAmount, setTotalAmount] = useState([]);
+
   const [value, setValue] = React.useState("1");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -64,11 +63,11 @@ function Dashboard() {
   const [selectCashback, setSelectCashback] = useState("this_month");
   const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
- 
+
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -82,177 +81,155 @@ function Dashboard() {
     }
   }, [canReadDashboard]);
 
+  // Total Cashback
 
-// Total Cashback
-
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
+  }, [state.UsersList?.accessRestrictionError]);
 
-  }, [state.UsersList?.accessRestrictionError])
+  const cashBackDataSample = {
+    total: 49500,
+    currentValue: 19500,
+    items: [
+      {
+        label: "Received",
+        value: 19500,
+      },
+      {
+        label: "Pending",
+        value: 30000,
+      },
+    ],
+  };
 
-const cashBackDataSample = {
-  total: 49500,
-  currentValue: 19500,
-  items: [
+  // expenses
+
+  const expensesApiResponse = {
+    totalAmount: 150,
+    categories: [
+      {
+        category_Id: 1,
+        category_Name: "Category 1",
+        purchase_amount: 95,
+      },
+      {
+        category_Id: 2,
+        category_Name: "Category 2",
+        purchase_amount: 26,
+      },
+      {
+        category_Id: 3,
+        category_Name: "Category 3",
+        purchase_amount: 17,
+      },
+      {
+        category_Id: 4,
+        category_Name: "Category 4",
+        purchase_amount: 12,
+      },
+    ],
+  };
+
+  const lablesdata = expensesApiResponse.categories;
+
+  // advance & advance return
+
+  const advanceApiResponse = [
     {
-      label: "Received",
-      value: 19500,
-     
+      date: "2024-01-01",
+      advance: 12000,
+      advanceReturn: 10000,
     },
     {
-      label: "Pending",
-      value: 30000,
-     
-    }
-  ]
-};
-
-
-// expenses
-
-const expensesApiResponse = {
-  totalAmount: 150,
-  categories: [
-    {
-      category_Id: 1,
-      category_Name: "Category 1",
-      purchase_amount: 95,
-     
+      date: "2024-02-01",
+      advance: 18000,
+      advanceReturn: 15000,
     },
     {
-      category_Id: 2,
-      category_Name: "Category 2",
-      purchase_amount: 26,
-     
+      date: "2024-03-01",
+      advance: 25000,
+      advanceReturn: 22000,
     },
     {
-      category_Id: 3,
-      category_Name: "Category 3",
-      purchase_amount: 17,
-     
+      date: "2024-04-01",
+      advance: 32000,
+      advanceReturn: 30000,
     },
     {
-      category_Id: 4,
-      category_Name: "Category 4",
-      purchase_amount: 12,
-      
-    }
-  ]
-};
+      date: "2024-05-01",
+      advance: 28000,
+      advanceReturn: 26000,
+    },
+    {
+      date: "2024-06-01",
+      advance: 15000,
+      advanceReturn: 14000,
+    },
+  ];
 
+  const formattedChart = advanceApiResponse.map((item) => ({
+    name: item.date,
+    Advance: item.advance,
+    "Advance Return": item.advanceReturn,
+  }));
 
+  //  expense & Revenue
 
-
-
-
-const lablesdata = expensesApiResponse.categories;
-
-
-
-
-
-// advance & advance return
-
-
-const advanceApiResponse = [
-  {
-    date: "2024-01-01",
-    advance: 12000,
-    advanceReturn: 10000
-  },
-  {
-    date: "2024-02-01",
-    advance: 18000,
-    advanceReturn: 15000
-  },
-  {
-    date: "2024-03-01",
-    advance: 25000,
-    advanceReturn: 22000
-  },
-  {
-    date: "2024-04-01",
-    advance: 32000,
-    advanceReturn: 30000
-  },
-  {
-    date: "2024-05-01",
-    advance: 28000,
-    advanceReturn: 26000
-  },
-  {
-    date: "2024-06-01",
-    advance: 15000,
-    advanceReturn: 14000
-  }
-];
-
-
-
-const formattedChart = advanceApiResponse.map(item => ({
-  name: item.date,               
-  Advance: item.advance,           
-  "Advance Return": item.advanceReturn 
-}));
-
-
-
-
-//  expense & Revenue
-
-
-const dataExpenseRevenue = [
-  {
-    month: "2024-01",
-    revenue: 400,
-    expense: 300
-  },
-  {
-    month: "2024-02",
-    revenue: 200,
-    expense: 280
-  },
-  {
-    month: "2024-03",
-    revenue: 500,
-    expense: 400
-  },
-  {
-    month: "2024-04",
-    revenue: 200,
-    expense: 150
-  },
-  {
-    month: "2024-05",
-    revenue: 250,
-    expense: 500
-  },
-  {
-    month: "2024-06",
-    revenue: 300,
-    expense: 380
-  }
-];
-
-
-
-
-
-
+  const dataExpenseRevenue = [
+    {
+      month: "2024-01",
+      revenue: 400,
+      expense: 300,
+    },
+    {
+      month: "2024-02",
+      revenue: 200,
+      expense: 280,
+    },
+    {
+      month: "2024-03",
+      revenue: 500,
+      expense: 400,
+    },
+    {
+      month: "2024-04",
+      revenue: 200,
+      expense: 150,
+    },
+    {
+      month: "2024-05",
+      revenue: 250,
+      expense: 500,
+    },
+    {
+      month: "2024-06",
+      revenue: 300,
+      expense: 380,
+    },
+  ];
 
   // useEffect(() => {
   //   throw new Error("Test HOC Error Boundary");
   // }, []);
 
-
   const monthNames = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   // const formattedChart = state.PgList?.dashboardFilterAdvance?.advance_data?.map(item => {
@@ -271,9 +248,6 @@ const dataExpenseRevenue = [
   //   }
   // }, [state.login.selectedHostel_Id]);
 
-
-
-
   // useEffect(() => {
   //   if (state?.createAccount?.accountList[0]?.plan_data) {
   //     // const customerDetailsPage =
@@ -282,10 +256,7 @@ const dataExpenseRevenue = [
   //   }
   // }, [state?.createAccount?.accountList[0]?.plan_data]);
 
-
-
-
-  const remainingDays = state.UsersList?.hotelDetailsinPg?.remainingDaysLeft
+  const remainingDays = state.UsersList?.hotelDetailsinPg?.remainingDaysLeft;
 
   useEffect(() => {
     if (remainingDays !== undefined && remainingDays !== null) {
@@ -293,8 +264,6 @@ const dataExpenseRevenue = [
       setShowWarning(remainingDays <= 15);
     }
   }, [remainingDays]);
-
-
 
   const handleOkClick = () => {
     setShowWarning(false);
@@ -324,7 +293,6 @@ const dataExpenseRevenue = [
       }, 1000);
     }
   }, [state.PgList?.statusCodeForAdvanceFilter]);
-
 
   useEffect(() => {
     const cashBackDataRevenu =
@@ -360,7 +328,6 @@ const dataExpenseRevenue = [
 
   const handleSelectedExpenses = (e) => {
     setSelectExpence(e.target.value);
-
   };
 
   const handleChanges = (event, newValue) => {
@@ -391,8 +358,6 @@ const dataExpenseRevenue = [
     setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
   }, [state.PgList?.dashboardFilter?.total_amount]);
 
-
-
   // useEffect(() => {
   //   setLables(state.PgList?.dashboardFilter?.exp_data || []);
   // }, [state.PgList?.dashboardFilter?.exp_data]);
@@ -415,13 +380,10 @@ const dataExpenseRevenue = [
 
   useEffect(() => {
     if (state.PgList?.dashboardDetails) {
-      setLoading(false)
+      setLoading(false);
       setDashboardList(state.PgList?.dashboardDetails);
-
     }
   }, [state.PgList?.dashboardDetails]);
-
-
 
   useEffect(() => {
     setCashBackData(state.PgList?.dashboardFilterCashback?.cash_back_data);
@@ -432,7 +394,9 @@ const dataExpenseRevenue = [
     (Number(cashBackDataSample?.[0]?.overdue) || 0);
 
   const percentage = currentvalue
-    ? ((currentvalue - Number(cashBackDataSample?.[0]?.overdue)) / currentvalue) * 100
+    ? ((currentvalue - Number(cashBackDataSample?.[0]?.overdue)) /
+        currentvalue) *
+      100
     : 0;
 
   const pathColor =
@@ -472,10 +436,10 @@ const dataExpenseRevenue = [
       {
         data: lablesdata?.map((category) => category.purchase_amount),
         backgroundColor: lablesdata?.map(
-          (_, index) => fixedColors[index % fixedColors.length]
+          (_, index) => fixedColors[index % fixedColors.length],
         ),
         hoverBackgroundColor: lablesdata?.map(
-          (_, index) => fixedColors[index % fixedColors.length]
+          (_, index) => fixedColors[index % fixedColors.length],
         ),
         borderWidth: 5,
         borderColor: "#fff",
@@ -504,16 +468,13 @@ const dataExpenseRevenue = [
 
   const { datasets } = datum;
 
-
-
   const CustomLegend = ({ payload }) => {
     return (
-      <div className="flex justify-center items-center pt-4" >
+      <div className="flex justify-center items-center pt-4">
         {payload.map((entry, index) => (
-          <div
-            key={`item-${index}`}
-            className="flex items-center mr-2.5 mt-6">
-            <div className="w-3 h-3 rounded-full mr-1.5"
+          <div key={`item-${index}`} className="flex items-center mr-2.5 mt-6">
+            <div
+              className="w-3 h-3 rounded-full mr-1.5"
               style={{ backgroundColor: entry.color }}
             />
             <span className="text-xs font-semibold font-montserrat">
@@ -526,34 +487,29 @@ const dataExpenseRevenue = [
   };
 
   return (
-
-
     <>
-
-
       <div className="w-full max-w-full mx-auto p-2">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
-            <div className={` mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy 
+            <div
+              className={` mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy 
 
-  ${daysLeft > 0
-
-                ? "bg-yellow-100 text-yellow-800 border-yellow-200"
-                : "bg-red-100 text-red-800 border-red-200"
-              }
+  ${
+    daysLeft > 0
+      ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+      : "bg-red-100 text-red-800 border-red-200"
+  }
 `}
-
               role="alert"
             >
-
               <div className="flex items-center gap-2">
                 {daysLeft > 0 ? (
                   <>
                     <MdWarningAmber className="text-yellow-400 text-2xl" />
 
                     <span>
-                      Your plan will expire in{" "}
-                      <strong>{daysLeft}</strong> day{daysLeft > 1 ? "s" : ""}!
+                      Your plan will expire in <strong>{daysLeft}</strong> day
+                      {daysLeft > 1 ? "s" : ""}!
                     </span>
                   </>
                 ) : (
@@ -563,14 +519,12 @@ const dataExpenseRevenue = [
                 )}
               </div>
 
-
               <button
-               className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
-                ? "bg-yellow-400 hover:bg-yellow-500"
-                : "bg-red-500 hover:bg-red-600"   
+                className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${
+                  daysLeft > 0
+                    ? "bg-yellow-400 hover:bg-yellow-500"
+                    : "bg-red-500 hover:bg-red-600"
                 }`}
-
-
                 onClick={handleOkClick}
               >
                 OK
@@ -580,10 +534,7 @@ const dataExpenseRevenue = [
         </Marquee>
 
         <TabContext value={value}>
-          <div className="w-full px-3 sticky top-0 z-[1000] bg-white"
-          >
-
-
+          <div className="w-full px-3 sticky top-0 z-[1000] bg-white">
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
               <TabList
                 orientation={isSmallScreen ? "vertical" : "horizontal"}
@@ -591,22 +542,26 @@ const dataExpenseRevenue = [
                 aria-label="lab API tabs example"
                 className="flex flex-col md:flex-row flex-wrap -ml-4"
                 sx={{
-                  '& .MuiTabs-indicator': {
-                    backgroundColor: '#1E45E1',
-                    height: '2px',
-                    borderRadius: '2px',
-                    bottom: '10px',
+                  "& .MuiTabs-indicator": {
+                    backgroundColor: "#1E45E1",
+                    height: "2px",
+                    borderRadius: "2px",
+                    bottom: "10px",
                   },
-                  '& .MuiTab-root': {
-                    paddingBottom: '2px',
-                    minHeight: '36px',
+                  "& .MuiTab-root": {
+                    paddingBottom: "2px",
+                    minHeight: "36px",
                   },
                 }}
               >
                 <Tab
                   label="Dashboard"
                   value="1"
-                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  sx={{
+                    textTransform: "none",
+                    fontFamily: "Gilroy",
+                    fontSize: "15px",
+                  }}
                   className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
   font-medium
   [&.Mui-selected]:!text-black
@@ -616,7 +571,11 @@ const dataExpenseRevenue = [
                 <Tab
                   label="Announcement"
                   value="2"
-                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  sx={{
+                    textTransform: "none",
+                    fontFamily: "Gilroy",
+                    fontSize: "15px",
+                  }}
                   className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
   font-medium
   [&.Mui-selected]:!text-black
@@ -626,47 +585,46 @@ const dataExpenseRevenue = [
                 <Tab
                   label="Updates"
                   value="3"
-                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  sx={{
+                    textTransform: "none",
+                    fontFamily: "Gilroy",
+                    fontSize: "15px",
+                  }}
                   className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
   font-medium
   [&.Mui-selected]:!text-black
   [&.Mui-selected]:!font-semibold"
                 />
-
               </TabList>
             </Box>
           </div>
 
           {loading && <LoaderComponent />}
 
-          <div >
+          <div>
             <TabPanel value="1">
-              {(!canReadDashboard && !loading) ? (
-                <div
-                  className="flex flex-col items-center justify-center mt-24">
-
-                  <img
-                    src={Emptystate}
-                    alt="Empty State"
+              {!canReadDashboard && !loading ? (
+                <div className="flex flex-col items-center justify-center mt-24">
+                  <img src={Emptystate} alt="Empty State" />
+                  <ErrorMessage
+                    message={["You do not have access to view Dashboard"]}
+                    type="warning"
                   />
-                  <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
-
                 </div>
               ) : (
                 <>
                   <div className="overflow-y-auto p-2">
                     <div className="my-4">
                       <div className="grid gap-3 md:grid-cols-12 items-stretch">
-
                         {/* LEFT SIDE */}
                         <div className="md:col-span-2 h-full">
-                          <div
-                            className="border rounded-2xl p-4 shadow-sm text-left flex flex-col items-start justify-between bg-white min-h-44 h-full"
-                          >
+                          <div className="border rounded-2xl p-4 shadow-sm text-left flex flex-col items-start justify-between bg-white min-h-44 h-full">
                             <div className="text-blue-600 mb-2">
                               <i className="bi bi-house-door-fill fs-4"></i>
                             </div>
-                            <h6 className="text-gray-500 mb-1 font-gilroy">Total Rooms</h6>
+                            <h6 className="text-gray-500 mb-1 font-gilroy">
+                              Total Rooms
+                            </h6>
                             <h5 className="mb-0 font-gilroy">
                               {dashboardList?.totalRooms || 0}
                             </h5>
@@ -677,24 +635,30 @@ const dataExpenseRevenue = [
                         <div className="md:col-span-3 flex flex-col gap-2 h-full">
                           <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white h-full">
                             <div>
-                              <h6 className="text-gray-500 mb-1 font-gilroy">Total Beds</h6>
+                              <h6 className="text-gray-500 mb-1 font-gilroy">
+                                Total Beds
+                              </h6>
                               <h5 className="mb-0 font-gilroy">
                                 {dashboardList?.totalBeds || 0}
                               </h5>
                             </div>
-                            <img src={clock} alt="Bed Icon" className="w-8 h-8" />
-
+                            <img
+                              src={clock}
+                              alt="Bed Icon"
+                              className="w-8 h-8"
+                            />
                           </div>
 
                           <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white h-full">
                             <div>
-                              <h6 className="text-gray-500 mb-1 font-gilroy">Free Beds</h6>
+                              <h6 className="text-gray-500 mb-1 font-gilroy">
+                                Free Beds
+                              </h6>
                               <h5 className="mb-0 font-gilroy">
                                 {dashboardList?.freeBeds || 0}
                               </h5>
                             </div>
                             <img src={key} alt="Bed Icon" className="w-8 h-8" />
-
                           </div>
                         </div>
 
@@ -702,70 +666,93 @@ const dataExpenseRevenue = [
                         <div className="md:col-span-7 h-full">
                           <div className="p-2 rounded-2xl bg-blue-100 h-full">
                             <div className="grid gap-2 md:grid-cols-12 h-full">
-
                               <div className="md:col-span-9 h-full">
                                 <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 h-full">
-
                                   <div>
                                     <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
-                                      <h6 className="text-gray-500 mb-1 font-gilroy">Occupied Beds</h6>
-                                      <h5 className="mb-0 font-gilroy">{dashboardList?.occupiedBeds || 0}</h5>
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">
+                                        Occupied Beds
+                                      </h6>
+                                      <h5 className="mb-0 font-gilroy">
+                                        {dashboardList?.occupiedBeds || 0}
+                                      </h5>
                                     </div>
                                   </div>
 
                                   <div>
                                     <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
-                                      <h6 className="text-gray-500 mb-1 font-gilroy">Next Month Projection</h6>
-                                      <h5 className="mb-0 font-gilroy">{dashboardList?.nextMonthProjection || 0}</h5>
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">
+                                        Next Month Projection
+                                      </h6>
+                                      <h5 className="mb-0 font-gilroy">
+                                        {dashboardList?.nextMonthProjection ||
+                                          0}
+                                      </h5>
                                     </div>
                                   </div>
 
                                   <div>
                                     <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
-                                      <h6 className="text-gray-500 mb-1 font-gilroy">Total Customers</h6>
-                                      <h5 className="mb-0 font-gilroy">{dashboardList?.totalCustomers || 0}</h5>
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">
+                                        Total Customers
+                                      </h6>
+                                      <h5 className="mb-0 font-gilroy">
+                                        {dashboardList?.totalCustomers || 0}
+                                      </h5>
                                     </div>
                                   </div>
 
                                   <div>
                                     <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
-                                      <h6 className="text-gray-500 mb-1 font-gilroy">EB Amount</h6>
-                                      <h5 className="mb-0 font-gilroy">{dashboardList?.electricityAmount || 0}</h5>
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">
+                                        EB Amount
+                                      </h6>
+                                      <h5 className="mb-0 font-gilroy">
+                                        {dashboardList?.electricityAmount || 0}
+                                      </h5>
                                     </div>
                                   </div>
-
                                 </div>
                               </div>
 
                               <div className="md:col-span-3 h-full">
                                 <div className="border rounded-2xl p-4 shadow-sm bg-white text-left flex flex-col justify-between items-start h-full">
-                                  <img src={vector} alt="Asset Icon" className="w-8 h-8 mb-3" />
-                                  <p className="text-gray-500 mb-1 text-sm font-gilroy">Total Asset Value</p>
-                                  <h5 className="mt-1 font-gilroy">{dashboardList?.totalAssetsValue || 0}</h5>
+                                  <img
+                                    src={vector}
+                                    alt="Asset Icon"
+                                    className="w-8 h-8 mb-3"
+                                  />
+                                  <p className="text-gray-500 mb-1 text-sm font-gilroy">
+                                    Total Asset Value
+                                  </p>
+                                  <h5 className="mt-1 font-gilroy">
+                                    {dashboardList?.totalAssetsValue || 0}
+                                  </h5>
                                 </div>
                               </div>
-
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
 
-
-
-
-
                     <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-blue-100">
                           <div className="mr-3 text-blue-600">
-                            <img src={advancedHand} alt="advancedHand" className="w-8 h-8" />
+                            <img
+                              src={advancedHand}
+                              alt="advancedHand"
+                              className="w-8 h-8"
+                            />
                           </div>
                           <div>
-                            <h6 className="text-gray-500 font-gilroy">Advance in Hand</h6>
-                            <div className="font-semibold text-lg font-gilroy">₹ {dashboardList?.advances || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">
+                              Advance in Hand
+                            </h6>
+                            <div className="font-semibold text-lg font-gilroy">
+                              ₹ {dashboardList?.advances || 0}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -785,11 +772,19 @@ const dataExpenseRevenue = [
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
                           <div className="mr-3 text-blue-600">
-                            <img src={currentMatch} alt="currentMatch" className="w-8 h-8" />
+                            <img
+                              src={currentMatch}
+                              alt="currentMatch"
+                              className="w-8 h-8"
+                            />
                           </div>
                           <div>
-                            <h6 className="text-gray-500 font-gilroy">Current Month Profit</h6>
-                            <div className="font-semibold text-lg font-gilroy">₹ {dashboardList.currentMonthProfit || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">
+                              Current Month Profit
+                            </h6>
+                            <div className="font-semibold text-lg font-gilroy">
+                              ₹ {dashboardList.currentMonthProfit || 0}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -797,11 +792,19 @@ const dataExpenseRevenue = [
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
                           <div className="mr-3 text-blue-600">
-                            <img src={coinImage} alt="coinImage" className="w-8 h-8" />
+                            <img
+                              src={coinImage}
+                              alt="coinImage"
+                              className="w-8 h-8"
+                            />
                           </div>
                           <div>
-                            <h6 className="text-gray-500 font-gilroy">Other Profit</h6>
-                            <div className="font-semibold text-lg font-gilroy">₹ {dashboardList.otherProfit || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">
+                              Other Profit
+                            </h6>
+                            <div className="font-semibold text-lg font-gilroy">
+                              ₹ {dashboardList.otherProfit || 0}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -809,11 +812,19 @@ const dataExpenseRevenue = [
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
                           <div className="mr-3 text-blue-600">
-                            <img src={pendingimg} alt="pendingimg" className="w-8 h-8" />
+                            <img
+                              src={pendingimg}
+                              alt="pendingimg"
+                              className="w-8 h-8"
+                            />
                           </div>
                           <div>
-                            <h6 className="text-gray-500 font-gilroy">Pending Invoice Count</h6>
-                            <div className="font-semibold text-lg font-gilroy">{dashboardList.pendingInvoiceCount || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">
+                              Pending Invoice Count
+                            </h6>
+                            <div className="font-semibold text-lg font-gilroy">
+                              {dashboardList.pendingInvoiceCount || 0}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -821,24 +832,29 @@ const dataExpenseRevenue = [
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
                           <div className="mr-3 text-primary">
-                            <img src={newBooking} alt="newBooking" className="w-8 h-8" />
+                            <img
+                              src={newBooking}
+                              alt="newBooking"
+                              className="w-8 h-8"
+                            />
                           </div>
                           <div>
-                            <h6 className="text-gray-500 font-gilroy">New Booking</h6>
-                            <div className="font-semibold text-lg font-gilroy">{dashboardList.bookedBeds || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">
+                              New Booking
+                            </h6>
+                            <div className="font-semibold text-lg font-gilroy">
+                              {dashboardList.bookedBeds || 0}
+                            </div>
                           </div>
                         </div>
                       </div>
-
                     </div>
-
-                    
                   </div>
                 </>
               )}
             </TabPanel>
 
-            <TabPanel value="2" >
+            <TabPanel value="2">
               <DashboardAnnouncement />
             </TabPanel>
 

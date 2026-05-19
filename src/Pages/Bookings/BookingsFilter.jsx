@@ -271,8 +271,8 @@ function BookingsFilter({ show, handleClose, size }) {
         period: period?.value || null,
         floor: floor?.map((f) => f.label),
         room: room?.map((r) => r.label),
-        minPaidAmount: "",
-        maxPaidAmount: "",
+        minPaidAmount: paidAmountMin,
+        maxPaidAmount: paidAmountMax,
         paymentMode: selectedPaymentMode,
       },
     });
@@ -281,9 +281,14 @@ function BookingsFilter({ show, handleClose, size }) {
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        // filters: ,
         page: 1,
         size: size,
+        name: tenantName,
+        period: period?.value || null,
+        floor: floor?.map((f) => f.value),
+        room: room?.map((r) => r.value),
+        minAmount: paidAmountMin,
+        maxAmount: paidAmountMax,
       },
     });
     setFormLoading(true);
@@ -488,12 +493,14 @@ function BookingsFilter({ show, handleClose, size }) {
                   className={inputClass}
                 />
               </div>
-              {paidAmountMin && paidAmountMax && paidMin > paidMax && (
-                <ErrorMessage
-                  message="Max amount should be greater than Min"
-                  type="error"
-                />
-              )}
+              {paidAmountMin &&
+                paidAmountMax &&
+                paidAmountMin > paidAmountMax && (
+                  <ErrorMessage
+                    message="Max amount should be greater than Min"
+                    type="error"
+                  />
+                )}
             </div>
           </div>
         </Offcanvas.Body>
