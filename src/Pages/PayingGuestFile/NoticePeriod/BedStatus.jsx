@@ -16,7 +16,7 @@ import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg";
 import { FiCalendar } from "react-icons/fi";
 import Settings from "../../../Assets/v2Images/info-circle.svg";
 import { useHasPermission } from "../../../Utils/Permission";
-import { Edit } from "iconsax-react";
+import { Calendar, Edit } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { LogoutCurve } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
@@ -199,6 +199,7 @@ function NoticeBedStatusDetails({
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
   const handleReAssignBed = (currentItem) => {
+    console.log("currentItem", currentItem);
     handleShowReassignBed(true, currentItem);
   };
 
@@ -360,7 +361,7 @@ function NoticeBedStatusDetails({
                           {activeMenu === index && (
                             <div
                               ref={popupRef}
-                              className="absolute right-16 -top-3 w-40 flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50"
+                              className="absolute right-16 -top-3 w-fit flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50"
                             >
                               {(matchedDataStatus === "NOTICE" ||
                                 matchedDataStatus ===
@@ -396,7 +397,7 @@ function NoticeBedStatusDetails({
                                       }}
                                     />
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 ${
+                                      className={`text-sm font-medium font-gilroy mb-0  whitespace-nowrap${
                                         canWriteBooking
                                           ? "text-gray-900 cursor-pointer"
                                           : "text-gray-400 cursor-not-allowed"
@@ -411,7 +412,6 @@ function NoticeBedStatusDetails({
 
                               {matchedDataStatus === "NOTICE" && (
                                 <div>
-                                  {/* cancel checkout */}
                                   <div
                                     onMouseEnter={() => {
                                       if (hasCheckinAndNotice)
@@ -430,9 +430,9 @@ function NoticeBedStatusDetails({
                                     // onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                     // onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
-                                    <img
-                                      src={CalenderTick}
-                                      alt="Re-Assign Bed"
+                                    <Calendar
+                                      className="flex-shrink-0"
+                                      size="16"
                                       style={{
                                         filter:
                                           canWriteCustomers &&
@@ -441,8 +441,9 @@ function NoticeBedStatusDetails({
                                             : "grayscale(100%)",
                                       }}
                                     />
+
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 ${
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
                                         canWriteCustomers &&
                                         !hasCheckinAndNotice
                                           ? "text-gray-900 cursor-pointer"
@@ -494,7 +495,7 @@ function NoticeBedStatusDetails({
                                     />
 
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 ${
+                                      className={`text-sm font-medium font-gilroy whitespace-nowrap mb-0 ${
                                         canWriteCheckout
                                           ? "text-gray-900 cursor-pointer"
                                           : "text-gray-400 cursor-not-allowed"
@@ -503,13 +504,55 @@ function NoticeBedStatusDetails({
                                       Generate
                                     </label>
                                   </div>
+                                  {hasCheckinAndNotice && (
+                                    <>
+                                      <div className="h-px bg-gray-300" />
+                                      <div
+                                        className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                          canWriteCustomers
+                                            ? "cursor-pointer opacity-100"
+                                            : "cursor-not-allowed opacity-60"
+                                        }`}
+                                        onClick={() =>
+                                          canWriteCustomers &&
+                                          handleReAssignBed(tenant)
+                                        }
+                                        onMouseEnter={(e) => {
+                                          e.currentTarget.style.backgroundColor =
+                                            "#F0F4FF";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          e.currentTarget.style.backgroundColor =
+                                            "transparent";
+                                        }}
+                                      >
+                                        <FiCalendar
+                                          size={16}
+                                          color={
+                                            canWriteCustomers
+                                              ? "#1E45E1"
+                                              : "#A9A9A9"
+                                          }
+                                        />
+                                        <label
+                                          className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
+                                            canWriteCustomers
+                                              ? "cursor-pointer"
+                                              : "cursor-not-allowed"
+                                          }`}
+                                        >
+                                          Change Bed check
+                                        </label>
+                                      </div>
+                                    </>
+                                  )}
                                 </div>
                               )}
 
                               {matchedDataStatus === "CHECK_IN" && (
                                 <div>
                                   <div
-                                    className={`flex gap-2 items-center p-4 rounded-t-lg ${
+                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
                                       canWriteCustomers
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-60"
@@ -536,7 +579,7 @@ function NoticeBedStatusDetails({
                                       }
                                     />
                                     <label
-                                      className={`text-xs font-medium font-gilroy mb-0 ${
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
                                         canWriteCustomers
                                           ? "cursor-pointer"
                                           : "cursor-not-allowed"
@@ -548,7 +591,7 @@ function NoticeBedStatusDetails({
 
                                   <div className="h-px bg-gray-300" />
                                   <div
-                                    className={`flex gap-2 items-center p-4 rounded-b-lg ${
+                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
                                       canWriteCustomers
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-60"
@@ -567,6 +610,7 @@ function NoticeBedStatusDetails({
                                     }}
                                   >
                                     <LogoutCurve
+                                      className="flex-shrink-0"
                                       size="18"
                                       color={
                                         canWriteCustomers
@@ -575,7 +619,7 @@ function NoticeBedStatusDetails({
                                       }
                                     />
                                     <label
-                                      className={`text-xs font-medium font-gilroy mb-0 ${
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
                                         canWriteCustomers
                                           ? "text-gray-900 cursor-pointer"
                                           : "text-gray-400 cursor-not-allowed"
@@ -584,7 +628,6 @@ function NoticeBedStatusDetails({
                                       Move To Notice Period
                                     </label>
                                   </div>
-                                  <div className="h-px bg-gray-300" />
                                 </div>
                               )}
 
@@ -619,7 +662,7 @@ function NoticeBedStatusDetails({
                                     }}
                                   />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0 ${
+                                    className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
                                       canWriteCheckout
                                         ? "text-gray-900 cursor-pointer"
                                         : "text-gray-400 cursor-not-allowed"
@@ -662,7 +705,7 @@ function NoticeBedStatusDetails({
                                   className="ml-0.5"
                                 />
                                 <label
-                                  className={`ml-1 text-sm font-medium font-gilroy mb-0 ${
+                                  className={`ml-1 text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
                                     canUpdatePayingGuests
                                       ? "text-gray-900 cursor-pointer"
                                       : "text-gray-400 cursor-not-allowed"

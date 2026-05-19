@@ -632,6 +632,7 @@ function PgList() {
     dispatch(triggerPG(false));
   }, []);
 
+  const CustomerOverView = state.UsersList?.customerdetails;
 
   return (
     <>
@@ -657,13 +658,9 @@ function PgList() {
             <div className="mt-1 ml-5 rounded-[14px] border border-gray-200 bg-white mb-2">
               <div className="p-3 flex flex-col md:flex-row items-center justify-between">
                 <div className="flex items-center mb-2 md:mb-0">
-                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                    ?.profilePic ? (
+                  {CustomerOverView?.profilePic ? (
                     <img
-                      src={
-                        state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                          ?.profilePic
-                      }
+                      src={CustomerOverView?.profilePic}
                       alt="Tenant Profile"
                       className="h-16 w-16 rounded-full object-cover"
                       onError={(e) => {
@@ -673,31 +670,27 @@ function PgList() {
                     />
                   ) : (
                     <div className="h-16 w-16 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-lg uppercase font-gilroy">
-                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                        .tenantInitials || "-"}
+                      {CustomerOverView?.initials || "-"}
                     </div>
                   )}
 
                   <div className="ml-2.5">
                     <span className="block font-semibold text-lg font-gilroy">
-                      {
-                        state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                          .tenantFullName
-                      }
+                      {CustomerOverView?.fullName}
                     </span>
 
                     <div className="flex gap-6 mt-1 text-xs font-gilroy">
                       <div className="flex items-center gap-1">
                         <img src={Floorimage} alt="Floor" className="w-4 h-4" />
-                        {state.PgList?.isClickedBed?.floorName}
+                        {CustomerOverView?.hostelInfo?.floorName}
                       </div>
                       <div className="flex items-center gap-1">
                         <img src={RoomImage} alt="Room" className="w-4 h-4" />
-                        {state.PgList?.isClickedBed?.roomName}
+                        {CustomerOverView?.hostelInfo?.roomName}
                       </div>
                       <div className="flex items-center gap-1">
                         <img src={Group} alt="Group" className="w-4 h-4" />
-                        {state.PgList?.isClickedBed?.bedName}
+                        {CustomerOverView?.hostelInfo?.bedName}
                       </div>
                     </div>
                   </div>

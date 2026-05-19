@@ -344,8 +344,8 @@ function BookingModal(props) {
     );
 
     if (selectedBed) {
-      if (selectedBed.showWarning) {
-        setBedWarning(selectedBed.warningMessage);
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
       } else {
         setBedWarning("");
       }
@@ -1025,10 +1025,6 @@ function BookingModal(props) {
                       }}
                     />
 
-                    {bedWarning ? (
-                      <ErrorMessage message={bedWarning} type="error" />
-                    ) : null}
-
                     {state.Booking?.bookingBedError ? (
                       <ErrorMessage
                         message={state.Booking?.bookingBedError}
@@ -1050,6 +1046,11 @@ function BookingModal(props) {
               </div>
             )}
 
+            {bedWarning ? (
+              <div className="flex justify-center">
+                <ErrorMessage message={bedWarning} type="warning" />
+              </div>
+            ) : null}
             <Modal.Footer className="!border-t-0">
               <div className="flex justify-end">
                 <Button

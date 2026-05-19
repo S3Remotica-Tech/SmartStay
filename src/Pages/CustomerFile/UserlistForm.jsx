@@ -179,8 +179,8 @@ function UserlistForm(props) {
       );
       if (selectedBed) {
         setPlaceHolderRoomRent(selectedBed.rentAmount);
-        if (selectedBed.showWarning) {
-          setBedWarning(selectedBed.warningMessage);
+        if (selectedBed.shouldShowError) {
+          setBedWarning(selectedBed.errorMessage);
         } else {
           setBedWarning("");
         }
@@ -248,6 +248,7 @@ function UserlistForm(props) {
   }, [props.EditObj]);
 
   const handleSaveUserlistAddUser = async () => {
+    setBedWarning("");
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
 
     let newErrors = [];
@@ -1062,9 +1063,6 @@ function UserlistForm(props) {
                               type="error"
                             />
                           ) : null}
-                          {bedWarning ? (
-                            <ErrorMessage message={bedWarning} type="error" />
-                          ) : null}
 
                           {bedError && (
                             <ErrorMessage message={bedError} type="error" />
@@ -1316,6 +1314,11 @@ function UserlistForm(props) {
                         })}
                       </div>
                     </div>
+                    {bedWarning ? (
+                      <div className="flex justify-center">
+                        <ErrorMessage message={bedWarning} type="warning" />
+                      </div>
+                    ) : null}
 
                     <Button
                       disabled={formLoading}

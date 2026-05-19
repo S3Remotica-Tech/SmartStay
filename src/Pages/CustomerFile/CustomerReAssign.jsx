@@ -39,7 +39,7 @@ function CustomerReAssign(props) {
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [availableBed, setAvailableBed] = useState("");
-  // const [bedWarning, setBedWarning] = useState('')
+  const [bedWarning, setBedWarning] = useState("");
 
   // console.log("props", props);
   const rentRef = useRef(null);
@@ -193,7 +193,7 @@ function CustomerReAssign(props) {
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
-    // setBedWarning("");
+    setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
 
@@ -203,11 +203,11 @@ function CustomerReAssign(props) {
 
     if (selectedBed) {
       setNewRoomRent(selectedBed.rentAmount);
-      // if (selectedBed.showWarning) {
-      //   setBedWarning(selectedBed.warningMessage);
-      // } else {
-      //   setBedWarning("");
-      // }
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
+      } else {
+        setBedWarning("");
+      }
     }
 
     setBedError("");
@@ -1024,6 +1024,12 @@ function CustomerReAssign(props) {
                 />
               </div>
             )}
+
+            {bedWarning ? (
+              <div className="flex justify-center">
+                <ErrorMessage message={bedWarning} type="warning" />
+              </div>
+            ) : null}
 
             {formLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">

@@ -127,11 +127,20 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setShowReAssignBedForm(false);
   };
 
-  const handleShowReAssignBedPopup = () => {
+  const handleShowReAssignBedPopup = (isVisible, customer) => {
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: customer?.tenetId },
+    });
     setOccubiedBed(false);
     dispatch(triggerPG(true));
     setNoticePeriodBed(false);
   };
+
+
+
+
+  
   const handleShowNoticePeriod = (isVisible, customer) => {
     setNoticePeriodBed(false);
     setOccubiedBed(false);
