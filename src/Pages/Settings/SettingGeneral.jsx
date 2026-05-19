@@ -1514,7 +1514,7 @@ function SettingGeneral() {
 
                                     <div>
                                       <label className="text-gray-400 text-sm font-normal font-gilroy">
-                                        Profile last updated - 20/11/25
+                                        Profile last updated
                                       </label>
                                     </div>
                                   </div>
