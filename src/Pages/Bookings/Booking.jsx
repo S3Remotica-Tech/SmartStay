@@ -551,8 +551,7 @@ function Booking() {
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        // name: debouncedInput || "",
-        // type: statusValue,
+        name: filterInput || "",
         page: page,
         size: size,
         // period: selectedMonth?.value,
@@ -572,7 +571,7 @@ function Booking() {
     //   type: "SET_TENANT_TABLE_FILTERS",
     //   payload: filters,
     // });
-  }, [page, size]);
+  }, [page, size, filterInput]);
 
   const handleReset = () => {
     dispatch({
@@ -779,7 +778,7 @@ function Booking() {
                 placeholder="Search"
                 value={filterInput}
                 onChange={handlefilterInput}
-                disabled
+                // disabled
                 className="flex-1 h-full px-2 text-sm font-gilroy
                      outline-none border-none focus:ring-0  rounded-xl"
               />
