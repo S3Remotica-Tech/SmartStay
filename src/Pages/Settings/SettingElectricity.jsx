@@ -12,13 +12,12 @@ import "../../Pages/Settings/SettingAll.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "../../Pages/Settings/SettingElectricity.css";
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 const SettingElectricity = () => {
-
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   // const [isProWrate, setProWrate] = useState(false);
@@ -31,8 +30,8 @@ const SettingElectricity = () => {
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("28");
-  const [formLoading, setFormLoading] = useState(false)
-  const [formRecurringLoading, setFormRecurringLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
+  const [formRecurringLoading, setFormRecurringLoading] = useState(false);
 
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] =
     useState("");
@@ -48,9 +47,6 @@ const SettingElectricity = () => {
   const [EbList, setEbList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
-
-
   // const canReadElectricity = useHasPermission("Electricity", "canRead")
   // const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
 
@@ -60,9 +56,6 @@ const SettingElectricity = () => {
     canUpdateModule: canUpdateElectricity,
     // canDeleteModule: canDeleteComplaints,
   } = useHasPermission("Electricity");
-
-
-
 
   useEffect(() => {
     if (!canReadElectricity) {
@@ -74,25 +67,22 @@ const SettingElectricity = () => {
     if (EbList.length === 0) {
       setLoading(false);
     }
-
-  }, [EbList])
+  }, [EbList]);
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
+  }, [state.UsersList?.accessRestrictionError]);
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true)
+      setLoading(true);
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: state.login.selectedHostel_Id
+        payload: state.login.selectedHostel_Id,
       });
-
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -105,7 +95,7 @@ const SettingElectricity = () => {
         type: "EB-BILLING-UNIT-LIST",
         payload: state.login.selectedHostel_Id,
       });
-      setFormLoading(false)
+      setFormLoading(false);
       handleClose();
 
       setTimeout(() => {
@@ -155,8 +145,6 @@ const SettingElectricity = () => {
     });
   };
 
-
-
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
@@ -173,9 +161,6 @@ const SettingElectricity = () => {
     //   setTotalErr("No Changes Deducted");
     // }
   };
-
-
-
 
   const handleAddElectricity = () => {
     if (amount === "") {
@@ -201,7 +186,7 @@ const SettingElectricity = () => {
           unitPrice: Number(amount),
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     } else if (!edit && amount !== "") {
       dispatch({
         type: "EB-BILLING-UNIT-ADD",
@@ -211,7 +196,7 @@ const SettingElectricity = () => {
           unitPrice: Number(amount),
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     }
   };
 
@@ -239,13 +224,9 @@ const SettingElectricity = () => {
   //   // });
   // };
 
-
-
-
   // const handleProRate = () => {
   //   const newValue = !isProWrate;
   //   setProWrate(newValue);
-
 
   //   if (newValue) {
   //     setRecurringForm(true);
@@ -259,7 +240,6 @@ const SettingElectricity = () => {
   //     });
   //   }
   // };
-
 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value);
@@ -275,7 +255,6 @@ const SettingElectricity = () => {
       }
       return;
     } else {
-
       dispatch({
         type: "ROOMHOSTELEBCHANGE",
         payload: {
@@ -284,7 +263,7 @@ const SettingElectricity = () => {
           //  isRoomBased: false,
           isProRate: true,
           calculationStartingDate: calculatedstartdate,
-          frequent: every_recurr
+          frequent: every_recurr,
         },
       });
       // dispatch({
@@ -297,7 +276,7 @@ const SettingElectricity = () => {
       //     end_date: Number(calculatedenddate),
       //   },
       // });
-      setFormRecurringLoading(true)
+      setFormRecurringLoading(true);
       // setProWrate(false);
     }
   };
@@ -317,9 +296,6 @@ const SettingElectricity = () => {
       }, 100);
     }
   }, [state.InvoiceList.settingsaddRecurringStatusCode]);
-
-
-
 
   const handleHostelBased = () => {
     setHostelBasedCalculation(true);
@@ -343,14 +319,15 @@ const SettingElectricity = () => {
         hostelId: state.login.selectedHostel_Id,
         isHostelBased: false,
         isRoomBased: true,
-
       },
     });
   };
 
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
-      setHostelBasedCalculation(state.Settings?.EBBillingUnitlist?.isHostelBased);
+      setHostelBasedCalculation(
+        state.Settings?.EBBillingUnitlist?.isHostelBased,
+      );
       setRoomBasedCalculation(state.Settings?.EBBillingUnitlist?.isRoomBased);
       // setProWrate(state.Settings?.EBBillingUnitlist?.isProRate);
     }
@@ -358,8 +335,8 @@ const SettingElectricity = () => {
 
   useEffect(() => {
     if (state.Settings?.ebSettingsChangesStatusCode === 200) {
-      setFormRecurringLoading(false)
-      setRecurringForm(false)
+      setFormRecurringLoading(false);
+      setRecurringForm(false);
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: state.login.selectedHostel_Id,
@@ -367,10 +344,8 @@ const SettingElectricity = () => {
       setTimeout(() => {
         dispatch({ type: "REMOVE_ROOM_HOSTEL_EB_CHANGE" });
       }, 100);
-
     }
-
-  }, [state.Settings?.ebSettingsChangesStatusCode])
+  }, [state.Settings?.ebSettingsChangesStatusCode]);
 
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
@@ -384,8 +359,8 @@ const SettingElectricity = () => {
 
   useEffect(() => {
     if (state.Settings?.errorEbUnitStatusCode) {
-      setFormLoading(false)
-      setFormRecurringLoading(false)
+      setFormLoading(false);
+      setFormRecurringLoading(false);
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_ERROR_EB_BILLING_UNIT_LIST" });
@@ -409,38 +384,32 @@ const SettingElectricity = () => {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
+  }, [state.createAccount?.networkError]);
 
   return (
-    <div
-    >
-
-
+    <div>
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-
         <div className="w-full flex justify-center md:justify-start md:mt-0">
           <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
             Electricity
           </label>
         </div>
 
-
         <div className="w-full flex justify-center md:justify-end  md:mt-0">
           {EbList ? (
             <button
               disabled={!canUpdateElectricity}
               onClick={() => handleEditElectricity(EbList)}
-              className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${canUpdateElectricity
-                ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+              className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${
+                canUpdateElectricity
+                  ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
             >
               <img src={editpic} alt="Edit" className="w-4 h-4" />
               Edit
@@ -449,10 +418,11 @@ const SettingElectricity = () => {
             <button
               onClick={handleShowFormElectricity}
               disabled={showPopup}
-              className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${!showPopup
-                ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
-                : "bg-gray-300 text-white cursor-not-allowed"
-                }`}
+              className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${
+                !showPopup
+                  ? "bg-blue-700 text-white hover:bg-blue-800 cursor-pointer"
+                  : "bg-gray-300 text-white cursor-not-allowed"
+              }`}
             >
               + Electricity
             </button>
@@ -474,133 +444,114 @@ const SettingElectricity = () => {
         </div>
       )}
 
-
       <div>
+        {!canReadElectricity ? (
+          <div className="flex flex-col items-center justify-center h-full text-center mt-24">
+            <img src={Emptystate} alt="Empty State" />
 
+            <ErrorMessage
+              message={["You do not have access to view Electricity"]}
+              type="warning"
+            />
+          </div>
+        ) : EbList ? (
+          <div>
+            <div className="scroll-issue mt-2">
+              <div className="grid grid-cols-12 gap-4">
+                <div className="col-span-12 md:col-span-8 lg:col-span-10">
+                  <div className="border rounded-[16px] p-2 mb-4 md:mb-0 bg-white">
+                    <div className="p-3">
+                      <div className="flex justify-between items-center flex-wrap w-full">
+                        <div className="flex items-center">
+                          <span className="flex items-center justify-center w-9 h-9 rounded-full bg-[#E7F1FF] mr-2.5">
+                            <img
+                              src={electricity}
+                              alt="electricity"
+                              className="w-[18px] h-[18px]"
+                            />
+                          </span>
 
-        {
+                          <span className="font-gilroy text-[16px] font-semibold text-[#222]">
+                            Electricity Information
+                          </span>
+                        </div>
 
-          !canReadElectricity ?
+                        <div className="flex items-center">
+                          <span className="font-gilroy font-semibold text-[16px] text-[#222] leading-none">
+                            ₹ {EbList?.chargerPerUnit}rs
+                          </span>
+                          <span className="font-gilroy font-normal text-[13px] text-[#939393] ml-1 leading-none">
+                            /Unit
+                          </span>
+                        </div>
+                      </div>
 
-            <div className="flex flex-col items-center justify-center h-full text-center mt-24">
-              <img
-                src={Emptystate}
-                alt="Empty State"
-              />
+                      <hr className="my-4" />
 
-              <ErrorMessage
-                message={['You do not have access to view Electricity']}
-                type="warning"
-              />
-            </div>
-            :
-            EbList ?
-              <div>
+                      <form>
+                        <div className="grid grid-cols-12 gap-4 text-center">
+                          <div className="col-span-12 sm:col-span-6">
+                            <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
+                              Room Based Calculation
+                            </label>
 
-
-                <div className="scroll-issue mt-2">
-                  <div className="grid grid-cols-12 gap-4">
-                    <div className="col-span-12 md:col-span-8 lg:col-span-10">
-                      <div className="border rounded-[16px] p-2 mb-4 md:mb-0 bg-white">
-                        <div className="p-3">
-
-                          <div className="flex justify-between items-center flex-wrap w-full">
-
-                            <div className="flex items-center">
-                              <span className="flex items-center justify-center w-9 h-9 rounded-full bg-[#E7F1FF] mr-2.5">
-                                <img
-                                  src={electricity}
-                                  alt="electricity"
-                                  className="w-[18px] h-[18px]"
+                            <div className="flex justify-center">
+                              <label className="relative inline-flex items-center cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  disabled={!canUpdateElectricity}
+                                  checked={roomBasedCalculation}
+                                  onChange={() => handleRoomBased(EbList)}
+                                  className="sr-only peer"
                                 />
-                              </span>
 
-                              <span className="font-gilroy text-[16px] font-semibold text-[#222]">
-                                Electricity Information
-                              </span>
-                            </div>
-
-                            <div className="flex items-center">
-                              <span className="font-gilroy font-semibold text-[16px] text-[#222] leading-none">
-                                ₹ {EbList?.chargerPerUnit}rs
-                              </span>
-                              <span className="font-gilroy font-normal text-[13px] text-[#939393] ml-1 leading-none">
-                                /Unit
-                              </span>
+                                <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-700 peer-disabled:opacity-40 after:content-[''] after:absolute after:top-[1.5px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4" />
+                              </label>
                             </div>
                           </div>
 
-                          <hr className="my-4" />
+                          <div className="col-span-12 sm:col-span-6">
+                            <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
+                              Hostel Based Calculation
+                            </label>
 
-                          <form>
-                            <div className="grid grid-cols-12 gap-4 text-center">
+                            <div className="flex justify-center">
+                              <label className="relative inline-flex items-center cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  disabled={!canUpdateElectricity}
+                                  checked={hostelBasedCalculation}
+                                  onChange={() => handleHostelBased(EbList)}
+                                  className="sr-only peer"
+                                />
 
-                              <div className="col-span-12 sm:col-span-6">
-                                <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
-                                  Room Based Calculation
-                                </label>
-
-                                <div className="flex justify-center">
-                                  <label className="relative inline-flex items-center cursor-pointer">
-                                    <input
-                                      type="checkbox"
-                                      disabled={!canUpdateElectricity}
-                                      checked={roomBasedCalculation}
-                                      onChange={() => handleRoomBased(EbList)}
-                                      className="sr-only peer"
-                                    />
-
-                                    <div
-                                      className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-700 peer-disabled:opacity-40 after:content-[''] after:absolute after:top-[1.5px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4"
-                                    />
-                                  </label>
-                                </div>
-                              </div>
-
-                              <div className="col-span-12 sm:col-span-6">
-                                <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
-                                  Hostel Based Calculation
-                                </label>
-
-                                <div className="flex justify-center">
-                                  <label className="relative inline-flex items-center cursor-pointer">
-                                    <input
-                                      type="checkbox"
-                                      disabled={!canUpdateElectricity}
-                                      checked={hostelBasedCalculation}
-                                      onChange={() => handleHostelBased(EbList)}
-                                      className="sr-only peer"
-                                    />
-
-                                    <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-800 peer-disabled:opacity-40 after:content-[''] after:absolute after:top-[1.5px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4" />
-                                  </label>
-                                </div>
-                              </div>
+                                <div className="w-8 h-4 bg-gray-300 rounded-full peer-checked:bg-blue-800 peer-disabled:opacity-40 after:content-[''] after:absolute after:top-[1.5px] after:left-[1px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4" />
+                              </label>
                             </div>
-                          </form>
-
+                          </div>
                         </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-
-
-              : !loading && (
-                <div className="d-flex justify-content-center align-items-center w-100 mt-5 font-gilroy">
-                  <div className="text-center">
-                    <div className="d-flex justify-content-center">
-                      <img src={EmptyState} alt="Empty state" />
-                    </div>
-
-                    <div className="pb-1 mt-3 fw-semibold text-secondary text-lg font-gilroy">
-                      No Electricity available
-                    </div>
-                  </div>
+            </div>
+          </div>
+        ) : (
+          !loading && (
+            <div className="d-flex justify-content-center align-items-center w-100 mt-5 font-gilroy">
+              <div className="text-center">
+                <div className="d-flex justify-content-center">
+                  <img src={EmptyState} alt="Empty state" />
                 </div>
 
-              )}
+                <div className="pb-1 mt-3 fw-semibold text-secondary text-lg font-gilroy">
+                  No Electricity available
+                </div>
+              </div>
+            </div>
+          )
+        )}
       </div>
 
       <Modal
@@ -610,9 +561,11 @@ const SettingElectricity = () => {
         centered
         dialogClassName="custom-modal"
       >
-
         <Modal.Header className="d-flex justify-content-between align-items-center position-relative">
-          <div className="fw-semibold" style={{ fontSize: 20, fontFamily: "Gilroy" }}>
+          <div
+            className="fw-semibold"
+            style={{ fontSize: 20, fontFamily: "Gilroy" }}
+          >
             {edit ? "Edit Electricity" : "Add Electricity"}
           </div>
 
@@ -643,7 +596,7 @@ const SettingElectricity = () => {
             <div className="w-full">
               <Form.Group className="mb-1">
                 <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                  Amount/Unit {" "}<span className="text-red-500 text-xl">*</span>
+                  Amount/Unit <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -656,14 +609,11 @@ const SettingElectricity = () => {
               </Form.Group>
 
               <div className="flex items-center">
-                {amountErr && (
-                  <ErrorMessage message={amountErr} type="error" />
-                )}
+                {amountErr && <ErrorMessage message={amountErr} type="error" />}
               </div>
               <div className="w-full">
                 {totalErr && (
                   <div className="flex items-center justify-center">
-
                     <ErrorMessage message={totalErr} type="error" />
                   </div>
                 )}
@@ -671,7 +621,6 @@ const SettingElectricity = () => {
             </div>
           </div>
         </Modal.Body>
-
 
         {formLoading && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
@@ -705,9 +654,7 @@ const SettingElectricity = () => {
             backdrop="static"
             dialogClassName="custom-modal"
           >
-            <Modal.Header
-              style={{ position: "relative" }}
-            >
+            <Modal.Header style={{ position: "relative" }}>
               <div
                 style={{
                   fontSize: 20,
@@ -729,17 +676,18 @@ const SettingElectricity = () => {
               style={{
                 maxWidth: 950,
                 paddingRight: "10px",
-
               }}
               className="m-0 p-0"
             >
               <Modal.Body style={{ border: "none" }}>
-
-
                 <div className="row mt-1">
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label" style={{ fontFamily: "Gilroy" }}>
+                      <label
+                        htmlFor="startDayDropdown"
+                        className="form-label"
+                        style={{ fontFamily: "Gilroy" }}
+                      >
                         EB Calculation Start Date Will Be
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
@@ -775,21 +723,21 @@ const SettingElectricity = () => {
                               : "white",
                             color: "#222",
                             cursor: "pointer",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }),
                           menu: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             overflowY: "auto",
                             scrollbarWidth: "thin",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }),
                           menuList: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             padding: 0,
                             scrollbarWidth: "thin",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }),
                           valueContainer: (base) => ({
                             ...base,
@@ -818,13 +766,20 @@ const SettingElectricity = () => {
                     </div>
 
                     {calculatedstartdateerrmsg && (
-                      <ErrorMessage message={calculatedstartdateerrmsg} type="error" />
+                      <ErrorMessage
+                        message={calculatedstartdateerrmsg}
+                        type="error"
+                      />
                     )}
                   </div>
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label" style={{ fontFamily: "Gilroy" }}>
+                      <label
+                        htmlFor="startDayDropdown"
+                        className="form-label"
+                        style={{ fontFamily: "Gilroy" }}
+                      >
                         EB Calculation End Date Will Be
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
@@ -838,7 +793,7 @@ const SettingElectricity = () => {
                         options={options}
                         isDisabled
                         onChange={handleEndDateChange}
-                        value={options.find(option => option.value === 28)}
+                        value={options.find((option) => option.value === 28)}
                         placeholder="Select"
                         classNamePrefix="custom"
                         menuPlacement="auto"
@@ -862,21 +817,21 @@ const SettingElectricity = () => {
                               : "white",
                             color: "#222",
                             cursor: "pointer",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }),
                           menu: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             overflowY: "auto",
                             scrollbarWidth: "thin",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }),
                           menuList: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             padding: 0,
                             scrollbarWidth: "thin",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }),
                           valueContainer: (base) => ({
                             ...base,
@@ -905,13 +860,20 @@ const SettingElectricity = () => {
                       />
                     </div>
                     {calculatedenddateerrmsg && (
-                      <ErrorMessage message={calculatedenddateerrmsg} type="error" />
+                      <ErrorMessage
+                        message={calculatedenddateerrmsg}
+                        type="error"
+                      />
                     )}
                   </div>
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label" style={{ fontFamily: "Gilroy" }}>
+                      <label
+                        htmlFor="startDayDropdown"
+                        className="form-label"
+                        style={{ fontFamily: "Gilroy" }}
+                      >
                         On Every
                       </label>
                     </div>
@@ -921,7 +883,11 @@ const SettingElectricity = () => {
                         id="startDayDropdown"
                         value={every_recurr}
                         onChange={handlechangeEvery}
-                        style={{ fontFamily: "Gilroy", color: "#4B4B4B", fontWeight: 500 }}
+                        style={{
+                          fontFamily: "Gilroy",
+                          color: "#4B4B4B",
+                          fontWeight: 500,
+                        }}
                       >
                         <option value="monthly">Monthly</option>
                       </select>
@@ -929,31 +895,33 @@ const SettingElectricity = () => {
                   </div>
                 </div>
               </Modal.Body>
-              {formRecurringLoading && <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
+              {formRecurringLoading && (
                 <div
                   style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "transparent",
+                    opacity: 0.75,
+                    zIndex: 10,
                   }}
-                ></div>
-              </div>}
+                >
+                  <div
+                    style={{
+                      borderTop: "4px solid #1E45E1",
+                      borderRight: "4px solid transparent",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      animation: "spin 1s linear infinite",
+                    }}
+                  ></div>
+                </div>
+              )}
               <Modal.Footer style={{ borderTop: "none" }}>
                 <Button
                   className="w-100"
@@ -985,4 +953,3 @@ SettingElectricity.propTypes = {
 };
 
 export default withErrorBoundary(SettingElectricity);
-

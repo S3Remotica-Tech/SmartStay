@@ -160,9 +160,10 @@ function SettingGeneral() {
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
+      setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
 
@@ -1194,7 +1195,7 @@ function SettingGeneral() {
                                   onClick={() => {
                                     handleAdminEdit();
                                   }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg
+                                  className={`flex items-center gap-2 p-2.5 w-full   rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
@@ -1221,7 +1222,7 @@ function SettingGeneral() {
                                   onClick={() => {
                                     handleOpenAdminProfile(account);
                                   }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-lg
+                                  className={`flex items-center gap-2 p-2.5 w-full rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
@@ -1248,7 +1249,7 @@ function SettingGeneral() {
                                     onClick={() => {
                                       handleResetPin(account);
                                     }}
-                                    className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg 
+                                    className={`flex items-center gap-2 p-2.5 w-full   rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.backgroundColor =
@@ -2327,7 +2328,7 @@ function SettingGeneral() {
             </div>
           </div>
           {formError && (
-            <div  ref={errorRef} className="flex justify-center mt-1">
+            <div ref={errorRef} className="flex justify-center mt-1">
               <ErrorMessage message={formError} type="error" />
             </div>
           )}
