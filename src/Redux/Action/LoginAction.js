@@ -2,39 +2,31 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 // import ConfigV1 from '../../WebService/ConfigV1';
 import ConfigV2 from "../../WebService/ConfigV2";
-import axios from 'axios'
-
+import axios from "axios";
 
 // v1
 
-export  function login() {
+export function login() {
   new Promise((resolve) => {
-  resolve({status: 200});
-})
+    resolve({ status: 200 });
+  });
   // return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
   //   params: EmailId, Password
   // })
 }
 
-
 // v2
 
 export async function loginV2(loginInfo) {
-    return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`,loginInfo, {
-   data:loginInfo
-
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`, loginInfo, {
+    data: loginInfo,
   });
 }
 
-
-
-
-
-
-export  function CreateAccountAction() {
+export function CreateAccountAction() {
   new Promise((resolve) => {
-  resolve({status: 200});
-})
+    resolve({ status: 200 });
+  });
 
   // const formData = new FormData();
   // formData.append("name", params.name);
@@ -46,22 +38,20 @@ export  function CreateAccountAction() {
   // formData.append("State", params.State);
   // formData.append("id", params.id);
   // formData.append("profile", params.profile);
-  
+
   // try {
   //   const response = await AxiosConfig.post('/create/create-account',formData, {
   //     headers: {
   //       "Content-type": "multipart/form-data",
   //     },
   //     timeout: 100000000,
-          
-      
+
   //   });
   //   return response.data;
   // } catch (error) {
   //   console.error("Axios Error", error);
   //        }
-
-} 
+}
 //  create-account api version 1
 
 // export async function Addaccount (datum) {
@@ -70,19 +60,15 @@ export  function CreateAccountAction() {
 //   })
 // }
 
-
 //  create-account api version 2
 
-export async function Addaccount (datum) {
-  return await AxiosConfigV2.post('/v2/users',datum,{
-    data:datum
-  })
+export async function Addaccount(datum) {
+  return await AxiosConfigV2.post("/v2/users", datum, {
+    data: datum,
+  });
 }
-  
 
 // Owner Profile Update
-
-
 
 // export async function UpdateProfile(params) {
 //   try {
@@ -117,48 +103,33 @@ export async function Addaccount (datum) {
 //   }
 // }
 
-
-
 export async function UpdateProfile(params) {
-
-
   const formData = new FormData();
 
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
-
   if (params.payloads) {
-    const payloadBlob = new Blob(
-      [JSON.stringify(params.payloads)],
-      { type: "application/json" }
-    );
+    const payloadBlob = new Blob([JSON.stringify(params.payloads)], {
+      type: "application/json",
+    });
     formData.append("payloads", payloadBlob);
   }
 
   try {
-    const response = await AxiosConfigV2.put(
-     "/v2/profile",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        timeout: 100000000,
-
-      }
-    );
+    const response = await AxiosConfigV2.put("/v2/profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      timeout: 100000000,
+    });
     return response;
   } catch (error) {
     console.error("Axios Error", error);
     throw error;
   }
 }
-
-
-
-
 
 // export function UpdateProfile () {
 //   new Promise((resolve) => {
@@ -172,63 +143,56 @@ export async function UpdateProfile(params) {
 //   // formData.append("address", params.address);
 //   //  formData.append("id", params.id);
 //   // formData.append("profile", params.profile);
-  
+
 //   // try {
 //   //   const response = await AxiosConfig.post('/update_account_details',formData, {
 //   //     headers: {
 //   //       "Content-type": "multipart/form-data",
 //   //     },
 //   //     timeout: 100000000,
-        
+
 //   //   });
 //   //   return response.data;
 //   // } catch (error) {
 //   //   console.error("Axios Error", error);
 //   //        }
 
-  
 // }
 
 // Owner Update password
 
 export async function UpdatePassword(datum) {
-   return await AxiosConfigV2.post(`/v2/profile/reset-password`, datum);
+  return await AxiosConfigV2.post(`/v2/profile/reset-password`, datum);
 }
 
-
-
-export  function TwoStepVerification() {
+export function TwoStepVerification() {
   new Promise((resolve) => {
-  resolve({status: 200});
-})
+    resolve({ status: 200 });
+  });
   // return await AxiosConfig.post('/create/isEnable',datum, {
   //   data: datum
   // })
-} 
+}
 
 // export async function AccountDetails() {
 //   return await AxiosConfig.get('/get/userAccount',{
 //   })
 // }
 
-
-
 // v1
 
 // export async function AccountDetails(user) {
 //    return await AxiosConfig.post('/get_user_details',user,{
 //     data:user
-   
+
 //   })
 // }
-
 
 //v2
 
 export async function AccountDetails() {
-   return await AxiosConfigV2.get('/v2/profile')
+  return await AxiosConfigV2.get("/v2/profile");
 }
-
 
 // v1
 
@@ -236,87 +200,60 @@ export async function AccountDetails() {
 //   return await axios.post(`${ConfigV1.apiBaseUrl}/otp-send/response`,datum, {
 //     data: datum
 //   })
-// } 
-
+// }
 
 // v2
 
 export async function OTPverification(datum) {
-  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/verify-otp`,datum, {
-    data: datum
-  })
-} 
-
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/verify-otp`, datum, {
+    data: datum,
+  });
+}
 
 export async function GetAllNotification(hostelId) {
- 
-  return await AxiosConfigV2.get(`/v2/notification/${hostelId}`)
+  return await AxiosConfigV2.get(`/v2/notification/${hostelId}`);
 }
-
 
 export async function ReadNotification(hostelId) {
-return await AxiosConfigV2.put(`/v2/notification/read/${hostelId}`)
-
+  return await AxiosConfigV2.put(`/v2/notification/read/${hostelId}`);
 }
-
 
 export async function FCM_Token(token) {
-    return await AxiosConfigV2.put('/v2/profile/fcm',token,{
-    data:token
-   
-  })
+  return await AxiosConfigV2.put("/v2/profile/fcm", token, {
+    data: token,
+  });
 }
-
 
 export async function LogoutAdmin(logout) {
-     return await AxiosConfigV2.post('/v2/profile/logout',logout,{
-    data:logout
-   
-  })
+  return await AxiosConfigV2.post("/v2/profile/logout", logout, {
+    data: logout,
+  });
 }
-
 
 export async function demoRequest(demo) {
-    return await AxiosConfigV2.post('/v2/demo/request',demo,{
-    data:demo
-   
-  })
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/demo/request`, demo, {
+    data: demo,
+  });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 export const StoreSelectedHostelAction = (data) => {
- 
   return {
-    type: "STORE_HOSTEL_DATA", 
-    payload: data,          
+    type: "STORE_HOSTEL_DATA",
+    payload: data,
   };
 };
 
 export const SettingsStoreSelectedHostelAction = (data) => {
   return {
-    type: "SETTINGS_STORE_HOSTEL_DATA", 
-    payload: data,          
+    type: "SETTINGS_STORE_HOSTEL_DATA",
+    payload: data,
   };
 };
-
 
 export const setPlanStatus = (planStatus) => ({
   type: "SET_PLAN_STATUS",
   payload: planStatus,
 });
-
-
 
 export const JoininDatecustomer = (joiningdate) => ({
   type: "SET_JOINING_DATE",
@@ -328,21 +265,17 @@ export const checkoutCustomerProfile = (checoutprofile) => ({
   payload: checoutprofile,
 });
 
-
-export const  triggerPG = (pg) => ({
+export const triggerPG = (pg) => ({
   type: "TRIGGER_PG",
   payload: pg,
 });
 
-
-
-export const  clickedBedForChange = (bed) => ({
+export const clickedBedForChange = (bed) => ({
   type: "SET_CLICKED_BED",
   payload: bed,
 });
 
-
-export const  changeBedForChange = (bed) => ({
+export const changeBedForChange = (bed) => ({
   type: "SET_CHANGE_CLICKED_BED",
   payload: bed,
 });
@@ -352,11 +285,9 @@ export const setPaymentHtml = (html) => ({
   payload: html,
 });
 
-
 export const saveResponseHostel = (data) => {
-
   return {
-    type: "SAVE_RESPONSE_HOSTEL", 
-    payload: data,          
+    type: "SAVE_RESPONSE_HOSTEL",
+    payload: data,
   };
 };
