@@ -44,6 +44,7 @@ function Booking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
+
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [search, setSearch] = useState(false);
   const [bookingList, setBookingList] = useState([]);
@@ -573,6 +574,111 @@ function Booking() {
     // });
   }, [page, size]);
 
+  const handleReset = () => {
+    dispatch({
+      type: "SET_BOOKING_FILTERS",
+      payload: {
+        period: [],
+        search: "",
+        floor: [],
+        room: [],
+        minPaidAmount: "",
+        maxPaidAmount: "",
+        paymentMode: [],
+      },
+    });
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        // name: debouncedInput || "",
+        // type: statusValue,
+        page: page,
+        size: size,
+        // period: selectedMonth?.value,
+      },
+    });
+
+    setChips([]);
+  };
+
+  useEffect(() => {
+    setPage(0);
+  }, [state.Booking?.bookingFilters]);
+
+  useEffect(() => {
+    const filters = state.Booking?.bookingFilters;
+    const filterData = [];
+
+    if (filters?.period.length) {
+      filterData.push({
+        key: "period",
+        label: "Period",
+        type: "single",
+        value: filters.period,
+      });
+    }
+
+    if (filters?.search?.trim()) {
+      filterData.push({
+        key: "search",
+        label: "Search",
+        type: "text",
+        value: filters.search,
+      });
+    }
+
+    if (filters?.floor?.length) {
+      filters.floor.forEach((floor) => {
+        filterData.push({
+          key: "floor",
+          label: "Floor",
+          type: "multi",
+          value: floor.label || floor,
+        });
+      });
+    }
+
+    if (filters?.room?.length) {
+      filters.room.forEach((room) => {
+        filterData.push({
+          key: "room",
+          label: "Room",
+          type: "multi",
+          value: room.label || room,
+        });
+      });
+    }
+
+    if (filters?.minPaidAmount) {
+      filterData.push({
+        key: "minPaidAmount",
+        label: "Min Paid",
+        type: "text",
+        value: `₹ ${filters.minPaidAmount}`,
+      });
+    }
+
+    if (filters?.maxPaidAmount) {
+      filterData.push({
+        key: "maxPaidAmount",
+        label: "Max Paid",
+        type: "text",
+        value: `₹ ${filters.maxPaidAmount}`,
+      });
+    }
+
+    if (filters?.paymentMode?.length) {
+      filterData.push({
+        key: "paymentMode",
+        label: "Payment Mode",
+        type: "single",
+        value: filters.paymentMode,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.Booking?.bookingFilters]);
   useEffect(() => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       dispatch({
@@ -656,49 +762,45 @@ function Booking() {
     },
   };
 
-  return (
-    <div className=" bg-white font-gilroy  mr-2 ">
-      {loading && (
-        <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
-          <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
-        </div>
-      )}
-      <div className="">
-        <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
-          <label className="text-lg text-black font-semibold font-gilroy">
-            Booking
-          </label>
+  console.log("state,%%%", state.Booking.bookingFilters);
 
-          <div className="flex items-center gap-2">
-            <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
-              <div className="flex items-center h-10 border border-[#CFD5DB] rounded-xl bg-white">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={filterInput}
-                  onChange={handlefilterInput}
-                  disabled
-                  className="flex-1 h-full px-2 text-sm font-gilroy
+  return (
+    <div className="relative bg-white font-gilroy  mr-2 ">
+      <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
+        <label className="text-lg text-black font-semibold font-gilroy">
+          Booking
+        </label>
+
+        <div className="flex items-center gap-2">
+          <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
+            <div className="flex items-center h-10 border border-[#CFD5DB] rounded-xl bg-white">
+              <input
+                type="text"
+                placeholder="Search"
+                value={filterInput}
+                onChange={handlefilterInput}
+                disabled
+                className="flex-1 h-full px-2 text-sm font-gilroy
                      outline-none border-none focus:ring-0  rounded-xl"
-                />
-                <span className="px-2 flex items-center">
-                  <SearchNormal1
-                    className={`h-5 w-5 transition-opacity duration-300 text-gray-500
+              />
+              <span className="px-2 flex items-center">
+                <SearchNormal1
+                  className={`h-5 w-5 transition-opacity duration-300 text-gray-500
               ${
                 canReadBooking
                   ? "cursor-pointer opacity-100"
                   : "cursor-not-allowed opacity-40 pointer-events-none"
               }`}
-                  />
-                </span>
-              </div>
+                />
+              </span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
-          <div className="flex flex-wrap items-center gap-3">
-            {/* <div className="w-[150px]">
+      <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
+        <div className="flex flex-wrap items-center gap-3">
+          {/* <div className="w-[150px]">
               <Select
                 menuPlacement="auto"
                 isDisabled={isComingSoon}
@@ -712,47 +814,46 @@ function Booking() {
               />
             </div> */}
 
-            <Select
-              menuPlacement="auto"
-              isDisabled={isComingSoon}
-              options={monthOptions}
-              value={selectedMonth}
-              onChange={handleMonthChange}
-              styles={CustomStyles}
-              classNamePrefix="custom"
-              noOptionsMessage={() => "No options"}
-            />
+          <Select
+            menuPlacement="auto"
+            isDisabled={isComingSoon}
+            options={monthOptions}
+            value={selectedMonth}
+            onChange={handleMonthChange}
+            styles={CustomStyles}
+            classNamePrefix="custom"
+            noOptionsMessage={() => "No options"}
+          />
 
-            <button
-              onClick={() => canReadBooking && handleShowFilterBills()}
-              disabled={!canReadBooking}
-              className={`border border-slate-300 rounded-full p-2
+          <button
+            onClick={() => canReadBooking && handleShowFilterBills()}
+            disabled={!canReadBooking}
+            className={`border border-slate-300 rounded-full p-2
             ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
-            >
-              <Filter size={18} />
-            </button>
-          </div>
+          >
+            <Filter size={18} />
+          </button>
+        </div>
 
-          <div className="flex  items-center gap-3">
-            <Setting3
-              onClick={() => setOpen(!open)}
-              className="cursor-pointer"
-              size="22"
-              color="#4B4B4B"
+        <div className="flex  items-center gap-3">
+          <Setting3
+            onClick={() => setOpen(!open)}
+            className="cursor-pointer"
+            size="22"
+            color="#4B4B4B"
+          />
+
+          {formattedData?.length > 0 && (
+            <ApiPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              onPageChange={handlePageChange}
+              onSizeChange={handleSizeChange}
+              isTenantPagination={true}
+              size={size}
             />
-
-            {formattedData?.length > 0 && (
-              <ApiPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalRecords={totalRecords}
-                onPageChange={handlePageChange}
-                onSizeChange={handleSizeChange}
-                isTenantPagination={true}
-                size={size}
-              />
-            )}
-          </div>
+          )}
         </div>
       </div>
 
@@ -768,6 +869,32 @@ function Booking() {
         ) : (
           <div>
             <div>
+              {chips.length > 0 && (
+                <div className="px-3 py-3 bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col my-2 ">
+                  <div className=" p-3 flex items-start gap-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+                    <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
+                      {chips.map((chip) => (
+                        <div key={chip.key}>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
+                            {chip.label} :
+                            <span className="text-[12px] font-medium text-[#16151C]">
+                              {chip.value}
+                            </span>
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <span
+                      onClick={handleReset}
+                      className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
+                    >
+                      Reset
+                    </span>
+                  </div>
+                </div>
+              )}
+
               <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
                 <div
                   id="tableContainer"
@@ -1230,7 +1357,11 @@ function Booking() {
           </div>
         )}
       </div>
-
+      {loading && (
+        <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
+          <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
+        </div>
+      )}
       {applyInvoice && (
         <ApplyBookingModal
           show={applyInvoice}
