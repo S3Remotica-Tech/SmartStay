@@ -26,6 +26,16 @@ export const initialState = {
   applyAdvanceRedeemError: "",
   advanceInitialize: "",
   successBookingCustomizeColumns: 0,
+  bookingFilters: {
+    period: [],
+    search: "",
+    floor: [],
+    room: [],
+    minPaidAmount: "",
+    maxPaidAmount: "",
+    paymentMode: [],
+    search:""
+  },
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -139,6 +149,14 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, bookingBedError: action.payload };
     case "ERROR_BOOKING_REMOVE":
       return { ...state, bookingBedError: "" };
+    case "SET_BOOKING_FILTERS":
+      return {
+        ...state,
+        bookingFilters: {
+          ...state.bookingFilters,
+          ...action.payload,
+        },
+      };
 
     case "ALREADY_MOBILE_ERROR":
       return { ...state, ErrorAssignBookingMobile: action.payload };

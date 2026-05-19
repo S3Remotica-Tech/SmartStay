@@ -342,6 +342,7 @@ function Booking() {
       invoiceId: apiData?.invoiceId || null,
       canApply: apiData?.canApply || null,
       availableAmount: apiData?.availableAmount || 0,
+      customerId: apiData?.customerId,
     };
 
     return obj;
@@ -723,7 +724,7 @@ function Booking() {
             />
 
             <button
-              // onClick={() => canReadBooking && handleShowFilterBills()}
+              onClick={() => canReadBooking && handleShowFilterBills()}
               disabled={!canReadBooking}
               className={`border border-slate-300 rounded-full p-2
             ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
@@ -879,9 +880,9 @@ function Booking() {
                                         className="relative group w-[100px] "
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          // handleNavigateTenantProfile(
-                                          //   item?.apiCall,
-                                          // );
+                                          handleNavigateTenantProfile(
+                                            item?.apiCall,
+                                          );
                                         }}
                                       >
                                         <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
@@ -1242,6 +1243,7 @@ function Booking() {
         <BookingsFilter
           show={showBillsFilter}
           handleClose={handleCloseFilterBills}
+          size={size}
         />
       )}
     </div>
