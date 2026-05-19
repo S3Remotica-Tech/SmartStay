@@ -144,7 +144,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }
   }, [state.createAccount?.networkError, state.InvoiceList.refundableError]);
 
-  // console.log("state", state.InvoiceList.refundableError)
+  console.log("refundDetails", refundDetails);
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" centered>
@@ -159,17 +159,19 @@ function RefundAmount({ show, handleClose, refundDetails }) {
             }}
           >
             {`Refund Amount `}
-            {refundDetails?.fullName ||
-              (state?.UsersList?.customerdetails?.fullName && (
-                <span>
-                  -
-                  <span style={{ color: "#1E45E1" }}>
-                    {" "}
-                    {refundDetails?.fullName ||
-                      state?.UsersList?.customerdetails?.fullName}
-                  </span>{" "}
+            {(refundDetails?.fullName ||
+              refundDetails?.customerInfo?.fullName ||
+              state?.UsersList?.customerdetails?.fullName) && (
+              <span>
+                -
+                <span style={{ color: "#1E45E1" }}>
+                  {" "}
+                  {refundDetails?.fullName ||
+                    refundDetails?.customerInfo?.fullName ||
+                    state?.UsersList?.customerdetails?.fullName}
                 </span>
-              ))}
+              </span>
+            )}
             {refundDetails?.invoiceNumber && (
               <span>
                 -

@@ -288,9 +288,7 @@ function Booking() {
   };
 
   useEffect(() => {
-    const cols =
-      // state?.UsersList?.Users?.columnList ||
-      [];
+    const cols = state?.Booking?.tenantBookingList?.columnList || [];
 
     const formatted = cols.map((col) => ({
       ...col,
@@ -300,7 +298,7 @@ function Booking() {
 
     setCustomizeItems(formatted);
     setInitialCustomizeItems(formatted);
-  }, [state?.UsersList?.Users?.columnList]);
+  }, [state?.Booking?.tenantBookingList?.columnList]);
 
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
@@ -308,41 +306,63 @@ function Booking() {
 
   const headerKeyMap = {
     "Profile Pic": "profilePic",
-    "Full Name": "fullName",
-    Status: "status",
-    "Joining Date": "joiningDate",
+    "Inv No": "invNo",
+    "Booking Date": "bookingDate",
+    "Tenant Name": "tenantName",
     "Mobile No": "mobile",
+    "Joining Date": "joiningDate",
     Floor: "floorName",
     Room: "roomName",
     Bed: "bedName",
-    "Email ID": "emailId",
-    "Booking Date": "bookingDate",
-    "Monthly Rent": "monthlyRent",
-    Advance: "advanceAmount",
-    "Booking Amount": "bookingAmount",
+    Amount: "amount",
+    Status: "status",
   };
 
-  // const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //   const obj = {};
+  const formattedData = (
+    state?.Booking?.tenantBookingList?.bookingsList || []
+  ).map((row) => {
+    const obj = {};
 
-  //   (userListDetail?.tableHeaders || []).forEach((header, index) => {
-  //     const key = headerKeyMap[header];
-  //     const value = row[index];
+    (state?.Booking?.tenantBookingList?.tableHeaders || []).forEach(
+      (header, index) => {
+        const key = headerKeyMap[header];
+        const value = row[index];
 
-  //     if (key) {
-  //       obj[key] = value ?? "-";
-  //     }
-  //   });
+        if (key) {
+          obj[key] = value ?? "-";
+        }
+      },
+    );
 
-  //   const apiData = row[row.length - 1];
+    const apiData = row[row.length - 1];
 
-  //   obj.apiCall = {
-  //     customerId: apiData?.customerId || null,
-  //     status: apiData?.status || null,
-  //   };
+    // console.log("apiData", apiData);
 
-  //   return obj;
-  // });
+    obj.apiCall = {
+      invoiceId: apiData?.invoiceId || null,
+      canApply: apiData?.canApply || null,
+      availableAmount: apiData?.availableAmount || 0,
+      customerId: apiData?.customerId,
+    };
+
+    return obj;
+  });
+
+  const columnStyles = {
+    "Inv No": "px-4 whitespace-nowrap",
+    "Booking Date": "px-4 whitespace-nowrap",
+    "Tenant Name": "px-4 whitespace-nowrap",
+    "Joining Date": "px-4 whitespace-nowrap",
+    "Mobile No": "px-4 whitespace-nowrap",
+    Floor: "px-4",
+    Room: "px-4",
+    Bed: "px-4",
+    Amount: "px-4",
+  };
+
+  useEffect(() => {
+    console.log("formattedData", formattedData);
+  }, [formattedData]);
 
   const handleStatusFilter = (selectedOption) => {
     setStatusfilter(selectedOption);
@@ -419,13 +439,13 @@ function Booking() {
     }));
 
     if (payload) {
-      // dispatch({
-      //   type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     customize: payload,
-      //   },
-      // });
+      dispatch({
+        type: "CUSTOMIZE_COLUMNS_BOOKING_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
       setCustomizeLoading(true);
     }
   };
@@ -496,7 +516,7 @@ function Booking() {
 
   const totalPages = bookingList?.totalPage ?? 1;
 
-  const totalRecords = bookingList?.totalNoOfInvoices ?? 0;
+  const totalRecords = bookingList?.totalBookings ?? 0;
 
   useEffect(() => {
     setPage(1);
@@ -568,6 +588,27 @@ function Booking() {
     }
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
+  useEffect(() => {
+    if (state.Booking?.successBookingCustomizeColumns === 200) {
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_COLUMNS_BOOKING_REDUCER" });
+      }, 100);
+    }
+  }, [state.Booking?.successBookingCustomizeColumns]);
+
+  // console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
+
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {
       dispatch({
@@ -608,7 +649,12 @@ function Booking() {
     }
   }, [state.createAccount?.networkError]);
 
-  console.log("state", state);
+  const statusStyles = {
+    Paid: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+  };
 
   return (
     <div className=" bg-white font-gilroy  mr-2 ">
@@ -679,9 +725,9 @@ function Booking() {
 
             <button
               onClick={() => canReadBooking && handleShowFilterBills()}
-              disabled={!canReadBooking || isComingSoon}
+              disabled={!canReadBooking}
               className={`border border-slate-300 rounded-full p-2
-            ${canReadBooking || isComingSoon ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
+            ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
             >
               <Filter size={18} />
             </button>
@@ -689,13 +735,13 @@ function Booking() {
 
           <div className="flex  items-center gap-3">
             <Setting3
-              // onClick={() => setOpen(!open)}
-              className="cursor-not-allowed"
+              onClick={() => setOpen(!open)}
+              className="cursor-pointer"
               size="22"
               color="#4B4B4B"
             />
 
-            {bookingList?.advanceInvoiceList?.length > 0 && (
+            {formattedData?.length > 0 && (
               <ApiPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -731,7 +777,7 @@ function Booking() {
                   <table className="w-full  font-gilroy">
                     <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
-                        <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
+                        {/* <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
                           <input
                             disabled
                             type="checkbox"
@@ -741,19 +787,25 @@ function Booking() {
                             }
                             onChange={handleSelectAll}
                           />
-                        </th>
+                        </th> */}
 
-                        <th className=" px-2 whitespace-nowrap">INV NO</th>
-                        <th className=" px-2 whitespace-nowrap">
-                          Booking date
-                        </th>
-                        <th className=" px-2 whitespace-nowrap">Tenant NamE</th>
-                        <th className=" px-2 whitespace-nowrap">Mobile No</th>
-                        <th className=" px-2">Floor</th>
-                        <th className=" px-2">Room</th>
-                        <th className=" px-2">Bed</th>
-                        <th className=" px-2">Amount</th>
-                        <th className="px-2">Status</th>
+                        {selectedColumns?.map((col, index) => {
+                          let stickyClass = "";
+
+                          if (index === 0) {
+                            stickyClass =
+                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                          }
+
+                          return (
+                            <th
+                              key={col.key}
+                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                            >
+                              {col.fieldName}
+                            </th>
+                          );
+                        })}
                         <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
                           Action
                         </th>
@@ -761,79 +813,207 @@ function Booking() {
                     </thead>
 
                     <tbody>
-                      {bookingList?.advanceInvoiceList?.length > 0 ? (
-                        bookingList?.advanceInvoiceList?.map((item, index) => (
+                      {formattedData?.length > 0 ? (
+                        formattedData?.map((item, index) => (
                           <tr
-                            onClick={() => handleNavigatePdf(item.invoiceId)}
-                            key={item.invoiceId}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNavigatePdf(item?.apiCall?.invoiceId);
+                            }}
+                            key={item?.apiCall?.invoiceId}
                             className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
                           >
-                            <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
+                            {/* <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
                               <input
                                 disabled
                                 type="checkbox"
-                                checked={selectedRows.includes(item.id)}
-                                onChange={() => handleRowSelect(item.id)}
+                                // checked={selectedRows.includes(item.id)}
+                                // onChange={() => handleRowSelect(item.id)}
                               />
-                            </td>
+                            </td> */}
 
-                            <td className="w-[230px] px-2 py-2.5 text-[#1E45E1] font-semibold hover:underline whitespace-nowrap">
-                              {item.invoiceNumber}
-                            </td>
-                            <td className="w-[250px] px-2 py-2.5 text-[#222222] text-center">
-                              {item.bookingDate || "-"}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full overflow-hidden bg-[#E2E8F0] flex items-center justify-center text-gray-700 font-semibold shrink-0">
-                                  {item?.profilePic ? (
-                                    <img
-                                      src={item.profilePic}
-                                      alt="profile"
-                                      className="w-full h-full object-cover"
-                                    />
-                                  ) : (
-                                    item?.initials || "NA"
-                                  )}
-                                </div>
+                            {selectedColumns?.map((col, index) => {
+                              const baseClass = `
+  ${columnStyles[col.fieldName] || "px-4"}
+  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
+`;
 
-                                <div
-                                  className="text-sm font-semibold text-[#1E45E1]  whitespace-nowrap"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    // handleNavigateTenantProfile(item);
-                                  }}
-                                >
-                                  {item.fullName}
-                                </div>
-                              </div>
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 text-gray-900 font-semibold whitespace-nowrap">
-                              {item.mobileNumber}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
-                              {item.floorName}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
-                              {item.roomName}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
-                              {item.bedName}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5 whitespace-nowrap">
-                              ₹ {item.availableAmount}
-                            </td>
+                              let stickyClass = "";
 
-                            <td className="w-[270px] px-2 py-2.5 whitespace-nowrap">
-                              <span
-                                className={`px-2 py-1 text-xs inline-flex items-center gap-2 
-                                      whitespace-nowrap rounded-lg bg-green-100 text-black `}
-                              >
-                                <span className="h-2 w-2 rounded-full bg-green-600 "></span>
-                                Paid
-                              </span>
-                            </td>
+                              if (index === 0) {
+                                stickyClass = `sticky left-[0px] z-30  w-[80px] ${
+                                  isScrolling ? "!bg-white" : "!bg-transparent"
+                                }`;
+                              }
+
+                              const finalClass = `${baseClass} ${stickyClass}`;
+
+                              switch (col.fieldName) {
+                                case "Profile Pic":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`px-4 ${finalClass}`}
+                                    >
+                                      {typeof item?.profilePic === "string" &&
+                                      item.profilePic.startsWith("http") ? (
+                                        <img
+                                          src={item.profilePic}
+                                          className="w-8 h-8 rounded-full"
+                                          alt="profile"
+                                        />
+                                      ) : (
+                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                          {typeof item?.profilePic === "string"
+                                            ? item.profilePic
+                                            : "NA"}
+                                        </div>
+                                      )}
+                                    </td>
+                                  );
+
+                                case "Tenant Name":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <div
+                                        className="relative group w-[100px] "
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleNavigateTenantProfile(
+                                            item?.apiCall,
+                                          );
+                                        }}
+                                      >
+                                        <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
+                                          {item.tenantName}
+                                        </span>
+
+                                        <div
+                                          className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+        hidden group-hover:!block
+       bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
+        z-[9999] pointer-events-none"
+                                        >
+                                          {item?.tenantName}
+                                        </div>
+                                      </div>
+                                    </td>
+                                  );
+
+                                case "Inv No":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <div className="relative group w-[100px] ">
+                                        <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
+                                          {item.invNo}
+                                        </span>
+                                      </div>
+                                    </td>
+                                  );
+
+                                case "Booking Date":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <div className="relative group w-[100px] ">
+                                        <span className="block w-full truncate text-sm text-[#111928] ">
+                                          {item.bookingDate}
+                                        </span>
+                                      </div>
+                                    </td>
+                                  );
+
+                                case "Joining Date":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <div className="relative group w-[100px] ">
+                                        <span className="block w-full truncate text-sm text-[#111928] ">
+                                          {item.joiningDate}
+                                        </span>
+                                      </div>
+                                    </td>
+                                  );
+                                case "Status":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <span
+                                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                        style={{
+                                          backgroundColor:
+                                            statusStyles[item.status]?.bg ||
+                                            "#EFFFF2",
+                                        }}
+                                      >
+                                        <span
+                                          className="h-2 w-2 rounded-full"
+                                          style={{
+                                            backgroundColor:
+                                              statusStyles[item.status]?.text ||
+                                              "#038C3D",
+                                          }}
+                                        ></span>
+
+                                        {item.status}
+                                      </span>
+                                    </td>
+                                  );
+
+                                case "Mobile No":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {item.mobile}
+                                    </td>
+                                  );
+
+                                case "Floor":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {item.floorName}
+                                    </td>
+                                  );
+
+                                case "Room":
+                                  return (
+                                    <td
+                                      key={col.key}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {item.roomName}
+                                    </td>
+                                  );
+
+                                case "Bed":
+                                  return (
+                                    <td
+                                      key={col.key}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {item.bedName}
+                                    </td>
+                                  );
+                                case "Amount":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {item.amount}
+                                    </td>
+                                  );
+
+                                default:
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {typeof item[
+                                        headerKeyMap[col.fieldName]
+                                      ] === "object"
+                                        ? "-"
+                                        : (item[headerKeyMap[col.fieldName]] ??
+                                          "-")}
+                                    </td>
+                                  );
+                              }
+                            })}
 
                             <td
                               className={`${
@@ -851,35 +1031,39 @@ function Booking() {
                                 {showDots === index && (
                                   <div
                                     ref={popupRef}
-                                    className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[9999]]"
+                                    className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                     style={{
                                       top: showAbove
                                         ? popupPosition.top -
                                           (popupRef.current?.offsetHeight ||
-                                            100) -
-                                          20
-                                        : popupPosition.top,
-                                      left: popupPosition.left,
+                                            120) -
+                                          10
+                                        : popupPosition.top + 5,
+                                      left: popupPosition.left - 40,
+                                      position: "fixed",
+                                      zIndex: 1000,
                                     }}
                                   >
                                     <button
                                       disabled={
-                                        !canUpdateInvoice || !item.canRedeem
+                                        !canUpdateInvoice ||
+                                        !item.apiCall?.canApply
                                       }
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        handleApplyInvoices(item);
+                                        handleApplyInvoices(item?.apiCall);
                                       }}
                                       className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
       ${
-        !canUpdateInvoice || !item.canRedeem
+        !canUpdateInvoice || !item.apiCall?.canApply
           ? "cursor-not-allowed opacity-50 bg-gray-100"
           : "cursor-pointer hover:bg-[#EDF2FF]"
       }`}
                                     >
                                       <Link21
                                         color={
-                                          !canUpdateInvoice || !item.canRedeem
+                                          !canUpdateInvoice ||
+                                          !item.apiCall?.canApply
                                             ? "#A9A9A9"
                                             : "#1E45E1"
                                         }
@@ -888,7 +1072,8 @@ function Booking() {
 
                                       <span
                                         className={`text-sm font-medium ${
-                                          !canUpdateInvoice || !item.canRedeem
+                                          !canUpdateInvoice ||
+                                          !item.apiCall?.canApply
                                             ? "text-[#A9A9A9]"
                                             : "text-[#222222]"
                                         }`}
@@ -1058,6 +1243,7 @@ function Booking() {
         <BookingsFilter
           show={showBillsFilter}
           handleClose={handleCloseFilterBills}
+          size={size}
         />
       )}
     </div>

@@ -19,7 +19,7 @@ function BookingsFilter({ show, handleClose, size }) {
   const [tenantStatus, setTenantStatus] = useState([]);
 
   const [period, setPeriod] = useState(null);
-  const [sharingType, setSharingType] = useState(null);
+
   const [floor, setFloor] = useState([]);
   const [room, setRoom] = useState([]);
   const [paidAmountMin, setPaidAmountMin] = useState("");
@@ -28,12 +28,12 @@ function BookingsFilter({ show, handleClose, size }) {
   const [tenantName, setTenantName] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const savedFilters = state.reports?.tenantRegisterFilters;
+  const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
 
   const handlePaymentModeChange = (selected) => {
     setSelectedPaymentMode(selected.map((opt) => opt.value));
   };
 
-  console.log("selectedTenantStatusOptions", selectedTenantStatusOptions);
   const inputClass =
     "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
     "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
@@ -57,12 +57,6 @@ function BookingsFilter({ show, handleClose, size }) {
         savedFilters.room?.includes(option.label),
       );
       setRoom(selectedRoomOptions);
-
-      const selecteSharingType = SharingTypeOptions.find(
-        (option) => option.value === savedFilters?.sharingType,
-      );
-
-      setSharingType(selecteSharingType);
     }
   }, [show]);
 
@@ -152,7 +146,7 @@ function BookingsFilter({ show, handleClose, size }) {
   };
 
   const filterOptionsData = useSelector(
-    (state) => state.reports?.getTenantRegister?.filters,
+    (state) => state?.Booking?.tenantBookingList?.filterOptions,
   );
 
   const paymentModeOptions =
@@ -177,55 +171,27 @@ function BookingsFilter({ show, handleClose, size }) {
       value: item.id,
     })) || [];
 
-  const floorOptionsNormal =
-    filterOptionsData?.floor?.map((item) => ({
-      label: item.label,
-      value: item.id,
-    })) || [];
-
-  const shareTypeWithFloorOption =
-    filterOptionsData?.sharingType?.find(
-      (view) => view.id === Number(sharingType?.value),
-    ) || null;
-
-  const floorOptions = sharingType?.value
-    ? shareTypeWithFloorOption?.floorIds?.map((floor) => {
-        const matchedFloor = floorOptionsNormal.find(
-          (f) => f.value === floor.id,
-        );
-
-        return {
-          label: matchedFloor?.label || floor.label,
-          value: floor.id,
-        };
-      }) || []
-    : floorOptionsNormal;
-
-  const SharingTypeOptions =
-    filterOptionsData?.sharingType?.map((item) => ({
-      label: item.label,
-      value: item.id,
+  const floorOptions =
+    filterOptionsData?.floors?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const roomOptions =
-    filterOptionsData?.room
+    filterOptionsData?.rooms
       ?.filter((roomItem) =>
         floor?.length === 0
           ? true
-          : floor?.some((f) => f.value === roomItem.floorId),
+          : filterOptionsData?.floors?.some((f) => f.type === roomItem.floorId),
       )
       ?.map((item) => ({
-        label: item.label,
-        value: item.id,
+        label: item.roomName,
+        value: item.roomId,
       })) || [];
 
   const handleTenantChange = (e) => {
     setTenantName(e.target.value);
   };
-
-  useEffect(() => {
-    setFloor(null);
-  }, [sharingType]);
 
   const CheckboxOption = (props) => {
     const { isSelected, label } = props;
@@ -287,10 +253,6 @@ function BookingsFilter({ show, handleClose, size }) {
     }
   };
 
-  const handleChangeSharingType = (selectedOptions) => {
-    setSharingType(selectedOptions);
-  };
-
   const handlePaidMinChange = (e) => {
     setPaidAmountMin(e.target.value);
   };
@@ -299,45 +261,29 @@ function BookingsFilter({ show, handleClose, size }) {
     setPaidAmountMax(e.target.value);
   };
 
-  const selectedSharingOptions =
-    SharingTypeOptions.find((opt) => opt?.value === sharingType?.value) || null;
-
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
-    const tenantPayload = {
-      status: tenantStatus,
-      period: period?.value || null,
-      floor: floor?.map((f) => f.value),
-      room: room?.map((r) => r.value),
-      search: tenantName,
-      size: size,
-      page: 0,
-      startDate: period?.value ? undefined : startDate,
-      endDate: period?.value ? undefined : endDate,
-      sharingType: sharingType?.value,
-    };
 
     dispatch({
-      type: "SET_TENANT_REGISTER_FILTERS",
+      type: "SET_BOOKING_FILTERS",
       payload: {
-        startDate: period?.value ? undefined : startDate,
-        endDate: period?.value ? undefined : endDate,
+        search: tenantName,
         period: period?.value || null,
         floor: floor?.map((f) => f.label),
         room: room?.map((r) => r.label),
-        search: tenantName,
-        tenantStatus: tenantStatus,
-        tenantStatusLabel: selectedTenantStatusOptions?.map((s) => s.label),
-        sharingType: sharingType?.value,
-        sharingTypeLabel: sharingType?.label,
+        minPaidAmount: "",
+        maxPaidAmount: "",
+        paymentMode: selectedPaymentMode,
       },
     });
 
     dispatch({
-      type: "GET_REPORTS_TENANT_REGISTER_SAGA",
+      type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        filters: tenantPayload,
+        // filters: ,
+        page: 1,
+        size: size,
       },
     });
     setFormLoading(true);

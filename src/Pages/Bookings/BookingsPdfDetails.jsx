@@ -35,7 +35,7 @@ function BookingsPdfDetails() {
   // console.log("rowData", rowData)
 
   const handleDisplayInvoiceDownload = (item) => {
-    console.log("calleddddddd", item);
+    // console.log("calleddddddd", item);
     setRowDatas(item);
     setSelectedInvoiceId(item);
     if (item && state.login.selectedHostel_Id) {
@@ -64,6 +64,51 @@ function BookingsPdfDetails() {
     }
   }, [rowData]);
 
+  const headerKeyMap = {
+    "Inv No": "invNo",
+    "Booking Date": "bookingDate",
+    "Tenant Name": "tenantName",
+    "Mobile No": "mobile",
+    Floor: "floorName",
+    Room: "roomName",
+    Bed: "bedName",
+    Amount: "amount",
+    Status: "status",
+  };
+
+  const formattedData = (
+    state?.Booking?.tenantBookingList?.bookingsList || []
+  ).map((row) => {
+    const obj = {};
+
+    (state?.Booking?.tenantBookingList?.tableHeaders || []).forEach(
+      (header, index) => {
+        const key = headerKeyMap[header];
+        const value = row[index];
+
+        if (key) {
+          obj[key] = value ?? "-";
+        }
+      },
+    );
+
+    const apiData = row[row.length - 1];
+
+    obj.apiCall = {
+      invoiceId: apiData?.invoiceId || null,
+      canApply: apiData?.canApply || null,
+      availableAmount: apiData?.availableAmount || 0,
+    };
+
+    return obj;
+  });
+
+  const statusStyles = {
+    Paid: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+  };
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen ">
       <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto  ">
@@ -104,112 +149,95 @@ function BookingsPdfDetails() {
           </div>
         </div>
 
-        <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto show-scrolls  overflow-x-visible">
-          {state?.Booking?.tenantBookingList?.advanceInvoiceList?.length > 0 ? (
-            state?.Booking?.tenantBookingList?.advanceInvoiceList?.map(
-              (item) => (
-                <div
-                  onClick={() => {
-                    setSelectedInvoiceId(item.invoiceId);
-                    handleDisplayInvoiceDownload(item.invoiceId);
-                  }}
-                  key={item.invoiceId}
-                  ref={(el) => (invoiceRefs.current[item.invoiceId] = el)}
-                  className={`mb-3 shadow-sm rounded p-[10px_16px] cursor-pointer  
-transition-all duration-300 ease-in-out  hover:bg-gray-100
-${
-  String(selectedInvoiceId) === String(item.invoiceId)
-    ? "bg-[#F7F8FC]"
-    : "bg-white hover:bg-gray-100 "
-}`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      {item?.profilePic && item?.profilePic !== "0" ? (
-                        <img
-                          src={item?.profilePic}
-                          alt="User"
-                          className="h-10 w-10 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="h-10 w-10 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-sm uppercase font-gilroy">
-                          {item?.initials}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex-1 ml-3 cursor-pointer">
-                      <div className="flex justify-between items-center mb-1  relative group">
-                        <div
-                          className="font-gilroy text-sm text-[#1E45E1] font-semibold 
-                                            max-w-[100px] truncate overflow-hidden whitespace-nowrap"
-                        >
-                          {item.fullName}
-                        </div>
-                        <div className="font-gilroy text-base text-[#222] font-semibold">
-                          ₹ {item.invoiceAmount}
-                        </div>
-
-                        <span
-                          className="absolute hidden group-hover:block top-full left-0  mb-1
-                                                 font-gilroy 
-      bg-gray-300 text-black text-xs rounded px-2 py-1 whitespace-nowrap z-[9999] "
-                        >
-                          {item.fullName}
-                        </span>
+        <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto overflow-x-visible">
+          {formattedData?.length > 0 ? (
+            formattedData?.map((item) => (
+              <div
+                onClick={() => {
+                  setSelectedInvoiceId(item.apiCall?.invoiceId);
+                  handleDisplayInvoiceDownload(item.apiCall?.invoiceId);
+                }}
+                key={item.apiCall?.invoiceId}
+                ref={(el) =>
+                  (invoiceRefs.current[item.apiCall?.invoiceId] = el)
+                }
+                className={`mb-3 shadow-sm rounded p-[10px_16px] cursor-pointer
+        transition-all duration-300 ease-in-out hover:bg-gray-100
+        ${
+          String(selectedInvoiceId) === String(item.apiCall?.invoiceId)
+            ? "bg-[#F7F8FC]"
+            : "bg-white"
+        }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    {item?.profilePic && item?.profilePic !== "0" ? (
+                      <img
+                        src={item?.profilePic}
+                        alt="User"
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-sm uppercase font-gilroy">
+                        {item?.tenantName?.charAt(0) || "NA"}
                       </div>
-
-                      <div className="flex justify-between gap-3 mb-1">
-                        <div className="font-gilroy text-xs text-[#222] font-semibold">
-                          {item.invoiceNumber || "0.00"}
-                        </div>
-                        <div className="font-gilroy text-xs text-[#222] font-medium">
-                          {item.invoiceDate}
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
-                  <div className="my-1.5">
-                    {(item?.paymentStatus === "Pending" ||
-                      item?.paymentStatus === "Partial Payment") && (
-                      <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
-                        <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
-                        {item?.paymentStatus}
-                      </span>
-                    )}
 
-                    {item?.paymentStatus === "Paid" && (
-                      <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
-                        <span className="h-2 w-2 rounded-full bg-[#10B981]"></span>
-                        {item?.paymentStatus}
-                      </span>
-                    )}
+                  <div className="flex-1 ml-3 cursor-pointer">
+                    <div className="flex justify-between items-center mb-1 relative group">
+                      <div
+                        className="font-gilroy text-sm text-[#1E45E1] font-semibold 
+                max-w-[100px] truncate overflow-hidden whitespace-nowrap"
+                      >
+                        {item.tenantName}
+                      </div>
 
-                    {(item?.paymentStatus === "Refunded" ||
-                      item?.paymentStatus === "Partially Refunded") && (
-                      <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
-                        <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
-                        {item?.paymentStatus}
-                      </span>
-                    )}
+                      <div className="font-gilroy text-base text-[#222] font-semibold">
+                        ₹ {item.amount}
+                      </div>
 
-                    {item?.paymentStatus === "Pending Refund" && (
-                      <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
-                        <span className="h-2 w-2 rounded-full bg-[#FB923C]"></span>
-                        {item?.paymentStatus}
+                      <span
+                        className="absolute hidden group-hover:block top-full left-0 mb-1
+                bg-gray-300 text-black text-xs rounded px-2 py-1 whitespace-nowrap z-[9999]"
+                      >
+                        {item.tenantName}
                       </span>
-                    )}
+                    </div>
 
-                    {item?.isCancelled && (
-                      <span className="flex items-center gap-2 bg-[#F3F4F6] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
-                        <span className="h-2 w-2 rounded-full bg-[#6B7280]"></span>
-                        Cancelled
+                    <div className="flex justify-between gap-3 mb-1">
+                      <div className="font-gilroy text-xs text-[#222] font-semibold">
+                        {item.invNo || "-"}
+                      </div>
+
+                      <div className="font-gilroy text-xs text-[#222] font-medium">
+                        {item.bookingDate || "-"}
+                      </div>
+                    </div>
+
+                    <div className="mt-2">
+                      <span
+                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                        style={{
+                          backgroundColor:
+                            statusStyles[item.status]?.bg || "#EFFFF2",
+                        }}
+                      >
+                        <span
+                          className="h-2 w-2 rounded-full"
+                          style={{
+                            backgroundColor:
+                              statusStyles[item.status]?.text || "#038C3D",
+                          }}
+                        ></span>
+
+                        {item.status}
                       </span>
-                    )}
+                    </div>
                   </div>
                 </div>
-              ),
-            )
+              </div>
+            ))
           ) : (
             <div className="flex flex-col items-center justify-center py-12 bg-white rounded-xl border border-gray-200">
               <h3 className="text-sm font-semibold text-gray-700 mb-1 font-gilroy">
