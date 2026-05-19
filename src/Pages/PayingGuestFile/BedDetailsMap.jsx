@@ -137,10 +137,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setNoticePeriodBed(false);
   };
 
-
-
-
-  
   const handleShowNoticePeriod = (isVisible, customer) => {
     setNoticePeriodBed(false);
     setOccubiedBed(false);

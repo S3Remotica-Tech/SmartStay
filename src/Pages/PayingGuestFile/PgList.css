@@ -16,6 +16,10 @@
    min-width: 550px;
  }
 
+
+ .tenantCheck-style .modal-content {
+   min-width: 600px;
+ }
 /* 
 .checkout-modal .modal-content {
    min-width: 900px;

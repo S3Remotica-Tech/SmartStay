@@ -671,9 +671,9 @@ function UserlistForm(props) {
         onHide={handleCloseAssign}
         backdrop="static"
         centered
-        dialogClassName="custom-modals-style font-gilroy"
+        dialogClassName="tenantCheck-style font-gilroy"
       >
-        <Modal.Dialog className="m-0 p-0 max-w-[950px] pr-2.5 rounded-2xl">
+        <Modal.Dialog className="m-0 p-0 !max-w-[1000px] pr-2.5 rounded-2xl">
           <Modal.Body>
             <div>
               <div>
@@ -1067,6 +1067,11 @@ function UserlistForm(props) {
                           {bedError && (
                             <ErrorMessage message={bedError} type="error" />
                           )}
+                          {bedWarning ? (
+                            <div className="">
+                              <ErrorMessage message={bedWarning} type="error" />
+                            </div>
+                          ) : null}
                         </div>
 
                         <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
@@ -1314,11 +1319,6 @@ function UserlistForm(props) {
                         })}
                       </div>
                     </div>
-                    {bedWarning ? (
-                      <div className="flex justify-center">
-                        <ErrorMessage message={bedWarning} type="warning" />
-                      </div>
-                    ) : null}
 
                     <Button
                       disabled={formLoading}

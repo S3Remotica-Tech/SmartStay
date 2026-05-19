@@ -320,6 +320,7 @@ function CustomerReAssign(props) {
   }, [selectedDate]);
 
   const handleSaveReassignBed = () => {
+    setBedWarning("");
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     focusedRef.current = false;
     let hasError = false;
@@ -547,6 +548,7 @@ function CustomerReAssign(props) {
           onHide={handleCloseReAssign}
           backdrop="static"
           centered
+          dialogClassName="tenantCheck-style font-gilroy"
         >
           <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white">
             <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b mb-2">
@@ -963,6 +965,11 @@ function CustomerReAssign(props) {
                           {bedError && (
                             <ErrorMessage message={bedError} type="error" />
                           )}
+                          {bedWarning ? (
+                            <div className="flex justify-center">
+                              <ErrorMessage message={bedWarning} type="error" />
+                            </div>
+                          ) : null}
                         </Form.Group>
                       </div>
 
@@ -1024,12 +1031,6 @@ function CustomerReAssign(props) {
                 />
               </div>
             )}
-
-            {bedWarning ? (
-              <div className="flex justify-center">
-                <ErrorMessage message={bedWarning} type="warning" />
-              </div>
-            ) : null}
 
             {formLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">

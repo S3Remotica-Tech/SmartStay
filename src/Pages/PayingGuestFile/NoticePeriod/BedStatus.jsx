@@ -504,7 +504,7 @@ function NoticeBedStatusDetails({
                                       Generate
                                     </label>
                                   </div>
-                                  {hasCheckinAndNotice && (
+                                  {/* {hasCheckinAndNotice && (
                                     <>
                                       <div className="h-px bg-gray-300" />
                                       <div
@@ -545,7 +545,7 @@ function NoticeBedStatusDetails({
                                         </label>
                                       </div>
                                     </>
-                                  )}
+                                  )} */}
                                 </div>
                               )}
 
