@@ -80,6 +80,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [label, setLabel] = useState("");
+  const [bookingModal, setBookingModal] = useState(false);
+  const [advanceDetails, setAdvanceDetails] = useState("");
   const [applyBookingInvoice, setBookingApplyInvoice] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
@@ -129,6 +131,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
+  };
+
+  const handleBookingApplyRedeem = (item) => {
+    setBookingModal(true);
+    setAdvanceDetails(item);
+    setLabel("Advance");
+  };
+
+  const handleCloseBookingModal = () => {
+    setBookingModal(false);
   };
 
   useEffect(() => {
@@ -270,6 +282,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const isExportAllow = isValidSubscription && canReadInvoice;
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
+
+  console.log("pdfDetails", pdfDetails);
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
@@ -1717,7 +1731,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                 return;
 
                               e.stopPropagation();
-                              handleApplyInvoices("Advance");
+                              handleBookingApplyRedeem(pdfDetails);
                             }}
                             disabled={
                               !canUpdateInvoice ||
@@ -1785,7 +1799,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         return;
 
                       e.stopPropagation();
-                      handleApplyInvoices("Advance");
+                      handleBookingApplyRedeem(pdfDetails);
                     }}
                     disabled={
                       !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
@@ -2043,6 +2057,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={pdfDetails}
+        />
+      )}
+
+      {bookingModal && (
+        <ApplyBookingModal
+          show={bookingModal}
+          handleClose={handleCloseBookingModal}
+          advanceDetails={advanceDetails}
+          label={label}
         />
       )}
 
