@@ -8,7 +8,6 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-// import { TypeSpecimenRounded } from "@mui/icons-material";
 
 function EditRentalAmount({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -23,42 +22,17 @@ function EditRentalAmount({ show, handleClose }) {
   const rentInputRef = useRef(null);
   const dateRef = useRef(null);
   const typeRef = useRef(null);
-  // const Ref = useRef(null)
   const [IsChangedError, setIsChangedError] = useState("");
 
   const [typeError, setTypeError] = useState("");
 
   const CustomerOverView = state.UsersList.customerdetails;
-
-  // const reasonOptions = [
-  //     { value: "Annual Rent Revision", label: "Annual Rent Revision" },
-  //     { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
-  //     { value: "Additional Amenities Added", label: "Additional Amenities Added" },
-  //     { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
-  //     {
-  //         value: "Others",
-  //         label: "Others",
-  //         color: "#1E45E1"
-  //     },
-  // ];
+  console.log("CustomerOverView", CustomerOverView?.effectiveFromMonth);
 
   const type = [
     { value: "Edit-Rent", label: "Edit Rent" },
     { value: "Rent-Revision", label: "Rent Revision" },
   ];
-  // const [isOthers, setIsOthers] = useState(false);
-
-  // const handleReasonChange = (selectedOption) => {
-  //     dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
-
-  //     if (selectedOption?.value === "Others") {
-  //         setIsOthers(true);
-  //         setReason("");
-  //     } else {
-  //         setIsOthers(false);
-  //         setReason(selectedOption.value);
-  //     }
-  // };
 
   const handleReasonChange = (e) => {
     setIsChangedError("");
@@ -197,61 +171,34 @@ function EditRentalAmount({ show, handleClose }) {
   //   const today = dayjs();
 
   //   if (typeOfBilling === "Joining Date Based") {
-  //     const start = today.add(1, "month").startOf("month");
-  //     const end = today.add(3, "month").endOf("month");
+  //     const start = today.startOf("month");
+  //     const end = today.add(2, "month").endOf("month");
 
-  //     return current.isBefore(start, "month") || current.isAfter(end, "month");
+  //     return (
+  //       current.startOf("month").isBefore(start, "month") ||
+  //       current.startOf("month").isAfter(end, "month")
+  //     );
   //   }
 
   //   let cycleMonth = today.month();
   //   let cycleYear = today.year();
 
-  //   if (today.date() > billStartDate) {
+  //   if (today.date() >= billStartDate) {
   //     const nextMonth = today.add(1, "month");
   //     cycleMonth = nextMonth.month();
   //     cycleYear = nextMonth.year();
   //   }
 
-  //   const start = dayjs().year(cycleYear).month(cycleMonth).date(billStartDate);
+  //   const start = dayjs().year(cycleYear).month(cycleMonth).startOf("month");
 
-  //   const end = start.add(2, "month");
+  //   const end = start.add(2, "month").endOf("month");
 
-  //   return current.isBefore(start, "month") || current.isAfter(end, "month");
+  //   return (
+  //     current.startOf("month").isBefore(start, "month") ||
+  //     current.startOf("month").isAfter(end, "month")
+  //   );
   // };
 
-  const disabledDate = (current) => {
-    if (!current) return false;
-
-    const today = dayjs();
-
-    if (typeOfBilling === "Joining Date Based") {
-      const start = today.startOf("month");
-      const end = today.add(2, "month").endOf("month");
-
-      return (
-        current.startOf("month").isBefore(start, "month") ||
-        current.startOf("month").isAfter(end, "month")
-      );
-    }
-
-    let cycleMonth = today.month();
-    let cycleYear = today.year();
-
-    if (today.date() >= billStartDate) {
-      const nextMonth = today.add(1, "month");
-      cycleMonth = nextMonth.month();
-      cycleYear = nextMonth.year();
-    }
-
-    const start = dayjs().year(cycleYear).month(cycleMonth).startOf("month");
-
-    const end = start.add(2, "month").endOf("month");
-
-    return (
-      current.startOf("month").isBefore(start, "month") ||
-      current.startOf("month").isAfter(end, "month")
-    );
-  };
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -260,6 +207,11 @@ function EditRentalAmount({ show, handleClose }) {
       });
     }
   }, [state.login.selectedHostel_Id]);
+
+  const allowedMonths =
+    CustomerOverView?.effectiveFromMonth?.map((item) =>
+      dayjs(item.type, "MM-YYYY").format("MM-YYYY"),
+    ) || [];
 
   return (
     <Modal show={show} onHide={handleClose} centered backdrop="static">
@@ -386,7 +338,13 @@ function EditRentalAmount({ show, handleClose }) {
                         effectiveFrom ? dayjs(effectiveFrom, "MM/YYYY") : null
                       }
                       onChange={handleEffectiveFromChange}
-                      disabledDate={disabledDate}
+                      disabledDate={(current) => {
+                        if (!current) return false;
+
+                        const currentMonth = current.format("MM-YYYY");
+
+                        return !allowedMonths.includes(currentMonth);
+                      }}
                       style={{
                         width: "100%",
                         height: 48,

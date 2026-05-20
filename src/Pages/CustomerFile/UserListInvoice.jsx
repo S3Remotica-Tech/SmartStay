@@ -271,6 +271,17 @@ function UserListInvoice(props) {
 
   // const paginatedData = sortedData.slice(startIndex, endIndex);
   const paginatedData = invoiceFilterddata?.slice(startIndex, endIndex);
+
+  const isDisabledButton =
+    !canWriteInvoice ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED";
+
   return (
     <>
       {showUnpaidModal && (
@@ -306,16 +317,13 @@ function UserListInvoice(props) {
       )}
 
       <div className="flex justify-end w-full lg:-mt-[65px] ">
-        {state.UsersList.customerdetails?.customerCurrentStatus !==
-          "VACATED" && (
-          <Button
-            onClick={handleAddBill}
-            disabled={props.customerAdd || !canWriteInvoice}
-            className="!font-gilroy text-sm text-white !font-semibold rounded-md px-4 w-36 whitespace-nowrap !bg-[#1E45E1]"
-          >
-            + Create Bill
-          </Button>
-        )}
+        <Button
+          onClick={handleAddBill}
+          disabled={isDisabledButton}
+          className="!font-gilroy text-sm text-white !font-semibold disabled:cursor-not-allowed rounded-md px-4 w-36 whitespace-nowrap !bg-[#1E45E1]"
+        >
+          + Create Bill
+        </Button>
       </div>
 
       <div className="">
@@ -328,7 +336,7 @@ function UserListInvoice(props) {
           </div>
         ) : invoiceFilterddata?.length > 0 ? (
           <>
-            <div className="relative flex flex-col h-[calc(100vh-355px)] mt-6 overflow-y-scroll overflow-x-auto show-scrolls pb-1">
+            <div className="relative flex flex-col h-[calc(100vh-355px)] mt-10 overflow-y-scroll overflow-x-auto show-scrolls pb-1">
               <div className="flex-1  ">
                 <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
                   <thead className="bg-blue-100 sticky top-0 z-20">
