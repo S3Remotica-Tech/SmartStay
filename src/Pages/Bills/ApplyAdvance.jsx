@@ -71,7 +71,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
     );
   };
 
-  // console.log("advanceDetails", advanceDetails);
+  console.log("label", label);
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({

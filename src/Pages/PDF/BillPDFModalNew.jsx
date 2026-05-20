@@ -127,8 +127,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     setOpen(false);
   };
 
-  
-
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
   };
@@ -392,7 +390,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const showSplitButton = true;
   const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
-  const isRedeemAvailable = pdfDetails?.invoiceInfo?.isAvanceAvailableForRedeem;
+  const isAdvanceRedeemAvailable =
+    pdfDetails?.invoiceInfo?.isAvanceAvailableForRedeem;
+
+  const isApplyInvoiceRedeemAvailable =
+    pdfDetails?.invoiceInfo?.canApplyToOtherInvoice;
+
+  const isAdvanceInvoice =
+    pdfDetails?.configurations?.invoiceType === "Advance";
 
   const hasPayments = pdfDetails?.paymentHistory?.length > 0;
   const hasRefunds = pdfDetails?.refundHistory?.length > 0;
@@ -1517,7 +1522,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </div>
             </div>
           )}
-        {pdfDetails?.invoiceInfo?.avilableAmountToRedeem > 0 && (
+        {pdfDetails?.invoiceInfo?.canRedeem > 0 && (
           <div className=" animate-slideIn">
             <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
               <div className="flex items-center gap-1">
@@ -1655,7 +1660,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           Waive Off
                         </button>
 
-                        <button
+                        {/* <button
                           onClick={(e) => {
                             if (!canUpdateInvoice || !isRedeemAvailable) return;
 
@@ -1675,8 +1680,61 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           {pdfDetails?.configurations?.invoiceType === "Advance"
                             ? "Apply to Invoice"
                             : "Adjust with Advance"}
-                        </button>
+                        </button> */}
+                        {!isAdvanceInvoice ? (
+                          <button
+                            onClick={(e) => {
+                              if (
+                                !canUpdateInvoice ||
+                                !isAdvanceRedeemAvailable
+                              )
+                                return;
 
+                              e.stopPropagation();
+                              handleApplyInvoices("Advance");
+                            }}
+                            disabled={
+                              !canUpdateInvoice || !isAdvanceRedeemAvailable
+                            }
+                            className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+    whitespace-nowrap rounded-md transition-all duration-150
+    ${
+      !canUpdateInvoice || !isAdvanceRedeemAvailable
+        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }
+  `}
+                          >
+                            Adjust with Advance
+                          </button>
+                        ) : (
+                          <button
+                            onClick={(e) => {
+                              if (
+                                !canUpdateInvoice ||
+                                !isApplyInvoiceRedeemAvailable
+                              )
+                                return;
+
+                              e.stopPropagation();
+                              handleApplyInvoices("Advance");
+                            }}
+                            disabled={
+                              !canUpdateInvoice ||
+                              !isApplyInvoiceRedeemAvailable
+                            }
+                            className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+    whitespace-nowrap rounded-md transition-all duration-150
+    ${
+      !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
+        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }
+  `}
+                          >
+                            Apply to Invoice
+                          </button>
+                        )}
                         {isDiscount && (
                           <button
                             onClick={handleMakeDiscount}
@@ -1694,37 +1752,60 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </div>
               )}
 
-              {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" && (
-                <button
-                  disabled={!canUpdateInvoice || !isRedeemAvailable}
-                  onClick={() => handleApplyInvoices()}
-                  className={`flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px] 
-                  ${
-                    !canUpdateInvoice || !isRedeemAvailable
-                      ? "cursor-not-allowed opacity-50 bg-gray-100"
-                      : "cursor-pointer hover:bg-[#EDF2FF]"
-                  }`}
-                >
-                  <Link21
-                    color={
-                      !canUpdateInvoice || !isRedeemAvailable
-                        ? "#A9A9A9"
-                        : "#1E45E1"
-                    }
-                    size="16"
-                  />
+              {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" &&
+                (!isAdvanceInvoice ? (
+                  <button
+                    onClick={(e) => {
+                      if (!canUpdateInvoice || !isAdvanceRedeemAvailable)
+                        return;
 
-                  <span
-                    className={`text-sm font-medium ${
-                      !canUpdateInvoice || !isRedeemAvailable
-                        ? "text-[#A9A9A9]"
-                        : "text-[#222222]"
-                    }`}
+                      e.stopPropagation();
+                      handleApplyInvoices("Advance");
+                    }}
+                    disabled={!canUpdateInvoice || !isAdvanceRedeemAvailable}
+                    className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+    whitespace-nowrap rounded-md transition-all duration-150 flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px]
+    ${
+      !canUpdateInvoice || !isAdvanceRedeemAvailable
+        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }
+  `}
                   >
-                    Apply Invoices
-                  </span>
-                </button>
-              )}
+                    <Link21
+                      color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
+                      size="16"
+                    />{" "}
+                    Adjust with Advance
+                  </button>
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      if (!canUpdateInvoice || !isApplyInvoiceRedeemAvailable)
+                        return;
+
+                      e.stopPropagation();
+                      handleApplyInvoices("Advance");
+                    }}
+                    disabled={
+                      !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
+                    }
+                    className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm  flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px]
+    whitespace-nowrap rounded-md transition-all duration-150
+    ${
+      !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
+        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }
+  `}
+                  >
+                    <Link21
+                      color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
+                      size="16"
+                    />{" "}
+                    Apply to Invoice
+                  </button>
+                ))}
 
               {pdfDetails?.invoiceInfo?.totalAmount < 0 &&
                 Number(pdfDetails?.invoiceInfo?.balanceAmount) !== 0 && (
