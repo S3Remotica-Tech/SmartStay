@@ -483,6 +483,8 @@ function BookingModal(props) {
 
   const isComingSoon = false;
 
+  console.log("props.userDetail", props.userDetail);
+
   return (
     <>
       <Modal
@@ -518,33 +520,39 @@ function BookingModal(props) {
         ) : (
           <>
             <Modal.Body className="pt-2">
-              <div className="flex items-center mb-2">
+              <div className="flex items-center gap-2 mb-2">
                 <div className="h-16 w-16 relative flex-shrink-0">
                   {props.userDetail?.profilePic &&
                   props.userDetail?.profilePic !== "0" ? (
                     <Image
                       src={props.userDetail?.profilePic}
                       roundedCircle
-                      className="h-16 w-16"
+                      className="h-14 w-14"
                       alt="image"
                     />
                   ) : (
                     <div
-                      className="h-16 w-16 rounded-full bg-[#E2E8F0] text-[#44536A] flex justify-center items-center text-xl font-semibold font-gilroy truncate"
+                      className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex justify-center items-center text-xl font-semibold font-gilroy truncate"
                       title={props.userDetail?.initials || "-"}
                     >
                       {props.userDetail?.initials || "-"}
                     </div>
                   )}
                 </div>
-
-                <div className="pl-3 max-w-xs">
-                  <label
-                    className="pt-2 text-lg font-medium text-gray-900 font-gilroy truncate"
-                    title={props?.userDetail?.fullName}
-                  >
-                    {props?.userDetail?.fullName || "-"}
-                  </label>
+                <div className="">
+                  <div className="max-w-xs">
+                    <label
+                      className="pt-2 text-lg font-semibold text-gray-900 font-gilroy truncate"
+                      title={props?.userDetail?.fullName}
+                    >
+                      {props?.userDetail?.fullName || "-"}
+                    </label>
+                  </div>
+                  <div>
+                    <label className=" text-sm font-gilroy text-gray-500 font-medium  truncate max-w-[150px]">
+                      {props?.userDetail?.mobile}
+                    </label>
+                  </div>
                 </div>
               </div>
 

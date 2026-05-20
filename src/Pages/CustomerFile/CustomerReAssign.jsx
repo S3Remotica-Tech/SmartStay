@@ -615,7 +615,7 @@ function CustomerReAssign(props) {
                     </div>
                   </div>
 
-                  <div className="overflow-y-auto max-h-[360px] lg:h-[320px] md:h-[200px] lg:h-auto mt-1 pt-1 show-scroll p-2">
+                  <div className="overflow-y-auto max-h-[330px]   mt-1 pt-1 show-scroll p-2">
                     <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
                       <div className="mb-2">
                         <Form.Group controlId="purchaseDate">
