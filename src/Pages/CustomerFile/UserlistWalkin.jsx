@@ -128,7 +128,7 @@ function UserlistWalkin() {
     }
   }, [state.UsersList.deleteWalkInCustomerStatusCode]);
 
-  console.log("state.UsersList?.TenantList", state.UsersList?.TenantList);
+  // console.log("state.UsersList?.TenantList", state.UsersList?.TenantList);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -317,9 +317,6 @@ function UserlistWalkin() {
   const endIndex = startIndex + pageSize;
 
   const paginatedData = walkInCustomer?.slice(startIndex, endIndex);
-
-  console.log("walkInCustomer", walkInCustomer);
-  console.log("paginatedData", paginatedData);
 
   return (
     <>

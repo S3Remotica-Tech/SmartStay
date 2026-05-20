@@ -22,6 +22,7 @@ function UserlistForm(props) {
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [mobile, setMobile] = useState("");
 
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
@@ -237,7 +238,8 @@ function UserlistForm(props) {
           props.EditObj?.name ||
           props.EditObj?.fullName,
       );
-      // setLastname(props.EditObj?.lastName);
+
+      setMobile(props.EditObj?.mobile);
 
       setRooms(props.EditObj.Rooms || props.EditObj?.room);
     } else {
@@ -703,11 +705,17 @@ function UserlistForm(props) {
                       {props.EditObj?.initials || "-"}
                     </div>
                   )}
-
-                  <div>
-                    <p className="mb-1 mt-2 text-lg font-gilroy font-semibold  truncate max-w-[150px]">
-                      {firstname}
-                    </p>
+                  <div className="mb-1 mt-2">
+                    <div>
+                      <label className=" text-lg font-gilroy font-semibold  truncate max-w-[150px]">
+                        {firstname}
+                      </label>
+                    </div>
+                    <div>
+                      <label className=" text-sm font-gilroy text-gray-500 font-medium  truncate max-w-[150px]">
+                        {mobile}
+                      </label>
+                    </div>
                   </div>
                 </div>
 
