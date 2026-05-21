@@ -21,6 +21,7 @@ const Receipt = (props) => {
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteitem, setDeleteItem] = useState("");
   const [showDots, setShowDots] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const {
@@ -77,6 +78,7 @@ const Receipt = (props) => {
           receiptId: deleteitem.transactionId,
         },
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -132,6 +134,8 @@ const Receipt = (props) => {
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 204) {
+      setDeleteLoading(false);
+
       setDeleteShow(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
@@ -409,10 +413,20 @@ const Receipt = (props) => {
               fontWeight: 600,
               fontFamily: "Gilroy",
               fontSize: "14px",
+              opacity: deleteLoading ? 0.7 : 1,
+              cursor: deleteLoading ? "not-allowed" : "pointer",
             }}
             onClick={handleDelete}
+            disabled={deleteLoading}
           >
-            Delete
+            {deleteLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Deleting...
+              </div>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
