@@ -482,16 +482,16 @@ function AddPg({ show, handleClose, currentItem }) {
           additionalImages: [
             images[0]?.isChanged
               ? images[0].image
-              : particularEditDetails.images?.[0]?.image || null,
+              : particularEditDetails?.images?.[0]?.image || null,
             images[1]?.isChanged
               ? images[1].image
-              : particularEditDetails.images?.[1]?.image || null,
+              : particularEditDetails?.images?.[1]?.image || null,
             images[2]?.isChanged
               ? images[2].image
-              : particularEditDetails.images?.[2]?.image || null,
+              : particularEditDetails?.images?.[2]?.image || null,
             images[3]?.isChanged
               ? images[3].image
-              : particularEditDetails.images?.[3]?.image || null,
+              : particularEditDetails?.images?.[3]?.image || null,
           ].filter(Boolean),
 
           payloads: {
@@ -740,7 +740,7 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   }, [state.createAccount?.networkError]);
 
-  console.log("images", images);
+  // console.log("images", images);
 
   return (
     <div className="modal show block static">
