@@ -37,6 +37,7 @@ export const initialState = {
   readNotificationSuccess: 0,
   demoSuccess: 0,
   demoEror: "",
+  logoutLoading: false,
 };
 const LoginReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -131,7 +132,11 @@ const LoginReducer = (state = initialState, action) => {
       return { ...state, errorPassword: "", errorPasswordStatusCode: 0 };
     case "LOGIN-SUCCESS":
       return { ...state, isLoggedIn: true };
-
+    case "LOGOUTLOADING":
+      return {
+        ...state,
+        logoutLoading: true,
+      };
     case "LOG_OUT":
       return {
         ...state,
@@ -143,6 +148,7 @@ const LoginReducer = (state = initialState, action) => {
       return {
         ...state,
         logoutAdminStatusCode: action.payload.statusCode,
+        logoutLoading: false,
       };
     case "REMOVE_LOGOUT_ADMIN":
       return { ...state, logoutAdminStatusCode: 0 };

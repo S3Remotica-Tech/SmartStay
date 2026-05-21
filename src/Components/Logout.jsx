@@ -14,6 +14,7 @@ function Logout({ show, handleClose }) {
 
   const handleLogout = () => {
     setLogoutAdminLoading(true);
+    dispatch({ type: "LOGOUTLOADING" });
     dispatch({ type: "LOGOUTADMINSAGA", payload: { source: "WEB" } });
     const token = cookies.get("v2-token");
 
