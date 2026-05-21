@@ -1549,24 +1549,28 @@ function* handleDeleteFloor(hosteID) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        toast.error(`${error.response.data}`, {
-          style: {
-            fontFamily: "Gilroy",
-            font: "#000",
-            borderBottom: "5px solid red",
-          },
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeButton: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
+
+    if (error) {
+      yield put({
+        type: "DELETE_FLOOR_ERROR",
+        payload: error.response.data,
+      });
+
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 }
@@ -1616,24 +1620,27 @@ function* handleDeleteRoom(roomDetails) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        toast.error(`${error.response.data}`, {
-          style: {
-            fontFamily: "Gilroy",
-            font: "#000",
-            borderBottom: "5px solid red",
-          },
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeButton: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
+
+    if (error) {
+      yield put({
+        type: "DELETE_ROOM_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 }

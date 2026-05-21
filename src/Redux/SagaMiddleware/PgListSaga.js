@@ -117,16 +117,15 @@ const hostelId = GlobalHostelId(response);
 function* handleGetAllBed(action) {
   try {
     const response = yield call(getAllBed, action.payload);
-
+console.log("response", response)
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+     
     }
 
     if (response?.status === 200) {
-      yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response?.status } })
+      yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response?.status , roomId: action.payload.roomId,} })
 
     }
     if (response) {

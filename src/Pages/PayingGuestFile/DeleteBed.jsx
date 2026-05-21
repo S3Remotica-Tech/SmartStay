@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import Nav from 'react-bootstrap/Nav';
-import AddCustomer from './AddCustomerPG';
+import React, { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import Nav from "react-bootstrap/Nav";
+import AddCustomer from "./AddCustomerPG";
 // import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
@@ -12,35 +12,28 @@ import { DatePicker } from "antd";
 import { Form } from "react-bootstrap";
 import dayjs from "dayjs";
 import moment from "moment";
-import ErrorMessage from '../../Components/ErrorMessage'
-
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function DeleteBed({ show, handleClose, deleteBedDetails }) {
-
-
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [actionType, setActionType] = useState('addCustomer');
-  const [showAddCustomer, setShowAddCustomer] = useState(false)
+  const [actionType, setActionType] = useState("addCustomer");
+  const [showAddCustomer, setShowAddCustomer] = useState(false);
   // const [rolePermission, setRolePermission] = useState("");
   // const [customerDeletePermission, setCustomerDeletePermission] = useState("")
-  const [advanceForm, setAdvanceForm] = useState(false)
-  const [user_details, setUserDetails] = useState('')
-  const { bed } = deleteBedDetails
+  const [advanceForm, setAdvanceForm] = useState(false);
+  const [user_details, setUserDetails] = useState("");
+  const { bed } = deleteBedDetails;
   const [formLoading, setFormLoading] = useState(false);
   const [advanceDate, setAdvanceDate] = useState(null);
   const [advanceDueDate, setAdvanceDueDate] = useState(null);
   const [advanceDateError, setAdvanceDateError] = useState("");
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
-
-
-
   // useEffect(() => {
   //   setRolePermission(state.createAccount.accountList);
   // }, [state.createAccount.accountList]);
-
 
   // useEffect(() => {
   //   if (
@@ -53,70 +46,63 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   //   }
   // }, [rolePermission]);
 
-
   const handleDeleteBed = () => {
-    dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
+    dispatch({ type: "CLEAR_DELETE_BED_ERROR" });
     if (deleteBedDetails?.bed.id) {
       setFormLoading(true);
       dispatch({
-        type: 'DELETEBED',
+        type: "DELETEBED",
         payload: {
-          // hostelId: room.Hostel_Id, 
-          // floorId: room.Floor_Id, 
-          // roomNo: room.Room_Id, 
-          bedId: bed.id
-        }
-      })
-
+          // hostelId: room.Hostel_Id,
+          // floorId: room.Floor_Id,
+          // roomNo: room.Room_Id,
+          bedId: bed.id,
+        },
+      });
     }
-
-
-  }
-
+  };
 
   const handleshowAdvanceForm = (data) => {
-    setUserDetails(data)
-  }
+    setUserDetails(data);
+  };
 
   const handleCloseAdvanceForm = () => {
-    setAdvanceForm(false)
-  }
+    setAdvanceForm(false);
+  };
 
   useEffect(() => {
     if (user_details) {
-      setAdvanceForm(true)
-      setFormLoading(false)
+      setAdvanceForm(true);
+      setFormLoading(false);
     }
-  }, [user_details])
-
-
+  }, [user_details]);
 
   const handleShow = (type) => {
     setActionType(type);
   };
 
-
   const handleSaveCustomer = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-
 
     const joining = moment(user_details.joining_date);
     const invoice = moment(advanceDate);
     const due = moment(advanceDueDate);
 
-    if (invoice.isBefore(joining, 'day')) {
+    if (invoice.isBefore(joining, "day")) {
       setAdvanceDateError("Before joining date not allowed");
       hasError = true;
     }
 
-    if (due.isBefore(invoice, 'day')) {
+    if (due.isBefore(invoice, "day")) {
       setAdvanceDueDateError("Due date cannot be before invoice date");
       hasError = true;
     }
 
-
-    const filterData_Hostel_Name = state.UsersList?.hostelListNewDetails?.data?.filter(view => view.id === user_details.Hostel_Id);
+    const filterData_Hostel_Name =
+      state.UsersList?.hostelListNewDetails?.data?.filter(
+        (view) => view.id === user_details.Hostel_Id,
+      );
 
     let hasError = false;
 
@@ -134,10 +120,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
       setAdvanceDueDateError("");
     }
 
-
-
     if (!filterData_Hostel_Name || filterData_Hostel_Name.length === 0) {
-
       hasError = true;
     }
 
@@ -149,11 +132,11 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
     };
 
     const mobileNumber = `${user_details.countryCode}${user_details.phone}`;
-    const formattedSelectedDate = incrementDateAndFormat(user_details.joining_date);
+    const formattedSelectedDate = incrementDateAndFormat(
+      user_details.joining_date,
+    );
     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
-
-
 
     dispatch({
       type: "ADDUSER",
@@ -180,24 +163,25 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
         isadvance: 1,
         invoice_date: formattedAdvanceDate,
         due_date: formattedAdvanceDateDue,
-        reasons: user_details.reasons
+        reasons: user_details.reasons,
       },
     });
-    setFormLoading(true)
+    setFormLoading(true);
   };
 
   const handleCancelCustomer = () => {
-
-
-    const filterData_Hostel_Name = state.UsersList?.hostelListNewDetails?.data?.filter(view => view.id === user_details.Hostel_Id);
+    const filterData_Hostel_Name =
+      state.UsersList?.hostelListNewDetails?.data?.filter(
+        (view) => view.id === user_details.Hostel_Id,
+      );
     const incrementDateAndFormat = (date) => {
       return moment(date).add(1, "day").format("YYYY-MM-DD");
     };
 
     const mobileNumber = `${user_details.countryCode}${user_details.phone}`;
-    const formattedSelectedDate = incrementDateAndFormat(user_details.joining_date);
-
-
+    const formattedSelectedDate = incrementDateAndFormat(
+      user_details.joining_date,
+    );
 
     dispatch({
       type: "ADDUSER",
@@ -222,34 +206,33 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
         RoomRent: user_details.RoomRent,
         joining_date: formattedSelectedDate,
         isadvance: 0,
-        reasons: user_details.reasons
+        reasons: user_details.reasons,
       },
     });
-    setFormLoading(true)
-  }
-
+    setFormLoading(true);
+  };
 
   useEffect(() => {
     if (state.PgList?.deleteBedError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
+        dispatch({ type: "CLEAR_DELETE_BED_ERROR" });
       }, 3000);
     }
   }, [state.PgList?.deleteBedError]);
 
-
   useEffect(() => {
-    if (state.PgList.statusCodeDeleteBed === 200 || state.PgList.statusCodeDeleteBed === 204) {
-      handleClose()
-      setFormLoading(false)
+    if (
+      state.PgList.statusCodeDeleteBed === 200 ||
+      state.PgList.statusCodeDeleteBed === 204
+    ) {
+      handleClose();
+      setFormLoading(false);
     }
-
-  }, [state.PgList.statusCodeDeleteBed])
+  }, [state.PgList.statusCodeDeleteBed]);
 
   return (
     <div>
-
       <Modal
         show={show}
         onHide={handleClose}
@@ -257,7 +240,6 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
         backdrop="static"
         dialogClassName="!max-w-md !w-full"
       >
-      
         <Modal.Header className="!flex !justify-center !border-0 !pb-0">
           <Modal.Title className="!text-lg !font-semibold !font-gilroy">
             Delete Bed ?
@@ -265,7 +247,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
         </Modal.Header>
 
         <Modal.Body className="!relative !text-gray-600 !text-center !pt-3 !pb-2 !text-base !font-medium !font-gilroy">
-            Are you sure you want to delete the bed?
+          Are you sure you want to delete the bed?
           {/* {`Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`} */}
         </Modal.Body>
 
@@ -299,15 +281,13 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
           <Button
             className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
-            // disabled={customerDeletePermission}
+            disabled={formLoading}
             onClick={handleDeleteBed}
           >
             Delete
           </Button>
         </Modal.Footer>
       </Modal>
-
-
 
       <Modal
         show={advanceForm}
@@ -323,7 +303,6 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
           }}
           className="m-0 p-0"
         >
-
           <Modal.Header style={{ position: "relative" }}>
             <div
               style={{
@@ -345,9 +324,6 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
           <Modal.Body style={{ paddingTop: 2 }}>
             <div className="d-flex align-items-center">
               <div className="container">
-
-
-
                 <div className="row mb-3">
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="checkoutDate">
@@ -374,7 +350,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                             width: "100%",
                             height: 48,
                             cursor: "pointer",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -387,7 +363,9 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                             triggerNode.closest(".datepicker-wrapper")
                           }
                           dropdownClassName="custom-datepicker-popup"
-                          disabledDate={(current) => current && current > dayjs().endOf("day")}
+                          disabledDate={(current) =>
+                            current && current > dayjs().endOf("day")
+                          }
                         />
                       </div>
                     </Form.Group>
@@ -420,7 +398,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                             width: "100%",
                             height: 48,
                             cursor: "pointer",
-                            fontFamily: "Gilroy"
+                            fontFamily: "Gilroy",
                           }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -437,7 +415,10 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                       </div>
                     </Form.Group>
                     {advanceDueDateError && (
-                      <ErrorMessage message={advanceDueDateError} type="error" />
+                      <ErrorMessage
+                        message={advanceDueDateError}
+                        type="error"
+                      />
                     )}
                   </div>
                 </div>
@@ -483,12 +464,8 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                   </div>
                 </div>
               </div>
-
             </div>
           </Modal.Body>
-
-
-
         </Modal.Dialog>
       </Modal>
 
@@ -502,15 +479,12 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
           onclickdata={handleshowAdvanceForm}
         />
       )}
-
-
-
     </div>
-  )
+  );
 }
 DeleteBed.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   deleteBedDetails: PropTypes.func.isRequired,
-}
+};
 export default DeleteBed;
