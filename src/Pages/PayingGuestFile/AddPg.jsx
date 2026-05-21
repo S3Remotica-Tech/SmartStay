@@ -728,19 +728,11 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode]);
 
-  console.log("state.UsersList.hostelList", state.UsersList.hostelList);
-
-  console.log("currentItem", currentItem);
-
-  console.log("particularEditDetails", particularEditDetails);
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false);
     }
   }, [state.createAccount?.networkError]);
-
-  // console.log("images", images);
 
   return (
     <div className="modal show block static">
