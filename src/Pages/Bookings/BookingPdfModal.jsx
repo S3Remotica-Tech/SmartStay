@@ -779,7 +779,7 @@ const InvoiceCard = ({ rowData }) => {
               <button
                 disabled={!canUpdateInvoice || !isRedeemAvailable}
                 onClick={() => handleApplyInvoices()}
-                className={`flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px] transition-all duration-150
+                className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold shadow border-[#E7E7E7] rounded-[10px] transition-all duration-150
     ${
       !canUpdateInvoice || !isRedeemAvailable
         ? "cursor-not-allowed opacity-50 bg-gray-100"

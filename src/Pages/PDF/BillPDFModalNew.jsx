@@ -1804,7 +1804,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     disabled={
                       !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
                     }
-                    className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm  flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px]
+                    className={`w-full disabled:text-gray-400   !bg-[#F9F9F9]  font-semibold
+                      text-left px-4 py-2 text-sm  flex items-center gap-2 px-3 py-2 border-2 border-[#E7E7E7] 
+                      rounded-[10px]
     whitespace-nowrap rounded-md transition-all duration-150
     ${
       !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
