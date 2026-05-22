@@ -872,8 +872,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     <>
                       <div className="font-gilroy">
                         <div className="grid grid-cols-12 border border-[#DFDFDF] rounded-lg overflow-hidden">
-                          <div className="col-span-12 md:col-span-6 border-r border-[#DFDFDF]">
-                            <div className="overflow-x-auto">
+                          <div className="col-span-12 md:col-span-6 border-r border-[#DFDFDF] flex flex-col">
+                            <div className="overflow-x-auto flex-1">
                               <table className="w-full table-fixed">
                                 <thead>
                                   <tr className="bg-white border-b border-[#DFDFDF]">
@@ -892,10 +892,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                 <tbody>
                                   {pdfDetails?.invoiceInfo?.invoiceItems?.map(
                                     (item, index) => (
-                                      <tr
-                                        key={index}
-                                        className="border-b border-[#F3F3F3]"
-                                      >
+                                      <tr key={index} className="">
                                         <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
                                           {item.description}
                                         </td>
@@ -909,6 +906,21 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                       </tr>
                                     ),
                                   )}
+
+                                  {Array.from({
+                                    length: Math.max(
+                                      0,
+                                      (pdfDetails?.invoiceInfo?.listDeductions
+                                        ?.length || 0) -
+                                        (pdfDetails?.invoiceInfo?.invoiceItems
+                                          ?.length || 0),
+                                    ),
+                                  }).map((_, index) => (
+                                    <tr key={`empty-left-${index}`}>
+                                      <td className="px-3 py-2">&nbsp;</td>
+                                      <td className="px-3 py-2">&nbsp;</td>
+                                    </tr>
+                                  ))}
                                 </tbody>
                               </table>
                             </div>
@@ -925,12 +937,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             </div>
                           </div>
 
-                          <div className="col-span-12 md:col-span-6">
-                            <div className="overflow-x-auto">
+                          <div className="col-span-12 md:col-span-6 flex flex-col">
+                            <div className="overflow-x-auto flex-1">
                               <table className="w-full table-fixed">
                                 <thead>
                                   <tr className="bg-white border-b border-[#DFDFDF]">
-                                    <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222] capitalize">
+                                    <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222]">
                                       Deductions
                                     </th>
 
@@ -945,10 +957,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                                     ?.length > 0 ? (
                                     pdfDetails?.invoiceInfo?.listDeductions?.map(
                                       (item, index) => (
-                                        <tr
-                                          key={index}
-                                          className="border-b border-[#F3F3F3]"
-                                        >
+                                        <tr key={index} className="">
                                           <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
                                             {item.type}
                                           </td>
@@ -1045,58 +1054,135 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     </>
                   ) : pdfDetails?.configurations?.invoiceType === "Advance" ? (
                     <div className="mt-0 mb-2 p-0 font-gilroy">
-                      <div className="overflow-x-auto">
-                        <table className="w-full border border-[#dee2e6] rounded-xl overflow-hidden border-separate border-spacing-0">
-                          <thead>
-                            <tr>
-                              <th className="w-[10%] px-[14px] py-[10px] text-[13px] font-semibold text-black text-left border-b border-[#dee2e6]">
-                                S.NO
-                              </th>
+                      <div className="font-gilroy">
+                        <div className="grid grid-cols-12 border border-[#DFDFDF] rounded-lg overflow-hidden">
+                          <div className="col-span-12 md:col-span-6 border-r border-[#DFDFDF] flex flex-col">
+                            <div className="overflow-x-auto flex-1">
+                              <table className="w-full table-fixed">
+                                <thead>
+                                  <tr className="bg-white border-b border-[#DFDFDF]">
+                                    <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222] capitalize">
+                                      {pdfDetails?.invoiceInfo?.totalAmount > 0
+                                        ? "Payment"
+                                        : "Refund"}
+                                    </th>
 
-                              <th className="w-[60%] px-[14px] py-[10px] text-[13px] font-semibold text-black text-left border-b border-[#dee2e6]">
-                                DESCRIPTION
-                              </th>
+                                    <th className="w-[30%] px-3 py-2 text-right text-[12px] font-semibold text-[#222222]">
+                                      AMOUNT / INR
+                                    </th>
+                                  </tr>
+                                </thead>
 
-                              <th className="w-[30%] px-[14px] py-[10px] text-[13px] font-semibold text-black text-right border-b border-[#dee2e6]">
-                                AMOUNT / INR
-                              </th>
-                            </tr>
-                          </thead>
+                                <tbody>
+                                  {pdfDetails?.invoiceInfo?.invoiceItems?.map(
+                                    (item, index) => (
+                                      <tr key={index} className="">
+                                        <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
+                                          {item.description}
+                                        </td>
 
-                          <tbody>
-                            {pdfDetails?.invoiceInfo?.invoiceItems?.map(
-                              (item, index) => (
-                                <tr key={index} className="bg-white">
-                                  <td className="px-[14px] py-[10px] text-[13px] font-medium text-left align-middle">
-                                    {index + 1}
-                                  </td>
+                                        <td className="px-3 py-2 text-right text-[12px] font-semibold text-[#2D2D2D]">
+                                          ₹{" "}
+                                          {Number(item.amount).toLocaleString(
+                                            "en-IN",
+                                          )}
+                                        </td>
+                                      </tr>
+                                    ),
+                                  )}
 
-                                  <td className="px-[14px] py-[10px] text-[13px] font-medium text-[#444] text-left align-middle">
-                                    {item.description}
-                                  </td>
+                                  {Array.from({
+                                    length: Math.max(
+                                      0,
+                                      (pdfDetails?.invoiceInfo?.listDeductions
+                                        ?.length || 0) -
+                                        (pdfDetails?.invoiceInfo?.invoiceItems
+                                          ?.length || 0),
+                                    ),
+                                  }).map((_, index) => (
+                                    <tr key={`empty-left-${index}`}>
+                                      <td className="px-3 py-2">&nbsp;</td>
+                                      <td className="px-3 py-2">&nbsp;</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
 
-                                  <td className="px-[14px] py-[10px] text-[13px] font-medium text-[#444] text-right align-middle">
-                                    Rs. {item.amount?.toLocaleString("en-IN")}
-                                  </td>
-                                </tr>
-                              ),
-                            )}
+                            <div className="flex items-center justify-between border-t border-[#DFDFDF] bg-[#FAFBFF] px-3 py-2 text-[14px] font-semibold text-[#2D2D2D]">
+                              <span>Total</span>
 
-                            <tr className="bg-[#F9F9F9] font-semibold">
-                              <td
-                                colSpan={2}
-                                className="px-[14px] py-[10px] text-[13px] text-black text-left"
-                              >
-                                Total
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-[13px] text-black text-right">
+                              <span>
                                 ₹{" "}
-                                {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                {Number(
+                                  pdfDetails?.invoiceInfo?.subTotal || 0,
+                                ).toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="col-span-12 md:col-span-6 flex flex-col">
+                            <div className="overflow-x-auto flex-1">
+                              <table className="w-full table-fixed">
+                                <thead>
+                                  <tr className="bg-white border-b border-[#DFDFDF]">
+                                    <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222]">
+                                      Deductions
+                                    </th>
+
+                                    <th className="w-[30%] px-3 py-2 text-right text-[12px] font-semibold text-[#222222]">
+                                      AMOUNT / INR
+                                    </th>
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+                                  {pdfDetails?.invoiceInfo?.listDeductions
+                                    ?.length > 0 ? (
+                                    pdfDetails?.invoiceInfo?.listDeductions?.map(
+                                      (item, index) => (
+                                        <tr key={index} className="">
+                                          <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
+                                            {item.type}
+                                          </td>
+
+                                          <td className="px-3 py-2 text-right text-[12px] font-semibold text-[#2D2D2D]">
+                                            ₹{" "}
+                                            {Number(item.amount).toLocaleString(
+                                              "en-IN",
+                                            )}
+                                          </td>
+                                        </tr>
+                                      ),
+                                    )
+                                  ) : (
+                                    <tr>
+                                      <td
+                                        colSpan={2}
+                                        className="px-3 py-2 text-center text-[12px] font-medium text-[#2D2D2D]"
+                                      >
+                                        No Deductions
+                                      </td>
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div className="flex items-center justify-between border-t border-[#DFDFDF] bg-[#FAFBFF] px-3 py-2 text-[14px] font-semibold">
+                              <span className="text-[#FF0000]">
+                                Total Deductions
+                              </span>
+
+                              <span className="text-[#2D2D2D]">
+                                ₹{" "}
+                                {Number(totalDeductions || 0).toLocaleString(
+                                  "en-IN",
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="my-3 flex w-full justify-end">

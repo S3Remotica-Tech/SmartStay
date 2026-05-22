@@ -148,7 +148,6 @@ const PgListReducer = (state = initialState, action) => {
 
     case "GET_ALL_BEDS": {
       const response = action.payload.response || [];
-
       const roomId = response[0]?.roomId || action.payload.roomId;
 
       return {
