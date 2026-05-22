@@ -312,11 +312,10 @@ function Booking() {
     "Tenant Name": "tenantName",
     "Mobile No": "mobile",
     "Joining Date": "joiningDate",
-    Floor: "floorName",
-    Room: "roomName",
-    Bed: "bedName",
+    "Floor Name": "floorName",
+    "Room Name": "roomName",
+    "Bed Name": "bedName",
     Amount: "amount",
-    Status: "status",
   };
 
   const formattedData = (
@@ -344,21 +343,25 @@ function Booking() {
       canApply: apiData?.canApply || null,
       availableAmount: apiData?.availableAmount || 0,
       customerId: apiData?.customerId,
+      status: apiData?.status,
     };
 
+    obj.status = apiData?.status || "-";
     return obj;
   });
 
   const columnStyles = {
+    "Profile Pic": "px-4 whitespace-nowrap",
     "Inv No": "px-4 whitespace-nowrap",
     "Booking Date": "px-4 whitespace-nowrap",
     "Tenant Name": "px-4 whitespace-nowrap",
     "Joining Date": "px-4 whitespace-nowrap",
     "Mobile No": "px-4 whitespace-nowrap",
-    Floor: "px-4",
-    Room: "px-4",
-    Bed: "px-4",
+    "Floor Name": "px-4",
+    "Room Name": "px-4",
+    "Bed Name": "px-4",
     Amount: "px-4",
+    status: "px-4",
   };
 
   useEffect(() => {
@@ -933,6 +936,9 @@ function Booking() {
                           );
                         })}
                         <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                          Status
+                        </th>
+                        <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
                           Action
                         </th>
                       </tr>
@@ -1059,30 +1065,6 @@ function Booking() {
                                       </div>
                                     </td>
                                   );
-                                case "Status":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <span
-                                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                        style={{
-                                          backgroundColor:
-                                            statusStyles[item.status]?.bg ||
-                                            "#EFFFF2",
-                                        }}
-                                      >
-                                        <span
-                                          className="h-2 w-2 rounded-full"
-                                          style={{
-                                            backgroundColor:
-                                              statusStyles[item.status]?.text ||
-                                              "#038C3D",
-                                          }}
-                                        ></span>
-
-                                        {item.status}
-                                      </span>
-                                    </td>
-                                  );
 
                                 case "Mobile No":
                                   return (
@@ -1091,14 +1073,14 @@ function Booking() {
                                     </td>
                                   );
 
-                                case "Floor":
+                                case "Floor Name":
                                   return (
                                     <td key={col.key} className={finalClass}>
                                       {item.floorName}
                                     </td>
                                   );
 
-                                case "Room":
+                                case "Room Name":
                                   return (
                                     <td
                                       key={col.key}
@@ -1108,7 +1090,7 @@ function Booking() {
                                     </td>
                                   );
 
-                                case "Bed":
+                                case "Bed Name":
                                   return (
                                     <td
                                       key={col.key}
@@ -1140,7 +1122,30 @@ function Booking() {
                                   );
                               }
                             })}
+                            <td
+                              className={`${
+                                isScrolling ? "!bg-white" : "bg-white"
+                              } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                            >
+                              <span
+                                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                style={{
+                                  backgroundColor:
+                                    statusStyles[item.status]?.bg || "#EFFFF2",
+                                }}
+                              >
+                                <span
+                                  className="h-2 w-2 rounded-full"
+                                  style={{
+                                    backgroundColor:
+                                      statusStyles[item.status]?.text ||
+                                      "#038C3D",
+                                  }}
+                                ></span>
 
+                                {item.status}
+                              </span>
+                            </td>
                             <td
                               className={`${
                                 isScrolling ? "!bg-white" : "bg-white"
