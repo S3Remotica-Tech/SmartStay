@@ -224,8 +224,6 @@ const InvoiceTable = (props) => {
     }
   }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
 
-  console.log("props.item", props.item);
-
   return (
     <>
       <tr

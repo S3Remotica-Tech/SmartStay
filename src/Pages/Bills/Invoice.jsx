@@ -52,6 +52,8 @@ import {
 } from "@dnd-kit/sortable";
 import Cell from "../../Assets/Images/New_images/Cell.svg";
 import listview from "../../Assets/Images/New_images/listview-rectangle.svg";
+import NoData from "../../Assets/v2Images/NoData.svg";
+import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -94,6 +96,8 @@ const InvoicePage = () => {
   const [search, setSearch] = useState(false);
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([]);
+
+  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
   const [originalBills, setOriginalBills] = useState([]);
   const [open, setOpen] = useState(false);
@@ -1370,7 +1374,7 @@ const InvoicePage = () => {
                   onClick={handleManualShow}
                   className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
                 >
-                  {DownloadInvoice ? "+ " : "+ Create Bill"}
+                  {DownloadInvoice ? "+ " : "+ Create Invoice"}
                 </Button>
               </div>
             </div>
@@ -1822,18 +1826,49 @@ const InvoicePage = () => {
                   !loading &&
                   sortedData &&
                   sortedData.length === 0 && (
-                    <div className="mt-[68px] 2xl:mt-52 flex justify-center animated-text">
-                      <div className="text-center">
-                        <img
-                          src={Emptystate}
-                          alt="emptystate"
-                          className="mx-auto"
-                        />
-                        <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                          No bills available
+                    <div className="w-full h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div>
+                          {isSearching ? (
+                            <img src={DataSearch} alt="img" />
+                          ) : (
+                            <img src={NoData} alt="img" />
+                          )}
                         </div>
-                        <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                          There are no bills added
+
+                        <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
+                          {isSearching
+                            ? "No Search Results Found"
+                            : "No Data Found !"}
+                        </h3>
+
+                        <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
+                          {isSearching
+                            ? "Your Search didn’t match any projects"
+                            : "No invoices were still generated Yet"}
+                        </p>
+
+                        <div className="flex">
+                          {isSearching && (
+                            <Button
+                              onClick={() => {
+                                setFilterInput("");
+                                setChips([]);
+                              }}
+                              className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
+              !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7]"
+                            >
+                              Clear Search
+                            </Button>
+                          )}
+
+                          <Button
+                            disabled={!canWriteInvoice}
+                            onClick={handleManualShow}
+                            className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
+                          >
+                            + Create Invoice
+                          </Button>
                         </div>
                       </div>
                     </div>
