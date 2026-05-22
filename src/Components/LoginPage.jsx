@@ -1,223 +1,192 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import { useNavigate } from "react-router-dom";
-import 'sweetalert2/dist/sweetalert2.min.css';
-import { useDispatch, useSelector } from 'react-redux';
-import OtpVerificationModal from '../Pages/OthersComponent/OtpVerificationModal';
-import Cookies from 'universal-cookie';
-import Loginimage from '../Assets/Images/new_login.png';
-import Logo from '../Assets/Images/New_images/Group.png';
-import { Eye, EyeSlash } from 'iconsax-react';
-import ErrorMessage from '../Components/ErrorMessage'
+import "sweetalert2/dist/sweetalert2.min.css";
+import { useDispatch, useSelector } from "react-redux";
+import OtpVerificationModal from "../Pages/OthersComponent/OtpVerificationModal";
+import Cookies from "universal-cookie";
+import Loginimage from "../Assets/Images/new_login.png";
+import Logo from "../Assets/Images/New_images/Group.png";
+import { Eye, EyeSlash } from "iconsax-react";
+import ErrorMessage from "../Components/ErrorMessage";
 import CryptoJS from "crypto-js";
 const MyComponent = () => {
-
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
   let navigate = useNavigate();
   const LandingNavigates = useNavigate();
-  const [email_Id, setemail_Id] = useState('')
-  const [password, setpassword] = useState('')
-  const [showPassword, setShowpassword] = useState(false)
-  const [checked, setChecked] = useState(false)
-  const [showOtpVerification, setShowOtpVerification] = useState(false)
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [loading, setLoading] = useState(false)
+  const [email_Id, setemail_Id] = useState("");
+  const [password, setpassword] = useState("");
+  const [showPassword, setShowpassword] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [showOtpVerification, setShowOtpVerification] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
   };
 
   const handleCreateAccount = () => {
-    navigate('/hostel-management-signup')
-  }
+    navigate("/hostel-management-signup");
+  };
   const handleForgetPassword = () => {
-    navigate('/forget-password')
-  }
+    navigate("/forget-password");
+  };
 
   const handleEmailChange = (e) => {
-    dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
-    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
-    setemail_Id(e.target.value.toLowerCase())
-    setEmailError('')
-  }
+    dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setemail_Id(e.target.value.toLowerCase());
+    setEmailError("");
+  };
 
   const handlePasswordChange = (e) => {
-    dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
-    dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
-    setpassword(e.target.value)
-    setPasswordError('')
-  }
-
-
+    dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+    setpassword(e.target.value);
+    setPasswordError("");
+  };
 
   const handleCheckboxChange = (e) => {
     setChecked(e.target.checked);
-  }
-
-
+  };
 
   const handleLogoClicks = () => {
     LandingNavigates("/All_Landing_pages");
   };
 
-
-
-
-
   const handleCloseModal = () => {
-    dispatch({ type: 'CLEAR_ERROR_OTP_CODE' })
+    dispatch({ type: "CLEAR_ERROR_OTP_CODE" });
     setShowOtpVerification(false);
   };
 
-
-
-
   const handleLogin = () => {
-    dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
-    dispatch({ type: 'RESET_ALL' });
-    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
-    dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
-    setEmailError('');
-    setPasswordError('');
+    dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+    dispatch({ type: "RESET_ALL" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+    setEmailError("");
+    setPasswordError("");
 
     if (!email_Id && !password) {
-      setEmailError('Please Enter Email ID');
-      setPasswordError('Please Enter Password');
-      return
+      setEmailError("Please Enter Email ID");
+      setPasswordError("Please Enter Password");
+      return;
     } else if (!email_Id) {
-      setEmailError('Please Enter Email ID');
-      return
+      setEmailError("Please Enter Email ID");
+      return;
     } else if (!password) {
-      setPasswordError('Please Enter Password');
-      return
+      setPasswordError("Please Enter Password");
+      return;
     }
     if (email_Id && password) {
-
-      dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
+      dispatch({
+        type: "LOGINVERSION2",
+        payload: { emailId: email_Id, password: password },
+      });
       // dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
-      setLoading(true)
+      setLoading(true);
     }
   };
 
-
   useEffect(() => {
     const appearOptions = {
-      threshold: 0.5
+      threshold: 0.5,
     };
-    const faders = document.querySelectorAll('.fade-in');
+    const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (entries) {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           return;
-        }
-        else {
-          entry.target.classList.add('appear');
+        } else {
+          entry.target.classList.add("appear");
           appearOnScro1l.unobserve(entry.target);
         }
-      })
-    }, appearOptions)
-    faders.forEach(fader => {
+      });
+    }, appearOptions);
+    faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
-    })
+    });
   });
-
-
-
-
 
   useEffect(() => {
     if (state.login.statusCode === 200) {
       // setLoading(false)
       // dispatch({ type: 'LOGIN-SUCCESS' });
-      const token = state.login.JWTtoken
-      const cookies = new Cookies()
-      cookies.set('token', token, { path: '/' });
+      const token = state.login.JWTtoken;
+      const cookies = new Cookies();
+      cookies.set("token", token, { path: "/" });
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUSCODE' });
+        dispatch({ type: "CLEAR_STATUSCODE" });
       }, 100);
     }
-
   }, [state.login.statusCode]);
-
-
 
   useEffect(() => {
     if (state.login.statusCodeForV2Login) {
       if (state.login?.isOtpRequired === true) {
+        setShowOtpVerification(true);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        dispatch({ type: "LOGIN-SUCCESS" });
+        const token = state.login?.JWTtokenV2;
 
-        setShowOtpVerification(true)
-        setLoading(false)
-      }
-      else {
-        setLoading(false)
-        dispatch({ type: 'LOGIN-SUCCESS' });
-        const token = state.login?.JWTtokenV2
-
-
-
-        const cookies = new Cookies()
-        cookies.set('v2-token', token, { path: '/' });
+        const cookies = new Cookies();
+        cookies.set("v2-token", token, { path: "/" });
 
         if (checked) {
           const encryptData = CryptoJS.AES.encrypt(
             JSON.stringify(true),
-            "abcd"
+            "abcd",
           );
           localStorage.setItem("login", encryptData.toString());
         }
 
-
-
         if (token) {
           setTimeout(() => {
-            dispatch({ type: 'CLEAR_STATUSCODE_VERSION_2' });
+            dispatch({ type: "CLEAR_STATUSCODE_VERSION_2" });
           }, 100);
         }
       }
-
-
-
     }
-
   }, [state.login.statusCodeForV2Login]);
 
-
-
-
-
   useEffect(() => {
-    if (state.login.errorEmail || state.login.errorPassword || state.login.invalidCredential) {
-      setLoading(false)
+    if (
+      state.login.errorEmail ||
+      state.login.errorPassword ||
+      state.login.invalidCredential
+    ) {
+      setLoading(false);
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
-      }, 2000)
-
+        dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+      }, 2000);
     }
-  }
-    , [state.login.errorEmail, state.login.errorPassword, state.login.invalidCredential])
+  }, [
+    state.login.errorEmail,
+    state.login.errorPassword,
+    state.login.invalidCredential,
+  ]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
+  }, [state.createAccount?.networkError]);
 
   return (
-
     <div className="container mx-auto h-full mt-12">
       <div className="flex flex-wrap h-full items-center 2xl:mt-36 w-full fade-in">
         <div className="w-full lg:w-1/2 relative lg:ml-0">
@@ -251,13 +220,15 @@ const MyComponent = () => {
             <ErrorMessage message={state.createAccount?.networkError} type="error" />
             : null} */}
 
-          {state.login.invalidCredential ?
-            <ErrorMessage message={state.login.invalidCredential} type="error" />
-            : null}
+          {state.login.invalidCredential ? (
+            <ErrorMessage
+              message={state.login.invalidCredential}
+              type="error"
+            />
+          ) : null}
 
-          <div className='mt-4'>
+          <div className="mt-4">
             <div className="p-0 font-gilroy">
-
               <label className="text-[14px] font-medium text-[#222222]">
                 Email ID
               </label>
@@ -272,9 +243,7 @@ const MyComponent = () => {
                 className={`w-full h-[50px] mt-1 mb-1 px-3 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-0 text-[16px] text-[#4B4B4B] ${email_Id ? "font-semibold" : "font-medium"}`}
               />
 
-              {emailError && (
-                <ErrorMessage message={emailError} type="error" />
-              )}
+              {emailError && <ErrorMessage message={emailError} type="error" />}
 
               {state.login.errorEmail && (
                 <div className="mb-1 p-1">
@@ -315,7 +284,10 @@ const MyComponent = () => {
               )}
 
               {state.login.errorPassword && (
-                <ErrorMessage message={state.login.errorPassword} type="error" />
+                <ErrorMessage
+                  message={state.login.errorPassword}
+                  type="error"
+                />
               )}
 
               <div className="flex justify-between items-center mt-3 mb-3">
@@ -331,47 +303,69 @@ const MyComponent = () => {
 
                 <span
                   onClick={() => handleForgetPassword()}
-                  className="font-montserrat text-[14px] font-semibold leading-[17.07px] text-left text-[#1E45E1] cursor-pointer hover:underline"> Forgot Password?
+                  className="font-montserrat text-[14px] font-semibold leading-[17.07px] text-left text-[#1E45E1] cursor-pointer hover:underline"
+                >
+                  {" "}
+                  Forgot Password?
                 </span>
               </div>
-
             </div>
 
             <div className="flex justify-center pt-2">
               <button
                 disabled={loading}
                 onClick={handleLogin}
-                className={`w-full h-[42px] rounded-[10px] text-[16px] font-semibold font-montserrat 
-  ${loading
-                    ? 'bg-gray-300 cursor-not-allowed opacity-70 text-gray-500'
-                    : 'bg-[#1E45E1] text-white cursor-pointer hover:bg-[#1639c3]'
-                  }`}
+                className={`w-full h-[42px] rounded-[10px] text-[16px] font-semibold font-montserrat flex items-center justify-center gap-2
+    ${
+      loading
+        ? "bg-[#1E45E1] text-white cursor-not-allowed opacity-70 "
+        : "bg-[#1E45E1] text-white cursor-pointer hover:bg-[#1639c3]"
+    }`}
               >
-               Sign in
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign in"
+                )}
               </button>
             </div>
           </div>
-          <div className='flex flex-wrap w-full justify-center lg:justify-start mt-6 gap-1'>
+          <div className="flex flex-wrap w-full justify-center lg:justify-start mt-6 gap-1">
             <p className="font-montserrat font-normal text-[16px] lg:ml-0 2xl:ml-0 text-center lg:text-left">
               Don&apos;t have an account?
-            </p><span className="font-montserrat font-semibold text-[16px] text-[#1E45E1] cursor-pointer hover:underline" onClick={handleCreateAccount}>Create an account</span>
+            </p>
+            <span
+              className="font-montserrat font-semibold text-[16px] text-[#1E45E1] cursor-pointer hover:underline"
+              onClick={handleCreateAccount}
+            >
+              Create an account
+            </span>
           </div>
 
-          {loading && <div className="absolute top-[120px] inset-x-0 bottom-0 flex items-center justify-center h-[50vh] opacity-75 z-10"><div className="w-10 h-10 border-4 border-[#1E45E1] border-t-transparent rounded-full animate-spin"></div></div>}
+          {/* {loading && (
+            <div className="absolute top-[120px] inset-x-0 bottom-0 flex items-center justify-center h-[50vh] opacity-75 z-10">
+              <div className="w-10 h-10 border-4 border-[#1E45E1] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          )} */}
         </div>
 
         <div className="w-full lg:w-1/2 mt-6 lg:mt-16 flex justify-center lg:pl-20 2xll:pl-20">
-          <div className='w-full max-w-[450px] md:max-w-[600px] mx-auto'>
-            <img src={Loginimage} alt='LoginImg' className="w-full h-auto" />
+          <div className="w-full max-w-[450px] md:max-w-[600px] mx-auto">
+            <img src={Loginimage} alt="LoginImg" className="w-full h-auto" />
           </div>
         </div>
       </div>
 
-
-      <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
-
+      <OtpVerificationModal
+        show={showOtpVerification}
+        handleClose={handleCloseModal}
+        Email_Id={email_Id}
+        checked={checked}
+      />
     </div>
-
 
     // <div className="max-w-[1100px] mx-auto h-full px-4">
     //   <div className="flex flex-wrap items-center justify-center p-3 md:mt-4 2xl:mt-36 w-full fade-in">
@@ -508,7 +502,6 @@ const MyComponent = () => {
     //       {loading && <div className="absolute top-[120px] inset-x-0 bottom-0 flex items-center justify-center h-[50vh] opacity-75 z-10"><div className="w-10 h-10 border-4 border-[#1E45E1] border-t-transparent rounded-full animate-spin"></div></div>}
     //     </div>
 
-
     //     <div className="w-full lg:w-1/2 mt-8 lg:mt-3 flex justify-center">
     //       <div className="w-full flex justify-center">
     //         <img
@@ -533,8 +526,6 @@ const MyComponent = () => {
     //   <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
 
     // </div>
-
-
   );
 };
 

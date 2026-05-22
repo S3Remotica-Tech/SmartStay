@@ -185,6 +185,7 @@ export const initialState = {
 };
 
 const UserListReducer = (state = initialState, action) => {
+ 
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
@@ -381,10 +382,10 @@ const UserListReducer = (state = initialState, action) => {
     case "REMOVE_BED_AVAILABLE_ERROR_BOOKED":
       return { ...state, bedError: "" };
 
-case 'ERROR_INITIALIZE_BED':
-   return { ...state, bedInitiaLizeError: action.payload };
-case 'REMOVE_ERROR_INITIALIZE_BED':
-   return { ...state, bedInitiaLizeError: "" };
+    case "ERROR_INITIALIZE_BED":
+      return { ...state, bedInitiaLizeError: action.payload };
+    case "REMOVE_ERROR_INITIALIZE_BED":
+      return { ...state, bedInitiaLizeError: "" };
 
     case "ROOM_READING_ERROR":
       return { ...state, roomReadingError: action.payload };

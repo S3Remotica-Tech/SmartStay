@@ -420,23 +420,11 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
   const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-  // const filteredBeds = state.login.isTrigger
-  //     ? bedsForRoom.filter(
-  //         (bed) =>
-  //             (!bed.isBooked && !bed.isOccupied) ||
-  //             (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
-  //     )
-  //     : bedsForRoom;
+  console.log("bedsForRoom", bedsForRoom);
 
-  // const filteredBeds = React.useMemo(() => {
-  //     if (!state.login.isTrigger) return bedsForRoom;
+  console.log("state.PgList?.bedList", state.PgList?.bedList);
 
-  //     return bedsForRoom.filter(
-  //         bed =>
-  //             (!bed.isBooked && !bed.isOccupied) ||
-  //             (bed.onNotice && !bed.isBooked && !bed.isOccupied)
-  //     );
-  // }, [bedsForRoom, state.login.isTrigger]);
+ 
 
   const filteredBeds = React.useMemo(() => {
     if (!state.login.isTrigger) return bedsForRoom;

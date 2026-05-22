@@ -25,7 +25,7 @@ const Receipt = (props) => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const {
-    // canWriteModule: canWriteReceipt,
+    // canWriteModule: canWriteReceipt,s
     canReadModule: canReadReceipt,
     canDeleteModule: canDeleteReceipt,
     canUpdateModule: canUpdateReceipt,
@@ -402,26 +402,26 @@ const Receipt = (props) => {
             Cancel
           </Button>
           <Button
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              opacity: deleteLoading ? 0.7 : 1,
-              cursor: deleteLoading ? "not-allowed" : "pointer",
-            }}
+            className={`
+    !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-[8px] 
+    !px-[20px] 
+    !py-[12px]  
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-[14px]
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : "!opacity-100 !cursor-pointer"}
+  `}
             onClick={handleDelete}
             disabled={deleteLoading}
           >
             {deleteLoading ? (
               <div className="flex items-center justify-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Deleting...
               </div>
             ) : (

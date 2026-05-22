@@ -55,6 +55,9 @@ function Expenses({ allPageHostel_Id }) {
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
+  const [showExpenseDelete, setShowExpenseDelete] = useState(false);
+  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const {
     canWriteModule: canWriteExpense,
     canReadModule: canReadExpense,
@@ -294,6 +297,7 @@ function Expenses({ allPageHostel_Id }) {
       });
       setShowModal(false);
       setShowExpenseDelete(false);
+      setDeleteLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_EXPENSE" });
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
@@ -352,9 +356,6 @@ function Expenses({ allPageHostel_Id }) {
     setCurrentItem(item);
   };
 
-  const [showExpenseDelete, setShowExpenseDelete] = useState(false);
-  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
-
   const handleDeleteExpense = (id) => {
     if (!id) return;
     setShowExpenseDelete(true);
@@ -374,7 +375,7 @@ function Expenses({ allPageHostel_Id }) {
           hostelId: state.login.selectedHostel_Id,
         },
       });
-      // setCurrentPage(1);
+      setDeleteLoading(true);
     }
   };
 
@@ -900,7 +901,7 @@ function Expenses({ allPageHostel_Id }) {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-        <Modal.Header className="border-b-0">
+        <Modal.Header className="!border-b-0">
           <Modal.Title className="w-full text-center !text-[18px] font-semibold !font-gilroy">
             Delete expense?
           </Modal.Title>
@@ -910,7 +911,7 @@ function Expenses({ allPageHostel_Id }) {
           Are you sure you want to delete this expense?
         </Modal.Body>
 
-        <Modal.Footer className="!border-t-0 -mt-2.5">
+        <Modal.Footer className="!border-0 ">
           <div className="flex justify-center gap-2 w-full">
             <Button
               onClick={handleCloseForDeleteExpense}
@@ -920,10 +921,31 @@ function Expenses({ allPageHostel_Id }) {
             </Button>
 
             <Button
+              disabled={deleteLoading}
               onClick={ConfirmDeleteExpense}
-              className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-semibold !font-gilroy text-[14px]"
+              className={`
+    !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-[8px] 
+    !px-[20px] 
+    !py-[12px]  
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-[14px]
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
             >
-              Delete
+              {deleteLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Deleting...
+                </div>
+              ) : (
+                "Delete"
+              )}
             </Button>
           </div>
         </Modal.Footer>
