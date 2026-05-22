@@ -87,6 +87,7 @@ function SettingGeneral() {
   const [editId, setEditId] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -348,6 +349,7 @@ function SettingGeneral() {
 
   const handleCloseDeleteFormShow = () => {
     setDeleteForm(false);
+    setDeleteLoading(false);
     setGeneralDeleteError("");
     dispatch({ type: "CLEAR_DELETE_GENERAL_ERROR" });
   };
@@ -355,6 +357,7 @@ function SettingGeneral() {
   const handleConformDelete = () => {
     if (deleteId) {
       dispatch({ type: "GENERALDELETEGENERAL", payload: deleteId });
+      setDeleteLoading(true);
     }
   };
 
@@ -1636,10 +1639,35 @@ function SettingGeneral() {
           </Button>
 
           <Button
+            disabled={deleteLoading}
             onClick={handleConformDelete}
-            className="!w-full !max-w-40 !h-13 !rounded-lg !py-3 !px-5 !bg-blue-700 !text-white !font-semibold !font-gilroy !text-sm"
+            className={`
+    !w-full 
+    !max-w-40 
+    !h-13 
+    !rounded-lg 
+    !py-3 
+    !px-5 
+    !bg-blue-700 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-sm
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
           >
-            Delete
+            {deleteLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -29,6 +29,7 @@ function SettingNewRole() {
   const [roleList, setRoleList] = useState([]);
   const [showDots, setShowDots] = useState(null);
   const [deleteRole, setDeleteRole] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [deletedId, setDeletedId] = useState("");
   const [editRoleDetails, setEditRoleDetails] = useState("");
   const [addRole, setAddRole] = useState(false);
@@ -113,6 +114,7 @@ function SettingNewRole() {
   useEffect(() => {
     if (state.Settings?.assignedUserRoleStatusCode === 400) {
       setDeleteRole(false);
+      setDeleteLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_ASSIGNED_ERROR" });
       });
@@ -125,6 +127,7 @@ function SettingNewRole() {
         type: "DELETESETTINGROLEPERMISSION",
         payload: { id: deletedId },
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -469,10 +472,35 @@ function SettingNewRole() {
               Cancel
             </Button>
             <Button
-              className="!w-full !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold! text-[14px]"
+              disabled={deleteLoading}
               onClick={handleDeleteRole}
+              className={`
+    !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-lg 
+    !px-5 
+    !py-3 
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-gilroy 
+    !font-semibold 
+    !text-[14px]
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
             >
-              Delete
+              {deleteLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
             </Button>
           </Modal.Footer>
         </Modal>

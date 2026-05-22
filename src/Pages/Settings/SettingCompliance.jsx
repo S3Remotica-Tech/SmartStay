@@ -39,7 +39,7 @@ function SettingCompliance() {
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const {
     canWriteModule: canWriteComplaints,
     canReadModule: canReadComplaints,
@@ -85,6 +85,7 @@ function SettingCompliance() {
         type: "DELETE-COMPLAINT-TYPE",
         payload: { id: rowDetails.complaintTypeId },
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -307,6 +308,7 @@ function SettingCompliance() {
 
   useEffect(() => {
     if (state.Settings.deletecomplaintStatuscode === 200) {
+      setDeleteLoading(false);
       setFormLoading(false);
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
@@ -739,10 +741,34 @@ function SettingCompliance() {
           </button>
 
           <button
+            disabled={deleteLoading}
             onClick={handleConfirmDelete}
-            className="!flex-1 !h-13 !px-5 !py-3.5 !rounded-md !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm"
+            className={`
+    !flex-1 
+    !h-13 
+    !px-5 
+    !py-3.5 
+    !rounded-md 
+    !bg-blue-700 
+    !text-white 
+    !font-gilroy 
+    !font-semibold 
+    !text-sm
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
           >
-            Delete
+            {deleteLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
           </button>
         </Modal.Footer>
       </Modal>

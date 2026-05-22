@@ -38,6 +38,7 @@ function SettingAmenities() {
   // const [amenityDetails, setAmenityDetails] = useState('')
   const [switchStates, setSwitchStates] = useState({});
   const [deleteAmenities, setDeleteAmenities] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState("");
   const [loading, setLoading] = useState(false);
@@ -156,6 +157,7 @@ function SettingAmenities() {
           hostelId: state.login.selectedHostel_Id,
         },
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -279,7 +281,7 @@ function SettingAmenities() {
       }
 
       setDeleteAmenities(false);
-
+      setDeleteLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_DELETE_AMENITIES_STATUS_CODE" });
       }, 2000);
@@ -560,10 +562,32 @@ function SettingAmenities() {
                 Cancel
               </button>
               <button
+                disabled={deleteLoading}
                 onClick={handleDeleteAmenitiesConfirm}
-                className="!flex-1 !h-14 !rounded-lg !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm"
+                className={`
+    !flex-1 
+    !h-14 
+    !rounded-lg 
+    !bg-blue-700 
+    !text-white 
+    !font-gilroy 
+    !font-semibold 
+    !text-sm
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
               >
-                Delete
+                {deleteLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete"
+                )}
               </button>
             </div>
           </Modal.Footer>

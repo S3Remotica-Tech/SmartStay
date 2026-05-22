@@ -34,7 +34,7 @@ function Vendor() {
   const location = useLocation();
   const [showDropDown, setShowDropDown] = useState(false);
   const [showFilterData, setShowFilterData] = useState(false);
-
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteVendor, setShowDeleteVendor] = useState(false);
   const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState("");
 
@@ -97,6 +97,7 @@ function Vendor() {
     ) {
       setShow(false);
       setShowDeleteVendor(false);
+      setDeleteLoading(false);
       setTimeout(() => {
         dispatch({
           type: "VENDORLIST",
@@ -205,7 +206,7 @@ function Vendor() {
           // Status: 0,
         },
       });
-      // setCurrentPage(1);
+      setDeleteLoading(true);
     }
   };
 
@@ -448,10 +449,31 @@ function Vendor() {
             </Button>
 
             <Button
+              disabled={deleteLoading}
               onClick={ConfirmDeleteVendor}
-              className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[14px]"
+              className={`
+     !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-[8px] 
+    !px-[20px] 
+    !py-[12px]  
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-[14px]
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
             >
-              Delete
+              {deleteLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Deleting...
+                </div>
+              ) : (
+                "Delete"
+              )}
             </Button>
           </Modal.Footer>
         </Modal>

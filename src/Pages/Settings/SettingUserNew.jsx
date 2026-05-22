@@ -285,7 +285,7 @@ function SettingNewUser() {
                 <Table className=" w-full font-gilroy">
                   <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                     <tr>
-                      <th className="whitespace-nowrap">Staff Name</th>
+                      <th className="whitespace-nowrap px-4">Staff Name</th>
                       <th>Email</th>
                       <th>Mobile No</th>
                       <th>Roles</th>
@@ -298,7 +298,7 @@ function SettingNewUser() {
                         <tr className="border-b border-gray-200">
                           <td
                             title={`${item?.fullName}`}
-                            className="text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
+                            className="px-4 text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
                           >
                             {item?.fullName}
                           </td>

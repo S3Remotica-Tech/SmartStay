@@ -94,6 +94,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [showRefuseModal, setShowRefuseModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   // const [showEditModal, setShowEditModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -283,7 +284,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
-  console.log("pdfDetails", pdfDetails);
+  // console.log("pdfDetails", pdfDetails);
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
@@ -458,6 +459,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   useEffect(() => {
     if (state.InvoiceList?.refuseDiscountStatus === 204) {
       setShowRefuseModal(false);
+      setDeleteLoading(false);
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
@@ -486,6 +488,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         type: "REFUSE_DISCOUNT",
         payload,
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -2203,10 +2206,28 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </button>
 
               <button
+                disabled={deleteLoading}
                 onClick={handleRefuse}
-                className="px-4 py-2 text-sm rounded-md bg-[#2400FF] text-white font-gilroy"
+                className={`
+    px-4 
+    py-2 
+    text-sm 
+    rounded-md 
+    bg-[#1E45E1] 
+    text-white 
+    font-gilroy
+    flex items-center justify-center gap-2
+    ${deleteLoading ? "opacity-70 cursor-not-allowed" : ""}
+  `}
               >
-                Yes, Refuse
+                {deleteLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Refusing...
+                  </>
+                ) : (
+                  "Yes, Refuse"
+                )}
               </button>
             </div>
           </div>
