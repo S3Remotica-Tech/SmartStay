@@ -93,9 +93,9 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
           size: 10,
         },
       });
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
-      }, 500);
+      // setTimeout(() => {
+      //   dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+      // }, 500);
     }
   }, [
     state.UsersList.statusCodeForDueCustomer,

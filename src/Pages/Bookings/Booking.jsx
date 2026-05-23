@@ -769,6 +769,8 @@ function Booking() {
 
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
+  console.log("state", state.login.selectedHostel_Id);
+
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
       <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
