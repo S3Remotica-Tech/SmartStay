@@ -440,7 +440,7 @@ function RecurringBills() {
           )}
 
           {!loading && recurLoader && (
-            <div className="absolute top-[200px] left-[200px] right-0 bottom-0 flex items-center justify-center h-[50vh] bg-transparent opacity-75 z-10">
+            <div className="fixed inset-0 flex items-center justify-center h-screen bg-transparent opacity-75 z-10">
               <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
             </div>
           )}

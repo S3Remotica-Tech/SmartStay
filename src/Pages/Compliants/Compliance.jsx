@@ -1017,7 +1017,7 @@ const Compliance = () => {
               ))}
 
             {!loading && filteredUsers.length === 0 && (
-              <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in h-[85vh]">
+              <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in h-[70vh]">
                 <div className="flex flex-col items-center justify-center text-center">
                   <img src={Emptystate} alt="emptystate" />
 

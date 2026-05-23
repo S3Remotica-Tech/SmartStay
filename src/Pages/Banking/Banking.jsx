@@ -635,21 +635,22 @@ function Banking() {
               <PermissionDeniedMessage />
             </>
           ) : (
-            <div
-              className="
+            <>
+              <div
+                className="
     flex flex-row gap-4 mt-1 ml-1
     overflow-x-auto overflow-y-hidden
     whitespace-nowrap
     pb-2
     scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200
   "
-            >
-              {bankking && bankking.length > 0
-                ? bankking.map((item) => {
-                    return (
-                      <div
-                        key={item.id}
-                        className={` flex-shrink-0
+              >
+                {bankking && bankking.length > 0
+                  ? bankking.map((item) => {
+                      return (
+                        <div
+                          key={item.id}
+                          className={` flex-shrink-0
             w-[280px]
             h-[180px]
             flex flex-col justify-between
@@ -658,150 +659,150 @@ function Banking() {
             overflow-hidden
             relative
            ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border border-gray-300 hover:shadow-md transition"} `}
-                      >
-                        <div className="p-4 overflow-y-auto">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <p className="text-sm font-semibold font-gilroy mb-0">
-                                Type: {item?.accountType}
-                              </p>
+                        >
+                          <div className="p-4 overflow-y-auto">
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <p className="text-sm font-semibold font-gilroy mb-0">
+                                  Type: {item?.accountType}
+                                </p>
 
-                              <p className="text-sm font-semibold text-gray-600 font-gilroy mb-0">
-                                {item.accountHolderName ||
-                                  item.benificiary_name}
-                              </p>
-                            </div>
+                                <p className="text-sm font-semibold text-gray-600 font-gilroy mb-0">
+                                  {item.accountHolderName ||
+                                    item.benificiary_name}
+                                </p>
+                              </div>
 
-                            <div
-                              className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
+                              <div
+                                className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
     ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
     ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
   `}
-                              onClick={() => {
-                                if (!item.isDeleted) {
-                                  handleShowDots(item.bankingId);
-                                }
-                              }}
-                            >
-                              <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
-                            </div>
-
-                            {openMenuId === item.bankingId && (
-                              <div
-                                ref={popupRef}
-                                className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
+                                onClick={() => {
+                                  if (!item.isDeleted) {
+                                    handleShowDots(item.bankingId);
+                                  }
+                                }}
                               >
-                                <button
-                                  disabled
-                                  // disabled={!(canWriteBanking && !item.isDeleted)}
-                                  onClick={() => handleOpenSelfTransfer(item)}
-                                  className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
+                                <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
+                              </div>
+
+                              {openMenuId === item.bankingId && (
+                                <div
+                                  ref={popupRef}
+                                  className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
+                                >
+                                  <button
+                                    disabled
+                                    // disabled={!(canWriteBanking && !item.isDeleted)}
+                                    onClick={() => handleOpenSelfTransfer(item)}
+                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-blue-100"
-                                >
-                                  <img
-                                    src={transArrow}
-                                    alt="transArrow"
-                                    className="h-4 w-4"
-                                  />
+                                  >
+                                    <img
+                                      src={transArrow}
+                                      alt="transArrow"
+                                      className="h-4 w-4"
+                                    />
 
-                                  <span className="text-sm font-semibold font-gilroy">
-                                    Self Transfer
-                                  </span>
-                                </button>
+                                    <span className="text-sm font-semibold font-gilroy">
+                                      Self Transfer
+                                    </span>
+                                  </button>
 
-                                <div className="h-px bg-gray-200" />
+                                  <div className="h-px bg-gray-200" />
 
-                                <button
-                                  disabled={
-                                    !(canUpdateBanking && !item.isDeleted)
-                                  }
-                                  onClick={() => handleEditAddBank(item)}
-                                  className="flex w-full items-center gap-2 px-3 py-2
+                                  <button
+                                    disabled={
+                                      !(canUpdateBanking && !item.isDeleted)
+                                    }
+                                    onClick={() => handleEditAddBank(item)}
+                                    className="flex w-full items-center gap-2 px-3 py-2
       disabled:cursor-not-allowed disabled:opacity-50
       enabled:hover:bg-blue-100"
-                                >
-                                  <Edit
-                                    size={16}
-                                    className="text-[#1E45E1] disabled:text-gray-400"
-                                  />
-                                  <span className="text-sm font-semibold font-gilroy">
-                                    Edit
-                                  </span>
-                                </button>
+                                  >
+                                    <Edit
+                                      size={16}
+                                      className="text-[#1E45E1] disabled:text-gray-400"
+                                    />
+                                    <span className="text-sm font-semibold font-gilroy">
+                                      Edit
+                                    </span>
+                                  </button>
 
-                                <div className="h-px bg-gray-200" />
+                                  <div className="h-px bg-gray-200" />
 
-                                <button
-                                  disabled
-                                  // disabled={!(canDeleteBanking && !item.isDeleted)}
-                                  onClick={() => handleDeleteForm(item)}
-                                  className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+                                  <button
+                                    disabled
+                                    // disabled={!(canDeleteBanking && !item.isDeleted)}
+                                    onClick={() => handleDeleteForm(item)}
+                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-red-50"
-                                >
-                                  <Trash
-                                    size={16}
-                                    className="text-red-500 disabled:text-gray-400"
-                                  />
-                                  <span className="text-sm font-semibold text-red-500 font-gilroy">
-                                    Delete
-                                  </span>
-                                </button>
-                              </div>
-                            )}
-                          </div>
-
-                          <p className="mt-2 text-lg font-medium font-gilroy">
-                            {item?.accountNumber ||
-                              item?.upiId ||
-                              item.creditCardNumber}
-                          </p>
-
-                          <div className="flex justify-between items-center mt-3">
-                            <div>
-                              <p className="text-sm text-gray-500 font-medium font-gilroy mb-0">
-                                {item.isDefault
-                                  ? `Default: ${
-                                      item.transactionType === "BOTH"
-                                        ? "Both A/C"
-                                        : item.transactionType + " A/C"
-                                    }`
-                                  : ""}
-                              </p>
-
-                              {item.isDefault === 0 && (
-                                <p
-                                  className={`text-sm font-semibold font-gilroy ${
-                                    canWriteBanking
-                                      ? "text-blue-600 cursor-pointer"
-                                      : "text-gray-300 cursor-not-allowed"
-                                  }`}
-                                  onClick={() => {
-                                    if (canWriteBanking) {
-                                      handleAccountTypeChange(item);
-                                    }
-                                  }}
-                                >
-                                  Set as default account
-                                </p>
+                                  >
+                                    <Trash
+                                      size={16}
+                                      className="text-red-500 disabled:text-gray-400"
+                                    />
+                                    <span className="text-sm font-semibold text-red-500 font-gilroy">
+                                      Delete
+                                    </span>
+                                  </button>
+                                </div>
                               )}
                             </div>
 
-                            <span
-                              className={`text-sm font-semibold font-gilroy ${
-                                canWriteBanking
-                                  ? "text-gray-400 cursor-not-allowed"
-                                  : "text-gray-400 cursor-not-allowed"
-                              }`}
-                            >
-                              Change
-                            </span>
-                          </div>
+                            <p className="mt-2 text-lg font-medium font-gilroy">
+                              {item?.accountNumber ||
+                                item?.upiId ||
+                                item.creditCardNumber}
+                            </p>
 
-                          {showAccountTypeOptions === item.bankingId && (
-                            <div
-                              className="
+                            <div className="flex justify-between items-center mt-3">
+                              <div>
+                                <p className="text-sm text-gray-500 font-medium font-gilroy mb-0">
+                                  {item.isDefault
+                                    ? `Default: ${
+                                        item.transactionType === "BOTH"
+                                          ? "Both A/C"
+                                          : item.transactionType + " A/C"
+                                      }`
+                                    : ""}
+                                </p>
+
+                                {item.isDefault === 0 && (
+                                  <p
+                                    className={`text-sm font-semibold font-gilroy ${
+                                      canWriteBanking
+                                        ? "text-blue-600 cursor-pointer"
+                                        : "text-gray-300 cursor-not-allowed"
+                                    }`}
+                                    onClick={() => {
+                                      if (canWriteBanking) {
+                                        handleAccountTypeChange(item);
+                                      }
+                                    }}
+                                  >
+                                    Set as default account
+                                  </p>
+                                )}
+                              </div>
+
+                              <span
+                                className={`text-sm font-semibold font-gilroy ${
+                                  canWriteBanking
+                                    ? "text-gray-400 cursor-not-allowed"
+                                    : "text-gray-400 cursor-not-allowed"
+                                }`}
+                              >
+                                Change
+                              </span>
+                            </div>
+
+                            {showAccountTypeOptions === item.bankingId && (
+                              <div
+                                className="
                   absolute top-16 left-12
                   bg-white
                   border border-gray-200
@@ -811,176 +812,181 @@ function Banking() {
                   shadow-md
                   z-[1000]
                 "
-                              onMouseDown={(e) => e.stopPropagation()}
-                            >
-                              <label className="block text-sm mb-1 font-gilroy font-medium">
-                                <input
-                                  type="radio"
-                                  name={`accountType-${item.bankingId}`}
-                                  value={1}
-                                  checked={selectedAccountType === 1}
-                                  onChange={handleAccountTypeSelection}
-                                />{" "}
-                                Credit A/C
-                              </label>
+                                onMouseDown={(e) => e.stopPropagation()}
+                              >
+                                <label className="block text-sm mb-1 font-gilroy font-medium">
+                                  <input
+                                    type="radio"
+                                    name={`accountType-${item.bankingId}`}
+                                    value={1}
+                                    checked={selectedAccountType === 1}
+                                    onChange={handleAccountTypeSelection}
+                                  />{" "}
+                                  Credit A/C
+                                </label>
 
-                              <label className="block text-sm mb-1 font-gilroy font-medium">
-                                <input
-                                  type="radio"
-                                  name={`accountType-${item.bankingId}`}
-                                  value={2}
-                                  checked={selectedAccountType === 2}
-                                  onChange={handleAccountTypeSelection}
-                                />{" "}
-                                Debit A/C
-                              </label>
+                                <label className="block text-sm mb-1 font-gilroy font-medium">
+                                  <input
+                                    type="radio"
+                                    name={`accountType-${item.bankingId}`}
+                                    value={2}
+                                    checked={selectedAccountType === 2}
+                                    onChange={handleAccountTypeSelection}
+                                  />{" "}
+                                  Debit A/C
+                                </label>
 
-                              <label className="block text-sm mb-1 font-gilroy font-medium">
-                                <input
-                                  type="radio"
-                                  name={`accountType-${item.bankingId}`}
-                                  value={3}
-                                  checked={selectedAccountType === 3}
-                                  onChange={handleAccountTypeSelection}
-                                />{" "}
-                                Both A/C
-                              </label>
-                            </div>
-                          )}
-                        </div>
+                                <label className="block text-sm mb-1 font-gilroy font-medium">
+                                  <input
+                                    type="radio"
+                                    name={`accountType-${item.bankingId}`}
+                                    value={3}
+                                    checked={selectedAccountType === 3}
+                                    onChange={handleAccountTypeSelection}
+                                  />{" "}
+                                  Both A/C
+                                </label>
+                              </div>
+                            )}
+                          </div>
 
-                        <div className="bg-[#F9FAFB] px-4 py-2 flex justify-between items-center">
-                          <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img src={money} alt="money" className="h-4 w-4" />
-                            Balance
-                          </span>
-
-                          {item.accountBalance === 0 ||
-                          item.accountBalance === "" ||
-                          item.accountBalance === null ? (
-                            <span
-                              className={`text-sm font-semibold font-gilroy ${
-                                canWriteBanking && !item.isDeleted
-                                  ? "text-blue-600 cursor-pointer"
-                                  : "text-gray-400 cursor-not-allowed"
-                              }`}
-                              onClick={() => {
-                                if (canWriteBanking && !item.isDeleted) {
-                                  handleShowAddBalance(item);
-                                }
-                              }}
-                            >
-                              +Add Amount
+                          <div className="bg-[#F9FAFB] px-4 py-2 flex justify-between items-center">
+                            <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
+                              <img
+                                src={money}
+                                alt="money"
+                                className="h-4 w-4"
+                              />
+                              Balance
                             </span>
-                          ) : (
-                            <span className="text-sm font-semibold text-black font-gilroy">
-                              ₹{item.accountBalance}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })
-                : null}
-            </div>
-          )}
 
-          <div className=" m-2">
-            <div className="flex justify-end items-center gap-2 mr-2 mb-3">
-              <div>
-                <Setting3
-                  // onClick={() => setOpen(!open)}
-                  className="cursor-not-allowed"
-                  size="22"
-                  color="#4B4B4B"
-                />
+                            {item.accountBalance === 0 ||
+                            item.accountBalance === "" ||
+                            item.accountBalance === null ? (
+                              <span
+                                className={`text-sm font-semibold font-gilroy ${
+                                  canWriteBanking && !item.isDeleted
+                                    ? "text-blue-600 cursor-pointer"
+                                    : "text-gray-400 cursor-not-allowed"
+                                }`}
+                                onClick={() => {
+                                  if (canWriteBanking && !item.isDeleted) {
+                                    handleShowAddBalance(item);
+                                  }
+                                }}
+                              >
+                                +Add Amount
+                              </span>
+                            ) : (
+                              <span className="text-sm font-semibold text-black font-gilroy">
+                                ₹{item.accountBalance}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  : null}
               </div>
-              <PaginationList
-                totalItems={transactionFilterddata.length}
-                itemsPerPage={pageSize}
-                currentPage={page}
-                onPageChange={(p) => setPage(p)}
-                onPageSizeChange={(size) => setPageSize(size)}
-              />
-            </div>
 
-            <div className="relative ">
-              {transactionFilterddata?.length > 0 ? (
-                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                  <div
-                    id="tableContainer"
-                    ref={tableContainerRef}
-                    className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
-                  >
-                    <table className=" w-full font-gilroy">
-                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                        <tr className="h-9">
-                          <th className="w-[230px] px-2">Account Name</th>
-                          <th className="w-[230px] px-2">Date</th>
-                          <th className="w-[230px] px-2">Amount</th>
-                          <th className="w-[230px] px-2">Description</th>
-                          <th className="w-[230px] px-2">Transaction</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {paginatedTransactions?.map((user) => (
-                          <tr
-                            key={user.id}
-                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
-                          >
-                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                              {user.accountHolder}
-                            </td>
-                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                              {user.createdAt}
-                            </td>
-                            <td className="w-[230px] px-2 py-1">
-                              {user.amount}
-                            </td>
-                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                              {user.source}
-                            </td>
-                            <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                              {user.type}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+              <div className=" m-2">
+                <div className="flex justify-end items-center gap-2 mr-2 mb-3">
+                  <div>
+                    <Setting3
+                      // onClick={() => setOpen(!open)}
+                      className="cursor-not-allowed"
+                      size="22"
+                      color="#4B4B4B"
+                    />
                   </div>
+                  <PaginationList
+                    totalItems={transactionFilterddata.length}
+                    itemsPerPage={pageSize}
+                    currentPage={page}
+                    onPageChange={(p) => setPage(p)}
+                    onPageSizeChange={(size) => setPageSize(size)}
+                  />
                 </div>
-              ) : (
-                <div>
-                  {!loader &&
-                    transactionFilterddata.length === 0 &&
-                    canReadBanking && (
-                      <div className="flex justify-center mt-[105px] 2xl:mt-60">
-                        <div>
-                          <div className="text-center mb-2">
-                            <img src={emptyimg} alt="emptystate" />
-                          </div>
 
-                          <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
-                            No Transaction
-                          </div>
+                <div className="relative ">
+                  {transactionFilterddata?.length > 0 ? (
+                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div
+                        id="tableContainer"
+                        ref={tableContainerRef}
+                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                      >
+                        <table className=" w-full font-gilroy">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                            <tr className="h-9">
+                              <th className="w-[230px] px-2">Account Name</th>
+                              <th className="w-[230px] px-2">Date</th>
+                              <th className="w-[230px] px-2">Amount</th>
+                              <th className="w-[230px] px-2">Description</th>
+                              <th className="w-[230px] px-2">Transaction</th>
+                            </tr>
+                          </thead>
 
-                          <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
-                            There are no Transaction available.
-                          </div>
-                        </div>
+                          <tbody>
+                            {paginatedTransactions?.map((user) => (
+                              <tr
+                                key={user.id}
+                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+                              >
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {user.accountHolder}
+                                </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {user.createdAt}
+                                </td>
+                                <td className="w-[230px] px-2 py-1">
+                                  {user.amount}
+                                </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {user.source}
+                                </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {user.type}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                    )}
+                    </div>
+                  ) : (
+                    <div>
+                      {!loader &&
+                        transactionFilterddata.length === 0 &&
+                        canReadBanking && (
+                          <div className="flex justify-center mt-[105px] 2xl:mt-60">
+                            <div>
+                              <div className="text-center mb-2">
+                                <img src={emptyimg} alt="emptystate" />
+                              </div>
 
-                  {loader && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
-                      <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
+                              <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
+                                No Transaction
+                              </div>
+
+                              <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
+                                There are no Transaction available.
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                      {loader && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
+                          <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            </>
+          )}
 
           <Modal
             show={deleteShow}

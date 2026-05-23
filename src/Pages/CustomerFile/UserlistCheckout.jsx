@@ -238,7 +238,7 @@ function CheckOut() {
             )}
             {!canReadCheckout ? (
               <>
-                <PermissionDeniedMessage  />
+                <PermissionDeniedMessage />
               </>
             ) : (
               <div>
