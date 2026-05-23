@@ -218,10 +218,10 @@ function Sidebar() {
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
 
-  console.log("state.login", state.login);
+  // console.log("state.login", state.login);
   const lastPage = localStorage.getItem("lastPage");
 
-  console.log("lastPagelastPage", lastPage);
+  // console.log("lastPagelastPage", lastPage);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -559,11 +559,6 @@ function Sidebar() {
     }
   };
 
-  useEffect(() => {
-    console.log("allPageHostel_Id", allPageHostel_Id);
-    console.log("hostelId", hostelId);
-  }, [allPageHostel_Id, hostelId]);
-
   const cookieHostelId = cookies.get("selected_hostelId");
 
   useEffect(() => {
@@ -573,8 +568,6 @@ function Sidebar() {
       hostelListDetail.find(
         (h) => String(h.hostelId) === String(cookieHostelId),
       ) || hostelListDetail[0];
-
-    console.log("selectedHostel *****", selectedHostel);
 
     if (!selectedHostel) return;
 
@@ -661,8 +654,6 @@ function Sidebar() {
 
   const withHostel = (path) => {
     const finalPath = hostelId ? `${path}/${hostelId}` : path;
-
-    // console.log("withHostel path =>", finalPath);
 
     return finalPath;
   };

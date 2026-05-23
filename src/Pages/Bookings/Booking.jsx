@@ -339,17 +339,19 @@ function Booking() {
 
     const apiData = row[row.length - 1];
 
-    // console.log("apiData", apiData);
+    console.log("apiData", apiData);
 
     obj.apiCall = {
       invoiceId: apiData?.invoiceId || null,
       canApply: apiData?.canApply || null,
       availableAmount: apiData?.availableAmount || 0,
       customerId: apiData?.customerId,
-      status: apiData?.status,
+      // status: apiData?.status,
+      // availableAmount: apiData?.availableAmount,
     };
 
     obj.status = apiData?.status || "-";
+    obj.availableAmount = apiData?.availableAmount;
     return obj;
   });
 
@@ -933,7 +935,10 @@ function Booking() {
                                 </th>
                               );
                             })}
-                            <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                            <th className=" px-2  bg-[#F9FAFB] text-center whitespace-nowrap">
+                              Available Amount
+                            </th>
+                            <th className=" px-2 bg-[#F9FAFB] text-center">
                               Status
                             </th>
                             <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
@@ -1146,6 +1151,15 @@ function Booking() {
                                       );
                                   }
                                 })}
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                                >
+                                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]">
+                                    {item.availableAmount}
+                                  </span>
+                                </td>
                                 <td
                                   className={`${
                                     isScrolling ? "!bg-white" : "bg-white"
