@@ -42,7 +42,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
   const [errors, setErrors] = useState("");
   const [bookingAmount, setBookingAmount] = useState("");
 
-  console.log("bookingDetails", bookingDetails);
+  // console.log("bookingDetails", bookingDetails);
 
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -366,9 +366,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
               <div>
                 <p
                   className="mb-1 text-lg font-semibold font-gilroy truncate max-w-[120px]"
-                  title={`${bookingDetails?.fullName || ""}`}
+                  title={`${bookingDetails?.fullName || bookingDetails?.name || ""}`}
                 >
-                  {bookingDetails?.fullName}
+                  {bookingDetails?.fullName || bookingDetails?.name}
                 </p>
 
                 <div className="flex gap-2">

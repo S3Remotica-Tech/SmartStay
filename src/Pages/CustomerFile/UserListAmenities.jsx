@@ -15,6 +15,7 @@ import { CloseCircle, Tag2 } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import ErrorMessage from "../../Components/ErrorMessage";
 import Image from "react-bootstrap/Image";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -828,20 +829,9 @@ function UserListAmenities(props) {
         </Modal.Footer>
       </Modal>
       {!canReadAmenities ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "45vh",
-          }}
-        >
-          <ErrorMessage
-            message={["You do not have access to view Amenities"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage isHeightChanged={true} />
+        </>
       ) : (
         <>
           <div className="row d-flex flex-wrap g-2">

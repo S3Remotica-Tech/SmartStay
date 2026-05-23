@@ -306,6 +306,7 @@ function BookingsFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (state.reports.getTenantRegisterSuccess === 200) {
       setFormLoading(false);
+      handleClose();
       setTimeout(() => {
         dispatch({ type: "REMOVE_GET_REPORTS_TENANT_REGISTER_REDUCER" });
       }, 100);

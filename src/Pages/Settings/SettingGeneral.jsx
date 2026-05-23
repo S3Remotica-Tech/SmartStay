@@ -43,6 +43,7 @@ import ComingSoon from "../../Utils/ComingSoon";
 import ConfirmIdentity from "./ResetPin/ConfirmIdentity";
 import VerifyOtp from "./ResetPin/VerifyOtp";
 import ResetMpin from "./ResetPin/ResetMpin";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -1144,13 +1145,9 @@ function SettingGeneral() {
           )}
 
           {!canReadProfile ? (
-            <div className="flex flex-col items-center justify-center mt-24">
-              <img src={Emptystate} alt="Empty State" />
-              <ErrorMessage
-                message={["You do not have access to view General"]}
-                type="warning"
-              />
-            </div>
+            <>
+              <PermissionDeniedMessage />
+            </>
           ) : (
             // <div className="sticky top-0 bg-white z-[900] ">
             <div className="sticky top-0 bg-white z-[900] flex flex-col h-full">

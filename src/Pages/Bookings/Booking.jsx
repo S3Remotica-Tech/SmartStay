@@ -552,7 +552,7 @@ function Booking() {
   }, []);
 
   useEffect(() => {
-    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    // const statusValue = statusfilter === "ALL" ? "" : statusfilter;
 
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -598,16 +598,30 @@ function Booking() {
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        // name: debouncedInput || "",
-        // type: statusValue,
         page: page,
         size: size,
-        // period: selectedMonth?.value,
       },
     });
 
     setChips([]);
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_BOOKING_FILTERS",
+        payload: {
+          period: [],
+          search: "",
+          floor: [],
+          room: [],
+          minPaidAmount: "",
+          maxPaidAmount: "",
+          paymentMode: [],
+        },
+      });
+    };
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     setPage(0);
@@ -617,7 +631,7 @@ function Booking() {
     const filters = state.Booking?.bookingFilters;
     const filterData = [];
 
-    if (filters?.period.length) {
+    if (filters?.period?.length) {
       filterData.push({
         key: "period",
         label: "Period",

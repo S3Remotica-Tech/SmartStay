@@ -22,6 +22,7 @@ import RecordPayment from "../Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import UnPaidInvoice from "../Bills/UnPaidInvoice";
 import DiscountInvoice from "../PDF/DiscountInvoice";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
@@ -328,12 +329,9 @@ function UserListInvoice(props) {
 
       <div className="">
         {!canReadInvoice ? (
-          <div className="flex flex-col items-center justify-center min-h-1/2">
-            <ErrorMessage
-              message={["You do not have access to view Bill"]}
-              type="warning"
-            />
-          </div>
+          <>
+            <PermissionDeniedMessage isHeightChanged={true} />
+          </>
         ) : invoiceFilterddata?.length > 0 ? (
           <>
             <div className="relative flex flex-col h-[calc(100vh-355px)] mt-10 overflow-y-scroll overflow-x-auto show-scrolls pb-1">

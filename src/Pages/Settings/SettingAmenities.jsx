@@ -22,6 +22,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingAmenities() {
   const state = useSelector((state) => state);
@@ -322,13 +323,9 @@ function SettingAmenities() {
       )}
 
       {!canReadAmenities ? (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <img src={Emptystate} alt="Empty State" />
-          <ErrorMessage
-            message={["You do not have access to view Settings Amenities"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
         <div
           className={`relative mt-2 mb-3 

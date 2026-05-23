@@ -18,6 +18,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import DeleteStaff from "./DeleteStaff";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingNewUser() {
   const state = useSelector((state) => state);
@@ -266,13 +267,9 @@ function SettingNewUser() {
         </div>
       )}
       {!canReadUser ? (
-        <div className="flex flex-col items-center justify-center h-[80vh] mt-24">
-          <img src={Emptystate} alt="Empty State" />
-          <ErrorMessage
-            message={["You do not have access to view User"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
         <div className="mt-2">
           {usersFilterddata?.length > 0 ? (

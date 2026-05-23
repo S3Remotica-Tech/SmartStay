@@ -28,6 +28,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function Receipt() {
   const state = useSelector((state) => state);
@@ -339,13 +340,9 @@ function Receipt() {
         </div>
 
         {!canReadReceipt ? (
-          <div className="flex flex-col items-center justify-center mt-24">
-            <img src={Emptystate} alt="Empty State" />
-            <ErrorMessage
-              message={["You do not have access to view Receipt"]}
-              type="warning"
-            />
-          </div>
+          <>
+            <PermissionDeniedMessage />
+          </>
         ) : (
           <div className="relative">
             {paginatedData && paginatedData.length > 0 ? (

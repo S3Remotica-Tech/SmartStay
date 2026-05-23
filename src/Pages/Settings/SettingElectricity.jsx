@@ -16,6 +16,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 const SettingElectricity = () => {
   const dispatch = useDispatch();
@@ -446,14 +447,9 @@ const SettingElectricity = () => {
 
       <div>
         {!canReadElectricity ? (
-          <div className="flex flex-col items-center justify-center h-full text-center mt-24">
-            <img src={Emptystate} alt="Empty State" />
-
-            <ErrorMessage
-              message={["You do not have access to view Electricity"]}
-              type="warning"
-            />
-          </div>
+          <>
+            <PermissionDeniedMessage />
+          </>
         ) : EbList ? (
           <div>
             <div className="scroll-issue mt-2">

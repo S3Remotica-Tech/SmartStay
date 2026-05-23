@@ -25,6 +25,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function Expenses({ allPageHostel_Id }) {
   const location = useLocation();
@@ -797,13 +798,7 @@ function Expenses({ allPageHostel_Id }) {
 
         {!canReadExpense ? (
           <>
-            <div className="flex flex-col items-center justify-center h-[60vh]">
-              <img src={EmptyState} alt="Empty State" />
-              <ErrorMessage
-                message={["You do not have access to view Expense"]}
-                type="warning"
-              />
-            </div>
+            <PermissionDeniedMessage />
           </>
         ) : (
           <div className="relative">

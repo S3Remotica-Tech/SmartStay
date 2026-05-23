@@ -9,6 +9,7 @@ import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
+import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 function BillingRule() {
   const state = useSelector((state) => state);
@@ -131,14 +132,7 @@ function BillingRule() {
       <div className="flex-1 overflow-hidden px-4 py-3">
         {!canReadRecurring ? (
           <>
-            <div className="flex flex-col items-center justify-center mt-24">
-              <img src={Emptystate} alt="Empty State" />
-
-              <ErrorMessage
-                message={["You do not have access to view Billing Rule"]}
-                type="warning"
-              />
-            </div>
+            <PermissionDeniedMessage />
           </>
         ) : (
           <div className="space-y-4">

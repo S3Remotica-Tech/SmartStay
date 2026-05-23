@@ -29,6 +29,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
 import { Setting3, SearchNormal1 } from "iconsax-react";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -631,18 +632,7 @@ function Banking() {
           </div>
           {!canReadBanking ? (
             <>
-              <div className="flex flex-col items-center justify-center h-[60vh]">
-                <img
-                  src={emptyimg}
-                  alt="Empty State"
-                  className="max-w-full h-auto"
-                />
-
-                <ErrorMessage
-                  message={["You do not have access to view Banking"]}
-                  type="warning"
-                />
-              </div>
+              <PermissionDeniedMessage />
             </>
           ) : (
             <div

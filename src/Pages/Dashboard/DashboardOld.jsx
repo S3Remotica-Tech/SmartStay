@@ -606,10 +606,6 @@ function Dashboard() {
               {!canReadDashboard && !loading ? (
                 <div className="flex flex-col items-center justify-center mt-24">
                   <img src={Emptystate} alt="Empty State" />
-                  <ErrorMessage
-                    message={["You do not have access to view Dashboard"]}
-                    type="warning"
-                  />
                 </div>
               ) : (
                 <>

@@ -23,6 +23,7 @@ import dayjs from "dayjs";
 import ComingSoon from "../Utils/ComingSoon";
 import Emptystate from "../Assets/Images/Empty-State-svg.svg";
 import withErrorBoundary from "../Hoc/WithErrorBountry";
+import PermissionDeniedMessage from "../Utils/PermissionDeniedMessage";
 
 function Reports() {
   const dispatch = useDispatch();
@@ -467,15 +468,9 @@ function Reports() {
       </div>
 
       {!canReadReports ? (
-        <div className="flex-1 flex items-center justify-center">
-          <div>
-            <img src={Emptystate} alt="Empty State" />
-            <ErrorMessage
-              message={["You do not have access to view Reports"]}
-              type="warning"
-            />
-          </div>
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
         <div className="flex-1 overflow-y-auto p-0 my-3 show-scrolls">
           {activeTab === "operational" && (

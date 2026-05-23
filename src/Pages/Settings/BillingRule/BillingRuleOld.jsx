@@ -136,10 +136,7 @@ function BillingRuleOld() {
             >
               <img src={Emptystate} alt="Empty State" />
 
-              <ErrorMessage
-                message={["You do not have access to view Billing Rule"]}
-                type="warning"
-              />
+             
             </div>
           </>
         ) : (

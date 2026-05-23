@@ -21,6 +21,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import SmarstayLogo from "../../Assets/Images/get.png";
 import { useLocation } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function Vendor() {
   const state = useSelector((state) => state);
@@ -363,14 +364,7 @@ function Vendor() {
 
         {!canReadVendor ? (
           <>
-            <div className="flex flex-col items-center justify-center">
-              <img src={EmptyState} alt="Empty State" className="max-w-full" />
-
-              <ErrorMessage
-                message={["You do not have access to view Vendor"]}
-                type="warning"
-              />
-            </div>
+            <PermissionDeniedMessage />
           </>
         ) : (
           // <div className="relative flex flex-col h-[calc(100vh-80px)]">

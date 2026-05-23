@@ -2,9 +2,12 @@ import React from "react";
 import ComingSoonImage from "../Assets/v2Images/permission.svg";
 import BottomImage from "../Assets/v2Images/bottom_image.svg";
 
-function PermissionDeniedMessage() {
+function PermissionDeniedMessage({ isHeightChanged }) {
   return (
-    <div className="h-[600px] bg-gray-50 w-full flex items-center justify-center bg-white !overflow-hidden relative px-4">
+    <div
+      className={` ${isHeightChanged ? "min-h-[350px] " : "min-h-[600px] "} bg-gray-50 w-full flex items-center justify-center bg-white !overflow-hidden relative 
+      px-4`}
+    >
       <img
         src={BottomImage}
         alt="City"

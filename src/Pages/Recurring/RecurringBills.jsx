@@ -31,6 +31,7 @@ import { useHasPermission } from "../../Utils/Permission";
 // import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function RecurringBills() {
   const state = useSelector((state) => state);
@@ -362,14 +363,7 @@ function RecurringBills() {
 
       {!canReadRecurring ? (
         <>
-          <div className="flex flex-col items-center justify-center mt-[95px]">
-            <img src={Emptystate} alt="Empty State" />
-
-            <ErrorMessage
-              message={["You do not have access to view Recurring"]}
-              type="warning"
-            />
-          </div>
+          <PermissionDeniedMessage />
         </>
       ) : (
         <>

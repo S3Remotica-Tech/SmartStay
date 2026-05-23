@@ -42,7 +42,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import { NutFill } from "react-bootstrap-icons";
-
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 function SettingInvoice({ hostelid, handleFormPage }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -2555,14 +2555,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-center mt-24">
-            <img src={Emptystate} alt="Empty State" />
-
-            <ErrorMessage
-              message={["You do not have access to view Bill Templates"]}
-              type="warning"
-            />
-          </div>
+          <PermissionDeniedMessage />
         </>
       ) : (
         cardshow && (

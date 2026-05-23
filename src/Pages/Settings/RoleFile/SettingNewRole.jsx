@@ -21,6 +21,7 @@ import Emptystate from "../../../Assets/Images/Empty-State-svg.svg";
 import { IoMdMore } from "react-icons/io";
 import { AddCircle, Profile2User, Shield } from "iconsax-react";
 import PaginationList from "../../../Components/PaginationList";
+import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 function SettingNewRole() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -298,13 +299,9 @@ function SettingNewRole() {
 
       <div className="flex flex-col items-center justify-center m-3">
         {!canReadRole ? (
-          <div className="flex flex-col items-center justify-center h-[80vh] mt-24">
-            <img src={Emptystate} alt="Empty State" />
-            <ErrorMessage
-              message={["You do not have access to view Role"]}
-              type="warning"
-            />
-          </div>
+          <>
+            <PermissionDeniedMessage />
+          </>
         ) : (
           <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] w-full">
             <div

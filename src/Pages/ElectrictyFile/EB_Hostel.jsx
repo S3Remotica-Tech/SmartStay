@@ -25,6 +25,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import DeleteReading from "./DeleteReading";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -551,13 +552,9 @@ const RoomReadingTable = () => {
             </div>
           )}
           {!canReadElectricity ? (
-            <div className="flex flex-col items-center justify-center mt-24">
-              <img src={Emptystate} alt="Empty State" />
-              <ErrorMessage
-                message={["You do not have access to view Electricity"]}
-                type="warning"
-              />
-            </div>
+            <>
+              <PermissionDeniedMessage />
+            </>
           ) : (
             <div>
               {activeTab === "room" && (
