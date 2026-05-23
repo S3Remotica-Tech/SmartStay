@@ -194,7 +194,7 @@ function BookingsPdfDetails() {
                       </div>
 
                       <div className="font-gilroy text-base text-[#222] font-semibold">
-                        ₹ {item.amount}
+                        {item.amount}
                       </div>
 
                       <span

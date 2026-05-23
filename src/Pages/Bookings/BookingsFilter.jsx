@@ -304,14 +304,11 @@ function BookingsFilter({ show, handleClose, size }) {
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    if (state.reports.getTenantRegisterSuccess === 200) {
+    if (state?.Booking?.statusCodeGetBooking) {
       setFormLoading(false);
       handleClose();
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_REPORTS_TENANT_REGISTER_REDUCER" });
-      }, 100);
     }
-  }, [state.reports.getTenantRegisterSuccess]);
+  }, [state?.Booking?.statusCodeGetBooking]);
 
   return (
     <div>
